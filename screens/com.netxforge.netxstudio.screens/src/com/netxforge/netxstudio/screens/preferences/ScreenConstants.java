@@ -26,7 +26,29 @@ public class ScreenConstants {
 	public static final String PREFERENCE_LEGEND_VISIBLE = "legendVisiblePreference";
 
 	/** The color of the Metric series */
-	public static final String PREFERENCE_METRIC_COLOR = "metricColorPreference";
+
+	public static final String PREFERENCE_METRIC_COLOR_1 = "metricColorPreference_1";
+	public static final String PREFERENCE_METRIC_COLOR_2 = "metricColorPreference_2";
+	public static final String PREFERENCE_METRIC_COLOR_3 = "metricColorPreference_3";
+	public static final String PREFERENCE_METRIC_COLOR_4 = "metricColorPreference_4";
+	public static final String PREFERENCE_METRIC_COLOR_5 = "metricColorPreference_5";
+	public static final String PREFERENCE_METRIC_COLOR_6 = "metricColorPreference_6";
+	public static final String PREFERENCE_METRIC_COLOR_7 = "metricColorPreference_7";
+	public static final String PREFERENCE_METRIC_COLOR_8 = "metricColorPreference_8";
+	public static final String PREFERENCE_METRIC_COLOR_9 = "metricColorPreference_9";
+	public static final String PREFERENCE_METRIC_COLOR_10 = "metricColorPreference_10";
+
+	public static final String[] PREFERENCE_METRIC_COLORS = new String[] {
+			PREFERENCE_METRIC_COLOR_1, PREFERENCE_METRIC_COLOR_2,
+			PREFERENCE_METRIC_COLOR_3, PREFERENCE_METRIC_COLOR_4,
+			PREFERENCE_METRIC_COLOR_5, PREFERENCE_METRIC_COLOR_6,
+			PREFERENCE_METRIC_COLOR_7, PREFERENCE_METRIC_COLOR_8,
+			PREFERENCE_METRIC_COLOR_9, PREFERENCE_METRIC_COLOR_10 };
+
+	public static final String[] PREFERENCE_METRIC_COLORS_VALUES = new String[] {
+			"204,255,102", "102,255,204", "204,102,255", "255,204,102",
+			"255,102,102", "255,255,102", "102, 102, 255", "255,102,255",
+			"128,128,0", "128,0,0" };
 
 	/** The metric value Symbol type */
 	public static final String PREFERENCE_METRIC_SYMBOL = "metricSymbolPreference";

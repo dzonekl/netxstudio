@@ -24,7 +24,9 @@ import static org.ops4j.peaberry.util.TypeLiterals.export;
 
 import com.google.inject.Singleton;
 import com.netxforge.netxstudio.common.jca.JCAServiceModule;
+import com.netxforge.netxstudio.common.model.ChartModel;
 import com.netxforge.netxstudio.common.model.ComponentSummaryProvider;
+import com.netxforge.netxstudio.common.model.IChartModel;
 import com.netxforge.netxstudio.common.model.ModelUtils;
 import com.netxforge.netxstudio.common.model.MonitoringAdapterFactory;
 import com.netxforge.netxstudio.common.model.MonitoringStateModel;
@@ -48,10 +50,6 @@ public class CommonModule extends JCAServiceModule {
 	@Override
 	protected void configure() {
 		super.configure();
-		
-		
-		
-
 
 		// ///////////////////////////////
 		// EXPORT SERVICES
@@ -61,10 +59,10 @@ public class CommonModule extends JCAServiceModule {
 		bind(export(ModelUtils.class)).toProvider(
 				service(new ModelUtils()).attributes(
 						objectClass(ModelUtils.class)).export());
-		
+
 		// Inject static.
 		requestStaticInjection(MonitoringStateModel.class);
-		
+
 		bind(export(MonitoringStateModel.class)).toProvider(
 				service(MonitoringStateModel.class).attributes(
 						objectClass(MonitoringStateModel.class)).export());
@@ -93,6 +91,9 @@ public class CommonModule extends JCAServiceModule {
 		bind(export(OperatorSummaryProvider.class)).toProvider(
 				service(OperatorSummaryProvider.class).attributes(
 						objectClass(OperatorSummaryProvider.class)).export());
+
+		bind(export(IChartModel.class)).toProvider(
+				service(ChartModel.class).export());
 
 		// ///////////////////////////////
 		// IMPORT SERVICES

@@ -17,8 +17,12 @@
  *******************************************************************************/
 package com.netxforge.netxstudio.common.model;
 
+import java.util.Collection;
+
 import com.netxforge.netxstudio.generics.DateTimeRange;
+import com.netxforge.netxstudio.library.LibraryPackage;
 import com.netxforge.netxstudio.library.NetXResource;
+import com.netxforge.netxstudio.metrics.MetricValueRange;
 import com.netxforge.netxstudio.metrics.MetricsPackage;
 
 /**
@@ -58,6 +62,24 @@ public interface IChartModel {
 	public abstract void removeChartResource(IChartResource chartResource);
 
 	/**
+	 * Get a collection of {@link IChartResource} currently in the model.
+	 */
+	public abstract Collection<IChartResource> getChartResources();
+
+	/**
+	 * Get the non filtered {@link IChartResource} objects which do not have the
+	 * filtered flag enabled.
+	 * 
+	 * @return
+	 */
+	public abstract Collection<IChartResource> getChartNonFilteredResources();
+
+	/**
+	 * Clear the {@link IChartResource} objects from the {@link IChartModel}.
+	 */
+	public abstract void clear();
+
+	/**
 	 * Set the {@link IChartModel} applicable period. The period can be
 	 * retrieved from an {@link IMonitoringSummary#getPeriod()} context. When
 	 * adding an {@link IChartResource}, implementers can potentially set the
@@ -76,11 +98,27 @@ public interface IChartModel {
 	public abstract DateTimeRange getPeriod();
 
 	/**
+	 * Get the {@link MetricValueRange} interval, which applies for all
+	 * {@link IChartResource} in the IChartModel.
+	 * 
+	 * @return
+	 */
+	public abstract int getInterval();
+
+	/**
 	 * The name of the charted objects (Usually {@link NetXResource} ),
 	 * presented in a concatinated format.
 	 * 
 	 * @return
 	 */
 	public abstract String getChartText();
+
+	/**
+	 * Sum the {@link LibraryPackage#NET_XRESOURCE__METRIC_VALUE_RANGES value
+	 * range}
+	 * 
+	 * @return
+	 */
+	public abstract double[] sum();
 
 }

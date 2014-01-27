@@ -14,7 +14,7 @@
  * 
  * Contributors: Christophe Bouhier - initial API and implementation and/or
  * initial documentation
- *******************************************************************************/ 
+ *******************************************************************************/
 package com.netxforge.netxstudio.screens.preferences;
 
 import org.eclipse.core.runtime.preferences.AbstractPreferenceInitializer;
@@ -37,8 +37,9 @@ public class ChartPreferenceInitializer extends AbstractPreferenceInitializer {
 		IPreferenceStore store = this.getPreferenceStore();
 		store.setDefault(ScreenConstants.PREFERENCE_LEGEND_VISIBLE, true);
 		store.setDefault(ScreenConstants.PREFERENCE_UTIL_VISIBLE, false);
-		store.setDefault(ScreenConstants.PREFERENCE_METRIC_COLOR,
-				"90,90,90");
+
+		initializeMetricColors(store);
+
 		store.setDefault(ScreenConstants.PREFERENCE_CAP_COLOR, "128,128,0");
 		store.setDefault(ScreenConstants.PREFERENCE_UTIL_COLOR, "0,255,0");
 		store.setDefault(ScreenConstants.PREFERENCE_MARKER_COLOR, "188,215,248");
@@ -46,6 +47,14 @@ public class ChartPreferenceInitializer extends AbstractPreferenceInitializer {
 
 	private IPreferenceStore getPreferenceStore() {
 		return ScreensActivator.getInstance().getPreferenceStore();
+	}
+
+	public void initializeMetricColors(IPreferenceStore store) {
+		for (int i = 0; i <= 9; i++) {
+			store.setDefault(ScreenConstants.PREFERENCE_METRIC_COLORS[i],
+					ScreenConstants.PREFERENCE_METRIC_COLORS_VALUES[i]);
+		}
+
 	}
 
 }

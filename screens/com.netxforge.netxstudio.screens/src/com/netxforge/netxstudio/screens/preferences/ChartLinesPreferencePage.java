@@ -21,7 +21,11 @@ import org.eclipse.jface.preference.BooleanFieldEditor;
 import org.eclipse.jface.preference.ColorFieldEditor;
 import org.eclipse.jface.preference.FieldEditor;
 import org.eclipse.jface.preference.FieldEditorPreferencePage;
+import org.eclipse.swt.SWT;
+import org.eclipse.swt.layout.FillLayout;
+import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Group;
 import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchPreferencePage;
 
@@ -33,15 +37,13 @@ import com.netxforge.netxstudio.screens.internal.ScreensActivator;
  * @see ScreenConstants
  * 
  */
-public class ChartLinesPreferencePage extends FieldEditorPreferencePage implements
-		IWorkbenchPreferencePage {
+public class ChartLinesPreferencePage extends FieldEditorPreferencePage
+		implements IWorkbenchPreferencePage {
 
 	private ColorFieldEditor metricColorEditor;
 	private ColorFieldEditor capacityColorEditor;
 	private ColorFieldEditor markerColorEditor;
 	private FieldEditor utilColorEditor;
-	
-	
 
 	public ChartLinesPreferencePage() {
 		super(GRID);
@@ -66,16 +68,21 @@ public class ChartLinesPreferencePage extends FieldEditorPreferencePage implemen
 				ScreenConstants.PREFERENCE_UTIL_VISIBLE, "&Show Utilization",
 				getFieldEditorParent()));
 
-		/* Metric values color editor */
-		metricColorEditor = createColorFieldEditor(
-				ScreenConstants.PREFERENCE_METRIC_COLOR, "Metric Values Color",
-				getFieldEditorParent());
-		addField(metricColorEditor);
+		Group metricColorsGroup = new Group(this.getFieldEditorParent(),
+				SWT.NONE);
+		metricColorsGroup.setLayout(new FillLayout());
+		metricColorsGroup.setText("Colors for metric series");
+		GridData groupLayout = new GridData();
+		groupLayout.grabExcessHorizontalSpace = true;
+		groupLayout.horizontalSpan = 4;
+		metricColorsGroup.setLayoutData(groupLayout);
+
+		addMetricColorFieldEditor(metricColorsGroup);
 
 		/* Capacity values color editor */
 		capacityColorEditor = createColorFieldEditor(
-				ScreenConstants.PREFERENCE_CAP_COLOR,
-				"Capacity Values Color", getFieldEditorParent());
+				ScreenConstants.PREFERENCE_CAP_COLOR, "Capacity Values Color",
+				getFieldEditorParent());
 		addField(capacityColorEditor);
 
 		/* Utilization values color editor */
@@ -83,12 +90,24 @@ public class ChartLinesPreferencePage extends FieldEditorPreferencePage implemen
 				ScreenConstants.PREFERENCE_UTIL_COLOR,
 				"Utilization Values Color", getFieldEditorParent());
 		addField(utilColorEditor);
-		
+
 		/* Marker color editor */
 		markerColorEditor = createColorFieldEditor(
 				ScreenConstants.PREFERENCE_MARKER_COLOR,
 				"Marker Tooltip Color", getFieldEditorParent());
 		addField(markerColorEditor);
+
+	}
+
+	private void addMetricColorFieldEditor(Group metricColorsGroup) {
+
+		for (int i = 0; i <= 9; i++) {
+			/* Metric values color editor */
+			metricColorEditor = createColorFieldEditor(
+					ScreenConstants.PREFERENCE_METRIC_COLORS[i], "serie #"
+							+ (i + 1), metricColorsGroup);
+			addField(metricColorEditor);
+		}
 
 	}
 

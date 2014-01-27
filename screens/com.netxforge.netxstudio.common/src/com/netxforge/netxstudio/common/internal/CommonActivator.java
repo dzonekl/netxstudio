@@ -33,6 +33,7 @@ import com.google.inject.Guice;
 import com.google.inject.Inject;
 import com.google.inject.Injector;
 import com.netxforge.netxstudio.common.model.ComponentSummaryProvider;
+import com.netxforge.netxstudio.common.model.IChartModel;
 import com.netxforge.netxstudio.common.model.ModelUtils;
 import com.netxforge.netxstudio.common.model.MonitoringStateModel;
 import com.netxforge.netxstudio.common.model.NetxresourceSummaryProvider;
@@ -99,6 +100,9 @@ public class CommonActivator implements BundleActivator, DebugOptionsListener {
 	@Inject
 	Export<OperatorSummaryProvider> operatorSummaryProvider;
 
+	@Inject
+	Export<IChartModel> chartModel;
+	
 	/*
 	 * (non-Javadoc)
 	 * 

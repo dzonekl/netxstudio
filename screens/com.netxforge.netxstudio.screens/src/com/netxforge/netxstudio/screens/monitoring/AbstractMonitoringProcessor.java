@@ -17,6 +17,8 @@
  *******************************************************************************/
 package com.netxforge.netxstudio.screens.monitoring;
 
+import org.eclipse.core.databinding.observable.list.IListChangeListener;
+import org.eclipse.core.databinding.observable.list.ListChangeEvent;
 import org.eclipse.core.databinding.observable.value.IValueChangeListener;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.jface.databinding.viewers.IViewerObservableValue;
@@ -48,7 +50,7 @@ import com.netxforge.netxstudio.services.Service;
  * 
  */
 public abstract class AbstractMonitoringProcessor implements
-		IValueChangeListener {
+		IValueChangeListener, IListChangeListener {
 
 	private MonitoringStateModel monitoringStateModel;
 
@@ -146,6 +148,11 @@ public abstract class AbstractMonitoringProcessor implements
 	private boolean isActive() {
 		return ScreensActivator.getInstance().getPreferenceStore()
 				.getBoolean(ScreenConstants.PREFERENCE_DYN_MONITORING);
+	}
+
+
+	public void handleListChange(ListChangeEvent event) {
+		// do nothing impl. 
 	}
 
 }

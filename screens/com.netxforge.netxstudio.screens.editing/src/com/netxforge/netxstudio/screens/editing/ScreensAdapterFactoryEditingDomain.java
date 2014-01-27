@@ -125,15 +125,10 @@ public class ScreensAdapterFactoryEditingDomain extends
 			
 			// debug code for bug:
 			// http://work.netxforge.com/issues/385
-
-			// StackTraceElement[] stackTrace =
-			// Thread.currentThread().getStackTrace();
-			// for(StackTraceElement ste : stackTrace){
-			// System.out.println(ste);
-			// }
-			// System.out.println(Thread.currentThread());
-			 System.out.println(System.currentTimeMillis() + " " +
-			 nativeCommand);
+//			 System.out.println(System.currentTimeMillis() + " " +
+//			 nativeCommand);
+			 nativeCommand.toString();
+			 
 		}
 
 		return nativeCommand;

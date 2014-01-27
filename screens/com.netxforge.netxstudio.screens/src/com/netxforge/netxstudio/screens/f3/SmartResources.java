@@ -18,13 +18,13 @@
 package com.netxforge.netxstudio.screens.f3;
 
 import java.text.DecimalFormat;
-import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 
 import org.eclipse.core.databinding.observable.IObservable;
 import org.eclipse.core.databinding.observable.list.ComputedList;
 import org.eclipse.core.databinding.observable.list.IObservableList;
+import org.eclipse.core.databinding.observable.list.ListChangeEvent;
 import org.eclipse.core.databinding.observable.list.WritableList;
 import org.eclipse.core.databinding.observable.map.IObservableMap;
 import org.eclipse.core.databinding.observable.masterdetail.IObservableFactory;
@@ -142,7 +142,6 @@ import com.netxforge.netxstudio.operators.Operator;
 import com.netxforge.netxstudio.operators.OperatorsFactory;
 import com.netxforge.netxstudio.operators.OperatorsPackage;
 import com.netxforge.netxstudio.operators.ResourceMonitor;
-import com.netxforge.netxstudio.scheduling.WorkFlowRun;
 import com.netxforge.netxstudio.screens.AbstractPeriodScreen;
 import com.netxforge.netxstudio.screens.LabelTextTableColumnFilter;
 import com.netxforge.netxstudio.screens.ScreenDialog;
@@ -156,8 +155,8 @@ import com.netxforge.netxstudio.screens.editing.actions.BaseSelectionListenerAct
 import com.netxforge.netxstudio.screens.editing.actions.SeparatorAction;
 import com.netxforge.netxstudio.screens.editing.actions.TableViewerWithState;
 import com.netxforge.netxstudio.screens.editing.filter.SearchFilter;
-import com.netxforge.netxstudio.screens.editing.tables.CopyFeatureCommand.FeatureInitializer;
 import com.netxforge.netxstudio.screens.editing.tables.CDOElementComparer;
+import com.netxforge.netxstudio.screens.editing.tables.CopyFeatureCommand.FeatureInitializer;
 import com.netxforge.netxstudio.screens.editing.tables.CopyFeaturesActionHandler;
 import com.netxforge.netxstudio.screens.editing.tables.FocusBlockOwnerDrawHighlighterForMultiselection;
 import com.netxforge.netxstudio.screens.editing.tables.FocusColumnToModelMap;
@@ -177,7 +176,6 @@ import com.netxforge.netxstudio.screens.showins.ChartInput;
 import com.netxforge.netxstudio.screens.xtext.embedded.EmbeddedLineExpression;
 import com.netxforge.netxstudio.services.RFSService;
 import com.netxforge.netxstudio.services.Service;
-import com.netxforge.netxstudio.services.ServiceMonitor;
 
 /**
  * 
@@ -283,6 +281,8 @@ public class SmartResources extends AbstractPeriodScreen implements
 	private IViewerObservableValue observeComponentSingleSelection;
 	private IViewerObservableValue observeResourceSingleSelection;
 
+	private IViewerObservableList observeResourceMultipleSelection;
+
 	private Tree componentsTree;
 	private SashForm sashVertical;
 	private SashForm sashData;
@@ -297,7 +297,7 @@ public class SmartResources extends AbstractPeriodScreen implements
 	 */
 	private final ObservableMapChangeListener componentsChangeListener = ObservableMapChangeListener
 			.getInstance();
-	
+
 	private Composite cmpComponentSelector;
 
 	private ISWTObservableValue observeComponentFocus;
@@ -1325,6 +1325,20 @@ public class SmartResources extends AbstractPeriodScreen implements
 
 				updateResourceMon(lastSelection);
 			}
+		}
+
+		/**
+		 * For multiple {@link NetXResource} objects we are interested in
+		 * keeping the monitor
+		 * 
+		 */
+		public void handleListChange(ListChangeEvent event) {
+			
+			if (event.getObservable() == observeResourceMultipleSelection) {
+				for (Object o : event.getObservableList()) {
+					updateResourceMon((EObject) o);
+				}
+			}
 
 		}
 
@@ -1393,6 +1407,7 @@ public class SmartResources extends AbstractPeriodScreen implements
 			}
 			return netXResource;
 		}
+
 	}
 
 	/*
@@ -2149,6 +2164,9 @@ public class SmartResources extends AbstractPeriodScreen implements
 		observeResourceFocus = SWTObservables.observeFocus(resourcesTableViewer
 				.getTable());
 
+		observeResourceMultipleSelection = ViewersObservables
+				.observeMultiSelection(resourcesTableViewer);
+
 		// CONTEXT AGGREGATE.
 
 		observeNodeSelection.addValueChangeListener(contextAggregate);
@@ -2166,8 +2184,8 @@ public class SmartResources extends AbstractPeriodScreen implements
 		observeComponentSingleSelection
 				.addValueChangeListener(monitoringAggregate);
 		observeComponentFocus.addValueChangeListener(monitoringAggregate);
-		observeResourceSingleSelection
-				.addValueChangeListener(monitoringAggregate);
+		observeResourceMultipleSelection
+				.addListChangeListener(monitoringAggregate);
 		observeResourceFocus.addValueChangeListener(monitoringAggregate);
 	}
 
@@ -2380,36 +2398,34 @@ public class SmartResources extends AbstractPeriodScreen implements
 
 	@Override
 	public void handleRefresh(Object... objects) {
-		
-		
-		// Turn-off live update. 
+
+		// Turn-off live update.
 		// http://work.netxforge.com/issues/355
-		
-//		for (Object o : objects) {
-//			if (o instanceof Collection<?>) {
-//				Collection<?> collection = (Collection<?>) o;
-//				handleRefresh(collection.toArray());
-//				continue;
-//			} else if (o instanceof Service) {
-//				System.out.println("Invalid " + ((Service) o).cdoRevision());
-//			} else if (o instanceof ServiceMonitor) {
-//				System.out.println("Invalid "
-//						+ ((ServiceMonitor) o).cdoRevision());
-//			} else if (o instanceof ResourceMonitor) {
-//				System.out.println("Invalid "
-//						+ ((ResourceMonitor) o).cdoRevision());
-//			} else if (o instanceof NetXResource) {
-//				System.out.println("Invalid "
-//						+ ((NetXResource) o).cdoRevision());
-//				continue;
-//			}
-//
-//			if (!(o instanceof WorkFlowRun)) {
-//				cmpValues.smartRefresh();
-//			}
-//		}
-		
-		
+
+		// for (Object o : objects) {
+		// if (o instanceof Collection<?>) {
+		// Collection<?> collection = (Collection<?>) o;
+		// handleRefresh(collection.toArray());
+		// continue;
+		// } else if (o instanceof Service) {
+		// System.out.println("Invalid " + ((Service) o).cdoRevision());
+		// } else if (o instanceof ServiceMonitor) {
+		// System.out.println("Invalid "
+		// + ((ServiceMonitor) o).cdoRevision());
+		// } else if (o instanceof ResourceMonitor) {
+		// System.out.println("Invalid "
+		// + ((ResourceMonitor) o).cdoRevision());
+		// } else if (o instanceof NetXResource) {
+		// System.out.println("Invalid "
+		// + ((NetXResource) o).cdoRevision());
+		// continue;
+		// }
+		//
+		// if (!(o instanceof WorkFlowRun)) {
+		// cmpValues.smartRefresh();
+		// }
+		// }
+
 	}
 
 	public void disposeData() {

@@ -21,6 +21,7 @@ import java.text.DateFormat;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 
 import org.eclipse.jface.util.IPropertyChangeListener;
 import org.eclipse.jface.util.PropertyChangeEvent;
@@ -55,6 +56,7 @@ import org.swtchart.Range;
 import org.swtchart.ext.Messages;
 import org.swtchart.internal.PlotArea;
 
+import com.google.common.collect.Lists;
 import com.netxforge.netxstudio.common.Tuple;
 import com.netxforge.netxstudio.common.model.IChartModel;
 import com.netxforge.netxstudio.common.model.IChartResource;
@@ -74,7 +76,7 @@ import com.netxforge.netxstudio.screens.preferences.ScreenConstants;
  * @author Christophe Bouhier
  * 
  */
-public class SmartResourceChart extends Chart implements
+public class ChartNetXResource extends Chart implements
 		IPropertyChangeListener, PaintListener {
 
 	/** the filter extensions */
@@ -85,7 +87,7 @@ public class SmartResourceChart extends Chart implements
 
 	public static final String CAPACITY_SERIES = "Capacity";
 
-	public static final String METRIC_SERIES = "Metric";
+	// public static final String METRIC_SERIES = "Metric";
 
 	private ModelUtils modelUtils;
 
@@ -105,7 +107,9 @@ public class SmartResourceChart extends Chart implements
 
 	private ChartMouseListener plotAreaListener;
 
-	public SmartResourceChart(Composite parent, int style, Object layoutData) {
+	private IChartModel chartModel;
+
+	public ChartNetXResource(Composite parent, int style, Object layoutData) {
 		super(parent, style);
 
 		selection = new ChartSelectionRectangle();
@@ -143,10 +147,9 @@ public class SmartResourceChart extends Chart implements
 		createMenuItems(plotAreaListener);
 
 		marker = new ChartMarker(this);
-		
-		
-		// Add drag and drop support. 
-		
+
+		// Add drag and drop support.
+
 	}
 
 	/**
@@ -356,50 +359,68 @@ public class SmartResourceChart extends Chart implements
 	}
 
 	/**
-	 * Initialize the chart from the {@link IChartModel} 
+	 * Initialize the chart from the {@link IChartModel}
 	 * 
 	 * @param model
 	 */
 	public void initChartBinding(IChartModel model) {
-		
-		
-		
-		
-		
+
+		this.chartModel = model;
+
+		// Re-initialize the chart, clean it.
+		plotAreaListener.setActive(false);
+		cleanChart();
+		redraw();
+
+		List<IChartResource> chartResources = (List<IChartResource>) model
+				.getChartResources();
+
+		for (IChartResource cr : chartResources) {
+			if (cr.isFiltered())
+				continue;
+			// Create the axis with info from the first IChartResource
+			if (cr == chartResources.get(0)) {
+				configureXAxis(cr, model.getInterval());
+				configureYAxis();
+			}
+			addSeriesMetric(cr, chartResources.indexOf(cr));
+		}
+
 		// CB FIXME Refactor for a single IChartResource
-		
-//		if(!model.isChartModelOk()){
-//			plotAreaListener.setActive(false);
-//			cleanChart();
-//			redraw();
-//			return;
-//		}
-//		
-//		
-//		cleanChart();
-//
-//		configureXAxis(model);
-//		configureYAxis();
-//
-//		configureSeriesMetric(model);
-//
-//		if (model.hasCapacity()) {
-//			configureSeriesCapacity(model);
-//		}
-//
-//		if (model.hasUtilization()) {
-//			configureYAxisUtilization();
-//			configureSeriesUtilization(model, 1);
-//			configureUtilizationVisible(ScreensActivator.getInstance()
-//					.getPreferenceStore()
-//					.getBoolean(ScreenConstants.PREFERENCE_UTIL_VISIBLE));
-//
-//		}
+
+		// if(!model.isChartModelOk()){
+		// plotAreaListener.setActive(false);
+		// cleanChart();
+		// redraw();
+		// return;
+		// }
+		//
+		//
+		// cleanChart();
+		//
+		// configureXAxis(model);
+		// configureYAxis();
+		//
+		// configureSeriesMetric(model);
+		//
+		// if (model.hasCapacity()) {
+		// configureSeriesCapacity(model);
+		// }
+		//
+		// if (model.hasUtilization()) {
+		// configureYAxisUtilization();
+		// configureSeriesUtilization(model, 1);
+		// configureUtilizationVisible(ScreensActivator.getInstance()
+		// .getPreferenceStore()
+		// .getBoolean(ScreenConstants.PREFERENCE_UTIL_VISIBLE));
+		//
+		// }
 
 		getAxisSet().adjustRange();
 		redraw();
 
-		plotAreaListener.setActive(true);
+		// FIXME markers for multiple metric series....
+		// plotAreaListener.setActive(true);
 	}
 
 	private void configureUtilizationVisible(boolean visible) {
@@ -436,17 +457,17 @@ public class SmartResourceChart extends Chart implements
 			getAxisSet().deleteYAxis(utilizationAxisID);
 			utilizationAxisID = -1;
 		}
-		
+
 		getAxisSet().adjustRange();
-		
-//		for( int id : getAxisSet().getXAxisIds()){
-//			IAxisTick tick = getAxisSet().getXAxis(id).getTick();
-//		}
-//		
-//		for( int id : getAxisSet().getYAxisIds()){
-//			getAxisSet().deleteYAxis(id);
-//		}
-		
+
+		// for( int id : getAxisSet().getXAxisIds()){
+		// IAxisTick tick = getAxisSet().getXAxis(id).getTick();
+		// }
+		//
+		// for( int id : getAxisSet().getYAxisIds()){
+		// getAxisSet().deleteYAxis(id);
+		// }
+
 	}
 
 	private void configureYAxis() {
@@ -458,7 +479,7 @@ public class SmartResourceChart extends Chart implements
 				.getSystemColor(SWT.COLOR_BLACK));
 	}
 
-	private void configureXAxis(IChartResource model) {
+	private void configureXAxis(IChartResource model, int modelInterval) {
 
 		if (model.hasNetXResource()) {
 			getAxisSet().getYAxis(0).getTitle()
@@ -471,8 +492,8 @@ public class SmartResourceChart extends Chart implements
 									.getSystemColor(SWT.COLOR_BLACK));
 		}
 
-		Tuple interval = modelUtils.interval(model.getInterval());
-		
+		Tuple interval = modelUtils.interval(modelInterval);
+
 		String label = (String) interval.getKey();
 		String primaryDatePattern = (String) interval.getValue();
 
@@ -705,20 +726,21 @@ public class SmartResourceChart extends Chart implements
 	 * @param resource
 	 * @return
 	 */
-	private ILineSeries configureSeriesMetric(IChartResource model) {
-		
-		// CB Should refactor to add/remove an IChartResource. 
-		
-		
+	private ILineSeries addSeriesMetric(IChartResource model, int count) {
+
 		ILineSeries metricLineSeries = (ILineSeries) getSeriesSet()
-				.createSeries(ISeries.SeriesType.LINE, METRIC_SERIES);
+				.createSeries(ISeries.SeriesType.LINE,
+						model.getNetXResource().getShortName());
 
 		metricLineSeries.setXDateSeries(model.getTimeStampArray());
-		metricLineSeries.enableArea(true);
+
+		// Make optional.
+		// metricLineSeries.enableArea(true);
 		metricLineSeries.setYSeries(model.getMetriDoubleArray());
 		metricLineSeries.setSymbolType(ILineSeries.PlotSymbolType.TRIANGLE);
 		final Color metricColor = ScreensActivator.getInstance()
-				.getPreferenceColor(ScreenConstants.PREFERENCE_METRIC_COLOR);
+				.getPreferenceColor(
+						ScreenConstants.PREFERENCE_METRIC_COLORS[count]);
 		metricLineSeries.setLineColor(metricColor);
 		return metricLineSeries;
 	}
@@ -741,7 +763,8 @@ public class SmartResourceChart extends Chart implements
 
 	}
 
-	private IBarSeries configureSeriesUtilization(IChartResource model, int yAxisID) {
+	private IBarSeries configureSeriesUtilization(IChartResource model,
+			int yAxisID) {
 
 		IBarSeries utilLineSeries = (IBarSeries) getSeriesSet().createSeries(
 				ISeries.SeriesType.BAR, UTILIZATION_SERIES);
@@ -775,8 +798,16 @@ public class SmartResourceChart extends Chart implements
 	/*
 	 * Return the metric series in the proper series type.
 	 */
-	public ILineSeries getMetricSeries() {
-		return (ILineSeries) getSeries(METRIC_SERIES);
+	public List<ILineSeries> getMetricSeries() {
+
+		List<ILineSeries> metricSeries = Lists.newArrayList();
+		if (chartModel != null) {
+			for (IChartResource r : chartModel.getChartResources()) {
+				metricSeries.add((ILineSeries) getSeries(r.getNetXResource()
+						.getShortName()));
+			}
+		}
+		return metricSeries;
 	}
 
 	/*
@@ -835,13 +866,6 @@ public class SmartResourceChart extends Chart implements
 				.getProperty()) && !isDisposed()) {
 			configureUtilizationVisible((Boolean) (event.getNewValue()));
 			needsRedraw = true;
-		} else if (ScreenConstants.PREFERENCE_METRIC_COLOR.equals(event
-				.getProperty())) {
-			final Color preferenceColor = ColorManager.getInstance().getColor(
-					(RGB) event.getNewValue());
-			getMetricSeries().setLineColor(preferenceColor);
-			needsRedraw = true;
-
 		} else if (ScreenConstants.PREFERENCE_CAP_COLOR.equals(event
 				.getProperty())) {
 			final Color preferenceColor = ColorManager.getInstance().getColor(
@@ -858,6 +882,21 @@ public class SmartResourceChart extends Chart implements
 				needsRedraw = true;
 			}
 
+		} else if (event.getProperty().startsWith("metricColorPreference")) {
+
+			String property = event.getProperty();
+			Integer seriesIndex = new Integer(property.substring(
+					property.length() - 1, property.length() - 0)) - 1;
+
+			final Color preferenceColor = ColorManager.getInstance().getColor(
+					(RGB) event.getNewValue());
+			if (getMetricSeries().size() > seriesIndex) {
+				ILineSeries iLineSeries = getMetricSeries().get(seriesIndex);
+				if (iLineSeries != null) {
+					iLineSeries.setLineColor(preferenceColor);
+					needsRedraw = true;
+				}
+			}
 		}
 
 		if (needsRedraw) {
@@ -1022,7 +1061,7 @@ public class SmartResourceChart extends Chart implements
 		marker.setTime(timeInMillis);
 		redraw();
 	}
-	
+
 	public void showHover(ToleranceMarker firstElement) {
 		showHover(firstElement.getValueRef());
 	}

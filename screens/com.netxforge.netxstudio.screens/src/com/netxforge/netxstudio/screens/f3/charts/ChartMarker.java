@@ -28,6 +28,10 @@ import com.netxforge.netxstudio.screens.preferences.ScreenConstants;
 
 /**
  * The marker showing the rectangle symbols and tooltip on chart.
+ * FIXME, Deal with multiple series. 
+ * 
+ * 
+ * 
  */
 public class ChartMarker {
 
@@ -50,7 +54,7 @@ public class ChartMarker {
 	private int mouseXPosition;
 
 	/** The chart */
-	private SmartResourceChart chart;
+	private ChartNetXResource chart;
 
 	/**
 	 * The constructor.
@@ -58,7 +62,7 @@ public class ChartMarker {
 	 * @param chart
 	 *            The chart
 	 */
-	public ChartMarker(SmartResourceChart chart) {
+	public ChartMarker(ChartNetXResource chart) {
 		this.chart = chart;
 		hovers = new HashMap<String, Shell>();
 		texts = new HashMap<String, String>();
@@ -207,21 +211,24 @@ public class ChartMarker {
 				chart.getPlotArea().getSize().y, true);
 
 		{
-			ILineSeries metricSeries = chart.getMetricSeries();
-			double[] ySeries = metricSeries.getYSeries();
-			int seriesIndex = ySeries.length - invertedSeriesIndex;
-			if (seriesIndex > 0) {
-				buffer = new StringBuffer();
-				buffer.append(metricSeries.getId()).append(": ") //$NON-NLS-1$
-						.append(getFormattedValue(ySeries[seriesIndex]));
-				texts.put(metricSeries.getId(), buffer.toString());
-
-				int valueInPixel = chart.getAxisSet().getYAxes()[0]
-						.getPixelCoordinate(ySeries[seriesIndex]);
-
-				configureHover(hovers.get(metricSeries.getId()),
-						buffer.toString(), timeInPixel, valueInPixel, false);
-			}
+			
+			// CB Migrate. 
+			
+//			ILineSeries metricSeries = chart.getMetricSeries();
+//			double[] ySeries = metricSeries.getYSeries();
+//			int seriesIndex = ySeries.length - invertedSeriesIndex;
+//			if (seriesIndex > 0) {
+//				buffer = new StringBuffer();
+//				buffer.append(metricSeries.getId()).append(": ") //$NON-NLS-1$
+//						.append(getFormattedValue(ySeries[seriesIndex]));
+//				texts.put(metricSeries.getId(), buffer.toString());
+//
+//				int valueInPixel = chart.getAxisSet().getYAxes()[0]
+//						.getPixelCoordinate(ySeries[seriesIndex]);
+//
+//				configureHover(hovers.get(metricSeries.getId()),
+//						buffer.toString(), timeInPixel, valueInPixel, false);
+//			}
 		}
 
 		{ // Only if these exist.
@@ -410,27 +417,31 @@ public class ChartMarker {
 		// Date desired = new Date(desiredTime);
 		// System.out.println(desired);
 
+		// CB TODO MIGRATE FOR MULTIPLE SERIES> 
+		
 		// Only Consider the Metric Series.
-		ISeries metricSeries = chart.getSeriesSet().getSeries(
-				SmartResourceChart.METRIC_SERIES);
-
-		// find the time series index, biggest date comes first.
-		Date[] dates = metricSeries.getXDateSeries();
-		for (int i = 0; i < dates.length; i++) {
-			if (dates[i].getTime() < desiredTime && i != dates.length - 1) {
-				continue;
-			}
-			int nearestIndex;
-			if (i > 0
-					&& dates[i].getTime() - desiredTime > desiredTime
-							- dates[i - 1].getTime()) {
-				nearestIndex = i - 1;
-			} else {
-				nearestIndex = i;
-			}
-			// System.out.println(" Date index = " + nearestIndex);
-			return dates.length - nearestIndex;
-		}
+//		ISeries metricSeries = chart.getSeriesSet().getSeries(
+//				SmartResourceChart.METRIC_SERIES);
+//
+//		// find the time series index, biggest date comes first.
+//		Date[] dates = metricSeries.getXDateSeries();
+//		for (int i = 0; i < dates.length; i++) {
+//			if (dates[i].getTime() < desiredTime && i != dates.length - 1) {
+//				continue;
+//			}
+//			int nearestIndex;
+//			if (i > 0
+//					&& dates[i].getTime() - desiredTime > desiredTime
+//							- dates[i - 1].getTime()) {
+//				nearestIndex = i - 1;
+//			} else {
+//				nearestIndex = i;
+//			}
+//			// System.out.println(" Date index = " + nearestIndex);
+//			return dates.length - nearestIndex;
+//		}
+		
+		
 		return null;
 	}
 
@@ -440,26 +451,28 @@ public class ChartMarker {
 		// System.out.println(desired);
 
 		// Only Consider the Metric Series.
-		ISeries metricSeries = chart.getSeriesSet().getSeries(
-				SmartResourceChart.METRIC_SERIES);
-
-		// find the time series index, biggest date comes first.
-		Date[] dates = metricSeries.getXDateSeries();
-		for (int i = 0; i < dates.length; i++) {
-			if (dates[i].getTime() < desiredTime && i != dates.length - 1) {
-				continue;
-			}
-			int nearestIndex;
-			if (i > 0
-					&& dates[i].getTime() - desiredTime > desiredTime
-							- dates[i - 1].getTime()) {
-				nearestIndex = i - 1;
-			} else {
-				nearestIndex = i;
-			}
-			// System.out.println(" Date index = " + nearestIndex);
-			return dates.length - nearestIndex;
-		}
+		
+		// CB TODO MIGRATE> 
+//		ISeries metricSeries = chart.getSeriesSet().getSeries(
+//				SmartResourceChart.METRIC_SERIES);
+//
+//		// find the time series index, biggest date comes first.
+//		Date[] dates = metricSeries.getXDateSeries();
+//		for (int i = 0; i < dates.length; i++) {
+//			if (dates[i].getTime() < desiredTime && i != dates.length - 1) {
+//				continue;
+//			}
+//			int nearestIndex;
+//			if (i > 0
+//					&& dates[i].getTime() - desiredTime > desiredTime
+//							- dates[i - 1].getTime()) {
+//				nearestIndex = i - 1;
+//			} else {
+//				nearestIndex = i;
+//			}
+//			// System.out.println(" Date index = " + nearestIndex);
+//			return dates.length - nearestIndex;
+//		}
 		return null;
 	}
 

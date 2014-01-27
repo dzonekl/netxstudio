@@ -69,19 +69,15 @@ import org.eclipse.ui.forms.widgets.FormToolkit;
 import org.eclipse.ui.forms.widgets.Section;
 import org.eclipse.ui.part.ShowInContext;
 import org.eclipse.ui.progress.UIJob;
-import org.swtchart.Chart;
 
 import com.google.common.collect.Lists;
 import com.google.inject.Inject;
-import com.netxforge.netxstudio.common.model.ChartModel;
-import com.netxforge.netxstudio.common.model.ChartResource;
 import com.netxforge.netxstudio.common.model.IChartModel;
 import com.netxforge.netxstudio.common.model.IMonitoringSummary;
 import com.netxforge.netxstudio.common.model.MonitoringStateModel;
 import com.netxforge.netxstudio.generics.Value;
 import com.netxforge.netxstudio.library.NetXResource;
 import com.netxforge.netxstudio.metrics.MetricValueRange;
-import com.netxforge.netxstudio.operators.OperatorsFactory;
 import com.netxforge.netxstudio.operators.OperatorsPackage;
 import com.netxforge.netxstudio.operators.ResourceMonitor;
 import com.netxforge.netxstudio.operators.ToleranceMarker;
@@ -98,7 +94,7 @@ import com.netxforge.netxstudio.screens.showins.ChartInput;
  * 
  * @author Christophe Bouhier
  */
-public class SmartChartScreen extends AbstractScreen implements
+public class ChartScreen extends AbstractScreen implements
 		IDataScreenInjection, IJobChangeListener {
 
 	private final FormToolkit toolkit = new FormToolkit(Display.getCurrent());
@@ -110,13 +106,14 @@ public class SmartChartScreen extends AbstractScreen implements
 	private TableViewer markersTableViewer;
 
 	/** Holds model data together for the chart */
+	@Inject
 	private IChartModel chartModel;
 
 	/**
 	 * A specialized chart for {@link NetXResource} and {@link ResourceMonitor}
 	 * objects
 	 */
-	private SmartResourceChart smartResourceChart;
+	private ChartNetXResource smartResourceChart;
 
 	@Inject
 	private TableHelper tableHelper;
@@ -177,36 +174,23 @@ public class SmartChartScreen extends AbstractScreen implements
 
 		private void refreshSummaryUI(Collection<IMonitoringSummary> summaries) {
 
+			chartModel.clear();
+
 			for (IMonitoringSummary summary : summaries) {
-				
-				
 				// Refactor
 				chartModel.addChartResource(summary);
 			}
 
-			// if (getLatestSelection() instanceof NetXResource) {
-			// NetXResource netxRes = (NetXResource) getLatestSelection();
-			// if (netxRes.getMetricValueRanges().size() > 0) {
-			// MetricValueRange mvr = netxRes.getMetricValueRanges()
-			// .get(0);
-			// IChartResource chartResource = ChartResource.valueFor(
-			// modelUtils, summaries2, mvr.getIntervalHint(),
-			// mvr.getKindHint());
-			//
-			// chartModel.addChartResource(chartResource);
-			// // chartModel = valueFor;
-			// initDataBindings_();
-			// }
-			// }
+			frmChartScreen.setText(chartModel.getChartText());
+			smartResourceChart.initChartBinding(chartModel);
 		}
 	}
 
-	public SmartChartScreen(Composite parent, int style) {
+	public ChartScreen(Composite parent, int style) {
 		super(parent, style);
 		addDisposeListener(new DisposeListener() {
 			public void widgetDisposed(DisposeEvent e) {
-				SmartChartScreen.this.getShell().removeShellListener(
-						shellAdapter);
+				ChartScreen.this.getShell().removeShellListener(shellAdapter);
 				toolkit.dispose();
 				disposeData();
 			}
@@ -233,7 +217,7 @@ public class SmartChartScreen extends AbstractScreen implements
 		GridData gridData = new GridData(SWT.FILL, SWT.CENTER, true, true, 1, 4);
 		gridData.heightHint = 350;
 		// gridData.widthHint = 400;
-		smartResourceChart = new SmartResourceChart(cmChart, SWT.NONE, gridData);
+		smartResourceChart = new ChartNetXResource(cmChart, SWT.NONE, gridData);
 		smartResourceChart.setModelUtils(modelUtils);
 
 		// buildScrollStick(cmChart);
@@ -443,7 +427,7 @@ public class SmartChartScreen extends AbstractScreen implements
 		new Label(compositeScrollStick, SWT.NONE);
 	}
 
-	public Chart getChart() {
+	public ChartNetXResource getChart() {
 		return smartResourceChart;
 	}
 
@@ -458,15 +442,9 @@ public class SmartChartScreen extends AbstractScreen implements
 
 	private void processSelection(Object... selection) {
 
-		if (validSelection(selection) && selection.length == 1) {
-			Object o = selection[0];
-
-			// Prep the summary itself, as the monitoring job might still be
-			// running, we delay until it's ready.
-			if (o instanceof EObject) {
-				setLatestSelection((EObject) o);
-				updateLatestSelection();
-			}
+		if (validSelection(selection)) {
+			setLatestSelection(selection);
+			updateLatestSelection();
 
 			deActivate();
 			activate();
@@ -528,19 +506,13 @@ public class SmartChartScreen extends AbstractScreen implements
 
 	public EMFDataBindingContext initDataBindings_() {
 		EMFDataBindingContext context = new EMFDataBindingContext();
-
-		frmChartScreen.setText(chartModel.getChartText());
-
-		smartResourceChart.initChartBinding(chartModel);
-		
-		
-		// CB FIXME refactor markers. 
-//		if (chartModel.hasMarkers()) {
-//			initMarkersBindingCollection();
-//		} else {
-//			markersTableViewer.getTable().setSelection(-1);
-//			markersTableViewer.getTable().clearAll();
-//		}
+		// CB FIXME refactor markers.
+		// if (chartModel.hasMarkers()) {
+		// initMarkersBindingCollection();
+		// } else {
+		// markersTableViewer.getTable().setSelection(-1);
+		// markersTableViewer.getTable().clearAll();
+		// }
 
 		return context;
 	}
@@ -569,10 +541,11 @@ public class SmartChartScreen extends AbstractScreen implements
 			@Override
 			protected List calculate() {
 				return Collections.EMPTY_LIST;
-				
-				// FIXME Get rid of markers view, or base on aggregate of resources shown by the 
-				// chart. 
-//				return chartModel.getMarkers();
+
+				// FIXME Get rid of markers view, or base on aggregate of
+				// resources shown by the
+				// chart.
+				// return chartModel.getMarkers();
 			}
 
 		};
@@ -676,22 +649,21 @@ public class SmartChartScreen extends AbstractScreen implements
 				chartInput.setInterval(valueRange.getIntervalHint());
 				chartInput.setKind(valueRange.getKindHint());
 			}
-			
-			
-			// CB FIXME refactor showin. 
-//			if (chartInput.getResourceMonitor() != null) {
-//				chartModel = ChartResource.valueFor(modelUtils,
-//						chartInput.getPeriod(), chartInput.getInterval(),
-//						chartInput.getKind(), netXResource,
-//						chartInput.getResourceMonitor(), null);
-//			} else {
-//				chartModel = ChartResource.valueFor(modelUtils,
-//						chartInput.getPeriod(), chartInput.getInterval(),
-//						chartInput.getKind(), netXResource,
-//						OperatorsFactory.eINSTANCE.createResourceMonitor(),
-//						null);
-//
-//			}
+
+			// CB FIXME refactor showin.
+			// if (chartInput.getResourceMonitor() != null) {
+			// chartModel = ChartResource.valueFor(modelUtils,
+			// chartInput.getPeriod(), chartInput.getInterval(),
+			// chartInput.getKind(), netXResource,
+			// chartInput.getResourceMonitor(), null);
+			// } else {
+			// chartModel = ChartResource.valueFor(modelUtils,
+			// chartInput.getPeriod(), chartInput.getInterval(),
+			// chartInput.getKind(), netXResource,
+			// OperatorsFactory.eINSTANCE.createResourceMonitor(),
+			// null);
+			//
+			// }
 
 			this.initDataBindings_();
 
@@ -726,20 +698,36 @@ public class SmartChartScreen extends AbstractScreen implements
 	private void updateLatestSelection() {
 		List<IMonitoringSummary> summariesToRefresh = Lists.newArrayList();
 		for (Object selection : getLatestSelection()) {
-			if (selection instanceof EObject
-					&& MonitoringStateModel.isAdapted((EObject) selection)) {
-				IMonitoringSummary summary = MonitoringStateModel
-						.getAdapted((EObject) selection);
-				summariesToRefresh.add(summary);
-				refreshSummaryJob.setSummary(summariesToRefresh);
-				refreshSummaryJob.schedule(100);
+			if (selection instanceof EObject) {
+				EObject target = (EObject) selection;
+				if (MonitoringStateModel.isAdapted(target)) {
+
+					IMonitoringSummary summary = MonitoringStateModel
+							.getAdapted((EObject) selection);
+					summariesToRefresh.add(summary);
+				} else {
+					System.out.println("target not adapted: " + target);
+				}
 			}
+
 		}
+		refreshSummaryJob.setSummary(summariesToRefresh);
+		refreshSummaryJob.schedule(100);
+
 	}
 
 	@Override
 	public void focusLost(FocusEvent e) {
 		// remove the markers.
 		smartResourceChart.hideHover();
+	}
+
+	public IChartModel getChartModel() {
+		return chartModel;
+	}
+
+	public void reinit() {
+		this.getChart().initChartBinding(this.getChartModel());
+		
 	}
 }

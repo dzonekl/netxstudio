@@ -20,7 +20,6 @@ package com.netxforge.netxstudio.common.model;
 import java.util.Date;
 import java.util.List;
 
-import com.netxforge.netxstudio.generics.Value;
 import com.netxforge.netxstudio.library.NetXResource;
 import com.netxforge.netxstudio.operators.Marker;
 
@@ -33,7 +32,7 @@ import com.netxforge.netxstudio.operators.Marker;
  * 
  * @author Christophe Bouhier
  */
-public interface IChartResource {
+public interface IChartResource extends IFilteredChart {
 
 	public abstract boolean isChartModelOk();
 

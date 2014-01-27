@@ -17,13 +17,17 @@
  *******************************************************************************/
 package com.netxforge.netxstudio.common.model;
 
+import java.text.Normalizer.Form;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.NoSuchElementException;
 
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
+import com.google.inject.Inject;
 import com.netxforge.netxstudio.common.internal.CommonActivator;
 import com.netxforge.netxstudio.common.model.ModelUtils.TimeStampPredicate;
 import com.netxforge.netxstudio.generics.DateTimeRange;
@@ -33,11 +37,11 @@ import com.netxforge.netxstudio.library.NetXResource;
 import com.netxforge.netxstudio.metrics.KindHintType;
 import com.netxforge.netxstudio.metrics.MetricValueRange;
 import com.netxforge.netxstudio.operators.Marker;
-import com.netxforge.netxstudio.operators.ResourceMonitor;
 
 /**
  * 
- * 
+ * TODO, Add an option to select the interval and range, this will apply to the
+ * whole model.
  * 
  * @author Christophe Bouhier
  */
@@ -46,12 +50,13 @@ public class ChartModel implements IChartModel {
 	/** The period covering the chart */
 	protected DateTimeRange dtr;
 
-	/** The interval */
-	protected int interval = -1;
+	/** The interval, defauts to {@link ModelUtils#SECONDS_IN_AN_HOUR} */
+	protected int interval = ModelUtils.MINUTES_IN_AN_HOUR;
 
-	/** The kind of range */
-	protected KindHintType kind = null;
+	/** The kind of range, defaults to {@link KindHintType#BH} */
+	protected KindHintType kind = KindHintType.BH;
 
+	@Inject
 	private ModelUtils modelUtils;
 
 	/**
@@ -66,38 +71,39 @@ public class ChartModel implements IChartModel {
 		 * {@link MetricValueRange} of the {@link NetXResource} with the
 		 * {@link MetricValueRange#getIntervalHint()}
 		 */
-		// protected List<Value> metricValues = null;
-
-		/**
-		 * Capacity values. Only available if a {@link NetXResource} is provided
-		 * at construction.
-		 */
-		// protected List<Value> capValues = null;
-
-		/**
-		 * Utilization values. Only available if a {@link NetXResource} is
-		 * provided at construction.
-		 */
-		// protected List<Value> utilValues = null;
+		protected List<Value> metricValues = null;
 
 		/**
 		 * All Data in array format, split by date / value, sorted and filled
 		 * up.
 		 */
-		protected Date[] timeStampArray;
+		protected Date[] timeStampArray = null;
 
-		protected double[] metriDoubleArray;
+		protected double[] metriDoubleArray = null;
 
-		protected double[] capDoubleArray;
+		protected double[] capDoubleArray = null;
 
-		protected double[] utilDoubleArray;
+		protected double[] utilDoubleArray = null;
 
 		/**
 		 * The state of the model, do not load when not OK.
 		 */
 		protected boolean chartModelOk = false;
 
+		/**
+		 * The filtered state will either show or hide us in the chart viewer.
+		 */
+		private boolean filtered;
+		/**
+		 * The summary.
+		 */
 		private NetxresourceSummary netxSummary;
+
+		/**
+		 * The {@link DateTimeRange period} defining the start and end for the
+		 * metric values.
+		 */
+		private DateTimeRange metricDTR;
 
 		public ChartResource(NetxresourceSummary netxSummary) {
 			this.netxSummary = netxSummary;
@@ -118,118 +124,6 @@ public class ChartModel implements IChartModel {
 		 */
 		private void setChartModelOk(boolean chartModelOk) {
 			this.chartModelOk = chartModelOk;
-		}
-
-		// TODO Refacto to separate the various cases.
-		// 1. ResourceMonitor present.
-
-		private void deriveValues(DateTimeRange dtr, int interval,
-				KindHintType kind, NetXResource netXRes, List<Value> values,
-				List<Marker> markers) {
-			// 1. NetXResource
-			// 2. Values
-			if (netXRes != null) {
-				this.netXResource = netXRes;
-			} else if (values != null) {
-				this.metricValues = values;
-			}
-
-			// Set the markers (Even if we have a ResourceMonitor).
-			if (markers != null) {
-				this.markers = markers;
-			}
-
-			this.interval = interval;
-			this.kind = kind;
-
-			// Populate the values, if we need to, (The model can also be used
-			// without
-			// the NetXResource object).
-			if (this.metricValues == null && this.netXResource != null
-					&& this.interval != -1) {
-				MetricValueRange mvr = modelUtils.valueRangeForIntervalAndKind(
-						this.netXResource, this.kind, interval);
-				if (mvr != null) {
-					this.metricValues = Lists.newArrayList(mvr
-							.getMetricValues());
-				} else {
-					return;
-				}
-
-				capValues = Lists.newArrayList(netXRes.getCapacityValues());
-				utilValues = Lists.newArrayList(netXRes.getUtilizationValues());
-
-			}
-
-			// Apply the period to the ranges.
-			if (dtr != null) {
-				metricValues = modelUtils.sortAndApplyPeriod(metricValues, dtr,
-						false);
-
-				if (metricValues.isEmpty()) {
-					// bail out.
-					chartModelOk = false;
-					return;
-				}
-
-				// Derive a new DTR, for begin and end of the metric values.
-				DateTimeRange metricDTR = modelUtils.period(metricValues);
-				// Split in Date and double arrays.
-				timeStampArray = modelUtils
-						.transformValueToDateArray(metricValues);
-
-				capValues = modelUtils
-						.sortAndApplyPeriod(capValues, dtr, false);
-
-				// Apply a period filter.
-				// Capacity values typically occur at day start, with a single
-				// entry.
-				// fill up the list, so that a
-				capValues = rangeFillUpWithLastValue(timeStampArray, metricDTR,
-						capValues);
-
-				utilValues = modelUtils.sortAndApplyPeriod(utilValues, dtr,
-						false);
-
-				// Why not get from the period?
-				utilValues = modelUtils.valuesForValues(utilValues,
-						metricValues);
-
-				// Make sure we are equal size.
-				if (timeStampArray.length != utilValues.size()) {
-					if (CommonActivator.DEBUG) {
-						CommonActivator.TRACE
-								.trace(CommonActivator.TRACE_COMMON_CHART_OPTION,
-										"Skip plotting utilization, date array and util array length mismatch sizes => dates: "
-												+ timeStampArray.length
-												+ " util values: "
-												+ utilValues.size());
-					}
-					utilValues = rangeFillUpGaps(timeStampArray, dtr,
-							utilValues);
-				}
-
-			}
-
-			metriDoubleArray = modelUtils
-					.transformValueToDoubleArray(metricValues);
-
-			if (capValues != null) {
-				capDoubleArray = modelUtils
-						.transformValueToDoubleArray(capValues);
-			}
-			if (utilValues != null) {
-				List<Double> utilDoubleValues = modelUtils
-						.transformValueToDouble(utilValues);
-				// Multiply by 100
-				utilDoubleArray = modelUtils
-						.multiplyByHundredAndToArray(utilDoubleValues);
-			}
-			// Assert all arrays have equal size. SWTChart behaves badly when
-			// it's
-			// not the case.
-			setChartModelOk(true);
-
 		}
 
 		/*
@@ -256,19 +150,35 @@ public class ChartModel implements IChartModel {
 		 * 
 		 * @see com.netxforge.netxstudio.common.model.IChartModel#getValues()
 		 */
-		public List<Value> getValues() {
-			NetXResource target = netxSummary.getTarget();
-			MetricValueRange valueRangeForIntervalAndKind = modelUtils
-					.valueRangeForIntervalAndKind(target, kind, interval);
-			if (valueRangeForIntervalAndKind != null) {
-				List<Value> sortAndApplyPeriod = modelUtils.sortAndApplyPeriod(
-						valueRangeForIntervalAndKind.getMetricValues(), dtr,
-						false);
-				return sortAndApplyPeriod;
-			} else {
-				throw new UnsupportedOperationException("no value range");
-			}
+		@SuppressWarnings("unchecked")
+		private List<Value> getValues() {
 
+			if (metricValues == null) {
+
+				NetXResource target = netxSummary.getTarget();
+				MetricValueRange valueRangeForIntervalAndKind = modelUtils
+						.valueRangeForIntervalAndKind(target, kind, interval);
+				if (valueRangeForIntervalAndKind != null) {
+
+					// When the defined period is larger than the period for the
+					// values,
+					// we can reduce it with:
+					List<Value> sortAndApplyPeriod = modelUtils
+							.sortAndApplyPeriod(valueRangeForIntervalAndKind
+									.getMetricValues(), dtr, false);
+					// This is a valid chart model :-)
+					if (!sortAndApplyPeriod.isEmpty()) {
+						setChartModelOk(true);
+					}
+					metricDTR = modelUtils.period(sortAndApplyPeriod);
+					metricValues = sortAndApplyPeriod;
+				} else {
+					metricValues = Collections.EMPTY_LIST;
+					// throw new
+					// UnsupportedOperationException("no value range");
+				}
+			}
+			return metricValues;
 		}
 
 		/*
@@ -399,6 +309,10 @@ public class ChartModel implements IChartModel {
 		 * com.netxforge.netxstudio.common.model.IChartModel#getTimeStampArray()
 		 */
 		public Date[] getTimeStampArray() {
+			if (timeStampArray == null) {
+				timeStampArray = modelUtils.transformValueToDateArray(this
+						.getValues());
+			}
 			return timeStampArray;
 		}
 
@@ -409,6 +323,19 @@ public class ChartModel implements IChartModel {
 		 * com.netxforge.netxstudio.common.model.IChartModel#getCapDoubleArray()
 		 */
 		public double[] getCapDoubleArray() {
+
+			if (capDoubleArray == null) {
+				List<Value> capValues = modelUtils
+						.sortAndApplyPeriod(netxSummary.getTarget()
+								.getCapacityValues(), dtr, false);
+
+				capValues = rangeFillUpWithLastValue(getTimeStampArray(),
+						metricDTR, capValues);
+				if (capValues != null) {
+					capDoubleArray = modelUtils
+							.transformValueToDoubleArray(capValues);
+				}
+			}
 			return capDoubleArray;
 		}
 
@@ -420,7 +347,7 @@ public class ChartModel implements IChartModel {
 		 * ()
 		 */
 		public double[] getMetriDoubleArray() {
-			return metriDoubleArray;
+			return modelUtils.transformValueToDoubleArray(getValues());
 		}
 
 		/*
@@ -431,6 +358,30 @@ public class ChartModel implements IChartModel {
 		 * ()
 		 */
 		public double[] getUtilDoubleArray() {
+
+			if (utilDoubleArray == null) {
+				List<Value> utilValues = modelUtils.sortAndApplyPeriod(this
+						.getNetXResource().getUtilizationValues(), dtr, false);
+				// Why not get from the period?
+				utilValues = modelUtils
+						.valuesForValues(utilValues, getValues());
+
+				// Make sure we are equal size.
+				if (timeStampArray.length != utilValues.size()) {
+					if (CommonActivator.DEBUG) {
+						CommonActivator.TRACE
+								.trace(CommonActivator.TRACE_COMMON_CHART_OPTION,
+										"Skip plotting utilization, date array and util array length mismatch sizes => dates: "
+												+ timeStampArray.length
+												+ " util values: "
+												+ utilValues.size());
+					}
+					utilValues = rangeFillUpGaps(this.getTimeStampArray(), dtr,
+							utilValues);
+				}
+
+			}
+
 			return utilDoubleArray;
 		}
 
@@ -456,7 +407,16 @@ public class ChartModel implements IChartModel {
 		 * Trend use, linear regression.
 		 */
 		public void trendValues() {
+			// Trend forward, expand the timestamp aray. 
+			
+		}
 
+		public boolean isFiltered() {
+			return filtered;
+		}
+
+		public void setFiltered(boolean filtered) {
+			this.filtered = filtered;
 		}
 
 	}
@@ -481,6 +441,13 @@ public class ChartModel implements IChartModel {
 
 		if (summary instanceof NetxresourceSummary) {
 			NetxresourceSummary netxSummary = (NetxresourceSummary) summary;
+
+			// Make sure we set the model period, if this is the first
+			// IChartResource.
+			if (chartResources.isEmpty()) {
+				this.dtr = netxSummary.getPeriod();
+			}
+
 			final ChartResource chartResource = new ChartResource(netxSummary);
 			chartResources.add(chartResource);
 			// chartModel.deriveValues(summary.getPeriod(), interval, kind,
@@ -494,22 +461,68 @@ public class ChartModel implements IChartModel {
 
 	}
 
+	/**
+	 * A textual representation of the {@link IChartModel} to be used in the
+	 * title of a {@link Form}
+	 */
 	public String getChartText() {
 
 		StringBuilder sb = new StringBuilder();
-
 		for (IChartResource chartResource : chartResources) {
-			sb.append("Resource: "
-					+ chartResource.getNetXResource().getLongName());
 
-			if (chartResource.getNetXResource().getComponentRef() != null) {
-				sb.append(" ( "
-						+ modelUtils.componentName(chartResource
-								.getNetXResource().getComponentRef()) + ")");
-
+			if (!chartResource.isFiltered()) {
+				if (chartResources.indexOf(chartResource) == 0) {
+					sb.append("Resource: ");
+				} else {
+					sb.append(", ");
+				}
+				sb.append(chartResource.getNetXResource().getLongName());
 			}
 		}
 		return sb.toString();
 	}
 
+	/**
+	 * Clear the {@link ChartModel}.
+	 */
+	public void clear() {
+		chartResources.clear();
+	}
+
+	public Collection<IChartResource> getChartResources() {
+		return this.chartResources;
+	}
+
+	public Collection<IChartResource> getChartNonFilteredResources() {
+		List<IChartResource> nonfiltered = Lists.newArrayList();
+		for (IChartResource cr : chartResources) {
+			if (!cr.isFiltered()) {
+				nonfiltered.add(cr);
+			}
+		}
+		return nonfiltered;
+	}
+
+	public int getInterval() {
+		return interval;
+	}
+
+	/**
+	 * Proxied objects and equality break. As we inject this class it's a proxy
+	 * object and we present it an StructuredViewer nothing shows. The element
+	 * comparer relies on equality
+	 * 
+	 * See this:
+	 * http://cwmaier.blogspot.nl/2007/07/liskov-substitution-principle
+	 * -equals.html http://code.google.com/p/peaberry/issues/detail?id=64
+	 */
+	@Override
+	public boolean equals(Object obj) {
+		return obj instanceof IChartModel;
+	}
+
+	public double[] sum() {
+		
+		return null;
+	}
 }
