@@ -71,4 +71,6 @@ public class ScreenConstants {
 	/** The color of the background of the chart */
 	public static final String PREFERENCE_CHART_BACKGROUND = "chartBackgroundPreference";
 
+	public static final String PREFERENCE_METRIC_SUM_COLOR = "sumColorPreference";
+
 }

@@ -27,15 +27,6 @@ public class ScriptExportModule extends AbstractModule {
 		// /////////////////////////////////////////////////
 		// EXPORT SERVICES.
 
-		// Do we need this? Inject proxy is also available from the ui Module.
-//		bind(export(IInjectorProxy.class)).toProvider(
-//				service(NetXScriptInjectorProxy.class).export());
-
-		// Note this is a single service, not sure it's ThreadSave (Reintrant
-		// safe).
-//		bind(export(IExpressionEngine.class)).toProvider(
-//				service(ExpressionEngine.class).export());
-
 	}
 
 }

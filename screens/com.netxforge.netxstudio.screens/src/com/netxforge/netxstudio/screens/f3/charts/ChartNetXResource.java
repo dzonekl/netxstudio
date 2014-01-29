@@ -375,15 +375,25 @@ public class ChartNetXResource extends Chart implements
 		List<IChartResource> chartResources = (List<IChartResource>) model
 				.getChartResources();
 
+		boolean first = true;
+		Date[] timestampArray = null;
 		for (IChartResource cr : chartResources) {
 			if (cr.isFiltered())
 				continue;
 			// Create the axis with info from the first IChartResource
-			if (cr == chartResources.get(0)) {
+			if (first) {
+				first = false;
+				timestampArray = cr.getTimeStampArray();
 				configureXAxis(cr, model.getInterval());
 				configureYAxis();
 			}
 			addSeriesMetric(cr, chartResources.indexOf(cr));
+		}
+
+		// TODO, Support for summing more than one resource and also control
+		// with Sum Action.
+		if (timestampArray != null && model.getChartNonFilteredResources().size() == 2) {
+			addSeriesSum(model, timestampArray);
 		}
 
 		// CB FIXME Refactor for a single IChartResource
@@ -743,6 +753,24 @@ public class ChartNetXResource extends Chart implements
 						ScreenConstants.PREFERENCE_METRIC_COLORS[count]);
 		metricLineSeries.setLineColor(metricColor);
 		return metricLineSeries;
+	}
+
+	private ILineSeries addSeriesSum(IChartModel model, Date[] timestampArray) {
+		ILineSeries metricLineSeries = (ILineSeries) getSeriesSet()
+				.createSeries(ISeries.SeriesType.LINE, "sum");
+
+		metricLineSeries.setXDateSeries(timestampArray);
+
+		// Make optional.
+		// metricLineSeries.enableArea(true);
+		metricLineSeries.setYSeries(model.sum());
+		metricLineSeries.setSymbolType(ILineSeries.PlotSymbolType.TRIANGLE);
+		final Color metricColor = ScreensActivator
+				.getInstance()
+				.getPreferenceColor(ScreenConstants.PREFERENCE_METRIC_SUM_COLOR);
+		metricLineSeries.setLineColor(metricColor);
+		return metricLineSeries;
+
 	}
 
 	private ILineSeries configureSeriesCapacity(IChartResource model) {

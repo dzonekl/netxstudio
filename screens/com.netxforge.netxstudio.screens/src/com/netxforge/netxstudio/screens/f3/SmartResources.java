@@ -2477,23 +2477,10 @@ public class SmartResources extends AbstractPeriodScreen implements
 	@Override
 	public ShowInContext getShowIn(ISelection selection) {
 
-		final DateTimeRange period = getPeriodComponent().getPeriod();
 		final ChartInput chartInput = new ChartInput();
-
-		chartInput.setPeriod(period);
-		chartInput.setInterval(ModelUtils.MINUTES_IN_AN_HOUR);
-
-		// Note the selection for Values, override for the Value selection by
-		// the netxresource
-		// selection. The Value, could still be passed on to sync the selection
-		// in the chart?
-		final StructuredSelection netXResourceSelection = contextAggregate
-				.getCurrentNetXResource() != null ? new StructuredSelection(
-				contextAggregate.getCurrentNetXResource()) : null;
-
 		// create a chart show in.
 		final ShowInContext showInContext = new ShowInContext(chartInput,
-				netXResourceSelection);
+				selection);
 
 		return showInContext;
 	}

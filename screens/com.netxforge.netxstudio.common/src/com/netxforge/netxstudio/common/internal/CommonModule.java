@@ -24,6 +24,8 @@ import static org.ops4j.peaberry.util.TypeLiterals.export;
 
 import com.google.inject.Singleton;
 import com.netxforge.netxstudio.common.jca.JCAServiceModule;
+import com.netxforge.netxstudio.common.math.INativeFunctions;
+import com.netxforge.netxstudio.common.math.NativeFunctions;
 import com.netxforge.netxstudio.common.model.ChartModel;
 import com.netxforge.netxstudio.common.model.ComponentSummaryProvider;
 import com.netxforge.netxstudio.common.model.IChartModel;
@@ -95,6 +97,11 @@ public class CommonModule extends JCAServiceModule {
 		bind(export(IChartModel.class)).toProvider(
 				service(ChartModel.class).export());
 
+		// Bind each subsequent version of Native funtions separately.
+
+		bind(export(INativeFunctions.class)).toProvider(
+				service(NativeFunctions.class).export());
+
 		// ///////////////////////////////
 		// IMPORT SERVICES
 		// (Copy to modules in other OSGI bundles to import the service).
@@ -102,7 +109,10 @@ public class CommonModule extends JCAServiceModule {
 		// {@link CommonModule}
 		bind(ModelUtils.class).toProvider(service(ModelUtils.class).single());
 
-		// CB TODO Migrate
+		bind(INativeFunctions.class).toProvider(
+				service(INativeFunctions.class).single());
+
+		// CB TODO Migrate to what? 
 		this.bind(PropertiesUtil.class).in(Singleton.class);
 
 	}

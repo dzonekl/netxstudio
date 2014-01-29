@@ -14,31 +14,35 @@
  * 
  * Contributors: Christophe Bouhier - initial API and implementation and/or
  * initial documentation
- *******************************************************************************/ 
+ *******************************************************************************/
 package com.netxforge.internal;
 
 import static org.ops4j.peaberry.Peaberry.service;
 
 import com.google.inject.AbstractModule;
+import com.netxforge.netxstudio.common.math.INativeFunctions;
 import com.netxforge.netxstudio.data.IQueryService;
-import com.netxforge.netxstudio.data.cdo.CDOQueryService;
 
 /**
- * Contains imported services from other modules. 
- *  
+ * Contains imported services from other modules.
+ * 
  * @author Christophe Bouhier
- *
+ * 
  */
 public class ScriptImportModule extends AbstractModule {
 
 	@Override
 	protected void configure() {
-		/// ///////////////////////////////
+		// / ///////////////////////////////
 		// IMPORT SERVICES
-		
+
 		// {@link DataModule}
 		bind(IQueryService.class).toProvider(
-				service(CDOQueryService.class).single());
+				service(IQueryService.class).single());
+
+		bind(INativeFunctions.class).toProvider(
+				service(INativeFunctions.class).single());
+
 	}
 
 }

@@ -13,11 +13,9 @@ import com.netxforge.engine.ExpressionEngine;
 import com.netxforge.engine.IExpressionEngine;
 import com.netxforge.interpreter.IInterpreter;
 import com.netxforge.interpreter.IInterpreterContextFactory;
-import com.netxforge.interpreter.INativeFunctions;
 import com.netxforge.interpreter.IPrettyLog;
 import com.netxforge.interpreter.InterpreterContextFactory;
 import com.netxforge.interpreter.InterpreterTypeless;
-import com.netxforge.interpreter.NativeFunctions;
 import com.netxforge.interpreter.PrettyLog;
 import com.netxforge.scoping.CDOResourceDescriptionManager;
 import com.netxforge.scoping.CDOResourceDescriptionsStrategy;
@@ -67,10 +65,6 @@ public class NetxscriptRuntimeModule extends
 						com.google.inject.name.Names
 								.named(com.netxforge.scoping.QualifiedDynamixCDONameProvider.NAMED_QUALIFIED_DYNAMIX_CDO_NAME_PROVIDER))
 				.to(QualifiedDynamixCDONameProvider.class);
-	}
-
-	public Class<? extends INativeFunctions> bindMathFunctions() {
-		return NativeFunctions.class;
 	}
 
 	public Class<? extends IPrettyLog> bindPrettyLog() {

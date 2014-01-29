@@ -118,17 +118,18 @@ public class ChartScreenViewer extends AbstractScreenViewer {
 					});
 
 			chartModelDialog.setInput(chartModel);
-			
+
 			chartModelDialog.setInitialSelections(chartModel
 					.getChartNonFilteredResources().toArray());
 			if (chartModelDialog.open() == Window.OK) {
-				List<Object> selection = Lists.newArrayList(chartModelDialog.getResult());
+				List<Object> selection = Lists.newArrayList(chartModelDialog
+						.getResult());
 				// update the chartModel with this selection, reinitialize
 				// the chart.
-				for(IChartResource cr : chartModel.getChartResources()){
-					if(!selection.contains(cr)){
+				for (IChartResource cr : chartModel.getChartResources()) {
+					if (!selection.contains(cr)) {
 						cr.setFiltered(true);
-					}else{
+					} else {
 						cr.setFiltered(false);
 					}
 				}
@@ -176,7 +177,7 @@ public class ChartScreenViewer extends AbstractScreenViewer {
 
 	public IAction[] getActions() {
 		List<IAction> chartViewerActions = Lists.newArrayList();
-		chartViewerActions.add(new EditChartsAction("Edit..."));
+		chartViewerActions.add(new EditChartsAction("Resource..."));
 		chartViewerActions.add(new SumChartsAction("Sum"));
 		chartViewerActions.add(new TrendChartsAction("Trend"));
 		return chartViewerActions
@@ -189,7 +190,11 @@ public class ChartScreenViewer extends AbstractScreenViewer {
 		if (selection != null && !selection.isEmpty()
 				&& selection instanceof StructuredSelection) {
 			IStructuredSelection ss = (StructuredSelection) selection;
-			chartScreen.injectData(Lists.newArrayList(ss.iterator()).toArray());
+
+			if (!chartScreen.isDisposed()) {// Closing a view will dispose it!
+				chartScreen.injectData(Lists.newArrayList(ss.iterator())
+						.toArray());
+			}
 		}
 	}
 

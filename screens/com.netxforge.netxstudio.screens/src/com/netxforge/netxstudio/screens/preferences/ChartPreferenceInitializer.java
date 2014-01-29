@@ -43,6 +43,7 @@ public class ChartPreferenceInitializer extends AbstractPreferenceInitializer {
 		store.setDefault(ScreenConstants.PREFERENCE_CAP_COLOR, "128,128,0");
 		store.setDefault(ScreenConstants.PREFERENCE_UTIL_COLOR, "0,255,0");
 		store.setDefault(ScreenConstants.PREFERENCE_MARKER_COLOR, "188,215,248");
+		store.setDefault(ScreenConstants.PREFERENCE_METRIC_SUM_COLOR, "0,128,255");
 	}
 
 	private IPreferenceStore getPreferenceStore() {

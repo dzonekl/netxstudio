@@ -52,7 +52,7 @@ public interface IChartModel {
 	 * 
 	 * @param chartResource
 	 */
-	public abstract void addChartResource(IMonitoringSummary monitoringSummary);
+	public abstract void addChartResource(NetxresourceSummary monitoringSummary);
 
 	/**
 	 * Remove a {@link IChartResource} from the {@link IChartModel}.

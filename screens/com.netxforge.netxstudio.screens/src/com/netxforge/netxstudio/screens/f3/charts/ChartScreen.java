@@ -17,34 +17,20 @@
  *******************************************************************************/
 package com.netxforge.netxstudio.screens.f3.charts;
 
-import java.text.DecimalFormat;
 import java.util.Collection;
-import java.util.Collections;
-import java.util.Date;
 import java.util.List;
 
-import org.eclipse.core.databinding.observable.list.ComputedList;
-import org.eclipse.core.databinding.observable.map.IObservableMap;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.core.runtime.jobs.IJobChangeEvent;
 import org.eclipse.core.runtime.jobs.IJobChangeListener;
 import org.eclipse.emf.databinding.EMFDataBindingContext;
-import org.eclipse.emf.databinding.EMFObservables;
 import org.eclipse.emf.ecore.EObject;
-import org.eclipse.emf.ecore.EStructuralFeature;
-import org.eclipse.jface.databinding.viewers.ObservableListContentProvider;
-import org.eclipse.jface.databinding.viewers.ObservableMapLabelProvider;
-import org.eclipse.jface.viewers.EditingSupport;
 import org.eclipse.jface.viewers.ISelection;
-import org.eclipse.jface.viewers.ISelectionChangedListener;
 import org.eclipse.jface.viewers.IStructuredSelection;
-import org.eclipse.jface.viewers.SelectionChangedEvent;
-import org.eclipse.jface.viewers.TableViewer;
-import org.eclipse.jface.viewers.TableViewerColumn;
+import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.jface.viewers.Viewer;
-import org.eclipse.jface.wizard.IWizard;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.DisposeEvent;
 import org.eclipse.swt.events.DisposeListener;
@@ -53,7 +39,6 @@ import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.ShellAdapter;
 import org.eclipse.swt.events.ShellEvent;
-import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
@@ -61,12 +46,11 @@ import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Label;
-import org.eclipse.swt.widgets.Table;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.forms.widgets.ColumnLayout;
+import org.eclipse.ui.forms.widgets.ColumnLayoutData;
 import org.eclipse.ui.forms.widgets.Form;
 import org.eclipse.ui.forms.widgets.FormToolkit;
-import org.eclipse.ui.forms.widgets.Section;
 import org.eclipse.ui.part.ShowInContext;
 import org.eclipse.ui.progress.UIJob;
 
@@ -75,18 +59,12 @@ import com.google.inject.Inject;
 import com.netxforge.netxstudio.common.model.IChartModel;
 import com.netxforge.netxstudio.common.model.IMonitoringSummary;
 import com.netxforge.netxstudio.common.model.MonitoringStateModel;
-import com.netxforge.netxstudio.generics.Value;
+import com.netxforge.netxstudio.common.model.NetxresourceSummary;
+import com.netxforge.netxstudio.library.Component;
 import com.netxforge.netxstudio.library.NetXResource;
-import com.netxforge.netxstudio.metrics.MetricValueRange;
-import com.netxforge.netxstudio.operators.OperatorsPackage;
 import com.netxforge.netxstudio.operators.ResourceMonitor;
-import com.netxforge.netxstudio.operators.ToleranceMarker;
 import com.netxforge.netxstudio.screens.AbstractScreen;
 import com.netxforge.netxstudio.screens.editing.IDataScreenInjection;
-import com.netxforge.netxstudio.screens.editing.WizardUtil;
-import com.netxforge.netxstudio.screens.editing.tables.TableHelper;
-import com.netxforge.netxstudio.screens.editing.tables.TableHelper.TBVCFeatureSorter;
-import com.netxforge.netxstudio.screens.f1.support.ValueRangeSelectionWizard;
 import com.netxforge.netxstudio.screens.internal.ScreensActivator;
 import com.netxforge.netxstudio.screens.showins.ChartInput;
 
@@ -99,11 +77,7 @@ public class ChartScreen extends AbstractScreen implements
 
 	private final FormToolkit toolkit = new FormToolkit(Display.getCurrent());
 
-	private Table table;
-
 	private Form frmChartScreen;
-
-	private TableViewer markersTableViewer;
 
 	/** Holds model data together for the chart */
 	@Inject
@@ -115,8 +89,7 @@ public class ChartScreen extends AbstractScreen implements
 	 */
 	private ChartNetXResource smartResourceChart;
 
-	@Inject
-	private TableHelper tableHelper;
+	private ShellAdapter shellAdapter;
 
 	/**
 	 * Track the last selection.
@@ -127,8 +100,6 @@ public class ChartScreen extends AbstractScreen implements
 	private MonitoringStateModel monitoringState;
 
 	private RefreshSummaryJob refreshSummaryJob = new RefreshSummaryJob();
-
-	private ShellAdapter shellAdapter;
 
 	/**
 	 * Refreshes the RFS Service Summary Section.
@@ -178,7 +149,9 @@ public class ChartScreen extends AbstractScreen implements
 
 			for (IMonitoringSummary summary : summaries) {
 				// Refactor
-				chartModel.addChartResource(summary);
+				if (summary instanceof NetxresourceSummary) {
+					chartModel.addChartResource((NetxresourceSummary) summary);
+				}
 			}
 
 			frmChartScreen.setText(chartModel.getChartText());
@@ -190,6 +163,7 @@ public class ChartScreen extends AbstractScreen implements
 		super(parent, style);
 		addDisposeListener(new DisposeListener() {
 			public void widgetDisposed(DisposeEvent e) {
+				deActivate();
 				ChartScreen.this.getShell().removeShellListener(shellAdapter);
 				toolkit.dispose();
 				disposeData();
@@ -206,24 +180,25 @@ public class ChartScreen extends AbstractScreen implements
 		frmChartScreen.setSeparatorVisible(true);
 		toolkit.paintBordersFor(frmChartScreen);
 
-		frmChartScreen.getBody().setLayout(new ColumnLayout());
+		frmChartScreen.getBody().setLayout(new FillLayout());
 
 		// Composite for the chart.
 		Composite cmChart = toolkit.createComposite(frmChartScreen.getBody(),
-				SWT.NONE);
+				SWT.BORDER);
+		ColumnLayoutData columnLayoutData = new ColumnLayoutData();
+		columnLayoutData.heightHint = 500;
+		cmChart.setLayoutData(columnLayoutData);
 		toolkit.paintBordersFor(cmChart);
-		// sctnPeriod.setClient(composite_2);
-		cmChart.setLayout(new GridLayout(1, false));
-		GridData gridData = new GridData(SWT.FILL, SWT.CENTER, true, true, 1, 4);
-		gridData.heightHint = 350;
-		// gridData.widthHint = 400;
+		
+		cmChart.setLayout(new GridLayout(2, false));
+		GridData gridData = new GridData(SWT.FILL, SWT.FILL, true, true, 1, 1);
+		
 		smartResourceChart = new ChartNetXResource(cmChart, SWT.NONE, gridData);
 		smartResourceChart.setModelUtils(modelUtils);
 
 		// buildScrollStick(cmChart);
 		// buildZoom(cmChart);
 
-		buildMarkersUI();
 		// registerFocus(this);
 		shellAdapter = new ShellAdapter() {
 			@Override
@@ -232,91 +207,8 @@ public class ChartScreen extends AbstractScreen implements
 			}
 
 		};
-		this.getShell().addShellListener(shellAdapter);
+		getShell().addShellListener(shellAdapter);
 
-	}
-
-	private void buildMarkersUI() {
-		Section sctnMarkers = toolkit.createSection(frmChartScreen.getBody(),
-				Section.TWISTIE | Section.TITLE_BAR);
-
-		toolkit.paintBordersFor(sctnMarkers);
-		sctnMarkers.setText("Markers");
-		sctnMarkers.setExpanded(false);
-
-		Composite composite = toolkit.createComposite(sctnMarkers, SWT.NONE);
-		toolkit.paintBordersFor(composite);
-		sctnMarkers.setClient(composite);
-		composite.setLayout(new GridLayout(1, false));
-
-		markersTableViewer = new TableViewer(composite, SWT.BORDER
-				| SWT.FULL_SELECTION);
-		markersTableViewer
-				.addSelectionChangedListener(new ISelectionChangedListener() {
-
-					public void selectionChanged(SelectionChangedEvent event) {
-						ISelection selection = event.getSelection();
-						if (selection instanceof IStructuredSelection) {
-							Object firstElement = ((IStructuredSelection) selection)
-									.getFirstElement();
-							if (firstElement instanceof ToleranceMarker) {
-								smartResourceChart
-										.showHover((ToleranceMarker) firstElement);
-							}
-						}
-
-					}
-				});
-		table = markersTableViewer.getTable();
-		table.setHeaderVisible(true);
-		table.setLinesVisible(true);
-
-		GridData gdMarkers = new GridData(SWT.FILL, SWT.FILL, true, true, 1, 1);
-		gdMarkers.heightHint = 250;
-		table.setLayoutData(gdMarkers);
-		toolkit.paintBordersFor(table);
-
-		{ // Column 1.
-			tableHelper.new TBVC<String>().tbvcFor(markersTableViewer, "Type",
-					"Marker Type", 125, null,
-					new TableHelper.ComparableComparator<String>());
-		}
-
-		{ // Column 2.
-			tableHelper.new TBVC<String>().tbvcFor(markersTableViewer,
-					"Description", "Additional description for the Marker",
-					200, null, new TableHelper.ComparableComparator<String>());
-		}
-
-		{ // Column 3.
-			TableViewerColumn tbvcFor = tableHelper.new TBVC<Date>().tbvcFor(
-					markersTableViewer, "TimeStamp",
-					"The date and time the Marker occurred", 140,
-					(EditingSupport) null);
-
-			TBVCFeatureSorter<Value> tbvcFeatureSorter = tableHelper.new TBVCFeatureSorter<Value>(
-					tbvcFor, OperatorsPackage.Literals.MARKER__VALUE_REF,
-					modelUtils.valueTimeStampCompare());
-			tbvcFeatureSorter.setSorter(TBVCFeatureSorter.DESC);
-		}
-
-		{ // Column 4.
-			tableHelper.new TBVC<String>().tbvcFor(markersTableViewer, "Value",
-					"The marked Value.", 100, null,
-					new TableHelper.ComparableComparator<String>());
-		}
-
-		{ // Column 5.
-			tableHelper.new TBVC<String>().tbvcFor(markersTableViewer,
-					"Direction", "The direction in which the Value moves.",
-					100, null, new TableHelper.ComparableComparator<String>());
-		}
-
-		{ // Column 6.
-			tableHelper.new TBVC<String>().tbvcFor(markersTableViewer, "Level",
-					"The Marker level.", 100, null,
-					new TableHelper.ComparableComparator<String>());
-		}
 	}
 
 	/**
@@ -517,90 +409,6 @@ public class ChartScreen extends AbstractScreen implements
 		return context;
 	}
 
-	private void initMarkersBindingCollection() {
-
-		ObservableListContentProvider listContentProvider = new ObservableListContentProvider();
-		markersTableViewer.setContentProvider(listContentProvider);
-
-		IObservableMap[] observeMaps = EMFObservables.observeMaps(
-				listContentProvider.getKnownElements(),
-				new EStructuralFeature[] {
-						OperatorsPackage.Literals.MARKER__KIND,
-						OperatorsPackage.Literals.MARKER__DESCRIPTION,
-						OperatorsPackage.Literals.MARKER__VALUE_REF,
-						OperatorsPackage.Literals.TOLERANCE_MARKER__DIRECTION,
-						OperatorsPackage.Literals.TOLERANCE_MARKER__LEVEL });
-
-		markersTableViewer
-				.setLabelProvider(new MarkersObervableMapLabelProvider(
-						observeMaps));
-
-		ComputedList markersList = new ComputedList() {
-
-			@SuppressWarnings("rawtypes")
-			@Override
-			protected List calculate() {
-				return Collections.EMPTY_LIST;
-
-				// FIXME Get rid of markers view, or base on aggregate of
-				// resources shown by the
-				// chart.
-				// return chartModel.getMarkers();
-			}
-
-		};
-
-		markersTableViewer.setInput(markersList);
-	}
-
-	public class MarkersObervableMapLabelProvider extends
-			ObservableMapLabelProvider {
-
-		public MarkersObervableMapLabelProvider(IObservableMap[] attributeMaps) {
-			super(attributeMaps);
-		}
-
-		@Override
-		public Image getColumnImage(Object element, int columnIndex) {
-			return super.getColumnImage(element, columnIndex);
-		}
-
-		@Override
-		public String getColumnText(Object element, int columnIndex) {
-			if (element instanceof ToleranceMarker) {
-				ToleranceMarker rm = (ToleranceMarker) element;
-				switch (columnIndex) {
-				case 0:
-					return rm.getKind().getName();
-				case 1:
-					return rm.getDescription();
-				case 2:
-
-					return modelUtils.date(modelUtils.fromXMLDate(rm
-							.getValueRef().getTimeStamp()))
-							+ "@"
-							+ modelUtils.time(modelUtils.fromXMLDate(rm
-									.getValueRef().getTimeStamp()));
-				case 3:
-					double value = rm.getValueRef().getValue();
-					if (value != -1) {
-						DecimalFormat numberFormatter = new DecimalFormat(
-								"###,###,##0.00");
-						numberFormatter.setDecimalSeparatorAlwaysShown(true);
-						return numberFormatter.format(value);
-					} else {
-						return "invalid";
-					}
-				case 4:
-					return rm.getDirection().getLiteral();
-				case 5:
-					return rm.getLevel().getLiteral();
-				}
-			}
-			return super.getColumnText(element, columnIndex);
-		}
-	}
-
 	public Form getScreenForm() {
 		return this.frmChartScreen;
 	}
@@ -619,54 +427,16 @@ public class ChartScreen extends AbstractScreen implements
 	 * com.netxforge.netxstudio.screens.AbstractScreenImpl#handleShowIn(org.
 	 * eclipse.ui.part.ShowInContext)
 	 */
+	@SuppressWarnings("unchecked")
 	@Override
 	public boolean handleShowIn(ShowInContext context) {
-
 		if (context.getInput() instanceof ChartInput) {
-
-			ChartInput chartInput = (ChartInput) context.getInput();
-
-			// Do we care about the selection??
-
 			ISelection selection = context.getSelection();
-			NetXResource netXResource = null;
-			if (selection instanceof IStructuredSelection) {
-				if (((IStructuredSelection) selection).getFirstElement() instanceof NetXResource) {
-					netXResource = (NetXResource) ((IStructuredSelection) selection)
-							.getFirstElement();
-				}
+			if (selection != null && !selection.isEmpty()
+					&& selection instanceof StructuredSelection) {
+				IStructuredSelection ss = (StructuredSelection) selection;
+				injectData(Lists.newArrayList(ss.iterator()).toArray());
 			}
-
-			// fire a wizard to select the range when the interval is unknwown,
-			// block until we select a range.
-			IWizard wiz = WizardUtil.openWizard(
-					"com.netxforge.netxstudio.screens.valueranges",
-					(IStructuredSelection) selection, true);
-
-			if (wiz instanceof ValueRangeSelectionWizard) {
-				MetricValueRange valueRange = ((ValueRangeSelectionWizard) wiz)
-						.getValueRange();
-				chartInput.setInterval(valueRange.getIntervalHint());
-				chartInput.setKind(valueRange.getKindHint());
-			}
-
-			// CB FIXME refactor showin.
-			// if (chartInput.getResourceMonitor() != null) {
-			// chartModel = ChartResource.valueFor(modelUtils,
-			// chartInput.getPeriod(), chartInput.getInterval(),
-			// chartInput.getKind(), netXResource,
-			// chartInput.getResourceMonitor(), null);
-			// } else {
-			// chartModel = ChartResource.valueFor(modelUtils,
-			// chartInput.getPeriod(), chartInput.getInterval(),
-			// chartInput.getKind(), netXResource,
-			// OperatorsFactory.eINSTANCE.createResourceMonitor(),
-			// null);
-			//
-			// }
-
-			this.initDataBindings_();
-
 			return true;
 		}
 
@@ -698,18 +468,30 @@ public class ChartScreen extends AbstractScreen implements
 	private void updateLatestSelection() {
 		List<IMonitoringSummary> summariesToRefresh = Lists.newArrayList();
 		for (Object selection : getLatestSelection()) {
-			if (selection instanceof EObject) {
-				EObject target = (EObject) selection;
+			if (selection instanceof NetXResource) {
+				NetXResource target = (NetXResource) selection;
 				if (MonitoringStateModel.isAdapted(target)) {
 
-					IMonitoringSummary summary = MonitoringStateModel
-							.getAdapted((EObject) selection);
+					NetxresourceSummary summary = (NetxresourceSummary) MonitoringStateModel
+							.getAdapted(target);
 					summariesToRefresh.add(summary);
 				} else {
 					System.out.println("target not adapted: " + target);
 				}
-			}
+			} else if (selection instanceof Component) {
+				Component c = (Component) selection;
+				for (NetXResource target : c.getResourceRefs()) {
+					if (MonitoringStateModel.isAdapted(target)) {
 
+						NetxresourceSummary summary = (NetxresourceSummary) MonitoringStateModel
+								.getAdapted(target);
+						summariesToRefresh.add(summary);
+					} else {
+						System.out.println("target not adapted: " + target);
+					}
+
+				}
+			}
 		}
 		refreshSummaryJob.setSummary(summariesToRefresh);
 		refreshSummaryJob.schedule(100);
@@ -727,7 +509,7 @@ public class ChartScreen extends AbstractScreen implements
 	}
 
 	public void reinit() {
+		frmChartScreen.setText(chartModel.getChartText());
 		this.getChart().initChartBinding(this.getChartModel());
-		
 	}
 }

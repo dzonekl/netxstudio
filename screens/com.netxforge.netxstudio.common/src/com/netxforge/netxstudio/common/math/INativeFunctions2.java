@@ -15,7 +15,7 @@
  * Contributors: Christophe Bouhier - initial API and implementation and/or
  * initial documentation
  *******************************************************************************/ 
-package com.netxforge.interpreter;
+package com.netxforge.netxstudio.common.math;
 
 import java.util.List;
 

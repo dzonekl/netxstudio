@@ -10,13 +10,15 @@ Require-Bundle: org.eclipse.core.runtime,
  com.google.guava;bundle-version="12.0.0";visibility:=reexport,
  org.eclipse.emf.cdo,
  org.ops4j.peaberry;bundle-version="1.1.1";visibility:=reexport,
- javax.inject;bundle-version="1.0.0";visibility:=reexport
+ javax.inject;bundle-version="1.0.0";visibility:=reexport,
+ org.apache.commons.math;bundle-version="2.2.0"
 Bundle-RequiredExecutionEnvironment: J2SE-1.5
 Bundle-ActivationPolicy: lazy
 Export-Package: com.netxforge.netxstudio.common,
  com.netxforge.netxstudio.common.context,
  com.netxforge.netxstudio.common.guice,
  com.netxforge.netxstudio.common.jca,
+ com.netxforge.netxstudio.common.math,
  com.netxforge.netxstudio.common.model,
  com.netxforge.netxstudio.common.properties
 Import-Package: com.netxforge.netxstudio,

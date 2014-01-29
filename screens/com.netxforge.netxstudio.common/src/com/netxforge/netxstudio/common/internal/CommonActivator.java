@@ -32,6 +32,7 @@ import org.osgi.framework.BundleContext;
 import com.google.inject.Guice;
 import com.google.inject.Inject;
 import com.google.inject.Injector;
+import com.netxforge.netxstudio.common.math.INativeFunctions;
 import com.netxforge.netxstudio.common.model.ComponentSummaryProvider;
 import com.netxforge.netxstudio.common.model.IChartModel;
 import com.netxforge.netxstudio.common.model.ModelUtils;
@@ -68,7 +69,7 @@ public class CommonActivator implements BundleActivator, DebugOptionsListener {
 
 	// Charts.
 	public static String TRACE_COMMON_CHART_OPTION = "/trace.common.chart";
-	
+
 	public static String TRACE_COMMON_MONITORING_DETAILS_OPTION = "/trace.common.monitoring.details";
 
 	public Injector getInjector() {
@@ -102,7 +103,10 @@ public class CommonActivator implements BundleActivator, DebugOptionsListener {
 
 	@Inject
 	Export<IChartModel> chartModel;
-	
+
+	@Inject
+	Export<INativeFunctions> nativeFunctions;
+
 	/*
 	 * (non-Javadoc)
 	 * 

@@ -33,6 +33,7 @@ import com.google.inject.Guice;
 import com.google.inject.Injector;
 import com.google.inject.Module;
 import com.netxforge.internal.NetxscriptRuntimeModule;
+import com.netxforge.internal.ScriptImportModule;
 import com.netxforge.netxstudio.scheduling.NodeReporterJob;
 import com.netxforge.netxstudio.scheduling.NodeTypeReporterJob;
 import com.netxforge.netxstudio.scheduling.OperatorReporterJob;
@@ -120,11 +121,9 @@ public class LogicActivator implements BundleActivator, DebugOptionsListener {
 				new JobImplementationFactory() {
 					@Override
 					public JobImplementation create() {
-						
-						
-						// TESTING. 
-						return injector
-								.getInstance(ReportingJob.class);
+
+						// TESTING.
+						return injector.getInstance(ReportingJob.class);
 					}
 				});
 
@@ -165,6 +164,7 @@ public class LogicActivator implements BundleActivator, DebugOptionsListener {
 				});
 
 		Module m = new NetxscriptRuntimeModule();
+		m = override(m).with(new ScriptImportModule());
 		m = override(m).with(new LogicModule());
 		m = override(m).with(new NetxscriptServerModule());
 

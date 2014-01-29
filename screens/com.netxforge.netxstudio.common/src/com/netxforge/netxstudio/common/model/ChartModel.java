@@ -25,10 +25,15 @@ import java.util.Date;
 import java.util.List;
 import java.util.NoSuchElementException;
 
+import javafx.scene.chart.Chart;
+
+import com.google.common.base.Function;
+import com.google.common.base.Predicate;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
 import com.google.inject.Inject;
 import com.netxforge.netxstudio.common.internal.CommonActivator;
+import com.netxforge.netxstudio.common.math.INativeFunctions;
 import com.netxforge.netxstudio.common.model.ModelUtils.TimeStampPredicate;
 import com.netxforge.netxstudio.generics.DateTimeRange;
 import com.netxforge.netxstudio.generics.GenericsFactory;
@@ -40,8 +45,7 @@ import com.netxforge.netxstudio.operators.Marker;
 
 /**
  * 
- * TODO, Add an option to select the interval and range, this will apply to the
- * whole model.
+ * A model suitable for a {@link Chart}
  * 
  * @author Christophe Bouhier
  */
@@ -58,6 +62,9 @@ public class ChartModel implements IChartModel {
 
 	@Inject
 	private ModelUtils modelUtils;
+
+	@Inject
+	private INativeFunctions nativeFunctions;
 
 	/**
 	 * A Collection of {@link IChartResource}
@@ -407,8 +414,8 @@ public class ChartModel implements IChartModel {
 		 * Trend use, linear regression.
 		 */
 		public void trendValues() {
-			// Trend forward, expand the timestamp aray. 
-			
+			// Trend forward, expand the timestamp aray.
+
 		}
 
 		public boolean isFiltered() {
@@ -437,7 +444,7 @@ public class ChartModel implements IChartModel {
 		}
 	}
 
-	public void addChartResource(IMonitoringSummary summary) {
+	public void addChartResource(NetxresourceSummary summary) {
 
 		if (summary instanceof NetxresourceSummary) {
 			NetxresourceSummary netxSummary = (NetxresourceSummary) summary;
@@ -468,10 +475,12 @@ public class ChartModel implements IChartModel {
 	public String getChartText() {
 
 		StringBuilder sb = new StringBuilder();
+		boolean first = true;
 		for (IChartResource chartResource : chartResources) {
 
 			if (!chartResource.isFiltered()) {
-				if (chartResources.indexOf(chartResource) == 0) {
+				if (first) {
+					first = false;
 					sb.append("Resource: ");
 				} else {
 					sb.append(", ");
@@ -493,14 +502,14 @@ public class ChartModel implements IChartModel {
 		return this.chartResources;
 	}
 
-	public Collection<IChartResource> getChartNonFilteredResources() {
-		List<IChartResource> nonfiltered = Lists.newArrayList();
-		for (IChartResource cr : chartResources) {
-			if (!cr.isFiltered()) {
-				nonfiltered.add(cr);
-			}
-		}
-		return nonfiltered;
+	public List<IChartResource> getChartNonFilteredResources() {
+		Iterable<IChartResource> filter = Iterables.filter(chartResources,
+				new Predicate<IChartResource>() {
+					public boolean apply(IChartResource input) {
+						return input.isFiltered() ? false : true;
+					}
+				});
+		return Lists.newArrayList(filter);
 	}
 
 	public int getInterval() {
@@ -522,7 +531,19 @@ public class ChartModel implements IChartModel {
 	}
 
 	public double[] sum() {
+		List<IChartResource> chartNonFilteredResources = getChartNonFilteredResources();
+
+		List<Double[]> input = Lists.transform(chartNonFilteredResources,
+				new Function<IChartResource, Double[]>() {
+
+					public Double[] apply(IChartResource input) {
+						return modelUtils.transformToDoubleArray(input
+								.getMetriDoubleArray());
+					}
+
+				});
+
 		
-		return null;
+		return nativeFunctions.sumCollections(input);
 	}
 }

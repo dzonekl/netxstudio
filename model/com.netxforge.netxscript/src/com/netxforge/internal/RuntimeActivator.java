@@ -106,9 +106,9 @@ public class RuntimeActivator implements BundleActivator, DebugOptionsListener {
 	protected void registerInjectorFor(BundleContext ctx, String language)
 			throws Exception {
 
-		Module om = getRuntimeModule(language);
-		om = override(om).with(new ScriptImportModule());
+		Module om = new ScriptImportModule();
 		om = override(om).with(new ScriptExportModule());
+		om = override(om).with(getRuntimeModule(language));
 
 		injectors.put(language, createInjector(osgiModule(ctx), om));
 

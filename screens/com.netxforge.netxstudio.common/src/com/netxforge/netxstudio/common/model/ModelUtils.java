@@ -4419,7 +4419,8 @@ public class ModelUtils {
 			case LIST: {
 				CDOListFeatureDelta castedFd = (CDOListFeatureDelta) fd;
 				// Dependency on CDO 4.2
-//				sb.append("\n     original size: " + castedFd.getOriginSize());
+				// sb.append("\n     original size: " +
+				// castedFd.getOriginSize());
 				cdoPrintFeatureDeltas(sb, castedFd.getListChanges());
 			}
 				break;
@@ -5140,7 +5141,7 @@ public class ModelUtils {
 	}
 
 	/**
-	 * Transform from a Double list to a double array.
+	 * Transform to a primitive double array.
 	 * 
 	 * @param values
 	 * @return
@@ -5150,6 +5151,38 @@ public class ModelUtils {
 		int i = 0;
 		for (final Double d : values) {
 			doubles[i] = d.doubleValue();
+			i++;
+		}
+		return doubles;
+	}
+
+	/**
+	 * Transform to an Array primitive double array.
+	 * 
+	 * @param values
+	 * @return
+	 */
+	public double[] transformToDoublePrimitiveArray(Double[] values) {
+		final double[] doubles = new double[values.length];
+		int i = 0;
+		for (final Double d : values) {
+			doubles[i] = d.doubleValue();
+			i++;
+		}
+		return doubles;
+	}
+
+	/**
+	 * Transform from a Double list to a double array.
+	 * 
+	 * @param values
+	 * @return
+	 */
+	public Double[] transformToDoubleArray(double[] array) {
+		final Double[] doubles = new Double[array.length];
+		int i = 0;
+		for (final double d : array) {
+			doubles[i] = d;
 			i++;
 		}
 		return doubles;

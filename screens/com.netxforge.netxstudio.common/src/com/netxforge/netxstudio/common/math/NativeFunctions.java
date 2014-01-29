@@ -14,8 +14,8 @@
  * 
  * Contributors: Christophe Bouhier - initial API and implementation and/or
  * initial documentation
- *******************************************************************************/ 
-package com.netxforge.interpreter;
+ *******************************************************************************/
+package com.netxforge.netxstudio.common.math;
 
 import java.math.BigDecimal;
 import java.util.List;
@@ -58,7 +58,7 @@ public class NativeFunctions implements INativeFunctions, INativeFunctions2 {
 	 * .util.EList)
 	 */
 	public BigDecimal sum(List<?> range) {
-		assert range != null : new InterpreterException("Range can't be empty");
+		assert range != null : new MathException("Range can't be empty");
 		double[] dRange = rangeSelection(range);
 		return new BigDecimal(sum(dRange));
 	}
@@ -69,8 +69,54 @@ public class NativeFunctions implements INativeFunctions, INativeFunctions2 {
 	 * @see com.netxforge.interpreter.INativeFunctions#sum(double[])
 	 */
 	public double sum(double[] range) {
-		assert range != null : new InterpreterException("Range can't be empty");
+		assert range != null : new MathException("Range can't be empty");
 		return StatUtils.sum(range);
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see com.netxforge.netxstudio.common.math.INativeFunctions#sum(double[],
+	 * double[])
+	 */
+	public double[] sumCollections(double[] range, double[] range2) {
+		assert range != null : new MathException("Range can't be empty");
+		assert range2 != null : new MathException("Range can't be empty");
+		assert range.length == range2.length : new MathException(
+				"Ranges should have an equal size to sum");
+
+		double[] result = new double[range.length];
+
+		for (int i = 0; i < range.length; i++) {
+			double[] d = new double[] { range[i], range2[i] };
+			result[i] = StatUtils.sum(d);
+		}
+		return result;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * com.netxforge.netxstudio.common.math.INativeFunctions#sum(double[][])
+	 */
+	public double[] sumCollections(List<Double[]> input ) {
+
+		int firstLength = -1;
+		for (Double[] dr : input) {
+			if (firstLength == -1) {
+				firstLength = dr.length;
+			} else {
+				assert dr.length == firstLength : new MathException(
+						"Ranges should have an equal size to sum");
+			}
+		}
+
+		double[] result = new double[firstLength];
+		for(Double[] dr : input){
+			result = sumCollections(result, modelUtils.transformToDoublePrimitiveArray(dr));
+		}
+		return result;
 	}
 
 	/*
@@ -81,7 +127,7 @@ public class NativeFunctions implements INativeFunctions, INativeFunctions2 {
 	 * .util.EList)
 	 */
 	public BigDecimal max(List<?> range) {
-		assert range != null : new InterpreterException("Range can't be empty");
+		assert range != null : new MathException("Range can't be empty");
 		double[] dRange = rangeSelection(range);
 		return new BigDecimal(max(dRange));
 	}
@@ -92,7 +138,7 @@ public class NativeFunctions implements INativeFunctions, INativeFunctions2 {
 	 * @see com.netxforge.interpreter.INativeFunctions#max(double[])
 	 */
 	public double max(double[] range) {
-		assert range != null : new InterpreterException("Range can't be empty");
+		assert range != null : new MathException("Range can't be empty");
 		return StatUtils.max(range);
 	}
 
@@ -104,7 +150,7 @@ public class NativeFunctions implements INativeFunctions, INativeFunctions2 {
 	 * .util.EList)
 	 */
 	public BigDecimal min(List<?> range) {
-		assert range != null : new InterpreterException("Range can't be empty");
+		assert range != null : new MathException("Range can't be empty");
 		double[] dRange = rangeSelection(range);
 		return new BigDecimal(min(dRange));
 	}
@@ -115,7 +161,7 @@ public class NativeFunctions implements INativeFunctions, INativeFunctions2 {
 	 * @see com.netxforge.interpreter.INativeFunctions#min(double[])
 	 */
 	public double min(double[] range) {
-		assert range != null : new InterpreterException("Range can't be empty");
+		assert range != null : new MathException("Range can't be empty");
 		return StatUtils.min(range);
 	}
 
@@ -127,7 +173,7 @@ public class NativeFunctions implements INativeFunctions, INativeFunctions2 {
 	 * .util.EList)
 	 */
 	public BigDecimal mean(List<?> range) {
-		assert range != null : new InterpreterException("Range can't be empty");
+		assert range != null : new MathException("Range can't be empty");
 		double[] dRange = rangeSelection(range);
 		return new BigDecimal(mean(dRange));
 	}
@@ -138,7 +184,7 @@ public class NativeFunctions implements INativeFunctions, INativeFunctions2 {
 	 * @see com.netxforge.interpreter.INativeFunctions#mean(double[])
 	 */
 	public double mean(double[] range) {
-		assert range != null : new InterpreterException("Range can't be empty");
+		assert range != null : new MathException("Range can't be empty");
 		return StatUtils.mean(range);
 	}
 
@@ -150,7 +196,7 @@ public class NativeFunctions implements INativeFunctions, INativeFunctions2 {
 	 * .emf.common.util.EList)
 	 */
 	public BigDecimal standardDeviation(List<?> range) {
-		assert range != null : new InterpreterException("Range can't be empty");
+		assert range != null : new MathException("Range can't be empty");
 		DescriptiveStatistics stats = new DescriptiveStatistics();
 		double[] dRange = rangeSelection(range);
 		for (int i = 0; i < dRange.length; i++) {
@@ -166,7 +212,7 @@ public class NativeFunctions implements INativeFunctions, INativeFunctions2 {
 	 * com.netxforge.interpreter.INativeFunctions#standardDeviation(double[])
 	 */
 	public double standardDeviation(double[] range) {
-		assert range != null : new InterpreterException("Range can't be empty");
+		assert range != null : new MathException("Range can't be empty");
 		DescriptiveStatistics stats = new DescriptiveStatistics();
 
 		// Add the data from the array
@@ -285,16 +331,14 @@ public class NativeFunctions implements INativeFunctions, INativeFunctions2 {
 		double[] rangeSelection = modelUtils
 				.transformToDoublePrimitiveArray(doubles);
 		double mean = StatUtils.mean(rangeSelection);
-		
+
 		// create a new value, and set the TS, as the dailyTimeStamp
-		// Should extract the 
-		
-		
-		Value newValue = GenericsFactory.eINSTANCE
-				.createValue();
+		// Should extract the
+
+		Value newValue = GenericsFactory.eINSTANCE.createValue();
 		newValue.setTimeStamp(range.get(0).getTimeStamp());
 		newValue.setValue(mean);
-		
+
 		return newValue;
 	}
 }

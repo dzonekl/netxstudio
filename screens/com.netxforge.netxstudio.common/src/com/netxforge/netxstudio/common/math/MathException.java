@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 18 dec. 2012 NetXForge.
+ * Copyright (c) 28 jan. 2014 NetXForge.
  * 
  * This program is free software: you can redistribute it and/or modify it under
  * the terms of the GNU General Public License as published by the Free Software
@@ -15,16 +15,17 @@
  * Contributors: Christophe Bouhier - initial API and implementation and/or
  * initial documentation
  *******************************************************************************/
-package com.netxforge.netxstudio.screens.showins;
+package com.netxforge.netxstudio.common.math;
 
-import org.eclipse.ui.part.ShowInContext;
+public class MathException extends Exception {
 
-/**
- * 
- * An input which is set on a {@link ShowInContext show-in context}.
- * 
- * @author Christophe Bouhier
- */
-public class ChartInput {
+	/**
+	 * Make serializable.
+	 */
+	private static final long serialVersionUID = 7451135160324457605L;
+
+	public MathException(String message) {
+		super(message);
+	}
 
 }
