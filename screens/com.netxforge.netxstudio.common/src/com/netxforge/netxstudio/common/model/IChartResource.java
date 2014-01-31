@@ -55,5 +55,11 @@ public interface IChartResource extends IFilteredChart {
 	public abstract List<Marker> getMarkers();
 
 	public abstract boolean hasMarkers();
+	
+	/**
+	 *  A cached implementation can call this method to reset it 
+	 *  and allow re-init. 
+	 */
+	public abstract void resetCaches();
 
 }

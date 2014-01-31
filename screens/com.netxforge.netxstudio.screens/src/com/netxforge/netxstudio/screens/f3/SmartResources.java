@@ -164,7 +164,7 @@ import com.netxforge.netxstudio.screens.editing.tables.OpenTreeViewer;
 import com.netxforge.netxstudio.screens.editing.tables.TableHelper;
 import com.netxforge.netxstudio.screens.editing.tables.TreeViewerFocusBlockManager;
 import com.netxforge.netxstudio.screens.f1.support.ReportWizard;
-import com.netxforge.netxstudio.screens.f2.AdjustRangeDialog;
+import com.netxforge.netxstudio.screens.f2.RangeSelectionDialog;
 import com.netxforge.netxstudio.screens.f2.CapacityEditingDialog;
 import com.netxforge.netxstudio.screens.f2.ExpressionContextDialog;
 import com.netxforge.netxstudio.screens.f2.ExpressionSupport;
@@ -1736,27 +1736,6 @@ public class SmartResources extends AbstractPeriodScreen implements
 		}
 	}
 
-	/*
-	 * Refreshs the UI with disconnected resources
-	 */
-	class RefreshDisconnectedResourcesAction extends Action {
-
-		public RefreshDisconnectedResourcesAction(String text) {
-			super(text);
-		}
-
-		public RefreshDisconnectedResourcesAction(String text,
-				ImageDescriptor image) {
-			super(text, image);
-			this.setToolTipText("Refresh disconnected resources");
-		}
-
-		@Override
-		public void run() {
-			System.out.println("Refresh not required anymore");
-		}
-
-	}
 
 	/*
 	 * Syncs the period to the values available for a resources. Shows a dialog
@@ -1777,7 +1756,7 @@ public class SmartResources extends AbstractPeriodScreen implements
 			NetXResource res = (NetXResource) structuredSelection
 					.getFirstElement();
 
-			AdjustRangeDialog selectDialog = new AdjustRangeDialog(
+			RangeSelectionDialog selectDialog = new RangeSelectionDialog(
 					SmartResources.this.getShell(), modelUtils);
 
 			selectDialog.setBlockOnOpen(true);

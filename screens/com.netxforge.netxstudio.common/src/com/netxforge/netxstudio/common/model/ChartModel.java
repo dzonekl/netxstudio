@@ -52,13 +52,18 @@ import com.netxforge.netxstudio.operators.Marker;
 public class ChartModel implements IChartModel {
 
 	/** The period covering the chart */
-	protected DateTimeRange dtr;
+	protected DateTimeRange chartPeriod;
 
 	/** The interval, defauts to {@link ModelUtils#SECONDS_IN_AN_HOUR} */
 	protected int interval = ModelUtils.MINUTES_IN_AN_HOUR;
 
 	/** The kind of range, defaults to {@link KindHintType#BH} */
 	protected KindHintType kind = KindHintType.BH;
+
+	/**
+	 * Sum state.
+	 */
+	protected boolean sum;
 
 	@Inject
 	private ModelUtils modelUtils;
@@ -136,15 +141,6 @@ public class ChartModel implements IChartModel {
 		/*
 		 * (non-Javadoc)
 		 * 
-		 * @see com.netxforge.netxstudio.common.model.IChartModel#getInterval()
-		 */
-		public int getInterval() {
-			return interval;
-		}
-
-		/*
-		 * (non-Javadoc)
-		 * 
 		 * @see
 		 * com.netxforge.netxstudio.common.model.IChartModel#getNetXResource()
 		 */
@@ -172,7 +168,7 @@ public class ChartModel implements IChartModel {
 					// we can reduce it with:
 					List<Value> sortAndApplyPeriod = modelUtils
 							.sortAndApplyPeriod(valueRangeForIntervalAndKind
-									.getMetricValues(), dtr, false);
+									.getMetricValues(), chartPeriod, false);
 					// This is a valid chart model :-)
 					if (!sortAndApplyPeriod.isEmpty()) {
 						setChartModelOk(true);
@@ -332,9 +328,9 @@ public class ChartModel implements IChartModel {
 		public double[] getCapDoubleArray() {
 
 			if (capDoubleArray == null) {
-				List<Value> capValues = modelUtils
-						.sortAndApplyPeriod(netxSummary.getTarget()
-								.getCapacityValues(), dtr, false);
+				List<Value> capValues = modelUtils.sortAndApplyPeriod(
+						netxSummary.getTarget().getCapacityValues(),
+						chartPeriod, false);
 
 				capValues = rangeFillUpWithLastValue(getTimeStampArray(),
 						metricDTR, capValues);
@@ -368,7 +364,8 @@ public class ChartModel implements IChartModel {
 
 			if (utilDoubleArray == null) {
 				List<Value> utilValues = modelUtils.sortAndApplyPeriod(this
-						.getNetXResource().getUtilizationValues(), dtr, false);
+						.getNetXResource().getUtilizationValues(), chartPeriod,
+						false);
 				// Why not get from the period?
 				utilValues = modelUtils
 						.valuesForValues(utilValues, getValues());
@@ -383,8 +380,8 @@ public class ChartModel implements IChartModel {
 												+ " util values: "
 												+ utilValues.size());
 					}
-					utilValues = rangeFillUpGaps(this.getTimeStampArray(), dtr,
-							utilValues);
+					utilValues = rangeFillUpGaps(this.getTimeStampArray(),
+							chartPeriod, utilValues);
 				}
 
 			}
@@ -426,14 +423,70 @@ public class ChartModel implements IChartModel {
 			this.filtered = filtered;
 		}
 
+		public void resetCaches() {
+			metricValues = null;
+			capDoubleArray = null;
+			utilDoubleArray = null;
+			timeStampArray = null;
+		}
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see com.netxforge.netxstudio.common.model.IChartModel#getInterval()
+	 */
+	public int getInterval() {
+		return interval;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see com.netxforge.netxstudio.common.model.IChartModel#setInterval(int)
+	 */
+	public void setInterval(int interval) {
+		this.interval = interval;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see com.netxforge.netxstudio.common.model.IChartModel#getKindHint()
+	 */
+	public KindHintType getKindHint() {
+		return kind;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * com.netxforge.netxstudio.common.model.IChartModel#setKindHint(com.netxforge
+	 * .netxstudio.metrics.KindHintType)
+	 */
+	public void setKindHint(KindHintType kind) {
+		this.kind = kind;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see com.netxforge.netxstudio.common.model.IChartModel#getPeriod()
+	 */
 	public DateTimeRange getPeriod() {
-		return dtr;
+		return chartPeriod;
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * com.netxforge.netxstudio.common.model.IChartModel#setPeriod(com.netxforge
+	 * .netxstudio.generics.DateTimeRange)
+	 */
 	public void setPeriod(DateTimeRange dtr) {
-		this.dtr = dtr;
+		this.chartPeriod = dtr;
 	}
 
 	public void removeChartResource(IChartResource chartResource) {
@@ -452,7 +505,7 @@ public class ChartModel implements IChartModel {
 			// Make sure we set the model period, if this is the first
 			// IChartResource.
 			if (chartResources.isEmpty()) {
-				this.dtr = netxSummary.getPeriod();
+				this.chartPeriod = netxSummary.getPeriod();
 			}
 
 			final ChartResource chartResource = new ChartResource(netxSummary);
@@ -512,10 +565,6 @@ public class ChartModel implements IChartModel {
 		return Lists.newArrayList(filter);
 	}
 
-	public int getInterval() {
-		return interval;
-	}
-
 	/**
 	 * Proxied objects and equality break. As we inject this class it's a proxy
 	 * object and we present it an StructuredViewer nothing shows. The element
@@ -543,7 +592,47 @@ public class ChartModel implements IChartModel {
 
 				});
 
-		
 		return nativeFunctions.sumCollections(input);
 	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * com.netxforge.netxstudio.common.model.IChartModel#setShouldSum(boolean)
+	 */
+	public void setShouldSum(boolean shouldSum) {
+		this.sum = shouldSum;
+
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see com.netxforge.netxstudio.common.model.IChartModel#shouldSum()
+	 */
+	public boolean shouldSum() {
+		return sum;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * com.netxforge.netxstudio.common.model.IChartModel#getFirstChartResource()
+	 */
+	public IChartResource getFirstChartResource() {
+		if (!getChartNonFilteredResources().isEmpty()) {
+			return getChartNonFilteredResources().iterator().next();
+		}
+		return null;
+	}
+
+	public void reset() {
+		for(IChartResource cr : getChartResources()){
+			cr.resetCaches();
+		}
+	}
+	
+
 }

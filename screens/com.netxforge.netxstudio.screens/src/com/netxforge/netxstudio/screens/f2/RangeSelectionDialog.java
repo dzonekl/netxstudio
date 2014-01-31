@@ -17,8 +17,8 @@
  *******************************************************************************/
 package com.netxforge.netxstudio.screens.f2;
 
-import org.eclipse.jface.dialogs.IDialogConstants;
 import org.eclipse.jface.dialogs.TitleAreaDialog;
+import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.layout.GridData;
@@ -37,7 +37,7 @@ import com.netxforge.netxstudio.screens.f3.ValueRangeSelectionComponent;
  * 
  * @author Christophe Bouhier
  */
-public class AdjustRangeDialog extends TitleAreaDialog {
+public class RangeSelectionDialog extends TitleAreaDialog {
 
 	@Inject
 	private ValueRangeSelectionComponent valueRangeComponent;
@@ -49,13 +49,14 @@ public class AdjustRangeDialog extends TitleAreaDialog {
 	 * @param parentShell
 	 */
 
-	public AdjustRangeDialog(Shell parentShell, ModelUtils modelUtils) {
+	public RangeSelectionDialog(Shell parentShell, ModelUtils modelUtils) {
 		super(parentShell);
 		this.valueRangeComponent = new ValueRangeSelectionComponent(modelUtils);
 	}
 
 	/**
 	 * Create contents of the dialog.
+	 * 
 	 * @param parent
 	 */
 	@Override
@@ -78,27 +79,26 @@ public class AdjustRangeDialog extends TitleAreaDialog {
 	}
 
 	/**
-	 * Create contents of the button bar.
-	 * 
-	 * @param parent
-	 */
-	@Override
-	protected void createButtonsForButtonBar(Composite parent) {
-		createButton(parent, IDialogConstants.OK_ID, IDialogConstants.OK_LABEL,
-				true);
-	}
-
-	/**
 	 * Return the initial size of the dialog.
 	 */
 	@Override
 	protected Point getInitialSize() {
-		return new Point(600, 200);
+		return new Point(300, 200);
 	}
 
 	@Override
 	protected void configureShell(Shell newShell) {
 		newShell.setText("Value range selector");
 		super.configureShell(newShell);
+	}
+
+	/**
+	 * Set the initial selection holding an {@link MetricValueRange}
+	 * 
+	 * @param ss
+	 */
+	public void setInitialSelection(StructuredSelection ss) {
+		valueRangeComponent.setInitialSelection(ss);
+
 	}
 }

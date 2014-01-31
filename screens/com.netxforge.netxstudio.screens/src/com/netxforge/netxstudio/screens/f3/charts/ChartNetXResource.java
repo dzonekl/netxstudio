@@ -83,6 +83,8 @@ public class ChartNetXResource extends Chart implements
 	private static final String[] EXTENSIONS = new String[] { "*.jpeg",
 			"*.jpg", "*.png" };
 
+	private static final String SUM_SERIES = "Sum";
+
 	public static final String UTILIZATION_SERIES = "Utilization";
 
 	public static final String CAPACITY_SERIES = "Capacity";
@@ -390,10 +392,12 @@ public class ChartNetXResource extends Chart implements
 			addSeriesMetric(cr, chartResources.indexOf(cr));
 		}
 
-		// TODO, Support for summing more than one resource and also control
-		// with Sum Action.
-		if (timestampArray != null && model.getChartNonFilteredResources().size() == 2) {
+		if (timestampArray != null
+				&& model.getChartNonFilteredResources().size() == 2) {
 			addSeriesSum(model, timestampArray);
+			if (chartModel.shouldSum()) {
+
+			}
 		}
 
 		// CB FIXME Refactor for a single IChartResource
@@ -528,6 +532,7 @@ public class ChartNetXResource extends Chart implements
 	/*
 	 * Creates an Y-Axis showing the utilization in percentile.
 	 */
+	@SuppressWarnings("unused")
 	private void configureYAxisUtilization() {
 
 		utilizationAxisID = getAxisSet().createYAxis();
@@ -756,23 +761,25 @@ public class ChartNetXResource extends Chart implements
 	}
 
 	private ILineSeries addSeriesSum(IChartModel model, Date[] timestampArray) {
-		ILineSeries metricLineSeries = (ILineSeries) getSeriesSet()
-				.createSeries(ISeries.SeriesType.LINE, "sum");
+		ILineSeries sumSeries = (ILineSeries) getSeriesSet().createSeries(
+				ISeries.SeriesType.LINE, SUM_SERIES);
+		sumSeries.setVisible(false);
 
-		metricLineSeries.setXDateSeries(timestampArray);
+		sumSeries.setXDateSeries(timestampArray);
 
 		// Make optional.
 		// metricLineSeries.enableArea(true);
-		metricLineSeries.setYSeries(model.sum());
-		metricLineSeries.setSymbolType(ILineSeries.PlotSymbolType.TRIANGLE);
+		sumSeries.setYSeries(model.sum());
+		sumSeries.setSymbolType(ILineSeries.PlotSymbolType.TRIANGLE);
 		final Color metricColor = ScreensActivator
 				.getInstance()
 				.getPreferenceColor(ScreenConstants.PREFERENCE_METRIC_SUM_COLOR);
-		metricLineSeries.setLineColor(metricColor);
-		return metricLineSeries;
+		sumSeries.setLineColor(metricColor);
+		return sumSeries;
 
 	}
 
+	@SuppressWarnings("unused")
 	private ILineSeries configureSeriesCapacity(IChartResource model) {
 
 		ILineSeries capLineSeries = (ILineSeries) getSeriesSet().createSeries(
@@ -791,6 +798,7 @@ public class ChartNetXResource extends Chart implements
 
 	}
 
+	@SuppressWarnings("unused")
 	private IBarSeries configureSeriesUtilization(IChartResource model,
 			int yAxisID) {
 
@@ -1097,5 +1105,15 @@ public class ChartNetXResource extends Chart implements
 	public void hideHover() {
 		marker.dispose();
 		redraw();
+	}
+
+	public void updateSumStatus() {
+
+		ISeries series = this.getSeries(SUM_SERIES);
+		if (series != null) {
+			series.setVisible(chartModel.shouldSum());
+			this.getAxisSet().adjustRange();
+			redraw();
+		}
 	}
 }

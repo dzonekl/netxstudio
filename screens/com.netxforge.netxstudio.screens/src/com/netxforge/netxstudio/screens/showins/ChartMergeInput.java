@@ -25,7 +25,7 @@ import org.eclipse.ui.part.ShowInContext;
  * 
  * @author Christophe Bouhier
  */
-public class ChartInput {
+public class ChartMergeInput {
 	
 	
 	

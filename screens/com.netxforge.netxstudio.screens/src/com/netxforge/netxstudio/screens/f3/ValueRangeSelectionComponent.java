@@ -23,7 +23,6 @@ import org.eclipse.jface.viewers.ISelectionChangedListener;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.LabelProvider;
 import org.eclipse.jface.viewers.SelectionChangedEvent;
-import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
@@ -34,7 +33,6 @@ import org.eclipse.ui.forms.widgets.FormToolkit;
 
 import com.google.inject.Inject;
 import com.netxforge.netxstudio.common.model.ModelUtils;
-import com.netxforge.netxstudio.generics.DateTimeRange;
 import com.netxforge.netxstudio.library.NetXResource;
 import com.netxforge.netxstudio.metrics.MetricValueRange;
 
@@ -113,14 +111,14 @@ public class ValueRangeSelectionComponent {
 							+ modelUtils.fromMinutes(mvr.getIntervalHint()));
 					sb.append(", " + mvr.getKindHint().getName());
 					sb.append(" (count=" + mvr.getMetricValues().size() + ")");
-						
-					
-					// This loads all the ranges!
-					DateTimeRange range = modelUtils.period(mvr
-							.getMetricValues());
-					if (range != null) {
-						sb.append(" period: " + modelUtils.periodToStringMore(range));
-					}
+
+//					// This loads all the ranges!
+//					DateTimeRange range = modelUtils.period(mvr
+//							.getMetricValues());
+//					if (range != null) {
+//						sb.append(" period: "
+//								+ modelUtils.periodToStringMore(range));
+//					}
 
 				}
 				return sb.toString();
@@ -148,12 +146,15 @@ public class ValueRangeSelectionComponent {
 				});
 
 		cmbViewerValueRange.setInput(resource);
-		if (!resource.getMetricValueRanges().isEmpty()) {
-			MetricValueRange metricValueRange = resource.getMetricValueRanges()
-					.get(0);
-			cmbViewerValueRange.setSelection(new StructuredSelection(
-					metricValueRange));
-		}
+		// if (!resource.getMetricValueRanges().isEmpty()) {
+		// MetricValueRange metricValueRange = resource.getMetricValueRanges()
+		// .get(0);
+		// }
+
+	}
+
+	public void setInitialSelection(IStructuredSelection selection) {
+		cmbViewerValueRange.setSelection(selection);
 
 	}
 

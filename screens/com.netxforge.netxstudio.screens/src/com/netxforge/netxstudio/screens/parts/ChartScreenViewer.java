@@ -29,18 +29,28 @@ import org.eclipse.jface.viewers.LabelProvider;
 import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.jface.window.Window;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.events.SelectionAdapter;
+import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Menu;
+import org.eclipse.swt.widgets.MenuItem;
+import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.IWorkbenchPart;
+import org.eclipse.ui.part.ShowInContext;
+import org.eclipse.wb.swt.ResourceManager;
 
 import com.google.common.collect.Lists;
 import com.netxforge.netxstudio.common.model.IChartModel;
 import com.netxforge.netxstudio.common.model.IChartResource;
+import com.netxforge.netxstudio.metrics.MetricValueRange;
 import com.netxforge.netxstudio.screens.editing.AbstractScreenViewer;
 import com.netxforge.netxstudio.screens.editing.IScreen;
 import com.netxforge.netxstudio.screens.editing.ScreenUtil;
+import com.netxforge.netxstudio.screens.f2.RangeSelectionDialog;
 import com.netxforge.netxstudio.screens.f3.charts.ChartModelDialog;
 import com.netxforge.netxstudio.screens.f3.charts.ChartScreen;
+import com.netxforge.netxstudio.screens.showins.ChartMergeInput;
 
 /**
  * A Chart screen in a viewer.
@@ -60,13 +70,11 @@ public class ChartScreenViewer extends AbstractScreenViewer {
 	 */
 	public class SumChartsAction extends Action {
 		public SumChartsAction(String text) {
-			super(text, SWT.TOGGLE);
+			super(text, IAction.AS_CHECK_BOX);
 		}
 
 		public void run() {
-			// TODO, turn on toggel to sum the selection of resources.
-			System.out
-					.println("TODO, turn on toggel to sum the selection of resources.");
+			chartScreen.toggleSum(isChecked());
 		}
 	}
 
@@ -78,13 +86,65 @@ public class ChartScreenViewer extends AbstractScreenViewer {
 	 */
 	public class TrendChartsAction extends Action {
 		public TrendChartsAction(String text) {
-			super(text, SWT.TOGGLE);
+			super(text, IAction.AS_CHECK_BOX);
 		}
 
 		public void run() {
 			// TODO, turn on toggel to trend the selection of resources.
 			System.out
 					.println("TODO, turn on toggle to trend the selection of resources.");
+		}
+	}
+
+	/**
+	 * An {@link IAction} for synchronizing screens.
+	 * 
+	 * @author Christophe Bouhier
+	 * 
+	 */
+	public class RangeSelectionAction extends Action {
+		public RangeSelectionAction(String text) {
+			super(text, IAction.AS_PUSH_BUTTON);
+		}
+
+		public void run() {
+
+			IChartResource cr = chartScreen.getChartModel()
+					.getFirstChartResource();
+
+			if (cr == null) {
+				return; // invalid chartmodel.
+			}
+
+			RangeSelectionDialog selectDialog = new RangeSelectionDialog(
+					ChartScreenViewer.this.getSite().getShell(), modelUtils);
+
+			selectDialog.setBlockOnOpen(true);
+			selectDialog.create();
+
+			selectDialog.setMessage("Select the value range");
+			selectDialog.injectData(cr.getNetXResource());
+
+			MetricValueRange currentMVR = modelUtils
+					.valueRangeForIntervalAndKind(cr.getNetXResource(),
+							chartScreen.getChartModel().getKindHint(),
+							chartScreen.getChartModel().getInterval());
+			if (currentMVR != null) {
+				StructuredSelection ss = new StructuredSelection(currentMVR);
+				selectDialog.setInitialSelection(ss);
+			}
+
+			if (selectDialog.open() == Window.OK) {
+				MetricValueRange mvr = selectDialog.getValueRange();
+				if (mvr != null) {
+
+					chartScreen.getChartModel().setInterval(
+							mvr.getIntervalHint());
+					chartScreen.getChartModel().setKindHint(mvr.getKindHint());
+					chartScreen.getChartModel().reset();
+					chartScreen.reinit();
+				}
+			}
 		}
 	}
 
@@ -96,7 +156,10 @@ public class ChartScreenViewer extends AbstractScreenViewer {
 	public class EditChartsAction extends Action {
 
 		public EditChartsAction(String text) {
-			super(text, SWT.PUSH);
+			super(text, IAction.AS_PUSH_BUTTON);
+			this.setImageDescriptor(ResourceManager.getPluginImageDescriptor(
+					"com.netxforge.netxstudio.models.edit",
+					"/icons/full/obj16/NetXResource_H.gif"));
 		}
 
 		public void run() {
@@ -117,10 +180,11 @@ public class ChartScreenViewer extends AbstractScreenViewer {
 						}
 					});
 
+			chartModelDialog.setMessage("Visible resources");
 			chartModelDialog.setInput(chartModel);
-
 			chartModelDialog.setInitialSelections(chartModel
 					.getChartNonFilteredResources().toArray());
+
 			if (chartModelDialog.open() == Window.OK) {
 				List<Object> selection = Lists.newArrayList(chartModelDialog
 						.getResult());
@@ -173,15 +237,22 @@ public class ChartScreenViewer extends AbstractScreenViewer {
 		for (IAction action : getActions()) {
 			getViewSite().getActionBars().getToolBarManager().add(action);
 		}
+		getViewSite().getActionBars().updateActionBars();
 	}
 
+	private IAction[] actions = null;
+
 	public IAction[] getActions() {
-		List<IAction> chartViewerActions = Lists.newArrayList();
-		chartViewerActions.add(new EditChartsAction("Resource..."));
-		chartViewerActions.add(new SumChartsAction("Sum"));
-		chartViewerActions.add(new TrendChartsAction("Trend"));
-		return chartViewerActions
-				.toArray(new IAction[chartViewerActions.size()]);
+		if (actions == null) {
+			List<IAction> chartViewerActions = Lists.newArrayList();
+			chartViewerActions.add(new EditChartsAction("Resource..."));
+			chartViewerActions.add(new RangeSelectionAction("Range..."));
+			chartViewerActions.add(new SumChartsAction("Sum"));
+			chartViewerActions.add(new TrendChartsAction("Trend"));
+			actions = chartViewerActions.toArray(new IAction[chartViewerActions
+					.size()]);
+		}
+		return actions;
 
 	}
 
@@ -203,6 +274,60 @@ public class ChartScreenViewer extends AbstractScreenViewer {
 		super.customPartHook(part, event);
 		// hide the markers.
 		chartScreen.focusLost(null);
+	}
+
+	protected void resetToggledActions() {
+		for (IAction a : getActions()) {
+			if (a.getStyle() == IAction.AS_CHECK_BOX) {
+				a.setChecked(false);
+			}
+		}
+	}
+
+	@Override
+	public boolean show(ShowInContext context) {
+
+		// Overidde to reset the viewer actions.
+		resetToggledActions();
+
+		final ShowInContext finalContext = context;
+
+		Shell shell = getSite().getShell();
+		Menu menu = new Menu(shell, SWT.POP_UP);
+
+		{
+			MenuItem item = new MenuItem(menu, SWT.RADIO);
+			item.setText("Merge");
+			item.addSelectionListener(new SelectionAdapter() {
+				@Override
+				public void widgetSelected(SelectionEvent e) {
+					MenuItem item = (MenuItem) e.widget;
+					if (item.getSelection()) {
+						finalContext.setInput(new ChartMergeInput());
+						getScreen().handleShowIn(finalContext);
+					}
+
+				}
+			});
+		}
+		{
+			MenuItem item = new MenuItem(menu, SWT.RADIO);
+			item.setText("Replace");
+			item.addSelectionListener(new SelectionAdapter() {
+				@Override
+				public void widgetSelected(SelectionEvent e) {
+					MenuItem item = (MenuItem) e.widget;
+					if (item.getSelection()) {
+						getScreen().handleShowIn(finalContext);
+					}
+				}
+			});
+		}
+
+		menu.setEnabled(true);
+		menu.setVisible(true);
+		// Process merge/replace.
+		return true;
 	}
 
 }

@@ -341,4 +341,13 @@ public class NativeFunctions implements INativeFunctions, INativeFunctions2 {
 
 		return newValue;
 	}
+	
+	
+	public void trend(List<Value> range){
+		
+	}
+	
+	
+	
+	
 }

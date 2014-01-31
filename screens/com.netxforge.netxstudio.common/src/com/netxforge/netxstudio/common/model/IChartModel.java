@@ -22,6 +22,7 @@ import java.util.Collection;
 import com.netxforge.netxstudio.generics.DateTimeRange;
 import com.netxforge.netxstudio.library.LibraryPackage;
 import com.netxforge.netxstudio.library.NetXResource;
+import com.netxforge.netxstudio.metrics.KindHintType;
 import com.netxforge.netxstudio.metrics.MetricValueRange;
 import com.netxforge.netxstudio.metrics.MetricsPackage;
 
@@ -67,6 +68,11 @@ public interface IChartModel {
 	public abstract Collection<IChartResource> getChartResources();
 
 	/**
+	 * Get the first {@link IChartResource} currently in the model.
+	 */
+	public abstract IChartResource getFirstChartResource();
+
+	/**
 	 * Get the non filtered {@link IChartResource} objects which do not have the
 	 * filtered flag enabled.
 	 * 
@@ -98,12 +104,37 @@ public interface IChartModel {
 	public abstract DateTimeRange getPeriod();
 
 	/**
-	 * Get the {@link MetricValueRange} interval, which applies for all
-	 * {@link IChartResource} in the IChartModel.
+	 * Get the {@link MetricValueRange#getIntervalHint() interval} , which
+	 * applies for all {@link IChartResource} in the IChartModel.
 	 * 
 	 * @return
 	 */
 	public abstract int getInterval();
+
+	/**
+	 * Set the {@link MetricValueRange} interval. Implementors consider if the
+	 * the first {@link IChartResource} has a range with this interval.
+	 * 
+	 * @param interval
+	 */
+	public abstract void setInterval(int interval);
+
+	/**
+	 * Get the {@link MetricValueRange#getKindHint() kind}, which applies for
+	 * all {@link IChartResource} in the IChartModel.
+	 * 
+	 * @return
+	 */
+	public abstract KindHintType getKindHint();
+
+	/**
+	 * Set the {@link MetricValueRange#setKindHint(KindHintType) }. Implementors
+	 * consider if the the first {@link IChartResource} has a range with this
+	 * kind.
+	 * 
+	 * @param kind
+	 */
+	public abstract void setKindHint(KindHintType kind);
 
 	/**
 	 * The name of the charted objects (Usually {@link NetXResource} ),
@@ -114,6 +145,20 @@ public interface IChartModel {
 	public abstract String getChartText();
 
 	/**
+	 * Set if the charts should be {@link IChartModel#sum() summed}.
+	 * 
+	 * @param shouldSum
+	 */
+	public abstract void setShouldSum(boolean shouldSum);
+
+	/**
+	 * get if the charts should be {@link IChartModel#sum() summed}
+	 * 
+	 * @return
+	 */
+	public abstract boolean shouldSum();
+
+	/**
 	 * Sum the {@link LibraryPackage#NET_XRESOURCE__METRIC_VALUE_RANGES value
 	 * range}
 	 * 
@@ -121,4 +166,10 @@ public interface IChartModel {
 	 */
 	public abstract double[] sum();
 
+	
+	/**
+	 * reset the model, by reseting the {@link IChartResource} caches..
+	 */
+	public abstract void reset();
+	
 }

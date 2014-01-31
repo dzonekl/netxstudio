@@ -47,7 +47,6 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.ui.PlatformUI;
-import org.eclipse.ui.forms.widgets.ColumnLayout;
 import org.eclipse.ui.forms.widgets.ColumnLayoutData;
 import org.eclipse.ui.forms.widgets.Form;
 import org.eclipse.ui.forms.widgets.FormToolkit;
@@ -67,6 +66,7 @@ import com.netxforge.netxstudio.screens.AbstractScreen;
 import com.netxforge.netxstudio.screens.editing.IDataScreenInjection;
 import com.netxforge.netxstudio.screens.internal.ScreensActivator;
 import com.netxforge.netxstudio.screens.showins.ChartInput;
+import com.netxforge.netxstudio.screens.showins.ChartMergeInput;
 
 /**
  * 
@@ -94,7 +94,7 @@ public class ChartScreen extends AbstractScreen implements
 	/**
 	 * Track the last selection.
 	 */
-	private Object[] latestSelection;
+	private Object[] chartObjects;
 
 	@Inject
 	private MonitoringStateModel monitoringState;
@@ -189,10 +189,10 @@ public class ChartScreen extends AbstractScreen implements
 		columnLayoutData.heightHint = 500;
 		cmChart.setLayoutData(columnLayoutData);
 		toolkit.paintBordersFor(cmChart);
-		
+
 		cmChart.setLayout(new GridLayout(2, false));
 		GridData gridData = new GridData(SWT.FILL, SWT.FILL, true, true, 1, 1);
-		
+
 		smartResourceChart = new ChartNetXResource(cmChart, SWT.NONE, gridData);
 		smartResourceChart.setModelUtils(modelUtils);
 
@@ -328,15 +328,10 @@ public class ChartScreen extends AbstractScreen implements
 	}
 
 	@Override
-	public void injectData(Object... selection) {
-		processSelection(selection);
-	}
-
-	private void processSelection(Object... selection) {
-
-		if (validSelection(selection)) {
-			setLatestSelection(selection);
-			updateLatestSelection();
+	public void injectData(Object... chartObjects) {
+		if (validSelection(chartObjects)) {
+			setChartObjects(chartObjects);
+			refreshSummary();
 
 			deActivate();
 			activate();
@@ -348,12 +343,12 @@ public class ChartScreen extends AbstractScreen implements
 		}
 	}
 
-	private synchronized void setLatestSelection(Object... selection) {
-		latestSelection = selection;
+	private synchronized void setChartObjects(Object... selection) {
+		chartObjects = selection;
 	}
 
-	private synchronized Object[] getLatestSelection() {
-		return latestSelection;
+	private synchronized Object[] getChartObjects() {
+		return chartObjects;
 	}
 
 	/**
@@ -430,14 +425,17 @@ public class ChartScreen extends AbstractScreen implements
 	@SuppressWarnings("unchecked")
 	@Override
 	public boolean handleShowIn(ShowInContext context) {
-		if (context.getInput() instanceof ChartInput) {
-			ISelection selection = context.getSelection();
-			if (selection != null && !selection.isEmpty()
-					&& selection instanceof StructuredSelection) {
-				IStructuredSelection ss = (StructuredSelection) selection;
+		ISelection selection = context.getSelection();
+		if (selection != null && !selection.isEmpty()
+				&& selection instanceof StructuredSelection) {
+			IStructuredSelection ss = (StructuredSelection) selection;
+
+			if (context.getInput() instanceof ChartInput) {
 				injectData(Lists.newArrayList(ss.iterator()).toArray());
+				return true;
+			} else if (context.getInput() instanceof ChartMergeInput) {
+
 			}
-			return true;
 		}
 
 		return false;
@@ -453,7 +451,7 @@ public class ChartScreen extends AbstractScreen implements
 	}
 
 	public void done(IJobChangeEvent event) {
-		updateLatestSelection();
+		refreshSummary();
 	}
 
 	public void running(IJobChangeEvent event) {
@@ -465,9 +463,9 @@ public class ChartScreen extends AbstractScreen implements
 	public void sleeping(IJobChangeEvent event) {
 	}
 
-	private void updateLatestSelection() {
+	private void refreshSummary() {
 		List<IMonitoringSummary> summariesToRefresh = Lists.newArrayList();
-		for (Object selection : getLatestSelection()) {
+		for (Object selection : getChartObjects()) {
 			if (selection instanceof NetXResource) {
 				NetXResource target = (NetXResource) selection;
 				if (MonitoringStateModel.isAdapted(target)) {
@@ -508,8 +506,16 @@ public class ChartScreen extends AbstractScreen implements
 		return chartModel;
 	}
 
+	/**
+	 * Reconstruct the chart for the given {@link IChartModel}. The
+	 */
 	public void reinit() {
 		frmChartScreen.setText(chartModel.getChartText());
 		this.getChart().initChartBinding(this.getChartModel());
+	}
+
+	public void toggleSum(boolean checked) {
+		chartModel.setShouldSum(checked);
+		smartResourceChart.updateSumStatus();
 	}
 }
