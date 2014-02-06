@@ -548,10 +548,10 @@ public class ChartModel implements IChartModel {
 	 * Clear the {@link ChartModel}.
 	 */
 	public void clear() {
-		chartResources.clear();
+		this.getChartResources().clear();
 	}
 
-	public Collection<IChartResource> getChartResources() {
+	public synchronized Collection<IChartResource> getChartResources() {
 		return this.chartResources;
 	}
 

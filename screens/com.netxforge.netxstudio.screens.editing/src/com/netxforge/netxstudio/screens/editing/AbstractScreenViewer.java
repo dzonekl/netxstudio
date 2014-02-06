@@ -24,14 +24,11 @@ import java.util.List;
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.action.IMenuManager;
-import org.eclipse.jface.action.IToolBarManager;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.ISelectionChangedListener;
 import org.eclipse.jface.viewers.SelectionChangedEvent;
 import org.eclipse.jface.viewers.TreeViewer;
-import org.eclipse.swt.SWT;
-import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.ui.IViewPart;
 import org.eclipse.ui.IWorkbenchPart;
@@ -44,15 +41,12 @@ import com.netxforge.netxstudio.screens.editing.actions.handlers.ActionHandlerDe
 import com.netxforge.netxstudio.screens.editing.actions.handlers.DynamicScreensActionHandler;
 
 /**
- * Shows an {@link IScreen} in an {@link IViewPart} it supports
- * {@link IShowInTarget}. 
- * </p>
- * It can also synchronize with the selection of another
- * active {@link IViewPart}.
- * </p>Clients should implement
+ * Shows an {@link IScreen} in an {@link IViewPart}. A Client must implement
+ * {@link AbstractScreenViewer#initScreen(Composite)} to perform it's own screen
+ * initialization. </p><b>Synchronisation</b></p> It can synchronize with the
+ * selection of another active {@link IViewPart}. Clients should implement
  * {@link AbstractScreenViewer#processSelection(ISelection)}
- * </p>A Client must implement {@link AbstractScreenViewer#initScreen(Composite)} to 
- * perform it's own screen initialization. 
+ * </p><b>Show-In</b></p> it supports {@link IShowInTarget}.
  * 
  * @author Christophe Bouhier christophe.bouhier@netxforge.com
  */
@@ -71,6 +65,14 @@ public abstract class AbstractScreenViewer extends AbstractScreensViewPart
 	private ISelection lastSelection;
 
 	/**
+	 * The Viewer options.
+	 * 
+	 */
+	private int options = 0;
+
+	public static final int VIEWER_NO_SYNC_OPTION = 1 << 1;
+
+	/**
 	 * An {@link IAction} for synchronizing screens.
 	 * 
 	 * @author Christophe Bouhier
@@ -86,6 +88,13 @@ public abstract class AbstractScreenViewer extends AbstractScreensViewPart
 		}
 	}
 
+	public AbstractScreenViewer() {
+	}
+
+	public AbstractScreenViewer(int options) {
+		this.options = options;
+	}
+
 	/**
 	 * Create contents of the view part.
 	 * 
@@ -94,9 +103,16 @@ public abstract class AbstractScreenViewer extends AbstractScreensViewPart
 	@Override
 	public void createPartControl(Composite parent) {
 
-		createActions();
-		initializeToolBar();
-		initializeMenu();
+		initScreen(parent);
+		if (!((options & VIEWER_NO_SYNC_OPTION) != 0)) {
+			initSyncAction();
+		}
+	}
+
+	/**
+	 * 
+	 */
+	public void initSyncAction() {
 		final ImageDescriptor synchedDescriptor = ResourceManager
 				.getPluginImageDescriptor(
 						"com.netxforge.netxstudio.screens.editing",
@@ -108,9 +124,6 @@ public abstract class AbstractScreenViewer extends AbstractScreensViewPart
 				.setToolTipText("Toggle linking to selection from other viewers");
 
 		getViewSite().getActionBars().getToolBarManager().add(syncViewerAction);
-
-		parent.setLayout(new FillLayout(SWT.HORIZONTAL));
-		initScreen(parent);
 	}
 
 	protected void toggleLinking(boolean checked) {
@@ -121,31 +134,6 @@ public abstract class AbstractScreenViewer extends AbstractScreensViewPart
 	}
 
 	public abstract void initScreen(Composite parent);
-
-	/**
-	 * Create the actions.
-	 */
-	private void createActions() {
-		// Create the actions
-	}
-
-	/**
-	 * Initialize the toolbar.
-	 */
-	private void initializeToolBar() {
-		@SuppressWarnings("unused")
-		IToolBarManager toolbarManager = getViewSite().getActionBars()
-				.getToolBarManager();
-	}
-
-	/**
-	 * Initialize the menu.
-	 */
-	private void initializeMenu() {
-		@SuppressWarnings("unused")
-		IMenuManager menuManager = getViewSite().getActionBars()
-				.getMenuManager();
-	}
 
 	@Override
 	public void setFocus() {
@@ -234,35 +222,16 @@ public abstract class AbstractScreenViewer extends AbstractScreensViewPart
 	 */
 	@Override
 	protected void customPartHook(IWorkbenchPart part, PART_EVENT event) {
-
-		if (part instanceof AbstractScreenSelector) {
-			AbstractScreensViewPart screenViewPart = (AbstractScreensViewPart) part;
-			switch (event) {
-			case ACTIVATED: {
-				screenViewPart.addSelectionChangedListener(this);
-			}
-				break;
-			case CLOSED:
-				screenViewPart.removeSelectionChangedListener(this);
-				break;
-			case DEACTIVATE:
-				// TODO We could be de-activated, but still have focus.
-				screenViewPart.removeSelectionChangedListener(this);
-				break;
-			case OPENEND:
-				break;
-			case TOTOP:
-				break;
-			default:
-				break;
-			}
-		}
+		// Add ourselves from the source, as here it is too hard to determine
+		// the
+		// exact state of source and destination part.
 	}
 
 	/**
 	 * Only process a selection when we should sync.
 	 */
 	public void selectionChanged(SelectionChangedEvent event) {
+		// System.out.println(event + " on: " + this);
 		lastSelection = event.getSelection();
 		if (keepSynched) {
 			processSelection(lastSelection);

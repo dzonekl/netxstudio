@@ -33,18 +33,36 @@
            name="Design">
       </view>
        <view
-           category="com.netxforge.netxstudio.ui"
-           class="com.netxforge.netxstudio.screens.internal.ScreensEExtensionFactory:com.netxforge.netxstudio.screens.parts.ChartScreenViewer"
-           icon="icons/view16/chart_viewer.png"
-           id="com.netxforge.netxstudio.screens.viewer.chart"
-           name="Charts">
+             allowMultiple="false"
+             category="com.netxforge.netxstudio.ui"
+             class="com.netxforge.netxstudio.screens.internal.ScreensEExtensionFactory:com.netxforge.netxstudio.screens.parts.ChartScreenViewer"
+             icon="icons/view16/chart_viewer.png"
+             id="com.netxforge.netxstudio.screens.viewer.chart"
+             name="Charts">
       </view>
       <view
-           category="com.netxforge.netxstudio.ui"
-           class="com.netxforge.netxstudio.screens.internal.ScreensEExtensionFactory:com.netxforge.netxstudio.screens.parts.DashboardViewer"
-           icon="icons/view16/dashboard_viewer.png"
-           id="com.netxforge.netxstudio.screens.viewer.dashboard"
-           name="Dashboard">
+            allowMultiple="false"
+            category="com.netxforge.netxstudio.ui"
+            class="com.netxforge.netxstudio.screens.internal.ScreensEExtensionFactory:com.netxforge.netxstudio.screens.parts.DashboardViewer"
+            icon="icons/view16/dashboard_viewer.png"
+            id="com.netxforge.netxstudio.screens.viewer.dashboard"
+            name="Dashboard">
+      </view>
+      <view
+            allowMultiple="false"
+            category="com.netxforge.netxstudio.ui"
+            class="com.netxforge.netxstudio.screens.internal.ScreensEExtensionFactory:com.netxforge.netxstudio.screens.parts.MultiChartScreenViewer"
+            icon="icons/view16/chart_viewer.png"
+            id="com.netxforge.netxstudio.screens.viewer.multichart"
+            name="MultiCharts">
+      </view>
+       <view
+             allowMultiple="false"
+             category="com.netxforge.netxstudio.ui"
+             class="com.netxforge.netxstudio.screens.internal.ScreensEExtensionFactory:com.netxforge.netxstudio.screens.parts.DataScreenViewer"
+             icon="icons/view16/chart_viewer.png"
+             id="com.netxforge.netxstudio.screens.viewer.data"
+             name="Data">
       </view>
    </extension>
    <extension
@@ -88,8 +106,7 @@
             id="com.netxforge.netxstudio.screens.monitoring"
             name="Monitoring Wizard">
       </wizard>
-      
-        <wizard
+	  <wizard
             class="com.netxforge.netxstudio.screens.internal.ScreensEExtensionFactory:com.netxforge.netxstudio.screens.f1.support.ValueRangeSelectionWizard"
             hasPages="true"
             id="com.netxforge.netxstudio.screens.valueranges"
@@ -98,9 +115,11 @@
    </extension>
    <extension
       point="org.eclipse.ui.perspectiveExtensions">
-      <perspectiveExtension targetID = 
-        "com.netxforge.netxstudio.ui.perspective.design">
-      <showInPart id = "com.netxforge.netxstudio.screens.viewer.chart"/>
+      <perspectiveExtension 
+      		targetID ="com.netxforge.netxstudio.ui.perspective.design">
+      		<showInPart id = "com.netxforge.netxstudio.screens.viewer.chart"/>
+         	<showInPart id = "com.netxforge.netxstudio.screens.viewer.multichart"/>
+         	<showInPart id = "com.netxforge.netxstudio.screens.viewer.data"/>
       </perspectiveExtension>
    </extension>
    <extension

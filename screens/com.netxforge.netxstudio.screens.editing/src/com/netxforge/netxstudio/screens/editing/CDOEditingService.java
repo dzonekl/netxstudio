@@ -45,6 +45,7 @@ import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.ecore.util.EcoreUtil.Copier;
 import org.eclipse.emf.edit.provider.ComposedAdapterFactory;
+import org.eclipse.emf.spi.cdo.FSMUtil;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.dialogs.ProgressMonitorDialog;
 import org.eclipse.jface.operation.IRunnableWithProgress;
@@ -736,6 +737,22 @@ public class CDOEditingService extends EMFEditingService implements
 					.addAdapterFactory(new EresourceAdapterFactory());
 		}
 		return adapterFactory;
+	}
+
+	/**
+	 * A set of objects is alive when the {@link CDOObject} is 
+	 * 
+	 */
+	public boolean isDataAlive(Object[] objects) {
+		for(Object o : objects){
+			if(o instanceof CDOObject){
+				CDOObject cdoO = (CDOObject) o;
+				if(FSMUtil.isInvalid(cdoO)){
+					return false;
+				}
+			}
+		}
+		return true;
 	}
 
 }

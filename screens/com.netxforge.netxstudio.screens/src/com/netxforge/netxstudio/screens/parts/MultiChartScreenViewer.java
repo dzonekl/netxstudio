@@ -39,6 +39,7 @@ import org.eclipse.swt.widgets.Menu;
 import org.eclipse.swt.widgets.MenuItem;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.IWorkbenchPart;
+import org.eclipse.ui.dialogs.ElementListSelectionDialog;
 import org.eclipse.ui.forms.widgets.Form;
 import org.eclipse.ui.forms.widgets.FormToolkit;
 import org.eclipse.ui.part.ShowInContext;
@@ -51,6 +52,7 @@ import com.netxforge.netxstudio.metrics.MetricValueRange;
 import com.netxforge.netxstudio.screens.editing.AbstractScreenViewer;
 import com.netxforge.netxstudio.screens.editing.IScreen;
 import com.netxforge.netxstudio.screens.editing.ScreenUtil;
+import com.netxforge.netxstudio.screens.editing.util.WinForms;
 import com.netxforge.netxstudio.screens.f2.RangeSelectionDialog;
 import com.netxforge.netxstudio.screens.f3.charts.ChartModelDialog;
 import com.netxforge.netxstudio.screens.f3.charts.ChartScreen;
@@ -62,13 +64,31 @@ import com.netxforge.netxstudio.screens.showins.ChartMergeInput;
  * @author Christophe Bouhier
  * 
  */
-public class ChartScreenViewer extends AbstractScreenViewer {
+public class MultiChartScreenViewer extends AbstractScreenViewer {
 
 	private final FormToolkit toolkit = new FormToolkit(Display.getCurrent());
 
-	private ChartScreen chartScreen;
+	private WinForms winForms;
 
 	private Form form;
+
+	private List<ChartScreen> chartList;
+
+	abstract class ChartAction extends Action {
+		protected ChartScreen chartScreen;
+
+		public ChartAction(String text, int asCheckBox) {
+			super(text, asCheckBox);
+		}
+
+		public ChartScreen getChartScreen() {
+			return chartScreen;
+		}
+
+		public void setChartScreen(ChartScreen chartScreen) {
+			this.chartScreen = chartScreen;
+		}
+	}
 
 	/**
 	 * An {@link IAction} for synchronizing screens.
@@ -76,9 +96,10 @@ public class ChartScreenViewer extends AbstractScreenViewer {
 	 * @author Christophe Bouhier
 	 * 
 	 */
-	public class SumChartsAction extends Action {
-		public SumChartsAction(String text) {
+	public class SumChartsAction extends ChartAction {
+		public SumChartsAction(String text, ChartScreen screen) {
 			super(text, IAction.AS_CHECK_BOX);
+			chartScreen = screen;
 		}
 
 		public void run() {
@@ -92,9 +113,10 @@ public class ChartScreenViewer extends AbstractScreenViewer {
 	 * @author Christophe Bouhier
 	 * 
 	 */
-	public class TrendChartsAction extends Action {
-		public TrendChartsAction(String text) {
+	public class TrendChartsAction extends ChartAction {
+		public TrendChartsAction(String text, ChartScreen screen) {
 			super(text, IAction.AS_CHECK_BOX);
+			chartScreen = screen;
 		}
 
 		public void run() {
@@ -110,9 +132,10 @@ public class ChartScreenViewer extends AbstractScreenViewer {
 	 * @author Christophe Bouhier
 	 * 
 	 */
-	public class RangeSelectionAction extends Action {
-		public RangeSelectionAction(String text) {
+	public class RangeSelectionAction extends ChartAction {
+		public RangeSelectionAction(String text, ChartScreen screen) {
 			super(text, IAction.AS_PUSH_BUTTON);
+			chartScreen = screen;
 		}
 
 		public void run() {
@@ -125,7 +148,8 @@ public class ChartScreenViewer extends AbstractScreenViewer {
 			}
 
 			RangeSelectionDialog selectDialog = new RangeSelectionDialog(
-					ChartScreenViewer.this.getSite().getShell(), modelUtils);
+					MultiChartScreenViewer.this.getSite().getShell(),
+					modelUtils);
 
 			selectDialog.setBlockOnOpen(true);
 			selectDialog.create();
@@ -161,13 +185,14 @@ public class ChartScreenViewer extends AbstractScreenViewer {
 	 * 
 	 * @author Christophe Bouhier
 	 */
-	public class EditChartsAction extends Action {
+	public class EditChartsAction extends ChartAction {
 
-		public EditChartsAction(String text) {
+		public EditChartsAction(String text, ChartScreen screen) {
 			super(text, IAction.AS_PUSH_BUTTON);
 			this.setImageDescriptor(ResourceManager.getPluginImageDescriptor(
 					"com.netxforge.netxstudio.models.edit",
 					"/icons/full/obj16/NetXResource_H.gif"));
+			chartScreen = screen;
 		}
 
 		public void run() {
@@ -175,7 +200,7 @@ public class ChartScreenViewer extends AbstractScreenViewer {
 			IChartModel chartModel = chartScreen.getChartModel();
 
 			final ChartModelDialog chartModelDialog = new ChartModelDialog(
-					ChartScreenViewer.this.getSite().getShell(),
+					MultiChartScreenViewer.this.getSite().getShell(),
 					new ChartModelLabelProvider(), new ArrayContentProvider() {
 						@Override
 						public Object[] getElements(Object inputElement) {
@@ -232,55 +257,113 @@ public class ChartScreenViewer extends AbstractScreenViewer {
 
 	}
 
-	public IScreen getScreen() {
-		return chartScreen;
+	public MultiChartScreenViewer() {
+		super(AbstractScreenViewer.VIEWER_NO_SYNC_OPTION);
 	}
 
+	public IScreen getScreen() {
+		return null;
+	}
+
+	@Override
 	public void initScreen(Composite parent) {
-		
+
 		form = toolkit.createForm(parent);
 		form.setSeparatorVisible(true);
 		toolkit.paintBordersFor(form);
-		form.setText("Chart");
+		form.setText("Demo");
 		form.getBody().setLayout(new FillLayout());
-		
-		chartScreen = new ChartScreen(form.getBody(), SWT.NONE);
+
+		winForms = new WinForms();
+		winForms.buildUI(form.getBody(), toolkit);
+
+		// Actions
+		form.getToolBarManager().add(new Action("Clear") {
+
+			@Override
+			public void run() {
+				winForms.clear();
+				chartList.clear();
+				chartList = null;
+			}
+		});
+		form.getToolBarManager().update(true);
+
+	}
+
+	public ChartScreen addChartScreen() {
+
+		final Form addWindow = winForms.addWindow();
+		addWindow.getBody().setLayout(new FillLayout(SWT.HORIZONTAL));
+
+		final ChartScreen chartScreen = new ChartScreen(addWindow.getBody(),
+				SWT.BORDER);
 		chartScreen.setOperation(ScreenUtil.OPERATION_READ_ONLY);
 		chartScreen.setEditingService(getEditingService());
 		chartScreen.buildUI(toolkit);
 
-		for (IAction action : getActions()) {
-			getViewSite().getActionBars().getToolBarManager().add(action);
+		if (chartList == null) {
+			chartList = Lists.newArrayList();
 		}
-		getViewSite().getActionBars().updateActionBars();
+		chartList.add(chartScreen);
+
+		// Add our actions.
+		winForms.addWinFormActions(addWindow, getActions(chartScreen));
+		addWindow.pack();
+
+		// Add menu option to close the windows form.
+		// Not sure how nested component menus are dealt with.....better to add
+		// it to
+		// the largest estate, which is the chart.
+		Menu menu = chartScreen.getChart().getPlotArea().getMenu();
+		MenuItem item = new MenuItem(menu, SWT.PUSH);
+		item.setText("Close");
+		item.addSelectionListener(new SelectionAdapter() {
+
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				if (chartList != null && chartList.contains(chartScreen)) {
+					chartList.remove(chartScreen);
+				}
+				winForms.removeWindow(addWindow);
+			}
+		});
+
+		return chartScreen;
+		// for (IAction action : getActions()) {
+		// getViewSite().getActionBars().getToolBarManager().add(action);
+		// }
+		// getViewSite().getActionBars().updateActionBars();
 	}
 
-	private IAction[] actions = null;
-
-	public IAction[] getActions() {
-		if (actions == null) {
-			List<IAction> chartViewerActions = Lists.newArrayList();
-			chartViewerActions.add(new EditChartsAction("Resource..."));
-			chartViewerActions.add(new RangeSelectionAction("Range..."));
-			chartViewerActions.add(new SumChartsAction("Sum"));
-			chartViewerActions.add(new TrendChartsAction("Trend"));
-			actions = chartViewerActions.toArray(new IAction[chartViewerActions
-					.size()]);
-		}
-		return actions;
+	public IAction[] getActions(ChartScreen chartScreen) {
+		List<IAction> chartViewerActions = Lists.newArrayList();
+		chartViewerActions
+				.add(new EditChartsAction("Resource...", chartScreen));
+		chartViewerActions
+				.add(new RangeSelectionAction("Range...", chartScreen));
+		chartViewerActions.add(new SumChartsAction("Sum", chartScreen));
+		chartViewerActions.add(new TrendChartsAction("Trend", chartScreen));
+		return chartViewerActions
+				.toArray(new IAction[chartViewerActions.size()]);
 
 	}
 
-	@SuppressWarnings("unchecked")
 	protected void processSelection(ISelection selection) {
 		if (selection != null && !selection.isEmpty()
 				&& selection instanceof StructuredSelection) {
+			@SuppressWarnings("unused")
 			IStructuredSelection ss = (StructuredSelection) selection;
 
-			if (!chartScreen.isDisposed()) {// Closing a view will dispose it!
-				chartScreen.injectData(Lists.newArrayList(ss.iterator())
-						.toArray());
-			}
+			// Do we have a chart for this selection?
+
+			// CopyOfChartScreen chartScreen = this.addChartScreen();
+			//
+			// if (!chartScreen.isDisposed()) {// Closing a view will dispose
+			// it!
+			// chartScreen.injectData(Lists.newArrayList(ss.iterator())
+			// .toArray());
+			// }
 		}
 	}
 
@@ -288,22 +371,27 @@ public class ChartScreenViewer extends AbstractScreenViewer {
 	protected void customPartHook(IWorkbenchPart part, PART_EVENT event) {
 		super.customPartHook(part, event);
 		// hide the markers.
-		chartScreen.focusLost(null);
+		// chartScreen.focusLost(null);
 	}
 
-	protected void resetToggledActions() {
-		for (IAction a : getActions()) {
-			if (a.getStyle() == IAction.AS_CHECK_BOX) {
-				a.setChecked(false);
-			}
-		}
-	}
+	// protected void resetToggledActions() {
+	// for (IAction a : getActions()) {
+	// if (a.getStyle() == IAction.AS_CHECK_BOX) {
+	// a.setChecked(false);
+	// }
+	// }
+	// }
 
 	@Override
-	public boolean show(ShowInContext context) {
+	public boolean show(final ShowInContext context) {
 
 		// Overidde to reset the viewer actions.
-		resetToggledActions();
+		// resetToggledActions();
+
+		// As there will be multiple chart windows, show-in is not very handy as
+		// we won't know which one is intended or a new one.
+		// For Show-in there for we support:
+		// For Component => Produces a new window.
 
 		final ShowInContext finalContext = context;
 
@@ -318,8 +406,33 @@ public class ChartScreenViewer extends AbstractScreenViewer {
 				public void widgetSelected(SelectionEvent e) {
 					MenuItem item = (MenuItem) e.widget;
 					if (item.getSelection()) {
-						finalContext.setInput(new ChartMergeInput());
-						getScreen().handleShowIn(finalContext);
+
+						if (chartList != null && !chartList.isEmpty()) {
+
+							finalContext.setInput(new ChartMergeInput());
+							// find a chart to merge with...
+
+							ElementListSelectionDialog dialog = new ElementListSelectionDialog(
+									MultiChartScreenViewer.this.getSite()
+											.getShell(), new LabelProvider());
+
+							dialog.setElements(chartList.toArray());
+
+							dialog.setTitle("Select the chart");
+							// user pressed cancel
+							if (dialog.open() == Window.OK) {
+								Object[] result = dialog.getResult();
+								if (result.length == 1) {
+									ChartScreen s = (ChartScreen) result[0];
+									s.handleShowIn(finalContext);
+								}
+							}
+						} else {
+							ChartScreen chartScreen = addChartScreen();
+							chartScreen.handleShowIn(finalContext);
+
+						}
+
 					}
 
 				}
@@ -327,13 +440,14 @@ public class ChartScreenViewer extends AbstractScreenViewer {
 		}
 		{
 			MenuItem item = new MenuItem(menu, SWT.RADIO);
-			item.setText("Replace");
+			item.setText("Add");
 			item.addSelectionListener(new SelectionAdapter() {
 				@Override
 				public void widgetSelected(SelectionEvent e) {
 					MenuItem item = (MenuItem) e.widget;
 					if (item.getSelection()) {
-						getScreen().handleShowIn(finalContext);
+						ChartScreen chartScreen = addChartScreen();
+						chartScreen.handleShowIn(finalContext);
 					}
 				}
 			});
@@ -344,5 +458,4 @@ public class ChartScreenViewer extends AbstractScreenViewer {
 		// Process merge/replace.
 		return true;
 	}
-
 }

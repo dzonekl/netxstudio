@@ -102,6 +102,19 @@ public interface IEditingService {
 		
 	
 	/**
+	 * The implementation has an opportunity to guard against 
+	 * objects which are not alive anymore. As we optionally deal 
+	 * wil proxied objects this is a common case when for example
+	 * closing a transaction which obtained the objects.  
+	 * 
+	 * 
+	 * @param objects
+	 * @return
+	 */
+	public abstract boolean isDataAlive(Object[] objects);
+	
+	
+	/**
 	 * Revoke all relations with the data provider. 
 	 */
 	public abstract void disposeData();

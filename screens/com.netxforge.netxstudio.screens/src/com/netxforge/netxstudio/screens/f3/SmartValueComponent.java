@@ -247,7 +247,7 @@ public class SmartValueComponent {
 			}
 
 		};
-		viewerComponent.buildUI(parent);
+		viewerComponent.buildUI(parent, layoutData);
 		viewerComponent
 				.setListLabelProvider(new NetXResourceValueLabelProvider());
 	}

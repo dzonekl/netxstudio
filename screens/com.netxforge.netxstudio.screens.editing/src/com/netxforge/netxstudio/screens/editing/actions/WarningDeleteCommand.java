@@ -17,7 +17,6 @@
  *******************************************************************************/
 package com.netxforge.netxstudio.screens.editing.actions;
 
-import java.io.IOException;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Iterator;
@@ -107,25 +106,26 @@ public class WarningDeleteCommand extends CompoundCommand {
 	}
 
 	protected void prepareCommand() {
-		
-		for(Object o : collection){
-			if(o instanceof CDOObject){
+
+		for (Object o : collection) {
+			if (o instanceof CDOObject) {
 				CDOObject cdoO = (CDOObject) o;
 				EObject eContainer = cdoO.eContainer();
-				if(eContainer instanceof CDOResource ){
+				if (eContainer instanceof CDOResource) {
 					CDOResource resource = (CDOResource) eContainer;
 					resource.getContents().containsAll(collection);
 				}
 			}
 		}
-		
+
 		append(RemoveCommand.create(domain, collection));
 	}
 
 	@Override
 	public void execute() {
 		Collection<EObject> eObjects = getObjects();
-		List<CDOObjectReference> xRefs = ReferenceHelper.findReferencesGlobally(eObjects);
+		List<CDOObjectReference> xRefs = ReferenceHelper
+				.findReferencesGlobally(eObjects);
 
 		super.execute();
 
@@ -143,11 +143,11 @@ public class WarningDeleteCommand extends CompoundCommand {
 					if (eStructuralFeature.isMany()) {
 
 						// Hack, has remove command doesn't work sometimes....
-						// See forum: 
-						
+						// See forum:
+
 						// http://www.eclipse.org/forums/index.php/t/249409/
 						// https://bugs.eclipse.org/bugs/show_bug.cgi?id=316273
-							
+
 						Command cmd = RemoveCommand
 								.create(domain, referencingEObject,
 										eStructuralFeature, eObject);
@@ -201,5 +201,5 @@ public class WarningDeleteCommand extends CompoundCommand {
 	public List<CDOObjectReference> getUsage(Collection<EObject> eObjects) {
 		return ReferenceHelper.findReferencesGlobally(eObjects);
 	}
-	
+
 }

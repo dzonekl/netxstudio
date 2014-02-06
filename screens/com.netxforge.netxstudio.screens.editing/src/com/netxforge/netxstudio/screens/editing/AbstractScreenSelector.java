@@ -25,6 +25,7 @@ import java.util.List;
 import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.action.IMenuManager;
 import org.eclipse.jface.action.IToolBarManager;
+import org.eclipse.jface.viewers.ISelectionChangedListener;
 import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.ui.ISaveablePart2;
@@ -42,23 +43,23 @@ import com.netxforge.netxstudio.screens.editing.util.MementoUtil;
  * A Screen selector which handles specific behaviour for {@link IScreen }
  * objects. </p>
  * <ul>
- * <li><b>Current screen</b></p>
- * This class implements {@link IScreenProvider}. The current screen is updated by registering to the 
- * {@link IScreenFormService#addScreenChangeListener(ScreenChangeListener) Screen service} 
- * </li>
+ * <li><b>Current screen</b></p> This class implements {@link IScreenProvider}.
+ * The current screen is updated by registering to the
+ * {@link IScreenFormService#addScreenChangeListener(ScreenChangeListener)
+ * Screen service}</li>
  * </p>
- * <li><b>Context menu</b></p>
- * This class implements {@link AbstractScreensViewPart#contributeMenuAboutToShow(IMenuManager) }, by
+ * <li><b>Context menu</b></p> This class implements
+ * {@link AbstractScreensViewPart#contributeMenuAboutToShow(IMenuManager) }, by
  * calling {@link IScreen#getActions()} and populating a
  * {@link DynamicScreensActionHandler}. The context menu will also
  * enable/disable default creation and editing actions depending on the screen.
  * If the screen is {@link ScreenUtil#OPERATION_READ_ONLY read-only}</li>
  * </p>
- * <li><b>Show In</b></p>
- * This class implements {@link IShowInSource}. This implementation delegates showin to the current 
- * screen by calling {@link IScreen#getShowIn(org.eclipse.jface.viewers.ISelection)} 
- * </li>
+ * <li><b>Show In</b></p> This class implements {@link IShowInSource}. This
+ * implementation delegates showin to the current screen by calling
+ * {@link IScreen#getShowIn(org.eclipse.jface.viewers.ISelection)}</li>
  * </ul>
+ * 
  * @author Christophe Bouhier christophe.bouhier@netxforge.com
  * 
  */
@@ -69,28 +70,28 @@ public abstract class AbstractScreenSelector extends AbstractScreensViewPart
 
 	@Inject
 	protected IScreenFormServiceProvider screenFormServiceProvider;
-	
+
 	/**
-	 * Single instance. 
+	 * Single instance.
 	 */
 	protected IScreenFormService screenFormService;
-	
+
 	private IScreen activeScreen;
 
 	public AbstractScreenSelector() {
 	}
 
 	public IScreenFormService getScreenService() {
-		if(screenFormService == null){
-			// Late init our service. 
+		if (screenFormService == null) {
+			// Late init our service.
 			screenFormService = screenFormServiceProvider.get();
 		}
 		return screenFormService;
 	}
 
 	public IEditingService getEditingService() {
-		if(screenFormService == null){
-			// Late init our service. 
+		if (screenFormService == null) {
+			// Late init our service.
 			screenFormService = screenFormServiceProvider.get();
 		}
 		return screenFormService.getEditingService();
@@ -183,6 +184,8 @@ public abstract class AbstractScreenSelector extends AbstractScreensViewPart
 					"Screen changed: " + screen.getScreenName());
 		}
 
+		System.out.println("Screen changed: " + screen.getScreenName());
+
 		// Some screens won't have a viewer, in this case
 		// the current viewer will be null, and an empty selection will be set.
 		if (screen != null) {
@@ -196,25 +199,24 @@ public abstract class AbstractScreenSelector extends AbstractScreensViewPart
 			firePropertyChange(ISaveablePart2.PROP_DIRTY);
 
 			// restore the state of the screen.
-//			if (this.getMemento() != null) {
-//
-//				String validMementoElement = modelUtils
-//						.underscopeWhiteSpaces(screen.getScreenName());
-//				IMemento child = this.getMemento()
-//						.getChild(validMementoElement);
-//				if (child != null) {
-//					screen.restoreState(child);
-//				}
-//			}
+			// if (this.getMemento() != null) {
+			//
+			// String validMementoElement = modelUtils
+			// .underscopeWhiteSpaces(screen.getScreenName());
+			// IMemento child = this.getMemento()
+			// .getChild(validMementoElement);
+			// if (child != null) {
+			// screen.restoreState(child);
+			// }
+			// }
 			setFocus();
 		}
 	}
 
 	/**
-	 * @see
-	 * com.netxforge.netxstudio.screens.editing.ScreenChangeListener
-	 * #screenWidgetChanged
-	 * (com.netxforge.netxstudio.screens.editing.IScreen)
+	 * @see com.netxforge.netxstudio.screens.editing.ScreenChangeListener
+	 *      #screenWidgetChanged
+	 *      (com.netxforge.netxstudio.screens.editing.IScreen)
 	 */
 	public void screenWidgetChanged(IScreen screen) {
 
@@ -223,14 +225,16 @@ public abstract class AbstractScreenSelector extends AbstractScreensViewPart
 					EditingActivator.TRACE_EDITING_DETAILS_OPTION,
 					"Screen widget changed: " + screen.getScreenName());
 		}
-		
-		// force an update of the current screen, in the case of a viewer change, 
-		// this will force the installation of a selection change listener on the current 
-		// active viewer and corresponding provider. 
+
+		// force an update of the current screen, in the case of a viewer
+		// change,
+		// this will force the installation of a selection change listener on
+		// the current
+		// active viewer and corresponding provider.
 		this.setCurrentScreen(screen);
-		
+
 		// Make sure we update the dirty state, when changing screen.
-		// Action handlers will use this to update the current viewer. 
+		// Action handlers will use this to update the current viewer.
 		firePropertyChange(ISaveablePart2.PROP_DIRTY);
 
 	}
@@ -263,32 +267,37 @@ public abstract class AbstractScreenSelector extends AbstractScreensViewPart
 		final ActionHandlerDescriptor actionHandlerDescriptor = this
 				.getActionHandlerDescriptor();
 		actionHandlerDescriptor.setMenuManager(menuManager);
-
-		if (!ScreenUtil.isReadOnlyOperation(getScreen().getOperation())) {
-			actionHandlerDescriptor.setEnableEditActions(true);
-			if (this.getScreen().getViewer() instanceof TreeViewer) {
-				actionHandlerDescriptor.setEnableChildCreationActions(true);
-			} else {
-				actionHandlerDescriptor.setEnableChildCreationActions(false);
-			}
-		} else {
-			actionHandlerDescriptor.setEnableEditActions(false);
-			actionHandlerDescriptor.setEnableChildCreationActions(false);
-			actionHandlerDescriptor.setEnableSiblingCreationActions(false);
-		}
-		actionHandlerDescriptor.clearDynamicHandlers();
-
-		// actions created lazily.
 		final IScreen screen = getScreen();
-		if (screen != null && screen.getActions() != null) {
+		if (screen != null) {
 
-			// get actions per widget.
-			final List<IAction> actions = reverse(this.getScreen().getActions());
+			// Add the generic handler actions. (Editing, Creation etc..).
+			if (!ScreenUtil.isReadOnlyOperation(screen.getOperation())) {
+				actionHandlerDescriptor.setEnableEditActions(true);
+				if (this.getScreen().getViewer() instanceof TreeViewer) {
+					actionHandlerDescriptor.setEnableChildCreationActions(true);
+				} else {
+					actionHandlerDescriptor
+							.setEnableChildCreationActions(false);
+				}
+			} else {
+				actionHandlerDescriptor.setEnableEditActions(false);
+				actionHandlerDescriptor.setEnableChildCreationActions(false);
+				actionHandlerDescriptor.setEnableSiblingCreationActions(false);
+			}
+			actionHandlerDescriptor.clearDynamicHandlers();
 
-			final DynamicScreensActionHandler dynamicScreensActionHandler = new DynamicScreensActionHandler();
-			dynamicScreensActionHandler.addActions(actions);
-			actionHandlerDescriptor.addHandler(dynamicScreensActionHandler);
+			// Add some dynamic actions.
+			if (screen.getActions() != null) {
 
+				// get actions per widget.
+				final List<IAction> actions = reverse(this.getScreen()
+						.getActions());
+
+				final DynamicScreensActionHandler dynamicScreensActionHandler = new DynamicScreensActionHandler();
+				dynamicScreensActionHandler.addActions(actions);
+				actionHandlerDescriptor.addHandler(dynamicScreensActionHandler);
+
+			}
 		}
 		actionHandlerDescriptor.showMenu();
 	}
@@ -309,7 +318,21 @@ public abstract class AbstractScreenSelector extends AbstractScreensViewPart
 
 	@Override
 	protected void customPartHook(IWorkbenchPart part, PART_EVENT event) {
-		// Override to something with part events. . 
+		if (part instanceof AbstractScreenViewer) {
+			AbstractScreensViewPart screenViewPart = (AbstractScreensViewPart) part;
+			switch (event) {
+			case OPENEND:
+				addSelectionChangedListener((ISelectionChangedListener) screenViewPart);
+				break;
+			case CLOSED:
+				removeSelectionChangedListener((ISelectionChangedListener) screenViewPart);
+				break;
+			default:
+				break;
+			}
+		}
+
+		// Override to something with part events. .
 	}
-	
+
 }

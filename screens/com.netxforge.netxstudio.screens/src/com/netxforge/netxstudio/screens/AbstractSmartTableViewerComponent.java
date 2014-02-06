@@ -393,7 +393,7 @@ public abstract class AbstractSmartTableViewerComponent {
 	 */
 	protected abstract Control createExtendedContentArea(Composite parent);
 
-	public Control buildUI(Composite parent) {
+	public Control buildUI(Composite parent, Object layoutData) {
 
 		Composite content = toolkit.createComposite(parent, SWT.NONE);
 		toolkit.paintBordersFor(content);
@@ -401,8 +401,9 @@ public abstract class AbstractSmartTableViewerComponent {
 		// CB Use form based.
 		// Composite content = new Composite(parent, SWT.NONE);
 
-		GridData gd = new GridData(GridData.FILL_BOTH);
-		content.setLayoutData(gd);
+		if (layoutData != null) {
+			content.setLayoutData(layoutData);
+		}
 
 		GridLayout layout = new GridLayout();
 		layout.numColumns = 1;
@@ -433,7 +434,7 @@ public abstract class AbstractSmartTableViewerComponent {
 
 		tblViewer.setInput(new Object[0]);
 		tblViewer.setItemCount(contentProvider.getNumberOfElements());
-		gd = new GridData(GridData.FILL_BOTH);
+		GridData gd = new GridData(GridData.FILL_BOTH);
 		gd.heightHint = tblViewer.getTable().getItemHeight() * 15;
 		tblViewer.getTable().setLayoutData(gd);
 
@@ -534,14 +535,16 @@ public abstract class AbstractSmartTableViewerComponent {
 		}
 
 	}
-	
+
 	/**
-	 * Control if the last selection should be restored. 
+	 * Control if the last selection should be restored.
+	 * 
 	 * @param refreshWithLastSelection
 	 */
 	public void setRefreshWithLastSelection(boolean refreshWithLastSelection) {
 		this.refreshWithLastSelection = refreshWithLastSelection;
 	}
+
 	/**
 	 * Refreshes the dialog - has to be called in UI thread.
 	 */
@@ -569,9 +572,9 @@ public abstract class AbstractSmartTableViewerComponent {
 				} else {
 					refreshWithLastSelection = true;
 					tblViewer.setSelection(StructuredSelection.EMPTY);
-//					tblViewer.getTable().setSelection(0);
-//					tblViewer.getTable().notifyListeners(SWT.Selection,
-//							new Event());
+					// tblViewer.getTable().setSelection(0);
+					// tblViewer.getTable().notifyListeners(SWT.Selection,
+					// new Event());
 				}
 			} else {
 				tblViewer.setSelection(StructuredSelection.EMPTY);

@@ -62,6 +62,7 @@ import com.netxforge.netxstudio.common.model.IChartModel;
 import com.netxforge.netxstudio.common.model.IChartResource;
 import com.netxforge.netxstudio.common.model.ModelUtils;
 import com.netxforge.netxstudio.generics.Value;
+import com.netxforge.netxstudio.library.LibraryPackage;
 import com.netxforge.netxstudio.operators.ToleranceMarker;
 import com.netxforge.netxstudio.screens.ColorManager;
 import com.netxforge.netxstudio.screens.internal.ScreensActivator;
@@ -496,8 +497,15 @@ public class ChartNetXResource extends Chart implements
 	private void configureXAxis(IChartResource model, int modelInterval) {
 
 		if (model.hasNetXResource()) {
-			getAxisSet().getYAxis(0).getTitle()
-					.setText(model.getNetXResource().getUnitRef().getName());
+
+			getAxisSet()
+					.getYAxis(0)
+					.getTitle()
+					.setText(
+							(model.getNetXResource()
+									.eIsSet(LibraryPackage.Literals.BASE_RESOURCE__UNIT_REF) ? model
+									.getNetXResource().getUnitRef().getName()
+									: " ?"));
 			getAxisSet()
 					.getYAxis(0)
 					.getTitle()

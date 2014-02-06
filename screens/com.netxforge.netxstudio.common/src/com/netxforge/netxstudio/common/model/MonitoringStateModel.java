@@ -408,7 +408,7 @@ public class MonitoringStateModel {
 		return job;
 	}
 
-	class JobCallBack extends JobChangeAdapter {
+	public class JobCallBack extends JobChangeAdapter {
 
 		private MonitoringStateCallBack callBack;
 
@@ -497,11 +497,11 @@ public class MonitoringStateModel {
 			}
 		}
 	}
-	
+
 	/**
-	 * Cancel all running monitoring jobs. 
+	 * Cancel all running monitoring jobs.
 	 */
-	public boolean cancel(){
+	public boolean cancel() {
 		return this.getJob().cancel();
 	}
 
@@ -516,6 +516,20 @@ public class MonitoringStateModel {
 		job.getCallBackHandler().setCallBack(callBack);
 		job.go(100);
 
+	}
+
+	/**
+	 * remove the listener to the monitoring state jobs.
+	 */
+	public synchronized void deActivate(IJobChangeListener activator) {
+		removeJobNotifier(activator);
+	}
+
+	/**
+	 * Listen to the monitoring state jobs.
+	 */
+	public synchronized void activate(IJobChangeListener activator) {
+		addJobNotifier(activator);
 	}
 
 	/**

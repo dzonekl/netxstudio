@@ -105,8 +105,6 @@ public abstract class AbstractScreensViewPart extends ViewPart implements
 	@Inject
 	protected MementoUtil mementoUtil;
 
-	// private MenuManager contextMenu;
-
 	/**
 	 * Client should implement to provide the IEditingService
 	 * 
@@ -188,30 +186,6 @@ public abstract class AbstractScreensViewPart extends ViewPart implements
 		this.getEditingService().disposeData();
 		super.dispose();
 	}
-
-	// TODO Remove later.
-	// private ISelectionListener pageSelectionListener;
-
-	// private void hookPageSelection() {
-	// pageSelectionListener = new ISelectionListener() {
-	//
-	// public void selectionChanged(IWorkbenchPart part,
-	// ISelection selection) {
-	// pageSelectionChanged(part, selection);
-	// }
-	// };
-	// this.getSite().getPage().addSelectionListener(pageSelectionListener);
-	// }
-	//
-	// @SuppressWarnings("unused")
-	// protected void pageSelectionChanged(IWorkbenchPart part,
-	// ISelection selection) {
-	// if (part == this) {
-	// System.out.println("wrong part return");
-	// return;
-	// }
-	// Object sel = this.firstFromSelection(selection);
-	// }
 
 	/**
 	 * Initialize the toolbar.
@@ -452,28 +426,6 @@ public abstract class AbstractScreensViewPart extends ViewPart implements
 		customPartHook(part, PART_EVENT.OPENEND);
 	}
 
-	// ISelectionListener API
-
-	@SuppressWarnings("unused")
-	// public void selectionChanged(IWorkbenchPart part, ISelection selection) {
-	// System.out.println("AbstractScreensViewPart#selectionChanged " +
-	// selection);
-	// Object o = this.firstFromSelection(selection);
-	// }
-	/**
-	 * Get the first object from the selection.
-	 * 
-	 * @param selection
-	 * @return
-	 */
-	private Object firstFromSelection(ISelection selection) {
-		if (selection instanceof IStructuredSelection) {
-			Object first = ((IStructuredSelection) selection).getFirstElement();
-			return first;
-		}
-		return selection;
-	}
-
 	@Override
 	public Object getAdapter(@SuppressWarnings("rawtypes") Class adapter) {
 
@@ -591,9 +543,11 @@ public abstract class AbstractScreensViewPart extends ViewPart implements
 
 	public void addSelectionChangedListener(ISelectionChangedListener listener) {
 		if (!selectionChangedListeners.contains(listener)) {
-			selectionChangedListeners.add(listener);
+			if(selectionChangedListeners.add(listener)){
+				// System.out.println("Listener: " + listener + " added to: "
+				// + this);
+			}
 		}
-
 	}
 
 	public ISelection getSelection() {
@@ -602,7 +556,14 @@ public abstract class AbstractScreensViewPart extends ViewPart implements
 
 	public void removeSelectionChangedListener(
 			ISelectionChangedListener listener) {
-		selectionChangedListeners.remove(listener);
+		if (!selectionChangedListeners.remove(listener)) {
+//			System.out.println("Listener: " + listener + " not removed from: "
+//					+ this);
+		}else{
+//			System.out.println("Listener: " + listener + " removed from: "
+//					+ this);
+			
+		}
 	}
 
 	/**
@@ -652,8 +613,8 @@ public abstract class AbstractScreensViewPart extends ViewPart implements
 		case 1: {
 			CDOObject next = screenObjects.iterator().next();
 			CDOID cdoID = ((CDOObject) next).cdoID();
-			String text = new AdapterFactoryItemDelegator(EMFEditingService
-					.getAdapterFactory()).getText(next);
+			String text = new AdapterFactoryItemDelegator(
+					EMFEditingService.getAdapterFactory()).getText(next);
 
 			message = "Screen object: " + text + " OID:" + cdoID;
 
@@ -700,7 +661,8 @@ public abstract class AbstractScreensViewPart extends ViewPart implements
 			case 1: {
 				Object next = collection.iterator().next();
 				if (next instanceof CDOObject) {
-					message = modelUtils.cdoObjectToString((CDOObject) next,
+					message = modelUtils.cdoObjectToString(
+							(CDOObject) next,
 							new AdapterFactoryItemDelegator(EMFEditingService
 									.getAdapterFactory()).getText(next));
 				}

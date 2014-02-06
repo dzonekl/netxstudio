@@ -55,7 +55,7 @@ import com.netxforge.netxstudio.screens.editing.tables.TableHelper.TBVCFeatureSo
  * @author Christophe
  * 
  */
-public class MarkerComponent {
+public class ChartMarkerComponent {
 
 	private TableHelper tableHelper;
 
@@ -68,7 +68,7 @@ public class MarkerComponent {
 	private final FormToolkit toolkit = new FormToolkit(Display.getCurrent());
 
 	@Inject
-	public MarkerComponent(ModelUtils modelUtils, TableHelper tableHelper) {
+	public ChartMarkerComponent(ModelUtils modelUtils, TableHelper tableHelper) {
 		this.modelUtils = modelUtils;
 		this.tableHelper = tableHelper;
 	}

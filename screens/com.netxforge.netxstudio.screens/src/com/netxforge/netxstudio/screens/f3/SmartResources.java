@@ -62,7 +62,6 @@ import org.eclipse.jface.databinding.viewers.ObservableListTreeContentProvider;
 import org.eclipse.jface.databinding.viewers.TreeStructureAdvisor;
 import org.eclipse.jface.databinding.viewers.ViewersObservables;
 import org.eclipse.jface.dialogs.IDialogConstants;
-import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.jface.viewers.CellEditor;
 import org.eclipse.jface.viewers.ComboViewer;
 import org.eclipse.jface.viewers.DialogCellEditor;
@@ -114,10 +113,7 @@ import com.google.common.collect.Maps;
 import com.google.inject.Inject;
 import com.netxforge.engine.IExpressionEngine;
 import com.netxforge.netxstudio.common.context.IComputationContext;
-import com.netxforge.netxstudio.common.model.IMonitoringSummary;
-import com.netxforge.netxstudio.common.model.ModelUtils;
 import com.netxforge.netxstudio.common.model.MonitoringStateModel;
-import com.netxforge.netxstudio.common.model.NetxresourceSummary;
 import com.netxforge.netxstudio.data.importer.ResultProcessor;
 import com.netxforge.netxstudio.generics.DateTimeRange;
 import com.netxforge.netxstudio.generics.GenericsPackage;
@@ -135,7 +131,6 @@ import com.netxforge.netxstudio.library.Tolerance;
 import com.netxforge.netxstudio.metrics.MetricRetentionRule;
 import com.netxforge.netxstudio.metrics.MetricValueRange;
 import com.netxforge.netxstudio.metrics.MetricsPackage;
-import com.netxforge.netxstudio.operators.Marker;
 import com.netxforge.netxstudio.operators.Network;
 import com.netxforge.netxstudio.operators.Node;
 import com.netxforge.netxstudio.operators.Operator;
@@ -164,11 +159,11 @@ import com.netxforge.netxstudio.screens.editing.tables.OpenTreeViewer;
 import com.netxforge.netxstudio.screens.editing.tables.TableHelper;
 import com.netxforge.netxstudio.screens.editing.tables.TreeViewerFocusBlockManager;
 import com.netxforge.netxstudio.screens.f1.support.ReportWizard;
-import com.netxforge.netxstudio.screens.f2.RangeSelectionDialog;
 import com.netxforge.netxstudio.screens.f2.CapacityEditingDialog;
 import com.netxforge.netxstudio.screens.f2.ExpressionContextDialog;
 import com.netxforge.netxstudio.screens.f2.ExpressionSupport;
 import com.netxforge.netxstudio.screens.f2.NewEditResource;
+import com.netxforge.netxstudio.screens.f2.RangeSelectionDialog;
 import com.netxforge.netxstudio.screens.f3.support.NetXResourceLabelProvider;
 import com.netxforge.netxstudio.screens.f3.support.NetworkTreeLabelProvider;
 import com.netxforge.netxstudio.screens.monitoring.AbstractMonitoringProcessor;
@@ -207,9 +202,6 @@ public class SmartResources extends AbstractPeriodScreen implements
 
 	@Inject
 	private SearchFilter searchFilter;
-
-	@Inject
-	private SmartValueComponent cmpValues;
 
 	@Inject
 	private EmbeddedLineExpression expressionComponent;
@@ -314,7 +306,6 @@ public class SmartResources extends AbstractPeriodScreen implements
 		super(parent, style);
 		addDisposeListener(new DisposeListener() {
 			public void widgetDisposed(DisposeEvent e) {
-				cmpValues.clearData();
 				toolkit.dispose();
 			}
 		});
@@ -335,7 +326,8 @@ public class SmartResources extends AbstractPeriodScreen implements
 		frmResources.getToolBarManager().add(new showContextAction("Context"));
 
 		sashVertical = new SashForm(frmResources.getBody(), SWT.VERTICAL);
-		sashVertical.setSashWidth(3);
+		// Width ugly on WinXP. 
+//		sashVertical.setSashWidth(3);
 		toolkit.adapt(sashVertical);
 		toolkit.paintBordersFor(sashVertical);
 
@@ -370,11 +362,10 @@ public class SmartResources extends AbstractPeriodScreen implements
 
 		buildComponentViewer(sashData, null);
 		buildResourceViewer(sashData);
-		buildValues(sashData);
 
 		// WEIGHTS FOR SASH.
-		sashVertical.setWeights(new int[] { 2, 8 });
-		sashData.setWeights(new int[] { 3, 5, 5 });
+		sashVertical.setWeights(new int[] { 4, 4 });
+		sashData.setWeights(new int[] { 3, 5 });
 
 	}
 
@@ -477,12 +468,14 @@ public class SmartResources extends AbstractPeriodScreen implements
 		componentsTree.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true,
 				true, 1, 1));
 
+		// Add a drag source...
+
 		toolkit.paintBordersFor(componentsTree);
 
 		TreeViewerColumn treeViewerColumn = new TreeViewerColumn(
 				componentsTreeViewer, SWT.NONE);
 		TreeColumn trclmnCountry = treeViewerColumn.getColumn();
-		trclmnCountry.setWidth(200);
+		trclmnCountry.setWidth(400);
 		trclmnCountry.setText("Component");
 
 		TreeViewerColumn treeViewerColumn_1 = new TreeViewerColumn(
@@ -759,13 +752,17 @@ public class SmartResources extends AbstractPeriodScreen implements
 					}
 
 					// update the values component by re-applying the filter.
-					if (currentExpressionType == ContextAggregate.RETENTION_EXPRESSION_CONTEXT) {
-						cmpValues.injectData(contextAggregate
-								.getCurrentNetXResource());
-					} else {
-						cmpValues.applyDateFilter(getPeriodComponent()
-								.getPeriod(), true);
-					}
+
+					// CB TODO.... DEAL WITH VALUES AND EXPRESSIONS.
+
+					// if (currentExpressionType ==
+					// ContextAggregate.RETENTION_EXPRESSION_CONTEXT) {
+					// cmpValues.injectData(contextAggregate
+					// .getCurrentNetXResource());
+					// } else {
+					// cmpValues.applyDateFilter(getPeriodComponent()
+					// .getPeriod(), true);
+					// }
 					// update our view part dirty state, as we don't use the
 					// editing domain.
 					screenService.getAbsViewPart().publicFirePropertyChange(
@@ -847,13 +844,6 @@ public class SmartResources extends AbstractPeriodScreen implements
 			expressionContextDialog.open();
 			expressionContextDialog.injectData(contextWritableList);
 		}
-	}
-
-	private void buildValues(SashForm sashForm) {
-
-		cmpValues.configure(screenService);
-		cmpValues.buildUI(sashForm, new GridData(SWT.FILL, SWT.FILL, true,
-				true, 1, 1));
 	}
 
 	public void buildResourcesColumns() {
@@ -1316,9 +1306,6 @@ public class SmartResources extends AbstractPeriodScreen implements
 
 					currentNetXResource = processResourceChange(observableValue);
 
-					cmpValues.applyDateFilter(currentPeriod, false);
-					cmpValues.injectData(currentNetXResource);
-
 					updateResourceMon(currentNetXResource);
 				}
 			} else if (observable instanceof WritableValue) {
@@ -1333,29 +1320,13 @@ public class SmartResources extends AbstractPeriodScreen implements
 		 * 
 		 */
 		public void handleListChange(ListChangeEvent event) {
-			
+
 			if (event.getObservable() == observeResourceMultipleSelection) {
 				for (Object o : event.getObservableList()) {
 					updateResourceMon((EObject) o);
 				}
 			}
 
-		}
-
-		protected void updateValues(EObject target) {
-			IMonitoringSummary adapted = MonitoringStateModel
-					.getAdapted(target);
-			if (adapted instanceof NetxresourceSummary) {
-				NetxresourceSummary netxSummary = (NetxresourceSummary) adapted;
-				RFSService rfsService = netxSummary.getRFSService();
-				if (rfsService != null) {
-					List<Marker> markers = netxSummary.markers();
-					cmpValues.applyMarkers(markers);
-				} else {
-					// System.out.println(" Context not set for summary:"
-					// + netxSummary);
-				}
-			}
 		}
 
 		// THE CURRENT SELECTIONS.
@@ -1406,6 +1377,12 @@ public class SmartResources extends AbstractPeriodScreen implements
 				netXResource = (NetXResource) value;
 			}
 			return netXResource;
+		}
+
+		@Override
+		protected void updateValues(EObject target) {
+			// TODO Do we still need the callback for the smartResources ?
+
 		}
 
 	}
@@ -1736,7 +1713,6 @@ public class SmartResources extends AbstractPeriodScreen implements
 		}
 	}
 
-
 	/*
 	 * Syncs the period to the values available for a resources. Shows a dialog
 	 * which allows to select for which range, the period should be synced.
@@ -1772,13 +1748,8 @@ public class SmartResources extends AbstractPeriodScreen implements
 				if (mvr != null) {
 					DateTimeRange range = modelUtils.period(mvr
 							.getMetricValues());
-
-					// 3 steps, update the period component.
-					// update the period writable.
-					PeriodComponent cmpPeriod = getPeriodComponent();
-					cmpPeriod.setPeriod(range);
-					// Do with binding?
-					cmpValues.applyDateFilter(cmpPeriod.getPeriod(), true);
+					// update the period component.
+					getPeriodComponent().setPeriod(range);
 
 				} else {
 				}
@@ -2417,7 +2388,6 @@ public class SmartResources extends AbstractPeriodScreen implements
 	@Override
 	public Viewer[] getViewers() {
 		return new Viewer[] { componentsTreeViewer, resourcesTableViewer,
-				cmpValues.getValuesTableViewer(),
 				expressionComponent.getXtextEditor().getViewer() };
 	}
 
@@ -2478,8 +2448,6 @@ public class SmartResources extends AbstractPeriodScreen implements
 			return componentsTreeViewer;
 		} else if (widget == resourcesTable) {
 			return resourcesTableViewer;
-		} else if (widget == cmpValues.getValuesTableViewer().getTable()) {
-			return cmpValues.getValuesTableViewer();
 		} else if (widget == expressionComponent.getXtextEditor().getViewer()
 				.getTextWidget()) {
 			return expressionComponent.getXtextEditor().getViewer()
@@ -2500,8 +2468,6 @@ public class SmartResources extends AbstractPeriodScreen implements
 			return componentsTreeViewer;
 		} else if (widget == resourcesTable) {
 			return resourcesTableViewer;
-		} else if (widget == cmpValues.getValuesTableViewer().getTable()) {
-			return cmpValues.getValuesTableViewer();
 		} else if (widget == expressionComponent.getXtextEditor().getViewer()
 				.getTextWidget()) {
 			return expressionComponent.getXtextEditor().getViewer();
@@ -2565,43 +2531,50 @@ public class SmartResources extends AbstractPeriodScreen implements
 	@Override
 	public void restoreState(IMemento memento) {
 		if (memento != null) {
-			super.restoreState(memento);
 
-			mementoUtils.retrieveSashForm(memento, sashVertical,
-					MEM_KEY_NODERESOURCEADVANCED_SEPARATOR_VERTICAL);
-			mementoUtils.retrieveSashForm(memento, sashData,
-					MEM_KEY_NODERESOURCEADVANCED_SEPARATOR_DATA);
+			try {
+				super.restoreState(memento);
 
-			mementoUtils.retrieveStructuredViewerSelection(memento,
-					cmbViewerOperator,
-					MEM_KEY_NODERESOURCEADVANCED_SELECTION_OPERATOR,
-					this.operatorResource.cdoView());
+				mementoUtils.retrieveSashForm(memento, sashVertical,
+						MEM_KEY_NODERESOURCEADVANCED_SEPARATOR_VERTICAL);
+				mementoUtils.retrieveSashForm(memento, sashData,
+						MEM_KEY_NODERESOURCEADVANCED_SEPARATOR_DATA);
 
-			mementoUtils.retrieveStructuredViewerSelection(memento,
-					cmbViewerNetwork,
-					MEM_KEY_NODERESOURCEADVANCED_SELECTION_NETWORK,
-					this.operatorResource.cdoView());
+				mementoUtils.retrieveStructuredViewerSelection(memento,
+						cmbViewerOperator,
+						MEM_KEY_NODERESOURCEADVANCED_SELECTION_OPERATOR,
+						this.operatorResource.cdoView());
 
-			mementoUtils.retrieveStructuredViewerSelection(memento,
-					cmbViewerNode, MEM_KEY_NODERESOURCEADVANCED_SELECTION_NODE,
-					this.operatorResource.cdoView());
+				mementoUtils.retrieveStructuredViewerSelection(memento,
+						cmbViewerNetwork,
+						MEM_KEY_NODERESOURCEADVANCED_SELECTION_NETWORK,
+						this.operatorResource.cdoView());
 
-			mementoUtils.retrieveStructuredViewerSelection(memento,
-					componentsTreeViewer,
-					MEM_KEY_NODERESOURCEADVANCED_SELECTION_COMPONENT,
-					this.operatorResource.cdoView());
+				mementoUtils.retrieveStructuredViewerSelection(memento,
+						cmbViewerNode,
+						MEM_KEY_NODERESOURCEADVANCED_SELECTION_NODE,
+						this.operatorResource.cdoView());
 
-			mementoUtils.retrieveStructuredViewerSelection(memento,
-					resourcesTableViewer,
-					MEM_KEY_NODERESOURCEADVANCED_SELECTION_RESOURCE,
-					this.operatorResource.cdoView());
+				mementoUtils.retrieveStructuredViewerSelection(memento,
+						componentsTreeViewer,
+						MEM_KEY_NODERESOURCEADVANCED_SELECTION_COMPONENT,
+						this.operatorResource.cdoView());
+
+				mementoUtils.retrieveStructuredViewerSelection(memento,
+						resourcesTableViewer,
+						MEM_KEY_NODERESOURCEADVANCED_SELECTION_RESOURCE,
+						this.operatorResource.cdoView());
+			} catch (Exception e) {
+				// Wrap in exception as UI change could restore wrong or non
+				// existing components...
+			}
 		}
 	}
 
 	@Override
 	protected void doHandleValueChange(ValueChangeEvent event) {
 		// This is to notify the period
-		cmpValues.applyDateFilter(this.getPeriod(), true);
+		monitoringAggregate.setPeriod(getPeriodComponent().getPeriod());
 	}
 
 }

@@ -17,11 +17,9 @@
  *******************************************************************************/
 package com.netxforge.netxstudio.screens.monitoring;
 
-import org.eclipse.core.runtime.IProgressMonitor;
-import org.eclipse.core.runtime.IStatus;
-import org.eclipse.core.runtime.Status;
-import org.eclipse.core.runtime.jobs.IJobChangeEvent;
-import org.eclipse.core.runtime.jobs.JobChangeAdapter;
+import java.util.Collection;
+import java.util.List;
+
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.jface.resource.JFaceResources;
 import org.eclipse.swt.SWT;
@@ -33,25 +31,27 @@ import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Label;
-import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.forms.widgets.FormText;
 import org.eclipse.ui.forms.widgets.FormToolkit;
-import org.eclipse.ui.progress.UIJob;
 
+import com.google.common.collect.Lists;
 import com.google.inject.Inject;
 import com.netxforge.netxstudio.common.model.IMonitoringSummary;
 import com.netxforge.netxstudio.common.model.IMonitoringSummary.RAG;
 import com.netxforge.netxstudio.common.model.MonitoringStateEvent;
 import com.netxforge.netxstudio.common.model.MonitoringStateModel;
+import com.netxforge.netxstudio.common.model.MonitoringStateModel.JobCallBack;
 import com.netxforge.netxstudio.common.model.MonitoringStateModel.MonitoringStateCallBack;
+import com.netxforge.netxstudio.common.model.NodeTypeSummary;
 import com.netxforge.netxstudio.library.Component;
 import com.netxforge.netxstudio.library.NetXResource;
+import com.netxforge.netxstudio.library.NodeType;
 import com.netxforge.netxstudio.operators.Node;
 import com.netxforge.netxstudio.operators.Operator;
 import com.netxforge.netxstudio.operators.OperatorsPackage;
 import com.netxforge.netxstudio.screens.editing.IScreen;
+import com.netxforge.netxstudio.screens.editing.ScreenRefresher;
 import com.netxforge.netxstudio.screens.editing.ScreenUtil;
-import com.netxforge.netxstudio.screens.internal.ScreensActivator;
 import com.netxforge.netxstudio.services.RFSService;
 
 /**
@@ -62,15 +62,10 @@ import com.netxforge.netxstudio.services.RFSService;
  * @author Christophe Bouhier
  * 
  */
-public class DashboardComponent extends JobChangeAdapter {
+public class DashboardComponent implements MonitoringStateCallBack {
 
 	private final FormToolkit formToolkit = new FormToolkit(
 			Display.getCurrent());
-
-	/**
-	 * Job which refreshs the UI for the created summary.
-	 */
-	private final RefreshSummaryJob refreshSummaryJob = new RefreshSummaryJob();
 
 	private FormText formTextLastMonitor;
 
@@ -103,7 +98,11 @@ public class DashboardComponent extends JobChangeAdapter {
 
 	private ISummaryComponent summaryForSelection;
 
-	private EObject latestSelection;
+	private Object[] injectedObjects;
+
+	private ScreenRefresher refreshSummaryJob;
+
+	private JobCallBack jobCallBack;
 
 	@Inject
 	public DashboardComponent(MonitoringStateModel ms) {
@@ -123,11 +122,9 @@ public class DashboardComponent extends JobChangeAdapter {
 		parent.addDisposeListener(new DisposeListener() {
 
 			public void widgetDisposed(DisposeEvent e) {
-				// Cancel running service summary job.
-				// if (job != null && job.isRunning()) {
-				// job.cancel();
-				// }
-				refreshSummaryJob.cancel();
+				if (refreshSummaryJob != null) {
+					refreshSummaryJob.cancel();
+				}
 			}
 		});
 
@@ -220,29 +217,10 @@ public class DashboardComponent extends JobChangeAdapter {
 		formTextGreen.setText("G", false, false);
 	}
 
-	/**
-	 * Inject a {@link RFSService} into the component. This will first create
-	 * the Service Summary Model Object.
-	 * 
-	 * @param service
-	 */
-	// public void injectData(RFSService service, DateTimeRange period) {
-	//
-	// final SummaryCallBack callBack = new SummaryCallBack();
-	//
-	// monitoringState.summary(callBack, service, new IComputation[] { period
-	// });
-	// }
+	public void injectData(Object... objects) {
 
-	public void injectData(Object... selection) {
-
-		processSelection(selection);
-	}
-
-	private void processSelection(Object... selection) {
-
-		if (validSelection(selection) && selection.length == 1) {
-			Object o = selection[0];
+		if (validSelection(objects) && objects.length == 1) {
+			Object o = objects[0];
 
 			ISummaryComponent proposedSummaryForSelection = summaryForSelection(o);
 			if (summaryForSelection == null
@@ -266,19 +244,16 @@ public class DashboardComponent extends JobChangeAdapter {
 			// and waiting for completion is useless. we currently have no way
 			// to differentiate so we do both.
 
-			if (o instanceof EObject) {
-				setLatestSelection((EObject) o);
-				updateLatestSelection();
+			setInjectedObjects(objects);
+			refreshSummary();
+
+			if (jobCallBack == null) {
+				jobCallBack = monitoringState.new JobCallBack();
+				jobCallBack.setCallBack(this);
 			}
 
-			// Prep the summary itself, as the monitoring job might still be
-			// running, we delay until it's ready.
-			deActivate();
-			activate();
-
-		} else {
-			// TODO, for multiple selections, we need a
-			// IMonitoringSummaryComposite object.
+			monitoringState.deActivate(jobCallBack);
+			monitoringState.activate(jobCallBack);
 
 		}
 	}
@@ -317,38 +292,25 @@ public class DashboardComponent extends JobChangeAdapter {
 		return true;
 	}
 
-	class SummaryCallBack implements MonitoringStateCallBack {
+	private void refreshSummaryUI(Collection<IMonitoringSummary> summaries) {
 
-		public void callBackEvent(MonitoringStateEvent event) {
+		if (!summaries.isEmpty()) {
+			IMonitoringSummary summary = Lists.newArrayList(summaries).get(0);
+			populateContent(summary);
 
-			IMonitoringSummary summary = null;
-
-			if (event.getResult() instanceof IMonitoringSummary) {
-				summary = (IMonitoringSummary) event.getResult();
+			if (summary != null && summaryForSelection != null) {
+				summaryForSelection.fillSummary(summary);
+			} else {
+				if (summaryForSelection != null) {
+					summaryForSelection.dispose();
+					summaryForSelection = null;
+				}
 			}
-			refreshSummaryJob.setSummary(summary);
-			refreshSummaryJob.schedule(100);
+			refresh();
 		}
-	};
-
-	private void refreshSummaryUI(IMonitoringSummary summary) {
-
-		populateContent(summary);
-
-		if (summary != null && summaryForSelection != null) {
-			summaryForSelection.fillSummary(summary);
-		} else {
-			if (summaryForSelection != null) {
-				summaryForSelection.dispose();
-				summaryForSelection = null;
-			}
-		}
-		refresh();
 	}
 
 	private void refresh() {
-		// targetContent.layout();
-		// content.layout();
 		ScreenUtil.compositeFor(parentScreen).layout(true, true);
 	}
 
@@ -391,109 +353,81 @@ public class DashboardComponent extends JobChangeAdapter {
 
 	}
 
-	/**
-	 * Refreshes the RFS Service Summary Section.
-	 * 
-	 * @author Christophe Bouhier
-	 */
-	class RefreshSummaryJob extends UIJob {
+	private void refreshSummary() {
 
-		private IMonitoringSummary summary;
+		List<IMonitoringSummary> summariesToRefresh = Lists.newArrayList();
+		for (Object injectedObject : getInjectedObjects()) {
+			if (injectedObject instanceof Node) {
+				Node n = (Node) injectedObject;
+				if (n.eIsSet(OperatorsPackage.Literals.NODE__NODE_TYPE)) {
+					NodeType nt = ((Node) injectedObject).getNodeType();
+					if (MonitoringStateModel.isAdapted(nt)) {
+						NodeTypeSummary summary = (NodeTypeSummary) MonitoringStateModel
+								.getAdapted(nt);
+						summariesToRefresh.add(summary);
+					} else {
+						System.out.println("target not adapted: " + nt);
+					}
+				} else {
+					return;
+				}
 
-		public void setSummary(IMonitoringSummary summary) {
-			this.summary = summary;
-		}
-
-		/**
-		 * Creates a new instance of the class.
-		 */
-		public RefreshSummaryJob() {
-			super("refresh");
-			// setSystem(true);
-		}
-
-		@Override
-		public IStatus runInUIThread(IProgressMonitor monitor) {
-
-			monitor.setTaskName("Refresh monitoring");
-
-			if (monitor.isCanceled()) {
-				return new Status(IStatus.OK, ScreensActivator.PLUGIN_ID,
-						IStatus.OK, "Cancelled ", null);
-			}
-			// System.out.println("Checking:" + content.hashCode());
-			if (content.isDisposed()) {
-				return new Status(IStatus.OK, ScreensActivator.PLUGIN_ID,
-						IStatus.OK, "Widget disposed", null);
-			}
-			// if (summary == null) {
-			// return new Status(IStatus.WARNING, ScreensActivator.PLUGIN_ID,
-			// IStatus.ERROR, "No summary for this object", null);
-			// }
-
-			refreshSummaryUI(summary);
-
-			return new Status(IStatus.OK, PlatformUI.PLUGIN_ID, IStatus.OK, "",
-					null);
-		}
-
-	}
-
-	private void updateLatestSelection() {
-
-		EObject latest = this.getLatestSelection();
-		if (latest instanceof Node) {
-			if (latest.eIsSet(OperatorsPackage.Literals.NODE__NODE_TYPE)) {
-				latest = ((Node) latest).getNodeType();
+			} else if (injectedObject instanceof EObject) {
+				EObject eo = (EObject) injectedObject;
+				if (MonitoringStateModel.isAdapted(eo)) {
+					IMonitoringSummary summary = MonitoringStateModel
+							.getAdapted(eo);
+					summariesToRefresh.add(summary);
+				}
 			} else {
-				return;
+				System.out.println("target not adapted: " + injectedObject);
 			}
 		}
 
-		// if (MonitoringStateModel.isAdapted(latest)) {
-		IMonitoringSummary adapted = MonitoringStateModel.getAdapted(latest);
-		refreshSummaryJob.setSummary(adapted);
+		if(summariesToRefresh.isEmpty()){
+			// Do not fire a refresh for not understood injections. 
+			
+		}
+		
+		if (refreshSummaryJob == null) {
+			refreshSummaryJob = new ScreenRefresher() {
+				@Override
+				public void refreshSummaryUI(
+						Collection<IMonitoringSummary> summaries) {
+					DashboardComponent.this.refreshSummaryUI(summaries);
+				}
+			};
+		}
+
+		refreshSummaryJob.setSummary(summariesToRefresh);
 		refreshSummaryJob.schedule(100);
-		// } else {
-		//
-		// final SummaryCallBack callBack = new SummaryCallBack();
-		// monitoringState.summary(callBack, o, new Object[] {});
-		// }
-	}
-
-	private synchronized void setLatestSelection(EObject o) {
-		this.latestSelection = o;
-
-	}
-
-	private synchronized EObject getLatestSelection() {
-		return latestSelection;
-	}
-
-	@Override
-	public void done(IJobChangeEvent event) {
-		updateLatestSelection();
-	}
-
-	/**
-	 * Listen to the monitoring state jobs.
-	 */
-	public void activate() {
-		monitoringState.addJobNotifier(this);
-	}
-
-	/**
-	 * remove the listener to the monitoring state jobs.
-	 */
-	public void deActivate() {
-		monitoringState.removeJobNotifier(this);
 	}
 
 	public void reset() {
 		// Deactiavate any monitoring job notification.
-		deActivate();
-		setLatestSelection(null);
+		if (jobCallBack != null) {
+			monitoringState.deActivate(jobCallBack);
+		}
+
+		clearInjectedObjects();
 		resetContent();
+	}
+
+	public void callBackEvent(MonitoringStateEvent event) {
+		refreshSummary();
+	}
+
+	public synchronized void setInjectedObjects(Object[] objects) {
+		this.injectedObjects = objects;
+
+	}
+
+	public synchronized Object[] getInjectedObjects() {
+		return injectedObjects;
+	}
+
+	public synchronized void clearInjectedObjects() {
+		injectedObjects = null;
 	}
 
 }
