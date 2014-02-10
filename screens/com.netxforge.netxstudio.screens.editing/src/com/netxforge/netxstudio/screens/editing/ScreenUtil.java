@@ -18,7 +18,6 @@
  *******************************************************************************/
 package com.netxforge.netxstudio.screens.editing;
 
-import org.eclipse.jface.action.Action;
 import org.eclipse.jface.resource.ColorRegistry;
 import org.eclipse.jface.resource.JFaceResources;
 import org.eclipse.swt.dnd.DND;
