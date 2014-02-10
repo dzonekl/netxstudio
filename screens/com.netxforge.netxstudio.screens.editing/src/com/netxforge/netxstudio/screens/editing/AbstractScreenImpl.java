@@ -23,14 +23,19 @@ import java.util.Set;
 
 import org.eclipse.emf.cdo.CDOObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
+import org.eclipse.emf.edit.ui.dnd.LocalTransfer;
+import org.eclipse.emf.edit.ui.dnd.ViewerDragAdapter;
 import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.action.ToolBarManager;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.ISelectionChangedListener;
 import org.eclipse.jface.viewers.ISelectionProvider;
 import org.eclipse.jface.viewers.StructuredSelection;
+import org.eclipse.jface.viewers.StructuredViewer;
 import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.dnd.DND;
+import org.eclipse.swt.dnd.Transfer;
 import org.eclipse.swt.events.DisposeEvent;
 import org.eclipse.swt.events.DisposeListener;
 import org.eclipse.swt.events.FocusEvent;
@@ -249,6 +254,35 @@ public abstract class AbstractScreenImpl extends Composite implements IScreen,
 			validationService.dispose();
 		}
 		this.unRegisterFocus(this);
+	}
+
+	/**
+	 * Enable Drag and Drop facilities on JFace {@link StructuredViewer} on the
+	 * {@link #getViewers() viewers} of this {@link IScreen}.
+	 * 
+	 * @see http://www.eclipse.org/articles/Article-SWT-DND/DND-in-SWT.html
+	 */
+	public void enableDragAndDrop() {
+
+		for (Viewer viewer : getViewers()) {
+			if (viewer instanceof StructuredViewer) {
+				StructuredViewer sv = (StructuredViewer) viewer;
+				int dndOperations = DND.DROP_COPY | DND.DROP_MOVE
+						| DND.DROP_LINK;
+				Transfer[] transfers = new Transfer[] { LocalTransfer
+						.getInstance() };
+				sv.addDragSupport(dndOperations, transfers,
+						new ViewerDragAdapter(sv));
+
+				// CB Find out the use case for drop support on regular tables. 
+
+				// viewer.addDropSupport(
+				// dndOperations,
+				// transfers,
+				// new EditingDomainViewerDropAdapter(this
+				// .getEditingDomain(), viewer));
+			}
+		}
 	}
 
 	/**

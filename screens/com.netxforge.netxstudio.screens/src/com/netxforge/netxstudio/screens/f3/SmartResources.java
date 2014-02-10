@@ -2336,6 +2336,7 @@ public class SmartResources extends AbstractPeriodScreen implements
 
 		buildUI();
 		registerFocus(this);
+		enableDragAndDrop();
 		initDataBindings_();
 
 	}

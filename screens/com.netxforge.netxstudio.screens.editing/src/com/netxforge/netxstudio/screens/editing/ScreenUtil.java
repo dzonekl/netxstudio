@@ -18,8 +18,10 @@
  *******************************************************************************/
 package com.netxforge.netxstudio.screens.editing;
 
+import org.eclipse.jface.action.Action;
 import org.eclipse.jface.resource.ColorRegistry;
 import org.eclipse.jface.resource.JFaceResources;
+import org.eclipse.swt.dnd.DND;
 import org.eclipse.swt.graphics.RGB;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
@@ -51,6 +53,11 @@ public class ScreenUtil {
 	public static final int OPERATION_EDIT = 0x0100;
 	public static final int OPERATION_NEW = 0x0200;
 	public static final int OPERATION_READ_ONLY = 0x0400;
+		
+	
+	public static final int DROP_OPERATIONS = DND.DROP_MOVE | DND.DROP_COPY
+			| DND.DROP_DEFAULT;
+
 	
 	public static boolean isNewOperation(int operation) {
 		return (operation & OPERATION_NEW) != 0;

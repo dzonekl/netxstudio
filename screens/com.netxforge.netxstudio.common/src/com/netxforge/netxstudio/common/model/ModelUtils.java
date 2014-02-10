@@ -3671,6 +3671,30 @@ public class ModelUtils {
 
 	}
 
+	/**
+	 * Get the number of days in a {@link DateTimeRange period}.
+	 * 
+	 * @param dtr
+	 * @return
+	 */
+	public int daysInPeriod(DateTimeRange dtr){
+		
+		
+		// Prep. a Calendar to roll down to the begin of the period. 
+		XMLGregorianCalendar end = dtr.getEnd();
+		final Calendar cal = GregorianCalendar.getInstance();
+		cal.setTime(end.toGregorianCalendar().getTime());
+		
+		long begin = dtr.getBegin().toGregorianCalendar().getTime().getTime();
+		
+		int days = 0;
+		while(cal.getTime().getTime() > begin){
+			cal.add(Calendar.DAY_OF_MONTH, -1);
+			days++;
+		}
+		return days;
+	}
+	
 	public Date oneWeekAgo() {
 		final Calendar cal = GregorianCalendar.getInstance();
 		cal.setTime(new Date(System.currentTimeMillis()));

@@ -38,6 +38,9 @@ import com.netxforge.netxstudio.common.model.ModelUtils.TimeStampPredicate;
 import com.netxforge.netxstudio.generics.DateTimeRange;
 import com.netxforge.netxstudio.generics.GenericsFactory;
 import com.netxforge.netxstudio.generics.Value;
+import com.netxforge.netxstudio.library.Component;
+import com.netxforge.netxstudio.library.Equipment;
+import com.netxforge.netxstudio.library.LibraryPackage;
 import com.netxforge.netxstudio.library.NetXResource;
 import com.netxforge.netxstudio.metrics.KindHintType;
 import com.netxforge.netxstudio.metrics.MetricValueRange;
@@ -159,6 +162,10 @@ public class ChartModel implements IChartModel {
 			if (metricValues == null) {
 
 				NetXResource target = netxSummary.getTarget();
+				
+				
+				// It could be, there is no aggregation data for higher order intervals. 
+				// this will yield and empty list. 
 				MetricValueRange valueRangeForIntervalAndKind = modelUtils
 						.valueRangeForIntervalAndKind(target, kind, interval);
 				if (valueRangeForIntervalAndKind != null) {
@@ -429,6 +436,28 @@ public class ChartModel implements IChartModel {
 			utilDoubleArray = null;
 			timeStampArray = null;
 		}
+
+		public String getChartID() {
+
+			final StringBuilder sb = new StringBuilder();
+
+			final Component c = this.getNetXResource().getComponentRef();
+			if (c instanceof Function) {
+				sb.append(c.getName());
+			}
+			if (c instanceof Equipment) {
+				Equipment eq = (Equipment) c;
+				sb.append(eq.getEquipmentCode() != null ? eq.getEquipmentCode()
+						: "?");
+				if (eq.eIsSet(LibraryPackage.Literals.COMPONENT__NAME)) {
+					sb.append(" : " + eq.getName());
+				}
+			}
+			sb.append(" - ");
+			sb.append(getNetXResource().getShortName());
+
+			return sb.toString();
+		}
 	}
 
 	/*
@@ -506,6 +535,7 @@ public class ChartModel implements IChartModel {
 			// IChartResource.
 			if (chartResources.isEmpty()) {
 				this.chartPeriod = netxSummary.getPeriod();
+				intervalForPeriod(chartPeriod);
 			}
 
 			final ChartResource chartResource = new ChartResource(netxSummary);
@@ -517,6 +547,29 @@ public class ChartModel implements IChartModel {
 					"Chart Model for summary type:  "
 							+ summary.getClass().getName()
 							+ " is not supported");
+		}
+
+	}
+
+	/**
+	 * Set the default interval based on the period. If the period < 3 days =>
+	 * Show in hours. If the period < 1 month => Show in days. If the period < 6
+	 * months => Show in weeks.
+	 * 
+	 * @param chartPeriod
+	 */
+	private void intervalForPeriod(DateTimeRange chartPeriod) {
+		int days = modelUtils.daysInPeriod(chartPeriod);
+		System.out.println(days);
+		if(days < 3){
+			// default do nothing. 
+			return;
+		}else if(days <= 31){
+			interval = ModelUtils.MINUTES_IN_A_DAY;
+		}else if(days <= 183){
+			interval = ModelUtils.MINUTES_IN_A_WEEK;
+		}else {
+			interval = ModelUtils.MINUTES_IN_A_MONTH;
 		}
 
 	}
@@ -591,8 +644,12 @@ public class ChartModel implements IChartModel {
 					}
 
 				});
+		try {
+			return nativeFunctions.sumCollections(input);
+		} catch (Exception e) {
 
-		return nativeFunctions.sumCollections(input);
+		}
+		return null;
 	}
 
 	/*
@@ -629,10 +686,9 @@ public class ChartModel implements IChartModel {
 	}
 
 	public void reset() {
-		for(IChartResource cr : getChartResources()){
+		for (IChartResource cr : getChartResources()) {
 			cr.resetCaches();
 		}
 	}
-	
 
 }

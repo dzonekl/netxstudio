@@ -19,6 +19,7 @@ package com.netxforge.netxstudio.screens.parts;
 
 import java.util.List;
 
+import org.eclipse.emf.edit.ui.dnd.LocalTransfer;
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.viewers.ArrayContentProvider;
@@ -29,6 +30,9 @@ import org.eclipse.jface.viewers.LabelProvider;
 import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.jface.window.Window;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.dnd.DropTarget;
+import org.eclipse.swt.dnd.DropTargetEvent;
+import org.eclipse.swt.dnd.Transfer;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.graphics.Image;
@@ -51,11 +55,13 @@ import com.netxforge.netxstudio.common.model.IChartResource;
 import com.netxforge.netxstudio.metrics.MetricValueRange;
 import com.netxforge.netxstudio.screens.editing.AbstractScreenViewer;
 import com.netxforge.netxstudio.screens.editing.IScreen;
+import com.netxforge.netxstudio.screens.editing.ScreenDropTargetAdapter;
 import com.netxforge.netxstudio.screens.editing.ScreenUtil;
 import com.netxforge.netxstudio.screens.editing.util.WinForms;
 import com.netxforge.netxstudio.screens.f2.RangeSelectionDialog;
 import com.netxforge.netxstudio.screens.f3.charts.ChartModelDialog;
 import com.netxforge.netxstudio.screens.f3.charts.ChartScreen;
+import com.netxforge.netxstudio.screens.showins.ChartInput;
 import com.netxforge.netxstudio.screens.showins.ChartMergeInput;
 
 /**
@@ -73,6 +79,40 @@ public class MultiChartScreenViewer extends AbstractScreenViewer {
 	private Form form;
 
 	private List<ChartScreen> chartList;
+
+	// Our drag and drop external transfers...
+	// Aren't these also part of the event?
+	private Transfer[] transfers;
+
+	public class ChartScreenDropTargetAdapter extends ScreenDropTargetAdapter {
+		public ChartScreenDropTargetAdapter(IScreen screen) {
+			super(screen);
+		}
+
+		@Override
+		protected void screenDrop(DropTargetEvent event) {
+			Object extractData = this.extractData(event);
+			if (extractData instanceof StructuredSelection) {
+				// Adapt to a show-in context...
+				ShowInContext showInContext = new ShowInContext(
+						new ChartInput(), (ISelection) extractData);
+
+				// Are we in a screen?
+				if (screen instanceof ChartScreen) {
+					showInContext.setInput(new ChartMergeInput());
+					screen.handleShowIn(showInContext);
+				} else {
+
+					show(showInContext);
+				}
+			}
+		}
+
+		@Override
+		protected void screenAccept(DropTargetEvent event) {
+
+		}
+	}
 
 	abstract class ChartAction extends Action {
 		protected ChartScreen chartScreen;
@@ -283,18 +323,33 @@ public class MultiChartScreenViewer extends AbstractScreenViewer {
 			@Override
 			public void run() {
 				winForms.clear();
-				chartList.clear();
-				chartList = null;
+				if (chartList != null) {
+					chartList.clear();
+					chartList = null;
+				}
 			}
 		});
 		form.getToolBarManager().update(true);
 
+		transfers = new Transfer[] { LocalTransfer.getInstance() };
+
+		DropTarget dropTarget = new DropTarget(form.getHead(),
+				ScreenUtil.DROP_OPERATIONS);
+		dropTarget.addDropListener(new ChartScreenDropTargetAdapter(this
+				.getScreen()));
+
+		dropTarget.setTransfer(transfers);
 	}
 
 	public ChartScreen addChartScreen() {
 
 		final Form addWindow = winForms.addWindow();
 		addWindow.getBody().setLayout(new FillLayout(SWT.HORIZONTAL));
+		addWindow.setText("initial text");
+		// Composite headingComposite =
+		// toolkit.createComposite(addWindow.getHead(), SWT.BORDER);
+		// toolkit.paintBordersFor(headingComposite);
+		// addWindow.setHeadClient(headingComposite);
 
 		final ChartScreen chartScreen = new ChartScreen(addWindow.getBody(),
 				SWT.BORDER);
@@ -310,6 +365,13 @@ public class MultiChartScreenViewer extends AbstractScreenViewer {
 		// Add our actions.
 		winForms.addWinFormActions(addWindow, getActions(chartScreen));
 		addWindow.pack();
+
+		// Add dnd.
+		DropTarget dropTarget = new DropTarget(addWindow.getBody(),
+				ScreenUtil.DROP_OPERATIONS);
+		dropTarget
+				.addDropListener(new ChartScreenDropTargetAdapter(chartScreen));
+		dropTarget.setTransfer(transfers);
 
 		// Add menu option to close the windows form.
 		// Not sure how nested component menus are dealt with.....better to add
@@ -444,6 +506,7 @@ public class MultiChartScreenViewer extends AbstractScreenViewer {
 			item.addSelectionListener(new SelectionAdapter() {
 				@Override
 				public void widgetSelected(SelectionEvent e) {
+
 					MenuItem item = (MenuItem) e.widget;
 					if (item.getSelection()) {
 						ChartScreen chartScreen = addChartScreen();

@@ -380,7 +380,10 @@ public class ChartNetXResource extends Chart implements
 
 		boolean first = true;
 		Date[] timestampArray = null;
-		for (IChartResource cr : chartResources) {
+		for (int i = 0; i < chartResources.size(); i++) {
+			
+			IChartResource cr = chartResources.get(i);
+			
 			if (cr.isFiltered())
 				continue;
 			// Create the axis with info from the first IChartResource
@@ -390,11 +393,11 @@ public class ChartNetXResource extends Chart implements
 				configureXAxis(cr, model.getInterval());
 				configureYAxis();
 			}
-			addSeriesMetric(cr, chartResources.indexOf(cr));
+			addSeriesMetric(cr, i);
 		}
 
 		if (timestampArray != null
-				&& model.getChartNonFilteredResources().size() == 2) {
+				&& model.getChartNonFilteredResources().size() >= 2) {
 			addSeriesSum(model, timestampArray);
 			if (chartModel.shouldSum()) {
 
@@ -750,10 +753,10 @@ public class ChartNetXResource extends Chart implements
 	 * @return
 	 */
 	private ILineSeries addSeriesMetric(IChartResource model, int count) {
-
+		
 		ILineSeries metricLineSeries = (ILineSeries) getSeriesSet()
 				.createSeries(ISeries.SeriesType.LINE,
-						model.getNetXResource().getShortName());
+						model.getChartID());
 
 		metricLineSeries.setXDateSeries(model.getTimeStampArray());
 

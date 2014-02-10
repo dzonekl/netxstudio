@@ -57,6 +57,12 @@ public interface IChartResource extends IFilteredChart {
 	public abstract boolean hasMarkers();
 	
 	/**
+	 * A unique identifier for an {@link IChartResource}
+	 * @return
+	 */
+	public abstract String getChartID(); 
+	
+	/**
 	 *  A cached implementation can call this method to reset it 
 	 *  and allow re-init. 
 	 */
