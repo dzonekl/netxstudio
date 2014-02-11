@@ -18,8 +18,10 @@
 package com.netxforge.netxstudio.screens.parts;
 
 import java.util.Collection;
+import java.util.Iterator;
 import java.util.List;
 
+import org.eclipse.emf.common.notify.Notifier;
 import org.eclipse.emf.databinding.EMFDataBindingContext;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.jface.viewers.Viewer;
@@ -29,10 +31,10 @@ import org.eclipse.swt.events.DisposeListener;
 import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
-import org.eclipse.ui.forms.widgets.ColumnLayout;
 import org.eclipse.ui.forms.widgets.Form;
 import org.eclipse.ui.forms.widgets.FormToolkit;
 
+import com.google.common.collect.Iterators;
 import com.google.common.collect.Lists;
 import com.google.inject.Inject;
 import com.netxforge.netxstudio.common.model.IMonitoringSummary;
@@ -96,7 +98,7 @@ public class DataScreen extends AbstractScreen implements IDataScreenInjection,
 		frmDataScreen.setText("Data");
 		toolkit.paintBordersFor(frmDataScreen);
 
-		frmDataScreen.getBody().setLayout(new ColumnLayout());
+		frmDataScreen.getBody().setLayout(new FillLayout());
 
 		final Composite content = toolkit.createComposite(
 				frmDataScreen.getBody(), SWT.NONE);
@@ -161,7 +163,20 @@ public class DataScreen extends AbstractScreen implements IDataScreenInjection,
 	}
 
 	public void callBackEvent(MonitoringStateEvent event) {
-		refreshSummary();
+		Object result = event.getResult();
+		boolean shouldRefresh = false;
+		if (result instanceof IMonitoringSummary) {
+			Notifier target = ((IMonitoringSummary) result).getTarget();
+			final Iterator<Object> currentObjects = Lists.newArrayList(
+					getInjectedObjects()).iterator();
+			if (Iterators.contains(currentObjects, target)) {
+				shouldRefresh = true;
+			}
+		}
+		if (shouldRefresh) {
+			refreshSummary();
+		}		
+		monitoringState.deActivate(jobCallBack);
 	}
 
 	private void refreshSummary() {

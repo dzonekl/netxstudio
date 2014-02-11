@@ -49,6 +49,7 @@ import org.eclipse.ui.part.ShowInContext;
 import com.google.common.collect.Iterators;
 import com.google.common.collect.Lists;
 import com.google.inject.Inject;
+import com.netxforge.netxstudio.common.model.ChartModelProvider;
 import com.netxforge.netxstudio.common.model.IChartModel;
 import com.netxforge.netxstudio.common.model.IChartResource;
 import com.netxforge.netxstudio.common.model.IMonitoringSummary;
@@ -74,15 +75,18 @@ import com.netxforge.netxstudio.screens.showins.ChartMergeInput;
 public class ChartScreen extends AbstractScreen implements
 		IDataScreenInjection, MonitoringStateCallBack {
 
-	/** Holds model data together for the chart */
+	/** A provider for an {@link IChartModel}el */
 	@Inject
-	private IChartModel chartModel;
+	private ChartModelProvider chartModelProvider;
+
+	/** Holds model data together for the chart */
+	private IChartModel chartModel = null;
 
 	/**
 	 * A specialized chart for {@link NetXResource} and {@link ResourceMonitor}
 	 * objects
 	 */
-	private ChartNetXResource smartResourceChart;
+	private ChartNetXResource chart;
 
 	private ShellAdapter shellAdapter;
 
@@ -102,6 +106,13 @@ public class ChartScreen extends AbstractScreen implements
 	private JobCallBack jobCallBack;
 
 	private ModeScreenRefresher refreshSummaryJob;
+
+	/**
+	 * The parent {@link Form}. The form text will be updated with a textual
+	 * representation of the chart info.
+	 * 
+	 */
+	private Form form;
 
 	/**
 	 * In this mode new objects are merged in the chart. Existing settings (i.e.
@@ -124,14 +135,15 @@ public class ChartScreen extends AbstractScreen implements
 	private void refreshSummaryUI(int mode,
 			Collection<IMonitoringSummary> summaries) {
 
-		System.out.println("updating for mode: " + mode);
+		// System.out.println("updating for mode: " + mode);
 
 		if ((mode & MODE_REINIT_MODEL) > 0) {
-			chartModel.clear();
+			getChartModel().clear();
 			for (IMonitoringSummary summary : summaries) {
 				// Refactor
 				if (summary instanceof NetxresourceSummary) {
-					chartModel.addChartResource((NetxresourceSummary) summary);
+					getChartModel().addChartResource(
+							(NetxresourceSummary) summary);
 				}
 			}
 		} else if ((mode & MODE_MERGE_CHART) > 0) {
@@ -140,7 +152,7 @@ public class ChartScreen extends AbstractScreen implements
 				if (summary instanceof NetxresourceSummary) {
 					NetxresourceSummary netxSummary = (NetxresourceSummary) summary;
 					boolean found = false;
-					for (IChartResource r : chartModel.getChartResources()) {
+					for (IChartResource r : getChartModel().getChartResources()) {
 						if (r.getNetXResource() == summary.getTarget()) {
 							// not found break and continue to the next summary.
 							found = true;
@@ -154,20 +166,22 @@ public class ChartScreen extends AbstractScreen implements
 				}
 			}
 			// now add them.
-			System.out.println("adding " + toAdd.size() + " chart(s)");
+			// System.out.println("adding " + toAdd.size() + " chart(s)");
 			for (NetxresourceSummary s : toAdd) {
-				chartModel.addChartResource(s);
+				getChartModel().addChartResource(s);
 			}
-
 		}
+		form.setText(getChartModel().getChartText());
 
-		smartResourceChart.initChartBinding(chartModel);
+		chart.initChartBinding(getChartModel());
 	}
 
-	public ChartScreen(Composite parent, int style) {
-		super(parent, style);
+	public ChartScreen(Form form, int style) {
+		super(form.getBody(), style);
+		this.form = form;
 		addDisposeListener(new DisposeListener() {
 			public void widgetDisposed(DisposeEvent e) {
+				chart.dispose();
 				if (jobCallBack != null) {
 					monitoringState.deActivate(jobCallBack);
 				}
@@ -187,9 +201,9 @@ public class ChartScreen extends AbstractScreen implements
 		GridData gridData = new GridData(SWT.FILL, SWT.FILL, true, true, 1, 1);
 		gridData.heightHint = 400;
 		gridData.widthHint = 600;
-		smartResourceChart = new ChartNetXResource(this, SWT.NONE, gridData);
+		chart = new ChartNetXResource(this, SWT.NONE, gridData);
 
-		smartResourceChart.setModelUtils(modelUtils);
+		chart.setModelUtils(modelUtils);
 
 		// buildScrollStick(cmChart);
 		// buildZoom(cmChart);
@@ -315,7 +329,7 @@ public class ChartScreen extends AbstractScreen implements
 	}
 
 	public ChartNetXResource getChart() {
-		return smartResourceChart;
+		return chart;
 	}
 
 	public Viewer getViewer() {
@@ -410,7 +424,7 @@ public class ChartScreen extends AbstractScreen implements
 	}
 
 	public Form getScreenForm() {
-		return null;
+		return form;
 	}
 
 	public void disposeData() {
@@ -526,10 +540,13 @@ public class ChartScreen extends AbstractScreen implements
 	@Override
 	public void focusLost(FocusEvent e) {
 		// remove the markers.
-		smartResourceChart.hideHover();
+		chart.hideHover();
 	}
 
 	public IChartModel getChartModel() {
+		if(chartModel == null){
+			chartModel = chartModelProvider.get();
+		}
 		return chartModel;
 	}
 
@@ -537,12 +554,13 @@ public class ChartScreen extends AbstractScreen implements
 	 * Reconstruct the chart for the given {@link IChartModel}. The
 	 */
 	public void reinit() {
-		this.getChart().initChartBinding(this.getChartModel());
+		form.setText(getChartModel().getChartText());
+		getChart().initChartBinding(getChartModel());
 	}
 
 	public void toggleSum(boolean checked) {
-		chartModel.setShouldSum(checked);
-		smartResourceChart.updateSumStatus();
+		getChartModel().setShouldSum(checked);
+		chart.updateSumStatus();
 	}
 
 	public void callBackEvent(MonitoringStateEvent event) {
@@ -594,13 +612,13 @@ public class ChartScreen extends AbstractScreen implements
 				.getInjectedObjects());
 		mergedObjects.addAll(Arrays.asList(objects));
 		setInjectedObjects(mergedObjects.toArray());
-		System.out.println("objects size: " + getInjectedObjects().length);
+		// System.out.println("objects size: " + getInjectedObjects().length);
 	}
 
 	@Override
 	public String toString() {
-		if (chartModel != null) {
-			return chartModel.getChartText();
+		if (getChartModel() != null) {
+			return getChartModel().getChartText();
 		} else {
 			return super.toString();
 		}

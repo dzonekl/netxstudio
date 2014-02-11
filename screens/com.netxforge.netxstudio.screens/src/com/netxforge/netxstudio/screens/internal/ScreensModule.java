@@ -23,7 +23,8 @@ import com.google.inject.AbstractModule;
 import com.google.inject.name.Names;
 import com.netxforge.engine.IExpressionEngine;
 import com.netxforge.netxstudio.common.guice.IInjectorProxy;
-import com.netxforge.netxstudio.common.model.IChartModel;
+import com.netxforge.netxstudio.common.math.INativeFunctions;
+import com.netxforge.netxstudio.common.model.IChartModelProvider;
 import com.netxforge.netxstudio.common.model.ModelUtils;
 import com.netxforge.netxstudio.common.model.MonitoringAdapterFactory;
 import com.netxforge.netxstudio.common.model.MonitoringStateModel;
@@ -87,7 +88,7 @@ public class ScreensModule extends AbstractModule {
 		this.bind(ResourcesComponent.class);
 
 		this.bind(LazyResourcesComponent.class);
-		
+
 		this.bind(DisconnectedResourcesComponent.class);
 
 		// /////////////////////////////////////////////////
@@ -97,8 +98,14 @@ public class ScreensModule extends AbstractModule {
 		bind(ModelUtils.class).toProvider(service(ModelUtils.class).single());
 
 		// {@link CommonModule}
-		bind(IChartModel.class).toProvider(service(IChartModel.class).single());
+		bind(IChartModelProvider.class).toProvider(
+				service(IChartModelProvider.class).single());
+		
+		// {@link CommonModule}
+		bind(INativeFunctions.class).toProvider(
+				service(INativeFunctions.class).single());
 
+		
 		// {@link DataModule}
 		bind(ServerRequest.class).toProvider(
 				service(ServerRequest.class).single());

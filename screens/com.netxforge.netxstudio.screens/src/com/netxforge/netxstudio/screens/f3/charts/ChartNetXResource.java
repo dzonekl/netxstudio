@@ -381,9 +381,9 @@ public class ChartNetXResource extends Chart implements
 		boolean first = true;
 		Date[] timestampArray = null;
 		for (int i = 0; i < chartResources.size(); i++) {
-			
+
 			IChartResource cr = chartResources.get(i);
-			
+
 			if (cr.isFiltered())
 				continue;
 			// Create the axis with info from the first IChartResource
@@ -394,14 +394,17 @@ public class ChartNetXResource extends Chart implements
 				configureYAxis();
 			}
 			addSeriesMetric(cr, i);
+
+			// Add a capacity line... this can be per resource?
+			if (cr.hasCapacity()) {
+				configureSeriesCapacity(cr);
+			}
 		}
 
 		if (timestampArray != null
 				&& model.getChartNonFilteredResources().size() >= 2) {
 			addSeriesSum(model, timestampArray);
-			if (chartModel.shouldSum()) {
-
-			}
+			getSumSeries().setVisibleInLegend(chartModel.shouldSum());
 		}
 
 		// CB FIXME Refactor for a single IChartResource
@@ -437,8 +440,7 @@ public class ChartNetXResource extends Chart implements
 		getAxisSet().adjustRange();
 		redraw();
 
-		// FIXME markers for multiple metric series....
-		// plotAreaListener.setActive(true);
+		plotAreaListener.setActive(true);
 	}
 
 	private void configureUtilizationVisible(boolean visible) {
@@ -613,6 +615,8 @@ public class ChartNetXResource extends Chart implements
 		 */
 		public void handleEvent(Event event) {
 
+//			System.out.println("process event for chart:" + event);
+
 			if (!isActive()) {
 				return;
 			}
@@ -621,20 +625,22 @@ public class ChartNetXResource extends Chart implements
 				return;
 			}
 
-			int position;
+			int xPosition;
+			int yPosition;
+
 			if (control instanceof Chart) {
-				position = event.x - getPlotArea().getBounds().x;
+				xPosition = event.x - getPlotArea().getBounds().x;
+				yPosition = event.y - getPlotArea().getBounds().y;
 			} else if (control instanceof PlotArea) {
-				position = event.x;
+				xPosition = event.x;
+				yPosition = event.y;
 			} else {
 				throw new IllegalStateException("unknown object");//$NON-NLS-1$
 			}
 
 			switch (event.type) {
 			case SWT.MouseHover:
-				// TODO, Do not show markers when dragging a selection. (Check
-				// the Seleciton Range).
-				marker.setPosition(position);
+				marker.setPosition(xPosition, yPosition);
 				redraw();
 				break;
 			case SWT.MouseMove:
@@ -659,11 +665,12 @@ public class ChartNetXResource extends Chart implements
 				break;
 			case SWT.MouseDown:
 				if (event.button == 1) {
-					marker.setPosition(position);
-				}
-				if (event.button == 1) {
+					marker.setPosition(xPosition, yPosition);
 					selection.setStartPoint(event.x, event.y);
 					clickedTime = System.currentTimeMillis();
+				}else if(event.button == 3){
+					// dispose the markers. 
+					marker.dispose();
 				}
 				break;
 			case SWT.MouseUp:
@@ -753,10 +760,9 @@ public class ChartNetXResource extends Chart implements
 	 * @return
 	 */
 	private ILineSeries addSeriesMetric(IChartResource model, int count) {
-		
+
 		ILineSeries metricLineSeries = (ILineSeries) getSeriesSet()
-				.createSeries(ISeries.SeriesType.LINE,
-						model.getChartID());
+				.createSeries(ISeries.SeriesType.LINE, model.getChartID());
 
 		metricLineSeries.setXDateSeries(model.getTimeStampArray());
 
@@ -790,7 +796,6 @@ public class ChartNetXResource extends Chart implements
 
 	}
 
-	@SuppressWarnings("unused")
 	private ILineSeries configureSeriesCapacity(IChartResource model) {
 
 		ILineSeries capLineSeries = (ILineSeries) getSeriesSet().createSeries(
@@ -849,9 +854,15 @@ public class ChartNetXResource extends Chart implements
 
 		List<ILineSeries> metricSeries = Lists.newArrayList();
 		if (chartModel != null) {
-			for (IChartResource r : chartModel.getChartResources()) {
-				metricSeries.add((ILineSeries) getSeries(r.getNetXResource()
-						.getShortName()));
+			for (IChartResource r : chartModel.getChartNonFilteredResources()) {
+				String chartID = r.getChartID();
+				ILineSeries series = (ILineSeries) getSeries(chartID);
+				if (series == null) {
+					throw new IllegalStateException("No series for chart ID! "
+							+ chartID);
+				} else {
+					metricSeries.add(series);
+				}
 			}
 		}
 		return metricSeries;
@@ -863,6 +874,10 @@ public class ChartNetXResource extends Chart implements
 
 	public ILineSeries getCapSeries() {
 		return (ILineSeries) getSeries(CAPACITY_SERIES);
+	}
+
+	public ILineSeries getSumSeries() {
+		return (ILineSeries) getSeries(SUM_SERIES);
 	}
 
 	/*
@@ -1123,6 +1138,7 @@ public class ChartNetXResource extends Chart implements
 		ISeries series = this.getSeries(SUM_SERIES);
 		if (series != null) {
 			series.setVisible(chartModel.shouldSum());
+			series.setVisibleInLegend(chartModel.shouldSum());
 			this.getAxisSet().adjustRange();
 			redraw();
 		}

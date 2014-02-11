@@ -157,7 +157,8 @@ public class WinForms {
 		// Will push the content size, which should trigger the extension of the
 		// ScrolledLayout.
 		content.pack();
-		canvas.layout();
+		content.layout();
+//		canvas.layout();
 		return winForm;
 
 	}

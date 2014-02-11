@@ -244,7 +244,7 @@ public class ChartScreenViewer extends AbstractScreenViewer {
 		form.setText("Chart");
 		form.getBody().setLayout(new FillLayout());
 		
-		chartScreen = new ChartScreen(form.getBody(), SWT.NONE);
+		chartScreen = new ChartScreen(form, SWT.NONE);
 		chartScreen.setOperation(ScreenUtil.OPERATION_READ_ONLY);
 		chartScreen.setEditingService(getEditingService());
 		chartScreen.buildUI(toolkit);

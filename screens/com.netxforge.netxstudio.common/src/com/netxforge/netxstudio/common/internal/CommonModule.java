@@ -26,9 +26,9 @@ import com.google.inject.Singleton;
 import com.netxforge.netxstudio.common.jca.JCAServiceModule;
 import com.netxforge.netxstudio.common.math.INativeFunctions;
 import com.netxforge.netxstudio.common.math.NativeFunctions;
-import com.netxforge.netxstudio.common.model.ChartModel;
+import com.netxforge.netxstudio.common.model.ChartModelProvider;
 import com.netxforge.netxstudio.common.model.ComponentSummaryProvider;
-import com.netxforge.netxstudio.common.model.IChartModel;
+import com.netxforge.netxstudio.common.model.IChartModelProvider;
 import com.netxforge.netxstudio.common.model.ModelUtils;
 import com.netxforge.netxstudio.common.model.MonitoringAdapterFactory;
 import com.netxforge.netxstudio.common.model.MonitoringStateModel;
@@ -94,8 +94,8 @@ public class CommonModule extends JCAServiceModule {
 				service(OperatorSummaryProvider.class).attributes(
 						objectClass(OperatorSummaryProvider.class)).export());
 
-		bind(export(IChartModel.class)).toProvider(
-				service(ChartModel.class).export());
+		bind(export(IChartModelProvider.class)).toProvider(
+				service(ChartModelProvider.class).export());
 
 		// Bind each subsequent version of Native funtions separately.
 
@@ -112,7 +112,7 @@ public class CommonModule extends JCAServiceModule {
 		bind(INativeFunctions.class).toProvider(
 				service(INativeFunctions.class).single());
 
-		// CB TODO Migrate to what? 
+		// CB TODO Migrate to what?
 		this.bind(PropertiesUtil.class).in(Singleton.class);
 
 	}

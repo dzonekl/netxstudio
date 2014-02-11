@@ -34,7 +34,7 @@ import com.google.inject.Inject;
 import com.google.inject.Injector;
 import com.netxforge.netxstudio.common.math.INativeFunctions;
 import com.netxforge.netxstudio.common.model.ComponentSummaryProvider;
-import com.netxforge.netxstudio.common.model.IChartModel;
+import com.netxforge.netxstudio.common.model.IChartModelProvider;
 import com.netxforge.netxstudio.common.model.ModelUtils;
 import com.netxforge.netxstudio.common.model.MonitoringStateModel;
 import com.netxforge.netxstudio.common.model.NetxresourceSummaryProvider;
@@ -102,7 +102,7 @@ public class CommonActivator implements BundleActivator, DebugOptionsListener {
 	Export<OperatorSummaryProvider> operatorSummaryProvider;
 
 	@Inject
-	Export<IChartModel> chartModel;
+	Export<IChartModelProvider> chartModelProvider;
 
 	@Inject
 	Export<INativeFunctions> nativeFunctions;

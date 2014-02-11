@@ -14,7 +14,7 @@
  * 
  * Contributors: Christophe Bouhier - initial API and implementation and/or
  * initial documentation
- *******************************************************************************/ 
+ *******************************************************************************/
 package com.netxforge.netxstudio.screens.f3.charts;
 
 import java.text.DecimalFormat;
@@ -44,11 +44,7 @@ import com.netxforge.netxstudio.screens.internal.ScreensActivator;
 import com.netxforge.netxstudio.screens.preferences.ScreenConstants;
 
 /**
- * The marker showing the rectangle symbols and tooltip on chart.
- * FIXME, Deal with multiple series. 
- * 
- * 
- * 
+ * The marker showing the rectangle symbols and tooltip on chart
  */
 public class ChartMarker {
 
@@ -72,6 +68,9 @@ public class ChartMarker {
 
 	/** The chart */
 	private ChartNetXResource chart;
+
+	/** The moyse y position */
+	private int mouseYPosition;
 
 	/**
 	 * The constructor.
@@ -106,7 +105,7 @@ public class ChartMarker {
 	 */
 	protected void redraw() {
 		if (!isDisposed()) {
-			setPosition(mouseXPosition);
+			setPosition(mouseXPosition, mouseYPosition);
 		}
 	}
 
@@ -116,23 +115,30 @@ public class ChartMarker {
 	 * @param x
 	 *            The x pixel coordinate
 	 */
-	protected void setPosition(int x) {
+	protected void setPosition(int x, int y) {
+		
+		System.out.println(" marker: " + this.hashCode() + " with resource:" + chart.hashCode());
+		
 		mouseXPosition = x;
-		Integer invertedSeriesIndex = getInvertedSeriesIndex(x);
+		mouseYPosition = y;
 
+		long desiredTime = getDesiredTime(x);
+		Integer[] invertedSeriesIndex = getInvertedSeriesIndex(desiredTime);
 		createHovers();
 		if (invertedSeriesIndex != null) {
-			configureHovers(invertedSeriesIndex);
+			configureHovers(desiredTime, invertedSeriesIndex, mouseYPosition);
 		}
 	}
 
 	protected void setTime(long time) {
-		Integer invertedSeriesIndex = getInvertedSeriesIndex(time);
-
-		createHovers();
-		if (invertedSeriesIndex != null) {
-			configureHovers(invertedSeriesIndex);
-		}
+		System.out
+				.println("We don't know which metric series for this time...");
+		// Integer invertedSeriesIndex = getInvertedSeriesIndex(time);
+		//
+		// createHovers();
+		// if (invertedSeriesIndex != null) {
+		// configureHovers(invertedSeriesIndex);
+		// }
 	}
 
 	/**
@@ -210,12 +216,14 @@ public class ChartMarker {
 	 * @param invertedSeriesIndex
 	 *            The inverted series index
 	 */
-	private void configureHovers(Integer invertedSeriesIndex) {
-		ISeries[] seriesArray = chart.getSeriesSet().getSeries();
+	private void configureHovers(long time, Integer[] invertedSeriesIndex,
+			int yPosition) {
+		
+		// ISeries[] seriesArray = chart.getSeriesSet().getSeries();
 
 		// create hover for time
-		Date[] dates = seriesArray[0].getXDateSeries();
-		long time = dates[dates.length - invertedSeriesIndex].getTime();
+		// Date[] dates = seriesArray[0].getXDateSeries();
+		// long time = dates[dates.length - invertedSeriesIndex].getTime();
 
 		StringBuffer buffer = new StringBuffer();
 		buffer.append(new SimpleDateFormat("MMM-dd HH:mm:ss") //$NON-NLS-1$
@@ -229,43 +237,61 @@ public class ChartMarker {
 
 		{
 			
-			// CB Migrate. 
-			
-//			ILineSeries metricSeries = chart.getMetricSeries();
-//			double[] ySeries = metricSeries.getYSeries();
-//			int seriesIndex = ySeries.length - invertedSeriesIndex;
-//			if (seriesIndex > 0) {
-//				buffer = new StringBuffer();
-//				buffer.append(metricSeries.getId()).append(": ") //$NON-NLS-1$
-//						.append(getFormattedValue(ySeries[seriesIndex]));
-//				texts.put(metricSeries.getId(), buffer.toString());
-//
-//				int valueInPixel = chart.getAxisSet().getYAxes()[0]
-//						.getPixelCoordinate(ySeries[seriesIndex]);
-//
-//				configureHover(hovers.get(metricSeries.getId()),
-//						buffer.toString(), timeInPixel, valueInPixel, false);
-//			}
-		}
+			List<ILineSeries> metricSeries = chart.getMetricSeries();
+			for (int i = 0; i < metricSeries.size(); i++) {
+				ILineSeries iLineSeries = metricSeries.get(i);
+				int index = invertedSeriesIndex[i];
+				// The metric series
+				double[] ySeries = iLineSeries.getYSeries();
+				int seriesIndex = ySeries.length - index;
+				System.out.println("y-index for marker: " + seriesIndex);
 
-		{ // Only if these exist.
-			ILineSeries capSeries = chart.getCapSeries();
-			if (capSeries != null) {
-				double[] ySeries = capSeries.getYSeries();
-				int seriesIndex = ySeries.length - invertedSeriesIndex;
-				if (seriesIndex > 0) {
+				if (seriesIndex >= 0) {
 					buffer = new StringBuffer();
-					buffer.append(capSeries.getId()).append(": ") //$NON-NLS-1$
+					buffer.append(iLineSeries.getId()).append(": ") //$NON-NLS-1$
 							.append(getFormattedValue(ySeries[seriesIndex]));
-					texts.put(capSeries.getId(), buffer.toString());
+					texts.put(iLineSeries.getId(), buffer.toString());
 
 					int valueInPixel = chart.getAxisSet().getYAxes()[0]
 							.getPixelCoordinate(ySeries[seriesIndex]);
-					configureHover(hovers.get(capSeries.getId()),
-							buffer.toString(), timeInPixel, valueInPixel, false);
+
+					// Show if the series y position is within 10 pixels of the
+					// mouse pointer y position.
+					int yPositionDelta = Math.abs(valueInPixel - yPosition);
+
+					System.out
+							.println("y-position for marker: " + valueInPixel);
+					System.out.println("y-position delta (mouse-y): "
+							+ yPositionDelta);
+
+					if (yPositionDelta < 10) {
+
+						configureHover(hovers.get(iLineSeries.getId()),
+								buffer.toString(), timeInPixel, valueInPixel,
+								false);
+					}
 				}
 			}
 		}
+
+		// { // Only if these exist.
+		// ILineSeries capSeries = chart.getCapSeries();
+		// if (capSeries != null) {
+		// double[] ySeries = capSeries.getYSeries();
+		// int seriesIndex = ySeries.length - invertedSeriesIndex;
+		// if (seriesIndex > 0) {
+		// buffer = new StringBuffer();
+		//					buffer.append(capSeries.getId()).append(": ") //$NON-NLS-1$
+		// .append(getFormattedValue(ySeries[seriesIndex]));
+		// texts.put(capSeries.getId(), buffer.toString());
+		//
+		// int valueInPixel = chart.getAxisSet().getYAxes()[0]
+		// .getPixelCoordinate(ySeries[seriesIndex]);
+		// configureHover(hovers.get(capSeries.getId()),
+		// buffer.toString(), timeInPixel, valueInPixel, false);
+		// }
+		// }
+		// }
 
 	}
 
@@ -416,81 +442,50 @@ public class ChartMarker {
 		return textExtent;
 	}
 
-	/**
-	 * Gets the inverted series index that is the nearest to mouse position.
-	 * 
-	 * @param desiredX
-	 *            The desired x pixel coordinate
-	 * @return The inverted series index, or <tt>null</tt> if not found
-	 */
-	private Integer getInvertedSeriesIndex(int desiredX) {
+	private long getDesiredTime(int desiredX) {
 
 		// This is the X-Axis
 		IAxis firstAxe = chart.getAxisSet().getAxes()[0];
 
 		// The time.
-		long desiredTime = (long) firstAxe.getDataCoordinate(desiredX);
-
-		// Date desired = new Date(desiredTime);
-		// System.out.println(desired);
-
-		// CB TODO MIGRATE FOR MULTIPLE SERIES> 
-		
-		// Only Consider the Metric Series.
-//		ISeries metricSeries = chart.getSeriesSet().getSeries(
-//				SmartResourceChart.METRIC_SERIES);
-//
-//		// find the time series index, biggest date comes first.
-//		Date[] dates = metricSeries.getXDateSeries();
-//		for (int i = 0; i < dates.length; i++) {
-//			if (dates[i].getTime() < desiredTime && i != dates.length - 1) {
-//				continue;
-//			}
-//			int nearestIndex;
-//			if (i > 0
-//					&& dates[i].getTime() - desiredTime > desiredTime
-//							- dates[i - 1].getTime()) {
-//				nearestIndex = i - 1;
-//			} else {
-//				nearestIndex = i;
-//			}
-//			// System.out.println(" Date index = " + nearestIndex);
-//			return dates.length - nearestIndex;
-//		}
-		
-		
-		return null;
+		return (long) firstAxe.getDataCoordinate(desiredX);
 	}
 
-	private Integer getInvertedSeriesIndex(long desiredTime) {
+	/**
+	 * Gets the inverted series index that is the nearest to mouse position.
+	 * 
+	 * @param desiredX
+	 *            The desired x pixel coordinate
+	 * @param metricSeries2
+	 * @return The inverted series index, or <tt>null</tt> if not found
+	 */
+	private Integer[] getInvertedSeriesIndex(long desiredTime) {
 
-		// Date desired = new Date(desiredTime);
-		// System.out.println(desired);
+		// find the time series index, biggest date comes first.
 
-		// Only Consider the Metric Series.
-		
-		// CB TODO MIGRATE> 
-//		ISeries metricSeries = chart.getSeriesSet().getSeries(
-//				SmartResourceChart.METRIC_SERIES);
-//
-//		// find the time series index, biggest date comes first.
-//		Date[] dates = metricSeries.getXDateSeries();
-//		for (int i = 0; i < dates.length; i++) {
-//			if (dates[i].getTime() < desiredTime && i != dates.length - 1) {
-//				continue;
-//			}
-//			int nearestIndex;
-//			if (i > 0
-//					&& dates[i].getTime() - desiredTime > desiredTime
-//							- dates[i - 1].getTime()) {
-//				nearestIndex = i - 1;
-//			} else {
-//				nearestIndex = i;
-//			}
-//			// System.out.println(" Date index = " + nearestIndex);
-//			return dates.length - nearestIndex;
-//		}
-		return null;
+		List<ILineSeries> metricSeries = chart.getMetricSeries();
+		Integer[] indices = new Integer[metricSeries.size()];
+		for (int y = 0; y < metricSeries.size(); y++) {
+			ILineSeries ls = metricSeries.get(y);
+			Date[] dates = ls.getXDateSeries();
+			for (int i = 0; i < dates.length; i++) {
+				if (dates[i].getTime() < desiredTime && i != dates.length - 1) {
+					continue;
+				}
+				int nearestIndex;
+				if (i > 0
+						&& dates[i].getTime() - desiredTime > desiredTime
+								- dates[i - 1].getTime()) {
+					nearestIndex = i - 1;
+				} else {
+					nearestIndex = i;
+				}
+				// System.out.println(" Date index = " + nearestIndex);
+				indices[y] = dates.length - nearestIndex;
+				break;
+			}
+		}
+		return indices;
 	}
 
 	/**

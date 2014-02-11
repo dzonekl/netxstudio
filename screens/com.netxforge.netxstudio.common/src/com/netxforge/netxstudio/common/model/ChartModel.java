@@ -31,7 +31,6 @@ import com.google.common.base.Function;
 import com.google.common.base.Predicate;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
-import com.google.inject.Inject;
 import com.netxforge.netxstudio.common.internal.CommonActivator;
 import com.netxforge.netxstudio.common.math.INativeFunctions;
 import com.netxforge.netxstudio.common.model.ModelUtils.TimeStampPredicate;
@@ -68,11 +67,20 @@ public class ChartModel implements IChartModel {
 	 */
 	protected boolean sum;
 
-	@Inject
 	private ModelUtils modelUtils;
 
-	@Inject
 	private INativeFunctions nativeFunctions;
+
+	public ChartModel() {
+	}
+
+	public void setModelUtils(ModelUtils modelUtils) {
+		this.modelUtils = modelUtils;
+	}
+
+	public void setNativeFunctions(INativeFunctions nativeFunctions) {
+		this.nativeFunctions = nativeFunctions;
+	}
 
 	/**
 	 * A Collection of {@link IChartResource}
@@ -162,10 +170,10 @@ public class ChartModel implements IChartModel {
 			if (metricValues == null) {
 
 				NetXResource target = netxSummary.getTarget();
-				
-				
-				// It could be, there is no aggregation data for higher order intervals. 
-				// this will yield and empty list. 
+
+				// It could be, there is no aggregation data for higher order
+				// intervals.
+				// this will yield and empty list.
 				MetricValueRange valueRangeForIntervalAndKind = modelUtils
 						.valueRangeForIntervalAndKind(target, kind, interval);
 				if (valueRangeForIntervalAndKind != null) {
@@ -197,8 +205,9 @@ public class ChartModel implements IChartModel {
 		 * @see com.netxforge.netxstudio.common.model.IChartModel#hasCapacity()
 		 */
 		public boolean hasCapacity() {
-			return capDoubleArray != null
-					&& capDoubleArray.length == timeStampArray.length;
+
+			return getCapDoubleArray() != null
+					&& getCapDoubleArray().length == timeStampArray.length;
 		}
 
 		/*
@@ -560,15 +569,14 @@ public class ChartModel implements IChartModel {
 	 */
 	private void intervalForPeriod(DateTimeRange chartPeriod) {
 		int days = modelUtils.daysInPeriod(chartPeriod);
-		System.out.println(days);
-		if(days < 3){
-			// default do nothing. 
+		if (days < 3) {
+			// default do nothing.
 			return;
-		}else if(days <= 31){
+		} else if (days <= 31) {
 			interval = ModelUtils.MINUTES_IN_A_DAY;
-		}else if(days <= 183){
+		} else if (days <= 183) {
 			interval = ModelUtils.MINUTES_IN_A_WEEK;
-		}else {
+		} else {
 			interval = ModelUtils.MINUTES_IN_A_MONTH;
 		}
 
@@ -581,19 +589,30 @@ public class ChartModel implements IChartModel {
 	public String getChartText() {
 
 		StringBuilder sb = new StringBuilder();
-		boolean first = true;
-		for (IChartResource chartResource : chartResources) {
 
-			if (!chartResource.isFiltered()) {
-				if (first) {
-					first = false;
-					sb.append("Resource: ");
-				} else {
-					sb.append(", ");
-				}
-				sb.append(chartResource.getNetXResource().getLongName());
-			}
+		List<IChartResource> visibleChartResources = this
+				.getChartNonFilteredResources();
+
+		if (visibleChartResources.size() == 0) {
+			sb.append("none");
+		} else if (visibleChartResources.size() == 1) {
+			sb.append(chartResources.get(0).getNetXResource().getLongName());
+		} else if (visibleChartResources.size() > 1) {
+			sb.append("Multiple resources");
 		}
+
+		// boolean first = true;
+		// for (IChartResource chartResource : chartResources) {
+		// if (!chartResource.isFiltered()) {
+		// if (first) {
+		// first = false;
+		// sb.append("Resource: ");
+		// } else {
+		// sb.append(", ");
+		// }
+		// sb.append(chartResource.getNetXResource().getLongName());
+		// }
+		// }
 		return sb.toString();
 	}
 

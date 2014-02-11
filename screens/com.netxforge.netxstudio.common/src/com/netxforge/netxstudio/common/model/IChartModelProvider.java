@@ -14,11 +14,11 @@
  * 
  * Contributors: Christophe Bouhier - initial API and implementation and/or
  * initial documentation
- *******************************************************************************/ 
-package com.netxforge.netxstudio.data.importer;
+ *******************************************************************************/
+package com.netxforge.netxstudio.common.model;
 
-public interface ICSVMetricValuesImporterProvider {
+public interface IChartModelProvider {
 
-	public abstract CSVMetricValuesImporter get();
+	public abstract IChartModel get();
 
 }

@@ -102,8 +102,19 @@ public class MultiChartScreenViewer extends AbstractScreenViewer {
 					showInContext.setInput(new ChartMergeInput());
 					screen.handleShowIn(showInContext);
 				} else {
-
-					show(showInContext);
+					// Organize the drop by type, so a chart for multiple screens. 
+					// the type is the metric ref of the dropped resource.
+					// Each group will have a chart screen with a show in context holding 
+					// the selection for the group. 
+					
+					// splitSelectionByMetric()
+					
+					if (chartList != null && !chartList.isEmpty()) {
+						show(showInContext);
+					} else {
+						ChartScreen chartScreen = addChartScreen();
+						chartScreen.handleShowIn(showInContext);
+					}
 				}
 			}
 		}
@@ -311,7 +322,7 @@ public class MultiChartScreenViewer extends AbstractScreenViewer {
 		form = toolkit.createForm(parent);
 		form.setSeparatorVisible(true);
 		toolkit.paintBordersFor(form);
-		form.setText("Demo");
+		form.setText("Charts");
 		form.getBody().setLayout(new FillLayout());
 
 		winForms = new WinForms();
@@ -351,8 +362,7 @@ public class MultiChartScreenViewer extends AbstractScreenViewer {
 		// toolkit.paintBordersFor(headingComposite);
 		// addWindow.setHeadClient(headingComposite);
 
-		final ChartScreen chartScreen = new ChartScreen(addWindow.getBody(),
-				SWT.BORDER);
+		final ChartScreen chartScreen = new ChartScreen(addWindow, SWT.BORDER);
 		chartScreen.setOperation(ScreenUtil.OPERATION_READ_ONLY);
 		chartScreen.setEditingService(getEditingService());
 		chartScreen.buildUI(toolkit);
@@ -387,6 +397,7 @@ public class MultiChartScreenViewer extends AbstractScreenViewer {
 				if (chartList != null && chartList.contains(chartScreen)) {
 					chartList.remove(chartScreen);
 				}
+				chartScreen.dispose();
 				winForms.removeWindow(addWindow);
 			}
 		});
@@ -476,7 +487,19 @@ public class MultiChartScreenViewer extends AbstractScreenViewer {
 
 							ElementListSelectionDialog dialog = new ElementListSelectionDialog(
 									MultiChartScreenViewer.this.getSite()
-											.getShell(), new LabelProvider());
+											.getShell(), new LabelProvider() {
+
+										@Override
+										public String getText(Object element) {
+											if (element instanceof ChartScreen) {
+												StringBuilder sb = new StringBuilder();
+												sb.append("Chart " + chartList.indexOf(element) + ": ");
+												sb.append(element.toString());
+												return sb.toString();
+											}
+											return super.getText(element);
+										}
+									});
 
 							dialog.setElements(chartList.toArray());
 
