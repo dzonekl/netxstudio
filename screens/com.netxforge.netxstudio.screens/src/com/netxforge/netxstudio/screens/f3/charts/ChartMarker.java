@@ -117,7 +117,7 @@ public class ChartMarker {
 	 */
 	protected void setPosition(int x, int y) {
 		
-		System.out.println(" marker: " + this.hashCode() + " with resource:" + chart.hashCode());
+//		System.out.println(" marker: " + this.hashCode() + " with resource:" + chart.hashCode());
 		
 		mouseXPosition = x;
 		mouseYPosition = y;
@@ -244,7 +244,7 @@ public class ChartMarker {
 				// The metric series
 				double[] ySeries = iLineSeries.getYSeries();
 				int seriesIndex = ySeries.length - index;
-				System.out.println("y-index for marker: " + seriesIndex);
+//				System.out.println("y-index for marker: " + seriesIndex);
 
 				if (seriesIndex >= 0) {
 					buffer = new StringBuffer();
@@ -259,10 +259,10 @@ public class ChartMarker {
 					// mouse pointer y position.
 					int yPositionDelta = Math.abs(valueInPixel - yPosition);
 
-					System.out
-							.println("y-position for marker: " + valueInPixel);
-					System.out.println("y-position delta (mouse-y): "
-							+ yPositionDelta);
+//					System.out
+//							.println("y-position for marker: " + valueInPixel);
+//					System.out.println("y-position delta (mouse-y): "
+//							+ yPositionDelta);
 
 					if (yPositionDelta < 10) {
 

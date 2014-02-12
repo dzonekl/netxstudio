@@ -31,6 +31,7 @@ import com.google.common.base.Function;
 import com.google.common.base.Predicate;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
+import com.netxforge.netxstudio.common.GenericsTuple;
 import com.netxforge.netxstudio.common.internal.CommonActivator;
 import com.netxforge.netxstudio.common.math.INativeFunctions;
 import com.netxforge.netxstudio.common.model.ModelUtils.TimeStampPredicate;
@@ -86,6 +87,11 @@ public class ChartModel implements IChartModel {
 	 * A Collection of {@link IChartResource}
 	 */
 	private List<IChartResource> chartResources = Lists.newArrayList();
+
+	/**
+	 * If the trending is enabled on the {@link IChartModel model}
+	 */
+	private boolean trend;
 
 	public class ChartResource implements IChartResource {
 
@@ -426,9 +432,27 @@ public class ChartModel implements IChartModel {
 		/**
 		 * Trend use, linear regression.
 		 */
-		public void trendValues() {
-			// Trend forward, expand the timestamp aray.
+		public double[] getTrendDoubleArray() {
 
+			double[][] data = modelUtils.transformValueToDoubleMatrix(this
+					.getValues());
+
+			// Get the slope and Intercept.
+			GenericsTuple<Double, Double> regress = nativeFunctions.trend(data);
+			double slope = regress.getKey();
+			double intercept = regress.getValue();
+
+//			System.out.println("slope: " + slope + " intercept: " + intercept);
+
+			// y = intercept + slope*x
+			double[] trend = new double[this.getTimeStampArray().length];
+			for (int i = 0; i < data.length; i++) {
+				// create the regression line in seconds.
+				double y = intercept + (slope * data[i][0]);
+				trend[i] = y;
+
+			}
+			return trend;
 		}
 
 		public boolean isFiltered() {
@@ -708,6 +732,15 @@ public class ChartModel implements IChartModel {
 		for (IChartResource cr : getChartResources()) {
 			cr.resetCaches();
 		}
+	}
+
+	public void setShouldTrend(boolean shouldTrend) {
+		trend = shouldTrend;
+
+	}
+
+	public boolean shouldTrend() {
+		return trend;
 	}
 
 }

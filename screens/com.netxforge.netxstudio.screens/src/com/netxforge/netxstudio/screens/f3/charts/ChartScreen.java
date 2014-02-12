@@ -560,8 +560,14 @@ public class ChartScreen extends AbstractScreen implements
 
 	public void toggleSum(boolean checked) {
 		getChartModel().setShouldSum(checked);
-		chart.updateSumStatus();
+		chart.updateSum();
 	}
+	
+	public void toggleTrending(boolean checked) {
+		getChartModel().setShouldTrend(checked);
+		chart.updateTrending();
+	}
+	
 
 	public void callBackEvent(MonitoringStateEvent event) {
 

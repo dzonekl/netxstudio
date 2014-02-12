@@ -29,7 +29,7 @@ public class GenericsTuple<K, V> {
 	protected K key;
 	protected V value;
 
-	private GenericsTuple(K key, V value) {
+	public GenericsTuple(K key, V value) {
 		super();
 		this.key = key;
 		this.value = value;

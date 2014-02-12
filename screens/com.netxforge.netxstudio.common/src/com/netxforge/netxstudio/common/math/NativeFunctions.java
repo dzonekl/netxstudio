@@ -22,15 +22,17 @@ import java.util.List;
 
 import org.apache.commons.math.stat.StatUtils;
 import org.apache.commons.math.stat.descriptive.DescriptiveStatistics;
+import org.apache.commons.math.stat.regression.SimpleRegression;
 
 import com.google.common.collect.Ordering;
 import com.google.inject.Inject;
+import com.netxforge.netxstudio.common.GenericsTuple;
 import com.netxforge.netxstudio.common.model.ModelUtils;
 import com.netxforge.netxstudio.generics.GenericsFactory;
 import com.netxforge.netxstudio.generics.Value;
 
 /**
- * Expandable list of functions. TODO: - Extrapolation (Regression math).
+ * Expandable list of functions.
  * 
  * @author Christophe Bouhier
  */
@@ -342,12 +344,20 @@ public class NativeFunctions implements INativeFunctions, INativeFunctions2 {
 		return newValue;
 	}
 	
-	
-	public void trend(List<Value> range){
+	/**
+	 * Return a {@link GenericsTuple tuple} with a key being the slope and 
+	 * the value being the intercept of the trendline. 
+	 * 
+	 */
+	public GenericsTuple<Double, Double> trend(double[][] dataPair) {
 		
+		SimpleRegression regression = new SimpleRegression();
+		regression.addData(dataPair);
+		double slope = regression.getSlope();
+		double intercept = regression.getIntercept();
+		
+		return new GenericsTuple<Double,Double>(slope, intercept);
 	}
-	
-	
 	
 	
 }

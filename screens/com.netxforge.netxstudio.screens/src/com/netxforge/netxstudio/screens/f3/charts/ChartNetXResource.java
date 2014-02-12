@@ -84,11 +84,13 @@ public class ChartNetXResource extends Chart implements
 	private static final String[] EXTENSIONS = new String[] { "*.jpeg",
 			"*.jpg", "*.png" };
 
-	private static final String SUM_SERIES = "Sum";
+	public static final String SUM_SERIES = "Sum";
 
 	public static final String UTILIZATION_SERIES = "Utilization";
 
 	public static final String CAPACITY_SERIES = "Capacity";
+
+	public static final String TREND_SERIES = "Trend";
 
 	// public static final String METRIC_SERIES = "Metric";
 
@@ -392,13 +394,17 @@ public class ChartNetXResource extends Chart implements
 				timestampArray = cr.getTimeStampArray();
 				configureXAxis(cr, model.getInterval());
 				configureYAxis();
+				if (model.shouldTrend()) {
+					addSeriesTrend(cr);
+				}
+				// Add a capacity line... this can be per resource?
+				if (cr.hasCapacity()) {
+					configureSeriesCapacity(cr);
+				}
+
 			}
 			addSeriesMetric(cr, i);
 
-			// Add a capacity line... this can be per resource?
-			if (cr.hasCapacity()) {
-				configureSeriesCapacity(cr);
-			}
 		}
 
 		if (timestampArray != null
@@ -615,7 +621,7 @@ public class ChartNetXResource extends Chart implements
 		 */
 		public void handleEvent(Event event) {
 
-//			System.out.println("process event for chart:" + event);
+			// System.out.println("process event for chart:" + event);
 
 			if (!isActive()) {
 				return;
@@ -668,8 +674,8 @@ public class ChartNetXResource extends Chart implements
 					marker.setPosition(xPosition, yPosition);
 					selection.setStartPoint(event.x, event.y);
 					clickedTime = System.currentTimeMillis();
-				}else if(event.button == 3){
-					// dispose the markers. 
+				} else if (event.button == 3) {
+					// dispose the markers.
 					marker.dispose();
 				}
 				break;
@@ -775,6 +781,25 @@ public class ChartNetXResource extends Chart implements
 						ScreenConstants.PREFERENCE_METRIC_COLORS[count]);
 		metricLineSeries.setLineColor(metricColor);
 		return metricLineSeries;
+	}
+
+	private ILineSeries addSeriesTrend(IChartResource model) {
+
+		ILineSeries trendSeries = (ILineSeries) getSeriesSet().createSeries(
+				ISeries.SeriesType.LINE, TREND_SERIES);
+
+		trendSeries.setXDateSeries(model.getTimeStampArray());
+
+		// Make optional.
+		// metricLineSeries.enableArea(true);
+
+		trendSeries.setYSeries(model.getTrendDoubleArray());
+		trendSeries.setSymbolType(ILineSeries.PlotSymbolType.TRIANGLE);
+		final Color trendColor = ScreensActivator.getInstance()
+				.getPreferenceColor(ScreenConstants.PREFERENCE_UTIL_COLOR);
+		trendSeries.setLineColor(trendColor);
+
+		return trendSeries;
 	}
 
 	private ILineSeries addSeriesSum(IChartModel model, Date[] timestampArray) {
@@ -1133,7 +1158,7 @@ public class ChartNetXResource extends Chart implements
 		redraw();
 	}
 
-	public void updateSumStatus() {
+	public void updateSum() {
 
 		ISeries series = this.getSeries(SUM_SERIES);
 		if (series != null) {
@@ -1142,5 +1167,18 @@ public class ChartNetXResource extends Chart implements
 			this.getAxisSet().adjustRange();
 			redraw();
 		}
+	}
+
+	public void updateTrending() {
+		ISeries series = this.getSeries(TREND_SERIES);
+		if (series != null) {
+			this.getSeriesSet().deleteSeries(TREND_SERIES);
+		}
+
+		if (chartModel.shouldTrend()) {
+			addSeriesTrend(chartModel.getFirstChartResource());
+		}
+		getAxisSet().adjustRange();
+		redraw();
 	}
 }

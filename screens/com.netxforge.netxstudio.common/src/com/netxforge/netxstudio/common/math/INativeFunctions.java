@@ -20,7 +20,18 @@ package com.netxforge.netxstudio.common.math;
 import java.math.BigDecimal;
 import java.util.List;
 
+import com.netxforge.netxstudio.common.GenericsTuple;
+
 public interface INativeFunctions {
+
+	/**
+	 * Trend using linear regression. Feed with a matrix. 
+	 * 
+	 * 
+	 * @param dataPair
+	 * @return
+	 */
+	public abstract GenericsTuple<Double, Double> trend(double[][] dataPair);
 
 	/**
 	 * The Erlang B formula.

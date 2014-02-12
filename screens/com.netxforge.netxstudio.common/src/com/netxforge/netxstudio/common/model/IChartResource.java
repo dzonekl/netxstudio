@@ -51,6 +51,14 @@ public interface IChartResource extends IFilteredChart {
 	public abstract double[] getMetriDoubleArray();
 
 	public abstract double[] getUtilDoubleArray();
+	
+	
+	/**
+	 * Get the trended values (Backwards for now). 
+	 * @return
+	 */
+	public abstract double[] getTrendDoubleArray();
+	
 
 	public abstract List<Marker> getMarkers();
 

@@ -171,9 +171,7 @@ public class MultiChartScreenViewer extends AbstractScreenViewer {
 		}
 
 		public void run() {
-			// TODO, turn on toggel to trend the selection of resources.
-			System.out
-					.println("TODO, turn on toggle to trend the selection of resources.");
+			chartScreen.toggleTrending(isChecked());
 		}
 	}
 

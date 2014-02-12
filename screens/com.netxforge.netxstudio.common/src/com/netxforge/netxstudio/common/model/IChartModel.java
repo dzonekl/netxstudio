@@ -159,6 +159,20 @@ public interface IChartModel {
 	public abstract boolean shouldSum();
 
 	/**
+	 * Set if the charts should be trended.
+	 * 
+	 * @param checked
+	 */
+	public abstract void setShouldTrend(boolean checked);
+
+	/**
+	 * get if the charts should be trended. {@link IChartResource#trend() trend}
+	 * 
+	 * @return
+	 */
+	public abstract boolean shouldTrend();
+
+	/**
 	 * Sum the {@link LibraryPackage#NET_XRESOURCE__METRIC_VALUE_RANGES value
 	 * range}
 	 * 
@@ -166,10 +180,9 @@ public interface IChartModel {
 	 */
 	public abstract double[] sum();
 
-	
 	/**
 	 * reset the model, by reseting the {@link IChartResource} caches..
 	 */
 	public abstract void reset();
-	
+
 }

@@ -3677,24 +3677,23 @@ public class ModelUtils {
 	 * @param dtr
 	 * @return
 	 */
-	public int daysInPeriod(DateTimeRange dtr){
-		
-		
-		// Prep. a Calendar to roll down to the begin of the period. 
+	public int daysInPeriod(DateTimeRange dtr) {
+
+		// Prep. a Calendar to roll down to the begin of the period.
 		XMLGregorianCalendar end = dtr.getEnd();
 		final Calendar cal = GregorianCalendar.getInstance();
 		cal.setTime(end.toGregorianCalendar().getTime());
-		
+
 		long begin = dtr.getBegin().toGregorianCalendar().getTime().getTime();
-		
+
 		int days = 0;
-		while(cal.getTime().getTime() > begin){
+		while (cal.getTime().getTime() > begin) {
 			cal.add(Calendar.DAY_OF_MONTH, -1);
 			days++;
 		}
 		return days;
 	}
-	
+
 	public Date oneWeekAgo() {
 		final Calendar cal = GregorianCalendar.getInstance();
 		cal.setTime(new Date(System.currentTimeMillis()));
@@ -4745,6 +4744,57 @@ public class ModelUtils {
 			doubleArray[i] = doubles.get(i).doubleValue();
 		}
 		return doubleArray;
+	}
+
+	/**
+	 * Trnsform a collection of {@link Value values} to a matrix which can be
+	 * fed in a trending function.
+	 * 
+	 * @param values
+	 * @return
+	 */
+	public double[][] transformValueToDoubleMatrix(List<Value> values) {
+
+		double[][] data = new double[values.size()][2];
+
+		double xOffset = 0;
+		for (int i = 0; i < values.size(); i++) {
+			Value value = values.get(i);
+			long timestamp = value.getTimeStamp().toGregorianCalendar()
+					.getTimeInMillis();
+
+			// Set an x-offset to deal with smaller numbers, but maintain the
+			// the delta in seconds.
+			if (i == 0) {
+				xOffset = timestamp;
+			}
+
+			double x = (timestamp - xOffset);
+			data[i][0] = x; // Store as seconds to
+			data[i][1] = value.getValue();
+														// deal with smaller
+														// number
+		}
+		return data;
+	}
+
+	/**
+	 * Transform a collection of {@link Value values} to a matrix which can be
+	 * fed in a trending function. (Linear regression). The x is not the
+	 * 
+	 * @param values
+	 * @return
+	 */
+	public double[][] transformValueToDoubleTrendMatrix(List<Value> values) {
+
+		double[][] data = new double[values.size()][2];
+
+		for (int i = 0; i < values.size(); i++) {
+			Value value = values.get(i);
+			data[i][0] = i;
+			data[i][1] = value.getValue();
+		}
+		return data;
 	}
 
 	public List<Component> transformToComponents(
