@@ -5357,9 +5357,9 @@ public class ModelUtils {
 	 */
 	public List<Component> componentsForNode(Node n) {
 
-		List<Component> components = null;
+		List<Component> components = Lists.newArrayList();
 		if (n.eIsSet(OperatorsPackage.Literals.NODE__NODE_TYPE)) {
-			components = componentsForNodeType(n.getNodeType());
+			components.addAll(componentsForNodeType(n.getNodeType()));
 		}
 		return components;
 	}
