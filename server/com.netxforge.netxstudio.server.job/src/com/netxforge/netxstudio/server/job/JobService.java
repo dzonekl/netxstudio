@@ -29,17 +29,6 @@ import com.netxforge.netxstudio.server.service.NetxForgeService;
  */
 public class JobService implements NetxForgeService {
 
-	// // List all scheduled and running jobs.
-	// public static final String COMMAND_SCHEDULER_LIST = "scheduler_list";
-	//
-	// // Stop the scheduler and abort all running jobs, for jobs in progress,
-	// we
-	// // set the status to aborted.
-	// public static final String COMMAND_SCHEDULER_STOP = "scheduler_stop";
-	//
-	// // Start the scheduler.
-	// public static final String COMMAND_SCHEDULER_START = "scheduler_start";
-
 	public Object run(Map<String, String> parameters) {
 
 		final String command = parameters.get(COMMAND_PARAM_NAME);

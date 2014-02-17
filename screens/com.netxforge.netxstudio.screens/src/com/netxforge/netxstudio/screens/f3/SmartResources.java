@@ -353,7 +353,8 @@ public class SmartResources extends AbstractPeriodScreen implements
 				true));
 
 		sashData = new SashForm(sashVertical, SWT.HORIZONTAL | SWT.BORDER);
-		sashData.setSashWidth(5);
+		// width ugly on Windows. 
+//		sashData.setSashWidth(5);
 		toolkit.adapt(sashData);
 		toolkit.paintBordersFor(sashData);
 
