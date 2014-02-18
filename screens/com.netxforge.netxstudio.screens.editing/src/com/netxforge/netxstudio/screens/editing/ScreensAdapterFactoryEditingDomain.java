@@ -32,10 +32,10 @@ import com.netxforge.netxstudio.edit.CreateChildFromPoolCommand;
 import com.netxforge.netxstudio.library.NodeType;
 import com.netxforge.netxstudio.operators.Node;
 import com.netxforge.netxstudio.operators.OperatorsPackage;
-import com.netxforge.netxstudio.screens.editing.actions.SourceAwarePasteFromClipboardCommand;
-import com.netxforge.netxstudio.screens.editing.actions.StrategyCommandParameter;
-import com.netxforge.netxstudio.screens.editing.actions.WarningDeleteCommand;
-import com.netxforge.netxstudio.screens.editing.actions.WarningNWBDeleteCommand;
+import com.netxforge.netxstudio.screens.editing.commands.SourceAwarePasteFromClipboardCommand;
+import com.netxforge.netxstudio.screens.editing.commands.StrategyCommandParameter;
+import com.netxforge.netxstudio.screens.editing.commands.WarningDeleteCommand;
+import com.netxforge.netxstudio.screens.editing.commands.WarningNWBDeleteCommand;
 
 /**
  * Customized version of the standard a.f. editing domain. The following

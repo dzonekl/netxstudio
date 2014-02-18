@@ -130,7 +130,6 @@ Export-Package: com.netxforge.netxstudio.screens;
  com.netxforge.netxstudio.screens.perspective,
  com.netxforge.netxstudio.screens.preferences,
  com.netxforge.netxstudio.screens.showins,
- com.netxforge.netxstudio.screens.tables,
  org.eclipse.wb.swt;uses:="org.eclipse.jface.resource,org.eclipse.swt.graphics"
 Import-Package: com.netxforge.netxstudio,
  com.netxforge.netxstudio.generics,

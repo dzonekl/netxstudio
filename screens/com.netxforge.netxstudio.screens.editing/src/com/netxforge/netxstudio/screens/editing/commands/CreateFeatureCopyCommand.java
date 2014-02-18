@@ -1,4 +1,4 @@
-package com.netxforge.netxstudio.screens.tables;
+package com.netxforge.netxstudio.screens.editing.commands;
 
 import java.util.Collection;
 import java.util.Collections;

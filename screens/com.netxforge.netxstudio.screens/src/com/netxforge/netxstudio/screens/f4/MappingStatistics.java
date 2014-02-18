@@ -113,8 +113,8 @@ import com.netxforge.netxstudio.metrics.MetricsPackage;
 import com.netxforge.netxstudio.screens.AbstractScreen;
 import com.netxforge.netxstudio.screens.editing.IDataScreenInjection;
 import com.netxforge.netxstudio.screens.editing.actions.BaseSelectionListenerAction;
-import com.netxforge.netxstudio.screens.editing.actions.WarningDeleteCommand;
 import com.netxforge.netxstudio.screens.editing.actions.clipboard.ClipboardService;
+import com.netxforge.netxstudio.screens.editing.commands.WarningDeleteCommand;
 import com.netxforge.netxstudio.screens.editing.tables.CDOElementComparer;
 
 /**

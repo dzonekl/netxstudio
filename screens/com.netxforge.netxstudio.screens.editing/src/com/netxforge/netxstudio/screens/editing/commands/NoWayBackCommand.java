@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 13 jan. 2014 NetXForge.
+ * Copyright (c) 23 mei 2013 NetXForge.
  * 
  * This program is free software: you can redistribute it and/or modify it under
  * the terms of the GNU General Public License as published by the Free Software
@@ -14,34 +14,41 @@
  * 
  * Contributors: Christophe Bouhier - initial API and implementation and/or
  * initial documentation
- *******************************************************************************/
-package com.netxforge.netxstudio.screens.editing.actions;
+ *******************************************************************************/ 
+package com.netxforge.netxstudio.screens.editing.commands;
 
-import org.eclipse.emf.common.command.Command;
-import org.eclipse.emf.edit.command.CommandParameter;
-import org.eclipse.emf.edit.domain.AdapterFactoryEditingDomain;
-import org.eclipse.emf.edit.domain.EditingDomain;
+import org.eclipse.emf.common.command.AbstractCommand;
 
 /**
- * A marker interface.
+ * A Command which doesn't support undo etc... 
+ * It's not executed on a command stack, it's not even a command 
+ * actually.   
  * 
  * @author Christophe Bouhier
- * 
  */
-public interface ICommandStrategy {
+public abstract class NoWayBackCommand extends AbstractCommand {
 
-	/**
-	 * Command creation delegated by an {@link AdapterFactoryEditingDomain}.
-	 * 
-	 * 
-	 * @param domain
-	 * @param commandClass
-	 * @param commandParameter
-	 * @param optimizedCopy
-	 * @return
-	 */
-	public Command createCommand(EditingDomain domain,
-			Class<? extends Command> commandClass,
-			CommandParameter commandParameter, boolean optimizedCopy);
+	
+	@Override
+	public boolean canExecute() {
+		// Can always execute!
+		return true;
+	}
+
+	@Override
+	public boolean canUndo() {
+		// Can never UNDO.
+		return false;
+	}
+
+	@Override
+	public void undo() {
+		// Do nothing, Can't UNDO. 
+	}
+	
+	public void redo() {
+		// Do Nothing, we can't REDO. 
+	}
+	
 
 }

@@ -474,7 +474,7 @@ public class ChartModel implements IChartModel {
 			final StringBuilder sb = new StringBuilder();
 
 			final Component c = this.getNetXResource().getComponentRef();
-			if (c instanceof Function) {
+			if (c instanceof com.netxforge.netxstudio.library.Function) {
 				sb.append(c.getName());
 			}
 			if (c instanceof Equipment) {

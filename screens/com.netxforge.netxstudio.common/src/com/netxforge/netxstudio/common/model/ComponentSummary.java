@@ -70,11 +70,25 @@ public class ComponentSummary extends MonitoringAdapter {
 		}
 		boolean childComponentComputed = false;
 
-		for (Component c : modelUtils.componentsForComponent(component, false)) {
-			ComponentSummary componentSummary = adaptAndCompute(monitor, c,
+		List<Component> componentsForComponent = modelUtils
+				.childComponentsForComponent(component, false);
+
+		// Might throw an Exception.
+		int work = componentsForComponent.size();
+
+		final SubMonitor subMonitor = SubMonitor.convert(monitor, work);
+		subMonitor.setTaskName("Computing summary for "
+				+ modelUtils.printModelObject(component));
+
+		for (Component c : componentsForComponent) {
+
+			ComponentSummary componentSummary = adaptAndCompute(subMonitor, c,
 					this.getContextObjects());
 			if (componentSummary != null) {
 				resources += componentSummary.totalResources();
+//				System.out.println("adding" + componentSummary.totalResources()
+//						+ " for comp:" + modelUtils.printModelObject(c));
+
 				functions += componentSummary.totalFunctions();
 				equipments += componentSummary.totalEquipments();
 				if (componentSummary.isComputed()) {
@@ -97,6 +111,8 @@ public class ComponentSummary extends MonitoringAdapter {
 
 			for (NetXResource netxresource : component.getResourceRefs()) {
 
+				resources++;
+
 				if (monitor != null && monitor.isCanceled()) {
 					System.out.println("Computation cancelled...");
 					break;
@@ -108,7 +124,6 @@ public class ComponentSummary extends MonitoringAdapter {
 				if (childAdapter != null) {
 					if (childAdapter.isComputed()) {
 						computedResources++;
-						resources ++;
 						// Base our RAG status, on the child's status
 						this.incrementRag(childAdapter.rag());
 					}
@@ -119,7 +134,8 @@ public class ComponentSummary extends MonitoringAdapter {
 				resourcesMonitor.worked(1);
 			}
 		}
-		if (computedResources == component.getResourceRefs().size() || childComponentComputed) {
+		if (computedResources == component.getResourceRefs().size()
+				|| childComponentComputed) {
 			computationState = ComputationState.COMPUTED;
 		}
 	}

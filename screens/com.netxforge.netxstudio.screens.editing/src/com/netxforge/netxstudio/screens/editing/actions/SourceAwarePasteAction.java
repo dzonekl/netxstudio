@@ -30,6 +30,9 @@ import org.eclipse.jface.viewers.StructuredViewer;
 import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.jface.viewers.TreeViewer;
 
+import com.netxforge.netxstudio.screens.editing.commands.ICommandStrategy;
+import com.netxforge.netxstudio.screens.editing.commands.SourceAwarePasteFromClipboardCommand;
+
 /**
  * The command creation will determine if the object can be pasted into the
  * selection.

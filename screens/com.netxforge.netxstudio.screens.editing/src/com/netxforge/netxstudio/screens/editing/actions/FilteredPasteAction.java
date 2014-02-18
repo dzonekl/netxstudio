@@ -24,6 +24,8 @@ import org.eclipse.emf.common.command.UnexecutableCommand;
 import org.eclipse.emf.edit.domain.EditingDomain;
 import org.eclipse.emf.edit.ui.action.PasteAction;
 
+import com.netxforge.netxstudio.screens.editing.commands.FilteredPasteFromClipboardCommand;
+
 /**
  * A customized PasteAction, which filters branches of the containment tree
  * based on feature filtering. For each paste class, we maintain a static list. 

@@ -43,8 +43,9 @@ import org.eclipse.swt.widgets.Listener;
  * SWT-Controls {@link org.eclipse.swt.widgets.Table} and
  * {@link org.eclipse.swt.widgets.Tree}. </p>An adaption of
  * {@link SWTFocusCellManager}.</p> It supports drag-copying of cell content
- * from top to bottom. (Other dragging directions are not supported.</p>. </p>
- * {@link #setFocusBlockActionHandler(IFocusBlockActionHandler)} to create and
+ * from top to bottom. (Other dragging directions are not supported.</p>
+ * 
+ * </p> {@link #setFocusBlockActionHandler(IFocusBlockActionHandler)}.
  * 
  * While dragging an EMF Command command is created and updated with the
  * elements for the {@link ViewerCell}
@@ -125,7 +126,7 @@ abstract class SWTFocusBlockManager {
 		}
 		cleanFocusBlock(focusCell, event);
 		cellDragging = true;
-		
+
 		setCursorAccelerator(isAccelarating(event));
 		// System.out
 		// .println(" moving down, activate cell dragging, block size = "
@@ -137,10 +138,10 @@ abstract class SWTFocusBlockManager {
 	}
 
 	private void setCursorAccelerator(boolean accelerating) {
-		
+
 		@SuppressWarnings("unused")
 		Cursor previousCursor = viewer.getControl().getCursor();
-		
+
 		if (accelerating) {
 			viewer.getControl().setCursor(
 					Display.getDefault().getSystemCursor(SWT.CURSOR_UPARROW));
@@ -158,7 +159,7 @@ abstract class SWTFocusBlockManager {
 	private void handleMouseMove(Event event) {
 
 		if (cellDragging) {
-			// System.out.println(" dragging mouse" + event.x + "," + event.y);
+//			 System.out.println(" dragging mouse" + event.x + "," + event.y);
 			handleCellDragging(event);
 		} else {
 			// we are not dragging, do nothing.
@@ -344,6 +345,11 @@ abstract class SWTFocusBlockManager {
 		}
 	}
 
+	/**
+	 * And selection movements for a {@link ViewerCell}
+	 * 
+	 * @param event
+	 */
 	private void handleSelection(Event event) {
 		// ignore while dragging.
 		if (cellDragging) {
@@ -383,6 +389,11 @@ abstract class SWTFocusBlockManager {
 
 	abstract ViewerCell getInitialFocusCell();
 
+	/**
+	 * Hook ourself to a events on the {@link ColumnViewer}.
+	 * 
+	 * @param viewer
+	 */
 	private void hookListener(final ColumnViewer viewer) {
 		Listener listener = new Listener() {
 
@@ -416,6 +427,8 @@ abstract class SWTFocusBlockManager {
 		viewer.getControl().addListener(SWT.MouseMove, listener);
 		viewer.getControl().addListener(SWT.KeyDown, listener);
 		viewer.getControl().addListener(SWT.Selection, listener);
+
+		// When disposing a selection, we reset the focus cell.
 		viewer.addSelectionChangedListener(new ISelectionChangedListener() {
 
 			public void selectionChanged(SelectionChangedEvent event) {
@@ -475,8 +488,8 @@ abstract class SWTFocusBlockManager {
 		return focusBlock.toArray(focusBlockArray);
 	}
 
-	protected void setFocusCell(Object object) {
-		setFocusCell(focusCell, null);
+	protected void setFocusCell(ViewerCell newFocusCell) {
+		setFocusCell(newFocusCell, null);
 	}
 
 	void setFocusCell(ViewerCell focusCell, Event event) {

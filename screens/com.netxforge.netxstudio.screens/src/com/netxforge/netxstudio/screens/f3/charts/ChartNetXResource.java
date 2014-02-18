@@ -621,7 +621,7 @@ public class ChartNetXResource extends Chart implements
 		 */
 		public void handleEvent(Event event) {
 
-			 System.out.println("process event for chart:" + event);
+//			 System.out.println("process event for chart:" + event);
 
 			if (!isActive()) {
 				return;

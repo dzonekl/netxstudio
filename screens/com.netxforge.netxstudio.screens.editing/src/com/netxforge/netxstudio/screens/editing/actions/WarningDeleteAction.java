@@ -43,6 +43,8 @@ import com.netxforge.netxstudio.scheduling.JobRunContainer;
 import com.netxforge.netxstudio.scheduling.SchedulingPackage;
 import com.netxforge.netxstudio.screens.editing.IEditingService;
 import com.netxforge.netxstudio.screens.editing.actions.TableViewerWithState.StateSelectionChangedEvent;
+import com.netxforge.netxstudio.screens.editing.commands.WarningDeleteCommand;
+import com.netxforge.netxstudio.screens.editing.commands.WarningNWBDeleteCommand;
 
 /**
  * 

@@ -4772,8 +4772,8 @@ public class ModelUtils {
 			double x = (timestamp - xOffset);
 			data[i][0] = x; // Store as seconds to
 			data[i][1] = value.getValue();
-														// deal with smaller
-														// number
+			// deal with smaller
+			// number
 		}
 		return data;
 	}
@@ -5393,7 +5393,8 @@ public class ModelUtils {
 	}
 
 	/**
-	 * all child {@link Component} with optionally the root argument component.
+	 * all (full depth) child {@link Component} with optionally the root
+	 * argument component.
 	 * 
 	 * @param c
 	 * @param self
@@ -5416,6 +5417,31 @@ public class ModelUtils {
 			for (Component child : eq.getEquipments()) {
 				components.addAll(componentsForComponent(child));
 			}
+		}
+
+		return components;
+	}
+
+	/**
+	 * child {@link Component} with optionally the root argument component.
+	 * 
+	 * @param c
+	 * @param self
+	 * @return
+	 */
+	public List<Component> childComponentsForComponent(Component c, boolean self) {
+		final List<Component> components = new ArrayList<Component>();
+		if (self) {
+			components.add(c);
+		}
+		if (c instanceof com.netxforge.netxstudio.library.Function) {
+			com.netxforge.netxstudio.library.Function f = (com.netxforge.netxstudio.library.Function) c;
+			components.addAll(f.getFunctions());
+		}
+
+		if (c instanceof Equipment) {
+			Equipment eq = (Equipment) c;
+			components.addAll(eq.getEquipments());
 		}
 
 		return components;
