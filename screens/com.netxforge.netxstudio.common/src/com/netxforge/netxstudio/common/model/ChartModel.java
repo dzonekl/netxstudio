@@ -70,6 +70,12 @@ public class ChartModel implements IChartModel {
 
 	private INativeFunctions nativeFunctions;
 
+	/**
+	 * A cache holding unique ChartID's. The algorithm for the chartID, could
+	 * generated duplicates.
+	 */
+	private List<String> chartIDCache = Lists.newArrayList();
+
 	public ChartModel() {
 	}
 
@@ -116,6 +122,11 @@ public class ChartModel implements IChartModel {
 		 * The state of the model, do not load when not OK.
 		 */
 		protected boolean chartModelOk = false;
+
+		/**
+		 * cache entry of the chart if.
+		 */
+		private String chartID = null;
 
 		/**
 		 * The filtered state will either show or hide us in the chart viewer.
@@ -467,28 +478,43 @@ public class ChartModel implements IChartModel {
 			capDoubleArray = null;
 			utilDoubleArray = null;
 			timeStampArray = null;
+			chartID = null;
 		}
 
 		public String getChartID() {
 
-			final StringBuilder sb = new StringBuilder();
+			if (chartID == null) {
 
-			final Component c = this.getNetXResource().getComponentRef();
-			if (c instanceof com.netxforge.netxstudio.library.Function) {
-				sb.append(c.getName());
-			}
-			if (c instanceof Equipment) {
-				Equipment eq = (Equipment) c;
-				sb.append(eq.getEquipmentCode() != null ? eq.getEquipmentCode()
-						: "?");
-				if (eq.eIsSet(LibraryPackage.Literals.COMPONENT__NAME)) {
-					sb.append(" : " + eq.getName());
+				final StringBuilder sb = new StringBuilder();
+
+				final Component c = this.getNetXResource().getComponentRef();
+				if (c instanceof com.netxforge.netxstudio.library.Function) {
+					sb.append(c.getName());
 				}
-			}
-			sb.append(" - ");
-			sb.append(getNetXResource().getShortName());
+				if (c instanceof Equipment) {
+					Equipment eq = (Equipment) c;
+					sb.append(eq.getEquipmentCode() != null ? eq
+							.getEquipmentCode() : "?");
+					if (eq.eIsSet(LibraryPackage.Literals.COMPONENT__NAME)) {
+						sb.append(" : " + eq.getName());
+					}
+				}
+				sb.append(" - ");
+				sb.append(getNetXResource().getShortName());
 
-			return sb.toString();
+				String proposedChartID = sb.toString();
+
+				while (chartIDCache.contains(proposedChartID)) {
+					// append the index of the existing one to the new one so it
+					// becomes unique.
+					int indexOf = chartIDCache.indexOf(proposedChartID);
+					proposedChartID = proposedChartID.concat("_" + indexOf);
+				}
+				chartIDCache.add(proposedChartID);
+				this.chartID = proposedChartID;
+			}
+			// Add the index, so we don't have duplicates.
+			return chartID;
 		}
 	}
 
@@ -728,9 +754,14 @@ public class ChartModel implements IChartModel {
 	}
 
 	public void reset() {
+		
+		chartIDCache.clear();
+		
 		for (IChartResource cr : getChartResources()) {
 			cr.resetCaches();
 		}
+		
+
 	}
 
 	public void setShouldTrend(boolean shouldTrend) {
