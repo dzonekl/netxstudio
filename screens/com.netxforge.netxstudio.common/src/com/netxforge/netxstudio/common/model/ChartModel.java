@@ -358,7 +358,7 @@ public class ChartModel implements IChartModel {
 		 */
 		public double[] getCapDoubleArray() {
 
-			if (capDoubleArray == null) {
+			if (capDoubleArray == null && metricDTR != null) {
 				List<Value> capValues = modelUtils.sortAndApplyPeriod(
 						netxSummary.getTarget().getCapacityValues(),
 						chartPeriod, false);
@@ -475,6 +475,7 @@ public class ChartModel implements IChartModel {
 
 		public void resetCaches() {
 			metricValues = null;
+			metricDTR = null;
 			capDoubleArray = null;
 			utilDoubleArray = null;
 			timeStampArray = null;
