@@ -33,6 +33,7 @@ import com.google.inject.Guice;
 import com.google.inject.Inject;
 import com.google.inject.Injector;
 import com.netxforge.netxstudio.common.math.INativeFunctions;
+import com.netxforge.netxstudio.common.math.INativeFunctions2;
 import com.netxforge.netxstudio.common.model.ComponentSummaryProvider;
 import com.netxforge.netxstudio.common.model.IChartModelProvider;
 import com.netxforge.netxstudio.common.model.ModelUtils;
@@ -106,6 +107,9 @@ public class CommonActivator implements BundleActivator, DebugOptionsListener {
 
 	@Inject
 	Export<INativeFunctions> nativeFunctions;
+	
+	@Inject
+	Export<INativeFunctions2> nativeFunctions2;
 
 	/*
 	 * (non-Javadoc)

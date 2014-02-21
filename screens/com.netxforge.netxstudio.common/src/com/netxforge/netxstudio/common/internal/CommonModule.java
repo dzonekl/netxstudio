@@ -25,6 +25,7 @@ import static org.ops4j.peaberry.util.TypeLiterals.export;
 import com.google.inject.Singleton;
 import com.netxforge.netxstudio.common.jca.JCAServiceModule;
 import com.netxforge.netxstudio.common.math.INativeFunctions;
+import com.netxforge.netxstudio.common.math.INativeFunctions2;
 import com.netxforge.netxstudio.common.math.NativeFunctions;
 import com.netxforge.netxstudio.common.model.ChartModelProvider;
 import com.netxforge.netxstudio.common.model.ComponentSummaryProvider;
@@ -100,6 +101,9 @@ public class CommonModule extends JCAServiceModule {
 		// Bind each subsequent version of Native funtions separately.
 
 		bind(export(INativeFunctions.class)).toProvider(
+				service(NativeFunctions.class).export());
+		
+		bind(export(INativeFunctions2.class)).toProvider(
 				service(NativeFunctions.class).export());
 
 		// ///////////////////////////////

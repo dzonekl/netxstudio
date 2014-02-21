@@ -78,7 +78,6 @@ import com.netxforge.netxscript.VarOrArgumentCall;
 import com.netxforge.netxscript.Variable;
 import com.netxforge.netxscript.While;
 import com.netxforge.netxstudio.common.context.IComputationContext;
-import com.netxforge.netxstudio.common.math.INativeFunctions;
 import com.netxforge.netxstudio.common.math.INativeFunctions2;
 import com.netxforge.netxstudio.common.model.IMonitoringSummary.RAG;
 import com.netxforge.netxstudio.common.model.ModelUtils;
@@ -140,7 +139,7 @@ import com.netxforge.scoping.IExternalContextAware;
 public class InterpreterTypeless implements IInterpreter, IExternalContextAware {
 
 	@Inject
-	INativeFunctions nativeFunctions;
+	INativeFunctions2 nativeFunctions;
 
 	IPrettyLog pLog;
 

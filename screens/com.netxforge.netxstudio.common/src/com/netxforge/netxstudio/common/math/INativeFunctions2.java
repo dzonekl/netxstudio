@@ -27,7 +27,7 @@ import com.netxforge.netxstudio.generics.Value;
  *  
  * @author Christophe
  */
-public interface INativeFunctions2 {
+public interface INativeFunctions2 extends INativeFunctions {
 	
 	/**
 	 * The max value in the range.

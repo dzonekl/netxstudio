@@ -23,7 +23,7 @@ import com.google.inject.AbstractModule;
 import com.google.inject.name.Names;
 import com.netxforge.engine.IExpressionEngine;
 import com.netxforge.netxstudio.common.guice.IInjectorProxy;
-import com.netxforge.netxstudio.common.math.INativeFunctions;
+import com.netxforge.netxstudio.common.math.INativeFunctions2;
 import com.netxforge.netxstudio.common.model.IChartModelProvider;
 import com.netxforge.netxstudio.common.model.ModelUtils;
 import com.netxforge.netxstudio.common.model.MonitoringAdapterFactory;
@@ -100,12 +100,11 @@ public class ScreensModule extends AbstractModule {
 		// {@link CommonModule}
 		bind(IChartModelProvider.class).toProvider(
 				service(IChartModelProvider.class).single());
-		
-		// {@link CommonModule}
-		bind(INativeFunctions.class).toProvider(
-				service(INativeFunctions.class).single());
 
-		
+		// {@link CommonModule}
+		bind(INativeFunctions2.class).toProvider(
+				service(INativeFunctions2.class).single());
+
 		// {@link DataModule}
 		bind(ServerRequest.class).toProvider(
 				service(ServerRequest.class).single());
