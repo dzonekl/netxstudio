@@ -23,6 +23,7 @@ import static org.ops4j.peaberry.Peaberry.osgiModule;
 import java.util.Dictionary;
 import java.util.Hashtable;
 
+import org.eclipse.emf.cdo.util.ObjectNotFoundException;
 import org.eclipse.osgi.service.debug.DebugOptions;
 import org.eclipse.osgi.service.debug.DebugOptionsListener;
 import org.eclipse.osgi.service.debug.DebugTrace;
@@ -64,6 +65,11 @@ public class DataActivator implements BundleActivator, DebugOptionsListener {
 	public static String TRACE_DATA_OPTION = "/trace.data";
 	public static String TRACE_DATA_DETAILS_OPTION = "/trace.data.details";
 
+	/**
+	 * Trace details related to {@link ObjectNotFoundException}
+	 */
+	public static String TRACE_DATA_ONFE_OPTION = "/trace.data.onfe";
+
 	// Tracing for importing.
 	public static final String TRACE_IMPORT_OPTION = "/trace.import";
 	public static final String TRACE_IMPORT_DETAILS_OPTION = "/trace.import.details";
@@ -87,15 +93,15 @@ public class DataActivator implements BundleActivator, DebugOptionsListener {
 	public static BundleContext getContext() {
 		return context;
 	}
-	
+
 	// Note: Order is imported. I.e. ServerRequest requires the IDataService.
-	
+
 	@Inject
 	Export<IDataService> dataService;
-	
+
 	@Inject
 	Export<IClientDataProvider> clientDPProvider;
-	
+
 	@Inject
 	Export<ServerRequest> serverRequestService;
 

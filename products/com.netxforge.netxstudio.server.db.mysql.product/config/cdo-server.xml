@@ -15,6 +15,7 @@
 
 		<property name="overrideUUID" value="" />
 		<property name="supportingAudits" value="false" />
+		<property name="ensureReferentialIntegrity" value="true" />
 
 		<!-- <initialPackage nsURI="http://www.netxforge.com/13042011/geo"/> <initialPackage 
 			nsURI="http://www.netxforge.com/13042011/generics"/> <initialPackage nsURI="http://www.netxforge.com/13042011/netxstudio"/> 

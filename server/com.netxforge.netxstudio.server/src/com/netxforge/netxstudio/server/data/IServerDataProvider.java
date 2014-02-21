@@ -20,6 +20,5 @@ package com.netxforge.netxstudio.server.data;
 import com.netxforge.netxstudio.data.IData;
 
 public interface IServerDataProvider {
-	public IData get();
-	
+	public IData get();	
 }

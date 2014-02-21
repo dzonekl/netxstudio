@@ -18,11 +18,15 @@
  *******************************************************************************/
 package com.netxforge.netxstudio.data.cdo;
 
+import java.lang.reflect.InvocationHandler;
+import java.lang.reflect.Method;
+import java.lang.reflect.Proxy;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
 import org.eclipse.emf.cdo.common.CDOCommonSession.Options.PassiveUpdateMode;
+import org.eclipse.emf.cdo.common.id.CDOID;
 import org.eclipse.emf.cdo.common.util.CDOException;
 import org.eclipse.emf.cdo.eresource.CDOResource;
 import org.eclipse.emf.cdo.eresource.CDOResourceFolder;
@@ -32,11 +36,16 @@ import org.eclipse.emf.cdo.session.CDOSession;
 import org.eclipse.emf.cdo.transaction.CDOTransaction;
 import org.eclipse.emf.cdo.util.CDOUtil;
 import org.eclipse.emf.cdo.view.CDOInvalidationPolicy;
+import org.eclipse.emf.cdo.view.CDOStaleObject;
 import org.eclipse.emf.cdo.view.CDOView;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.EClassifier;
+import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
+import org.eclipse.emf.ecore.EStructuralFeature;
+import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.net4j.util.event.IListener;
@@ -202,6 +211,7 @@ public abstract class CDOData implements IData {
 		}
 		final CDONet4jSession cdoSession = connection.getConfig()
 				.openNet4jSession();
+
 		configureSessionOptions(cdoSession);
 		setSession(cdoSession);
 		return cdoSession;
@@ -694,6 +704,72 @@ public abstract class CDOData implements IData {
 		StringBuilder sb = new StringBuilder();
 		sb.append(connection.toString());
 		return sb.toString();
+	}
+
+	/**
+	 * Install a policy which logs and
+	 */
+	public Object processStaleReference(final EObject source,
+			EStructuralFeature feature, int index, final CDOID target) {
+
+		final EClassifier type = feature.getEType();
+		InvocationHandler handler = new InvocationHandler() {
+			public Object invoke(Object proxy, Method method, Object[] args)
+					throws Throwable {
+				String name = method.getName();
+				if (name.equals("cdoID")) //$NON-NLS-1$
+				{
+					return target;
+				}
+
+				if (name.equals("eIsProxy")) //$NON-NLS-1$
+				{
+					return false;
+				}
+
+				if (name.equals("eClass")) //$NON-NLS-1$
+				{
+					return type;
+				}
+
+				if (name.equals("eAdapters")) //$NON-NLS-1$
+				{
+					return source.eAdapters();
+				}
+
+				if (DataActivator.DEBUG) {
+					
+					
+					DataActivator.TRACE
+							.trace(DataActivator.TRACE_DATA_ONFE_OPTION,
+									"Calling method ("
+											+ name
+											+ ") on a Proxy object: "
+											+ target);
+					
+					// Dump the stack, as we don't through an exception. 
+					Thread.dumpStack();
+				}
+
+				return null;
+				// throw new ObjectNotFoundException(target);
+			}
+		};
+
+		Class<?> instanceClass = type.getInstanceClass();
+		Class<?>[] interfaces = null;
+
+		// Be sure to have only interface
+		if (instanceClass.isInterface()) {
+			interfaces = new Class<?>[] { instanceClass, InternalEObject.class,
+					CDOStaleObject.class };
+		} else {
+			interfaces = new Class<?>[] { InternalEObject.class,
+					CDOStaleObject.class };
+		}
+
+		return Proxy.newProxyInstance(instanceClass.getClassLoader(),
+				interfaces, handler);
 	}
 
 }

@@ -19,6 +19,7 @@ com.netxforge.netxscript/trace.netxscript.description=true
 #Data CDO trace options.
 com.netxforge.netxstudio.data/trace.data=false
 com.netxforge.netxstudio.data/trace.data.details=false
+com.netxforge.netxstudio.data/trace.data.onfe=false
 
 # Data Import trace options. (As the importers are in the .data plugin, options as well). 
 com.netxforge.netxstudio.data/trace.import=true

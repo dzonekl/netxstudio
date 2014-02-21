@@ -22,6 +22,7 @@ import java.util.Date;
 
 import org.eclipse.emf.cdo.session.CDOSession;
 import org.eclipse.emf.cdo.transaction.CDOTransaction;
+import org.eclipse.emf.cdo.view.CDOStaleReferencePolicy;
 import org.eclipse.emf.cdo.view.CDOView;
 import org.eclipse.net4j.util.event.IEvent;
 import org.eclipse.net4j.util.event.IListener;
@@ -38,7 +39,7 @@ import com.netxforge.netxstudio.server.internal.ServerActivator;
  * 
  * @author Martin Taal
  */
-public class ServerCDOData extends CDOData {
+public class ServerCDOData extends CDOData implements CDOStaleReferencePolicy {
 
 	// A cached session for this provider.
 	private CDOSession session = null;
@@ -128,6 +129,10 @@ public class ServerCDOData extends CDOData {
 		if (transaction == null || transaction.isClosed()) {
 			// This will open a new session.
 			transaction = getSession().openTransaction();
+			
+			// Set stale reference policy. 
+			transaction.options().setStaleReferencePolicy(this);
+			
 			// In case we loose our sessions, clear the session.
 			transaction.getSession().addListener(new IListener() {
 
