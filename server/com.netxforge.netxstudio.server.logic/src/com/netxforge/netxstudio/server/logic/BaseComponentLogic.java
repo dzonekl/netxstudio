@@ -51,10 +51,12 @@ public abstract class BaseComponentLogic extends BasePeriodLogic {
 		this.getJobMonitor().setTask("Performing componet traversal");
 
 		for (final NodeType nodeType : nodeTypes) {
-
 			getJobMonitor().appendToLog(
 					"processing node (type) "
-							+ ((Node) nodeType.eContainer()).getNodeID());
+							+ ((Node) nodeType.eContainer()).getNodeID()
+							+ " "
+							+ this.getModelUtils().periodToStringMore(
+									this.getPeriod()));
 
 			getJobMonitor().setTask("Processing for nodeType");
 			processNode(nodeType);

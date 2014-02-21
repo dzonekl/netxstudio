@@ -53,7 +53,7 @@ public class LogDialog extends Dialog {
 	 */
 	@Override
 	protected Point getInitialSize() {
-		return new Point(300, 400);
+		return new Point(600, 300);
 	}
 	
 	public void InjectData(Object log){

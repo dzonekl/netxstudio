@@ -129,12 +129,22 @@ public class JobHandler {
 
 	private CDOView view;
 
-	private Boolean autoStartOnActivation;
+	private Boolean autoStartOnActivation = false;
 
 	static void createAndInitialize() {
 		INSTANCE = new JobHandler();
 		INSTANCE.activate();
 		INSTANCE.initialize();
+		// Set the schedudeler status before adding the triggers otherwise:
+		if (INSTANCE.autoStartOnActivation) {
+			if (INSTANCE.scheduler != null) {
+				try {
+					INSTANCE.scheduler.start();
+				} catch (final Exception e) {
+					e.printStackTrace(System.err);
+				}
+			}
+		}
 	}
 
 	public static void deActivate() {
@@ -640,45 +650,14 @@ public class JobHandler {
 
 			relevantIds.add(((CDOResource) jobResource).cdoID());
 
-			// CB 26062012, this would only imply that objects in this view
-			// notify,
-			// when invalidated.
-			// It's likely not needed.
-			// view.options().setInvalidationNotificationEnabled(true);
-			// view.options().setInvalidationPolicy(
-			// CDOInvalidationPolicy.DEFAULT);
-
-			boolean firstRun = false;
 			if (scheduler == null) {
 				// Instantiate only once.
 				scheduler = StdSchedulerFactory.getDefaultScheduler();
-				firstRun = true;
+				scheduler.standby();
 
 			} else {
 				scheduler.clear();
 			}
-
-			// Set the schedudeler status before adding the triggers otherwise:
-			//
-			if (firstRun && autoStartOnActivation) {
-				if (autoStartOnActivation) {
-					try {
-						scheduler.start();
-						firstRun = false;
-					} catch (final Exception e) {
-						e.printStackTrace(System.err);
-					}
-				}else{
-					scheduler.standby();
-				}
-			}
-			// if (scheduler != null && !scheduler.isShutdown()) {
-			// // We force a shutdown of the scheduler when initializing.
-			// // report any ongoing jobs.
-			// scheduler.shutdown(true);
-			// }
-
-			// clear the scheduler.
 
 			// now initialize quartz jobs, iterating through all available jobs.
 			for (final EObject eObject : jobResource.getContents()) {
@@ -734,7 +713,6 @@ public class JobHandler {
 									+ " with scheduled (trigger) time: "
 									+ scheduledDate);
 				}
-
 			}
 
 		} catch (final Exception e) {
@@ -1040,7 +1018,6 @@ public class JobHandler {
 									JobHandler.class, JobHandler.INSTANCE,
 									new Hashtable<String, String>());
 
-							// stop();
 						}
 					}
 				});

@@ -14,7 +14,7 @@
  * 
  * Contributors: Christophe Bouhier - initial API and implementation and/or
  * initial documentation
- *******************************************************************************/ 
+ *******************************************************************************/
 package com.netxforge.netxstudio.screens.f4;
 
 import java.util.Date;
@@ -161,7 +161,7 @@ public class NewEditJob extends AbstractScreen implements IDataScreenInjection {
 		});
 		toolkit.adapt(this);
 		toolkit.paintBordersFor(this);
-//		buildUI();
+		// buildUI();
 	}
 
 	private void buildUI() {
@@ -500,8 +500,9 @@ public class NewEditJob extends AbstractScreen implements IDataScreenInjection {
 				jobStateModelToTargetStrategy);
 
 		// JOB_NAME
-		EMFUpdateValueStrategy nameStrategy = ValidationService.getStrategyfactory()
-				.strategyBeforeSetStringNotEmpty("Name is required");
+		EMFUpdateValueStrategy nameStrategy = ValidationService
+				.getStrategyfactory().strategyBeforeSetStringNotEmpty(
+						"Name is required");
 
 		IObservableValue textObserveJobName = SWTObservables
 				.observeDelayedValue(400,
@@ -599,7 +600,11 @@ public class NewEditJob extends AbstractScreen implements IDataScreenInjection {
 			}
 
 			public Object convert(Object fromObject) {
-				return ((Integer) fromObject).toString();
+				if (fromObject != null) {
+					return ((Integer) fromObject).toString();
+				} else {
+					return "";
+				}
 			}
 
 		});
@@ -868,15 +873,15 @@ public class NewEditJob extends AbstractScreen implements IDataScreenInjection {
 		 * (org.eclipse.core.databinding.observable.value.ValueChangeEvent)
 		 */
 		public void handleValueChange(ValueChangeEvent event) {
-//			System.out.println(event.getObservable());
+			// System.out.println(event.getObservable());
 
 			Object newValue = event.diff.getNewValue();
-//			System.out.println("New Value:" + event.diff.getNewValue());
+			// System.out.println("New Value:" + event.diff.getNewValue());
 
 			if (event.getObservable() instanceof ISWTObservableValue) {
 				Control control = (Control) ((ISWTObservableValue) event
 						.getObservable()).getWidget();
-//				System.out.println(control);
+				// System.out.println(control);
 				if (control.equals(btnOn)) {
 					// read the end date value
 					endDate = dateChooserEndsOn.getValue();
@@ -942,7 +947,7 @@ public class NewEditJob extends AbstractScreen implements IDataScreenInjection {
 			if (event.getObservable() instanceof IViewerObservableValue) {
 				Viewer viewer = (Viewer) ((IViewerObservableValue) event
 						.getObservable()).getViewer();
-//				System.out.println(viewer);
+				// System.out.println(viewer);
 
 				if (viewer.equals(comboViewerOn)) {
 					int dayOfWeek = (Integer) newValue;
@@ -962,7 +967,7 @@ public class NewEditJob extends AbstractScreen implements IDataScreenInjection {
 			// Calculate the new writablevalues.
 
 			if (startDate != null) {
-//				System.out.println(startDate);
+				// System.out.println(startDate);
 				startTimeObservable.setValue(startDate);
 			}
 
@@ -1068,7 +1073,6 @@ public class NewEditJob extends AbstractScreen implements IDataScreenInjection {
 		// Doesn't apply to all jobs..
 		this.bindJobObjects();
 
-		
 		frmNewJob.setText(this.getOperationText() + jobTypes[type] + " Job");
 
 		if (!ScreenUtil.isReadOnlyOperation(getOperation())) {

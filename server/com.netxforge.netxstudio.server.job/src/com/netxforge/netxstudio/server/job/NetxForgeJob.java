@@ -112,9 +112,16 @@ public class NetxForgeJob implements org.quartz.Job {
 
 	public void execute(JobExecutionContext context)
 			throws JobExecutionException {
+		
 		final JobDataMap dataMap = context.getJobDetail().getJobDataMap();
 		job = (Job) dataMap.get(JOB_PARAMETER);
 
+		
+		if (JobActivator.DEBUG) {
+			JobActivator.TRACE.trace(JobActivator.TRACE_JOBS_OPTION,
+					"Firing job: " + job.getName() + " with params: " + dataMap);
+		}
+		
 		// jobs are too close to eachother, going away
 		if (isRunning(job.cdoID())) {
 			// removeRunning(job.cdoID());

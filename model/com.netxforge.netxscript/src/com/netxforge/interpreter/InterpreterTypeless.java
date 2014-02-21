@@ -863,8 +863,7 @@ public class InterpreterTypeless implements IInterpreter, IExternalContextAware 
 
 					}
 					expressionResults.add(er);
-				}
-				if (assertCollection(varEval)) {
+				} else if (assertCollection(varEval)) {
 					// We return a list of values, note values are contained, so
 					// we should
 					// make a copy, in an assignment.

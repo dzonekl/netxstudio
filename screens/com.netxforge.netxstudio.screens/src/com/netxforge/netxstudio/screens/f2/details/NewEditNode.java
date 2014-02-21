@@ -434,10 +434,12 @@ public class NewEditNode extends AbstractDetailsScreen implements
 						// Ask the user if the node should be replaced,
 						// or simply set as the original node type.
 						boolean copyStructure = MessageDialog.openQuestion(
-								NewEditNode.this.getShell(),"Network Element Type Option",
+								NewEditNode.this.getShell(),
+								"Network Element Type Option",
 								" Choose to select parts from the original Network Element Type: "
-										+ nt.getName() + "?\n" + 
-								" When selecting \'No\' the structure of \'"
+										+ nt.getName()
+										+ "?\n"
+										+ " When selecting \'No\' the structure of \'"
 										+ node.getNodeID()
 										+ "\' will be replaced by the original network "
 										+ "Element Type structure\n (WARNING: Choosing \'No\' will replace the current structure, all editing will be lost)");
@@ -798,8 +800,12 @@ public class NewEditNode extends AbstractDetailsScreen implements
 			}
 
 			public Object convert(Object fromObject) {
-				return modelUtils
-						.fromXMLDate((XMLGregorianCalendar) fromObject);
+				if (fromObject != null) {
+					return modelUtils
+							.fromXMLDate((XMLGregorianCalendar) fromObject);
+				} else {
+					return null;
+				}
 			}
 		});
 
@@ -816,7 +822,11 @@ public class NewEditNode extends AbstractDetailsScreen implements
 			}
 
 			public Object convert(Object fromObject) {
-				return modelUtils.toXMLDate((Date) fromObject);
+				if (fromObject != null) {
+					return modelUtils.toXMLDate((Date) fromObject);
+				} else {
+					return null;
+				}
 			}
 		});
 

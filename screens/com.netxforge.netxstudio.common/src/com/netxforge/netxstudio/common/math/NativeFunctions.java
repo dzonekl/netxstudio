@@ -102,7 +102,7 @@ public class NativeFunctions implements INativeFunctions, INativeFunctions2 {
 	 * @see
 	 * com.netxforge.netxstudio.common.math.INativeFunctions#sum(double[][])
 	 */
-	public double[] sumCollections(List<Double[]> input ) {
+	public double[] sumCollections(List<Double[]> input) {
 
 		int firstLength = -1;
 		for (Double[] dr : input) {
@@ -115,8 +115,9 @@ public class NativeFunctions implements INativeFunctions, INativeFunctions2 {
 		}
 
 		double[] result = new double[firstLength];
-		for(Double[] dr : input){
-			result = sumCollections(result, modelUtils.transformToDoublePrimitiveArray(dr));
+		for (Double[] dr : input) {
+			result = sumCollections(result,
+					modelUtils.transformToDoublePrimitiveArray(dr));
 		}
 		return result;
 	}
@@ -322,9 +323,14 @@ public class NativeFunctions implements INativeFunctions, INativeFunctions2 {
 	}
 
 	public Value maxValue(List<Value> range) {
-		List<Value> sortedCopy = Ordering.from(modelUtils.valueValueCompare())
-				.sortedCopy(range);
-		return sortedCopy.get(sortedCopy.size() - 1);
+		if (range.size() == 1) {
+			return range.get(0);
+		} else if (range.size() > 1) {
+			List<Value> sortedCopy = Ordering.from(
+					modelUtils.valueValueCompare()).sortedCopy(range);
+			return sortedCopy.get(sortedCopy.size() - 1);
+		}
+		return null;
 	}
 
 	public Value meanValue(List<Value> range) {
@@ -343,21 +349,20 @@ public class NativeFunctions implements INativeFunctions, INativeFunctions2 {
 
 		return newValue;
 	}
-	
+
 	/**
-	 * Return a {@link GenericsTuple tuple} with a key being the slope and 
-	 * the value being the intercept of the trendline. 
+	 * Return a {@link GenericsTuple tuple} with a key being the slope and the
+	 * value being the intercept of the trendline.
 	 * 
 	 */
 	public GenericsTuple<Double, Double> trend(double[][] dataPair) {
-		
+
 		SimpleRegression regression = new SimpleRegression();
 		regression.addData(dataPair);
 		double slope = regression.getSlope();
 		double intercept = regression.getIntercept();
-		
-		return new GenericsTuple<Double,Double>(slope, intercept);
+
+		return new GenericsTuple<Double, Double>(slope, intercept);
 	}
-	
-	
+
 }
