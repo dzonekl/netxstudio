@@ -64,13 +64,20 @@ public class RFSServiceMonitoringLogic extends BaseMonitoringLogic {
 		// what name should a servicemonitor have?
 		serviceMonitor.setName(rfsService.getServiceName());
 		serviceMonitor.setPeriod(dtr);
-		// The revision will hold the Object ID and creation time. 
-		serviceMonitor.setRevision(this.getModelUtils().dateAndTime(this.getModelUtils().todayAndNow()));
+		// The revision will hold the Object ID and creation time.
+		serviceMonitor.setRevision(this.getModelUtils().dateAndTime(
+				this.getModelUtils().todayAndNow()));
+		
+		
+		// Do the ONFE thing, disable for now as we catch ONFEs in own policy.  
+//		this.getModelUtils().findAndCleanONFE(rfsService,
+//				ServicesPackage.Literals.SERVICE__SERVICE_MONITORS);
+
 		rfsService.getServiceMonitors().add(0, serviceMonitor); // Add at
 																// beginning.
 
 		List<ServiceMonitor> serviceMonitorDuplicates = this.getModelUtils()
-				.serviceMonitorDuplicates(rfsService);
+				.serviceMonitorDuplicates(rfsService, dtr);
 
 		if (LogicActivator.DEBUG) {
 			LogicActivator.TRACE.trace(LogicActivator.TRACE_LOGIC_OPTION,
@@ -96,8 +103,8 @@ public class RFSServiceMonitoringLogic extends BaseMonitoringLogic {
 
 	public void setRfsService(CDOID cdoId) {
 		// read the rfsservice in the transaction of the run
-		this.rfsService = (RFSService) getData().getTransaction()
-				.getObject(cdoId);
+		this.rfsService = (RFSService) getData().getTransaction().getObject(
+				cdoId);
 	}
 
 	@Override

@@ -35,7 +35,6 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.NoSuchElementException;
-import java.util.Set;
 
 import javax.xml.datatype.DatatypeConfigurationException;
 import javax.xml.datatype.DatatypeFactory;
@@ -66,6 +65,7 @@ import org.eclipse.emf.cdo.eresource.CDOResourceNode;
 import org.eclipse.emf.cdo.internal.common.id.CDOIDObjectLongImpl;
 import org.eclipse.emf.cdo.spi.common.revision.InternalCDORevision;
 import org.eclipse.emf.cdo.transaction.CDOTransaction;
+import org.eclipse.emf.cdo.util.CDOUtil;
 import org.eclipse.emf.cdo.util.ObjectNotFoundException;
 import org.eclipse.emf.cdo.view.CDOView;
 import org.eclipse.emf.common.util.EList;
@@ -92,7 +92,6 @@ import com.google.common.collect.Maps;
 import com.google.common.collect.Multimap;
 import com.google.common.collect.Multimaps;
 import com.google.common.collect.Ordering;
-import com.google.common.collect.Sets;
 import com.google.inject.Singleton;
 import com.netxforge.netxstudio.ServerSettings;
 import com.netxforge.netxstudio.common.Tuple;
@@ -1398,28 +1397,19 @@ public class ModelUtils {
 	 * @author Christophe Bouhier
 	 */
 	public class ServiceMonitorDuplicates implements Predicate<ServiceMonitor> {
-		private final Set<DateTimeRange> uniqueSMs;
+		private final DateTimeRange lookupDTR;
 		final PeriodComparator periodComparator = new PeriodComparator();
 
-		public ServiceMonitorDuplicates(Set<DateTimeRange> uniqueSMs) {
-			this.uniqueSMs = uniqueSMs;
+		public ServiceMonitorDuplicates(DateTimeRange lookupDTR) {
+			this.lookupDTR = lookupDTR;
 		}
 
 		public boolean apply(final ServiceMonitor s) {
-
-			try {
-				Iterables.find(uniqueSMs, new Predicate<DateTimeRange>() {
-					public boolean apply(final DateTimeRange dtr) {
-						return periodComparator.compare(s.getPeriod(), dtr) == 0;
-					}
-				});
-				// We have this period, we would otherwise be thrown!
-				return true;
-			} catch (NoSuchElementException nse) {
-				uniqueSMs.add(s.getPeriod());
+			
+			if(FSMUtil.isNew(s)){
 				return false;
-
 			}
+			return periodComparator.compare(s.getPeriod(), lookupDTR) == 0;
 		}
 	}
 
@@ -1455,16 +1445,16 @@ public class ModelUtils {
 	 * 
 	 * 
 	 * @param service
+	 * @param dtr
 	 * @return
 	 */
-	public List<ServiceMonitor> serviceMonitorDuplicates(Service service) {
+	public List<ServiceMonitor> serviceMonitorDuplicates(Service service,
+			DateTimeRange dtr) {
 
-		final Set<DateTimeRange> uniqueSMs = Sets.newHashSet();
-		final List<ServiceMonitor> copy = Lists.newArrayList(service
+		final List<ServiceMonitor> copy = ImmutableList.copyOf(service
 				.getServiceMonitors());
-
 		Iterable<ServiceMonitor> result = Iterables.filter(copy,
-				new ServiceMonitorDuplicates(uniqueSMs));
+				new ServiceMonitorDuplicates(dtr));
 
 		// Print the duplicates.
 		// System.out.println("found " + Iterables.size(result)
@@ -1474,7 +1464,60 @@ public class ModelUtils {
 		// System.out.println(period(sm.getPeriod()));
 		// }
 		// }
-		return Lists.newArrayList(result);
+		return ImmutableList.copyOf(result);
+		// Will delete all as we are dodgy...
+
+	}
+
+	/**
+	 * Cleans state references by iterating over a collection and
+	 * 
+	 * @param eo
+	 * @param feature
+	 */
+	public void findAndCleanONFE(EObject eo, EStructuralFeature feature) {
+
+		List<Object> cleaned = Lists.newArrayList();
+
+		if (feature instanceof EReference) {
+			Object eGet = eo.eGet(feature);
+
+			if (feature.isMany()) {
+				if (eGet instanceof List<?>) {
+					List<?> refs = (List<?>) eGet;
+					boolean stillONF = true;
+
+					// Keeps going until no more stale references.
+					RESTART_ONFE_CHECK: while (stillONF) {
+						for (int i = 0; i < refs.size(); i++) {
+							try {
+								Object object = refs.get(i);
+								System.out.println("ONFE check for: " + object
+										+ " is it proxy?");
+								if (object instanceof CDOObject) {
+									CDOObject obtained = (CDOObject) object;
+
+								}
+								// catch the onfe.
+							} catch (ObjectNotFoundException exception) {
+
+								System.out.println("ONFE detected, Reference: "
+										+ eo + " feature: " + feature
+										+ " index: " + i);
+
+								CDOUtil.cleanStaleReference(eo, feature, i);
+
+								System.out.println("ONFE cleaned, Reference: "
+										+ eo + " feature: " + feature
+										+ " index: " + i);
+								break RESTART_ONFE_CHECK;
+							}
+						}
+						stillONF = false;
+					}
+				}
+			}
+		}
 	}
 
 	public class IsRelationshipPredicate implements Predicate<EObject> {
