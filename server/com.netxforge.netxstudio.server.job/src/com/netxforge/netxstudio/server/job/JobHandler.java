@@ -658,6 +658,20 @@ public class JobHandler {
 				scheduler.clear();
 			}
 
+			// Set the schedudeler status before adding the triggers otherwise:
+			//
+			if (firstRun && autoStartOnActivation) {
+				if (autoStartOnActivation) {
+					try {
+						scheduler.start();
+						firstRun = false;
+					} catch (final Exception e) {
+						e.printStackTrace(System.err);
+					}
+				}else{
+					scheduler.standby();
+				}
+			}
 			// if (scheduler != null && !scheduler.isShutdown()) {
 			// // We force a shutdown of the scheduler when initializing.
 			// // report any ongoing jobs.
@@ -712,17 +726,15 @@ public class JobHandler {
 				// trigger key.
 				triggerKeysMap.put(job.cdoID(), newTrigger.getKey());
 
-				scheduler.scheduleJob(jobDetail, newTrigger);
-
-			}
-
-			if (firstRun && autoStartOnActivation) {
-				try {
-					scheduler.start();
-					firstRun = false;
-				} catch (final Exception e) {
-					e.printStackTrace(System.err);
+				Date scheduledDate = scheduler.scheduleJob(jobDetail,
+						newTrigger);
+				if (JobActivator.DEBUG) {
+					JobActivator.TRACE.trace(JobActivator.TRACE_JOBS_OPTION,
+							"Scheduled job: " + job.getName()
+									+ " with scheduled (trigger) time: "
+									+ scheduledDate);
 				}
+
 			}
 
 		} catch (final Exception e) {
