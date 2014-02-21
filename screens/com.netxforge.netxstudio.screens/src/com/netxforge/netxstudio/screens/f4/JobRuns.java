@@ -195,7 +195,7 @@ public class JobRuns extends AbstractScreen implements IDataScreenInjection {
 		TableViewerColumn tableViewerColumn_2 = new TableViewerColumn(
 				jobRunsTableViewer, SWT.NONE);
 		TableColumn tblclmnTask = tableViewerColumn_2.getColumn();
-		tblclmnTask.setWidth(114);
+		tblclmnTask.setWidth(300);
 		tblclmnTask.setText("Task");
 
 		TableViewerColumn tableViewerColumn_6 = new TableViewerColumn(
