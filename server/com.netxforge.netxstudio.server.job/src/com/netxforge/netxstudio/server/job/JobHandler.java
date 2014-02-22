@@ -48,11 +48,12 @@ import org.eclipse.net4j.util.lifecycle.ILifecycleEvent.Kind;
 import org.eclipse.net4j.util.lifecycle.LifecycleEventAdapter;
 import org.eclipse.net4j.util.lifecycle.LifecycleUtil;
 import org.eclipse.osgi.framework.console.CommandInterpreter;
+import org.quartz.CalendarIntervalScheduleBuilder;
+import org.quartz.CronScheduleBuilder;
 import org.quartz.JobBuilder;
 import org.quartz.JobDataMap;
 import org.quartz.JobDetail;
 import org.quartz.JobExecutionContext;
-import org.quartz.JobKey;
 import org.quartz.Scheduler;
 import org.quartz.SchedulerException;
 import org.quartz.SimpleScheduleBuilder;
@@ -694,12 +695,8 @@ public class JobHandler {
 						.withDescription(job.getName()).usingJobData(map)
 						.build();
 
-				// Keep a map of CDO job objects and the corresponding quartz
-				// job key.
-				// jobKeysMap.put(job.cdoID(), jobDetail.getKey());
-
-				Trigger newTrigger = this.createNewCalendarTrigger(job,
-						jobIdentity, jobGroupName, countJobRuns);
+				Trigger newTrigger = createTrigger(job, jobIdentity,
+						jobGroupName, countJobRuns, SCHEDULE.SIMPLE);
 
 				// Keep a map of CDO job objects and the corresponding quartz
 				// trigger key.
@@ -725,46 +722,96 @@ public class JobHandler {
 		}
 	}
 
-	/*
-	 * Create a trigger. Set the start time. Set the end time, if any specified.
-	 * Set the interval, no smaller then 10 seconds. Set the repeat, considering
-	 * the current job runs.
+	/**
+	 * A Schedule which can deal with various schedule builders.
+	 * 
+	 * @author Christophe
+	 * 
 	 */
-	@SuppressWarnings("unused")
-	private Trigger createNewTrigger(Job job, String jobIdentity,
-			String jobGroupName, int countJobRuns) {
-		// The trigger for this job.
-		TriggerBuilder<Trigger> triggerBuilder = TriggerBuilder.newTrigger()
-				.withIdentity(jobIdentity, jobGroupName);
-
-		if (job.getStartTime() != null) {
-			triggerBuilder = triggerBuilder.startAt(job.getStartTime()
-					.toGregorianCalendar().getTime());
-		} else {
-			triggerBuilder = triggerBuilder.startNow();
-		}
-		final SimpleScheduleBuilder scheduleBuilder;
-		// If there is an end time.
-		if (job.getEndTime() != null) {
-			triggerBuilder.endAt(job.getEndTime().toGregorianCalendar()
-					.getTime());
-			scheduleBuilder = repeatSecondlyForever(job.getInterval() > 10 ? job
-					.getInterval() : 10);
-		} else if (job.getRepeat() > 0) { // if it should repeat.
-			scheduleBuilder = repeatSecondlyForTotalCount(job.getRepeat()
-					- countJobRuns, job.getInterval() > 10 ? job.getInterval()
-					: 10);
-		} else if (job.getInterval() > 10) { // if there is an interval > 10
-												// seconds.
-			scheduleBuilder = repeatSecondlyForever(job.getInterval());
-		} else { // Repeat every 10 seconds.
-			scheduleBuilder = repeatSecondlyForever(10);
-		}
-		final Trigger trigger = triggerBuilder.withSchedule(scheduleBuilder)
-				.build();
-		return trigger;
+	enum SCHEDULE {
+		SIMPLE, CALENDAR, CRON
 	}
 
+	/**
+	 * Creates a {@link Trigger} with support from various schedule builders.
+	 * The schedule data is stored in a {@link Job} which has the properties.
+	 * 
+	 * <ul>
+	 * <li>start time</li>
+	 * <li>end time</li>
+	 * <li>a repeat counter</li>
+	 * <li>a scheduling interval</li>
+	 * </ul>
+	 * <b>notes:</b> </br> The Start time will likely be in the past, has it is
+	 * the start date and time when initially set. This is relevant for the
+	 * various schedule builders. </br> The Scheduling interval is set in
+	 * seconds
+	 * 
+	 * <ul>
+	 * <li>Simple Schedule Builders => Fires at exact set interval after the
+	 * start time</li>
+	 * <li>Calendar Schedule Builders => Fires at interval after the start time</li>
+	 * </ul>
+	 * 
+	 * @param job
+	 * @param jobIdentity
+	 * @param jobGroupName
+	 * @param countJobRuns
+	 * @return
+	 */
+	private Trigger createTrigger(Job job, String jobIdentity,
+			String jobGroupName, int countJobRuns, SCHEDULE schedule) {
+
+		switch (schedule) {
+		case CALENDAR: {
+			return createNewCalendarTrigger(job, jobIdentity, jobGroupName,
+					countJobRuns);
+		}
+		case CRON: {
+			return createNewCronTrigger(job, jobIdentity, jobGroupName,
+					countJobRuns);
+		}
+		case SIMPLE:
+		default: {
+			return createNewSimpelTrigger(job, jobIdentity, jobGroupName,
+					countJobRuns);
+		}
+		}
+
+	}
+
+	/**
+	 * Create a {@link Trigger} with a {@link CronScheduleBuilder }. The interval
+	 * is set in seconds. </p> As the {@link Job#getStartTime() start time} of a
+	 * {@link Job} is likely in the past. The trigger will fire immediately when
+	 * the {@link Scheduler} is started.
+	 * 
+	 * @param job
+	 * @param jobIdentity
+	 * @param jobGroupName
+	 * @param countJobRuns
+	 * @return
+	 */
+	private Trigger createNewCronTrigger(Job job, String jobIdentity,
+			String jobGroupName, int countJobRuns) {
+		throw new UnsupportedOperationException("TODO Implement");
+	}
+
+	/**
+	 * Create a {@link Trigger} with a {@link CalendarIntervalScheduleBuilder}.
+	 * The interval is set in seconds. </p> As the {@link Job#getStartTime()
+	 * start time} of a {@link Job} is likely in the past. The trigger will fire
+	 * immediately when the {@link Scheduler} is started.
+	 * 
+	 * @see <a
+	 *      href="http://quartz-scheduler.org/api/2.2.0/">http://quartz-scheduler.org/api/2.2.0/</a>
+	 * 
+	 * @param job
+	 * @param jobIdentity
+	 * @param jobGroupName
+	 * @param countJobRuns
+	 * @return
+	 */
 	private Trigger createNewCalendarTrigger(Job job, String jobIdentity,
 			String jobGroupName, int countJobRuns) {
 		// The trigger for this job.
@@ -810,73 +857,44 @@ public class JobHandler {
 		return trigger;
 	}
 
-	/*
-	 * Create a trigger. Set the start time. Set the end time, if any specified.
-	 * Set the interval, no smaller then 10 seconds. Set the repeat, considering
-	 * the current job runs.
+	/**
+	 * Create a {@link Trigger} with the {@link SimpleScheduleBuilder}. Set the
+	 * start time. Set the end time, if any specified. Set the interval, no
+	 * smaller then 10 seconds. Set the repeat, considering the current job
+	 * runs.
 	 */
-	@SuppressWarnings("unused")
-	private Trigger updateTrigger(TriggerBuilder<Trigger> tb, Job job,
-			int countJobRuns) {
+	private Trigger createNewSimpelTrigger(Job job, String jobIdentity,
+			String jobGroupName, int countJobRuns) {
+		// The trigger for this job.
+		TriggerBuilder<Trigger> triggerBuilder = TriggerBuilder.newTrigger()
+				.withIdentity(jobIdentity, jobGroupName);
 
-		// don't manipulate the start time.
-		// if (job.getStartTime() != null) {
-		// triggerBuilder = triggerBuilder.startAt(job.getStartTime()
-		// .toGregorianCalendar().getTime());
-		// } else {
-		// triggerBuilder = triggerBuilder.startNow();
-		// }
-
-		final SimpleScheduleBuilder scheduleBuilder;
-		if (job.getEndTime() != null) {
-			tb.endAt(job.getEndTime().toGregorianCalendar().getTime());
-			scheduleBuilder = SimpleScheduleBuilder.repeatSecondlyForever(job
-					.getInterval() > 10 ? job.getInterval() : 10);
-		} else if (job.getRepeat() > 0) {
-			scheduleBuilder = SimpleScheduleBuilder
-					.repeatSecondlyForTotalCount(
-							job.getRepeat() - countJobRuns,
-							job.getInterval() > 10 ? job.getInterval() : 10);
-		} else if (job.getInterval() > 10) {
-			scheduleBuilder = SimpleScheduleBuilder.repeatSecondlyForever(job
-					.getInterval());
+		if (job.getStartTime() != null) {
+			triggerBuilder = triggerBuilder.startAt(job.getStartTime()
+					.toGregorianCalendar().getTime());
 		} else {
-			scheduleBuilder = SimpleScheduleBuilder.repeatSecondlyForever(10);
+			triggerBuilder = triggerBuilder.startNow();
 		}
-		final Trigger trigger = tb.withSchedule(scheduleBuilder).build();
+		final SimpleScheduleBuilder scheduleBuilder;
+		// If there is an end time.
+		if (job.getEndTime() != null) {
+			triggerBuilder.endAt(job.getEndTime().toGregorianCalendar()
+					.getTime());
+			scheduleBuilder = repeatSecondlyForever(job.getInterval() > 10 ? job
+					.getInterval() : 10);
+		} else if (job.getRepeat() > 0) { // if it should repeat.
+			scheduleBuilder = repeatSecondlyForTotalCount(job.getRepeat()
+					- countJobRuns, job.getInterval() > 10 ? job.getInterval()
+					: 10);
+		} else if (job.getInterval() > 10) { // if there is an interval > 10
+												// seconds.
+			scheduleBuilder = repeatSecondlyForever(job.getInterval());
+		} else { // Repeat every 10 seconds.
+			scheduleBuilder = repeatSecondlyForever(10);
+		}
+		final Trigger trigger = triggerBuilder.withSchedule(scheduleBuilder)
+				.build();
 		return trigger;
-	}
-
-	/*
-	 * Call when any of the features of the job which affect the trigger is
-	 * updated by notification. uses an existing TriggerBuilder to reschedule
-	 * the job.
-	 */
-	@SuppressWarnings("unused")
-	private void updateTrigger(Job job) {
-
-		TriggerKey triggerKey = triggerKeysMap.get(job.cdoID());
-		if (triggerKey == null) {
-			return;
-		}
-
-		try {
-			if (scheduler != null && !scheduler.isShutdown()) {
-				Trigger trigger = scheduler.getTrigger(triggerKey);
-				// get the job key.
-				JobKey jobKey = trigger.getJobKey();
-
-				// TriggerBuilder<? extends Trigger> triggerBuilder =
-				// trigger.getTriggerBuilder();
-				// this.updateTrigger(triggerBuilder, job, countJobRuns);
-				//
-				// scheduler.rescheduleJob(triggerKey, null /* TODO our new
-				// trigger */);
-
-			}
-		} catch (SchedulerException e) {
-			e.printStackTrace();
-		}
 	}
 
 	/**
