@@ -83,6 +83,7 @@ import com.netxforge.netxstudio.screens.editing.IDataScreenInjection;
 import com.netxforge.netxstudio.screens.editing.IEditingService;
 import com.netxforge.netxstudio.screens.editing.ScreenUtil;
 import com.netxforge.netxstudio.screens.editing.commands.WarningDeleteCommand;
+import com.netxforge.netxstudio.screens.editing.dialogs.MessageDialogWithResult;
 import com.netxforge.netxstudio.screens.editing.util.DateChooserComboObservableValue;
 import com.netxforge.netxstudio.screens.editing.util.ValidationService;
 import com.netxforge.netxstudio.screens.internal.ScreensActivator;
@@ -429,24 +430,36 @@ public class NewEditNode extends AbstractDetailsScreen implements
 							.getData(LibraryPackage.Literals.NODE_TYPE);
 					NodeTypeFilterDialog dialog = new NodeTypeFilterDialog(
 							NewEditNode.this.getShell(), nodeTypeResource);
-					if (dialog.open() == IDialogConstants.OK_ID) {
+
+					int result = dialog.open();
+					if (result == IDialogConstants.OK_ID) {
 						NodeType nt = (NodeType) dialog.getFirstResult();
 						// Ask the user if the node should be replaced,
 						// or simply set as the original node type.
-						boolean copyStructure = MessageDialog.openQuestion(
-								NewEditNode.this.getShell(),
-								"Network Element Type Option",
-								" Choose to select parts from the original Network Element Type: "
-										+ nt.getName()
-										+ "?\n"
-										+ " When selecting \'No\' the structure of \'"
-										+ node.getNodeID()
-										+ "\' will be replaced by the original network "
-										+ "Element Type structure\n (WARNING: Choosing \'No\' will replace the current structure, all editing will be lost)");
-						if (!copyStructure) {
-							handleNodeTypeCopy(nt);
-						} else {
+						int strategy = MessageDialogWithResult
+								.openWithResult(
+										MessageDialog.QUESTION_WITH_CANCEL,
+										NewEditNode.this.getShell(),
+										"Network Element Type Option",
+										" Choose to select parts from the original Network Element Type: "
+												+ nt.getName()
+												+ "?\n"
+												+ " When selecting \'No\' the structure of \'"
+												+ node.getNodeID()
+												+ "\' will be replaced by the original network "
+												+ "Element Type structure\n (WARNING: Choosing \'No\' will replace the current structure, all editing will be lost)",
+										SWT.NONE);
+						switch (strategy) {
+						case MessageDialogWithResult.OK: {
 							handleSetOriginalNodeType(nt);
+							break;
+						}
+						case 1: { // NO
+							handleNodeTypeCopy(nt);
+							break;
+						}
+						case 2: {// CANCEL
+						}
 						}
 					}
 				}
