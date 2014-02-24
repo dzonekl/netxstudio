@@ -92,6 +92,14 @@ public class OperatorChildCreationExtender extends
 
 				newChildDescriptors.add(createChildParameter(
 						OperatorsPackage.Literals.NETWORK__NODES, n));
+			} else if (target instanceof Function) {
+				newChildDescriptors
+						.addAll(functionDescriptorsForTargetFunction(
+								editingDomain, (Function) target));
+			} else if (target instanceof Equipment) {
+				newChildDescriptors
+						.addAll(equimentDescriptorsForTargetEquipment(
+								editingDomain, (Equipment)target));
 			}
 
 		}
@@ -99,18 +107,43 @@ public class OperatorChildCreationExtender extends
 		return newChildDescriptors;
 	}
 
+	private Collection<? extends Object> functionDescriptorsForTargetFunction(
+			EditingDomain domain, Function f) {
+		Collection<Object> newChildDescriptors = Lists.newArrayList();
+		for (Function function : f.getFunctions()) {
+			Function eqCopy = (Function) EcoreUtil.copy(function);
+			newChildDescriptors.add(createChildParameter(
+					LibraryPackage.Literals.FUNCTION__FUNCTIONS, eqCopy));
+		}
+
+		return newChildDescriptors;
+	}
+
+	private Collection<Object> equimentDescriptorsForTargetEquipment(
+			EditingDomain domain, Equipment target) {
+		Collection<Object> newChildDescriptors = Lists.newArrayList();
+		for (Equipment eq : target.getEquipments()) {
+			Equipment eqCopy = (Equipment) EcoreUtil.copy(eq);
+
+			// Set the name as a sequence.
+			String newSequenceNumber = EditUtils.INSTANCE.nextSequenceNumber(
+					domain, target,
+					LibraryPackage.Literals.EQUIPMENT__EQUIPMENTS,
+					LibraryPackage.Literals.COMPONENT__NAME);
+			eqCopy.setName(newSequenceNumber);
+			newChildDescriptors.add(createChildParameter(
+					LibraryPackage.Literals.EQUIPMENT__EQUIPMENTS, eqCopy));
+		}
+
+		return newChildDescriptors;
+
+	}
+
 	private Collection<? extends Object> functionDescriptorsForTargetNodeType(
 			EditingDomain domain, NodeType nodeType) {
 		Collection<Object> newChildDescriptors = Lists.newArrayList();
 		for (Function function : nodeType.getFunctions()) {
 			Function eqCopy = (Function) EcoreUtil.copy(function);
-
-			// Set the name as a sequence.
-			String newSequenceNumber = EditUtils.INSTANCE.nextSequenceNumber(
-					domain, nodeType,
-					LibraryPackage.Literals.NODE_TYPE__FUNCTIONS,
-					LibraryPackage.Literals.COMPONENT__NAME);
-			eqCopy.setName(newSequenceNumber);
 			newChildDescriptors.add(createChildParameter(
 					LibraryPackage.Literals.NODE_TYPE__FUNCTIONS, eqCopy));
 		}
