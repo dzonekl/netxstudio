@@ -1,0 +1,27 @@
+.rss_title {
+	position: relative;
+	float: left;
+	font-size: 0.8em;
+	font-weight: bold;
+	background: #fff;
+}
+
+.rss_date {
+	position: relative;
+	float: right;
+	top: 0px;
+	font-style: italic;
+/*	border: solid 1px black; */
+	font-size: 0.8em;
+}
+
+.rss_description {
+	position: relative;
+	float: left;
+	border-bottom: 1px solid #ddd;
+	margin-bottom: 5%;
+}
+
+.rss_description a {
+	font-size: 0.8em;
+}
