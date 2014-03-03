@@ -16,9 +16,9 @@ import org.eclipse.ui.splash.AbstractSplashHandler;
 import org.eclipse.wb.swt.SWTResourceManager;
 
 import com.google.inject.Inject;
+import com.netxforge.base.security.JCAService;
 import com.netxforge.netxstudio.callflow.product.internal.ProductActivator;
 import com.netxforge.netxstudio.common.CommonService;
-import com.netxforge.netxstudio.common.jca.JCAService;
 import com.netxforge.netxstudio.data.IDataService;
 
 /**
