@@ -26,8 +26,9 @@ import org.eclipse.emf.ecore.resource.Resource;
 
 import com.google.common.collect.Ordering;
 import com.google.inject.Inject;
-import com.netxforge.netxstudio.common.model.ModelUtils;
-import com.netxforge.netxstudio.data.importer.ResultProcessor;
+import com.netxforge.base.NonModelUtils;
+import com.netxforge.netxstudio.common.model.StudioUtils;
+import com.netxforge.netxstudio.data.services.ResultProcessor;
 import com.netxforge.netxstudio.delta16042013.metrics.MetricAggregationRule;
 import com.netxforge.netxstudio.generics.DateTimeRange;
 import com.netxforge.netxstudio.generics.GenericsFactory;
@@ -67,6 +68,9 @@ public class AggregationEngine extends BaseComponentEngine {
 	@Inject
 	private AddonHandler addonHandler;
 
+	@Inject
+	private ResultProcessor resultProcessor;
+	
 	public void intitialize(boolean re_initialize) {
 		Resource resource = this.getDataProvider().getResource(
 				MetricsPackage.Literals.METRIC_SOURCE);
@@ -76,7 +80,7 @@ public class AggregationEngine extends BaseComponentEngine {
 					"Initializing Aggregation engine");
 		}
 
-		metricSources = new ModelUtils.CollectionForObjects<MetricSource>()
+		metricSources = new NonModelUtils.CollectionForObjects<MetricSource>()
 				.collectionForObjects(resource.getContents());
 		// Rules should execute considering the order of the smallest
 		// interval first,
@@ -84,7 +88,7 @@ public class AggregationEngine extends BaseComponentEngine {
 		// Order the rules by smallest interval.
 		if (metricRulesSortedList == null) {
 			metricRulesSortedList = Ordering.from(
-					getModelUtils().retentionRuleCompare()).sortedCopy(
+					StudioUtils.retentionRuleCompare()).sortedCopy(
 					rules.getMetricRetentionRules());
 			if (LogicActivator.DEBUG) {
 				LogicActivator.TRACE.trace(
@@ -103,13 +107,8 @@ public class AggregationEngine extends BaseComponentEngine {
 			}
 		}
 		addonHandler.initializeModelAddon(re_initialize);
-		
-		// Set the write mode to single value in interval, to avoid duplicate aggregates. 
-		resultProcessor.setWriteMode(ResultProcessor.SINGLE_VALUE_IN_INTERVAL_MODE);
-	}
 
-	@Inject
-	private ResultProcessor resultProcessor;
+	}
 
 	@Override
 	public void doExecute() {
@@ -120,7 +119,7 @@ public class AggregationEngine extends BaseComponentEngine {
 			// Aggregate data using the defined expressions for each of
 			// the mr rules. Optional depending on the model.
 			// Bail aggregation when the resource has no values.
-			if (this.getModelUtils().resourceHasValues(netXResource)) {
+			if (StudioUtils.resourceHasValues(netXResource)) {
 				List<MetricAggregationRule> customRuleSet = customRuleSetForNetXResource(netXResource);
 				if (customRuleSet != null && !customRuleSet.isEmpty()) {
 					applyCustomRuleSet(customRuleSet, netXResource);
@@ -164,8 +163,7 @@ public class AggregationEngine extends BaseComponentEngine {
 			LogicActivator.TRACE.trace(
 					LogicActivator.TRACE_RETENTION_OPTION,
 					"data aggregation for : "
-							+ this.getModelUtils().printModelObject(
-									getComponent()));
+							+ StudioUtils.printModelObject(getComponent()));
 			LogicActivator.TRACE
 					.trace(LogicActivator.TRACE_RETENTION_DETAILS_OPTION,
 							"Applying custom rule sets ("
@@ -178,7 +176,7 @@ public class AggregationEngine extends BaseComponentEngine {
 		for (MetricAggregationRule ar : customRuleSet) {
 
 			if (ar.eIsSet(com.netxforge.netxstudio.delta16042013.metrics.MetricsPackage.Literals.METRIC_AGGREGATION_RULE__INTERVAL_HINT)) {
-				MetricRetentionRule globalRuleForInterval = getModelUtils()
+				MetricRetentionRule globalRuleForInterval = StudioUtils
 						.metricRuleGlobalForInterval(metricRulesSortedList,
 								ar.getIntervalHint());
 				if (globalRuleForInterval != null) {
@@ -201,8 +199,8 @@ public class AggregationEngine extends BaseComponentEngine {
 						DateTimeRange customPeriod = GenericsFactory.eINSTANCE
 								.createDateTimeRange();
 						customPeriod.setEnd(getPeriod().getEnd());
-						customPeriod.setBegin(getModelUtils().toXMLDate(
-								getModelUtils().daysAgo(period)));
+						customPeriod.setBegin(NonModelUtils
+								.toXMLDate(NonModelUtils.daysAgo(period)));
 						runExpression(netXResource, expression, customPeriod);
 					} else {
 						runExpression(netXResource, expression);
@@ -228,7 +226,7 @@ public class AggregationEngine extends BaseComponentEngine {
 			LogicActivator.TRACE.trace(
 					LogicActivator.TRACE_RETENTION_OPTION,
 					"data aggregation for : "
-							+ this.getModelUtils().printModelObject(
+							+ StudioUtils.printModelObject(
 									getComponent()) + " resource: "
 							+ netXResource.getExpressionName());
 		}
@@ -267,7 +265,7 @@ public class AggregationEngine extends BaseComponentEngine {
 			getExpressionEngine().getContext().add(
 					customPeriod == null ? getPeriod() : customPeriod);
 			getExpressionEngine().getContext().add(
-					this.getModelUtils().nodeFor(getComponent()));
+					StudioUtils.nodeFor(getComponent()));
 			getExpressionEngine().getContext().add(netXResource);
 
 			// As the data is not committed in between,
@@ -298,7 +296,7 @@ public class AggregationEngine extends BaseComponentEngine {
 		// Note: For retention expressions, the order for which the expression
 		// result is processed,
 		// is relevant, as data is deleted after a while.
-		
+
 		resultProcessor.processMonitoringResult(currentContext,
 				expressionResults, period);
 

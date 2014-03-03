@@ -25,6 +25,8 @@ import java.util.List;
 import org.eclipse.emf.cdo.common.id.CDOID;
 import org.eclipse.emf.ecore.resource.Resource;
 
+import com.netxforge.base.NonModelUtils;
+import com.netxforge.netxstudio.common.model.StudioUtils;
 import com.netxforge.netxstudio.library.Component;
 import com.netxforge.netxstudio.library.NodeType;
 import com.netxforge.netxstudio.metrics.MetricRetentionRules;
@@ -105,7 +107,7 @@ public class RetentionLogic extends BaseComponentLogic {
 			// first go through the leave nodes
 			final List<NodeType> nodeTypes = new ArrayList<NodeType>();
 			for (final Node node : rfsService.getNodes()) {
-				if (getModelUtils().isInService(node)) {
+				if (StudioUtils.isInService(node)) {
 					nodeTypes.add(node.getNodeType());
 				}
 			}
@@ -118,7 +120,7 @@ public class RetentionLogic extends BaseComponentLogic {
 	private List<NodeType> allNodes() {
 		operatorResources = this.getData().getResource(
 				OperatorsPackage.Literals.OPERATOR);
-		return this.getModelUtils().nodeTypesForResource(operatorResources);
+		return StudioUtils.nodeTypesForResource(operatorResources);
 	}
 
 	@Override
@@ -148,7 +150,7 @@ public class RetentionLogic extends BaseComponentLogic {
 			executeFor(component);
 			this.getJobMonitor().setTask("Retention");
 			this.getJobMonitor().setMsg(
-					this.getModelUtils().printModelObject(component));
+					StudioUtils.printModelObject(component));
 			getJobMonitor().incrementProgress(0, (cnt++ % 10) == 0);
 		}
 	}
@@ -221,9 +223,9 @@ public class RetentionLogic extends BaseComponentLogic {
 	 */
 	public void intializeRentionLogic() {
 
-		Date end = this.getModelUtils().todayAtDayEnd();
-		Date begin = this.getModelUtils().yearsAgo(YEARS_TO_EVALUATE);
-		setPeriod(this.getModelUtils().period(begin, end));
+		Date end = NonModelUtils.todayAtDayEnd();
+		Date begin = NonModelUtils.yearsAgo(YEARS_TO_EVALUATE);
+		setPeriod(StudioUtils.period(begin, end));
 
 	}
 

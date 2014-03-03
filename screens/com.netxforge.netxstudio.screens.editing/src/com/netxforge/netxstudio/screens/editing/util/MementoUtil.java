@@ -46,8 +46,7 @@ import org.eclipse.swt.widgets.TreeColumn;
 import org.eclipse.ui.IMemento;
 import org.eclipse.ui.forms.widgets.Section;
 
-import com.google.inject.Inject;
-import com.netxforge.netxstudio.common.model.ModelUtils;
+import com.netxforge.base.NonModelUtils;
 
 /**
  * Various memento shortcut boilerplate busters!
@@ -59,9 +58,6 @@ public class MementoUtil {
 
 	// Date formatter for memento.
 	final SimpleDateFormat df = new SimpleDateFormat("yyyyMMddHHmmssSSS-Z");
-
-	@Inject
-	private ModelUtils modelUtils;
 
 	public static final String MEM_KEY_SEARCH_PATTERN = "MEM_KEY_SEARCH_PATTERN";
 
@@ -284,7 +280,7 @@ public class MementoUtil {
 	public void rememberDate(IMemento memento, XMLGregorianCalendar xmlDate, String key) {
 
 		// Wrap as a String.
-		Date date = modelUtils.fromXMLDate(xmlDate);
+		Date date = NonModelUtils.fromXMLDate(xmlDate);
 		memento.putString(key, df.format(date));
 	}
 
@@ -340,7 +336,7 @@ public class MementoUtil {
 		if (string != null) {
 			try {
 				Date parse = df.parse(string);
-				return modelUtils.toXMLDate(parse);
+				return NonModelUtils.toXMLDate(parse);
 			} catch (ParseException e) {
 				// oops.
 			}
@@ -423,7 +419,7 @@ public class MementoUtil {
 			String key) {
 		String string = memento.getString(key);
 		if (string != null) {
-			CDOID cdoid = modelUtils.cdoLongIDFromString(string);
+			CDOID cdoid = NonModelUtils.cdoLongIDFromString(string);
 			try {
 				return view.getObject(cdoid);
 			} catch (ObjectNotFoundException onfe) {
@@ -439,7 +435,7 @@ public class MementoUtil {
 			return; // Can't remember this state.
 		}
 
-		String cdoLongIDAsString = modelUtils.cdoLongIDAsString(object);
+		String cdoLongIDAsString = NonModelUtils.cdoLongIDAsString(object);
 		memento.putString(key, cdoLongIDAsString);
 	}
 

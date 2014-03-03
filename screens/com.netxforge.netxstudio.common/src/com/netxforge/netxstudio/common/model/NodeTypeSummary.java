@@ -56,7 +56,7 @@ public class NodeTypeSummary extends MonitoringAdapter {
 		final NodeType target = getNodeType();
 
 		// Get the corresponding node.
-		Node node = modelUtils.nodeFor(target);
+		Node node = StudioUtils.nodeFor(target);
 
 		// In case there is a Service, we get the components with a matching
 		// node in the service and resource monitors, if not we get all underlying
@@ -65,9 +65,9 @@ public class NodeTypeSummary extends MonitoringAdapter {
 		List<Component> components = null;
 
 		if (rfsService != null && node != null) {
-			components = modelUtils.componentsForMonitors(rfsService, node);
+			components = StudioUtils.componentsForMonitors(rfsService, node);
 		}else{
-			components = modelUtils.componentsForNodeType(target);
+			components = StudioUtils.componentsForNodeType(target);
 		}
 
 		if (!components.isEmpty()) {
@@ -78,7 +78,7 @@ public class NodeTypeSummary extends MonitoringAdapter {
 			final SubMonitor nodeTypeMonitor = SubMonitor
 					.convert(monitor, work);
 			nodeTypeMonitor.setTaskName("Computing summary for "
-					+ modelUtils.printModelObject(target));
+					+ StudioUtils.printModelObject(target));
 
 			int computedComponents = 0;
 
@@ -106,7 +106,7 @@ public class NodeTypeSummary extends MonitoringAdapter {
 					}
 				} else {
 					System.out.println("SHOULD NOT OCCUR: child not adapted! "
-							+ modelUtils.printModelObject(component));
+							+ StudioUtils.printModelObject(component));
 				}
 
 				nodeTypeMonitor.worked(1);

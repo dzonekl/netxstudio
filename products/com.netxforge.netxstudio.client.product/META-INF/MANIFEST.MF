@@ -8,6 +8,7 @@ Bundle-Vendor: %Bundle-Vendor
 Require-Bundle: org.eclipse.ui,
  org.eclipse.core.runtime,
  org.eclipse.ui.intro,
+ com.netxforge.base;bundle-version="1.0.0",
  com.netxforge.netxstudio.screens.app;bundle-version="1.0.0",
  com.netxforge.netxstudio.data;bundle-version="1.0.0",
  com.netxforge.netxstudio.screens;bundle-version="1.0.0",

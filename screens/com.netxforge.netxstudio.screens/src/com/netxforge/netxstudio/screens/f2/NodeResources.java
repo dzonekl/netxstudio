@@ -7,6 +7,7 @@ import org.eclipse.jface.viewers.EditingSupport;
 import org.eclipse.swt.widgets.Composite;
 
 import com.google.common.collect.Lists;
+import com.netxforge.base.NonModelUtils;
 
 public class NodeResources extends AbstractResources {
 
@@ -20,14 +21,14 @@ public class NodeResources extends AbstractResources {
 		
 		resourcesList = Lists.newArrayList();
 		// Inject for Node resources.
-		System.out.println("Open NetXResource: " + modelUtils.todayAndNow());
+		System.out.println("Open NetXResource: " + NonModelUtils.todayAndNow());
 		
 		List<Resource> nodeResources = editingService.getData("Node_");
 		if (nodeResources != null) {
 			resourcesList.addAll(nodeResources);
 		}
 		
-		System.out.println("Done open NetXResource: " + modelUtils.todayAndNow());
+		System.out.println("Done open NetXResource: " + NonModelUtils.todayAndNow());
 		super.injectData();
 	}
 

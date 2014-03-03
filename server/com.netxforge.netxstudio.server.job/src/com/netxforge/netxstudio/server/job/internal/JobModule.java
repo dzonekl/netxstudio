@@ -20,11 +20,11 @@ package com.netxforge.netxstudio.server.job.internal;
 import static org.ops4j.peaberry.Peaberry.service;
 
 import com.google.inject.AbstractModule;
-import com.netxforge.netxstudio.common.properties.IPropertiesProvider;
+import com.netxforge.base.properties.IPropertiesProvider;
 import com.netxforge.netxstudio.data.job.IRunMonitor;
 import com.netxforge.netxstudio.server.IServerUtils;
-import com.netxforge.netxstudio.server.data.IServerNoCacheDataProvider;
 import com.netxforge.netxstudio.server.data.IServerDataProvider;
+import com.netxforge.netxstudio.server.data.IServerNoCacheDataProvider;
 import com.netxforge.netxstudio.server.data.Server;
 import com.netxforge.netxstudio.server.data.ServerNoCache;
 import com.netxforge.netxstudio.server.job.ServerWorkFlowRunMonitor;

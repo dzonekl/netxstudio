@@ -72,8 +72,8 @@ import org.eclipse.ui.forms.widgets.FormToolkit;
 import org.eclipse.ui.forms.widgets.Section;
 
 import com.google.common.collect.Lists;
+import com.netxforge.base.security.JCAService;
 import com.netxforge.netxstudio.common.CommonService;
-import com.netxforge.netxstudio.common.jca.JCAService;
 import com.netxforge.netxstudio.generics.GenericsPackage;
 import com.netxforge.netxstudio.generics.GenericsPackage.Literals;
 import com.netxforge.netxstudio.generics.Person;

@@ -24,6 +24,8 @@ import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 
+import com.netxforge.base.NonModelUtils;
+import com.netxforge.netxstudio.common.model.StudioUtils;
 import com.netxforge.netxstudio.generics.DateTimeRange;
 import com.netxforge.netxstudio.library.Component;
 import com.netxforge.netxstudio.library.NetXResource;
@@ -54,11 +56,11 @@ public class NodeResourceReportingLogic extends NodeReportingLogic {
 		super.typeCell.setCellValue("Network Element Monitoring");
 		super.titleCell.setCellValue("Resource");
 		if (dtr != null) {
-			super.periodCell.setCellValue(this.getModelUtils().date(
-					getModelUtils().fromXMLDate(dtr.getBegin()))
+			super.periodCell.setCellValue(NonModelUtils.date(
+					NonModelUtils.fromXMLDate(dtr.getBegin()))
 					+ "-"
-					+ this.getModelUtils().date(
-							getModelUtils().fromXMLDate(dtr.getEnd())));
+					+ NonModelUtils.date(
+							NonModelUtils.fromXMLDate(dtr.getEnd())));
 		}
 	}
 
@@ -88,7 +90,7 @@ public class NodeResourceReportingLogic extends NodeReportingLogic {
 		
 		if (reportingEngine == null) {
 			queryService.setDataProvider(this.getData());
-			reportingEngine = new ResourceReportingEngine(this.getModelUtils(),
+			reportingEngine = new ResourceReportingEngine(
 					this.getPeriod(), this.getWorkBook(), this.queryService);
 		}
 
@@ -144,7 +146,7 @@ public class NodeResourceReportingLogic extends NodeReportingLogic {
 				LogicActivator.TRACE.trace(
 						LogicActivator.TRACE_REPORT_OPTION,
 						"-- report component: "
-								+ this.getModelUtils().printModelObject(
+								+ StudioUtils.printModelObject(
 										component));
 			}
 			reportingEngine.writeFlat(sheet.getLastRowNum(), sheet, component,

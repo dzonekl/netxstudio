@@ -21,6 +21,7 @@ package com.netxforge.netxstudio.server.logic;
 import java.util.List;
 
 import com.google.inject.Inject;
+import com.netxforge.base.NonModelUtils;
 import com.netxforge.engine.IExpressionEngine;
 import com.netxforge.netxstudio.generics.DateTimeRange;
 import com.netxforge.netxstudio.library.BaseExpressionResult;
@@ -84,7 +85,7 @@ public abstract class BaseExpressionEngine extends BaseEngine {
 				LogicActivator.TRACE.trace(
 						LogicActivator.TRACE_EXPRESSION_DETAILS_OPTION,
 						"- (2) Expression duration: "
-								+ this.getModelUtils()
+								+ NonModelUtils
 										.timeDurationNanoElapsed(elapsed));
 			}
 			

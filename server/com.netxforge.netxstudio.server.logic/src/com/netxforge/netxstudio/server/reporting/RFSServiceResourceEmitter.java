@@ -26,12 +26,13 @@ import org.apache.poi.ss.usermodel.Sheet;
 import org.eclipse.core.runtime.NullProgressMonitor;
 
 import com.google.inject.Inject;
-import com.netxforge.netxstudio.common.context.IComputationContext;
-import com.netxforge.netxstudio.common.context.ObjectContext;
+import com.netxforge.base.NonModelUtils;
+import com.netxforge.base.context.IComputationContext;
+import com.netxforge.base.context.ObjectContext;
 import com.netxforge.netxstudio.common.model.IMonitoringSummary;
-import com.netxforge.netxstudio.common.model.ModelUtils;
 import com.netxforge.netxstudio.common.model.MonitoringStateModel;
 import com.netxforge.netxstudio.common.model.NodeTypeSummary;
+import com.netxforge.netxstudio.common.model.StudioUtils;
 import com.netxforge.netxstudio.generics.DateTimeRange;
 import com.netxforge.netxstudio.library.Component;
 import com.netxforge.netxstudio.library.NetXResource;
@@ -66,9 +67,6 @@ public class RFSServiceResourceEmitter extends XLSXPOIEmitter {
 	private ResourceReportingEngine reportingEngine;
 
 	@Inject
-	private ModelUtils modelUtils;
-
-	@Inject
 	private MonitoringStateModel monitoringStateModel;
 
 	private DateTimeRange period;
@@ -82,10 +80,11 @@ public class RFSServiceResourceEmitter extends XLSXPOIEmitter {
 		super.typeCell.setCellValue("Service Monitoring");
 		super.titleCell.setCellValue("Service Resources");
 		if (period != null) {
-			super.periodCell.setCellValue(modelUtils.date(modelUtils
+			super.periodCell.setCellValue(NonModelUtils.date(NonModelUtils
 					.fromXMLDate(period.getBegin()))
 					+ "-"
-					+ modelUtils.date(modelUtils.fromXMLDate(period.getEnd())));
+					+ NonModelUtils.date(NonModelUtils.fromXMLDate(period
+							.getEnd())));
 		}
 	}
 
@@ -126,7 +125,7 @@ public class RFSServiceResourceEmitter extends XLSXPOIEmitter {
 		// this.getPeriod()))) {
 		if (reportingEngine == null) {
 			// queryService.setDataProvider(this.getDataProvider());
-			reportingEngine = new ResourceReportingEngine(modelUtils, period,
+			reportingEngine = new ResourceReportingEngine(period,
 					this.getWorkBook(), this.queryService);
 		}
 
@@ -170,7 +169,7 @@ public class RFSServiceResourceEmitter extends XLSXPOIEmitter {
 				LogicActivator.TRACE.trace(
 						LogicActivator.TRACE_REPORT_OPTION,
 						"-- report component: "
-								+ modelUtils.printModelObject(component));
+								+ StudioUtils.printModelObject(component));
 			}
 			reportingEngine.writeFlat(sheet.getLastRowNum(), sheet, component,
 					markersForNode);

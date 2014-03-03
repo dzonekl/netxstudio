@@ -69,7 +69,7 @@ import org.eclipse.ui.forms.widgets.Section;
 import org.eclipse.wb.swt.ResourceManager;
 
 import com.google.inject.Inject;
-import com.netxforge.netxstudio.common.model.ModelUtils;
+import com.netxforge.base.NonModelUtils;
 import com.netxforge.netxstudio.data.actions.ServerRequest;
 import com.netxforge.netxstudio.data.fixtures.Fixtures;
 import com.netxforge.netxstudio.data.fixtures.IFixtures;
@@ -542,7 +542,7 @@ public class Retention extends AbstractScreen implements IDataServiceInjection {
 
 			final MetricRetentionRule rule = MetricsFactory.eINSTANCE
 					.createMetricRetentionRule();
-			rule.setIntervalHint(ModelUtils.MINUTES_IN_AN_HOUR);
+			rule.setIntervalHint(NonModelUtils.MINUTES_IN_AN_HOUR);
 			rule.setPeriod(MetricRetentionPeriod.ALWAYS);
 			rule.setName("Custom Rule");
 

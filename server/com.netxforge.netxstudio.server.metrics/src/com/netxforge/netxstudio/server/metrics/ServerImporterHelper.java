@@ -33,13 +33,14 @@ import org.quartz.Scheduler;
 import org.quartz.SchedulerException;
 
 import com.google.inject.Inject;
-import com.netxforge.netxstudio.common.model.ModelUtils;
-import com.netxforge.netxstudio.common.properties.IPropertiesProvider;
+import com.netxforge.base.NonModelUtils;
+import com.netxforge.base.properties.IPropertiesProvider;
+import com.netxforge.netxstudio.common.model.StudioUtils;
 import com.netxforge.netxstudio.data.IData;
 import com.netxforge.netxstudio.data.importer.AbstractMetricValuesImporter;
-import com.netxforge.netxstudio.data.importer.IComponentLocator;
 import com.netxforge.netxstudio.data.importer.IImporterHelper;
-import com.netxforge.netxstudio.data.importer.ResultProcessor;
+import com.netxforge.netxstudio.data.index.IComponentLocator;
+import com.netxforge.netxstudio.data.services.ValueProcessor;
 import com.netxforge.netxstudio.generics.GenericsFactory;
 import com.netxforge.netxstudio.generics.Value;
 import com.netxforge.netxstudio.library.Component;
@@ -66,11 +67,11 @@ public class ServerImporterHelper implements IImporterHelper {
 	private AbstractMetricValuesImporter importer;
 
 	@Inject
-	private ResultProcessor resultProcessor;
+	private IPropertiesProvider propsProvider;
 
 	@Inject
-	private IPropertiesProvider propsProvider;
-	
+	private ValueProcessor valueProcessor;
+
 	/*
 	 * Keep a reference to our Job Handler.
 	 */
@@ -82,9 +83,6 @@ public class ServerImporterHelper implements IImporterHelper {
 	public void setImporter(AbstractMetricValuesImporter importer) {
 		this.importer = importer;
 	}
-
-	@Inject
-	private ModelUtils modelUtils;
 
 	public void initializeProviders(IComponentLocator networkElementLocator) {
 
@@ -99,9 +97,8 @@ public class ServerImporterHelper implements IImporterHelper {
 
 	public IData getDataProvider() {
 		// get it from the serverside
-		final IData dataProvider = MetricsActivator.getInstance()
-				.getInjector().getInstance(LocalDataProviderProvider.class)
-				.getDataProvider();
+		final IData dataProvider = MetricsActivator.getInstance().getInjector()
+				.getInstance(LocalDataProviderProvider.class).getDataProvider();
 		// Set in the importer so we are called only once.
 		// importer.setDataProvider(dataProvider);
 		return dataProvider;
@@ -126,7 +123,7 @@ public class ServerImporterHelper implements IImporterHelper {
 	public void addToValueRange(NetXResource foundNetXResource, int periodHint,
 			KindHintType kindHintType, List<Value> newValues, Date start,
 			Date end) {
-		resultProcessor.addToValueRange(foundNetXResource, periodHint,
+		valueProcessor.addToValueRange(foundNetXResource, periodHint,
 				kindHintType, newValues, start, end);
 	}
 
@@ -140,16 +137,16 @@ public class ServerImporterHelper implements IImporterHelper {
 			MetricsActivator.TRACE.trace(
 					MetricsActivator.TRACE_IMPORT_HELPER_OPTION,
 					"-- adding to: "
-							+ modelUtils.printModelObject(locatedComponent)
+							+ StudioUtils.printModelObject(locatedComponent)
 							+ " with metric: "
-							+ modelUtils.printModelObject(metric));
+							+ StudioUtils.printModelObject(metric));
 		}
 
 		// Use the corresponding component location Transaction
 		// We can safely cast it, as using a transaction to create the
 		// component.
 		CDOView cdoView = locatedComponent.cdoView();
-		final Resource cdoResourceForNetXResource = modelUtils
+		final Resource cdoResourceForNetXResource = StudioUtils
 				.cdoResourceForNetXResource(locatedComponent,
 						(CDOTransaction) cdoView);
 		if (MetricsActivator.DEBUG_IMPORT) {
@@ -244,7 +241,7 @@ public class ServerImporterHelper implements IImporterHelper {
 		}
 
 		final Value value = GenericsFactory.eINSTANCE.createValue();
-		value.setTimeStamp(modelUtils.toXMLDate(timeStamp));
+		value.setTimeStamp(NonModelUtils.toXMLDate(timeStamp));
 		value.setValue(dblValue);
 
 		if (MetricsActivator.DEBUG_IMPORT) {
@@ -253,7 +250,7 @@ public class ServerImporterHelper implements IImporterHelper {
 					"-- try to add value to resource : "
 							+ foundNetXResource.getShortName() + " , value ="
 							+ value.getValue() + " timestamp="
-							+ modelUtils.dateAndTime(value.getTimeStamp())
+							+ NonModelUtils.dateAndTime(value.getTimeStamp())
 							+ ", kind=" + valueDataKind.getKindHint().getName()
 							+ " , interval =" + intervalHint);
 		}

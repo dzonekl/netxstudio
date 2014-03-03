@@ -18,20 +18,15 @@
 package com.netxforge.netxstudio.screens.editing;
 
 import com.google.inject.Inject;
-import com.netxforge.netxstudio.common.model.ModelUtils;
 import com.netxforge.netxstudio.data.IDataService;
 
 public class CDOEditingServiceProvider implements IEditingServiceProvider {
 
-	private ModelUtils modelUtils;
 	private IDataService dataService;
 
 	@Inject
-	public CDOEditingServiceProvider(IDataService dataService,
-			ModelUtils modelUtils) {
+	public CDOEditingServiceProvider(IDataService dataService) {
 		this.dataService = dataService;
-		this.modelUtils = modelUtils;
-
 	}
 
 	/*
@@ -41,7 +36,7 @@ public class CDOEditingServiceProvider implements IEditingServiceProvider {
 	 * com.netxforge.netxstudio.screens.editing.IEditingServiceProvider#get()
 	 */
 	public IEditingService get() {
-		return new CDOEditingService(dataService, modelUtils);
+		return new CDOEditingService(dataService);
 	}
 
 }

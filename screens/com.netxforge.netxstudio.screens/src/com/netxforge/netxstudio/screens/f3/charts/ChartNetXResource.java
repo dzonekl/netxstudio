@@ -57,10 +57,10 @@ import org.swtchart.ext.Messages;
 import org.swtchart.internal.PlotArea;
 
 import com.google.common.collect.Lists;
-import com.netxforge.netxstudio.common.Tuple;
+import com.netxforge.base.NonModelUtils;
+import com.netxforge.base.Tuple;
 import com.netxforge.netxstudio.common.model.IChartModel;
 import com.netxforge.netxstudio.common.model.IChartResource;
-import com.netxforge.netxstudio.common.model.ModelUtils;
 import com.netxforge.netxstudio.generics.Value;
 import com.netxforge.netxstudio.library.LibraryPackage;
 import com.netxforge.netxstudio.operators.ToleranceMarker;
@@ -91,10 +91,6 @@ public class ChartNetXResource extends Chart implements
 	public static final String CAPACITY_SERIES = "Capacity";
 
 	public static final String TREND_SERIES = "Trend";
-
-	// public static final String METRIC_SERIES = "Metric";
-
-	private ModelUtils modelUtils;
 
 	/** The marker. */
 	protected ChartMarker marker = null;
@@ -274,10 +270,6 @@ public class ChartNetXResource extends Chart implements
 					SWT.COLOR_DARK_CYAN));
 			gc.drawRectangle(minX, minY, maxX - minX, maxY - minY);
 		}
-	}
-
-	public void setModelUtils(ModelUtils modelUtils) {
-		this.modelUtils = modelUtils;
 	}
 
 	/**
@@ -525,7 +517,7 @@ public class ChartNetXResource extends Chart implements
 									.getSystemColor(SWT.COLOR_BLACK));
 		}
 
-		Tuple interval = modelUtils.interval(modelInterval);
+		Tuple interval = NonModelUtils.interval(modelInterval);
 
 		String label = (String) interval.getKey();
 		String primaryDatePattern = (String) interval.getValue();

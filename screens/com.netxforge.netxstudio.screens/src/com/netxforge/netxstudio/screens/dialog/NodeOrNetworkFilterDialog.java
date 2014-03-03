@@ -32,7 +32,7 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Shell;
 
-import com.netxforge.netxstudio.common.model.ModelUtils;
+import com.netxforge.base.NonModelUtils;
 import com.netxforge.netxstudio.operators.Network;
 import com.netxforge.netxstudio.operators.Node;
 import com.netxforge.netxstudio.operators.Operator;
@@ -41,7 +41,6 @@ import com.netxforge.netxstudio.screens.internal.ScreensActivator;
 
 public class NodeOrNetworkFilterDialog extends HierarchyFilteredItemsSelectionDialog {
 	private final Resource resource;
-	private ModelUtils modelUtils;
 
 	/**
 	 * Create a new dialog
@@ -51,14 +50,12 @@ public class NodeOrNetworkFilterDialog extends HierarchyFilteredItemsSelectionDi
 	 * @param resource
 	 *            the model resource
 	 */
-	public NodeOrNetworkFilterDialog(Shell shell, Resource resource,
-			ModelUtils modelUtils) {
+	public NodeOrNetworkFilterDialog(Shell shell, Resource resource) {
 		
 		super(shell, true);
 		super.setTitle("Select a Network Element or Network");
 		
 		this.resource = resource;
-		this.modelUtils = modelUtils;
 
 		setListLabelProvider(new LabelProvider() {
 			@Override
@@ -88,7 +85,7 @@ public class NodeOrNetworkFilterDialog extends HierarchyFilteredItemsSelectionDi
 		}
 		
 		String indent = "";
-		int depth = modelUtils.depthToResource(0, (EObject) e);
+		int depth = NonModelUtils.depthToResource(0, (EObject) e);
 		for (int i = 0; i < depth; i++) {
 			indent += "   ";
 		}

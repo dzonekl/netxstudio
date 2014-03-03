@@ -63,7 +63,8 @@ import org.eclipse.wb.swt.ResourceManager;
 
 import com.google.common.collect.Lists;
 import com.google.inject.Inject;
-import com.netxforge.netxstudio.common.model.ModelUtils;
+import com.netxforge.base.NonModelUtils;
+import com.netxforge.netxstudio.common.model.StudioUtils;
 import com.netxforge.netxstudio.data.actions.ServerRequest;
 import com.netxforge.netxstudio.library.NetXResource;
 import com.netxforge.netxstudio.metrics.MetricSource;
@@ -175,15 +176,11 @@ public class MetricSources extends AbstractScreen implements
 								.newArrayList(iterator);
 						int operation = -1;
 						boolean showJobScreen = false;
-						// CB Replaced by model util.
-						// List<Job> matchingJobs = editingService
-						// .getDataService().getQueryService()
-						// .getJobWithMetricSource((MetricSource) o);
 
 						Resource jobResource = editingService
 								.getData(SchedulingPackage.Literals.JOB);
 
-						Job job = modelUtils
+						Job job = StudioUtils
 								.jobForMultipleObjects(
 										jobResource,
 										SchedulingPackage.Literals.METRIC_SOURCE_JOB,
@@ -213,9 +210,9 @@ public class MetricSources extends AbstractScreen implements
 										+ (metricSources.size() > 1 ? ",..."
 												: ""));
 
-								job.setInterval(ModelUtils.SECONDS_IN_A_WEEK);
-								job.setStartTime(modelUtils
-										.toXMLDate(modelUtils.todayAndNow()));
+								job.setInterval(NonModelUtils.SECONDS_IN_A_WEEK);
+								job.setStartTime(NonModelUtils
+										.toXMLDate(NonModelUtils.todayAndNow()));
 								job.setJobState(JobState.IN_ACTIVE);
 								if (job instanceof MetricSourceJob) {
 									((MetricSourceJob) job).getMetricSources()
@@ -346,7 +343,7 @@ public class MetricSources extends AbstractScreen implements
 					MetricSource ms = (MetricSource) o;
 					Resource metricResource = editingService
 							.getData(MetricsPackage.Literals.METRIC);
-					List<NetXResource> resourcesInMetricSource = modelUtils
+					List<NetXResource> resourcesInMetricSource = StudioUtils
 							.resourcesInMetricSource(
 									metricResource.getContents(), ms);
 					if (resourcesInMetricSource.isEmpty()) {

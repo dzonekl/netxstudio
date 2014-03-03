@@ -63,7 +63,8 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Ordering;
 import com.google.inject.Inject;
-import com.netxforge.netxstudio.common.model.ModelUtils;
+import com.netxforge.base.NonModelUtils;
+import com.netxforge.netxstudio.common.model.StudioUtils;
 import com.netxforge.netxstudio.data.IQueryService;
 import com.netxforge.netxstudio.data.cdo.CDOQueryService;
 import com.netxforge.netxstudio.generics.DateTimeRange;
@@ -97,15 +98,13 @@ import com.netxforge.netxstudio.screens.internal.ScreensActivator;
  */
 public class SmartValueComponent {
 
-	private ModelUtils modelUtils;
 	private TableHelper tableHelper;
 
 	@Inject
 	private CDOQueryService queryService;
 
 	@Inject
-	public SmartValueComponent(ModelUtils modelUtils, TableHelper tableHelper) {
-		this.modelUtils = modelUtils;
+	public SmartValueComponent(TableHelper tableHelper) {
 		this.tableHelper = tableHelper;
 	}
 
@@ -159,8 +158,7 @@ public class SmartValueComponent {
 			@Override
 			protected IItemsFilter createFilter() {
 
-				PeriodItemsFilter periodItemsFilter = new PeriodItemsFilter(
-						modelUtils) {
+				PeriodItemsFilter periodItemsFilter = new PeriodItemsFilter() {
 
 					/**
 					 * Match on the first array of the item, which is a Value
@@ -205,7 +203,7 @@ public class SmartValueComponent {
 							Date d1 = (Date) ((Object[]) o1)[0];
 							Date d2 = (Date) ((Object[]) o2)[0];
 							// Compare Ascending.
-							return modelUtils.dateComparator().compare(d2, d1);
+							return NonModelUtils.dateComparator().compare(d2, d1);
 						}
 						return 0;
 					}
@@ -292,13 +290,13 @@ public class SmartValueComponent {
 
 				List<MetricValueRange> mvrList = Lists.newArrayList(resource
 						.getMetricValueRanges());
-				Collections.sort(mvrList, modelUtils.mvrCompare());
+				Collections.sort(mvrList, StudioUtils.mvrCompare());
 				for (MetricValueRange mvr : mvrList) {
 
 					int intervalHint = mvr.getIntervalHint();
 
 					// CB 14-07-2012, interpret the interval.
-					String columnName = modelUtils.fromMinutes(intervalHint)
+					String columnName = NonModelUtils.fromMinutes(intervalHint)
 							+ " [" + mvr.getKindHint().getName() + "]";
 					// String columnName = new Integer(intervalHint).toString()
 					// + " (min), " + mvr.getKindHint().getName();
@@ -458,7 +456,7 @@ public class SmartValueComponent {
 			Object value1 = valueOf((Object[]) e1, cIndex);
 			Object value2 = valueOf((Object[]) e2, cIndex);
 			if (value1 != null && value2 != null) {
-				return modelUtils.dateComparator().compare((Date) value1,
+				return NonModelUtils.dateComparator().compare((Date) value1,
 						(Date) value2);
 			} else {
 				return super.doCompare(viewer, e1, e2);
@@ -515,7 +513,7 @@ public class SmartValueComponent {
 			return;
 		}
 		;
-		this.applyDateFilter(modelUtils.begin(dtr), modelUtils.end(dtr),
+		this.applyDateFilter(StudioUtils.begin(dtr), StudioUtils.end(dtr),
 				applyIt);
 	}
 
@@ -543,12 +541,12 @@ public class SmartValueComponent {
 			int rangeIndex = 0;
 
 			List<MetricValueRange> sortedCopy = Ordering.from(
-					modelUtils.mvrCompare()).sortedCopy(
+					StudioUtils.mvrCompare()).sortedCopy(
 					res.getMetricValueRanges());
 
 			Map<MetricValueRange, List<Value>> valueMap = Maps.newHashMap();
 
-			DateTimeRange period = modelUtils.period(from, to);
+			DateTimeRange period = StudioUtils.period(from, to);
 
 			int totalWork = 0;
 			int metricWork = 0;
@@ -579,8 +577,8 @@ public class SmartValueComponent {
 			for (MetricValueRange mvr : sortedCopy) {
 				if (valueMap.containsKey(mvr)) {
 
-					List<Double> doubles = modelUtils.merge(" Metrics: "
-							+ modelUtils.fromMinutes(mvr.getIntervalHint()),
+					List<Double> doubles = StudioUtils.merge(" Metrics: "
+							+ NonModelUtils.fromMinutes(mvr.getIntervalHint()),
 							existingDates, valueMap.get(mvr),
 							convert.newChild(metricWork));
 
@@ -597,7 +595,7 @@ public class SmartValueComponent {
 
 			{
 
-				List<Double> doubles = modelUtils.merge(" Capacity",
+				List<Double> doubles = StudioUtils.merge(" Capacity",
 						existingDates, res.getCapacityValues(),
 						convert.newChild(res.getCapacityValues().size()));
 				// Check for interruption, and bail if so.
@@ -608,7 +606,7 @@ public class SmartValueComponent {
 				rangeArray[rangeIndex++] = doubles;
 			}
 			{
-				List<Double> doubles = modelUtils.merge(" Utilization",
+				List<Double> doubles = StudioUtils.merge(" Utilization",
 						existingDates, res.getUtilizationValues(),
 						convert.newChild(res.getUtilizationValues().size()));
 				// Check for interruption, and bail if so.
@@ -727,8 +725,8 @@ public class SmartValueComponent {
 						Object object = array[columnIndex - 1];
 						if (object instanceof Date) {
 							Date d = (Date) object;
-							String ts = new String(modelUtils.date(d) + " @ "
-									+ modelUtils.time(d));
+							String ts = new String(NonModelUtils.date(d) + " @ "
+									+ NonModelUtils.time(d));
 							// find a marker for this date.
 							Styler markerStyle = null;
 							final Marker marker = markerForDate(d);
@@ -752,7 +750,7 @@ public class SmartValueComponent {
 							double value = (Double) object;
 							if (value != -1) {
 								DecimalFormat numberFormatter = new DecimalFormat(
-										ModelUtils.DEFAULT_VALUE_FORMAT_PATTERN);
+										NonModelUtils.DEFAULT_VALUE_FORMAT_PATTERN);
 								numberFormatter
 										.setDecimalSeparatorAlwaysShown(true);
 								cell.setText(numberFormatter.format(value));
@@ -787,7 +785,7 @@ public class SmartValueComponent {
 				try {
 
 					marker = Iterables.find(copyOfMarkers,
-							modelUtils.markerForDate(d));
+							StudioUtils.markerForDate(d));
 				} catch (NoSuchElementException nsee) {
 					// ignore.
 				} catch (ObjectNotFoundException onfe) {

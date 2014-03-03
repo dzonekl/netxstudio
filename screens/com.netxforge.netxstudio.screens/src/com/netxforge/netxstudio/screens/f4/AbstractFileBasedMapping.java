@@ -80,8 +80,8 @@ import org.eclipse.ui.forms.widgets.Section;
 
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Lists;
-import com.netxforge.netxstudio.common.Tuple;
-import com.netxforge.netxstudio.common.model.ModelUtils;
+import com.netxforge.base.Tuple;
+import com.netxforge.netxstudio.common.model.StudioUtils;
 import com.netxforge.netxstudio.metrics.DataKind;
 import com.netxforge.netxstudio.metrics.IdentifierDataKind;
 import com.netxforge.netxstudio.metrics.Mapping;
@@ -1155,8 +1155,8 @@ public abstract class AbstractFileBasedMapping extends AbstractScreen {
 						String property = ((IdentifierDataKind) k)
 								.getObjectProperty();
 
-						if (ModelUtils.NODE_ID.equals(property)) {
-							return ModelUtils.NETWORK_ELEMENT_ID;
+						if (StudioUtils.NODE_ID.equals(property)) {
+							return StudioUtils.NETWORK_ELEMENT_ID;
 						}
 						return property;
 					}

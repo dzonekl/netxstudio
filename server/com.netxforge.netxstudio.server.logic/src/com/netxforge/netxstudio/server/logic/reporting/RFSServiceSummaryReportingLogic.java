@@ -29,7 +29,8 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.eclipse.core.runtime.NullProgressMonitor;
 
 import com.google.inject.Inject;
-import com.netxforge.netxstudio.common.context.ObjectContext;
+import com.netxforge.base.NonModelUtils;
+import com.netxforge.base.context.ObjectContext;
 import com.netxforge.netxstudio.common.model.CompositeSummary;
 import com.netxforge.netxstudio.common.model.IMonitoringSummary;
 import com.netxforge.netxstudio.common.model.IMonitoringSummary.RAG;
@@ -62,11 +63,12 @@ public class RFSServiceSummaryReportingLogic extends OperatorReportingLogic {
 		super.titleCell.setCellValue("Management Sheet");
 
 		if (dtr != null) {
-			super.periodCell.setCellValue(this.getModelUtils().date(
-					getModelUtils().fromXMLDate(dtr.getBegin()))
-					+ "-"
-					+ this.getModelUtils().date(
-							getModelUtils().fromXMLDate(dtr.getEnd())));
+			super.periodCell
+					.setCellValue(NonModelUtils.date(NonModelUtils
+							.fromXMLDate(dtr.getBegin()))
+							+ "-"
+							+ NonModelUtils.date(NonModelUtils.fromXMLDate(dtr
+									.getEnd())));
 		}
 	}
 
@@ -183,10 +185,9 @@ public class RFSServiceSummaryReportingLogic extends OperatorReportingLogic {
 		{ // QUANTITY
 			Cell c1 = servicesRow.createCell(4);
 			c1.setCellStyle(borderStyle);
-			
-			
-			// CB TODO. 
-//			c1.setCellValue(opSummary.totalServices());
+
+			// CB TODO.
+			// c1.setCellValue(opSummary.totalServices());
 			this.getServices().size();
 		}
 
@@ -227,21 +228,21 @@ public class RFSServiceSummaryReportingLogic extends OperatorReportingLogic {
 			Cell c1 = nodesRow.createCell(5);
 			c1.setCellStyle(borderStyle);
 			// CB TODO
-//			c1.setCellValue(opSummary.totalNodeRag(RAG.RED));
+			// c1.setCellValue(opSummary.totalNodeRag(RAG.RED));
 		}
 
 		{
 			Cell c1 = nodesRow.createCell(6);
 			c1.setCellStyle(borderStyle);
 			// CB TODO
-//			c1.setCellValue(opSummary.totalNodeRag(RAG.AMBER));
+			// c1.setCellValue(opSummary.totalNodeRag(RAG.AMBER));
 		}
 
 		{
 			Cell c1 = nodesRow.createCell(7);
 			c1.setCellStyle(borderStyle);
 			// CB TODO
-//			c1.setCellValue(opSummary.totalNodeRag(RAG.GREEN));
+			// c1.setCellValue(opSummary.totalNodeRag(RAG.GREEN));
 		}
 	}
 
@@ -256,28 +257,28 @@ public class RFSServiceSummaryReportingLogic extends OperatorReportingLogic {
 			Cell c1 = resourcesRow.createCell(4);
 			c1.setCellStyle(borderStyle);
 			// CB TODO
-//			c1.setCellValue(opSummary.totalResources());
+			// c1.setCellValue(opSummary.totalResources());
 		}
 
 		{
 			Cell c1 = resourcesRow.createCell(5);
 			c1.setCellStyle(borderStyle);
 			// CB TODO
-//			c1.setCellValue(opSummary.totalNetXResourceRag(RAG.RED));
+			// c1.setCellValue(opSummary.totalNetXResourceRag(RAG.RED));
 		}
 
 		{
 			Cell c1 = resourcesRow.createCell(6);
 			c1.setCellStyle(borderStyle);
 			// CB TODO
-//			c1.setCellValue(opSummary.totalNetXResourceRag(RAG.AMBER));
+			// c1.setCellValue(opSummary.totalNetXResourceRag(RAG.AMBER));
 		}
 
 		{
 			Cell c1 = resourcesRow.createCell(7);
 			c1.setCellStyle(borderStyle);
 			// CB TODO
-//			c1.setCellValue(opSummary.totalNetXResourceRag(RAG.GREEN));
+			// c1.setCellValue(opSummary.totalNetXResourceRag(RAG.GREEN));
 		}
 	}
 

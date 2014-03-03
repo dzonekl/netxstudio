@@ -82,6 +82,7 @@ import org.eclipse.ui.forms.widgets.Section;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
+import com.netxforge.base.NonModelUtils;
 import com.netxforge.netxstudio.scheduling.Job;
 import com.netxforge.netxstudio.scheduling.JobState;
 import com.netxforge.netxstudio.scheduling.MetricSourceJob;
@@ -431,10 +432,10 @@ public class NewEditJob extends AbstractScreen implements IDataScreenInjection {
 			Date d = (Date) element;
 			switch (columnIndex) {
 			case 0: {
-				return modelUtils.date(d);
+				return NonModelUtils.date(d);
 			}
 			case 1: {
-				return modelUtils.time(d);
+				return NonModelUtils.time(d);
 			}
 			}
 
@@ -525,11 +526,11 @@ public class NewEditJob extends AbstractScreen implements IDataScreenInjection {
 
 			@Override
 			public String getText(Object element) {
-				return modelUtils.weekDay((Integer) element);
+				return NonModelUtils.weekDay((Integer) element);
 			}
 
 		});
-		comboViewerOn.setInput(modelUtils.weekDaysAsInteger().toArray());
+		comboViewerOn.setInput(NonModelUtils.weekDaysAsInteger().toArray());
 
 		comboViewerEvery.setContentProvider(new ArrayContentProvider());
 		comboViewerEvery.setInput(ComboStartInput);
@@ -770,9 +771,9 @@ public class NewEditJob extends AbstractScreen implements IDataScreenInjection {
 			Object repeatValue, Object intervalValue) {
 		// Decompose the object values to the UI settings.
 		if (startTimeValue != null) {
-			Date startDate = modelUtils
+			Date startDate = NonModelUtils
 					.fromXMLDate((XMLGregorianCalendar) startTimeValue);
-			int weekday = modelUtils.weekDay(startDate);
+			int weekday = NonModelUtils.weekDay(startDate);
 			comboViewerOnWritableValue.setValue(weekday);
 			// The start time can be directly set.
 			cdateTimeStartTimeWritableValue.setValue(startDate);
@@ -786,7 +787,7 @@ public class NewEditJob extends AbstractScreen implements IDataScreenInjection {
 			txtOccurencesWritableValue.setValue(repeatValue);
 		} else {
 			if (endTimeValue != null) {
-				Date endDate = modelUtils
+				Date endDate = NonModelUtils
 						.fromXMLDate((XMLGregorianCalendar) endTimeValue);
 				btnOnWritableValue.setValue(true);
 				// Derive if we should set the enddate, or the number of
@@ -800,7 +801,8 @@ public class NewEditJob extends AbstractScreen implements IDataScreenInjection {
 		}
 
 		if (intervalValue != null) {
-			String asString = modelUtils.fromSeconds((Integer) intervalValue);
+			String asString = NonModelUtils
+					.fromSeconds((Integer) intervalValue);
 
 			List<Object> startlist = Lists.newArrayList(ComboStartInput);
 			if (startlist.contains(asString)) {
@@ -850,10 +852,10 @@ public class NewEditJob extends AbstractScreen implements IDataScreenInjection {
 		public void setInitialValues(Job j) {
 
 			if (j.eIsSet(SchedulingPackage.Literals.JOB__START_TIME)) {
-				startDate = modelUtils.fromXMLDate(j.getStartTime());
+				startDate = NonModelUtils.fromXMLDate(j.getStartTime());
 			}
 			if (j.eIsSet(SchedulingPackage.Literals.JOB__END_TIME)) {
-				endDate = modelUtils.fromXMLDate(j.getEndTime());
+				endDate = NonModelUtils.fromXMLDate(j.getEndTime());
 			}
 			if (j.eIsSet(SchedulingPackage.Literals.JOB__INTERVAL)) {
 				// interval = j.getInterval();
@@ -917,9 +919,9 @@ public class NewEditJob extends AbstractScreen implements IDataScreenInjection {
 				if (dateWithTime == null) {
 					// It could be that clear has been pressed on the widget,
 					// so we reset the time to the current time.
-					dateWithTime = modelUtils.todayAndNow();
+					dateWithTime = NonModelUtils.todayAndNow();
 				}
-				startDate = modelUtils.mergeTimeIntoDate(startDate,
+				startDate = NonModelUtils.mergeTimeIntoDate(startDate,
 						dateWithTime);
 			}
 
@@ -939,7 +941,7 @@ public class NewEditJob extends AbstractScreen implements IDataScreenInjection {
 					// NOTE: As we override the date set by this widget.
 					// This will perhaps confuse the end-user.
 					Date newStartDate = (Date) newValue;
-					startDate = modelUtils.mergeDateIntoTime(startDate,
+					startDate = NonModelUtils.mergeDateIntoTime(startDate,
 							newStartDate);
 				}
 			}
@@ -952,7 +954,7 @@ public class NewEditJob extends AbstractScreen implements IDataScreenInjection {
 				if (viewer.equals(comboViewerOn)) {
 					int dayOfWeek = (Integer) newValue;
 
-					startDate = modelUtils.mergeDayIntoDate(startDate,
+					startDate = NonModelUtils.mergeDayIntoDate(startDate,
 							dayOfWeek);
 
 				}
@@ -977,7 +979,7 @@ public class NewEditJob extends AbstractScreen implements IDataScreenInjection {
 
 			if (interval != null) {
 
-				int inSeconds = modelUtils.inSeconds(interval);
+				int inSeconds = NonModelUtils.inSeconds(interval);
 				// refuse to set a -1 value, as the string could be unvalid.
 				if (inSeconds != -1) {
 					intervalObservable.setValue(inSeconds);
@@ -1023,7 +1025,7 @@ public class NewEditJob extends AbstractScreen implements IDataScreenInjection {
 
 		public Object convert(Object fromObject) {
 			if (fromObject instanceof Date) {
-				return modelUtils.toXMLDate((Date) fromObject);
+				return NonModelUtils.toXMLDate((Date) fromObject);
 			}
 			return fromObject;
 		}
@@ -1122,9 +1124,9 @@ public class NewEditJob extends AbstractScreen implements IDataScreenInjection {
 	}
 
 	private List<Date> generateOccurences(Job job) {
-		return ImmutableList.copyOf(modelUtils.occurences(
-				modelUtils.fromXMLDate(job.getStartTime()),
-				job.getEndTime() != null ? modelUtils.fromXMLDate(job
+		return ImmutableList.copyOf(NonModelUtils.occurences(
+				NonModelUtils.fromXMLDate(job.getStartTime()),
+				job.getEndTime() != null ? NonModelUtils.fromXMLDate(job
 						.getEndTime()) : null, job.getInterval(), job
 						.getRepeat()));
 	}

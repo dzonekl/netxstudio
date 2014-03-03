@@ -34,14 +34,15 @@ import com.google.common.base.Function;
 import com.google.common.base.Predicates;
 import com.google.common.collect.Iterables;
 import com.google.inject.Inject;
+import com.netxforge.base.NonModelUtils;
 import com.netxforge.internal.RuntimeActivator;
-import com.netxforge.netxstudio.common.model.ModelUtils;
 import com.netxforge.netxstudio.data.IData;
 import com.netxforge.netxstudio.data.cdo.CDOData;
 
 /**
- * An implementation which can produce {@link IResourceDescription} objects from 
- * URI's which comply to the CDO Format. <code>cdo://[repository name]/CDOResourceNode</code>
+ * An implementation which can produce {@link IResourceDescription} objects from
+ * URI's which comply to the CDO Format.
+ * <code>cdo://[repository name]/CDOResourceNode</code>
  * 
  * 
  * @author Christophe Bouhier
@@ -55,9 +56,6 @@ public abstract class AbstractDynamixCDOResourceDescriptions extends
 
 	@Inject
 	private IResourceServiceProvider.Registry serviceProviderRegistry;
-
-	@Inject
-	private ModelUtils modelUtils;
 
 	private DynamixCache<URI, IResourceDescription> resourceDescriptionCache;
 
@@ -91,7 +89,7 @@ public abstract class AbstractDynamixCDOResourceDescriptions extends
 									// resources.
 									resource = ((CDOData) provider)
 											.getResource(view, lookup);
-									
+
 									IResourceDescription description = getDescription(
 											uri, resource);
 									return description;
@@ -169,7 +167,7 @@ public abstract class AbstractDynamixCDOResourceDescriptions extends
 						RuntimeActivator.TRACE_NETXSCRIPT_SCOPING_OPTION,
 						" Building Description for resource: "
 								+ resource.getURI().toString() + " @ "
-								+ modelUtils.currentTimeAndSeconds());
+								+ NonModelUtils.currentTimeAndSeconds());
 			}
 
 			IResourceDescription resourceDescription = resourceDescriptionManager
@@ -180,7 +178,7 @@ public abstract class AbstractDynamixCDOResourceDescriptions extends
 						RuntimeActivator.TRACE_NETXSCRIPT_SCOPING_OPTION,
 						"Done Building Description for resource: "
 								+ resource.getURI().toString() + " @ "
-								+ modelUtils.currentTimeAndSeconds());
+								+ NonModelUtils.currentTimeAndSeconds());
 			}
 
 			return resourceDescription;

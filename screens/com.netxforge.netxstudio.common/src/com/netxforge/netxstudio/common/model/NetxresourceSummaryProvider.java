@@ -28,21 +28,16 @@ import com.google.inject.Provider;
 public class NetxresourceSummaryProvider implements
 		Provider<NetxresourceSummary> {
 
-	private ModelUtils utils;
-
 	private MonitoringStateModel stateModel;
 
 	@Inject
-	public NetxresourceSummaryProvider(MonitoringStateModel stateModel,
-			ModelUtils utils) {
-		this.utils = utils;
+	public NetxresourceSummaryProvider(MonitoringStateModel stateModel) {
 		this.stateModel = stateModel;
 	}
 
 	public NetxresourceSummary get() {
 		NetxresourceSummary netxresourceSummary = new NetxresourceSummary();
 
-		netxresourceSummary.setModelUtils(utils);
 		netxresourceSummary.setStatModel(stateModel);
 
 		return netxresourceSummary;

@@ -40,20 +40,15 @@ import javax.xml.datatype.DatatypeConfigurationException;
 import javax.xml.datatype.DatatypeFactory;
 import javax.xml.datatype.XMLGregorianCalendar;
 
-import org.eclipse.core.runtime.Assert;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.emf.cdo.CDOObject;
 import org.eclipse.emf.cdo.CDOObjectReference;
 import org.eclipse.emf.cdo.CDOState;
-import org.eclipse.emf.cdo.common.branch.CDOBranchVersion;
 import org.eclipse.emf.cdo.common.id.CDOID;
-import org.eclipse.emf.cdo.common.id.CDOIDUtil;
-import org.eclipse.emf.cdo.common.model.CDOClassifierRef;
 import org.eclipse.emf.cdo.common.revision.CDORevision;
 import org.eclipse.emf.cdo.common.revision.delta.CDOAddFeatureDelta;
 import org.eclipse.emf.cdo.common.revision.delta.CDOContainerFeatureDelta;
 import org.eclipse.emf.cdo.common.revision.delta.CDOFeatureDelta;
-import org.eclipse.emf.cdo.common.revision.delta.CDOFeatureDelta.Type;
 import org.eclipse.emf.cdo.common.revision.delta.CDOListFeatureDelta;
 import org.eclipse.emf.cdo.common.revision.delta.CDOMoveFeatureDelta;
 import org.eclipse.emf.cdo.common.revision.delta.CDORemoveFeatureDelta;
@@ -62,10 +57,8 @@ import org.eclipse.emf.cdo.common.revision.delta.CDOSetFeatureDelta;
 import org.eclipse.emf.cdo.eresource.CDOResource;
 import org.eclipse.emf.cdo.eresource.CDOResourceFolder;
 import org.eclipse.emf.cdo.eresource.CDOResourceNode;
-import org.eclipse.emf.cdo.internal.common.id.CDOIDObjectLongImpl;
 import org.eclipse.emf.cdo.spi.common.revision.InternalCDORevision;
 import org.eclipse.emf.cdo.transaction.CDOTransaction;
-import org.eclipse.emf.cdo.util.CDOUtil;
 import org.eclipse.emf.cdo.util.ObjectNotFoundException;
 import org.eclipse.emf.cdo.view.CDOView;
 import org.eclipse.emf.common.util.EList;
@@ -73,7 +66,6 @@ import org.eclipse.emf.common.util.TreeIterator;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
-import org.eclipse.emf.ecore.EDataType;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.EStructuralFeature;
@@ -93,8 +85,8 @@ import com.google.common.collect.Multimap;
 import com.google.common.collect.Multimaps;
 import com.google.common.collect.Ordering;
 import com.google.inject.Singleton;
+import com.netxforge.base.NonModelUtils;
 import com.netxforge.netxstudio.ServerSettings;
-import com.netxforge.netxstudio.common.Tuple;
 import com.netxforge.netxstudio.common.internal.CommonActivator;
 import com.netxforge.netxstudio.generics.DateTimeRange;
 import com.netxforge.netxstudio.generics.GenericsFactory;
@@ -144,35 +136,10 @@ import com.netxforge.netxstudio.services.ServiceUser;
 import com.netxforge.netxstudio.services.ServicesPackage;
 
 @Singleton
-public class ModelUtils {
-
-	public static final double ONE_BILLION = 1E+9; // Seconds
-	public static final double ONE_MILLION = 1E+6; // Milli Seconds
-	public static final double ONE_THOUSAND = 1E+3; // Pico Seconds
-
-	public static final String DATE_PATTERN_1 = "MM/dd/yyyy";
-	public static final String DATE_PATTERN_2 = "dd-MM-yyyy";
-	public static final String DATE_PATTERN_3 = "dd.MM.yyyy";
-
-	public static final String TIME_PATTERN_1 = "HH:mm:ss"; // 24 hour.
-	public static final String TIME_PATTERN_2 = "HH:mm"; // 24 hour
-	public static final String TIME_PATTERN_3 = "hh:mm:ss"; // AM PM
-	public static final String TIME_PATTERN_4 = "hh:mm"; // AM PM
-
-	public static final String TIME_PATTERN_5 = "a"; // AM PM marker.
-	public static final String DEFAULT_DATE_TIME_PATTERN = "MM/dd/yyyy HH:mm:ss";
-
-	public static final int SECONDS_IN_A_MINUTE = 60;
-	public static final int SECONDS_IN_15MIN = SECONDS_IN_A_MINUTE * 15;
-	public static final int SECONDS_IN_AN_HOUR = SECONDS_IN_A_MINUTE * 60;
-	public static final int SECONDS_IN_A_DAY = SECONDS_IN_AN_HOUR * 24;
-	public static final int SECONDS_IN_A_WEEK = SECONDS_IN_A_DAY * 7;
+public class StudioUtils {
 
 	public static final DecimalFormat FORMAT_DOUBLE_NO_FRACTION = new DecimalFormat(
 			"00");
-
-	/** Default value formatter */
-	public static final String DEFAULT_VALUE_FORMAT_PATTERN = "###,###,###,##0.00";
 
 	/**
 	 * Lifecycle state Planned.
@@ -183,18 +150,6 @@ public class ModelUtils {
 	public static final int LIFECYCLE_INSERVICE = 1;
 	public static final int LIFECYCLE_OUTOFSERVICE = 0;
 	public static final int LIFECYCLE_NOTSET = -1;
-
-	/**
-	 * this is seconds in 4 weeks. Should be use only as an interval rule.
-	 */
-	public static final int SECONDS_IN_A_MONTH = SECONDS_IN_A_DAY * 30;
-
-	public static final int MINUTES_IN_AN_HOUR = 60;
-	public static final int MINUTES_IN_A_DAY = 60 * 24;
-	public static final int MINUTES_IN_A_WEEK = MINUTES_IN_A_DAY * 7;
-
-	// Note! For months, we better use a calendar function.
-	public static final int MINUTES_IN_A_MONTH = MINUTES_IN_A_DAY * 30;
 
 	public static final String EXTENSION_PROCESS = ".process";
 	public static final String EXTENSION_DONE = ".done";
@@ -222,7 +177,7 @@ public class ModelUtils {
 
 	private DatatypeFactory dataTypeFactory;
 
-	public ModelUtils() {
+	public StudioUtils() {
 		try {
 			this.dataTypeFactory = DatatypeFactory.newInstance();
 		} catch (DatatypeConfigurationException e) {
@@ -234,7 +189,7 @@ public class ModelUtils {
 	 * Compare the time stamp of two {@link Value} objects. This implementation
 	 * delegates to {@link XMLGregorianCalendar#compare(XMLGregorianCalendar) }.
 	 */
-	public class ValueTimeStampComparator implements Comparator<Value> {
+	public static class ValueTimeStampComparator implements Comparator<Value> {
 		public int compare(final Value v1, final Value v2) {
 
 			// check if set.
@@ -248,7 +203,7 @@ public class ModelUtils {
 		}
 	};
 
-	public ValueTimeStampComparator valueTimeStampCompare() {
+	public static ValueTimeStampComparator valueTimeStampCompare() {
 		return new ValueTimeStampComparator();
 	}
 
@@ -288,7 +243,7 @@ public class ModelUtils {
 	 * @author Christophe Bouhier
 	 * 
 	 */
-	public class TimeStampPredicate implements Predicate<Value> {
+	public static class TimeStampPredicate implements Predicate<Value> {
 
 		// The date to compate with.
 		private Date d;
@@ -307,59 +262,9 @@ public class ModelUtils {
 	}
 
 	/**
-	 * A Generic comparator for EObject attributes of which the type supports
-	 * Comparable.
-	 * 
-	 * @author Christophe Bouhier
-	 * 
-	 */
-	@SuppressWarnings("unchecked")
-	public class ObjectEAttributeComparator<T extends EObject, O> implements
-			Comparator<T> {
-
-		// The attribute
-		private EAttribute attrib;
-		private Class<O> attribType;
-
-		public ObjectEAttributeComparator(EAttribute attrib) {
-
-			Assert.isNotNull(attrib);
-			this.attrib = attrib;
-			EDataType eAttributeType = attrib.getEAttributeType();
-
-			// How do we check?
-			attribType = (Class<O>) eAttributeType.getInstanceClass();
-
-		}
-
-		public int compare(T o1, T o2) {
-
-			O eGet1 = attribType.cast(o1.eGet(attrib));
-			O eGet2 = attribType.cast(o2.eGet(attrib));
-
-			if (eGet1 instanceof Comparable) {
-				return ((Comparable<O>) eGet1).compareTo(eGet2);
-			}
-			return 0;
-		}
-	}
-
-	/**
-	 * Return an object attribute comparator for type T and expected attribute
-	 * type O
-	 * 
-	 * @param attrib
-	 * @return
-	 */
-	public <T extends EObject, O> Comparator<T> objectEAttributeComparator(
-			EAttribute attrib) {
-		return new ObjectEAttributeComparator<T, O>(attrib);
-	}
-
-	/**
 	 * Compare two values
 	 */
-	public class ValueValueComparator implements Comparator<Value> {
+	public static class ValueValueComparator implements Comparator<Value> {
 		public int compare(final Value v1, final Value v2) {
 			// check if set.
 			if (v1.eIsSet(GenericsPackage.Literals.VALUE__VALUE)
@@ -370,16 +275,16 @@ public class ModelUtils {
 		}
 	};
 
-	public ValueValueComparator valueValueCompare() {
+	public static ValueValueComparator valueValueCompare() {
 		return new ValueValueComparator();
 	}
 
-	public String value(Value v) {
+	public static String value(Value v) {
 		StringBuffer sb = new StringBuffer();
 		if (v == null)
 			return "";
 		sb.append("v=" + v.getValue() + ", ");
-		sb.append("ts=" + dateAndTime(v.getTimeStamp()));
+		sb.append("ts=" + NonModelUtils.dateAndTime(v.getTimeStamp()));
 		return sb.toString();
 	}
 
@@ -455,7 +360,7 @@ public class ModelUtils {
 	/**
 	 * Compare two value ranges, on the interval in minutes.
 	 */
-	public class MvrComparator implements Comparator<MetricValueRange> {
+	public static class MvrComparator implements Comparator<MetricValueRange> {
 		public int compare(final MetricValueRange mvr1,
 				final MetricValueRange mvr2) {
 			return new Integer(mvr1.getIntervalHint()).compareTo(mvr2
@@ -463,14 +368,14 @@ public class ModelUtils {
 		}
 	};
 
-	public MvrComparator mvrCompare() {
+	public static MvrComparator mvrCompare() {
 		return new MvrComparator();
 	}
 
 	/**
-	 * Compare two value ranges, on the interval in minutes.
+	 * {@link Comparator} for {@link MetricRetentionRule}'s interval in minutes.
 	 */
-	public class MetricRetentionRuleComparator implements
+	public static class MetricRetentionRuleComparator implements
 			Comparator<MetricRetentionRule> {
 		public int compare(final MetricRetentionRule mrr1,
 				final MetricRetentionRule mrr2) {
@@ -479,14 +384,14 @@ public class ModelUtils {
 		}
 	};
 
-	public MetricRetentionRuleComparator retentionRuleCompare() {
+	public static MetricRetentionRuleComparator retentionRuleCompare() {
 		return new MetricRetentionRuleComparator();
 	}
 
 	/**
 	 * Compare two markers on the time stamps.
 	 */
-	public class MarkerTimeStampComparator implements Comparator<Marker> {
+	public static class MarkerTimeStampComparator implements Comparator<Marker> {
 		public int compare(final Marker m1, final Marker m2) {
 
 			// CDOUtil.cleanStaleReference(m1,
@@ -499,7 +404,7 @@ public class ModelUtils {
 		}
 	};
 
-	public MarkerTimeStampComparator markerTimeStampCompare() {
+	public static MarkerTimeStampComparator markerTimeStampCompare() {
 		return new MarkerTimeStampComparator();
 	}
 
@@ -507,7 +412,8 @@ public class ModelUtils {
 	 * Simply compare the begin of the period, we do not check for potential
 	 * overlap with the end of the period.
 	 */
-	public class ServiceMonitorComparator implements Comparator<ServiceMonitor> {
+	public static class ServiceMonitorComparator implements
+			Comparator<ServiceMonitor> {
 		public int compare(final ServiceMonitor sm1, ServiceMonitor sm2) {
 			return sm1.getPeriod().getBegin()
 					.compare(sm2.getPeriod().getBegin());
@@ -518,7 +424,7 @@ public class ModelUtils {
 	 * Compare two periods, if unequal the result has no meaning. (Do not use
 	 * for Sorting!)
 	 */
-	public class PeriodComparator implements Comparator<DateTimeRange> {
+	public static class PeriodComparator implements Comparator<DateTimeRange> {
 		public int compare(final DateTimeRange dtr1, DateTimeRange dtr2) {
 
 			if (dtr1 != null && dtr2 != null) {
@@ -534,25 +440,12 @@ public class ModelUtils {
 	};
 
 	/**
-	 * A Predicate which checks equality of a target {@link CDOObject object}
-	 * which delegates to {@link #cdoOIDEquals}
+	 * Get the {@link ServerSettings}
 	 * 
-	 * @author Christophe Bouhier
-	 * 
+	 * @param serverSettingsResource
+	 * @return
 	 */
-	public class CDOObjectEqualsPredicate implements Predicate<CDOObject> {
-		private final CDOObject target;
-
-		public CDOObjectEqualsPredicate(CDOObject target) {
-			this.target = target;
-		}
-
-		public boolean apply(CDOObject test) {
-			return cdoOIDEquals(target, test);
-		}
-	}
-
-	public ServerSettings serverSettings(Resource serverSettingsResource) {
+	public static ServerSettings serverSettings(Resource serverSettingsResource) {
 
 		if (serverSettingsResource != null
 				&& serverSettingsResource.getContents().size() == 1) {
@@ -560,9 +453,7 @@ public class ModelUtils {
 					.getContents().get(0);
 			return settings;
 		}
-
 		return null;
-
 	}
 
 	public FileLastModifiedComparator fileLastModifiedComparator() {
@@ -575,11 +466,12 @@ public class ModelUtils {
 		}
 	};
 
-	public ServiceMonitorComparator serviceMonitorCompare() {
+	public static ServiceMonitorComparator serviceMonitorCompare() {
 		return new ServiceMonitorComparator();
 	}
 
-	public class NodeTypeIsLeafComparator implements Comparator<NodeType> {
+	public static class NodeTypeIsLeafComparator implements
+			Comparator<NodeType> {
 		public int compare(final NodeType nt1, NodeType nt2) {
 			if (nt1.isLeafNode() && nt2.isLeafNode()) {
 				return 0;
@@ -594,7 +486,7 @@ public class ModelUtils {
 		}
 	};
 
-	public NodeTypeIsLeafComparator nodeTypeIsLeafComparator() {
+	public static NodeTypeIsLeafComparator nodeTypeIsLeafComparator() {
 		return new NodeTypeIsLeafComparator();
 	}
 
@@ -603,7 +495,8 @@ public class ModelUtils {
 	 * 
 	 * @author Christophe Bouhier
 	 */
-	public class MarkerWithinPeriodPredicate implements Predicate<Marker> {
+	public static class MarkerWithinPeriodPredicate implements
+			Predicate<Marker> {
 
 		private long from;
 		private long to;
@@ -634,7 +527,8 @@ public class ModelUtils {
 		}
 	}
 
-	public MarkerWithinPeriodPredicate markerInsidePeriod(DateTimeRange dtr) {
+	public static MarkerWithinPeriodPredicate markerInsidePeriod(
+			DateTimeRange dtr) {
 		return new MarkerWithinPeriodPredicate(dtr);
 	}
 
@@ -653,7 +547,7 @@ public class ModelUtils {
 	 * @param dtr
 	 * @return
 	 */
-	public List<Marker> markersInsidePeriod(Iterable<Marker> unfiltered,
+	public static List<Marker> markersInsidePeriod(Iterable<Marker> unfiltered,
 			DateTimeRange dtr) {
 
 		Iterable<Marker> filterValues = Iterables.filter(unfiltered,
@@ -683,7 +577,7 @@ public class ModelUtils {
 	 * 
 	 * @author Christophe Bouhier
 	 */
-	public class ValueWithinPeriodPredicate implements Predicate<Value> {
+	public static class ValueWithinPeriodPredicate implements Predicate<Value> {
 
 		private long from;
 		private long to;
@@ -711,7 +605,7 @@ public class ModelUtils {
 		}
 	}
 
-	public ValueWithinPeriodPredicate valueInsideRange(DateTimeRange dtr) {
+	public static ValueWithinPeriodPredicate valueInsideRange(DateTimeRange dtr) {
 		return new ValueWithinPeriodPredicate(dtr);
 	}
 
@@ -719,11 +613,11 @@ public class ModelUtils {
 		return new ValueWithinPeriodPredicate(from, to);
 	}
 
-	public ValueWithinPeriodPredicate valueInsideRange(long from, long to) {
+	public static ValueWithinPeriodPredicate valueInsideRange(long from, long to) {
 		return new ValueWithinPeriodPredicate(from, to);
 	}
 
-	public List<Value> valuesInsideRange(Iterable<Value> unfiltered,
+	public static List<Value> valuesInsideRange(Iterable<Value> unfiltered,
 			DateTimeRange dtr) {
 
 		Iterable<Value> filterValues = Iterables.filter(unfiltered,
@@ -739,8 +633,8 @@ public class ModelUtils {
 		return Lists.newArrayList(filterValues);
 	}
 
-	public List<Value> valuesInsideRange(Iterable<Value> unfiltered, long from,
-			long to) {
+	public static List<Value> valuesInsideRange(Iterable<Value> unfiltered,
+			long from, long to) {
 
 		Iterable<Value> filterValues = Iterables.filter(unfiltered,
 				valueInsideRange(from, to));
@@ -753,7 +647,7 @@ public class ModelUtils {
 	 * 
 	 * @author Christophe Bouhier
 	 */
-	public class ValueForValuesPredicate implements Predicate<Value> {
+	public static class ValueForValuesPredicate implements Predicate<Value> {
 
 		List<Value> referenceValues;
 
@@ -777,11 +671,12 @@ public class ModelUtils {
 		}
 	}
 
-	public ValueForValuesPredicate valueForValues(List<Value> referenceValues) {
+	public static ValueForValuesPredicate valueForValues(
+			List<Value> referenceValues) {
 		return new ValueForValuesPredicate(referenceValues);
 	}
 
-	public List<Value> valuesForValues(Iterable<Value> unfiltered,
+	public static List<Value> valuesForValues(Iterable<Value> unfiltered,
 			List<Value> referenceValues) {
 		Iterable<Value> filterValues = Iterables.filter(unfiltered,
 				valueForValues(referenceValues));
@@ -795,13 +690,14 @@ public class ModelUtils {
 	 * @param d
 	 * @return
 	 */
-	public List<Value> valuesForTimestamps(Iterable<Value> unfiltered,
+	public static List<Value> valuesForTimestamps(Iterable<Value> unfiltered,
 			final Collection<Date> timeStampDates) {
 
 		Iterable<Value> filtered = Iterables.filter(unfiltered,
 				new Predicate<Value>() {
 					public boolean apply(final Value input) {
-						final Date valueDate = fromXMLDate(input.getTimeStamp());
+						final Date valueDate = NonModelUtils.fromXMLDate(input
+								.getTimeStamp());
 						return Iterables.any(timeStampDates,
 								new Predicate<Date>() {
 									public boolean apply(Date inputDate) {
@@ -823,7 +719,7 @@ public class ModelUtils {
 	 * @param values
 	 * @return
 	 */
-	public DateTimeRange period(List<Value> values) {
+	public static DateTimeRange period(List<Value> values) {
 
 		if (values.isEmpty()) {
 			return null;
@@ -849,21 +745,22 @@ public class ModelUtils {
 	 * @return
 	 */
 
-	public DateTimeRange period(Value v, int targetInterval) {
+	public static DateTimeRange period(Value v, int targetInterval) {
 
-		final int[] fields = fieldsForTargetIntervalLowerOrder(targetInterval);
+		final int[] fields = NonModelUtils
+				.fieldsForTargetIntervalLowerOrder(targetInterval);
 		Calendar cal = v.getTimeStamp().toGregorianCalendar();
 
-		adjustToFieldStart(cal, fields);
+		NonModelUtils.adjustToFieldStart(cal, fields);
 		Date start = cal.getTime();
 
-		adjustToFieldEnd(cal, fields);
+		NonModelUtils.adjustToFieldEnd(cal, fields);
 		Date end = cal.getTime();
 
 		DateTimeRange createDateTimeRange = GenericsFactory.eINSTANCE
 				.createDateTimeRange();
-		createDateTimeRange.setBegin(toXMLDate(start));
-		createDateTimeRange.setEnd(toXMLDate(end));
+		createDateTimeRange.setBegin(NonModelUtils.toXMLDate(start));
+		createDateTimeRange.setEnd(NonModelUtils.toXMLDate(end));
 
 		return createDateTimeRange;
 
@@ -875,14 +772,10 @@ public class ModelUtils {
 	 * @param dtr
 	 * @return
 	 */
-	public boolean periodUnset(DateTimeRange dtr) {
+	public static boolean periodUnset(DateTimeRange dtr) {
 		return !dtr.eIsSet(GenericsPackage.Literals.DATE_TIME_RANGE__BEGIN)
 				&& !dtr.eIsSet(GenericsPackage.Literals.DATE_TIME_RANGE__END);
 	}
-
-	// public List<List<Value>> values(List<Value> values, int srcInterval) {
-	// return this.values(values, srcInterval, -1);
-	// }
 
 	/**
 	 * Split the {@link Value} collection, in sub-collections for the provided
@@ -907,7 +800,7 @@ public class ModelUtils {
 
 		List<List<Value>> valueMatrix = Lists.newArrayList();
 
-		int field = fieldForInterval(srcInterval, targetInterval);
+		int field = NonModelUtils.fieldForInterval(srcInterval, targetInterval);
 
 		if (field == -1) {
 			// can't split, bale out.
@@ -962,11 +855,13 @@ public class ModelUtils {
 	 * For week target, do not consider the month field. Note that if a week is
 	 * partially in two consecutive years, it will be split by this algo.
 	 */
-	public List<List<Value>> values_(List<Value> values, int targetInterval) {
+	public static List<List<Value>> values_(List<Value> values,
+			int targetInterval) {
 
 		final Map<String, List<Value>> targetMap = Maps.newHashMap();
 
-		final int[] fields = fieldsForTargetInterval(targetInterval);
+		final int[] fields = NonModelUtils
+				.fieldsForTargetInterval(targetInterval);
 
 		GregorianCalendar cal;
 		for (Value v : values) {
@@ -1029,136 +924,6 @@ public class ModelUtils {
 	}
 
 	/**
-	 * The IntervalHint is required if to compare the difference is less than
-	 * the interval.
-	 * 
-	 * @param intervalHint
-	 *            in Minutes
-	 * @param time1
-	 * @param time2
-	 * @return
-	 * @deprecated DO NOT USE, WORK IN PROGRESS.
-	 */
-	public boolean isSameTime(int intervalHint, Date d1, Date d2) {
-
-		Calendar instance = Calendar.getInstance();
-		instance.setTime(d1);
-
-		// Get the next timestamp for this interval,
-
-		@SuppressWarnings("unused")
-		int fieldForInterval = this.fieldForInterval(intervalHint, -1);
-
-		return false;
-	}
-
-	/**
-	 * Return a Calendar field value which corresponds to the source interval
-	 * provided in minutes. The target Interval is used for some source interval
-	 * only. (Like Day, could be day of the week or day of the month), if the
-	 * target Interval is not specified (-1), day of the month is the default.
-	 * 
-	 * @param srcInterval
-	 * @param targetInterval
-	 * @return
-	 */
-	public int fieldForInterval(int srcInterval, int targetInterval) {
-
-		switch (srcInterval) {
-		case 15: { // FIXME, SHOULD treat all interval < 60 as HOUR_OF_DAY.
-			switch (targetInterval) {
-			case MINUTES_IN_A_DAY:
-			case -1:
-				return Calendar.HOUR_OF_DAY;
-			case MINUTES_IN_AN_HOUR: {
-				// we can't split using a field.
-				// return -1;
-			}
-			}
-		}
-		case MINUTES_IN_AN_HOUR: // one hour interval.
-			return Calendar.HOUR_OF_DAY;
-		case MINUTES_IN_A_DAY: { // one day interval
-			switch (targetInterval) {
-			case MINUTES_IN_A_MONTH:
-			case -1:
-				return Calendar.DAY_OF_MONTH;
-			case MINUTES_IN_A_WEEK:
-				return Calendar.DAY_OF_WEEK;
-			}
-		}
-		case MINUTES_IN_A_WEEK:
-			return Calendar.WEEK_OF_YEAR;
-		case MINUTES_IN_A_MONTH: {
-			return Calendar.MONTH;
-		}
-		default:
-			return -1;
-		}
-	}
-
-	/**
-	 * Populate an array of {@link Calendar} higher order fields, deduced from
-	 * the target interval.</p> Example: </br> If the interval is
-	 * {@link ModelUtils#MINUTES_IN_AN_HOUR} the fields are
-	 * {@link Calendar#HOUR_OF_DAY}, {@link Calendar#DAY_OF_YEAR},
-	 * {@link Calendar#WEEK_OF_YEAR}, {@link Calendar#MONTH},
-	 * {@link Calendar#YEAR},
-	 */
-	public int[] fieldsForTargetInterval(int targetInterval) {
-
-		// We don't need decades or higher.
-		int[] calFieldForPeriods = new int[] { Calendar.HOUR_OF_DAY,
-				Calendar.DAY_OF_YEAR, Calendar.WEEK_OF_YEAR, Calendar.MONTH,
-				Calendar.YEAR };
-
-		switch (targetInterval) {
-		case MINUTES_IN_AN_HOUR:
-			return calFieldForPeriods; // All are needed.
-		case MINUTES_IN_A_DAY:
-			return copyOfRange(calFieldForPeriods, 1, 5);
-		case MINUTES_IN_A_WEEK:
-			return new int[] { Calendar.WEEK_OF_YEAR, Calendar.YEAR };
-		case MINUTES_IN_A_MONTH:
-			return copyOfRange(calFieldForPeriods, 3, 5);
-		default:
-			return null;
-		}
-	}
-
-	/**
-	 * Populate an array of {@link Calendar} lower order fields, deduced from
-	 * the target interval.
-	 * 
-	 * @param targetInterval
-	 * @return
-	 */
-	public int[] fieldsForTargetIntervalLowerOrder(int targetInterval) {
-
-		int[] calFieldForPeriods = new int[] { Calendar.MILLISECOND,
-				Calendar.SECOND, Calendar.MINUTE, Calendar.HOUR_OF_DAY,
-				Calendar.DAY_OF_YEAR, Calendar.WEEK_OF_YEAR, Calendar.MONTH,
-				Calendar.YEAR };
-
-		switch (targetInterval) {
-		case MINUTES_IN_AN_HOUR:
-			return copyOfRange(calFieldForPeriods, 0, 3);
-		case MINUTES_IN_A_DAY:
-			return copyOfRange(calFieldForPeriods, 0, 4);
-		case MINUTES_IN_A_WEEK:
-			return new int[] { Calendar.MILLISECOND, Calendar.SECOND,
-					Calendar.MINUTE, Calendar.HOUR_OF_DAY,
-					Calendar.DAY_OF_WEEK_IN_MONTH };
-		case MINUTES_IN_A_MONTH:
-			return new int[] { Calendar.MILLISECOND, Calendar.SECOND,
-					Calendar.MINUTE, Calendar.HOUR_OF_DAY,
-					Calendar.DAY_OF_MONTH };
-		default:
-			return null;
-		}
-	}
-
-	/**
 	 * Copied from class {@link Arrays#copyOfRange(int[], int, int)} , as this
 	 * requires java 1.6, and our app should work with 1.5.
 	 * 
@@ -1175,23 +940,6 @@ public class ModelUtils {
 		System.arraycopy(original, from, copy, 0,
 				Math.min(original.length - from, newLength));
 		return copy;
-	}
-
-	public int fieldForTargetInterval(int targetInterval) {
-
-		switch (targetInterval) {
-		case MINUTES_IN_AN_HOUR:
-			return Calendar.HOUR_OF_DAY; // Hourly target.
-		case MINUTES_IN_A_DAY:
-			return Calendar.DAY_OF_YEAR; // Daily target.
-		case MINUTES_IN_A_WEEK:
-			return Calendar.WEEK_OF_YEAR; // Weekly target.
-		case MINUTES_IN_A_MONTH: {
-			return Calendar.MONTH; // Montly target.
-		}
-		default:
-			return -1;
-		}
 	}
 
 	public class NonHiddenFilePredicate implements Predicate<File> {
@@ -1256,7 +1004,7 @@ public class ModelUtils {
 		return new ExtensionFilePredicate(negate, extensions);
 	}
 
-	public class NodeOfTypePredicate implements Predicate<Node> {
+	public static class NodeOfTypePredicate implements Predicate<Node> {
 		private final NodeType nt;
 
 		public NodeOfTypePredicate(final NodeType nt) {
@@ -1274,7 +1022,7 @@ public class ModelUtils {
 		}
 	}
 
-	public NodeOfTypePredicate nodeOfType(NodeType nodeType) {
+	public static NodeOfTypePredicate nodeOfType(NodeType nodeType) {
 		return new NodeOfTypePredicate(nodeType);
 	}
 
@@ -1345,7 +1093,7 @@ public class ModelUtils {
 	 * 
 	 * @author Christophe Bouhier
 	 */
-	public class MetricInMetricSourcePredicate implements
+	public static class MetricInMetricSourcePredicate implements
 			Predicate<MetricSource> {
 
 		private Metric metric;
@@ -1392,11 +1140,12 @@ public class ModelUtils {
 	}
 
 	/**
-	 * Get all the duplicates.
+	 * Get all the {@link ServiceMonitor}or duplicates.
 	 * 
 	 * @author Christophe Bouhier
 	 */
-	public class ServiceMonitorDuplicates implements Predicate<ServiceMonitor> {
+	public static class ServiceMonitorDuplicates implements
+			Predicate<ServiceMonitor> {
 		private final DateTimeRange lookupDTR;
 		final PeriodComparator periodComparator = new PeriodComparator();
 
@@ -1405,8 +1154,8 @@ public class ModelUtils {
 		}
 
 		public boolean apply(final ServiceMonitor s) {
-			
-			if(FSMUtil.isNew(s)){
+
+			if (FSMUtil.isNew(s)) {
 				return false;
 			}
 			return periodComparator.compare(s.getPeriod(), lookupDTR) == 0;
@@ -1430,7 +1179,7 @@ public class ModelUtils {
 			DateTimeRange dtr) {
 		// Sort and reverse the Service Monitors.
 		List<ServiceMonitor> sortedCopy = Ordering
-				.from(this.serviceMonitorCompare()).reverse()
+				.from(serviceMonitorCompare()).reverse()
 				.sortedCopy(service.getServiceMonitors());
 
 		// Filter ServiceMonitors on the time range.
@@ -1448,8 +1197,8 @@ public class ModelUtils {
 	 * @param dtr
 	 * @return
 	 */
-	public List<ServiceMonitor> serviceMonitorDuplicates(Service service,
-			DateTimeRange dtr) {
+	public static List<ServiceMonitor> serviceMonitorDuplicates(
+			Service service, DateTimeRange dtr) {
 
 		final List<ServiceMonitor> copy = ImmutableList.copyOf(service
 				.getServiceMonitors());
@@ -1469,57 +1218,6 @@ public class ModelUtils {
 
 	}
 
-	/**
-	 * Cleans state references by iterating over a collection and
-	 * 
-	 * @param eo
-	 * @param feature
-	 */
-	public void findAndCleanONFE(EObject eo, EStructuralFeature feature) {
-
-		List<Object> cleaned = Lists.newArrayList();
-
-		if (feature instanceof EReference) {
-			Object eGet = eo.eGet(feature);
-
-			if (feature.isMany()) {
-				if (eGet instanceof List<?>) {
-					List<?> refs = (List<?>) eGet;
-					boolean stillONF = true;
-
-					// Keeps going until no more stale references.
-					RESTART_ONFE_CHECK: while (stillONF) {
-						for (int i = 0; i < refs.size(); i++) {
-							try {
-								Object object = refs.get(i);
-								System.out.println("ONFE check for: " + object
-										+ " is it proxy?");
-								if (object instanceof CDOObject) {
-									CDOObject obtained = (CDOObject) object;
-
-								}
-								// catch the onfe.
-							} catch (ObjectNotFoundException exception) {
-
-								System.out.println("ONFE detected, Reference: "
-										+ eo + " feature: " + feature
-										+ " index: " + i);
-
-								CDOUtil.cleanStaleReference(eo, feature, i);
-
-								System.out.println("ONFE cleaned, Reference: "
-										+ eo + " feature: " + feature
-										+ " index: " + i);
-								break RESTART_ONFE_CHECK;
-							}
-						}
-						stillONF = false;
-					}
-				}
-			}
-		}
-	}
-
 	public class IsRelationshipPredicate implements Predicate<EObject> {
 		public boolean apply(final EObject eo) {
 			return eo instanceof Relationship;
@@ -1530,7 +1228,13 @@ public class ModelUtils {
 		return new IsRelationshipPredicate();
 	}
 
-	public class MarkerForValuePredicate implements Predicate<Marker> {
+	/**
+	 * Returns <code>true</code> when {@link Marker#getValueRef() value} equals
+	 * the given {@link Value}.
+	 * 
+	 * @author Christophe Bouhier
+	 */
+	public static class MarkerForValuePredicate implements Predicate<Marker> {
 		private final Value value;
 
 		public MarkerForValuePredicate(final Value value) {
@@ -1546,11 +1250,11 @@ public class ModelUtils {
 		}
 	}
 
-	public MarkerForValuePredicate markerForValue(Value v) {
+	public static MarkerForValuePredicate markerForValue(Value v) {
 		return new MarkerForValuePredicate(v);
 	}
 
-	public class MarkerForDatePredicate implements Predicate<Marker> {
+	public static class MarkerForDatePredicate implements Predicate<Marker> {
 		private final Date checkDate;
 
 		public MarkerForDatePredicate(final Date value) {
@@ -1570,7 +1274,7 @@ public class ModelUtils {
 					Value markerValue = m.getValueRef();
 					if (markerValue
 							.eIsSet(GenericsPackage.Literals.VALUE__TIME_STAMP)) {
-						Date markerDate = fromXMLDate(markerValue
+						Date markerDate = NonModelUtils.fromXMLDate(markerValue
 								.getTimeStamp());
 						return markerDate.equals(checkDate);
 					}
@@ -1583,17 +1287,17 @@ public class ModelUtils {
 		}
 	}
 
-	public MarkerForDatePredicate markerForDate(Date d) {
+	public static MarkerForDatePredicate markerForDate(Date d) {
 		return new MarkerForDatePredicate(d);
 	}
 
-	public class ToleranceMarkerPredicate implements Predicate<Marker> {
+	public static class ToleranceMarkerPredicate implements Predicate<Marker> {
 		public boolean apply(final Marker m) {
 			return m instanceof ToleranceMarker;
 		}
 	}
 
-	public ToleranceMarkerPredicate toleranceMarkers() {
+	public static ToleranceMarkerPredicate toleranceMarkers() {
 		return new ToleranceMarkerPredicate();
 	}
 
@@ -1602,7 +1306,7 @@ public class ModelUtils {
 	 * @param node
 	 * @return
 	 */
-	public boolean isInService(Node node) {
+	public static boolean isInService(Node node) {
 		if (!node.eIsSet(OperatorsPackage.Literals.NODE__LIFECYCLE)) {
 			return true;
 		} else
@@ -1626,7 +1330,7 @@ public class ModelUtils {
 	 * @param lc
 	 * @return
 	 */
-	public boolean isInService(Lifecycle lc) {
+	public static boolean isInService(Lifecycle lc) {
 		final long time = System.currentTimeMillis();
 		if (lc.getInServiceDate() != null
 				&& lc.getInServiceDate().toGregorianCalendar()
@@ -1678,7 +1382,7 @@ public class ModelUtils {
 		}
 	}
 
-	public Resource cdoResourceForNetXResource(EObject targetObject,
+	public static Resource cdoResourceForNetXResource(EObject targetObject,
 			CDOTransaction transaction) {
 
 		final CDOResourceFolder folder = transaction
@@ -1769,7 +1473,7 @@ public class ModelUtils {
 	 * @return
 	 * @throws IllegalAccessException
 	 */
-	public String cdoResourceName(EObject eObject)
+	public static String cdoResourceName(EObject eObject)
 			throws IllegalAccessException {
 		if (eObject instanceof Component) {
 			final Component component = (Component) eObject;
@@ -1800,7 +1504,15 @@ public class ModelUtils {
 		}
 	}
 
-	public List<com.netxforge.netxstudio.library.Function> functionsWithName(
+	/**
+	 * {@link com.netxforge.netxstudio.library.Function Function} and children
+	 * with a name.
+	 * 
+	 * @param functions
+	 * @param name
+	 * @return
+	 */
+	public static List<com.netxforge.netxstudio.library.Function> functionsWithName(
 			List<com.netxforge.netxstudio.library.Function> functions,
 			String name) {
 		final List<com.netxforge.netxstudio.library.Function> fl = Lists
@@ -1809,7 +1521,7 @@ public class ModelUtils {
 			if (f.getName().equals(name)) {
 				fl.add(f);
 			}
-			fl.addAll(this.functionsWithName(f.getFunctions(), name));
+			fl.addAll(functionsWithName(f.getFunctions(), name));
 		}
 		return fl;
 	}
@@ -1821,15 +1533,14 @@ public class ModelUtils {
 	 * @param code
 	 * @return
 	 */
-	public List<Equipment> equimentsWithCodeAndName(List<Equipment> equips,
-			String code, String name) {
+	public static List<Equipment> equimentsWithCodeAndName(
+			List<Equipment> equips, String code, String name) {
 		final List<Equipment> el = Lists.newArrayList();
 		for (final Equipment e : equips) {
 			if (e.getEquipmentCode().equals(code) && e.getName().equals(name)) {
 				el.add(e);
 			}
-			el.addAll(this.equimentsWithCodeAndName(e.getEquipments(), code,
-					name));
+			el.addAll(equimentsWithCodeAndName(e.getEquipments(), code, name));
 		}
 		return el;
 	}
@@ -1841,22 +1552,16 @@ public class ModelUtils {
 	 * @param code
 	 * @return
 	 */
-	public List<Equipment> equimentsWithCode(List<Equipment> equips, String code) {
+	public static List<Equipment> equimentsWithCode(List<Equipment> equips,
+			String code) {
 		final List<Equipment> el = Lists.newArrayList();
 		for (final Equipment e : equips) {
 			if (e.getEquipmentCode().equals(code)) {
 				el.add(e);
 			}
-			el.addAll(this.equimentsWithCode(e.getEquipments(), code));
+			el.addAll(equimentsWithCode(e.getEquipments(), code));
 		}
 		return el;
-	}
-
-	public Collection<String> expressionLines(String Expression) {
-		final String[] splitByNewLine = Expression.split("\n");
-		final Collection<String> collection = Lists
-				.newArrayList(splitByNewLine);
-		return collection;
 	}
 
 	/**
@@ -1867,7 +1572,8 @@ public class ModelUtils {
 	 * @param feature
 	 * @return
 	 */
-	public String expressionName(Component target, EStructuralFeature feature) {
+	public static String expressionName(Component target,
+			EStructuralFeature feature) {
 		String cName = target instanceof com.netxforge.netxstudio.library.Function ? ((com.netxforge.netxstudio.library.Function) target)
 				.getName() : target instanceof Equipment ? ((Equipment) target)
 				.getEquipmentCode() : "Unknown";
@@ -1884,7 +1590,7 @@ public class ModelUtils {
 	 * @param expression
 	 * @return
 	 */
-	public String expressionAsString(Expression expression) {
+	public static String expressionAsString(Expression expression) {
 		final Collection<String> lines = expression.getExpressionLines();
 		return Joiner.on("\n").join(lines);
 	}
@@ -1902,13 +1608,13 @@ public class ModelUtils {
 	}
 
 	/**
-	 * State of a {@link NetXResource}, if it has any Value Objects in any of
-	 * the {@link MetricValueRange value ranges}.
+	 * State of a {@link NetXResource}, if it has any {@link Value} Objects in
+	 * any of the {@link MetricValueRange value ranges}.
 	 * 
 	 * @param resource
 	 * @return
 	 */
-	public boolean resourceHasValues(NetXResource resource) {
+	public static boolean resourceHasValues(NetXResource resource) {
 		if (resource.getMetricValueRanges().isEmpty()) {
 			return false;
 		}
@@ -1923,8 +1629,7 @@ public class ModelUtils {
 
 	public List<NetXResource> resourcesForComponent(Component component) {
 		List<NetXResource> resources = Lists.newArrayList();
-		List<Component> componentsForComponent = this
-				.componentsForComponent(component);
+		List<Component> componentsForComponent = componentsForComponent(component);
 		for (Component c : componentsForComponent) {
 			resources.addAll(c.getResourceRefs());
 		}
@@ -1954,18 +1659,18 @@ public class ModelUtils {
 		final List<Component> cl = Lists.newArrayList();
 		cl.addAll(nt.getEquipments());
 		cl.addAll(nt.getFunctions());
-		return this.resourcesWithExpressionName(cl, expressionName, true);
+		return resourcesWithExpressionName(cl, expressionName, true);
 	}
 
-	public List<NetXResource> resourcesWithExpressionName(Node n,
+	public static List<NetXResource> resourcesWithExpressionName(Node n,
 			String expressionName) {
 		final List<Component> cl = Lists.newArrayList();
 		cl.addAll(n.getNodeType().getEquipments());
 		cl.addAll(n.getNodeType().getFunctions());
-		return this.resourcesWithExpressionName(cl, expressionName, true);
+		return resourcesWithExpressionName(cl, expressionName, true);
 	}
 
-	public List<Value> sortValuesByTimeStampAndReverse(List<Value> values) {
+	public static List<Value> sortValuesByTimeStampAndReverse(List<Value> values) {
 		List<Value> sortedCopy = Ordering.from(valueTimeStampCompare())
 				.reverse().sortedCopy(values);
 		return sortedCopy;
@@ -1978,14 +1683,14 @@ public class ModelUtils {
 	 * @param values
 	 * @return
 	 */
-	public List<Value> sortValuesByTimeStamp(List<Value> values) {
+	public static List<Value> sortValuesByTimeStamp(List<Value> values) {
 		List<Value> sortedCopy = Ordering.from(valueTimeStampCompare())
 				.sortedCopy(values);
 		return sortedCopy;
 
 	}
 
-	public List<Marker> sortMarkersByTimeStamp(List<Marker> markers) {
+	public static List<Marker> sortMarkersByTimeStamp(List<Marker> markers) {
 		List<Marker> sortedCopy = Ordering.from(markerTimeStampCompare())
 				.sortedCopy(markers);
 		return sortedCopy;
@@ -2016,7 +1721,7 @@ public class ModelUtils {
 	 * @param target
 	 * @return
 	 */
-	public Node nodeFor(EObject target) {
+	public static Node nodeFor(EObject target) {
 		if (target instanceof Node) {
 			return (Node) target;
 		}
@@ -2045,7 +1750,7 @@ public class ModelUtils {
 	 * @param target
 	 * @return
 	 */
-	public NodeType resolveParentNodeType(EObject target) {
+	public static NodeType resolveParentNodeType(EObject target) {
 
 		if (target instanceof NodeType) {
 			return (NodeType) target;
@@ -2060,15 +1765,17 @@ public class ModelUtils {
 		}
 	}
 
-	public Service resolveRootService(EObject target) {
-		if (target instanceof Service) {
-			if (target.eContainer() instanceof Service) {
-				return resolveRootService(target.eContainer());
-			} else {
-				return (Service) target;
-			}
+	/**
+	 * 
+	 * @param target
+	 * @return
+	 */
+	public static Service resolveRootService(Service target) {
+		if (target.eContainer() instanceof Service) {
+			return resolveRootService((Service) target.eContainer());
+		} else {
+			return (Service) target;
 		}
-		return null;
 	}
 
 	public ServiceMonitor lastServiceMonitor(Service service) {
@@ -2135,7 +1842,7 @@ public class ModelUtils {
 	 * @param state
 	 * @return
 	 */
-	public String lifecycleText(int state) {
+	public static String lifecycleText(int state) {
 
 		switch (state) {
 		case LIFECYCLE_PROPOSED:
@@ -2162,7 +1869,7 @@ public class ModelUtils {
 	 * @param lc
 	 * @return
 	 */
-	public int lifecycleState(Lifecycle lc) {
+	public static int lifecycleState(Lifecycle lc) {
 
 		if (lc == null) {
 			return LIFECYCLE_NOTSET;
@@ -2205,7 +1912,7 @@ public class ModelUtils {
 		return latestIndex;
 	}
 
-	public List<NodeType> uniqueNodeTypes(List<NodeType> unfiltered) {
+	public static List<NodeType> uniqueNodeTypes(List<NodeType> unfiltered) {
 		List<NodeType> uniques = Lists.newArrayList();
 		for (NodeType nt : unfiltered) {
 			ImmutableList<NodeType> uniquesCopy = ImmutableList.copyOf(uniques);
@@ -2237,16 +1944,25 @@ public class ModelUtils {
 		return inString.replaceAll("\\s", "_");
 	}
 
-	public List<Node> nodesForNodeType(List<Node> nodes, NodeType targetNodeType) {
-		Iterable<Node> filtered = Iterables.filter(nodes,
-				this.nodeOfType(targetNodeType));
+	public static List<Node> nodesForNodeType(List<Node> nodes,
+			NodeType targetNodeType) {
+		final Iterable<Node> filtered = Iterables.filter(nodes,
+				nodeOfType(targetNodeType));
 		return Lists.newArrayList(filtered);
 	}
 
-	public List<Node> nodesForNodeType(RFSService service,
+	/**
+	 * Get the {@link Node nodes} from a given {@link RFSService} for a given
+	 * {@link NodeType}
+	 * 
+	 * @param service
+	 * @param targetNodeType
+	 * @return
+	 */
+	public static List<Node> nodesForNodeType(RFSService service,
 			NodeType targetNodeType) {
-		Iterable<Node> filtered = Iterables.filter(service.getNodes(),
-				this.nodeOfType(targetNodeType));
+		final Iterable<Node> filtered = Iterables.filter(service.getNodes(),
+				nodeOfType(targetNodeType));
 		return Lists.newArrayList(filtered);
 	}
 
@@ -2257,10 +1973,10 @@ public class ModelUtils {
 	 * @param v
 	 * @return
 	 */
-	public Marker markerForValue(List<Marker> markers, Value v) {
+	public static Marker markerForValue(List<Marker> markers, Value v) {
 
-		Iterable<Marker> filtered = Iterables.filter(markers,
-				this.markerForValue(v));
+		final Iterable<Marker> filtered = Iterables.filter(markers,
+				markerForValue(v));
 		if (Iterables.size(filtered) > 0) {
 			return filtered.iterator().next();
 		}
@@ -2282,7 +1998,7 @@ public class ModelUtils {
 
 		// Sort by begin date and reverse the Service Monitors.
 		List<ServiceMonitor> serviceMonitors = Ordering
-				.from(this.serviceMonitorCompare()).reverse()
+				.from(serviceMonitorCompare()).reverse()
 				.sortedCopy(service.getServiceMonitors());
 
 		for (ServiceMonitor sm : serviceMonitors) {
@@ -2298,11 +2014,12 @@ public class ModelUtils {
 		return monitor;
 	}
 
-	public List<Component> componentsForMonitors(Service service, Node node) {
+	public static List<Component> componentsForMonitors(Service service,
+			Node node) {
 
 		// Sort by begin date and reverse the Service Monitors.
 		List<ServiceMonitor> serviceMonitors = Ordering
-				.from(this.serviceMonitorCompare()).reverse()
+				.from(serviceMonitorCompare()).reverse()
 				.sortedCopy(service.getServiceMonitors());
 
 		List<Component> collectedComponents = Lists.newArrayList();
@@ -2383,7 +2100,15 @@ public class ModelUtils {
 		return monitorsPerResource;
 	}
 
-	public JobRunContainer jobContainerForJob(Job job,
+	/**
+	 * Get the {@link JobRunContainer} which holds the {@link Job} objects from
+	 * the provided {@link Resource}.
+	 * 
+	 * @param job
+	 * @param containerResource
+	 * @return
+	 */
+	public static JobRunContainer jobContainerForJob(Job job,
 			Resource containerResource) {
 
 		final CDOID cdoId = job.cdoID();
@@ -2428,7 +2153,7 @@ public class ModelUtils {
 	 * @param value
 	 * @return
 	 */
-	public Job jobForSingleObject(Resource jobResource, EClass jobClass,
+	public static Job jobForSingleObject(Resource jobResource, EClass jobClass,
 			EStructuralFeature feature, EObject value) {
 
 		// The job Class should extend the Job EClass.
@@ -2450,9 +2175,8 @@ public class ModelUtils {
 	}
 
 	/**
-	 * 
-	 * Get the Job of a certain type with a target collection contained in the
-	 * collection of the target feature.
+	 * Get the {@link Job} of a certain type with a target collection contained
+	 * in the collection of the target feature.
 	 * 
 	 * @param jobResource
 	 * @param jobClass
@@ -2460,8 +2184,9 @@ public class ModelUtils {
 	 * @param targetValues
 	 * @return
 	 */
-	public Job jobForMultipleObjects(Resource jobResource, EClass jobClass,
-			EStructuralFeature feature, Collection<?> targetValues) {
+	public static Job jobForMultipleObjects(Resource jobResource,
+			EClass jobClass, EStructuralFeature feature,
+			Collection<?> targetValues) {
 
 		assert feature.isMany();
 
@@ -2499,30 +2224,30 @@ public class ModelUtils {
 
 	public DateTimeRange lastMonthPeriod() {
 		DateTimeRange dtr = GenericsFactory.eINSTANCE.createDateTimeRange();
-		dtr.setBegin(this.toXMLDate(oneMonthAgo()));
-		dtr.setEnd(this.toXMLDate(todayAndNow()));
+		dtr.setBegin(this.toXMLDate(NonModelUtils.oneMonthAgo()));
+		dtr.setEnd(this.toXMLDate(NonModelUtils.todayAndNow()));
 		return dtr;
 	}
 
-	public Date begin(DateTimeRange dtr) {
-		return this.fromXMLDate(dtr.getBegin());
+	public static Date begin(DateTimeRange dtr) {
+		return NonModelUtils.fromXMLDate(dtr.getBegin());
 	}
 
-	public Date end(DateTimeRange dtr) {
-		return this.fromXMLDate(dtr.getEnd());
+	public static Date end(DateTimeRange dtr) {
+		return NonModelUtils.fromXMLDate(dtr.getEnd());
 	}
 
-	public DateTimeRange period(Date start, Date end) {
+	public static DateTimeRange period(Date start, Date end) {
 		DateTimeRange dtr = GenericsFactory.eINSTANCE.createDateTimeRange();
-		dtr.setBegin(this.toXMLDate(start));
-		dtr.setEnd(this.toXMLDate(end));
+		dtr.setBegin(NonModelUtils.toXMLDate(start));
+		dtr.setEnd(NonModelUtils.toXMLDate(end));
 		return dtr;
 	}
 
-	public String periodToString(DateTimeRange dtr) {
+	public static String periodToString(DateTimeRange dtr) {
 		StringBuffer sb = new StringBuffer();
-		sb.append("from: " + dateAndTime(dtr.getBegin()));
-		sb.append(" to: " + dateAndTime(dtr.getEnd()));
+		sb.append("from: " + NonModelUtils.dateAndTime(dtr.getBegin()));
+		sb.append(" to: " + NonModelUtils.dateAndTime(dtr.getEnd()));
 
 		return sb.toString();
 	}
@@ -2532,18 +2257,18 @@ public class ModelUtils {
 		return periodToStringMore(dtr);
 	}
 
-	public String periodToStringMore(DateTimeRange dtr) {
+	public static String periodToStringMore(DateTimeRange dtr) {
 		StringBuilder sb = new StringBuilder();
-		Date begin = fromXMLDate(dtr.getBegin());
-		Date end = fromXMLDate(dtr.getEnd());
+		Date begin = NonModelUtils.fromXMLDate(dtr.getBegin());
+		Date end = NonModelUtils.fromXMLDate(dtr.getEnd());
 		sb.append("From: ");
-		sb.append(date(begin));
+		sb.append(NonModelUtils.date(begin));
 		sb.append(" @ ");
-		sb.append(time(begin));
+		sb.append(NonModelUtils.time(begin));
 		sb.append(" To: ");
-		sb.append(date(end));
+		sb.append(NonModelUtils.date(end));
 		sb.append(" @ ");
-		sb.append(time(end));
+		sb.append(NonModelUtils.time(end));
 		return sb.toString();
 	}
 
@@ -2555,7 +2280,7 @@ public class ModelUtils {
 	 * @param metric
 	 * @return
 	 */
-	public List<MetricSource> metricSourcesForMetric(
+	public static List<MetricSource> metricSourcesForMetric(
 			List<MetricSource> sources, Metric metric) {
 		Iterable<MetricSource> filter = Iterables.filter(sources,
 				new MetricInMetricSourcePredicate(metric));
@@ -2563,7 +2288,7 @@ public class ModelUtils {
 		return result;
 	}
 
-	public List<NetXResource> resourcesInMetricSource(
+	public static List<NetXResource> resourcesInMetricSource(
 			EList<EObject> allMetrics, MetricSource ms) {
 
 		List<Metric> targetListInMetricSource = Lists.newArrayList();
@@ -2612,7 +2337,7 @@ public class ModelUtils {
 		return resourcesForMetrics(targetListInMetricSource);
 	}
 
-	public List<NetXResource> resourcesForMetrics(
+	public static List<NetXResource> resourcesForMetrics(
 			List<Metric> targetListInMetricSource) {
 		List<NetXResource> targetListNetXResources = Lists.newArrayList();
 
@@ -2634,7 +2359,7 @@ public class ModelUtils {
 							// Gather all metrics from the target source.
 							if (referencingEObject instanceof NetXResource) {
 								NetXResource res = (NetXResource) referencingEObject;
-								Node n = this.nodeFor(res.getComponentRef());
+								Node n = nodeFor(res.getComponentRef());
 								if (n != null) {
 									targetListNetXResources
 											.add((NetXResource) referencingEObject);
@@ -2663,14 +2388,13 @@ public class ModelUtils {
 	 * @param users
 	 * @return
 	 */
-	public Role roleForUserWithName(String loginName, List<Person> users) {
+	public static Role roleForUserWithName(String loginName, List<Person> users) {
 		Person result = null;
 		for (Person p : users) {
 			if (p.eIsSet(GenericsPackage.Literals.PERSON__LOGIN)) {
 				if (p.getLogin().equals(loginName)) {
 					result = p;
 					break;
-
 				}
 			}
 		}
@@ -2680,9 +2404,8 @@ public class ModelUtils {
 		return null;
 	}
 
-	public Value mostRecentValue(List<Value> rawListOfValues) {
-		List<Value> values = this
-				.sortValuesByTimeStampAndReverse(rawListOfValues);
+	public static Value mostRecentValue(List<Value> rawListOfValues) {
+		List<Value> values = sortValuesByTimeStampAndReverse(rawListOfValues);
 		if (values.size() > 0) {
 			return values.get(0);
 		}
@@ -2690,7 +2413,7 @@ public class ModelUtils {
 	}
 
 	public Value oldestValue(List<Value> rawListOfValues) {
-		List<Value> values = this.sortValuesByTimeStamp(rawListOfValues);
+		List<Value> values = sortValuesByTimeStamp(rawListOfValues);
 		if (values.size() > 0) {
 			return values.get(0);
 		}
@@ -2704,7 +2427,7 @@ public class ModelUtils {
 	 * @param targetInterval
 	 * @return
 	 */
-	public Value mostRecentCapacityValue(NetXResource resource) {
+	public static Value mostRecentCapacityValue(NetXResource resource) {
 		return mostRecentValue(resource.getCapacityValues());
 	}
 
@@ -2718,7 +2441,7 @@ public class ModelUtils {
 	 * @param dtr
 	 * @return
 	 */
-	public List<Value> valuesForIntervalKindAndPeriod(NetXResource res,
+	public static List<Value> valuesForIntervalKindAndPeriod(NetXResource res,
 			int intervalHint, KindHintType kh, DateTimeRange dtr) {
 
 		MetricValueRange mvr;
@@ -2747,7 +2470,7 @@ public class ModelUtils {
 	 * @return
 	 * @deprecated use {@link #valueRangesForInterval(NetXResource, int)}
 	 */
-	public MetricValueRange valueRangeForInterval(NetXResource resource,
+	public static MetricValueRange valueRangeForInterval(NetXResource resource,
 			int targetInterval) {
 		for (MetricValueRange mvr : resource.getMetricValueRanges()) {
 			if (mvr.getIntervalHint() == targetInterval) {
@@ -2767,8 +2490,8 @@ public class ModelUtils {
 	 * @param targetInterval
 	 * @return
 	 */
-	public List<MetricValueRange> valueRangesForInterval(NetXResource resource,
-			int targetInterval) {
+	public static List<MetricValueRange> valueRangesForInterval(
+			NetXResource resource, int targetInterval) {
 		List<MetricValueRange> matchingRanges = Lists.newArrayList();
 		for (MetricValueRange mvr : resource.getMetricValueRanges()) {
 			if (mvr.getIntervalHint() == targetInterval) {
@@ -2789,7 +2512,7 @@ public class ModelUtils {
 	 *         interval or null if none is found.
 	 * 
 	 */
-	public MetricValueRange valueRangeForIntervalAndKind(
+	public static MetricValueRange valueRangeForIntervalAndKind(
 			NetXResource foundNetXResource, KindHintType kindHintType,
 			int intervalHint) {
 		MetricValueRange foundMvr = null;
@@ -2809,7 +2532,7 @@ public class ModelUtils {
 	/**
 	 * Note, side effect of creating the value range if the range doesn't exist.
 	 */
-	public MetricValueRange valueRangeForIntervalAndKindGetOrCreate(
+	public static MetricValueRange valueRangeForIntervalAndKindGetOrCreate(
 			NetXResource foundNetXResource, KindHintType kindHintType,
 			int intervalHint) {
 		MetricValueRange foundMvr = null;
@@ -2839,7 +2562,7 @@ public class ModelUtils {
 	 * @param nodeTypes
 	 * @return
 	 */
-	public List<NetXResource> resourcesFromNodeTypes(CDOView view,
+	public static List<NetXResource> resourcesFromNodeTypes(CDOView view,
 			final List<NodeType> nodeTypes) {
 
 		Iterable<NetXResource> filter = Iterables.filter(resources(view),
@@ -2847,7 +2570,7 @@ public class ModelUtils {
 
 					public boolean apply(NetXResource input) {
 						try {
-							final Node nodeFor = ModelUtils.this.nodeFor(input
+							final Node nodeFor = nodeFor(input
 									.getComponentRef());
 							if (nodeFor != null
 									&& nodeFor
@@ -2879,7 +2602,7 @@ public class ModelUtils {
 		return Lists.newArrayList(filter);
 	}
 
-	public List<NetXResource> resources(CDOView view) {
+	public static List<NetXResource> resources(CDOView view) {
 		List<NetXResource> allResources = Lists.newArrayList();
 
 		final CDOResourceFolder folder = view.getResourceFolder("/Node_");
@@ -2918,7 +2641,7 @@ public class ModelUtils {
 
 	}
 
-	public void printMatrix(Node[][] matrix) {
+	public static void printMatrix(Node[][] matrix) {
 		for (int i = 0; i < matrix.length; i++) {
 			for (int j = 0; j < matrix[0].length; j++) {
 				Node n = matrix[i][j];
@@ -2963,7 +2686,7 @@ public class ModelUtils {
 		return result.toString();
 	}
 
-	public String printModelObject(EObject o) {
+	public static String printModelObject(EObject o) {
 		StringBuilder result = new StringBuilder();
 
 		if (o instanceof CDOResource) {
@@ -3018,7 +2741,7 @@ public class ModelUtils {
 						+ ((ValueDataKind) dk).getValueKind());
 			}
 		} else if (o instanceof Value) {
-			result.append(this.value((Value) o));
+			result.append(value((Value) o));
 		}
 
 		// if( ECoreUtil.geto.getClass() != null){
@@ -3032,15 +2755,14 @@ public class ModelUtils {
 		return result.toString();
 	}
 
-	public Node[][] matrix(List<Node> nodes) {
+	public static Node[][] matrix(List<Node> nodes) {
 
 		// Node[][] emptyMatrix = new Node[0][0];
 
-		List<NodeType> nts = this.transformNodeToNodeType(nodes);
-		List<NodeType> unique = this.uniqueNodeTypes(nts);
+		List<NodeType> nts = transformNodeToNodeType(nodes);
+		List<NodeType> unique = uniqueNodeTypes(nts);
 		List<NodeType> sortedByIsLeafCopy = Ordering
-				.from(this.nodeTypeIsLeafComparator()).reverse()
-				.sortedCopy(unique);
+				.from(nodeTypeIsLeafComparator()).reverse().sortedCopy(unique);
 
 		int ntCount = sortedByIsLeafCopy.size();
 		int nodeDepth = 0;
@@ -3049,8 +2771,7 @@ public class ModelUtils {
 		// Is there another trick?
 
 		for (NodeType nt : sortedByIsLeafCopy) {
-			Iterable<Node> filtered = Iterables.filter(nodes,
-					this.nodeOfType(nt));
+			Iterable<Node> filtered = Iterables.filter(nodes, nodeOfType(nt));
 			if (Iterables.size(filtered) > nodeDepth) {
 				nodeDepth = Iterables.size(filtered);
 			}
@@ -3060,8 +2781,7 @@ public class ModelUtils {
 
 		for (int i = 0; i < ntCount; i++) {
 			NodeType nt = sortedByIsLeafCopy.get(i);
-			Iterable<Node> filtered = Iterables.filter(nodes,
-					this.nodeOfType(nt));
+			Iterable<Node> filtered = Iterables.filter(nodes, nodeOfType(nt));
 			for (int j = 0; j < Iterables.size(filtered); j++) {
 				Node n = Iterables.get(filtered, j);
 				matrix[i][j] = n;
@@ -3137,7 +2857,7 @@ public class ModelUtils {
 	 *            <code>true</code>
 	 * @return
 	 */
-	public List<NetXResource> resourcesWithExpressionName(
+	public static List<NetXResource> resourcesWithExpressionName(
 			List<Component> components, String name, boolean closure) {
 		final List<NetXResource> rl = Lists.newArrayList();
 
@@ -3158,7 +2878,7 @@ public class ModelUtils {
 					cl.addAll(((com.netxforge.netxstudio.library.Function) c)
 							.getFunctions());
 				}
-				rl.addAll(this.resourcesWithExpressionName(cl, name, closure));
+				rl.addAll(resourcesWithExpressionName(cl, name, closure));
 			}
 		}
 		return rl;
@@ -3193,7 +2913,7 @@ public class ModelUtils {
 	 * @param metricSource
 	 * @return
 	 */
-	public List<Metric> metricsInMetricSource(MetricSource metricSource) {
+	public static List<Metric> metricsInMetricSource(MetricSource metricSource) {
 		final List<Metric> metricsInMetricSource = Lists.newArrayList();
 		for (MappingColumn mc : metricSource.getMetricMapping()
 				.getDataMappingColumns()) {
@@ -3210,13 +2930,20 @@ public class ModelUtils {
 		return metricsInMetricSource;
 	}
 
-	public MetricRetentionRule metricRuleGlobalForInterval(
+	/**
+	 * Find the {@link MetricRetentionRule} from a collection using the given
+	 * {@link MetricRetentionRule#getIntervalHint() interval hint}.
+	 * 
+	 * @param rules
+	 * @param intervalHint
+	 * @return
+	 */
+	public static MetricRetentionRule metricRuleGlobalForInterval(
 			List<MetricRetentionRule> rules, final int intervalHint) {
 
 		try {
 			MetricRetentionRule find = Iterables.find(rules,
 					new Predicate<MetricRetentionRule>() {
-
 						public boolean apply(MetricRetentionRule input) {
 							return input.getIntervalHint() == intervalHint;
 						}
@@ -3315,88 +3042,6 @@ public class ModelUtils {
 		String result = (delta > 1000 ? (delta / 1000 + "." + delta % 1000 + " (sec) : ")
 				: delta + " (ms) ");
 		return result;
-	}
-
-	/**
-	 * The duration as a String since the provided nanotime. nano is 10 to the
-	 * power of -10 (So one billionth of a second). The presentation is
-	 * depending on the size of the nano value.
-	 * 
-	 * @param l
-	 * 
-	 * @return
-	 */
-	public String timeDurationNanoFromStart(long l) {
-		// long delta = (long) ((System.nanoTime() - l) / ONE_MILLION);
-		// return timeAndSecondsAmdMillis(new Date(delta));
-
-		long delta = (System.nanoTime() - l);
-		return timeFormatNano(delta);
-	}
-
-	/**
-	 * The duration as a String for the provided nano seconds. nano is 10 to the
-	 * power of -10 (So one billionth of a second). The presentation is
-	 * depending on the size of the nano value.
-	 * 
-	 * @param l
-	 * @return
-	 */
-	public String timeDurationNanoElapsed(long l) {
-		// long delta = (long) (l / ONE_MILLION);
-		// return timeAndSecondsAmdMillis(new Date(delta));
-		return timeFormatNano(l);
-	}
-
-	/**
-	 * @param delta
-	 * @return
-	 */
-	private String timeFormatNano(long delta) {
-
-		StringBuilder sb = new StringBuilder();
-
-		// double rest = 0;
-
-		// @SuppressWarnings("unused")
-		// String[] units = new String[] { "(min:sec:ms)", "(sec)", "(ms)" };
-		// @SuppressWarnings("unused")
-		// String unit = "";
-
-		// int granularity = 2;
-
-		// In minutes;
-		if (delta > ONE_BILLION * 60) {
-			sb.append(FORMAT_DOUBLE_NO_FRACTION.format(delta
-					/ (ONE_BILLION * 60))
-					+ ":");
-			// granularity--;
-		} else {
-			sb.append("00:");
-		}
-		// In seconds
-		if (delta > ONE_BILLION) {
-			sb.append(FORMAT_DOUBLE_NO_FRACTION.format(delta / ONE_BILLION)
-					+ "::");
-			// granularity--;
-		} else {
-			sb.append("00::");
-		}
-		// In mili seconds
-		if (delta > ONE_MILLION) {
-			sb.append(FORMAT_DOUBLE_NO_FRACTION.format(delta / ONE_MILLION)
-					+ ":::");
-			// granularity--;
-		} else {
-			sb.append("000:::");
-		}
-		// even less
-		if (delta > ONE_THOUSAND) {
-			sb.append(FORMAT_DOUBLE_NO_FRACTION.format(delta / ONE_THOUSAND));
-			// granularity--;
-		}
-		sb.append(" (min:sec::ms:::psec)");
-		return sb.toString();
 	}
 
 	/**
@@ -3720,7 +3365,7 @@ public class ModelUtils {
 	 * @param dtr
 	 * @return
 	 */
-	public int daysInPeriod(DateTimeRange dtr) {
+	public static int daysInPeriod(DateTimeRange dtr) {
 
 		// Prep. a Calendar to roll down to the begin of the period.
 		XMLGregorianCalendar end = dtr.getEnd();
@@ -3735,587 +3380,6 @@ public class ModelUtils {
 			days++;
 		}
 		return days;
-	}
-
-	public Date oneWeekAgo() {
-		final Calendar cal = GregorianCalendar.getInstance();
-		cal.setTime(new Date(System.currentTimeMillis()));
-		cal.add(Calendar.WEEK_OF_YEAR, -1);
-		return cal.getTime();
-	}
-
-	public Date oneMonthAgo() {
-		final Calendar cal = GregorianCalendar.getInstance();
-		cal.setTime(new Date(System.currentTimeMillis()));
-		cal.add(Calendar.MONTH, -1);
-		return cal.getTime();
-	}
-
-	public Date twoMonthsAgo() {
-		final Calendar cal = GregorianCalendar.getInstance();
-		cal.setTime(new Date(System.currentTimeMillis()));
-		cal.add(Calendar.MONTH, -2);
-		return cal.getTime();
-	}
-
-	public Date threeMonthsAgo() {
-		final Calendar cal = GregorianCalendar.getInstance();
-		cal.setTime(new Date(System.currentTimeMillis()));
-		cal.add(Calendar.MONTH, -3);
-		return cal.getTime();
-	}
-
-	public Date sixMonthsAgo() {
-		final Calendar cal = GregorianCalendar.getInstance();
-		cal.setTime(new Date(System.currentTimeMillis()));
-		cal.add(Calendar.MONTH, -6);
-		return cal.getTime();
-	}
-
-	public Date oneYearAgo() {
-		final Calendar cal = GregorianCalendar.getInstance();
-		cal.setTime(new Date(System.currentTimeMillis()));
-		cal.add(Calendar.YEAR, -1);
-		return cal.getTime();
-	}
-
-	/**
-	 * Get a {@link Date} for the specified number of months ago.
-	 * 
-	 * @param n
-	 * @return
-	 */
-	public Date monthsAgo(int n) {
-		final Calendar cal = GregorianCalendar.getInstance();
-		cal.setTime(new Date(System.currentTimeMillis()));
-		cal.add(Calendar.MONTH, -n);
-		return cal.getTime();
-	}
-
-	public Date todayAndNow() {
-		final Calendar cal = Calendar.getInstance();
-		cal.setTime(new Date(System.currentTimeMillis()));
-		return cal.getTime();
-	}
-
-	public Date todayAtDayEnd() {
-		final Calendar cal = Calendar.getInstance();
-		cal.setTime(new Date(System.currentTimeMillis()));
-		adjustToDayEnd(cal);
-		return cal.getTime();
-	}
-
-	/**
-	 * Get a {@link Date} for the specified number of years ago.
-	 * 
-	 * @param n
-	 * @return
-	 */
-	public Date yearsAgo(int n) {
-		final Calendar cal = GregorianCalendar.getInstance();
-		cal.setTime(new Date(System.currentTimeMillis()));
-		cal.add(Calendar.YEAR, -n);
-		return cal.getTime();
-	}
-
-	/**
-	 * Set a period to day start and end.
-	 * 
-	 * @param from
-	 * @param to
-	 */
-	public void adjustToDayStartAndEnd(Date from, Date to) {
-		this.adjustToDayStart(from);
-		this.adjustToDayEnd(to);
-	}
-
-	/**
-	 * Set the hour, minutes, seconds and milliseconds so the calendar
-	 * represents midnight, which is the start of the day.
-	 * 
-	 * @param cal
-	 */
-	public void adjustToDayStart(Calendar cal) {
-		// When doing this, we push it forward one day, so if the day is 7 Jan
-		// at 11:50:27h,
-		// it will become 8 Jan at 00:00:00h, so we substract one day.
-		cal.add(Calendar.DAY_OF_MONTH, -1);
-		cal.set(Calendar.HOUR_OF_DAY, 24);
-		cal.set(Calendar.MINUTE, 0);
-		cal.set(Calendar.SECOND, 0);
-		cal.set(Calendar.MILLISECOND, 0);
-
-	}
-
-	public Date adjustToDayStart(Date d) {
-		final Calendar cal = Calendar.getInstance();
-		cal.setTime(d);
-		this.adjustToDayStart(cal);
-		d.setTime(cal.getTime().getTime());
-		return cal.getTime();
-	}
-
-	/**
-	 * Set the calendar fields in the array to their actual (Considering the
-	 * current Calendar time) max.
-	 * 
-	 * @param cal
-	 * @param fields
-	 */
-	public void adjustToFieldEnd(Calendar cal, int[] fields) {
-
-		for (int i = 0; i < fields.length; i++) {
-			int f = fields[i];
-			if (f == Calendar.DAY_OF_WEEK_IN_MONTH) {
-				cal.set(Calendar.DAY_OF_WEEK, lastDayOfWeek(cal));
-			} else {
-				cal.set(f, cal.getActualMaximum(f));
-			}
-		}
-	}
-
-	/**
-	 * Set the calendar fields in the array to their actual (Considering the
-	 * current Calendar time) minimum.
-	 * 
-	 * @param cal
-	 * @param fields
-	 */
-	public void adjustToFieldStart(Calendar cal, int[] fields) {
-
-		for (int i = 0; i < fields.length; i++) {
-			int f = fields[i];
-			if (f == Calendar.DAY_OF_WEEK_IN_MONTH) {
-				// int weekInMonth = cal.get(Calendar.WEEK_OF_MONTH);
-				// Read the day of the week once. See bug:
-				//
-				cal.get(Calendar.DAY_OF_WEEK);
-				cal.set(Calendar.DAY_OF_WEEK, cal.getFirstDayOfWeek());
-				// currentTime = cal.getTime();
-			} else {
-				cal.set(f, cal.getActualMinimum(f));
-			}
-
-		}
-	}
-
-	/**
-	 * Set the hours, minutes, seconds and milliseconds so the calendar
-	 * represents midnight minus one milli-second.
-	 * 
-	 * @param cal
-	 */
-	public void adjustToDayEnd(Calendar cal) {
-		cal.set(Calendar.HOUR_OF_DAY, 23);
-		cal.set(Calendar.MINUTE, 59);
-		cal.set(Calendar.SECOND, 59);
-		cal.set(Calendar.MILLISECOND, 999);
-	}
-
-	public Date adjustToDayEnd(Date d) {
-		final Calendar cal = Calendar.getInstance();
-		cal.setTime(d);
-		this.adjustToDayEnd(cal);
-		d.setTime(cal.getTime().getTime());
-		return cal.getTime();
-	}
-
-	public void setToFullHour(Calendar cal) {
-		cal.set(Calendar.MINUTE, 00);
-		cal.set(Calendar.SECOND, 00);
-		cal.set(Calendar.MILLISECOND, 000);
-	}
-
-	public Tuple interval(int interval) {
-
-		String label = "";
-		String primaryDatePattern = "";
-
-		switch (interval) {
-		case ModelUtils.MINUTES_IN_AN_HOUR: {
-			primaryDatePattern = "dd-MMM HH:mm";
-			label = "HOUR";
-		}
-			break;
-		case ModelUtils.MINUTES_IN_A_DAY: {
-			primaryDatePattern = "dd-MMM";
-			label = "DAY";
-
-		}
-			break;
-		case ModelUtils.MINUTES_IN_A_WEEK: {
-			primaryDatePattern = "ww";
-			label = "WEEK";
-		}
-			break;
-		case ModelUtils.MINUTES_IN_A_MONTH: {
-			primaryDatePattern = "MMMMM";
-			label = "MONTH";
-		}
-			break;
-		default: {
-			primaryDatePattern = "dd-MMM HH:mm";
-			label = fromMinutes(interval);
-		}
-		}
-		return new Tuple(label, primaryDatePattern);
-	}
-
-	public int inSeconds(String field) {
-		final Function<String, Integer> getFieldInSeconds = new Function<String, Integer>() {
-			public Integer apply(String from) {
-				if (from.equals("Week")) {
-					return ModelUtils.SECONDS_IN_A_WEEK;
-				}
-				if (from.equals("Day")) {
-					return ModelUtils.SECONDS_IN_A_DAY;
-				}
-				if (from.equals("Hour")) {
-					return ModelUtils.SECONDS_IN_AN_HOUR;
-				}
-				if (from.equals("Quarter")) {
-					return ModelUtils.SECONDS_IN_15MIN;
-				}
-
-				if (from.endsWith("min")) {
-					// Strip the minutes
-					int indexOfMin = from.indexOf("min");
-					from = from.substring(0, indexOfMin).trim();
-					try {
-						return new Integer(from) * 60;
-					} catch (final NumberFormatException nfe) {
-						// nfe.printStackTrace();
-					}
-				}
-
-				try {
-					return new Integer(from);
-				} catch (final NumberFormatException nfe) {
-					// nfe.printStackTrace();
-				}
-				return -1;
-			}
-		};
-		return getFieldInSeconds.apply(field);
-	}
-
-	public String fromMinutes(int minutes) {
-
-		switch (minutes) {
-		case MINUTES_IN_A_MONTH: {
-			return "Month";
-		}
-		case MINUTES_IN_A_WEEK: {
-			return "Week";
-		}
-		}
-		return this.fromSeconds(minutes * 60);
-	}
-
-	/**
-	 * Convert in an interval in seconds to a String value. The Week, Day and
-	 * Hour values in seconds are converted to the respective screen. Any other
-	 * value is converted to the number of minutes with a "min" prefix.
-	 * 
-	 * @param secs
-	 * @return
-	 */
-	public String fromSeconds(int secs) {
-		final Function<Integer, String> getFieldInSeconds = new Function<Integer, String>() {
-			public String apply(Integer from) {
-
-				if (from.equals(ModelUtils.SECONDS_IN_A_MONTH)) {
-					return "Month";
-				}
-				if (from.equals(ModelUtils.SECONDS_IN_A_WEEK)) {
-					return "Week";
-				}
-				if (from.equals(ModelUtils.SECONDS_IN_A_DAY)) {
-					return "Day";
-				}
-				if (from.equals(ModelUtils.SECONDS_IN_AN_HOUR)) {
-					return "Hour";
-				}
-
-				// if (from.equals(ModelUtils.SECONDS_IN_A_QUARTER)) {
-				// return "Quarter";
-				// }
-
-				// Do also multiples intepretation in minutes.
-				if (from.intValue() % 60 == 0) {
-					int minutes = from.intValue() / 60;
-					return new Integer(minutes).toString() + " min";
-				}
-
-				return new Integer(from).toString();
-			}
-		};
-		return getFieldInSeconds.apply(secs);
-	}
-
-	public int inWeeks(String field) {
-		final Function<String, Integer> getFieldInSeconds = new Function<String, Integer>() {
-			public Integer apply(String from) {
-				if (from.equals("Week")) {
-					return 1;
-				}
-				return null;
-			}
-		};
-		return getFieldInSeconds.apply(field);
-	}
-
-	public String toString(Date date) {
-		return DateFormat.getDateInstance().format(date);
-	}
-
-	/**
-	 * limits occurences to 52.
-	 * 
-	 * @param start
-	 * @param end
-	 * @param interval
-	 * @param repeat
-	 * @return
-	 */
-	public List<Date> occurences(Date start, Date end, int interval, int repeat) {
-		return this.occurences(start, end, interval, repeat, 52);
-	}
-
-	public List<Date> occurences(Date start, Date end, int interval,
-			int repeat, int maxEntries) {
-
-		final List<Date> occurences = Lists.newArrayList();
-		Date occurenceDate = start;
-		occurences.add(start);
-
-		if (repeat > 0 && interval > 1) {
-			// We roll on the interval from the start date until repeat is
-			// reached.
-			for (int i = 0; i < repeat; i++) {
-				occurenceDate = rollSeconds(occurenceDate, interval);
-				occurences.add(occurenceDate);
-			}
-			return occurences;
-		}
-		if (end != null && interval > 1) {
-			// We roll on the interval from the start date until the end date.
-			int i = 0;
-			while (i < maxEntries) {
-				occurenceDate = rollSeconds(occurenceDate, interval);
-				if (!crossedDate(end, occurenceDate)) {
-					occurences.add(occurenceDate);
-				} else {
-					break;
-				}
-				i++;
-			}
-			return occurences;
-		}
-		if (repeat == 0 && interval > 1) {
-			int i = 0;
-			while (i < maxEntries) {
-				occurenceDate = rollSeconds(occurenceDate, interval);
-				occurences.add(occurenceDate);
-				i++;
-			}
-			return occurences;
-		}
-
-		return occurences;
-	}
-
-	/**
-	 * Roll forward or backwards (With minus hours).
-	 * 
-	 * @param baseDate
-	 * @param hours
-	 * @return
-	 */
-	public XMLGregorianCalendar rollHours(XMLGregorianCalendar baseDate,
-			int hours) {
-		GregorianCalendar gregorianCalendar = baseDate.toGregorianCalendar();
-		gregorianCalendar.add(Calendar.HOUR_OF_DAY, hours);
-
-		return this.toXMLDate(gregorianCalendar.getTime());
-	}
-
-	/**
-	 * Roll forward or backwards (With minus hours).
-	 * 
-	 * @param baseDate
-	 * @param hours
-	 * @return
-	 */
-	public Date rollHours(Date baseDate, int hours) {
-		final Calendar c = GregorianCalendar.getInstance();
-		c.setTime(baseDate);
-		c.add(Calendar.HOUR_OF_DAY, hours);
-		return c.getTime();
-	}
-
-	/**
-	 * WARNING investigate this implementation. the Calendar should roll seconds
-	 * properly.
-	 * 
-	 * @param baseDate
-	 * @param seconds
-	 * @return
-	 */
-	public Date rollSeconds(Date baseDate, int seconds) {
-		final Calendar c = GregorianCalendar.getInstance();
-		c.setTime(baseDate);
-
-		// We can't roll large numbers.
-		if (seconds / SECONDS_IN_A_DAY > 0) {
-			final int days = new Double(seconds / SECONDS_IN_A_DAY).intValue();
-			c.add(Calendar.DAY_OF_YEAR, days);
-			return c.getTime();
-		}
-		if (seconds / SECONDS_IN_AN_HOUR > 0) {
-			final int hours = new Double(seconds / SECONDS_IN_AN_HOUR)
-					.intValue();
-			c.add(Calendar.HOUR_OF_DAY, hours);
-			return c.getTime();
-		}
-
-		if (seconds / SECONDS_IN_A_MINUTE > 0) {
-			final int minutes = new Double(seconds / SECONDS_IN_A_MINUTE)
-					.intValue();
-			c.add(Calendar.MINUTE, minutes);
-			return c.getTime();
-		}
-
-		c.add(Calendar.SECOND, seconds);
-		return c.getTime();
-
-	}
-
-	public boolean crossedDate(Date refDate, Date variantDate) {
-		final Calendar refCal = GregorianCalendar.getInstance();
-		refCal.setTime(refDate);
-
-		final Calendar variantCal = GregorianCalendar.getInstance();
-		variantCal.setTime(variantDate);
-
-		return refCal.compareTo(variantCal) < 0;
-
-	}
-
-	/**
-	 * Casts to AbstractCDOIDLong and returns the long as String.
-	 * 
-	 * @param cdoObject
-	 * @return
-	 */
-	public String cdoLongIDAsString(CDOObject cdoObject) {
-		long lValue = ((CDOIDObjectLongImpl) cdoObject.cdoID()).getLongValue();
-		return new Long(lValue).toString();
-	}
-
-	public String cdoLongIDAsString(CDOID cdoID) {
-		long lValue = ((CDOIDObjectLongImpl) cdoID).getLongValue();
-		return new Long(lValue).toString();
-	}
-
-	/**
-	 * 
-	 * @param eClass
-	 * @param cdoString
-	 * @return
-	 */
-	public CDOID cdoLongIDFromString(EClass eClass, String cdoString) {
-		return CDOIDUtil.createLongWithClassifier(new CDOClassifierRef(eClass),
-				Long.parseLong(cdoString));
-	}
-
-	public CDOID cdoLongIDFromString(String idString) {
-		return CDOIDUtil.createLong(Long.parseLong(idString));
-	}
-
-	/**
-	 * Get a CDOID for a String representing the Object ID.
-	 * 
-	 * @param s
-	 * @return
-	 */
-	public CDOID cdoStringAsCDOID(String s) {
-		return CDOIDUtil.createLong(Long.parseLong(s));
-	}
-
-	public String cdoResourcePath(CDOObject cdoObject) {
-		if (cdoObject.eResource() != null) {
-			Resource eResource = cdoObject.eResource();
-			if (eResource instanceof CDOResource) {
-				CDOResource cdoR = (CDOResource) eResource;
-				return cdoR.getPath();
-			}
-		}
-		return null;
-	}
-
-	/**
-	 * Get all revisions from this object.
-	 * 
-	 * @param cdoObject
-	 * @return
-	 */
-	public Iterator<CDORevision> cdoRevisions(CDOObject cdoObject) {
-
-		List<CDORevision> revisions = Lists.newArrayList();
-
-		CDORevision cdoRevision = cdoObject.cdoRevision();
-		// get the previous.
-		for (int version = cdoRevision.getVersion(); version > 0; version--) {
-
-			CDOBranchVersion branchVersion = cdoRevision.getBranch()
-					.getVersion(version);
-
-			CDORevision revision = cdoObject
-					.cdoView()
-					.getSession()
-					.getRevisionManager()
-					.getRevisionByVersion(cdoObject.cdoID(), branchVersion, 0,
-							true);
-			revisions.add(revision);
-		}
-		return revisions.iterator();
-	}
-
-	/**
-	 * Make a string representation of a CDO Object.
-	 * 
-	 * @param next
-	 * @return
-	 */
-	public String cdoObjectToString(CDOObject cdoObject, String objectText) {
-		StringBuffer sb = new StringBuffer();
-
-		CDORevision cdoRevision = cdoObject.cdoRevision();
-		int version = -1;
-		if (cdoRevision != null) {
-			version = cdoRevision.getVersion();
-		}
-		CDOID cdoID = cdoObject.cdoID();
-		CDOResource cdoResource = cdoObject.cdoResource();
-
-		sb.append(objectText + " ");
-
-		// Depending on the state, transient don't have an Object. ID>
-		if (cdoID != null) {
-			sb.append("OID: " + cdoID + " ");
-		}
-		if (version != -1) {
-			sb.append("version: " + version + " ");
-		}
-
-		sb.append("state: " + cdoObject.cdoState() + " ");
-
-		if (cdoResource != null) {
-			sb.append("path: " + cdoResource.getPath());
-		}
-
-		return sb.toString();
 	}
 
 	/**
@@ -4396,16 +3460,6 @@ public class ModelUtils {
 		return value;
 	}
 
-	public CDOObject cdoObject(CDOObject currentObject, CDORevision cdoRevision) {
-		CDOView revView = currentObject.cdoView().getSession().openView();
-		boolean revViewOk = revView.setTimeStamp(cdoRevision.getTimeStamp());
-		if (revViewOk) {
-			CDOObject object = revView.getObject(cdoRevision.getID());
-			return object;
-		}
-		return null;
-	}
-
 	public void cdoDumpRevisionDelta(CDORevisionDelta delta) {
 		for (CDOFeatureDelta fd : delta.getFeatureDeltas()) {
 			System.out.println("-- delta=" + fd);
@@ -4418,7 +3472,7 @@ public class ModelUtils {
 	 * 
 	 * @param transaction
 	 */
-	public void cdoDumpDirtyObject(CDOTransaction transaction) {
+	public static void cdoDumpDirtyObject(CDOTransaction transaction) {
 		StringBuffer sb = new StringBuffer();
 		sb.append("\n Dirty objects for transaction: "
 				+ transaction.getViewID());
@@ -4434,7 +3488,8 @@ public class ModelUtils {
 	 * 
 	 * @param transaction
 	 */
-	public void cdoPrintDirtyObjects(StringBuffer sb, CDOTransaction transaction) {
+	public static void cdoPrintDirtyObjects(StringBuffer sb,
+			CDOTransaction transaction) {
 		Map<CDOID, CDOObject> dirtyObjects = transaction.getDirtyObjects();
 		Map<CDOID, CDORevisionDelta> revisionDeltas = transaction
 				.getRevisionDeltas();
@@ -4444,12 +3499,13 @@ public class ModelUtils {
 			sb.append("\n " + o.cdoID());
 			sb.append("\n  " + printModelObject(o));
 			sb.append("\n  ver:" + rev.getVersion());
-			sb.append("\n  on:" + dateAndTime(rev.getTimeStamp()));
+			sb.append("\n  on:" + NonModelUtils.dateAndTime(rev.getTimeStamp()));
 
 			if (revisionDeltas.containsKey(o.cdoID())) {
 				CDORevisionDelta cdoRevisionDelta = revisionDeltas.get(o
 						.cdoID());
-				cdoPrintFeatureDeltas(sb, cdoRevisionDelta.getFeatureDeltas());
+				NonModelUtils.cdoPrintFeatureDeltas(sb,
+						cdoRevisionDelta.getFeatureDeltas());
 			}
 		}
 	}
@@ -4474,54 +3530,6 @@ public class ModelUtils {
 		}
 	}
 
-	public void cdoPrintFeatureDeltas(StringBuffer sb,
-			List<CDOFeatureDelta> deltas) {
-
-		for (CDOFeatureDelta fd : deltas) {
-			Type type = fd.getType();
-			sb.append("\n    delta: " + " type:" + type);
-			sb.append("\n     feature: " + fd.getFeature().getName());
-			switch (type) {
-			case LIST: {
-				CDOListFeatureDelta castedFd = (CDOListFeatureDelta) fd;
-				// Dependency on CDO 4.2
-				// sb.append("\n     original size: " +
-				// castedFd.getOriginSize());
-				cdoPrintFeatureDeltas(sb, castedFd.getListChanges());
-			}
-				break;
-			case ADD: {
-				CDOAddFeatureDelta castedFd = (CDOAddFeatureDelta) fd;
-				sb.append("\n     index: " + castedFd.getIndex());
-				if (castedFd.getFeature().isMany()) {
-					// castedFd.getFeature().
-				}
-			}
-				break;
-			case SET: {
-				CDOSetFeatureDelta castedFd = (CDOSetFeatureDelta) fd;
-
-				sb.append("\n     index: " + castedFd.getIndex());
-				sb.append("\n     old: " + castedFd.getOldValue() + " new: "
-						+ castedFd.getValue());
-			}
-
-				break;
-			case REMOVE: {
-				CDORemoveFeatureDelta castedFd = (CDORemoveFeatureDelta) fd;
-				sb.append("\n     index: " + castedFd.getIndex());
-			}
-				break;
-
-			default: {
-				sb.append(" TODO create an entry for  type " + type
-						+ " entry for feature delta attributes of this type");
-			}
-			}
-
-		}
-	}
-
 	public void cdoPrintRevisionDelta(StringBuffer sb, CDORevisionDelta delta) {
 		for (CDOFeatureDelta fd : delta.getFeatureDeltas()) {
 			sb.append("-- delta=" + fd);
@@ -4532,7 +3540,7 @@ public class ModelUtils {
 	 * Extract the EReference's with referen type is Expression from a target
 	 * object.
 	 */
-	public List<EReference> expressionEReferences(EObject target) {
+	public static List<EReference> expressionEReferences(EObject target) {
 		final List<EReference> expRefs = Lists.newArrayList();
 		for (EReference eref : target.eClass().getEAllReferences()) {
 			if (eref.getEReferenceType() == LibraryPackage.Literals.EXPRESSION) {
@@ -4557,7 +3565,7 @@ public class ModelUtils {
 	 * @see CDOFeatureDelta
 	 * @param cdoFeatureDelta
 	 */
-	public String cdoFeatureDeltaIndex(CDOFeatureDelta cdoFeatureDelta,
+	public static String cdoFeatureDeltaIndex(CDOFeatureDelta cdoFeatureDelta,
 			int index) {
 
 		// Only support index in a range.
@@ -4660,7 +3668,7 @@ public class ModelUtils {
 		}
 
 		// TODO, keep a cache of CDOObject ID, and resource path.
-		String affectedPath = this.cdoResourcePath((CDOObject) object);
+		String affectedPath = NonModelUtils.cdoResourcePath((CDOObject) object);
 
 		// The object needs to be in the correct state, if not persisted (CLEAN,
 		// DIRTY etc..),
@@ -4687,10 +3695,10 @@ public class ModelUtils {
 	public boolean isHistoricalComponent(Component c) {
 
 		if (c instanceof CDOObject) {
-			String path = this.cdoResourcePath(c);
+			String path = NonModelUtils.cdoResourcePath(c);
 
 			// Check for Node first.
-			Node node = this.nodeFor(c);
+			Node node = nodeFor(c);
 			if (node != null) {
 				String nodeHistoricalPath = this
 						.resolveHistoricalResourceName(node);
@@ -4701,7 +3709,7 @@ public class ModelUtils {
 			}
 
 			// Check for Node type.
-			NodeType nt = this.resolveParentNodeType(c);
+			NodeType nt = resolveParentNodeType(c);
 			if (nt != null) {
 				String nodeTypeHistoricalPath = this
 						.resolveHistoricalResourceName(nt);
@@ -4731,7 +3739,7 @@ public class ModelUtils {
 		return Lists.transform(resources, resourceToURI);
 	}
 
-	public List<NodeType> transformNodeToNodeType(List<Node> nodes) {
+	public static List<NodeType> transformNodeToNodeType(List<Node> nodes) {
 		final Function<Node, NodeType> nodeTypeFromNode = new Function<Node, NodeType>() {
 			public NodeType apply(Node from) {
 				return from.getNodeType();
@@ -4775,7 +3783,7 @@ public class ModelUtils {
 		return Lists.transform(values, valueToBigDecimal);
 	}
 
-	public double[] transformValueToDoubleArray(List<Value> values) {
+	public static double[] transformValueToDoubleArray(List<Value> values) {
 		final Function<Value, Double> valueToDouble = new Function<Value, Double>() {
 			public Double apply(Value from) {
 				return from.getValue();
@@ -4796,7 +3804,7 @@ public class ModelUtils {
 	 * @param values
 	 * @return
 	 */
-	public double[][] transformValueToDoubleMatrix(List<Value> values) {
+	public static double[][] transformValueToDoubleMatrix(List<Value> values) {
 
 		double[][] data = new double[values.size()][2];
 
@@ -4860,7 +3868,7 @@ public class ModelUtils {
 	 * @param dtr
 	 * @return
 	 */
-	public List<XMLGregorianCalendar> transformPeriodToDailyTimestamps(
+	public static List<XMLGregorianCalendar> transformPeriodToDailyTimestamps(
 			DateTimeRange dtr) {
 
 		List<XMLGregorianCalendar> timeStamps = Lists.newArrayList();
@@ -4882,7 +3890,7 @@ public class ModelUtils {
 		cal.setTime(dtr.getBegin().toGregorianCalendar().getTime());
 		Date end = dtr.getEnd().toGregorianCalendar().getTime();
 		while (cal.getTime().before(end)) {
-			timeStamps.add(this.toXMLDate(cal.getTime()));
+			timeStamps.add(NonModelUtils.toXMLDate(cal.getTime()));
 			cal.add(Calendar.DAY_OF_YEAR, 1);
 		}
 
@@ -4895,7 +3903,7 @@ public class ModelUtils {
 	 * @param dtr
 	 * @return
 	 */
-	public List<XMLGregorianCalendar> transformPeriodToHourlyTimestamps(
+	public static List<XMLGregorianCalendar> transformPeriodToHourlyTimestamps(
 			DateTimeRange dtr) {
 
 		List<XMLGregorianCalendar> timeStamps = Lists.newArrayList();
@@ -4910,12 +3918,12 @@ public class ModelUtils {
 		Date beginTime = dtr.getBegin().toGregorianCalendar().getTime();
 
 		cal.setTime(endTime);
-		setToFullHour(cal);
+		NonModelUtils.setToFullHour(cal);
 
 		while (cal.getTime().compareTo(beginTime) >= 0) {
 			cal.add(Calendar.HOUR_OF_DAY, -1);
 			Date runTime = cal.getTime();
-			timeStamps.add(this.toXMLDate(runTime));
+			timeStamps.add(NonModelUtils.toXMLDate(runTime));
 		}
 
 		return timeStamps;
@@ -4935,7 +3943,7 @@ public class ModelUtils {
 		return doubleArray;
 	}
 
-	public List<Double> transformValueToDouble(List<Value> values) {
+	public static List<Double> transformValueToDouble(List<Value> values) {
 		final Function<Value, Double> valueToDouble = new Function<Value, Double>() {
 			public Double apply(Value from) {
 				return from.getValue();
@@ -4963,10 +3971,10 @@ public class ModelUtils {
 		return Lists.newArrayList(Iterables.transform(dates, valueToDouble));
 	}
 
-	public Date[] transformValueToDateArray(List<Value> values) {
+	public static Date[] transformValueToDateArray(List<Value> values) {
 		final Function<Value, Date> valueToDouble = new Function<Value, Date>() {
 			public Date apply(Value from) {
-				return fromXMLDate(from.getTimeStamp());
+				return NonModelUtils.fromXMLDate(from.getTimeStamp());
 			}
 		};
 		List<Date> transform = Lists.transform(values, valueToDouble);
@@ -4986,8 +3994,9 @@ public class ModelUtils {
 	 *            A Collection containing dates which should match.
 	 * @return a collection of values.
 	 */
-	public List<Double> merge(String mergingTaskName, List<Date> existingDates,
-			List<Value> valuesToMerge, IProgressMonitor monitor) {
+	public static List<Double> merge(String mergingTaskName,
+			List<Date> existingDates, List<Value> valuesToMerge,
+			IProgressMonitor monitor) {
 
 		// should from with the dates list.
 		List<Double> doubles = Lists.newArrayListWithCapacity(existingDates
@@ -5012,8 +4021,9 @@ public class ModelUtils {
 			// if (monitor != null && i % 10 == 0) {
 			monitor.worked(1);
 			// }
-			Date dateToMergeOrAdd = fromXMLDate(v.getTimeStamp());
-			int positionOf = positionOf(existingDates, dateToMergeOrAdd);
+			Date dateToMergeOrAdd = NonModelUtils.fromXMLDate(v.getTimeStamp());
+			int positionOf = NonModelUtils.positionOf(existingDates,
+					dateToMergeOrAdd);
 			if (positionOf != -1) {
 				// store in the same position, the initial size should allow
 				// this.
@@ -5040,12 +4050,12 @@ public class ModelUtils {
 	 * @return the {@link DateTimeRange period} or <code>null</code>, when the
 	 *         retention period is {@link MetricRetentionPeriod#ALWAYS}
 	 */
-	public DateTimeRange periodForRetentionRule(MetricRetentionRule rule,
+	public static DateTimeRange periodForRetentionRule(MetricRetentionRule rule,
 			Date begin) {
 		DateTimeRange dtr = null;
 		dtr = GenericsFactory.eINSTANCE.createDateTimeRange();
 		Calendar instance = Calendar.getInstance();
-		instance.setTime(todayAtDayEnd());
+		instance.setTime(NonModelUtils.todayAtDayEnd());
 
 		switch (rule.getPeriod().getValue()) {
 		case MetricRetentionPeriod.ALWAYS_VALUE: {
@@ -5065,8 +4075,8 @@ public class ModelUtils {
 		}
 		}
 
-		dtr.setEnd(toXMLDate(instance.getTime()));
-		dtr.setBegin(toXMLDate(begin));
+		dtr.setEnd(NonModelUtils.toXMLDate(instance.getTime()));
+		dtr.setBegin(NonModelUtils.toXMLDate(begin));
 
 		return dtr;
 	}
@@ -5077,11 +4087,10 @@ public class ModelUtils {
 	 * @param dtr
 	 * @return
 	 */
-	public Multimap<Integer, XMLGregorianCalendar> hourlyTimeStampsByWeekFor(
+	public static Multimap<Integer, XMLGregorianCalendar> hourlyTimeStampsByWeekFor(
 			DateTimeRange dtr) {
 
-		List<XMLGregorianCalendar> tses = this
-				.transformPeriodToHourlyTimestamps(dtr);
+		List<XMLGregorianCalendar> tses = transformPeriodToHourlyTimestamps(dtr);
 
 		Function<XMLGregorianCalendar, Integer> weekNumFunction = new Function<XMLGregorianCalendar, Integer>() {
 			Calendar cal = Calendar.getInstance();
@@ -5148,7 +4157,7 @@ public class ModelUtils {
 	 * @param calField
 	 * @return A collection of periods in the {@link DateTimeRange} format.
 	 */
-	public List<DateTimeRange> periods(DateTimeRange dtr, int calField) {
+	public static List<DateTimeRange> periods(DateTimeRange dtr, int calField) {
 
 		boolean weekTreatment = false;
 
@@ -5193,7 +4202,7 @@ public class ModelUtils {
 			if (cal.get(calField) != endCal.get(calField)) {
 				if (weekTreatment) {
 					// :-( there is no method to get the last day of week.
-					cal.set(childField, lastDayOfWeek(cal));
+					cal.set(childField, NonModelUtils.lastDayOfWeek(cal));
 
 				} else {
 					cal.set(childField, cal.getActualMaximum(childField));
@@ -5215,13 +4224,14 @@ public class ModelUtils {
 			Date begin;
 			if (cal.getTime().getTime() < dtr.getBegin().toGregorianCalendar()
 					.getTimeInMillis()) {
-				begin = this.fromXMLDate(dtr.getBegin());
+				begin = NonModelUtils.fromXMLDate(dtr.getBegin());
 			} else {
 				begin = cal.getTime();
 			}
 
-			final DateTimeRange period = period(this.adjustToDayStart(begin),
-					this.adjustToDayEnd(end));
+			final DateTimeRange period = period(
+					NonModelUtils.adjustToDayStart(begin),
+					NonModelUtils.adjustToDayEnd(end));
 			result.add(period);
 
 			// Role back one more, so the new actual can be applied.
@@ -5338,7 +4348,7 @@ public class ModelUtils {
 	 * @param network
 	 * @return
 	 */
-	public List<Network> networksForOperator(Operator operator) {
+	public static List<Network> networksForOperator(Operator operator) {
 		final List<Network> networks = new ArrayList<Network>();
 
 		for (Network n : operator.getNetworks()) {
@@ -5347,7 +4357,7 @@ public class ModelUtils {
 		return networks;
 	}
 
-	public List<Network> networksForNetwork(Network network) {
+	public static List<Network> networksForNetwork(Network network) {
 		final List<Network> networks = new ArrayList<Network>();
 		networks.add(network);
 		for (Network child : network.getNetworks()) {
@@ -5362,7 +4372,7 @@ public class ModelUtils {
 	 * @param network
 	 * @return
 	 */
-	public List<Node> nodesForNetwork(Network network) {
+	public static List<Node> nodesForNetwork(Network network) {
 
 		List<Node> nodes = Lists.newArrayList();
 		nodes.addAll(network.getNodes());
@@ -5379,13 +4389,13 @@ public class ModelUtils {
 	 * @param op
 	 * @return
 	 */
-	public List<Component> componentsForOperator(Operator op) {
+	public static List<Component> componentsForOperator(Operator op) {
 
 		List<Component> components = Lists.newArrayList();
 		for (Network net : op.getNetworks()) {
-			List<Node> nodesForNetwork = this.nodesForNetwork(net);
+			List<Node> nodesForNetwork = nodesForNetwork(net);
 			for (Node n : nodesForNetwork) {
-				List<Component> componentsForNode = this.componentsForNode(n);
+				List<Component> componentsForNode = componentsForNode(n);
 				components.addAll(componentsForNode);
 			}
 		}
@@ -5398,7 +4408,7 @@ public class ModelUtils {
 	 * @param n
 	 * @return
 	 */
-	public List<Component> componentsForNode(Node n) {
+	public static List<Component> componentsForNode(Node n) {
 
 		List<Component> components = Lists.newArrayList();
 		if (n.eIsSet(OperatorsPackage.Literals.NODE__NODE_TYPE)) {
@@ -5414,7 +4424,7 @@ public class ModelUtils {
 	 * @return
 	 */
 
-	public List<Component> componentsForNodeType(NodeType nodeType) {
+	public static List<Component> componentsForNodeType(NodeType nodeType) {
 		final List<Component> components = new ArrayList<Component>();
 		for (Component c : nodeType.getFunctions()) {
 			components.addAll(componentsForComponent(c));
@@ -5431,7 +4441,7 @@ public class ModelUtils {
 	 * @param c
 	 * @return
 	 */
-	public List<Component> componentsForComponent(Component c) {
+	public static List<Component> componentsForComponent(Component c) {
 		return componentsForComponent(c, true);
 	}
 
@@ -5443,7 +4453,8 @@ public class ModelUtils {
 	 * @param self
 	 * @return
 	 */
-	public List<Component> componentsForComponent(Component c, boolean self) {
+	public static List<Component> componentsForComponent(Component c,
+			boolean self) {
 		final List<Component> components = new ArrayList<Component>();
 		if (self) {
 			components.add(c);
@@ -5472,7 +4483,8 @@ public class ModelUtils {
 	 * @param self
 	 * @return
 	 */
-	public List<Component> childComponentsForComponent(Component c, boolean self) {
+	public static List<Component> childComponentsForComponent(Component c,
+			boolean self) {
 		final List<Component> components = new ArrayList<Component>();
 		if (self) {
 			components.add(c);
@@ -5498,8 +4510,8 @@ public class ModelUtils {
 	 * 
 	 * @return
 	 */
-	public Iterable<Component> componentsForMetric(List<Component> unfiltered,
-			final Metric metric) {
+	public static Iterable<Component> componentsForMetric(
+			List<Component> unfiltered, final Metric metric) {
 
 		Iterable<Component> filter = Iterables.filter(unfiltered,
 				new Predicate<Component>() {
@@ -5510,7 +4522,8 @@ public class ModelUtils {
 						final List<Metric> metricsInPath = Lists.newArrayList();
 						metricsInPath(metricsInPath, c);
 						return Iterables.any(metricsInPath,
-								new CDOObjectEqualsPredicate(metric));
+								new NonModelUtils.CDOObjectEqualsPredicate(
+										metric));
 					}
 
 				});
@@ -5542,7 +4555,7 @@ public class ModelUtils {
 	 * @param result
 	 * @param c
 	 */
-	public void metricsInPath(List<Metric> result, Component c) {
+	public static void metricsInPath(List<Metric> result, Component c) {
 		if (result != null) {
 
 			if (!c.getMetricRefs().isEmpty()) {
@@ -5556,7 +4569,14 @@ public class ModelUtils {
 		}
 	}
 
-	public int mappingFailedCount(MappingStatistic mapStat) {
+	/**
+	 * get the quantity of failed {@link MappingRecord} for a
+	 * {@link MappingStatistic} and sub-statistics.
+	 * 
+	 * @param mapStat
+	 * @return
+	 */
+	public static int mappingFailedCount(MappingStatistic mapStat) {
 		int totalErrors = 0;
 		for (MappingRecord mr : mapStat.getFailedRecords()) {
 			totalErrors += mr.getCount();
@@ -5575,7 +4595,7 @@ public class ModelUtils {
 	 * @param fromObject
 	 * @return
 	 */
-	public String componentName(Component fromObject) {
+	public static String componentName(Component fromObject) {
 
 		String name = fromObject.getName();
 
@@ -5596,12 +4616,18 @@ public class ModelUtils {
 		}
 		return null;
 	}
-
-	public List<NodeType> nodeTypesForResource(Resource operatorsResource) {
+	
+	/**
+	 * Looks for instances of {@link Operator} in the given {@link Resource}.
+	 * 
+	 * @param resource
+	 * @return
+	 */
+	public static List<NodeType> nodeTypesForResource(Resource resource) {
 
 		final List<Node> nodesForNetwork = Lists.newArrayList();
 
-		for (EObject eo : operatorsResource.getContents()) {
+		for (EObject eo : resource.getContents()) {
 			if (eo instanceof Operator) {
 				Operator op = (Operator) eo;
 				for (Network n : op.getNetworks()) {
@@ -5636,7 +4662,7 @@ public class ModelUtils {
 	 * @param service
 	 * @return
 	 */
-	public List<NodeType> nodeTypeForService(Service service) {
+	public static List<NodeType> nodeTypeForService(Service service) {
 		final List<NodeType> nodeTypes = new ArrayList<NodeType>();
 		if (service instanceof RFSService) {
 			for (Node n : ((RFSService) service).getNodes()) {
@@ -5665,15 +4691,7 @@ public class ModelUtils {
 
 	}
 
-	/**
-	 * Let's vommit!
-	 */
-	public void puke() {
-		System.out.println("Beeeeuuuuuuh........@!");
-
-	}
-
-	public List<Value> sortAndApplyPeriod(List<Value> values,
+	public static List<Value> sortAndApplyPeriod(List<Value> values,
 			DateTimeRange dtr, boolean reverse) {
 		List<Value> sortedCopy;
 		if (reverse) {

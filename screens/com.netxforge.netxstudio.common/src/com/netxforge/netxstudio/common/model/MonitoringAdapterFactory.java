@@ -25,6 +25,7 @@ import org.eclipse.emf.common.notify.Notifier;
 
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
+import com.netxforge.base.cdo.CDOAdapterFactoryImpl;
 import com.netxforge.netxstudio.common.internal.CommonActivator;
 import com.netxforge.netxstudio.library.Component;
 import com.netxforge.netxstudio.library.NetXResource;

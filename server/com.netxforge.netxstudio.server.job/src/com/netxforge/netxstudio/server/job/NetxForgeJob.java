@@ -32,8 +32,8 @@ import org.quartz.JobExecutionException;
 
 import com.google.common.collect.Lists;
 import com.google.inject.Inject;
-import com.netxforge.netxstudio.common.model.ModelUtils;
-import com.netxforge.netxstudio.common.properties.IPropertiesProvider;
+import com.netxforge.base.properties.IPropertiesProvider;
+import com.netxforge.netxstudio.common.model.StudioUtils;
 import com.netxforge.netxstudio.data.IData;
 import com.netxforge.netxstudio.data.job.IRunMonitor;
 import com.netxforge.netxstudio.scheduling.Job;
@@ -80,9 +80,6 @@ public class NetxForgeJob implements org.quartz.Job {
 	private IRunMonitor runMonitor;
 
 	private IData dataProvider;
-
-	@Inject
-	private ModelUtils modelUtils;
 
 	@Inject
 	private IPropertiesProvider propsProvider;
@@ -273,7 +270,7 @@ public class NetxForgeJob implements org.quartz.Job {
 	private JobRunContainer getOrCreateJobRunContainer(Resource resource) {
 		final CDOID cdoId = job.cdoID();
 
-		JobRunContainer container = modelUtils
+		JobRunContainer container = StudioUtils
 				.jobContainerForJob(job, resource);
 		if (container == null) {
 			container = SchedulingFactory.eINSTANCE.createJobRunContainer();

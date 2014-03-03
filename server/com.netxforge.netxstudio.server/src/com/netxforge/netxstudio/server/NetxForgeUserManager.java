@@ -30,7 +30,7 @@ import org.eclipse.net4j.util.security.UserManager;
 
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
-import com.netxforge.netxstudio.common.model.ModelUtils;
+import com.netxforge.base.NonModelUtils;
 import com.netxforge.netxstudio.generics.GenericsPackage;
 import com.netxforge.netxstudio.generics.Person;
 import com.netxforge.netxstudio.server.internal.ServerActivator;
@@ -90,7 +90,7 @@ public class NetxForgeUserManager extends RepositoryUserManager {
 			CDOResource resource = transaction.getResource("/"
 					+ GenericsPackage.Literals.PERSON.getName());
 
-			List<Person> people = new ModelUtils.CollectionForObjects<Person>()
+			List<Person> people = new NonModelUtils.CollectionForObjects<Person>()
 					.collectionForObjects(resource.getContents());
 			String pwd = null;
 			// find the user.

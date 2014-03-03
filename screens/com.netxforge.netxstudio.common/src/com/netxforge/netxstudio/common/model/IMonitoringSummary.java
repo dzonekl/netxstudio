@@ -20,7 +20,7 @@ package com.netxforge.netxstudio.common.model;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.emf.common.notify.Adapter;
 
-import com.netxforge.netxstudio.common.context.IComputationContextProvider;
+import com.netxforge.base.context.IComputationContextProvider;
 import com.netxforge.netxstudio.generics.DateTimeRange;
 
 /**

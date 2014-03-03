@@ -7,9 +7,6 @@ import org.eclipse.ui.forms.widgets.ColumnLayout;
 import org.eclipse.ui.forms.widgets.Form;
 import org.eclipse.ui.forms.widgets.FormToolkit;
 
-import com.google.inject.Inject;
-import com.netxforge.netxstudio.common.model.ModelUtils;
-
 /**
  * Specialized Screen which forces a column layout on the composite.
  * 
@@ -19,9 +16,6 @@ import com.netxforge.netxstudio.common.model.ModelUtils;
 public abstract class AbstractDetailsScreenImpl extends AbstractScreenImpl {
 
 	protected FormToolkit toolkit = new FormToolkit(Display.getCurrent());
-
-	@Inject
-	protected ModelUtils modelUtils;
 
 	private IScreen parentScreen;
 

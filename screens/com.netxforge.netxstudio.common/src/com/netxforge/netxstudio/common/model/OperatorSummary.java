@@ -22,8 +22,8 @@ import org.eclipse.core.runtime.SubMonitor;
 import org.eclipse.emf.cdo.CDOObject;
 import org.eclipse.emf.ecore.EObject;
 
-import com.netxforge.netxstudio.common.context.IComputationContext;
-import com.netxforge.netxstudio.common.context.ObjectContext;
+import com.netxforge.base.context.IComputationContext;
+import com.netxforge.base.context.ObjectContext;
 import com.netxforge.netxstudio.generics.DateTimeRange;
 import com.netxforge.netxstudio.operators.Operator;
 import com.netxforge.netxstudio.services.RFSService;
@@ -58,7 +58,7 @@ public class OperatorSummary extends MonitoringAdapter {
 
 		final SubMonitor subMonitor = SubMonitor.convert(monitor, work);
 		subMonitor.setTaskName("Computing summary for "
-				+ modelUtils.printModelObject(operator));
+				+ StudioUtils.printModelObject(operator));
 
 		final DateTimeRange periodInContext = getPeriod();
 		if (periodInContext == null) {

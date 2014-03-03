@@ -41,11 +41,11 @@ import com.google.common.base.Function;
 import com.google.common.base.Predicate;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
-import com.google.inject.Inject;
 import com.google.inject.Singleton;
-import com.netxforge.netxstudio.common.model.ModelUtils;
+import com.netxforge.base.NonModelUtils;
+import com.netxforge.netxstudio.common.model.StudioUtils;
 import com.netxforge.netxstudio.data.IData;
-import com.netxforge.netxstudio.data.importer.IComponentLocator.IdentifierDescriptor;
+import com.netxforge.netxstudio.data.index.IComponentLocator.IdentifierDescriptor;
 import com.netxforge.netxstudio.data.internal.DataActivator;
 import com.netxforge.netxstudio.library.Component;
 import com.netxforge.netxstudio.library.NodeType;
@@ -64,9 +64,6 @@ import com.netxforge.netxstudio.operators.OperatorsPackage;
  */
 @Singleton
 public class ComponentMappingIndex implements IComponentMappingIndex {
-
-	@Inject
-	private ModelUtils modelUtils;
 
 	private IData dataProvider;
 
@@ -117,7 +114,7 @@ public class ComponentMappingIndex implements IComponentMappingIndex {
 
 		for (EObject eo : resource.getContents()) {
 			if (eo instanceof Operator) {
-				final List<Component> componentsForOperator = modelUtils
+				final List<Component> componentsForOperator = StudioUtils
 						.componentsForOperator((Operator) eo);
 				allComponents.addAll(componentsForOperator);
 			}
@@ -260,16 +257,17 @@ public class ComponentMappingIndex implements IComponentMappingIndex {
 			// index first.
 
 			for (Component rootComponent : components) {
-				List<Component> componentsForComponent = modelUtils
+				List<Component> componentsForComponent = StudioUtils
 						.componentsForComponent(rootComponent);
 				for (Component c1 : componentsForComponent) {
 					ComponentIndexEntry entryForComponent = entryForComponent(c1);
 					if (entryForComponent != null) {
 						entryForComponent.update(c1); // Just update the entry.
 						if (DataActivator.DEBUG) {
-							DataActivator.TRACE.trace(
-									DataActivator.TRACE_COMPONENT_INDEX_OPTION,
-									"updating entry: " + entryForComponent);
+							DataActivator.TRACE
+									.trace(DataActivator.TRACE_COMPONENT_INDEX_OPTION,
+											"updating entry: "
+													+ entryForComponent);
 						}
 					} else {
 						entryForComponent = ComponentIndexEntry.valueFor(c1);
@@ -307,11 +305,11 @@ public class ComponentMappingIndex implements IComponentMappingIndex {
 						// The revision delta is not necessarily available.
 						if (cdoRevisionDelta != null) {
 							StringBuffer sb = new StringBuffer();
-							modelUtils.cdoPrintRevisionDelta(sb,
+							NonModelUtils.cdoPrintRevisionDelta(sb,
 									cdoRevisionDelta);
-							DataActivator.TRACE.trace(
-									DataActivator.TRACE_COMPONENT_INDEX_OPTION,
-									sb.toString());
+							DataActivator.TRACE
+									.trace(DataActivator.TRACE_COMPONENT_INDEX_OPTION,
+											sb.toString());
 						}
 					}
 				}
@@ -323,9 +321,11 @@ public class ComponentMappingIndex implements IComponentMappingIndex {
 				}
 
 				// Do we have detached? Remove from the index.
-				// Detached objects returns all detached objects, so we just remove them from the 
-				// index one by one. Note that the parent will also be notified being dirty, 
-				// so the re-indexing of the parent will occur further below. 
+				// Detached objects returns all detached objects, so we just
+				// remove them from the
+				// index one by one. Note that the parent will also be notified
+				// being dirty,
+				// so the re-indexing of the parent will occur further below.
 				final Set<CDOObject> detachedObjects = invalidationEvent
 						.getDetachedObjects();
 
@@ -337,10 +337,10 @@ public class ComponentMappingIndex implements IComponentMappingIndex {
 								"processing detached objects : "
 										+ detachedObjects);
 					}
-					
-					for( CDOObject o : detachedObjects){
-						if( o instanceof Component){
-							clearIndexForComponentBranch((Component)o);
+
+					for (CDOObject o : detachedObjects) {
+						if (o instanceof Component) {
+							clearIndexForComponentBranch((Component) o);
 						}
 					}
 				}
@@ -355,7 +355,8 @@ public class ComponentMappingIndex implements IComponentMappingIndex {
 						if (o instanceof Component) {
 							updateIndexForComponentBranch((Component) o);
 						} else if (o instanceof Network) {
-							// For a network update, we should rebuild all components, under each node branch.
+							// For a network update, we should rebuild all
+							// components, under each node branch.
 							updateIndexForNetwork((Network) o);
 						} else if (o instanceof Node) {
 							// We might be changing Node ID, which should be
@@ -367,7 +368,7 @@ public class ComponentMappingIndex implements IComponentMappingIndex {
 							// we
 							// do not index the types as such.
 							// will not occure, different CDOResource.
-							Node nodeFor = modelUtils.nodeFor(o);
+							Node nodeFor = StudioUtils.nodeFor(o);
 							if (nodeFor != null) {
 								List<Component> components = Lists
 										.newArrayList();

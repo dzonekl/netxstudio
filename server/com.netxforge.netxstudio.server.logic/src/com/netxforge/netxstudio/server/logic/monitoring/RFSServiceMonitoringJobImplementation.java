@@ -21,6 +21,7 @@ package com.netxforge.netxstudio.server.logic.monitoring;
 import java.util.Calendar;
 import java.util.List;
 
+import com.netxforge.netxstudio.common.model.StudioUtils;
 import com.netxforge.netxstudio.generics.DateTimeRange;
 import com.netxforge.netxstudio.scheduling.ComponentWorkFlowRun;
 import com.netxforge.netxstudio.scheduling.RFSServiceMonitoringJob;
@@ -63,8 +64,8 @@ public class RFSServiceMonitoringJobImplementation extends JobImplementation {
 		// Run the monitor for different periods.
 		final DateTimeRange defaultLogicPeriod = resourceMonitoringLogic
 				.getDefaultLogicPeriod();
-		final List<DateTimeRange> periods = resourceMonitoringLogic
-				.getModelUtils().periods(defaultLogicPeriod, Calendar.MONTH);
+		final List<DateTimeRange> periods = 
+				StudioUtils.periods(defaultLogicPeriod, Calendar.MONTH);
 
 		for (DateTimeRange period : periods) {
 			resourceMonitoringLogic.setPeriod(period);

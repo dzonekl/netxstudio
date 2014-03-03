@@ -21,7 +21,6 @@ import static org.ops4j.peaberry.Peaberry.service;
 
 import com.google.inject.AbstractModule;
 import com.netxforge.netxstudio.common.math.INativeFunctions2;
-import com.netxforge.netxstudio.common.model.ModelUtils;
 import com.netxforge.netxstudio.data.IQueryService;
 import com.netxforge.netxstudio.data.cdo.IClientDataProvider;
 
@@ -33,8 +32,6 @@ public class ScriptUIImportModule extends AbstractModule {
 		// ///////////////////////////////
 		// IMPORT SERVICES
 
-		bind(ModelUtils.class).toProvider(service(ModelUtils.class).single());
-		
 		// CommonModule
 		bind(INativeFunctions2.class).toProvider(
 				service(INativeFunctions2.class).single());

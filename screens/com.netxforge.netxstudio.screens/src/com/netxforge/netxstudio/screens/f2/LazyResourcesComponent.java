@@ -58,7 +58,7 @@ import org.eclipse.wb.swt.TableViewerColumnSorter;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.inject.Inject;
-import com.netxforge.netxstudio.common.model.ModelUtils;
+import com.netxforge.netxstudio.common.model.StudioUtils;
 import com.netxforge.netxstudio.generics.Value;
 import com.netxforge.netxstudio.library.Component;
 import com.netxforge.netxstudio.library.Equipment;
@@ -84,7 +84,6 @@ public class LazyResourcesComponent {
 	private Table table;
 	private Text txtFilterText;
 	private TableViewer resourcesTableViewer;
-	private ModelUtils modelUtils;
 
 	@Inject
 	private SearchFilter searchFilter;
@@ -98,8 +97,7 @@ public class LazyResourcesComponent {
 	 * @param style
 	 */
 	@Inject
-	public LazyResourcesComponent(ModelUtils modelUtils) {
-		this.modelUtils = modelUtils;
+	public LazyResourcesComponent() {
 	}
 
 	public void configure(IScreenFormService screenService) {
@@ -205,7 +203,7 @@ public class LazyResourcesComponent {
 		@Override
 		protected Object getValue(Object element) {
 			if (element instanceof NetXResource) {
-				Value v = modelUtils
+				Value v = StudioUtils
 						.mostRecentCapacityValue((NetXResource) element);
 
 				if (v != null) {
@@ -249,7 +247,7 @@ public class LazyResourcesComponent {
 
 			CapacityEditingDialog capacityEditingDialog = new CapacityEditingDialog(
 					cellEditorWindow.getShell(),
-					screenService.getEditingService(), modelUtils);
+					screenService.getEditingService());
 			capacityEditingDialog.setBlockOnOpen(true);
 			capacityEditingDialog.injectData(resource);
 			int open = capacityEditingDialog.open();
@@ -384,10 +382,10 @@ public class LazyResourcesComponent {
 				switch (columnIndex) {
 
 				case 0: {
-					NodeType nt = modelUtils.resolveParentNodeType(c);
+					NodeType nt = StudioUtils.resolveParentNodeType(c);
 					if (nt != null) {
 						Node n = null;
-						if ((n = modelUtils.nodeFor(nt)) != null) {
+						if ((n = StudioUtils.nodeFor(nt)) != null) {
 							return n.getNodeID();
 						} else {
 							return nt.getName();

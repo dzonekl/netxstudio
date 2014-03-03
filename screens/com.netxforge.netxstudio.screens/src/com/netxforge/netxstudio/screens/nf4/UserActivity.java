@@ -51,6 +51,7 @@ import org.eclipse.ui.forms.widgets.FormToolkit;
 import org.eclipse.ui.forms.widgets.Section;
 import org.eclipse.wb.swt.TableViewerColumnSorter;
 
+import com.netxforge.base.NonModelUtils;
 import com.netxforge.netxstudio.generics.CommitLogEntry;
 import com.netxforge.netxstudio.generics.GenericsPackage;
 import com.netxforge.netxstudio.generics.Person;
@@ -261,8 +262,8 @@ public class UserActivity extends AbstractScreen implements
 				switch (columnIndex) {
 				case 0: {
 					if (cle.eIsSet(GenericsPackage.Literals.COMMIT_LOG_ENTRY__TIME_STAMP)) {
-						Date d = modelUtils.fromXMLDate(cle.getTimeStamp());
-						return modelUtils.date(d) + " @ " + modelUtils.time(d);
+						Date d = NonModelUtils.fromXMLDate(cle.getTimeStamp());
+						return NonModelUtils.date(d) + " @ " + NonModelUtils.time(d);
 					}
 				}
 				case 1: {

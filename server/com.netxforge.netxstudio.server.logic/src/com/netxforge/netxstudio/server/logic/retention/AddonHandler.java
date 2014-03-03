@@ -15,9 +15,10 @@ import com.google.common.base.Predicate;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Ordering;
 import com.google.inject.Inject;
-import com.netxforge.netxstudio.common.model.ModelUtils;
-import com.netxforge.netxstudio.common.properties.IPropertiesProvider;
-import com.netxforge.netxstudio.common.properties.PropertiesUtil;
+import com.netxforge.base.NonModelUtils;
+import com.netxforge.base.properties.IPropertiesProvider;
+import com.netxforge.base.properties.PropertiesUtil;
+import com.netxforge.netxstudio.common.model.StudioUtils;
 import com.netxforge.netxstudio.data.IExternalDataProvider;
 import com.netxforge.netxstudio.delta16042013.metrics.Addon;
 import com.netxforge.netxstudio.delta16042013.metrics.FixedMetricRetentionPeriod;
@@ -46,11 +47,7 @@ public class AddonHandler {
 	private IExternalDataProvider.ExternalDataProvider externalProvider;
 
 	@Inject
-	private ModelUtils modelUtils;
-	
-	@Inject
-	private IPropertiesProvider propsProvider; 
-	
+	private IPropertiesProvider propsProvider;
 
 	public AddonHandler() {
 	}
@@ -120,8 +117,8 @@ public class AddonHandler {
 			addOnMetricSources = null;
 			addOnMetrics = null;
 
-			Object pathName = propsProvider.get()
-					.get(PropertiesUtil.NETXSERVER_PROP_ADDON_MODEL_URI);
+			Object pathName = propsProvider.get().get(
+					PropertiesUtil.NETXSERVER_PROP_ADDON_MODEL_URI);
 
 			if (pathName != null && pathName instanceof String) {
 				if (LogicActivator.DEBUG) {
@@ -133,7 +130,7 @@ public class AddonHandler {
 				try {
 					Resource externalModelAddon = externalProvider
 							.getResource(URI.createFileURI((String) pathName));
-					List<Addon> addonCollection = new ModelUtils.CollectionForObjects<com.netxforge.netxstudio.delta16042013.metrics.Addon>()
+					List<Addon> addonCollection = new NonModelUtils.CollectionForObjects<com.netxforge.netxstudio.delta16042013.metrics.Addon>()
 							.collectionForObjects(externalModelAddon
 									.getContents());
 					if (!addonCollection.isEmpty()
@@ -304,7 +301,7 @@ public class AddonHandler {
 		// The collection could be multiple. The exact one is related to the
 		// mapping
 		// of the Metric Source to a Component for the specified metric.
-		List<com.netxforge.netxstudio.metrics.MetricSource> metricSourcesForMetric = modelUtils
+		List<com.netxforge.netxstudio.metrics.MetricSource> metricSourcesForMetric = StudioUtils
 				.metricSourcesForMetric(metricSources, metricRef);
 
 		if (metricSourcesForMetric.size() > 1) {
@@ -402,7 +399,7 @@ public class AddonHandler {
 		DateTimeRange dtr = null;
 		dtr = GenericsFactory.eINSTANCE.createDateTimeRange();
 		Calendar instance = Calendar.getInstance();
-		instance.setTime(modelUtils.todayAtDayEnd());
+		instance.setTime(NonModelUtils.todayAtDayEnd());
 
 		Object period = rule.getPeriod();
 		if (period instanceof FixedMetricRetentionPeriod) {
@@ -435,8 +432,8 @@ public class AddonHandler {
 			}
 		}
 
-		dtr.setEnd(modelUtils.toXMLDate(instance.getTime()));
-		dtr.setBegin(modelUtils.toXMLDate(begin));
+		dtr.setEnd(NonModelUtils.toXMLDate(instance.getTime()));
+		dtr.setBegin(NonModelUtils.toXMLDate(begin));
 
 		return dtr;
 	}

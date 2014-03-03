@@ -25,7 +25,7 @@ import org.eclipse.emf.cdo.spi.server.RepositoryUserManager;
 
 import com.google.inject.AbstractModule;
 import com.google.inject.Scopes;
-import com.netxforge.netxstudio.common.properties.IPropertiesProvider;
+import com.netxforge.base.properties.IPropertiesProvider;
 import com.netxforge.netxstudio.data.IData;
 import com.netxforge.netxstudio.data.IQueryService;
 import com.netxforge.netxstudio.data.cdo.CDOQueryService;
@@ -37,16 +37,16 @@ import com.netxforge.netxstudio.server.ServerIntegrity;
 import com.netxforge.netxstudio.server.ServerProperties;
 import com.netxforge.netxstudio.server.ServerUtils;
 import com.netxforge.netxstudio.server.ServerUtils.ServerInitializer;
-import com.netxforge.netxstudio.server.data.IServerNoCacheDataProvider;
 import com.netxforge.netxstudio.server.data.IServerDataProvider;
+import com.netxforge.netxstudio.server.data.IServerNoCacheDataProvider;
 import com.netxforge.netxstudio.server.data.Server;
 import com.netxforge.netxstudio.server.data.ServerCDOConnection;
-import com.netxforge.netxstudio.server.data.ServerCDODataProvider;
 import com.netxforge.netxstudio.server.data.ServerCDOData;
+import com.netxforge.netxstudio.server.data.ServerCDODataProvider;
 import com.netxforge.netxstudio.server.data.ServerNoCache;
 import com.netxforge.netxstudio.server.data.ServerNoCacheCDOConnection;
-import com.netxforge.netxstudio.server.data.ServerNoCacheCDODataProvider;
 import com.netxforge.netxstudio.server.data.ServerNoCacheCDOData;
+import com.netxforge.netxstudio.server.data.ServerNoCacheCDODataProvider;
 
 /**
  * @author Christophe Bouhier christophe.bouhier@netxforge.com

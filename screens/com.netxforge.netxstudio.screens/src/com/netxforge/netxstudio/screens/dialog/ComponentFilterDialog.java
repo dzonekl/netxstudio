@@ -32,7 +32,7 @@ import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.dialogs.FilteredItemsSelectionDialog;
 
-import com.netxforge.netxstudio.common.model.ModelUtils;
+import com.netxforge.netxstudio.common.model.StudioUtils;
 import com.netxforge.netxstudio.library.Component;
 import com.netxforge.netxstudio.operators.Node;
 import com.netxforge.netxstudio.screens.internal.ScreensActivator;
@@ -41,7 +41,6 @@ public class ComponentFilterDialog extends FilteredItemsSelectionDialog {
 
 	private final Object scope;
 
-	private ModelUtils modelUtils;
 
 	/**
 	 * Create a new dialog
@@ -51,12 +50,10 @@ public class ComponentFilterDialog extends FilteredItemsSelectionDialog {
 	 * @param scope
 	 *            the model resource
 	 */
-	public ComponentFilterDialog(Shell shell, Object scope,
-			ModelUtils modelUtils) {
+	public ComponentFilterDialog(Shell shell, Object scope) {
 		super(shell);
 		super.setTitle("Select a Component");
 		this.scope = scope;
-		this.modelUtils = modelUtils;
 
 		setListLabelProvider(new LabelProvider() {
 			@Override
@@ -85,7 +82,7 @@ public class ComponentFilterDialog extends FilteredItemsSelectionDialog {
 	}
 
 	private String getText(Component component) {
-		return modelUtils.componentName(component);
+		return StudioUtils.componentName(component);
 	}
 
 	private String getParentText(Component p) {
@@ -174,7 +171,7 @@ public class ComponentFilterDialog extends FilteredItemsSelectionDialog {
 
 			@Override
 			public boolean matchItem(Object item) {
-				return matches(modelUtils.componentName((Component) item));
+				return matches(StudioUtils.componentName((Component) item));
 			}
 		};
 	}

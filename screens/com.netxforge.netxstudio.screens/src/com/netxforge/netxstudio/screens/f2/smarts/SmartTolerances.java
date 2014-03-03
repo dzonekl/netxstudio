@@ -46,6 +46,7 @@ import org.eclipse.ui.forms.widgets.FormToolkit;
 import org.eclipse.wb.swt.ResourceManager;
 
 import com.google.common.collect.Lists;
+import com.netxforge.base.NonModelUtils;
 import com.netxforge.netxstudio.library.LibraryFactory;
 import com.netxforge.netxstudio.library.LibraryPackage;
 import com.netxforge.netxstudio.library.Tolerance;
@@ -246,7 +247,7 @@ public class SmartTolerances extends AbstractSmartTableScreen {
 	@SuppressWarnings("unchecked")
 	@Override
 	public <T> Comparator<T> delegateGetItemsComparator() {
-		Comparator<Tolerance> objectEAttributeComparator = modelUtils
+		Comparator<Tolerance> objectEAttributeComparator = NonModelUtils
 				.<Tolerance, String> objectEAttributeComparator(LibraryPackage.Literals.TOLERANCE__NAME);
 		return (Comparator<T>) objectEAttributeComparator;
 	}

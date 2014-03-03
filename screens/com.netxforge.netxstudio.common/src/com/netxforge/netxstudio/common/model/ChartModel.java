@@ -29,10 +29,11 @@ import com.google.common.base.Function;
 import com.google.common.base.Predicate;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
-import com.netxforge.netxstudio.common.GenericsTuple;
+import com.netxforge.base.GenericsTuple;
+import com.netxforge.base.NonModelUtils;
 import com.netxforge.netxstudio.common.internal.CommonActivator;
 import com.netxforge.netxstudio.common.math.INativeFunctions;
-import com.netxforge.netxstudio.common.model.ModelUtils.TimeStampPredicate;
+import com.netxforge.netxstudio.common.model.StudioUtils.TimeStampPredicate;
 import com.netxforge.netxstudio.generics.DateTimeRange;
 import com.netxforge.netxstudio.generics.GenericsFactory;
 import com.netxforge.netxstudio.generics.Value;
@@ -56,7 +57,7 @@ public class ChartModel implements IChartModel {
 	protected DateTimeRange chartPeriod;
 
 	/** The interval, defauts to {@link ModelUtils#SECONDS_IN_AN_HOUR} */
-	protected int interval = ModelUtils.MINUTES_IN_AN_HOUR;
+	protected int interval = NonModelUtils.MINUTES_IN_AN_HOUR;
 
 	/** The kind of range, defaults to {@link KindHintType#BH} */
 	protected KindHintType kind = KindHintType.BH;
@@ -65,8 +66,6 @@ public class ChartModel implements IChartModel {
 	 * Sum state.
 	 */
 	protected boolean sum;
-
-	private ModelUtils modelUtils;
 
 	private INativeFunctions nativeFunctions;
 
@@ -77,10 +76,6 @@ public class ChartModel implements IChartModel {
 	private List<String> chartIDCache = Lists.newArrayList();
 
 	public ChartModel() {
-	}
-
-	public void setModelUtils(ModelUtils modelUtils) {
-		this.modelUtils = modelUtils;
 	}
 
 	public void setNativeFunctions(INativeFunctions nativeFunctions) {
@@ -189,21 +184,21 @@ public class ChartModel implements IChartModel {
 				// It could be, there is no aggregation data for higher order
 				// intervals.
 				// this will yield and empty list.
-				MetricValueRange valueRangeForIntervalAndKind = modelUtils
+				MetricValueRange valueRangeForIntervalAndKind = StudioUtils
 						.valueRangeForIntervalAndKind(target, kind, interval);
 				if (valueRangeForIntervalAndKind != null) {
 
 					// When the defined period is larger than the period for the
 					// values,
 					// we can reduce it with:
-					List<Value> sortAndApplyPeriod = modelUtils
+					List<Value> sortAndApplyPeriod = StudioUtils
 							.sortAndApplyPeriod(valueRangeForIntervalAndKind
 									.getMetricValues(), chartPeriod, false);
 					// This is a valid chart model :-)
 					if (!sortAndApplyPeriod.isEmpty()) {
 						setChartModelOk(true);
 					}
-					metricDTR = modelUtils.period(sortAndApplyPeriod);
+					metricDTR = StudioUtils.period(sortAndApplyPeriod);
 					metricValues = sortAndApplyPeriod;
 				} else {
 					metricValues = Collections.EMPTY_LIST;
@@ -265,7 +260,7 @@ public class ChartModel implements IChartModel {
 				// we have more in the initial collection then the number of
 				// timeStamps timestamps , strip according
 				// to the metric value date time range, filling up the blanks.
-				filledCollection = modelUtils.valuesInsideRange(
+				filledCollection = StudioUtils.valuesInsideRange(
 						filledCollection, dtr);
 
 			}
@@ -274,7 +269,7 @@ public class ChartModel implements IChartModel {
 			// timestamps. TODO: Danger that we remove cap. where the value
 			// changes, and we would fill-up with the wrong cap. value.
 			if (filledCollection.size() > timeStamps.length) {
-				filledCollection = modelUtils.valuesForTimestamps(
+				filledCollection = StudioUtils.valuesForTimestamps(
 						filledCollection, Lists.newArrayList(timeStamps));
 			}
 
@@ -302,7 +297,7 @@ public class ChartModel implements IChartModel {
 				// we have more in the initial collection then the number of
 				// timeStamps timestamps , strip according
 				// to the metric value date time range, filling up the blanks.
-				filledCollection = modelUtils.valuesInsideRange(
+				filledCollection = StudioUtils.valuesInsideRange(
 						filledCollection, dtr);
 				return filledCollection;
 			}
@@ -318,7 +313,7 @@ public class ChartModel implements IChartModel {
 
 			for (int i = 0; i < timeStampsCollection.size(); i++) {
 				Date date = timeStampsCollection.get(i);
-				TimeStampPredicate timeStampPredicate = modelUtils.new TimeStampPredicate(
+				TimeStampPredicate timeStampPredicate = new StudioUtils.TimeStampPredicate(
 						date);
 				try {
 					Value find = Iterables.find(initialCollection,
@@ -326,7 +321,7 @@ public class ChartModel implements IChartModel {
 					filledCollection.add(i, find);
 				} catch (NoSuchElementException nsee) {
 					Value createValue = GenericsFactory.eINSTANCE.createValue();
-					createValue.setTimeStamp(modelUtils.toXMLDate(date));
+					createValue.setTimeStamp(NonModelUtils.toXMLDate(date));
 					createValue.setValue(0);
 					filledCollection.add(i, createValue);
 				}
@@ -344,7 +339,7 @@ public class ChartModel implements IChartModel {
 		 */
 		public Date[] getTimeStampArray() {
 			if (timeStampArray == null) {
-				timeStampArray = modelUtils.transformValueToDateArray(this
+				timeStampArray = StudioUtils.transformValueToDateArray(this
 						.getValues());
 			}
 			return timeStampArray;
@@ -359,14 +354,14 @@ public class ChartModel implements IChartModel {
 		public double[] getCapDoubleArray() {
 
 			if (capDoubleArray == null && metricDTR != null) {
-				List<Value> capValues = modelUtils.sortAndApplyPeriod(
+				List<Value> capValues = StudioUtils.sortAndApplyPeriod(
 						netxSummary.getTarget().getCapacityValues(),
 						chartPeriod, false);
 
 				capValues = rangeFillUpWithLastValue(getTimeStampArray(),
 						metricDTR, capValues);
 				if (capValues != null) {
-					capDoubleArray = modelUtils
+					capDoubleArray = StudioUtils
 							.transformValueToDoubleArray(capValues);
 				}
 			}
@@ -381,7 +376,7 @@ public class ChartModel implements IChartModel {
 		 * ()
 		 */
 		public double[] getMetriDoubleArray() {
-			return modelUtils.transformValueToDoubleArray(getValues());
+			return StudioUtils.transformValueToDoubleArray(getValues());
 		}
 
 		/*
@@ -394,12 +389,12 @@ public class ChartModel implements IChartModel {
 		public double[] getUtilDoubleArray() {
 
 			if (utilDoubleArray == null) {
-				List<Value> utilValues = modelUtils.sortAndApplyPeriod(this
+				List<Value> utilValues = StudioUtils.sortAndApplyPeriod(this
 						.getNetXResource().getUtilizationValues(), chartPeriod,
 						false);
 				// Why not get from the period?
-				utilValues = modelUtils
-						.valuesForValues(utilValues, getValues());
+				utilValues = StudioUtils.valuesForValues(utilValues,
+						getValues());
 
 				// Make sure we are equal size.
 				if (timeStampArray.length != utilValues.size()) {
@@ -443,7 +438,7 @@ public class ChartModel implements IChartModel {
 		 */
 		public double[] getTrendDoubleArray() {
 
-			double[][] data = modelUtils.transformValueToDoubleMatrix(this
+			double[][] data = StudioUtils.transformValueToDoubleMatrix(this
 					.getValues());
 
 			// Get the slope and Intercept.
@@ -618,16 +613,16 @@ public class ChartModel implements IChartModel {
 	 * @param chartPeriod
 	 */
 	private void intervalForPeriod(DateTimeRange chartPeriod) {
-		int days = modelUtils.daysInPeriod(chartPeriod);
+		int days = StudioUtils.daysInPeriod(chartPeriod);
 		if (days < 3) {
 			// default do nothing.
 			return;
 		} else if (days <= 31) {
-			interval = ModelUtils.MINUTES_IN_A_DAY;
+			interval = NonModelUtils.MINUTES_IN_A_DAY;
 		} else if (days <= 183) {
-			interval = ModelUtils.MINUTES_IN_A_WEEK;
+			interval = NonModelUtils.MINUTES_IN_A_WEEK;
 		} else {
-			interval = ModelUtils.MINUTES_IN_A_MONTH;
+			interval = NonModelUtils.MINUTES_IN_A_MONTH;
 		}
 
 	}
@@ -708,7 +703,7 @@ public class ChartModel implements IChartModel {
 				new Function<IChartResource, Double[]>() {
 
 					public Double[] apply(IChartResource input) {
-						return modelUtils.transformToDoubleArray(input
+						return NonModelUtils.transformToDoubleArray(input
 								.getMetriDoubleArray());
 					}
 
@@ -755,13 +750,12 @@ public class ChartModel implements IChartModel {
 	}
 
 	public void reset() {
-		
+
 		chartIDCache.clear();
-		
+
 		for (IChartResource cr : getChartResources()) {
 			cr.resetCaches();
 		}
-		
 
 	}
 

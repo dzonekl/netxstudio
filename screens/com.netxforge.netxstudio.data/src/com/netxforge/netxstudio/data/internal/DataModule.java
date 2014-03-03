@@ -26,17 +26,22 @@ import com.netxforge.netxstudio.data.DataServiceModule;
 import com.netxforge.netxstudio.data.IData;
 import com.netxforge.netxstudio.data.IDataService;
 import com.netxforge.netxstudio.data.IQueryService;
-import com.netxforge.netxstudio.data.actions.ServerRequest;
 import com.netxforge.netxstudio.data.cdo.CDODataConnection;
 import com.netxforge.netxstudio.data.cdo.CDODataService;
 import com.netxforge.netxstudio.data.cdo.CDOQueryService;
 import com.netxforge.netxstudio.data.cdo.CDOQueryUtil;
-import com.netxforge.netxstudio.data.cdo.ClientCDODataProvider;
 import com.netxforge.netxstudio.data.cdo.ClientCDOData;
+import com.netxforge.netxstudio.data.cdo.ClientCDODataProvider;
 import com.netxforge.netxstudio.data.cdo.ICDOConnection;
 import com.netxforge.netxstudio.data.cdo.IClientDataProvider;
 import com.netxforge.netxstudio.data.cdo.INonStaticDataProvider;
 import com.netxforge.netxstudio.data.cdo.NonStaticCDODataProvider;
+import com.netxforge.netxstudio.data.index.ComponentMappingIndex;
+import com.netxforge.netxstudio.data.index.IComponentLocator;
+import com.netxforge.netxstudio.data.index.IComponentMappingIndex;
+import com.netxforge.netxstudio.data.index.IndexComponentLocator;
+import com.netxforge.netxstudio.data.services.ResultProcessor;
+import com.netxforge.netxstudio.data.services.ValueProcessor;
 
 /**
  * @author Christophe Bouhier christophe.bouhier@netxforge.com
@@ -66,12 +71,6 @@ public class DataModule extends DataServiceModule {
 		// ///////////////////////////////
 		// EXPORT SERVICES
 
-		// CB Consider moving this to ?? as it has no relation with the
-		// data.
-		this.bind(export(ServerRequest.class)).toProvider(
-				service(ServerRequest.class).attributes(
-						objectClass(ServerRequest.class)).export());
-
 		bind(export(IClientDataProvider.class)).toProvider(
 				service(ClientCDODataProvider.class).export());
 
@@ -83,6 +82,20 @@ public class DataModule extends DataServiceModule {
 
 		bind(export(IDataService.class)).toProvider(
 				service(CDODataService.class).export());
+
+		bind(export(ResultProcessor.class)).toProvider(
+				service(new ResultProcessor()).attributes(
+						objectClass(ResultProcessor.class)).export());
+
+		bind(export(ValueProcessor.class)).toProvider(
+				service(new ValueProcessor()).attributes(
+						objectClass(ValueProcessor.class)).export());
+
+		bind(export(IComponentMappingIndex.class)).toProvider(
+				service(ComponentMappingIndex.class).export());
+
+		bind(export(IComponentLocator.class)).toProvider(
+				service(IndexComponentLocator.class).export());
 
 		// ///////////////////////////////
 		// IMPORT SERVICES

@@ -86,6 +86,8 @@ import org.eclipse.wb.swt.TableViewerColumnSorter;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
+import com.netxforge.base.NonModelUtils;
+import com.netxforge.netxstudio.common.model.StudioUtils;
 import com.netxforge.netxstudio.scheduling.ComponentWorkFlowRun;
 import com.netxforge.netxstudio.scheduling.Job;
 import com.netxforge.netxstudio.scheduling.JobRunContainer;
@@ -381,15 +383,15 @@ public class JobRuns extends AbstractScreen implements IDataScreenInjection {
 			// listeners.
 			Resource containerResource = editingService
 					.getData(SchedulingPackage.Literals.JOB_RUN_CONTAINER);
-			jobContainer = modelUtils
-					.jobContainerForJob(job, containerResource);
+			jobContainer = StudioUtils.jobContainerForJob(job,
+					containerResource);
 			if (jobContainer != null) {
 				initDataBindings_();
 			} else {
 				MessageDialog
 						.openInformation(this.getShell(), "Job runs",
 								"This job has not run yet, wait for a server job to start. ");
-				// TODO We should have a mechanims for invalidation.  
+				// TODO We should have a mechanims for invalidation.
 			}
 		}
 	}
@@ -641,14 +643,15 @@ public class JobRuns extends AbstractScreen implements IDataScreenInjection {
 				}
 				case 5: {
 					if (j.getStarted() != null) {
-						Date d = modelUtils.fromXMLDate(j.getStarted());
-						return modelUtils.date(d) + " @ " + modelUtils.time(d);
+						Date d = NonModelUtils.fromXMLDate(j.getStarted());
+						return NonModelUtils.date(d) + " @ " + NonModelUtils.time(d);
 					}
 				}
 				case 6: {
 					if (j.getEnded() != null) {
-						Date d = modelUtils.fromXMLDate(j.getEnded());
-						return modelUtils.date(d) + " @ " + modelUtils.time(d);
+						Date d = NonModelUtils.fromXMLDate(j.getEnded());
+						return NonModelUtils.date(d) + " @ "
+								+ NonModelUtils.time(d);
 					}
 				}
 				}

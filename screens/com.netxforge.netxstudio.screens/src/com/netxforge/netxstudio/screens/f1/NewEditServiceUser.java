@@ -50,7 +50,7 @@ import org.eclipse.ui.forms.widgets.Section;
 
 import com.google.inject.Inject;
 import com.google.inject.name.Named;
-import com.netxforge.netxstudio.common.guice.IInjectorProxy;
+import com.netxforge.base.di.IInjectorProxy;
 import com.netxforge.netxstudio.library.LibraryPackage;
 import com.netxforge.netxstudio.library.NodeType;
 import com.netxforge.netxstudio.operators.Node;

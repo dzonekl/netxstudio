@@ -30,13 +30,14 @@ import org.eclipse.core.runtime.Status;
 import org.eclipse.core.runtime.jobs.IJobChangeEvent;
 import org.eclipse.core.runtime.jobs.IJobChangeListener;
 import org.eclipse.core.runtime.jobs.Job;
+import org.eclipse.core.runtime.jobs.JobChangeAdapter;
 
-import com.netxforge.netxstudio.common.Tuple;
+import com.netxforge.base.Tuple;
 
 /**
  * Processes an .xls file, and returns as records for a viewer.
  */
-public class XLSServiceJob implements IJobChangeListener {
+public class XLSServiceJob extends JobChangeAdapter {
 
 //	public static final XLSServiceJob INSTANCE = new XLSServiceJob();
 	private IFile res;

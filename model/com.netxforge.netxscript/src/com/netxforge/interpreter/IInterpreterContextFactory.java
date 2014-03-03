@@ -5,7 +5,7 @@ import java.util.List;
 import org.eclipse.emf.ecore.EClass;
 
 import com.google.common.collect.Lists;
-import com.netxforge.netxstudio.common.context.IComputationContext;
+import com.netxforge.base.context.IComputationContext;
 import com.netxforge.netxstudio.generics.DateTimeRange;
 
 public interface IInterpreterContextFactory {

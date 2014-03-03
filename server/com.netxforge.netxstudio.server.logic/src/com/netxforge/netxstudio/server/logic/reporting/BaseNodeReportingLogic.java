@@ -31,6 +31,7 @@ import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.ss.util.CellRangeAddress;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
+import com.netxforge.netxstudio.common.model.StudioUtils;
 import com.netxforge.netxstudio.generics.DateTimeRange;
 import com.netxforge.netxstudio.library.Component;
 import com.netxforge.netxstudio.library.Equipment;
@@ -105,7 +106,6 @@ public abstract class BaseNodeReportingLogic extends BasePeriodLogic {
 			workBook.write(this.getStream());
 		} catch (IOException e) {
 			e.printStackTrace();
-			// TODO, Perhaps add another failure?
 		}
 
 		this.getData().commitTransactionThenClose();
@@ -117,7 +117,7 @@ public abstract class BaseNodeReportingLogic extends BasePeriodLogic {
 	protected void processNodesByNodeType(Sheet sheet) {
 		List<NodeType> nodeTypes = this.getNodeTypesToExecuteFor();
 
-		List<NodeType> uniqueNodeTypes = this.getModelUtils().uniqueNodeTypes(
+		List<NodeType> uniqueNodeTypes = StudioUtils.uniqueNodeTypes(
 				nodeTypes);
 
 		int nodeTypeCount = 0;

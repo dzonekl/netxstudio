@@ -25,7 +25,7 @@ import org.eclipse.emf.edit.domain.EditingDomain;
 
 import com.google.common.collect.Lists;
 import com.google.inject.Inject;
-import com.netxforge.netxstudio.common.model.ModelUtils;
+import com.netxforge.base.NonModelUtils;
 import com.netxforge.netxstudio.edit.EditUtils;
 import com.netxforge.netxstudio.generics.GenericsFactory;
 import com.netxforge.netxstudio.generics.Lifecycle;
@@ -50,11 +50,8 @@ import com.netxforge.netxstudio.operators.OperatorsPackage;
 public class OperatorChildCreationExtender extends
 		AbstractConditionalChildCreationExtender {
 
-	protected ModelUtils modelUtils;
-
 	@Inject
-	public OperatorChildCreationExtender(ModelUtils modelUtils) {
-		this.modelUtils = modelUtils;
+	public OperatorChildCreationExtender() {
 	}
 
 	public Collection<?> getNewChildDescriptors(Object object,
@@ -80,7 +77,7 @@ public class OperatorChildCreationExtender extends
 
 				Node n = OperatorsFactory.eINSTANCE.createNode();
 				Lifecycle newLC = GenericsFactory.eINSTANCE.createLifecycle();
-				newLC.setProposed(modelUtils.toXMLDate(modelUtils.todayAndNow()));
+				newLC.setProposed(NonModelUtils.toXMLDate(NonModelUtils.todayAndNow()));
 				n.setLifecycle(newLC);
 
 				String newSequenceNumber = EditUtils.INSTANCE

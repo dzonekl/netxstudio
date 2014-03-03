@@ -62,8 +62,8 @@ import org.eclipse.ui.forms.widgets.Form;
 import org.eclipse.ui.forms.widgets.FormToolkit;
 import org.eclipse.ui.forms.widgets.Section;
 
-import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
+import com.netxforge.base.NonModelUtils;
 import com.netxforge.netxstudio.library.NodeType;
 import com.netxforge.netxstudio.operators.Node;
 import com.netxforge.netxstudio.screens.AbstractScreen;
@@ -189,7 +189,7 @@ public class NodeHistory extends AbstractScreen implements IDataScreenInjection 
 		if (firstElement instanceof CDORevision) {
 			CDORevision rev = (CDORevision) firstElement;
 			CDOObject cdoObject = null;
-			cdoObject = modelUtils.cdoObject(node, rev);
+			cdoObject = NonModelUtils.cdoObject(node, rev);
 			if (cdoObject instanceof Node) {
 				Node n = (Node) cdoObject;
 				graphicalViewer.setContents(new WrappedNode(n));
@@ -277,7 +277,7 @@ public class NodeHistory extends AbstractScreen implements IDataScreenInjection 
 
 	public EMFDataBindingContext initDataBindings_() {
 		try {
-			Iterator<CDORevision> cdoRevisions = modelUtils.cdoRevisions(node);
+			Iterator<CDORevision> cdoRevisions = NonModelUtils.cdoRevisions(node);
 			List<CDORevision> revisionsList = Lists.newArrayList(cdoRevisions);
 			tableViewerRevisions.setContentProvider(new ArrayContentProvider());
 			tableViewerRevisions.setLabelProvider(new NodeHistoryLabelProvider(
@@ -319,7 +319,7 @@ public class NodeHistory extends AbstractScreen implements IDataScreenInjection 
 				// entryCount--;
 
 				// We need the resource list backwards.
-				for (EObject object : Iterables.reverse(historyResource
+				for (EObject object : Lists.reverse(historyResource
 						.getContents())) {
 					histNodes.add(new HistoricNode(entryCount, (Node) object));
 					entryCount--;
@@ -396,7 +396,7 @@ public class NodeHistory extends AbstractScreen implements IDataScreenInjection 
 				case 1: {
 					Date d = new Date(((HistoricNode) element).getNode()
 							.cdoRevision().getTimeStamp());
-					return modelUtils.date(d) + " @ " + modelUtils.time(d);
+					return NonModelUtils.date(d) + " @ " + NonModelUtils.time(d);
 				}
 				case 2: {
 					Node nt = ((HistoricNode) element).getNode();
@@ -413,7 +413,7 @@ public class NodeHistory extends AbstractScreen implements IDataScreenInjection 
 				}
 				case 1: {
 					Date d = new Date(rev.getTimeStamp());
-					return modelUtils.date(d) + " @ " + modelUtils.time(d);
+					return NonModelUtils.date(d) + " @ " + NonModelUtils.time(d);
 				}
 				case 2: {
 					return "perhaps remove this.";
@@ -432,7 +432,7 @@ public class NodeHistory extends AbstractScreen implements IDataScreenInjection 
 	public IAction[] getActions() {
 		// Lazy init actions.
 		if (actions.isEmpty()) {
-			actions.add(new CompareAction(modelUtils, "Compare..."));
+			actions.add(new CompareAction("Compare..."));
 		}
 		return actions.toArray(new IAction[actions.size()]);
 	}

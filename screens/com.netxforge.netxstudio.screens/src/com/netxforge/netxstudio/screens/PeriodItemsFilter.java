@@ -19,7 +19,7 @@ package com.netxforge.netxstudio.screens;
 
 import java.util.Date;
 
-import com.netxforge.netxstudio.common.model.ModelUtils;
+import com.netxforge.base.NonModelUtils;
 
 /**
  * Matches items within a certain period.
@@ -34,15 +34,11 @@ public abstract class PeriodItemsFilter implements IItemsFilter {
 	 */
 	private ISearchPattern pattern;
 
-	private ModelUtils modelUtils;
-
-	public PeriodItemsFilter(ModelUtils modelUtils) {
-		this.modelUtils = modelUtils;
+	public PeriodItemsFilter() {
 		pattern = new PeriodPattern();
 	}
 
-	public PeriodItemsFilter(ISearchPattern pattern, ModelUtils modelUtils) {
-		this.modelUtils = modelUtils;
+	public PeriodItemsFilter(ISearchPattern pattern) {
 		this.pattern = pattern;
 	}
 
@@ -58,7 +54,8 @@ public abstract class PeriodItemsFilter implements IItemsFilter {
 				&& ((PeriodItemsFilter) filter).pattern instanceof PeriodPattern
 				&& pattern instanceof PeriodPattern) {
 			PeriodItemsFilter pif = (PeriodItemsFilter) filter;
-			return ((PeriodPattern) pattern).subPeriod((PeriodPattern) pif.pattern);
+			return ((PeriodPattern) pattern)
+					.subPeriod((PeriodPattern) pif.pattern);
 
 		}
 		return false;
@@ -98,8 +95,8 @@ public abstract class PeriodItemsFilter implements IItemsFilter {
 
 		@Override
 		public String toString() {
-			return "from:" + modelUtils.date(new Date(from)) + " to: "
-					+ modelUtils.date(new Date(to));
+			return "from:" + NonModelUtils.date(new Date(from)) + " to: "
+					+ NonModelUtils.date(new Date(to));
 		}
 
 		private long from = -1;

@@ -20,7 +20,7 @@ package com.netxforge.netxstudio.screens.ch9;
 import org.eclipse.core.databinding.observable.map.IObservableMap;
 import org.eclipse.jface.databinding.viewers.ObservableMapLabelProvider;
 
-import com.netxforge.netxstudio.common.model.ModelUtils;
+import com.netxforge.netxstudio.common.model.StudioUtils;
 import com.netxforge.netxstudio.library.Expression;
 
 /**
@@ -29,8 +29,6 @@ import com.netxforge.netxstudio.library.Expression;
  */
 public class ExpressionsObservableMapLabelProvider extends
 		ObservableMapLabelProvider {
-
-	private ModelUtils modelUtils;
 
 	public ExpressionsObservableMapLabelProvider(IObservableMap[] attributeMaps) {
 		super(attributeMaps);
@@ -42,17 +40,13 @@ public class ExpressionsObservableMapLabelProvider extends
 			Expression expression = (Expression) element;
 			switch (columnIndex) {
 			case 0: {
-				return "...[TODO]";
-				// TODO Implement an Action to do a CDO XRef finding all
-				// references and listing
-				// then in a view. Or better, show-in references in a special
-				// view.
+				return "...[]";
 			}
 			case 1: {
 
 				// Use a name provider....
 				return expression.getName().startsWith(
-						ModelUtils.GENERATED_EXPRESSION_PREFIX) ? "GENERATED"
+						StudioUtils.GENERATED_EXPRESSION_PREFIX) ? "GENERATED"
 						: "USER ENTRY";
 			}
 
@@ -62,7 +56,7 @@ public class ExpressionsObservableMapLabelProvider extends
 				}
 			}
 			case 3: {
-				String expressionAsString = modelUtils
+				String expressionAsString = StudioUtils
 						.expressionAsString(expression);
 				return expressionAsString;
 			}
@@ -70,9 +64,5 @@ public class ExpressionsObservableMapLabelProvider extends
 		}
 
 		return super.getColumnText(element, columnIndex);
-	}
-
-	public void setModelUtils(ModelUtils modelUtils) {
-		this.modelUtils = modelUtils;
 	}
 }

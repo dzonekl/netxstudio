@@ -22,8 +22,10 @@ import java.util.Date;
 
 import org.eclipse.emf.ecore.resource.Resource;
 
+import com.netxforge.base.NonModelUtils;
 import com.netxforge.netxstudio.NetxstudioPackage;
 import com.netxforge.netxstudio.ServerSettings;
+import com.netxforge.netxstudio.common.model.StudioUtils;
 import com.netxforge.netxstudio.generics.DateTimeRange;
 import com.netxforge.netxstudio.generics.ExpansionDuration;
 import com.netxforge.netxstudio.generics.ExpansionDurationSetting;
@@ -53,8 +55,8 @@ public abstract class BasePeriodLogic extends BaseLogic {
 
 		if (getBeginTime() != null && getEndTime() != null) {
 			timeRange = GenericsFactory.eINSTANCE.createDateTimeRange();
-			timeRange.setBegin(getModelUtils().toXMLDate(getBeginTime()));
-			timeRange.setEnd(getModelUtils().toXMLDate(getEndTime()));
+			timeRange.setBegin(NonModelUtils.toXMLDate(getBeginTime()));
+			timeRange.setEnd(NonModelUtils.toXMLDate(getEndTime()));
 			
 		}
 		return timeRange;
@@ -79,34 +81,34 @@ public abstract class BasePeriodLogic extends BaseLogic {
 	public void calculatePeriod(Service service) {
 		Date startTime = getBeginTime();
 		if (startTime == null) {
-			startTime = this.getModelUtils().threeMonthsAgo();
-			startTime = getModelUtils().adjustToDayStart(startTime);
+			startTime = NonModelUtils.threeMonthsAgo();
+			startTime = NonModelUtils.adjustToDayStart(startTime);
 			setBeginTime(startTime);
 		}
 
 		// Perhaps should calculate on midnght hours.
 		Date endTime = getEndTime();
 		if (endTime == null) {
-			endTime = this.getModelUtils().todayAtDayEnd();
+			endTime = NonModelUtils.todayAtDayEnd();
 			setEndTime(endTime);
 		}
 	}
 
 	/**
-	 * Return the default logic period of 6 months.
+	 * Return the default logic period of 12 months.
 	 * 
 	 * @return
 	 */
 	public DateTimeRange getDefaultLogicPeriod() {
 
-		Date startTime = this.getModelUtils().monthsAgo(12);
-		startTime = getModelUtils().adjustToDayStart(startTime);
+		Date startTime = NonModelUtils.monthsAgo(12);
+		startTime = NonModelUtils.adjustToDayStart(startTime);
 
 		// Perhaps should calculate on midnight hours.
-		Date endTime = this.getModelUtils().todayAtDayEnd();
+		Date endTime = NonModelUtils.todayAtDayEnd();
 		setEndTime(endTime);
 
-		return this.getModelUtils().period(startTime, endTime);
+		return StudioUtils.period(startTime, endTime);
 	}
 
 	/**
@@ -128,7 +130,7 @@ public abstract class BasePeriodLogic extends BaseLogic {
 
 		Resource res = this.getData().getResource(
 				NetxstudioPackage.Literals.SERVER_SETTINGS);
-		ServerSettings settings = this.getModelUtils().serverSettings(res);
+		ServerSettings settings = StudioUtils.serverSettings(res);
 		if (settings == null) {
 			return; // Set period failed.
 		}
@@ -143,32 +145,32 @@ public abstract class BasePeriodLogic extends BaseLogic {
 		case ExpansionDuration.QUICK_VALUE: {
 			int valueInDays = expansionDurationSettings.getQuickDuration()
 					.getValue();
-			d = this.getModelUtils().daysAgo(valueInDays);
+			d = NonModelUtils.daysAgo(valueInDays);
 		}
 			break;
 		case ExpansionDuration.SHORT_VALUE: {
 			int valueInDays = expansionDurationSettings.getShortDuration()
 					.getValue();
-			d = this.getModelUtils().daysAgo(valueInDays);
+			d = NonModelUtils.daysAgo(valueInDays);
 		}
 			break;
 		case ExpansionDuration.MEDIUM_VALUE: {
 			int valueInDays = expansionDurationSettings.getMediumDuration()
 					.getValue();
-			d = this.getModelUtils().daysAgo(valueInDays);
+			d = NonModelUtils.daysAgo(valueInDays);
 		}
 			break;
 		case ExpansionDuration.LONG_VALUE: {
 			int valueInDays = expansionDurationSettings.getLongDuration()
 					.getValue();
-			d = this.getModelUtils().daysAgo(valueInDays);
+			d = NonModelUtils.daysAgo(valueInDays);
 		}
 			break;
 		}
 
 		if (d != null) {
 			this.setBeginTime(d);
-			this.setEndTime(this.getModelUtils().todayAndNow());
+			this.setEndTime(NonModelUtils.todayAndNow());
 		}
 	}
 

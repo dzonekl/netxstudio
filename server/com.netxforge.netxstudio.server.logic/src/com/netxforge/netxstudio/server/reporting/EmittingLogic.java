@@ -23,7 +23,7 @@ import java.util.List;
 
 import javax.inject.Inject;
 
-import com.netxforge.netxstudio.common.model.ModelUtils;
+import com.netxforge.netxstudio.common.model.StudioUtils;
 import com.netxforge.netxstudio.data.IData;
 import com.netxforge.netxstudio.generics.DateTimeRange;
 import com.netxforge.netxstudio.library.Component;
@@ -44,12 +44,12 @@ import com.netxforge.netxstudio.services.ServiceUser;
  * 
  * The emitting logic executes the write operations in the following order:
  * <ul>
- * 	<li>getServicesToExecuteFor</li>
- * 	<li>	=> e.nextPage</li>
- * 	<li>	=> e.writeHeader</li>
- * 	<li>	=> processServiceUser(service)</li>
- *  <li>	=> processNodesByNodeType(service)</li>
- *   <li>	=> e.writeFinal</li>
+ * <li>getServicesToExecuteFor</li>
+ * <li>=> e.nextPage</li>
+ * <li>=> e.writeHeader</li>
+ * <li>=> processServiceUser(service)</li>
+ * <li>=> processNodesByNodeType(service)</li>
+ * <li>=> e.writeFinal</li>
  * </ul>
  * 
  * 
@@ -80,8 +80,6 @@ public abstract class EmittingLogic extends BasePeriodLogic {
 	 * @author Christophe
 	 */
 	protected static class InternalEmitter implements IReportEmitter {
-		@Inject
-		private ModelUtils modelUtils;
 
 		/*
 		 * (non-Javadoc)
@@ -102,7 +100,7 @@ public abstract class EmittingLogic extends BasePeriodLogic {
 		 */
 		public void writeHeader(DateTimeRange dtr) {
 			System.out.println(">>writeHeader()"
-					+ modelUtils.periodToString(dtr));
+					+ StudioUtils.periodToString(dtr));
 		}
 
 		/*
@@ -114,8 +112,7 @@ public abstract class EmittingLogic extends BasePeriodLogic {
 		 */
 		public void writeContent(NodeType nodeType) {
 			System.out.println(">>writeContent()");
-			System.out.println(modelUtils.printModelObject(nodeType));
-
+			System.out.println(StudioUtils.printModelObject(nodeType));
 		}
 
 		/*
@@ -130,8 +127,8 @@ public abstract class EmittingLogic extends BasePeriodLogic {
 				int columnIndex) {
 			System.out.println(">>writeContent() (" + rowIndex + ","
 					+ columnIndex + ")");
-			System.out.println(modelUtils.printModelObject(service));
-			System.out.println(modelUtils.printModelObject(node));
+			System.out.println(StudioUtils.printModelObject(service));
+			System.out.println(StudioUtils.printModelObject(node));
 
 		}
 
@@ -147,8 +144,8 @@ public abstract class EmittingLogic extends BasePeriodLogic {
 				int rowIndex, int columnIndex) {
 			System.out.println(">>writeContent() (" + rowIndex + ","
 					+ columnIndex + ")");
-			System.out.println(modelUtils.printModelObject(service));
-			System.out.println(modelUtils.printModelObject(serviceUser));
+			System.out.println(StudioUtils.printModelObject(service));
+			System.out.println(StudioUtils.printModelObject(serviceUser));
 		}
 
 		/*
@@ -160,7 +157,7 @@ public abstract class EmittingLogic extends BasePeriodLogic {
 		 */
 		public void writeContent(Component component) {
 			System.out.println(">>writeContent()");
-			System.out.println(modelUtils.printModelObject(component));
+			System.out.println(StudioUtils.printModelObject(component));
 		}
 
 		/*
@@ -227,11 +224,11 @@ public abstract class EmittingLogic extends BasePeriodLogic {
 
 	protected void doRun() {
 
-		// Set the emitter, if none is set. 
+		// Set the emitter, if none is set.
 		if (emitter == null) {
 			emitter = NULLEMITTER;
 		}
-		
+
 		producer.setSettings(getSettings());
 
 		// initialize our stream producer
@@ -282,8 +279,8 @@ public abstract class EmittingLogic extends BasePeriodLogic {
 		List<NodeType> nodeTypes = this
 				.getNodeTypesToExecuteFor((RFSService) service);
 
-		List<NodeType> uniqueNodeTypes = this.getModelUtils().uniqueNodeTypes(
-				nodeTypes);
+		final List<NodeType> uniqueNodeTypes = StudioUtils
+				.uniqueNodeTypes(nodeTypes);
 
 		int nodeTypeCount = 0;
 		for (final NodeType nodeType : uniqueNodeTypes) {

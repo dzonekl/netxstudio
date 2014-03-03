@@ -83,6 +83,7 @@ import org.eclipse.wb.swt.SWTResourceManager;
 
 import com.google.common.collect.Lists;
 import com.google.inject.Inject;
+import com.netxforge.base.NonModelUtils;
 import com.netxforge.netxstudio.data.actions.ServerRequest;
 import com.netxforge.netxstudio.scheduling.Job;
 import com.netxforge.netxstudio.scheduling.JobState;
@@ -116,14 +117,11 @@ public class Jobs extends AbstractScreen implements IDataServiceInjection {
 	private Form frmScheduledJobs;
 
 	private Resource jobsResource;
-	// private Resource jobContainerResource;
 
 	private TableViewerColumn tblViewerClmnState;
 
 	@Inject
 	private ServerRequest serverActions;
-
-	// private ArrayList<Object> uniqueJobList;
 
 	/**
 	 * Mirrored scheduler state. It gets updated by init, manual request, or
@@ -596,15 +594,15 @@ public class Jobs extends AbstractScreen implements IDataServiceInjection {
 					// End Column
 				case 4:
 					if (j.getEndTime() != null) {
-						Date d = modelUtils.fromXMLDate(j.getEndTime());
-						return modelUtils.date(d) + " @ " + modelUtils.time(d);
+						Date d = NonModelUtils.fromXMLDate(j.getEndTime());
+						return NonModelUtils.date(d) + " @ " + NonModelUtils.time(d);
 					}
 					break;
 				case 5:
 					return new Integer(j.getRepeat()).toString();
 				case 6:
 					if (j.getInterval() > 0) {
-						String fromSeconds = modelUtils.fromSeconds(j
+						String fromSeconds = NonModelUtils.fromSeconds(j
 								.getInterval());
 						return fromSeconds;
 					}

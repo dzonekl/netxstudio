@@ -14,7 +14,7 @@
  * 
  * Contributors: Christophe Bouhier - initial API and implementation and/or
  * initial documentation
- *******************************************************************************/ 
+ *******************************************************************************/
 package com.netxforge.netxstudio.screens.f4;
 
 import java.util.Date;
@@ -55,6 +55,7 @@ import org.eclipse.ui.forms.widgets.Form;
 import org.eclipse.ui.forms.widgets.FormToolkit;
 
 import com.google.common.collect.Lists;
+import com.netxforge.base.NonModelUtils;
 import com.netxforge.netxstudio.screens.AbstractScreen;
 import com.netxforge.netxstudio.screens.editing.IDataScreenInjection;
 import com.netxforge.netxstudio.screens.editing.ScreenUtil;
@@ -66,7 +67,7 @@ import com.netxforge.netxstudio.services.ServicesPackage;
 /**
  * 
  * @author Christophe
- *
+ * 
  */
 public class ServiceMonitors extends AbstractScreen implements
 		IDataScreenInjection {
@@ -96,7 +97,7 @@ public class ServiceMonitors extends AbstractScreen implements
 		});
 		toolkit.adapt(this);
 		toolkit.paintBordersFor(this);
-//		buildUI();
+		// buildUI();
 	}
 
 	private void buildUI() {
@@ -125,9 +126,10 @@ public class ServiceMonitors extends AbstractScreen implements
 		new Label(frmServiceMonitors.getBody(), SWT.NONE);
 
 		serviceMonitorsTableViewer = new TableViewer(
-				frmServiceMonitors.getBody(), SWT.BORDER | SWT.FULL_SELECTION | SWT.MULTI);
+				frmServiceMonitors.getBody(), SWT.BORDER | SWT.FULL_SELECTION
+						| SWT.MULTI);
 		serviceMonitorsTableViewer.setComparer(new CDOElementComparer());
-		
+
 		table = serviceMonitorsTableViewer.getTable();
 		table.setLinesVisible(true);
 		table.setHeaderVisible(true);
@@ -152,28 +154,28 @@ public class ServiceMonitors extends AbstractScreen implements
 		tblclmnStart.setWidth(139);
 		tblclmnStart.setText("Start");
 
-//		Menu menu = new Menu(table);
-//		table.setMenu(menu);
-//
-//		MenuItem mntmEdit = new MenuItem(menu, SWT.NONE);
-//		mntmEdit.addSelectionListener(new SelectionAdapter() {
-//			@Override
-//			public void widgetSelected(SelectionEvent e) {
-//
-//				ISelection selection = getViewer().getSelection();
-//				if (selection instanceof IStructuredSelection) {
-//					Object o = ((IStructuredSelection) selection)
-//							.getFirstElement();
-//						ResourceMonitors rmScreen = new ResourceMonitors(
-//								screenService.getScreenContainer(), SWT.NONE);
-//						rmScreen.setOperation(Screens.OPERATION_READ_ONLY);
-//						rmScreen.setScreenService(screenService);
-//						rmScreen.injectData(null,o);
-//						screenService.setActiveScreen(rmScreen);
-//				}
-//			}
-//		});
-//		mntmEdit.setText("View...");
+		// Menu menu = new Menu(table);
+		// table.setMenu(menu);
+		//
+		// MenuItem mntmEdit = new MenuItem(menu, SWT.NONE);
+		// mntmEdit.addSelectionListener(new SelectionAdapter() {
+		// @Override
+		// public void widgetSelected(SelectionEvent e) {
+		//
+		// ISelection selection = getViewer().getSelection();
+		// if (selection instanceof IStructuredSelection) {
+		// Object o = ((IStructuredSelection) selection)
+		// .getFirstElement();
+		// ResourceMonitors rmScreen = new ResourceMonitors(
+		// screenService.getScreenContainer(), SWT.NONE);
+		// rmScreen.setOperation(Screens.OPERATION_READ_ONLY);
+		// rmScreen.setScreenService(screenService);
+		// rmScreen.injectData(null,o);
+		// screenService.setActiveScreen(rmScreen);
+		// }
+		// }
+		// });
+		// mntmEdit.setText("View...");
 
 		TableViewerColumn tableViewerColumn_1 = new TableViewerColumn(
 				serviceMonitorsTableViewer, SWT.NONE);
@@ -181,11 +183,12 @@ public class ServiceMonitors extends AbstractScreen implements
 		tblclmnEnd.setWidth(185);
 		tblclmnEnd.setText("End");
 	}
-	
+
 	/**
-	 * Wrap in an action, to contribute to a menu manager. 
+	 * Wrap in an action, to contribute to a menu manager.
+	 * 
 	 * @author Christophe Bouhier
-	 *
+	 * 
 	 */
 	class EditMonitorAction extends Action {
 
@@ -201,17 +204,16 @@ public class ServiceMonitors extends AbstractScreen implements
 				if (selection instanceof IStructuredSelection) {
 					Object o = ((IStructuredSelection) selection)
 							.getFirstElement();
-						ResourceMonitors rmScreen = new ResourceMonitors(
-								screenService.getScreenContainer(), SWT.NONE);
-						rmScreen.setOperation(ScreenUtil.OPERATION_READ_ONLY);
-						rmScreen.setScreenService(screenService);
-						rmScreen.injectData(null,o);
-						screenService.setActiveScreen(rmScreen);
+					ResourceMonitors rmScreen = new ResourceMonitors(
+							screenService.getScreenContainer(), SWT.NONE);
+					rmScreen.setOperation(ScreenUtil.OPERATION_READ_ONLY);
+					rmScreen.setScreenService(screenService);
+					rmScreen.injectData(null, o);
+					screenService.setActiveScreen(rmScreen);
 				}
 			}
 		}
 	}
-	
 
 	public EMFDataBindingContext initDataBindings_() {
 		EMFDataBindingContext bindingContext = new EMFDataBindingContext();
@@ -235,11 +237,12 @@ public class ServiceMonitors extends AbstractScreen implements
 				.setLabelProvider(new ServiceMonitorsObervableMapLabelProvider(
 						observeMaps));
 
-		IEMFListProperty resourcesProperties = EMFEditProperties
-				.list(editingService.getEditingDomain(), ServicesPackage.Literals.SERVICE__SERVICE_MONITORS);
+		IEMFListProperty resourcesProperties = EMFEditProperties.list(
+				editingService.getEditingDomain(),
+				ServicesPackage.Literals.SERVICE__SERVICE_MONITORS);
 		IObservableList rfsServicesObservableList = resourcesProperties
 				.observe(this.rfsService);
-//		obm.addObservable(rfsServicesObservableList);
+		// obm.addObservable(rfsServicesObservableList);
 		serviceMonitorsTableViewer.setInput(rfsServicesObservableList);
 
 		return bindingContext;
@@ -275,16 +278,18 @@ public class ServiceMonitors extends AbstractScreen implements
 					break;
 				case 2:
 					if (sm.getPeriod() != null) {
-						Date begin = modelUtils.fromXMLDate(sm.getPeriod()
+						Date begin = NonModelUtils.fromXMLDate(sm.getPeriod()
 								.getBegin());
-						return modelUtils.date(begin) + " @ " + modelUtils.time(begin);
+						return NonModelUtils.date(begin) + " @ "
+								+ NonModelUtils.time(begin);
 					}
 					break;
 				case 3:
 					if (sm.getPeriod() != null) {
-						Date end = modelUtils.fromXMLDate(sm.getPeriod()
+						Date end = NonModelUtils.fromXMLDate(sm.getPeriod()
 								.getEnd());
-						return modelUtils.date(end)  + " @ " +  modelUtils.time(end);
+						return NonModelUtils.date(end) + " @ "
+								+ NonModelUtils.time(end);
 					}
 					break;
 				}
@@ -294,8 +299,8 @@ public class ServiceMonitors extends AbstractScreen implements
 	}
 
 	public void injectData(Object owner, Object object) {
-		if(object instanceof RFSService){
-			rfsService = (RFSService)object;	
+		if (object instanceof RFSService) {
+			rfsService = (RFSService) object;
 		}
 		buildUI();
 		initDataBindings_();
@@ -322,21 +327,21 @@ public class ServiceMonitors extends AbstractScreen implements
 	}
 
 	private final List<IAction> actions = Lists.newArrayList();
-	
+
 	@Override
-	public IAction[] getActions(){
-		// lazy initialize. 
-		if(actions.isEmpty()){
-//			String actionText = Screens.isReadOnlyOperation(getOperation()) ? "View" : "Edit";
+	public IAction[] getActions() {
+		// lazy initialize.
+		if (actions.isEmpty()) {
+			// String actionText = Screens.isReadOnlyOperation(getOperation()) ?
+			// "View" : "Edit";
 			actions.add(new EditMonitorAction("Resource Monitors..."));
 		}
 		return actions.toArray(new IAction[actions.size()]);
 	}
-	
+
 	@Override
 	public String getScreenName() {
 		return "Service Monitors";
 	}
 
-	
 }

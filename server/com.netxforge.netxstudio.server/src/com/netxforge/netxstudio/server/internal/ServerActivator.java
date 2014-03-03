@@ -41,12 +41,12 @@ import org.osgi.framework.BundleContext;
 import com.google.inject.Guice;
 import com.google.inject.Inject;
 import com.google.inject.Injector;
-import com.netxforge.netxstudio.common.properties.IPropertiesProvider;
+import com.netxforge.base.properties.IPropertiesProvider;
 import com.netxforge.netxstudio.server.IServerUtils;
 import com.netxforge.netxstudio.server.ServerIntegrity;
 import com.netxforge.netxstudio.server.ServerUtils;
-import com.netxforge.netxstudio.server.data.IServerNoCacheDataProvider;
 import com.netxforge.netxstudio.server.data.IServerDataProvider;
+import com.netxforge.netxstudio.server.data.IServerNoCacheDataProvider;
 import com.netxforge.netxstudio.server.data.Server;
 import com.netxforge.netxstudio.server.data.ServerNoCache;
 

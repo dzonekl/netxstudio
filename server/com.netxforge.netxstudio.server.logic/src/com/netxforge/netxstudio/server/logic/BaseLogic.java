@@ -25,9 +25,10 @@ import org.eclipse.emf.cdo.session.CDOSession;
 import org.eclipse.emf.ecore.resource.Resource;
 
 import com.google.inject.Inject;
+import com.netxforge.base.NonModelUtils;
 import com.netxforge.netxstudio.NetxstudioPackage;
 import com.netxforge.netxstudio.ServerSettings;
-import com.netxforge.netxstudio.common.model.ModelUtils;
+import com.netxforge.netxstudio.common.model.StudioUtils;
 import com.netxforge.netxstudio.data.IData;
 import com.netxforge.netxstudio.data.IQueryService;
 import com.netxforge.netxstudio.data.job.IRunMonitor;
@@ -59,9 +60,6 @@ public abstract class BaseLogic {
 
 	@Inject
 	protected IQueryService queryService;
-
-	@Inject
-	private ModelUtils modelUtils;
 
 	private IRunMonitor jobMonitor;
 
@@ -189,8 +187,7 @@ public abstract class BaseLogic {
 			LogicActivator.TRACE.trace(
 					LogicActivator.TRACE_LOGIC_OPTION,
 					"Logic Duration: "
-							+ this.getModelUtils().timeDuration(
-									durationThisInstance));
+							+ NonModelUtils.timeDuration(durationThisInstance));
 		}
 	}
 
@@ -208,14 +205,14 @@ public abstract class BaseLogic {
 			if (f instanceof ExpressionFailure) {
 				final Expression expressionRef = ((ExpressionFailure) f)
 						.getExpressionRef();
-				final String expressionAsString = modelUtils
+				final String expressionAsString = StudioUtils
 						.expressionAsString(expressionRef);
 				sb.append(expressionAsString);
 			}
 			if (f instanceof ComponentFailure) {
 				Component componentRef = ((ComponentFailure) f)
 						.getComponentRef();
-				sb.append(modelUtils.printModelObject(componentRef));
+				sb.append(StudioUtils.printModelObject(componentRef));
 			}
 			jobMonitor.updateLog(sb.toString());
 		}
@@ -254,14 +251,6 @@ public abstract class BaseLogic {
 
 	public List<Failure> getFailures() {
 		return failures;
-	}
-
-	public ModelUtils getModelUtils() {
-		return modelUtils;
-	}
-
-	public void setModelUtils(ModelUtils modelUtils) {
-		this.modelUtils = modelUtils;
 	}
 
 	public ServerSettings getSettings() {

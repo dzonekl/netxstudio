@@ -30,9 +30,11 @@ import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Ordering;
 import com.google.inject.Inject;
-import com.netxforge.netxstudio.common.model.ModelUtils;
+import com.netxforge.base.NonModelUtils;
+import com.netxforge.netxstudio.common.model.StudioUtils;
 import com.netxforge.netxstudio.data.IQueryService;
-import com.netxforge.netxstudio.data.importer.ResultProcessor;
+import com.netxforge.netxstudio.data.services.ResultProcessor;
+import com.netxforge.netxstudio.data.services.ValueProcessor;
 import com.netxforge.netxstudio.generics.DateTimeRange;
 import com.netxforge.netxstudio.generics.Value;
 import com.netxforge.netxstudio.library.BaseExpressionResult;
@@ -83,6 +85,9 @@ public class RetentionEngine extends BaseComponentEngine {
 	private ResultProcessor resultProcessor;
 
 	@Inject
+	private ValueProcessor valueProcessor;
+
+	@Inject
 	private IQueryService queryService;
 
 	@Inject
@@ -99,7 +104,7 @@ public class RetentionEngine extends BaseComponentEngine {
 		Resource resource = this.getDataProvider().getResource(
 				MetricsPackage.Literals.METRIC_SOURCE);
 
-		metricSources = new ModelUtils.CollectionForObjects<MetricSource>()
+		metricSources = new NonModelUtils.CollectionForObjects<MetricSource>()
 				.collectionForObjects(resource.getContents());
 		// Rules should execute considering the order of the smallest
 		// interval first,
@@ -107,7 +112,7 @@ public class RetentionEngine extends BaseComponentEngine {
 		// Order the rules by smallest interval.
 		if (metricRulesSortedList == null) {
 			metricRulesSortedList = Ordering.from(
-					getModelUtils().retentionRuleCompare()).sortedCopy(
+					StudioUtils.retentionRuleCompare()).sortedCopy(
 					rules.getMetricRetentionRules());
 			if (LogicActivator.DEBUG) {
 				LogicActivator.TRACE.trace(
@@ -159,7 +164,7 @@ public class RetentionEngine extends BaseComponentEngine {
 					mvrs.add(mvr);
 					// The total amount of work....
 					int metricValues = mvr.getMetricValues().size();
-					resultProcessor.removeValues(mvr.getMetricValues());
+					valueProcessor.removeValues(mvr.getMetricValues());
 
 					if (LogicActivator.DEBUG) {
 						LogicActivator.TRACE
@@ -167,9 +172,8 @@ public class RetentionEngine extends BaseComponentEngine {
 										"Cleared metric values total= "
 												+ metricValues
 												+ ", from resource "
-												+ this.getModelUtils()
-														.printModelObject(
-																netXResource)
+												+ StudioUtils
+														.printModelObject(netXResource)
 												+ " interval= "
 												+ mvr.getIntervalHint());
 
@@ -181,9 +185,9 @@ public class RetentionEngine extends BaseComponentEngine {
 				int totalValues = netXResource.getUtilizationValues().size()
 						+ netXResource.getCapacityValues().size();
 
-				resultProcessor.removeValues(netXResource
-						.getUtilizationValues());
-				resultProcessor.removeValues(netXResource.getCapacityValues());
+				valueProcessor
+						.removeValues(netXResource.getUtilizationValues());
+				valueProcessor.removeValues(netXResource.getCapacityValues());
 
 				if (LogicActivator.DEBUG) {
 					LogicActivator.TRACE.trace(
@@ -191,8 +195,8 @@ public class RetentionEngine extends BaseComponentEngine {
 							"Cleared cap & util values total= "
 									+ totalValues
 									+ ", from resource "
-									+ this.getModelUtils().printModelObject(
-											netXResource));
+									+ StudioUtils
+											.printModelObject(netXResource));
 
 				}
 
@@ -227,9 +231,8 @@ public class RetentionEngine extends BaseComponentEngine {
 			LogicActivator.TRACE.trace(
 					LogicActivator.TRACE_RETENTION_OPTION,
 					"data retention for : "
-							+ this.getModelUtils().printModelObject(
-									getComponent()) + " resource: "
-							+ netXResource.getExpressionName());
+							+ StudioUtils.printModelObject(getComponent())
+							+ " resource: " + netXResource.getExpressionName());
 			LogicActivator.TRACE
 					.trace(LogicActivator.TRACE_RETENTION_DETAILS_OPTION,
 							"Applying custom rule sets ("
@@ -246,13 +249,12 @@ public class RetentionEngine extends BaseComponentEngine {
 
 			final DateTimeRange period = addonHandler.getDTRForRetentionRule(
 					rule,
-					this.getModelUtils().fromXMLDate(
-							this.getPeriod().getBegin()));
+					NonModelUtils.fromXMLDate(this.getPeriod().getBegin()));
 			LogicActivator.TRACE.trace(
 					LogicActivator.TRACE_RETENTION_DETAILS_OPTION,
 					"Applying custom rule: " + rule.getName() + " interval: "
 							+ rule.getIntervalHint() + " clear for: "
-							+ this.getModelUtils().periodToStringMore(period));
+							+ StudioUtils.periodToStringMore(period));
 
 			mvrsCleared.addAll(clear(netXResource, period, intervalHint));
 
@@ -272,9 +274,8 @@ public class RetentionEngine extends BaseComponentEngine {
 			LogicActivator.TRACE.trace(
 					LogicActivator.TRACE_RETENTION_OPTION,
 					"data retention for : "
-							+ this.getModelUtils().printModelObject(
-									getComponent()) + " resource: "
-							+ netXResource.getExpressionName());
+							+ StudioUtils.printModelObject(getComponent())
+							+ " resource: " + netXResource.getExpressionName());
 		}
 
 		// track the MVR's processed.
@@ -284,11 +285,9 @@ public class RetentionEngine extends BaseComponentEngine {
 
 			int intervalHint = rule.getIntervalHint();
 
-			final DateTimeRange period = this.getModelUtils()
-					.periodForRetentionRule(
-							rule,
-							this.getModelUtils().fromXMLDate(
-									this.getPeriod().getBegin()));
+			final DateTimeRange period = StudioUtils.periodForRetentionRule(
+					rule,
+					NonModelUtils.fromXMLDate(this.getPeriod().getBegin()));
 
 			mvrsCleared.addAll(clear(netXResource, period, intervalHint));
 		}
@@ -333,8 +332,7 @@ public class RetentionEngine extends BaseComponentEngine {
 				LogicActivator.TRACE.trace(
 						LogicActivator.TRACE_RETENTION_OPTION,
 						"Retention rules missing, netxResource: "
-								+ this.getModelUtils().printModelObject(
-										netXResource));
+								+ StudioUtils.printModelObject(netXResource));
 
 				// Analyze.
 				for (MetricValueRange mvr : netXResource.getMetricValueRanges()) {
@@ -343,8 +341,8 @@ public class RetentionEngine extends BaseComponentEngine {
 						LogicActivator.TRACE.trace(
 								LogicActivator.TRACE_RETENTION_OPTION,
 								" -- missing "
-										+ this.getModelUtils().fromMinutes(
-												mvr.getIntervalHint()) + ", "
+										+ NonModelUtils.fromMinutes(mvr
+												.getIntervalHint()) + ", "
 										+ mvr.getKindHint().getName());
 					}
 				}
@@ -368,9 +366,9 @@ public class RetentionEngine extends BaseComponentEngine {
 			LogicActivator.TRACE.trace(
 					LogicActivator.TRACE_RETENTION_OPTION,
 					"skip metric retention rule "
-							+ this.getModelUtils().printModelObject(
-									netXResource) + " interval= "
-							+ intervalHint + " (Always keep these values)");
+							+ StudioUtils.printModelObject(netXResource)
+							+ " interval= " + intervalHint
+							+ " (Always keep these values)");
 			return mvrsCleared;
 		}
 
@@ -383,7 +381,7 @@ public class RetentionEngine extends BaseComponentEngine {
 					IQueryService.QUERY_MYSQL, period);
 
 			if (!capacityValues.isEmpty()) {
-				resultProcessor.removeValues(netXResource.getCapacityValues(),
+				valueProcessor.removeValues(netXResource.getCapacityValues(),
 						capacityValues);
 			}
 
@@ -392,7 +390,7 @@ public class RetentionEngine extends BaseComponentEngine {
 							IQueryService.QUERY_MYSQL, period);
 
 			if (!utilizationValues.isEmpty()) {
-				resultProcessor.removeValues(
+				valueProcessor.removeValues(
 						netXResource.getUtilizationValues(), utilizationValues);
 			}
 		}
@@ -400,40 +398,33 @@ public class RetentionEngine extends BaseComponentEngine {
 		// final MetricValueRange mvr = this.getModelUtils()
 		// .valueRangeForInterval(netXResource, intervalHint);
 
-		final List<MetricValueRange> valueRangesForInterval = this
-				.getModelUtils().valueRangesForInterval(netXResource,
-						intervalHint);
-		
-		if(valueRangesForInterval.isEmpty()){
-			LogicActivator.TRACE.trace(
-					LogicActivator.TRACE_RETENTION_OPTION,
+		final List<MetricValueRange> valueRangesForInterval = StudioUtils
+				.valueRangesForInterval(netXResource, intervalHint);
+
+		if (valueRangesForInterval.isEmpty()) {
+			LogicActivator.TRACE.trace(LogicActivator.TRACE_RETENTION_OPTION,
 					"no ranges (neither AVG nor BH) for resource: "
-							+ this.getModelUtils().printModelObject(
-									netXResource) + " Interval= "
-							+ intervalHint);
+							+ StudioUtils.printModelObject(netXResource)
+							+ " Interval= " + intervalHint);
 		}
-		
+
 		for (MetricValueRange mvr : valueRangesForInterval) {
-			if (!mvr.getMetricValues().isEmpty()
-					&& FSMUtil.isClean(mvr)) {
+			if (!mvr.getMetricValues().isEmpty() && FSMUtil.isClean(mvr)) {
 
 				LogicActivator.TRACE.trace(
 						LogicActivator.TRACE_RETENTION_OPTION,
 						"Clearing metric values from resource "
-								+ this.getModelUtils().printModelObject(
-										netXResource)
+								+ StudioUtils.printModelObject(netXResource)
 								+ " interval= "
-								+ this.getModelUtils().fromMinutes(
-										mvr.getIntervalHint())
-								+ ", period: "
-								+ this.getModelUtils().periodToStringMore(
-										period));
+								+ NonModelUtils.fromMinutes(mvr
+										.getIntervalHint()) + ", period: "
+								+ StudioUtils.periodToStringMore(period));
 
 				// // Do we get a List or ELis?
 				final List<Value> mvrValues = queryService.mvrValues(
 						mvr.cdoView(), mvr, IQueryService.QUERY_MYSQL, period);
 
-				if (!resultProcessor.removeValues(mvr, mvrValues)) {
+				if (!valueProcessor.removeValues(mvr, mvrValues)) {
 					LogicActivator.TRACE.trace(
 							LogicActivator.TRACE_RETENTION_OPTION,
 							"values not removed: " + mvrValues);
@@ -449,9 +440,10 @@ public class RetentionEngine extends BaseComponentEngine {
 					LogicActivator.TRACE.trace(
 							LogicActivator.TRACE_RETENTION_OPTION,
 							"no values for resource: "
-									+ this.getModelUtils().printModelObject(
-											netXResource) + " Interval: "
-									+ mvr.getIntervalHint() + " Kind: " + mvr.getKindHint() );
+									+ StudioUtils
+											.printModelObject(netXResource)
+									+ " Interval: " + mvr.getIntervalHint()
+									+ " Kind: " + mvr.getKindHint());
 					mvrsCleared.add(mvr);
 				} else {
 					LogicActivator.TRACE.trace(

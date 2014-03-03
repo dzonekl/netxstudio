@@ -75,6 +75,8 @@ import org.eclipse.xtext.util.concurrent.IUnitOfWork;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
+import com.netxforge.base.NonModelUtils;
+import com.netxforge.netxstudio.common.model.StudioUtils;
 import com.netxforge.netxstudio.generics.DateTimeRange;
 import com.netxforge.netxstudio.generics.GenericsFactory;
 import com.netxforge.netxstudio.library.Expression;
@@ -410,9 +412,9 @@ public class ObjectExpressions extends AbstractScreen implements
 	}
 
 	protected void updatePeriodContext() {
-		periodContext.setBegin(modelUtils.toXMLDate(this.dateTimeFrom
+		periodContext.setBegin(NonModelUtils.toXMLDate(this.dateTimeFrom
 				.getSelection()));
-		periodContext.setEnd(modelUtils.toXMLDate(this.dateTimeTo
+		periodContext.setEnd(NonModelUtils.toXMLDate(this.dateTimeTo
 				.getSelection()));
 	}
 
@@ -489,7 +491,7 @@ public class ObjectExpressions extends AbstractScreen implements
 
 	private void bindExpressionSelector(EMFDataBindingContext bindingContext) {
 
-		List<EReference> expressionEReferences = modelUtils
+		List<EReference> expressionEReferences = StudioUtils
 				.expressionEReferences(primaryContextObject);
 		for (EReference eref : expressionEReferences) {
 			expressionEntries.put(eref.getName(), eref);
@@ -530,8 +532,8 @@ public class ObjectExpressions extends AbstractScreen implements
 
 	private void bindPeriodContext(EMFDataBindingContext bindingContext) {
 		// no real databinding here.
-		this.dateTimeFrom.setSelection(modelUtils.twoMonthsAgo());
-		this.dateTimeTo.setSelection(modelUtils.todayAndNow());
+		this.dateTimeFrom.setSelection(NonModelUtils.twoMonthsAgo());
+		this.dateTimeTo.setSelection(NonModelUtils.todayAndNow());
 	}
 
 	private void bindExpression(DataBindingContext context,

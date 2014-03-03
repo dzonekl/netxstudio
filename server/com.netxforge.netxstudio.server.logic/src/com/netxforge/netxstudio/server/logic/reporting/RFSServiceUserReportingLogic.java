@@ -8,6 +8,8 @@ import org.apache.poi.ss.usermodel.CreationHelper;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 
+import com.netxforge.base.NonModelUtils;
+import com.netxforge.netxstudio.common.model.StudioUtils;
 import com.netxforge.netxstudio.generics.DateTimeRange;
 import com.netxforge.netxstudio.generics.Value;
 import com.netxforge.netxstudio.services.DerivedResource;
@@ -26,11 +28,12 @@ public class RFSServiceUserReportingLogic extends OperatorReportingLogic {
 		super.typeCell.setCellValue("Service Monitoring");
 		super.titleCell.setCellValue("Service User Profiles");
 		if (dtr != null) {
-			super.periodCell.setCellValue(this.getModelUtils().date(
-					getModelUtils().fromXMLDate(dtr.getBegin()))
-					+ "-"
-					+ this.getModelUtils().date(
-							getModelUtils().fromXMLDate(dtr.getEnd())));
+			super.periodCell
+					.setCellValue(NonModelUtils.date(NonModelUtils
+							.fromXMLDate(dtr.getBegin()))
+							+ "-"
+							+ NonModelUtils.date(NonModelUtils.fromXMLDate(dtr
+									.getEnd())));
 		}
 	}
 
@@ -63,31 +66,30 @@ public class RFSServiceUserReportingLogic extends OperatorReportingLogic {
 				Cell resourceCell = resourceRow
 						.createCell(SERVICEUSER_COLUMN + 1);
 				resourceCell.setCellValue(dr.getLongName());
-				
-				List<Value> range = getModelUtils().sortValuesByTimeStamp(
-						dr.getValues());
-				range = getModelUtils().valuesInsideRange(range,
-						this.getPeriod());
 
-				CreationHelper createHelper = this.getWorkBook().getCreationHelper();
+				List<Value> range = StudioUtils.sortValuesByTimeStamp(dr
+						.getValues());
+				range = StudioUtils.valuesInsideRange(range, this.getPeriod());
+
+				CreationHelper createHelper = this.getWorkBook()
+						.getCreationHelper();
 				CellStyle cellStyle = this.getWorkBook().createCellStyle();
-				cellStyle.setDataFormat(createHelper.createDataFormat().getFormat(
-						"m-d-yy h:mm"));
-				
+				cellStyle.setDataFormat(createHelper.createDataFormat()
+						.getFormat("m-d-yy h:mm"));
+
 				Row tsRow = sheet.createRow(resourceIndex++);
 				Row valueRow = sheet.createRow(resourceIndex++);
-				
+
 				// Write the values.
 				int valueIndex = SERVICEUSER_COLUMN + 3;
 
 				for (Value v : range) {
 
 					Cell tsCell = tsRow.createCell(valueIndex);
-					tsCell.setCellValue(getModelUtils().fromXMLDate(
-							v.getTimeStamp()));
+					tsCell.setCellValue(NonModelUtils.fromXMLDate(v
+							.getTimeStamp()));
 					tsCell.setCellStyle(cellStyle);
-					
-					// TODO, Perhaps some formatting for a double.
+
 					Cell valueCell = valueRow.createCell(valueIndex++);
 					valueCell.setCellValue(v.getValue());
 

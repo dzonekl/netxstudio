@@ -25,7 +25,7 @@ import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.Notifier;
 
 import com.google.common.collect.Lists;
-import com.netxforge.netxstudio.common.context.IComputationContext;
+import com.netxforge.base.context.IComputationContext;
 import com.netxforge.netxstudio.generics.DateTimeRange;
 
 /**

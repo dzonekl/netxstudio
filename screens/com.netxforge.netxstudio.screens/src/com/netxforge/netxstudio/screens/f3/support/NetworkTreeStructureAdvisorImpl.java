@@ -20,7 +20,7 @@ package com.netxforge.netxstudio.screens.f3.support;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.jface.databinding.viewers.TreeStructureAdvisor;
 
-import com.netxforge.netxstudio.common.model.ModelUtils;
+import com.netxforge.netxstudio.common.model.StudioUtils;
 import com.netxforge.netxstudio.library.Component;
 import com.netxforge.netxstudio.library.Equipment;
 import com.netxforge.netxstudio.library.Function;
@@ -31,10 +31,7 @@ import com.netxforge.netxstudio.operators.Operator;
 
 public class NetworkTreeStructureAdvisorImpl extends TreeStructureAdvisor {
 
-	private ModelUtils modelUtils;
-
-	public NetworkTreeStructureAdvisorImpl(ModelUtils modelUtils) {
-		this.modelUtils = modelUtils;
+	public NetworkTreeStructureAdvisorImpl() {
 	}
 
 	/**
@@ -50,7 +47,7 @@ public class NetworkTreeStructureAdvisorImpl extends TreeStructureAdvisor {
 			if (eContainer != null) {
 				if (element instanceof Component
 						&& eContainer instanceof NodeType) {
-					return modelUtils.nodeFor((EObject) element);
+					return StudioUtils.nodeFor((EObject) element);
 				}
 				return eContainer;
 			}

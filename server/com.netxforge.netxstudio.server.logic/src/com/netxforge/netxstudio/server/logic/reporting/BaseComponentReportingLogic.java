@@ -32,6 +32,7 @@ import org.apache.poi.ss.usermodel.CellStyle;
 import org.apache.poi.ss.usermodel.Font;
 import org.apache.poi.ss.util.CellRangeAddress;
 
+import com.netxforge.netxstudio.common.model.StudioUtils;
 import com.netxforge.netxstudio.library.Equipment;
 import com.netxforge.netxstudio.library.Function;
 import com.netxforge.netxstudio.library.LibraryPackage;
@@ -96,7 +97,7 @@ public abstract class BaseComponentReportingLogic extends BaseComponentLogic {
 		
 		writeReportTemplate();
 
-		List<NodeType> uniqueNodeTypes = this.getModelUtils().uniqueNodeTypes(
+		List<NodeType> uniqueNodeTypes = StudioUtils.uniqueNodeTypes(
 				allNodes);
 
 		int nodeTypeCount = 0;

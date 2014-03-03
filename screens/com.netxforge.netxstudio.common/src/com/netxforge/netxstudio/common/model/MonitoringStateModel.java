@@ -37,7 +37,8 @@ import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
-import com.netxforge.netxstudio.common.context.IComputationContext;
+import com.netxforge.base.cdo.MonitoringStateEvent;
+import com.netxforge.base.context.IComputationContext;
 import com.netxforge.netxstudio.common.internal.CommonActivator;
 import com.netxforge.netxstudio.library.Component;
 import com.netxforge.netxstudio.library.LevelKind;
@@ -182,11 +183,11 @@ public class MonitoringStateModel {
 
 		protected void processReadingInternal(final IProgressMonitor monitor) {
 			if (CommonActivator.DEBUG) {
-				CommonActivator.TRACE
-						.trace(CommonActivator.TRACE_COMMON_MONITORING_OPTION,
-								" creating summary for:"
-										+ modelUtils
-												.printModelObject((EObject) target));
+				CommonActivator.TRACE.trace(
+						CommonActivator.TRACE_COMMON_MONITORING_OPTION,
+						" creating summary for:"
+								+ StudioUtils
+										.printModelObject((EObject) target));
 			}
 			summary = doSummary(monitor, target, contextObjects);
 		}
@@ -282,11 +283,11 @@ public class MonitoringStateModel {
 
 		protected void processReadingInternal(final IProgressMonitor monitor) {
 			if (CommonActivator.DEBUG) {
-				CommonActivator.TRACE
-						.trace(CommonActivator.TRACE_COMMON_MONITORING_OPTION,
-								" clearing summary for:"
-										+ modelUtils
-												.printModelObject((EObject) target));
+				CommonActivator.TRACE.trace(
+						CommonActivator.TRACE_COMMON_MONITORING_OPTION,
+						" clearing summary for:"
+								+ StudioUtils
+										.printModelObject((EObject) target));
 			}
 			doClearSummary(monitor, target);
 		}
@@ -315,9 +316,6 @@ public class MonitoringStateModel {
 		}
 
 	}
-
-	@Inject
-	protected ModelUtils modelUtils;
 
 	private MonitoringStateJob job = new MonitoringStateJob();
 
@@ -669,7 +667,7 @@ public class MonitoringStateModel {
 	 */
 	private List<Marker> toleranceMarkersForResourceMonitor(ResourceMonitor rm) {
 		final List<Marker> toleranceMarkers = Lists.newArrayList(Iterables
-				.filter(rm.getMarkers(), modelUtils.toleranceMarkers()));
+				.filter(rm.getMarkers(), StudioUtils.toleranceMarkers()));
 		return toleranceMarkers;
 	}
 
@@ -745,7 +743,7 @@ public class MonitoringStateModel {
 	public ToleranceMarker lastToleranceMarker(LevelKind lk, Marker... markers) {
 		ToleranceMarker tm = null;
 		List<Marker> markerList = Lists.newArrayList(markers);
-		markerList = modelUtils.sortMarkersByTimeStamp(markerList);
+		markerList = StudioUtils.sortMarkersByTimeStamp(markerList);
 		Collections.reverse(markerList);
 		for (Marker m : markerList) {
 			if (m instanceof ToleranceMarker

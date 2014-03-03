@@ -7,6 +7,7 @@ Bundle-Activator: com.netxforge.netxstudio.models.importer.ui.internal.ImportUIA
 Bundle-Vendor: %Bundle-Vendor
 Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.ui.forms;bundle-version="3.5.2",
+ com.netxforge.base;bundle-version="1.0.0",
  com.netxforge.netxstudio.models.import;bundle-version="1.0.0",
  com.netxforge.netxstudio.common;bundle-version="1.0.0",
  com.netxforge.netxstudio.screens.editing;bundle-version="1.0.0",

@@ -9,8 +9,8 @@ import org.eclipse.jface.viewers.ViewerCell;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.widgets.Display;
 
+import com.netxforge.base.cdo.MonitoringStateEvent;
 import com.netxforge.netxstudio.common.model.IMonitoringSummary;
-import com.netxforge.netxstudio.common.model.MonitoringStateEvent;
 import com.netxforge.netxstudio.common.model.MonitoringStateModel.MonitoringStateCallBack;
 import com.netxforge.netxstudio.library.Component;
 import com.netxforge.netxstudio.library.Equipment;

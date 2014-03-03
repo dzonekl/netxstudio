@@ -111,10 +111,12 @@ import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.inject.Inject;
+import com.netxforge.base.NonModelUtils;
+import com.netxforge.base.context.IComputationContext;
 import com.netxforge.engine.IExpressionEngine;
-import com.netxforge.netxstudio.common.context.IComputationContext;
 import com.netxforge.netxstudio.common.model.MonitoringStateModel;
-import com.netxforge.netxstudio.data.importer.ResultProcessor;
+import com.netxforge.netxstudio.common.model.StudioUtils;
+import com.netxforge.netxstudio.data.services.ResultProcessor;
 import com.netxforge.netxstudio.generics.DateTimeRange;
 import com.netxforge.netxstudio.generics.GenericsPackage;
 import com.netxforge.netxstudio.generics.Value;
@@ -326,8 +328,8 @@ public class SmartResources extends AbstractPeriodScreen implements
 		frmResources.getToolBarManager().add(new showContextAction("Context"));
 
 		sashVertical = new SashForm(frmResources.getBody(), SWT.VERTICAL);
-		// Width ugly on WinXP. 
-//		sashVertical.setSashWidth(3);
+		// Width ugly on WinXP.
+		// sashVertical.setSashWidth(3);
 		toolkit.adapt(sashVertical);
 		toolkit.paintBordersFor(sashVertical);
 
@@ -353,8 +355,8 @@ public class SmartResources extends AbstractPeriodScreen implements
 				true));
 
 		sashData = new SashForm(sashVertical, SWT.HORIZONTAL | SWT.BORDER);
-		// width ugly on Windows. 
-//		sashData.setSashWidth(5);
+		// width ugly on Windows.
+		// sashData.setSashWidth(5);
 		toolkit.adapt(sashData);
 		toolkit.paintBordersFor(sashData);
 
@@ -548,7 +550,7 @@ public class SmartResources extends AbstractPeriodScreen implements
 		public void initialize(Object owner, Object copy,
 				EStructuralFeature feature) {
 			if (owner instanceof Component && copy instanceof Expression) {
-				String name = modelUtils.expressionName((Component) owner,
+				String name = StudioUtils.expressionName((Component) owner,
 						feature);
 				Expression copiedExpression = (Expression) copy;
 				copiedExpression.setName(name);
@@ -839,8 +841,8 @@ public class SmartResources extends AbstractPeriodScreen implements
 
 			WritableList contextWritableList = contextAggregate
 					.getContextWritableList();
-			ExpressionContextDialog expressionContextDialog = new ExpressionContextDialog(
-					SmartResources.this.getShell(), editingService, modelUtils);
+			final ExpressionContextDialog expressionContextDialog = new ExpressionContextDialog(
+					SmartResources.this.getShell(), editingService);
 			expressionContextDialog.setBlockOnOpen(false);
 			expressionContextDialog.open();
 			expressionContextDialog.injectData(contextWritableList);
@@ -1188,7 +1190,7 @@ public class SmartResources extends AbstractPeriodScreen implements
 
 			Expression expression = LibraryFactory.eINSTANCE.createExpression();
 
-			String name = modelUtils.expressionName(target, feature);
+			String name = StudioUtils.expressionName(target, feature);
 			expression.setName(name);
 
 			return expression;
@@ -1541,10 +1543,10 @@ public class SmartResources extends AbstractPeriodScreen implements
 			DateTimeRange dtr = getPeriodComponent().getPeriod();
 			System.out
 					.println("period start="
-							+ (dtr.eIsSet(GenericsPackage.Literals.DATE_TIME_RANGE__BEGIN) ? modelUtils
+							+ (dtr.eIsSet(GenericsPackage.Literals.DATE_TIME_RANGE__BEGIN) ? NonModelUtils
 									.dateAndTime(dtr.getBegin()) : "?")
 							+ " , end="
-							+ (dtr.eIsSet(GenericsPackage.Literals.DATE_TIME_RANGE__END) ? modelUtils
+							+ (dtr.eIsSet(GenericsPackage.Literals.DATE_TIME_RANGE__END) ? NonModelUtils
 									.dateAndTime(dtr.getEnd()) : "?")
 							+ ", component="
 							+ (currentComponent != null ? currentComponent
@@ -1623,7 +1625,7 @@ public class SmartResources extends AbstractPeriodScreen implements
 		@Override
 		protected Object getValue(Object element) {
 			if (element instanceof NetXResource) {
-				Value v = modelUtils
+				Value v = StudioUtils
 						.mostRecentCapacityValue((NetXResource) element);
 
 				if (v != null) {
@@ -1666,7 +1668,7 @@ public class SmartResources extends AbstractPeriodScreen implements
 		protected Object openDialogBox(Control cellEditorWindow) {
 
 			CapacityEditingDialog capacityEditingDialog = new CapacityEditingDialog(
-					cellEditorWindow.getShell(), editingService, modelUtils);
+					cellEditorWindow.getShell(), editingService);
 			capacityEditingDialog.setBlockOnOpen(true);
 			capacityEditingDialog.injectData(resource);
 			int open = capacityEditingDialog.open();
@@ -1734,7 +1736,7 @@ public class SmartResources extends AbstractPeriodScreen implements
 					.getFirstElement();
 
 			RangeSelectionDialog selectDialog = new RangeSelectionDialog(
-					SmartResources.this.getShell(), modelUtils);
+					SmartResources.this.getShell());
 
 			selectDialog.setBlockOnOpen(true);
 			selectDialog.create();
@@ -1747,7 +1749,7 @@ public class SmartResources extends AbstractPeriodScreen implements
 			if (selectDialog.open() == Window.OK) {
 				MetricValueRange mvr = selectDialog.getValueRange();
 				if (mvr != null) {
-					DateTimeRange range = modelUtils.period(mvr
+					DateTimeRange range = StudioUtils.period(mvr
 							.getMetricValues());
 					// update the period component.
 					getPeriodComponent().setPeriod(range);
@@ -1888,7 +1890,7 @@ public class SmartResources extends AbstractPeriodScreen implements
 				Object value = observeOperatorOrServiceSelection.getValue();
 				if (value instanceof Operator) {
 					// closure of all Network objects.
-					result.addAll(modelUtils
+					result.addAll(StudioUtils
 							.networksForOperator((Operator) value));
 				} else if (value instanceof Service) {
 					// In this case, we do not need the networks, the Nodes,
@@ -1927,7 +1929,7 @@ public class SmartResources extends AbstractPeriodScreen implements
 					Object value = observeNetworkSelection.getValue();
 					if (value instanceof Network) {
 						// closure of all Network objects.
-						result.addAll(modelUtils
+						result.addAll(StudioUtils
 								.nodesForNetwork((Network) value));
 					}
 				}
@@ -2012,7 +2014,7 @@ public class SmartResources extends AbstractPeriodScreen implements
 			observeMaps.toArray(map);
 
 			componentsTreeViewer.setLabelProvider(new NetworkTreeLabelProvider(
-					modelUtils, map));
+					map));
 		}
 
 		IEMFListProperty nodeTypeList = EMFProperties.multiList(FeaturePath
@@ -2051,7 +2053,7 @@ public class SmartResources extends AbstractPeriodScreen implements
 				for (Object value : observeMultipleComponentSelection) {
 					if (value instanceof Component) {
 						// Should be a filter or else.
-						for (Component c : modelUtils
+						for (Component c : StudioUtils
 								.componentsForComponent((Component) value)) {
 							IObservableList observe = list.observe(c);
 							result.addAll(observe);

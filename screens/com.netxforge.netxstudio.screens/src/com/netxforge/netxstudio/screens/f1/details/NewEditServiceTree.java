@@ -75,6 +75,8 @@ import org.eclipse.wb.swt.ResourceManager;
 import com.google.common.base.Predicate;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
+import com.netxforge.base.NonModelUtils;
+import com.netxforge.netxstudio.common.model.StudioUtils;
 import com.netxforge.netxstudio.generics.DateTimeRange;
 import com.netxforge.netxstudio.generics.GenericsFactory;
 import com.netxforge.netxstudio.generics.GenericsPackage;
@@ -555,7 +557,7 @@ public class NewEditServiceTree extends AbstractDetailsScreen implements
 
 							final NodeOrNetworkFilterDialog dialog = new NodeOrNetworkFilterDialog(
 									NewEditServiceTree.this.getShell(),
-									operatorResource, modelUtils);
+									operatorResource);
 
 							if (dialog.open() == IDialogConstants.OK_ID) {
 								Object o = dialog.getFirstResult();
@@ -567,7 +569,7 @@ public class NewEditServiceTree extends AbstractDetailsScreen implements
 								}
 								if (o instanceof Network) {
 									// Adds all closure nodes.
-									nodesToAdd.addAll(modelUtils
+									nodesToAdd.addAll(StudioUtils
 											.nodesForNetwork((Network) o));
 								}
 
@@ -716,12 +718,12 @@ public class NewEditServiceTree extends AbstractDetailsScreen implements
 		// Defaults for 8 months.
 
 		// TODO, Migrate to Dashboard
-		Date startTime = modelUtils.monthsAgo(8);
-		startTime = modelUtils.adjustToDayStart(startTime);
+		Date startTime = NonModelUtils.monthsAgo(8);
+		startTime = NonModelUtils.adjustToDayStart(startTime);
 
-		Date endTime = modelUtils.todayAtDayEnd();
+		Date endTime = NonModelUtils.todayAtDayEnd();
 		@SuppressWarnings("unused")
-		DateTimeRange period = modelUtils.period(startTime, endTime);
+		DateTimeRange period = StudioUtils.period(startTime, endTime);
 
 		bindInfoSection(context);
 		bindLifeCycle(context);
@@ -861,8 +863,12 @@ public class NewEditServiceTree extends AbstractDetailsScreen implements
 			}
 
 			public Object convert(Object fromObject) {
-				return modelUtils
-						.fromXMLDate((XMLGregorianCalendar) fromObject);
+				if (fromObject != null) {
+					return NonModelUtils
+							.fromXMLDate((XMLGregorianCalendar) fromObject);
+				} else {
+					return fromObject;
+				}
 			}
 		});
 
@@ -879,7 +885,11 @@ public class NewEditServiceTree extends AbstractDetailsScreen implements
 			}
 
 			public Object convert(Object fromObject) {
-				return modelUtils.toXMLDate((Date) fromObject);
+				if (fromObject != null) {
+					return NonModelUtils.toXMLDate((Date) fromObject);
+				} else {
+					return fromObject;
+				}
 			}
 		});
 

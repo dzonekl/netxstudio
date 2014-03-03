@@ -50,7 +50,7 @@ import org.eclipse.ui.forms.widgets.Form;
 import org.eclipse.ui.forms.widgets.FormToolkit;
 import org.eclipse.ui.forms.widgets.Section;
 
-import com.netxforge.netxstudio.common.model.ModelUtils;
+import com.netxforge.base.NonModelUtils;
 import com.netxforge.netxstudio.library.LibraryPackage;
 import com.netxforge.netxstudio.library.Parameter;
 import com.netxforge.netxstudio.screens.AbstractScreen;
@@ -155,7 +155,7 @@ public class NewEditParameter extends AbstractScreen implements
 		lblValue.setAlignment(SWT.RIGHT);
 		
 		FormattedText formattedText = new FormattedText(composite_1, SWT.BORDER | SWT.RIGHT | widgetStyle);
-		LongFormatter numberFormatter = new LongFormatter(ModelUtils.DEFAULT_VALUE_FORMAT_PATTERN);
+		LongFormatter numberFormatter = new LongFormatter(NonModelUtils.DEFAULT_VALUE_FORMAT_PATTERN);
 		numberFormatter.setDecimalSeparatorAlwaysShown(true);
 		formattedText.setFormatter(numberFormatter);
 		txtValue = formattedText.getControl();
@@ -217,7 +217,7 @@ public class NewEditParameter extends AbstractScreen implements
 				
 				// Use a Decimal formatter, so we don't display Exponent, 
 				// which is default for a Double.toString()
-				DecimalFormat decimalFormat = new DecimalFormat(ModelUtils.DEFAULT_VALUE_FORMAT_PATTERN);
+				DecimalFormat decimalFormat = new DecimalFormat(NonModelUtils.DEFAULT_VALUE_FORMAT_PATTERN);
 				return decimalFormat.format(fromObject);
 			}
 		});

@@ -21,6 +21,8 @@ package com.netxforge.netxstudio.server.logic;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.netxforge.base.NonModelUtils;
+import com.netxforge.netxstudio.common.model.StudioUtils;
 import com.netxforge.netxstudio.library.Component;
 import com.netxforge.netxstudio.library.Equipment;
 import com.netxforge.netxstudio.library.Function;
@@ -53,10 +55,8 @@ public abstract class BaseComponentLogic extends BasePeriodLogic {
 		for (final NodeType nodeType : nodeTypes) {
 			getJobMonitor().appendToLog(
 					"processing node (type) "
-							+ ((Node) nodeType.eContainer()).getNodeID()
-							+ " "
-							+ this.getModelUtils().periodToStringMore(
-									this.getPeriod()));
+							+ ((Node) nodeType.eContainer()).getNodeID() + " "
+							+ StudioUtils.periodToStringMore(this.getPeriod()));
 
 			getJobMonitor().setTask("Processing for nodeType");
 			processNode(nodeType);
@@ -80,7 +80,7 @@ public abstract class BaseComponentLogic extends BasePeriodLogic {
 
 		// Make a message, which holds the component name, and the period.
 		String tskDescription = "Computing for " + component.getName()
-				+ this.getModelUtils().periodToStringMore(this.getPeriod());
+				+ StudioUtils.periodToStringMore(this.getPeriod());
 
 		this.getJobMonitor().setTask(tskDescription);
 
@@ -142,12 +142,11 @@ public abstract class BaseComponentLogic extends BasePeriodLogic {
 			if (this.getEngine() instanceof BaseExpressionEngine) {
 				BaseExpressionEngine bee = (BaseExpressionEngine) this
 						.getEngine();
-				LogicActivator.TRACE
-						.trace(LogicActivator.TRACE_LOGIC_OPTION,
-								"Expression Duration: "
-										+ this.getModelUtils()
-												.timeDurationNanoElapsed(
-														bee.getExpressionDurationThisInstance()));
+				LogicActivator.TRACE.trace(
+						LogicActivator.TRACE_LOGIC_OPTION,
+						"Expression Duration: "
+								+ NonModelUtils.timeDurationNanoElapsed(bee
+										.getExpressionDurationThisInstance()));
 			}
 		}
 	}

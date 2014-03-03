@@ -30,12 +30,12 @@ import com.google.common.collect.Lists;
 import com.google.inject.Inject;
 import com.google.inject.Injector;
 import com.google.inject.name.Named;
+import com.netxforge.base.context.IComputationContext;
+import com.netxforge.base.di.IInjectorProxy;
 import com.netxforge.interpreter.IInterpreter;
 import com.netxforge.interpreter.IInterpreterContextFactory;
 import com.netxforge.netxscript.Mod;
-import com.netxforge.netxstudio.common.context.IComputationContext;
-import com.netxforge.netxstudio.common.guice.IInjectorProxy;
-import com.netxforge.netxstudio.common.model.ModelUtils;
+import com.netxforge.netxstudio.common.model.StudioUtils;
 import com.netxforge.netxstudio.generics.DateTimeRange;
 import com.netxforge.netxstudio.library.BaseExpressionResult;
 import com.netxforge.netxstudio.library.Component;
@@ -68,9 +68,6 @@ public class ExpressionSupport {
 
 	}
 
-	@Inject
-	ModelUtils modelUtils;
-
 	/**
 	 * infer the Node and the Component from the NetXResource and set as
 	 * context.
@@ -81,7 +78,7 @@ public class ExpressionSupport {
 	 */
 	public ImmutableList<IComputationContext> buildContext(
 			DateTimeRange timeRange, Component component) {
-		Node node = modelUtils.nodeFor(component);
+		Node node = StudioUtils.nodeFor(component);
 		return buildContext(timeRange, new Object[] { node, component });
 	}
 
@@ -89,7 +86,7 @@ public class ExpressionSupport {
 			DateTimeRange timeRange, NetXResource resource) {
 		Component component = resource.getComponentRef();
 		if (component != null) {
-			Node node = modelUtils.nodeFor(component);
+			Node node = StudioUtils.nodeFor(component);
 			return buildContext(timeRange, new Object[] { node, component,
 					resource });
 		}

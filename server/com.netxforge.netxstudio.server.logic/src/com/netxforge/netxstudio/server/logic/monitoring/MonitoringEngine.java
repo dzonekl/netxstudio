@@ -27,7 +27,8 @@ import org.eclipse.emf.ecore.util.EcoreUtil;
 
 import com.google.common.collect.Lists;
 import com.google.inject.Inject;
-import com.netxforge.netxstudio.data.importer.ResultProcessor;
+import com.netxforge.netxstudio.common.model.StudioUtils;
+import com.netxforge.netxstudio.data.services.ResultProcessor;
 import com.netxforge.netxstudio.generics.DateTimeRange;
 import com.netxforge.netxstudio.library.BaseExpressionResult;
 import com.netxforge.netxstudio.library.Component;
@@ -62,15 +63,15 @@ public class MonitoringEngine extends BaseComponentEngine {
 	@Override
 	public void doExecute() {
 
-		final Node node = getModelUtils().nodeFor(getComponent());
+		final Node node = StudioUtils.nodeFor(getComponent());
 		if (LogicActivator.DEBUG) {
 
 			LogicActivator.TRACE.trace(
 					LogicActivator.TRACE_LOGIC_OPTION,
 					"monitoring for: "
-							+ this.getModelUtils().printModelObject(
+							+ StudioUtils.printModelObject(
 									this.getComponent()) + " node: "
-							+ this.getModelUtils().printModelObject(node));
+							+ StudioUtils.printModelObject(node));
 		}
 
 		// Clear the context first.

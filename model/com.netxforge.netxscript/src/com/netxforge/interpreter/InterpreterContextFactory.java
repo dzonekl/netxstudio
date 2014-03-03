@@ -21,8 +21,8 @@ import java.util.List;
 
 import org.eclipse.emf.ecore.EClass;
 
-import com.netxforge.netxstudio.common.context.IComputationContext;
-import com.netxforge.netxstudio.common.context.ObjectContext;
+import com.netxforge.base.context.IComputationContext;
+import com.netxforge.base.context.ObjectContext;
 import com.netxforge.netxstudio.generics.DateTimeRange;
 import com.netxforge.netxstudio.generics.GenericsPackage;
 import com.netxforge.netxstudio.library.LibraryPackage;

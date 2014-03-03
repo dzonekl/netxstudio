@@ -24,14 +24,13 @@ import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.ui.forms.widgets.FormToolkit;
 
-import com.netxforge.netxstudio.common.model.ModelUtils;
+import com.netxforge.netxstudio.common.model.StudioUtils;
 
 public class FeatureDeltaDialog extends Dialog {
 
 	private final FormToolkit formToolkit = new FormToolkit(
 			Display.getDefault());
 	private Table table;
-	private ModelUtils modelUtils;
 	private CDORevisionDelta cdoRevisionDelta;
 	private String deltaInfo;
 
@@ -40,10 +39,9 @@ public class FeatureDeltaDialog extends Dialog {
 	 * 
 	 * @param parentShell
 	 */
-	public FeatureDeltaDialog(Shell parentShell, ModelUtils modelUtils) {
+	public FeatureDeltaDialog(Shell parentShell) {
 		super(parentShell);
 		setShellStyle(SWT.TITLE);
-		this.modelUtils = modelUtils;
 	}
 
 	/**
@@ -126,7 +124,7 @@ public class FeatureDeltaDialog extends Dialog {
 		public String getColumnText(Object element, int columnIndex) {
 
 			if (element instanceof CDOFeatureDelta) {
-				return modelUtils.cdoFeatureDeltaIndex(
+				return StudioUtils.cdoFeatureDeltaIndex(
 						(CDOFeatureDelta) element, columnIndex);
 			}
 			return null;
@@ -158,10 +156,9 @@ public class FeatureDeltaDialog extends Dialog {
 	public void setDelta(CDORevisionDelta delta) {
 		this.cdoRevisionDelta = delta;
 	}
-	
-	public void setDeltaInfo(String deltaInfo){
+
+	public void setDeltaInfo(String deltaInfo) {
 		this.deltaInfo = deltaInfo;
 	}
-	
-	
+
 }

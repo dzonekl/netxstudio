@@ -17,10 +17,7 @@
  *******************************************************************************/ 
 package com.netxforge.netxstudio.models.importer.ui.internal;
 
-import static org.ops4j.peaberry.Peaberry.service;
-
 import com.google.inject.AbstractModule;
-import com.netxforge.netxstudio.common.model.ModelUtils;
 
 public class IOModule extends AbstractModule {
 
@@ -31,8 +28,6 @@ public class IOModule extends AbstractModule {
 		// IMPORT SERVICES
 		// (Copy to modules in other OSGI bundles to import the service).
 
-		// {@link CommonModule}
-		bind(ModelUtils.class).toProvider(service(ModelUtils.class).single());
 	}
 
 }

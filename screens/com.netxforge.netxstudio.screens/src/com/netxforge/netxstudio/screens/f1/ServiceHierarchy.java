@@ -14,6 +14,7 @@ import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.forms.widgets.Form;
 import org.eclipse.ui.forms.widgets.FormToolkit;
 
+import com.netxforge.netxstudio.common.model.StudioUtils;
 import com.netxforge.netxstudio.screens.AbstractScreen;
 import com.netxforge.netxstudio.screens.editing.IDataScreenInjection;
 import com.netxforge.netxstudio.screens.f1.model.WrappedRFSService;
@@ -86,7 +87,7 @@ public class ServiceHierarchy extends AbstractScreen implements
 				&& object instanceof RFSService) {
 			service = (RFSService)object;
 			// Always present the root service. 
-			service = (RFSService) modelUtils.resolveRootService(service);
+			service = (RFSService) StudioUtils.resolveRootService(service);
 		}
 
 		buildUI();

@@ -32,7 +32,7 @@ import org.osgi.framework.BundleContext;
 import com.google.inject.Inject;
 import com.google.inject.Injector;
 import com.google.inject.Module;
-import com.netxforge.netxstudio.common.guice.IInjectorProxy;
+import com.netxforge.base.di.IInjectorProxy;
 import com.netxforge.scoping.CDOScopeScheduler;
 
 /**

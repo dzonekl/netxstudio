@@ -16,14 +16,14 @@
  * Contributors:
  *    Christophe Bouhier - initial API and implementation and/or initial documentation
  *******************************************************************************/
-package com.netxforge.netxstudio.data.importer;
+package com.netxforge.netxstudio.data.services;
+
+import static com.netxforge.base.NonModelUtils.toXMLDate;
 
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
-
-import javax.xml.datatype.XMLGregorianCalendar;
 
 import org.eclipse.emf.cdo.CDOObjectReference;
 import org.eclipse.emf.common.util.EList;
@@ -35,11 +35,11 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
-import com.netxforge.netxstudio.common.model.ModelUtils;
+import com.netxforge.base.NonModelUtils;
+import com.netxforge.netxstudio.common.model.StudioUtils;
 import com.netxforge.netxstudio.data.IQueryService;
 import com.netxforge.netxstudio.data.ReferenceHelper;
 import com.netxforge.netxstudio.data.internal.DataActivator;
-import com.netxforge.netxstudio.data.tolerance.ToleranceProcessor;
 import com.netxforge.netxstudio.generics.DateTimeRange;
 import com.netxforge.netxstudio.generics.GenericsFactory;
 import com.netxforge.netxstudio.generics.Value;
@@ -52,7 +52,6 @@ import com.netxforge.netxstudio.library.Tolerance;
 import com.netxforge.netxstudio.metrics.KindHintType;
 import com.netxforge.netxstudio.metrics.MetricValueRange;
 import com.netxforge.netxstudio.operators.Marker;
-import com.netxforge.netxstudio.operators.Node;
 import com.netxforge.netxstudio.operators.ResourceMonitor;
 import com.netxforge.netxstudio.services.DerivedResource;
 import com.netxforge.netxstudio.services.ServiceMonitor;
@@ -68,13 +67,7 @@ import com.netxforge.netxstudio.services.ServiceMonitor;
  * @author Christophe Bouhier
  */
 @Singleton
-public class ResultProcessor {
-
-	@Inject
-	private ModelUtils modelUtils;
-
-	@Inject
-	private ToleranceProcessor tolProcessor;
+public class ValueProcessor {
 
 	@Inject
 	private IQueryService queryService;
@@ -82,7 +75,7 @@ public class ResultProcessor {
 	/**
 	 * In this mode the processor will match a single value within the target
 	 * interval. If the time stamp equals and the value equals, the existing
-	 * value will be kept. If other values exist within the interval.
+	 * value will be kept.
 	 */
 	public static final int SINGLE_VALUE_IN_INTERVAL_MODE = 100;
 
@@ -92,12 +85,6 @@ public class ResultProcessor {
 	public static final int INDIFFERENT_VALUES_IN_INTERVAL_MODE = 200;
 
 	/**
-	 * The current write mode, default =
-	 * {@link #INDIFFERENT_VALUES_IN_INTERVAL_MODE}
-	 */
-	private int currentWriteMode = INDIFFERENT_VALUES_IN_INTERVAL_MODE;
-
-	/**
 	 * Process a Service Profile calculation result.
 	 * 
 	 * @param currentContext
@@ -105,7 +92,7 @@ public class ResultProcessor {
 	 * @param start
 	 * @param end
 	 */
-	public void processServiceProfileResult(List<Object> currentContext,
+	public  void processServiceProfileResult(List<Object> currentContext,
 			List<BaseExpressionResult> expressionResults, Date start, Date end) {
 		for (final BaseExpressionResult baseExpressionResult : expressionResults) {
 
@@ -160,7 +147,7 @@ public class ResultProcessor {
 	 * 
 	 * @param values
 	 */
-	private void removeValues(EList<Value> values, Date start, Date end) {
+	public  void removeValues(EList<Value> values, Date start, Date end) {
 		final long startMillis = start.getTime();
 		final long endMillis = end.getTime();
 		final List<Value> toRemove = new ArrayList<Value>();
@@ -184,7 +171,7 @@ public class ResultProcessor {
 	 * 
 	 * @param values
 	 */
-	public void removeValues(List<Value> values) {
+	public  void removeValues(List<Value> values) {
 		final List<Value> toRemove = new ArrayList<Value>(values);
 
 		removeValueReferences(toRemove);
@@ -199,7 +186,7 @@ public class ResultProcessor {
 	 * 
 	 * @param values
 	 */
-	public boolean removeValues(MetricValueRange mvr, List<Value> values) {
+	public  boolean removeValues(MetricValueRange mvr, List<Value> values) {
 
 		int size = mvr.getMetricValues().size();
 		// final List<Value> toRemove = Lists.newArrayList(values);
@@ -226,7 +213,8 @@ public class ResultProcessor {
 	 *            The values to remove.
 	 * @return
 	 */
-	public boolean removeValues(EList<Value> targetRange, List<Value> values) {
+	public  boolean removeValues(EList<Value> targetRange,
+			List<Value> values) {
 
 		int size = targetRange.size();
 
@@ -246,14 +234,15 @@ public class ResultProcessor {
 	/**
 	 * @param toRemove
 	 */
-	private void removeValueReferences(final List<Value> toRemove) {
+	public void removeValueReferences(final List<Value> toRemove) {
 		// Produce a list of resource monitors to check, if they indirectly
 		// reference values scheduled for removal.
 		List<ResourceMonitor> monitorsList = Lists.newArrayList();
 		List<Marker> markersToRemove = Lists.newArrayList();
 
 		if (DataActivator.DEBUG) {
-			DataActivator.TRACE.trace(DataActivator.TRACE_RESULT_VALUE_OPTION,
+			DataActivator.TRACE.trace(
+					DataActivator.TRACE_RESULT_VALUE_OPTION,
 					"x-ref value references");
 		}
 
@@ -322,7 +311,7 @@ public class ResultProcessor {
 	private List<Value> getCreateValues(ExpressionResult result, Date start,
 			Date end) {
 
-		List<Value> resultValues = modelUtils
+		List<Value> resultValues = StudioUtils
 				.sortValuesByTimeStampAndReverse(result.getTargetValues());
 
 		final List<Value> values = new ArrayList<Value>();
@@ -341,7 +330,7 @@ public class ResultProcessor {
 				// If we have a previous, otherwise bail.
 				newValue.setValue(previousValue != null ? previousValue
 						.getValue() : resultValue.getValue());
-				newValue.setTimeStamp(modelUtils.toXMLDate(new Date(nextTime)));
+				newValue.setTimeStamp(toXMLDate(new Date(nextTime)));
 				nextTime += result.getTargetIntervalHint() * 60000;
 				values.add(newValue);
 			}
@@ -358,7 +347,7 @@ public class ResultProcessor {
 			while (nextTime < end.getTime()) {
 				final Value newValue = GenericsFactory.eINSTANCE.createValue();
 				newValue.setValue(previousValue.getValue());
-				newValue.setTimeStamp(modelUtils.toXMLDate(new Date(nextTime)));
+				newValue.setTimeStamp(toXMLDate(new Date(nextTime)));
 				nextTime += result.getTargetIntervalHint() * 60000;
 				values.add(newValue);
 			}
@@ -376,6 +365,14 @@ public class ResultProcessor {
 
 	}
 
+	public void addToValueRange(NetXResource foundNetXResource,
+			int intervalHint, KindHintType kindHintType, List<Value> newValues,
+			Date start, Date end) {
+		addToValueRange(foundNetXResource, intervalHint, kindHintType,
+				newValues, start, end, INDIFFERENT_VALUES_IN_INTERVAL_MODE);
+
+	}
+
 	/**
 	 * Adds values to a metric value range. the Metric Value range is induced
 	 * from the interval and kind hints. The period (Between Start and End
@@ -389,9 +386,9 @@ public class ResultProcessor {
 	 * @param start
 	 * @param end
 	 */
-	public void addToValueRange(NetXResource foundNetXResource,
+	public  void addToValueRange(NetXResource foundNetXResource,
 			int intervalHint, KindHintType kindHintType, List<Value> newValues,
-			Date start, Date end) {
+			Date start, Date end, int writeMode) {
 
 		// Default equals -1.
 		if (intervalHint == -1) {
@@ -412,12 +409,13 @@ public class ResultProcessor {
 		// .setCollectionLoadingPolicy(
 		// CDOUtil.createCollectionLoadingPolicy(24, 24));
 
-		final MetricValueRange mvr = modelUtils
+		final MetricValueRange mvr = StudioUtils
 				.valueRangeForIntervalAndKindGetOrCreate(foundNetXResource,
 						kindHintType, intervalHint);
 
 		if (DataActivator.DEBUG) {
-			DataActivator.TRACE.trace(DataActivator.TRACE_RESULT_VALUE_OPTION,
+			DataActivator.TRACE.trace(
+					DataActivator.TRACE_RESULT_VALUE_OPTION,
 					"-- Located/create value range for resource : "
 							+ foundNetXResource.getShortName() + "interval="
 							+ intervalHint + " range size = "
@@ -437,7 +435,7 @@ public class ResultProcessor {
 		// }
 		// }
 
-		addToValues(mvr, newValues, intervalHint);
+		addToValues(mvr, newValues, intervalHint, writeMode);
 
 		if (DataActivator.DEBUG) {
 			// DataActivator.TRACE.trace(
@@ -467,9 +465,8 @@ public class ResultProcessor {
 	 * @param mvr
 	 * @param newValues
 	 * @param intervalHint
-	 * @deprecated
 	 */
-	public void addToValues(EList<Value> values, List<Value> newValues,
+	public  void addToValues(EList<Value> values, List<Value> newValues,
 			int intervalHint) {
 		for (final Value newValue : new ArrayList<Value>(newValues)) {
 			if (DataActivator.DEBUG) {
@@ -477,7 +474,7 @@ public class ResultProcessor {
 						DataActivator.TRACE_RESULT_VALUE_OPTION,
 						"-- Attempt to add value within interval ("
 								+ intervalHint + " min.), "
-								+ modelUtils.value(newValue));
+								+ StudioUtils.value(newValue));
 			}
 
 			addToValues(values, newValue, intervalHint);
@@ -491,18 +488,18 @@ public class ResultProcessor {
 	 * @param newValues
 	 * @param intervalHint
 	 */
-	public void addToValues(MetricValueRange mvr, List<Value> newValues,
-			int intervalHint) {
+	public  void addToValues(MetricValueRange mvr, List<Value> newValues,
+			int intervalHint, int writeMode) {
 		for (final Value newValue : new ArrayList<Value>(newValues)) {
 			if (DataActivator.DEBUG) {
 				DataActivator.TRACE.trace(
 						DataActivator.TRACE_RESULT_VALUE_OPTION,
 						"-- Attempt to add value within interval ("
 								+ intervalHint + " min.), "
-								+ modelUtils.value(newValue));
+								+ StudioUtils.value(newValue));
 			}
 
-			addToValues(mvr, newValue, intervalHint);
+			addToValues(mvr, newValue, intervalHint, writeMode);
 		}
 	}
 
@@ -514,7 +511,7 @@ public class ResultProcessor {
 	 * @param intervalHint
 	 * @deprecated
 	 */
-	public void addToValues(EList<Value> currentValues, Value value,
+	public  void addToValues(EList<Value> currentValues, Value value,
 			int intervalHint) {
 
 		final long timeInMillis = value.getTimeStamp().toGregorianCalendar()
@@ -523,7 +520,8 @@ public class ResultProcessor {
 		Value foundValue = null;
 
 		for (final Value lookValue : currentValues) {
-			if (isSameTime(intervalHint, timeInMillis, lookValue.getTimeStamp())) {
+			if (NonModelUtils.isSameTime(intervalHint, timeInMillis,
+					lookValue.getTimeStamp())) {
 				foundValue = lookValue;
 
 				break;
@@ -539,7 +537,7 @@ public class ResultProcessor {
 								+ " min.), while storing value="
 								+ foundValue.getValue()
 								+ " , original timestamp="
-								+ modelUtils.dateAndTime(foundValue
+								+ NonModelUtils.dateAndTime(foundValue
 										.getTimeStamp()));
 			}
 			// Same timestamp, different value!
@@ -548,10 +546,13 @@ public class ResultProcessor {
 			if (DataActivator.DEBUG) {
 				DataActivator.TRACE.trace(
 						DataActivator.TRACE_RESULT_VALUE_OPTION,
-						"-- no values within interval  (" + intervalHint
+						"-- no values within interval  ("
+								+ intervalHint
 								+ " min.), while storing value="
-								+ value.getValue() + " , timestamp="
-								+ modelUtils.dateAndTime(value.getTimeStamp()));
+								+ value.getValue()
+								+ " , timestamp="
+								+ NonModelUtils.dateAndTime(value
+										.getTimeStamp()));
 			}
 			// New timestamp, new value.
 			currentValues.add(value);
@@ -569,7 +570,8 @@ public class ResultProcessor {
 	 * @param value
 	 * @param intervalHint
 	 */
-	public void addToValues(MetricValueRange mvr, Value value, int intervalHint) {
+	public  void addToValues(MetricValueRange mvr, Value value,
+			int intervalHint, int currentWriteMode) {
 
 		Value foundValue = null;
 
@@ -595,10 +597,12 @@ public class ResultProcessor {
 				DataActivator.TRACE.trace(
 						DataActivator.TRACE_RESULT_VALUE_OPTION,
 						"-- Range is in an illegal state, can't add values"
-								+ " (" + intervalHint
+								+ " ("
+								+ intervalHint
 								+ " min.), while storing value="
 								+ " , original timestamp="
-								+ modelUtils.dateAndTime(value.getTimeStamp()));
+								+ NonModelUtils.dateAndTime(value
+										.getTimeStamp()));
 			}
 			return;
 		}
@@ -607,7 +611,7 @@ public class ResultProcessor {
 		if (!FSMUtil.isNew(mvr)) {
 
 			if (currentWriteMode == INDIFFERENT_VALUES_IN_INTERVAL_MODE) {
-				sortedValues = this.queryService.mvrValues(mvr.cdoView(), mvr,
+				sortedValues = queryService.mvrValues(mvr.cdoView(), mvr,
 						IQueryService.QUERY_MYSQL, value.getTimeStamp());
 
 				if (sortedValues != null && sortedValues.size() == 1) {
@@ -624,7 +628,7 @@ public class ResultProcessor {
 											+ intervalHint
 											+ " min.), while storing value="
 											+ " , original timestamp="
-											+ modelUtils.dateAndTime(value
+											+ NonModelUtils.dateAndTime(value
 													.getTimeStamp()));
 							DataActivator.TRACE.trace(
 									DataActivator.TRACE_RESULT_VALUE_OPTION,
@@ -641,10 +645,10 @@ public class ResultProcessor {
 					}
 				}
 			} else if (currentWriteMode == SINGLE_VALUE_IN_INTERVAL_MODE) {
-				DateTimeRange intervalPeriod = modelUtils.period(value,
+				DateTimeRange intervalPeriod = StudioUtils.period(value,
 						intervalHint);
 
-				sortedValues = this.queryService.mvrValues(mvr.cdoView(), mvr,
+				sortedValues = queryService.mvrValues(mvr.cdoView(), mvr,
 						IQueryService.QUERY_MYSQL, intervalPeriod);
 				ImmutableList<Value> toRemove = ImmutableList
 						.copyOf(sortedValues);
@@ -654,10 +658,13 @@ public class ResultProcessor {
 			if (DataActivator.DEBUG) {
 				DataActivator.TRACE.trace(
 						DataActivator.TRACE_RESULT_VALUE_OPTION,
-						"-- range is in state NEW, assume unique value" + " ("
-								+ intervalHint + " min.), while storing value="
+						"-- range is in state NEW, assume unique value"
+								+ " ("
+								+ intervalHint
+								+ " min.), while storing value="
 								+ " , original timestamp="
-								+ modelUtils.dateAndTime(value.getTimeStamp()));
+								+ NonModelUtils.dateAndTime(value
+										.getTimeStamp()));
 			}
 
 		}
@@ -671,7 +678,7 @@ public class ResultProcessor {
 								+ " min.), while storing value="
 								+ foundValue.getValue()
 								+ " , original timestamp="
-								+ modelUtils.dateAndTime(foundValue
+								+ NonModelUtils.dateAndTime(foundValue
 										.getTimeStamp()));
 			}
 			// Same timestamp, different value!
@@ -680,196 +687,16 @@ public class ResultProcessor {
 			if (DataActivator.DEBUG) {
 				DataActivator.TRACE.trace(
 						DataActivator.TRACE_RESULT_VALUE_OPTION,
-						"-- no values within interval  (" + intervalHint
+						"-- no values within interval  ("
+								+ intervalHint
 								+ " min.), while storing value="
-								+ value.getValue() + " , timestamp="
-								+ modelUtils.dateAndTime(value.getTimeStamp()));
+								+ value.getValue()
+								+ " , timestamp="
+								+ NonModelUtils.dateAndTime(value
+										.getTimeStamp()));
 			}
 			// New timestamp, new value.
 			mvr.getMetricValues().add(0, value);
 		}
 	}
-
-	/**
-	 * The IntervalHint is required if to compare the difference is less than
-	 * the interval. For an Interval hint which corresponding to an HOUR, the
-	 * equality also considers in-between values.
-	 * 
-	 * Note: This function doesn't consider interval boundaries, as the
-	 * comparison uses the time representation, from Date.
-	 * 
-	 * 
-	 * @param intervalHint
-	 *            in Minutes
-	 * @param time1
-	 * @param time2
-	 * @return
-	 */
-	private boolean isSameTime(int intervalHint, long time1,
-			XMLGregorianCalendar time2) {
-
-		long diff = time1 - time2.toGregorianCalendar().getTimeInMillis();
-
-		// make the diff value absolute.
-		if (diff < 0) {
-			diff = diff * -1;
-		}
-
-		if (intervalHint == ModelUtils.MINUTES_IN_AN_HOUR) {
-			// Substract one second, to make sure we really do not skip closely
-			// related entries.
-			boolean isDiff = diff < ((intervalHint * 60 * 1000) - 1000);
-			return isDiff;
-		} else {
-			return diff == 0; // exact equal timestamp.
-		}
-
-	}
-
-	public ToleranceProcessor getToleranceProcessor() {
-		return tolProcessor;
-	}
-
-	public void processMonitoringResult(List<Object> currentContext,
-			List<BaseExpressionResult> expressionResults, DateTimeRange period) {
-		for (final BaseExpressionResult baseExpressionResult : expressionResults) {
-			if (baseExpressionResult instanceof ExpressionResult) {
-				ExpressionResult expressionResult = (ExpressionResult) baseExpressionResult;
-				// processMonitoringExpressionResult(start, end,
-				// expressionResult);
-				processMonitoringExpressionResult(period, expressionResult);
-			}
-		}
-	}
-
-	/**
-	 * Do the actual processing of the {@link ExpressionResult result}
-	 * 
-	 * @param period
-	 * @param expressionResult
-	 */
-	private void processMonitoringExpressionResult(DateTimeRange period,
-			ExpressionResult expressionResult) {
-
-		final Date start = modelUtils.fromXMLDate(period.getBegin());
-		final Date end = modelUtils.fromXMLDate(period.getEnd());
-
-		// Bail when we have no values in the result!
-		if (expressionResult.getTargetValues() == null
-				|| expressionResult.getTargetValues().isEmpty()) {
-
-			if (DataActivator.DEBUG) {
-				DataActivator.TRACE.trace(
-						DataActivator.TRACE_RESULT_EXPRESSION_OPTION,
-						"skip expression result: resource="
-								+ expressionResult.getTargetResource()
-										.getShortName()
-								+ " target="
-								+ expressionResult.getTargetRange().getName()
-								+ " interval="
-								+ expressionResult.getTargetIntervalHint()
-								+ " kind = "
-								+ expressionResult.getTargetKindHint()
-										.getName() + " values="
-								+ expressionResult.getTargetValues().size()
-								+ " from=" + start + " to=" + end);
-			}
-			return;
-
-		}
-
-		if (DataActivator.DEBUG) {
-			DataActivator.TRACE.trace(
-					DataActivator.TRACE_RESULT_EXPRESSION_OPTION,
-					"writing expression result: resource="
-							+ expressionResult.getTargetResource()
-									.getShortName() + " target="
-							+ expressionResult.getTargetRange().getName()
-							+ " interval="
-							+ expressionResult.getTargetIntervalHint()
-							+ " kind = "
-							+ expressionResult.getTargetKindHint().getName()
-							+ " values="
-							+ expressionResult.getTargetValues().size()
-							+ " from=" + start + " to=" + end);
-		}
-
-		// FIXME: We could want to write to a resource, where the node
-		// doesn't match the context. The original context Node is not known
-		// here.
-		final BaseResource baseResource = expressionResult.getTargetResource();
-
-		// Process a NetXResource
-		if (baseResource instanceof NetXResource) {
-			NetXResource resource = (NetXResource) baseResource;
-			final Node n = modelUtils.nodeFor(resource.getComponentRef());
-
-			if (DataActivator.DEBUG) {
-				if (n != null) {
-					DataActivator.TRACE.trace(
-							DataActivator.TRACE_RESULT_EXPRESSION_OPTION,
-							"writing to resource "
-									+ resource.getExpressionName()
-									+ " in Node: " + n.getNodeID());
-				}
-			}
-
-			switch (expressionResult.getTargetRange().getValue()) {
-			case RangeKind.CAP_VALUE:
-				// Remove previous values within the range.
-				removeValues(resource.getCapacityValues(), start, end);
-				addToValues(resource.getCapacityValues(),
-						expressionResult.getTargetValues(),
-						expressionResult.getTargetIntervalHint());
-				break;
-			case RangeKind.METRIC_VALUE:
-
-				addToValueRange(resource,
-						expressionResult.getTargetIntervalHint(),
-						expressionResult.getTargetKindHint(),
-						expressionResult.getTargetValues(), start, end);
-
-				break;
-			case RangeKind.TOLERANCE_VALUE: {
-				if (tolProcessor != null && tolProcessor.ready()) {
-					tolProcessor.markersForExpressionResult(expressionResult,
-							period);
-				} else {
-					DataActivator.TRACE.trace(
-							DataActivator.TRACE_RESULT_EXPRESSION_OPTION,
-							"Can't process tolerance, processor not ready");
-				}
-			}
-				break;
-			case RangeKind.UTILIZATION_VALUE:
-				removeValues(resource.getUtilizationValues(), start, end);
-				addToValues(resource.getUtilizationValues(),
-						expressionResult.getTargetValues(),
-						expressionResult.getTargetIntervalHint());
-				break;
-			case RangeKind.METRICREMOVE_VALUE:
-				removeValues(expressionResult.getTargetValues());
-				break;
-			default:
-				throw new IllegalStateException("Range kind "
-						+ expressionResult.getTargetRange() + " not supported");
-			}
-		}
-
-		if (DataActivator.DEBUG) {
-			DataActivator.TRACE.trace(
-					DataActivator.TRACE_RESULT_EXPRESSION_OPTION,
-					"done processing monitoring result");
-		}
-	}
-
-	/**
-	 * Set the writing mode for processing the result.
-	 * 
-	 * @param writeMode
-	 */
-	public void setWriteMode(int writeMode) {
-		this.currentWriteMode = writeMode;
-	}
-
 }

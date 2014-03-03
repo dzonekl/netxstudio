@@ -67,7 +67,8 @@ import org.eclipse.wb.swt.ResourceManager;
 
 import com.google.common.collect.Lists;
 import com.google.inject.Inject;
-import com.netxforge.netxstudio.common.model.ModelUtils;
+import com.netxforge.base.NonModelUtils;
+import com.netxforge.netxstudio.common.model.StudioUtils;
 import com.netxforge.netxstudio.data.actions.ServerRequest;
 import com.netxforge.netxstudio.generics.GenericsPackage;
 import com.netxforge.netxstudio.operators.Operator;
@@ -117,7 +118,6 @@ public class ServicesTree extends AbstractScreen implements
 
 	@Inject
 	ServerRequest serverActions;
-
 
 	/**
 	 * Create the composite.
@@ -569,7 +569,7 @@ public class ServicesTree extends AbstractScreen implements
 						Resource jobResource = editingService
 								.getData(SchedulingPackage.Literals.JOB);
 
-						Job job = modelUtils
+						Job job = StudioUtils
 								.jobForSingleObject(
 										jobResource,
 										SchedulingPackage.Literals.RFS_SERVICE_MONITORING_JOB,
@@ -588,9 +588,9 @@ public class ServicesTree extends AbstractScreen implements
 							job = SchedulingFactory.eINSTANCE
 									.createRFSServiceMonitoringJob();
 							job.setName(((Service) o).getServiceName());
-							job.setInterval(ModelUtils.SECONDS_IN_A_WEEK);
-							job.setStartTime(modelUtils.toXMLDate(modelUtils
-									.todayAndNow()));
+							job.setInterval(NonModelUtils.SECONDS_IN_A_WEEK);
+							job.setStartTime(NonModelUtils
+									.toXMLDate(NonModelUtils.todayAndNow()));
 							job.setJobState(JobState.IN_ACTIVE);
 							if (job instanceof RFSServiceMonitoringJob) {
 								((RFSServiceMonitoringJob) job)

@@ -20,6 +20,7 @@ package com.netxforge.netxstudio.common.model;
 import java.util.Date;
 import java.util.List;
 
+import com.netxforge.base.cdo.IFilteredChart;
 import com.netxforge.netxstudio.library.NetXResource;
 import com.netxforge.netxstudio.operators.Marker;
 

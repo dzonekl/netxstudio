@@ -25,24 +25,17 @@ import com.google.inject.Provider;
  * 
  * @author Christophe Bouhier
  */
-public class ComponentSummaryProvider implements
-		Provider<ComponentSummary> {
-
-	private ModelUtils utils;
+public class ComponentSummaryProvider implements Provider<ComponentSummary> {
 
 	private MonitoringStateModel stateModel;
 
 	@Inject
-	public ComponentSummaryProvider(MonitoringStateModel stateModel,
-			ModelUtils utils) {
-		this.utils = utils;
+	public ComponentSummaryProvider(MonitoringStateModel stateModel) {
 		this.stateModel = stateModel;
 	}
 
 	public ComponentSummary get() {
 		final ComponentSummary summary = new ComponentSummary();
-
-		summary.setModelUtils(utils);
 		summary.setStatModel(stateModel);
 
 		return summary;

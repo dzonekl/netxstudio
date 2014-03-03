@@ -24,8 +24,8 @@ import org.eclipse.core.runtime.SubMonitor;
 import org.eclipse.emf.cdo.CDOObject;
 import org.eclipse.emf.ecore.EObject;
 
-import com.netxforge.netxstudio.common.context.IComputationContext;
-import com.netxforge.netxstudio.common.context.ObjectContext;
+import com.netxforge.base.context.IComputationContext;
+import com.netxforge.base.context.ObjectContext;
 import com.netxforge.netxstudio.generics.DateTimeRange;
 import com.netxforge.netxstudio.library.NetXResource;
 import com.netxforge.netxstudio.library.NodeType;
@@ -114,7 +114,7 @@ public class RFSServiceSummary extends MonitoringAdapter {
 					if (serviceSummary.isComputed()) {
 						ragForNodes.incrementRag(serviceSummary.ragForNodes);
 						childServiceComputed = true;
-					} 
+					}
 				}
 			}
 		}
@@ -128,7 +128,7 @@ public class RFSServiceSummary extends MonitoringAdapter {
 			int work = service.getNodes().size();
 			final SubMonitor nodeMonitor = SubMonitor.convert(monitor, work);
 			nodeMonitor.setTaskName("Computing summary for "
-					+ modelUtils.printModelObject(service));
+					+ StudioUtils.printModelObject(service));
 
 			// Narrow the node scope to the ones which have monitoring data.
 
@@ -157,7 +157,7 @@ public class RFSServiceSummary extends MonitoringAdapter {
 					equipments += nodeTypeSummary.totalEquipments();
 				} else {
 					System.out.println("SHOULD NOT OCCUR: child not adapted! "
-							+ modelUtils.printModelObject(nodeType));
+							+ StudioUtils.printModelObject(nodeType));
 				}
 
 				nodeMonitor.worked(1);
@@ -228,7 +228,7 @@ public class RFSServiceSummary extends MonitoringAdapter {
 
 		final RFSService rfsServiceFromTarget = getRFSServiceFromTarget();
 
-		List<NodeType> nodeTypeForService = modelUtils
+		List<NodeType> nodeTypeForService = StudioUtils
 				.nodeTypeForService(rfsServiceFromTarget);
 
 		return this.isContained(object) || nodeTypeForService.contains(object);
@@ -261,8 +261,7 @@ public class RFSServiceSummary extends MonitoringAdapter {
 	public int totalResources() {
 		return resources;
 	}
-	
-	
+
 	public RFSService getRFSServiceFromTarget() {
 		final RFSService target = (RFSService) super.getTarget();
 		return target;

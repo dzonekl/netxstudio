@@ -286,7 +286,6 @@ public class Expressions extends AbstractScreen implements
 
 		final ExpressionsObservableMapLabelProvider expressionsObservableMapLabelProvider = new ExpressionsObservableMapLabelProvider(
 				observeMaps);
-		expressionsObservableMapLabelProvider.setModelUtils(modelUtils);
 		tableViewer.setLabelProvider(expressionsObservableMapLabelProvider);
 
 		IEMFListProperty l = EMFEditProperties.resource(editingService

@@ -36,7 +36,6 @@ import com.netxforge.netxstudio.common.math.INativeFunctions;
 import com.netxforge.netxstudio.common.math.INativeFunctions2;
 import com.netxforge.netxstudio.common.model.ComponentSummaryProvider;
 import com.netxforge.netxstudio.common.model.IChartModelProvider;
-import com.netxforge.netxstudio.common.model.ModelUtils;
 import com.netxforge.netxstudio.common.model.MonitoringStateModel;
 import com.netxforge.netxstudio.common.model.NetxresourceSummaryProvider;
 import com.netxforge.netxstudio.common.model.NodetypeSummaryProvider;
@@ -62,7 +61,6 @@ public class CommonActivator implements BundleActivator, DebugOptionsListener {
 	private Injector injector;
 
 	public static String TRACE_COMMON_UTILS_OPTION = "/trace.common.utils";
-
 	public static String TRACE_COMMON_PROPS_OPTION = "/trace.common.properties";
 
 	// Monitoring.
@@ -70,9 +68,9 @@ public class CommonActivator implements BundleActivator, DebugOptionsListener {
 
 	// Charts.
 	public static String TRACE_COMMON_CHART_OPTION = "/trace.common.chart";
-
 	public static String TRACE_COMMON_MONITORING_DETAILS_OPTION = "/trace.common.monitoring.details";
-
+	
+	
 	public Injector getInjector() {
 		return injector;
 	}
@@ -80,9 +78,6 @@ public class CommonActivator implements BundleActivator, DebugOptionsListener {
 	static BundleContext getContext() {
 		return context;
 	}
-
-	@Inject
-	Export<ModelUtils> modelUtils;
 
 	@Inject
 	Export<MonitoringStateModel> monitoringStateModel;

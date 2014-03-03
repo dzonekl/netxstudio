@@ -21,6 +21,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.google.common.collect.Lists;
+import com.netxforge.netxstudio.common.model.StudioUtils;
 import com.netxforge.netxstudio.library.NodeType;
 import com.netxforge.netxstudio.operators.Node;
 import com.netxforge.netxstudio.services.RFSService;
@@ -56,7 +57,7 @@ public class OperatorEmittingLogic extends EmittingLogic {
 		List<Node> acceptedNodes = Lists.newArrayList();
 		if (this.getNodeTypeAcceptor() != null) {
 			for (NodeType nt : this.getNodeTypeAcceptor()) {
-				acceptedNodes.addAll(this.getModelUtils().nodesForNodeType(
+				acceptedNodes.addAll(StudioUtils.nodesForNodeType(
 						service.getNodes(), nt));
 			}
 		} else {
@@ -66,14 +67,14 @@ public class OperatorEmittingLogic extends EmittingLogic {
 
 		// first go through the leave nodes
 		for (final Node node : acceptedNodes) {
-			if (getModelUtils().isInService(node)
+			if (StudioUtils.isInService(node)
 					&& node.getNodeType().isLeafNode()) {
 				nodeTypes.add(node.getNodeType());
 			}
 		}
 		// and then the other nodes
 		for (final Node node : acceptedNodes) {
-			if (getModelUtils().isInService(node)
+			if (StudioUtils.isInService(node)
 					&& !node.getNodeType().isLeafNode()) {
 				nodeTypes.add(node.getNodeType());
 			}

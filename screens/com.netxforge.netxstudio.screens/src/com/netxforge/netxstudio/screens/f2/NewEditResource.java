@@ -60,6 +60,8 @@ import org.eclipse.ui.forms.widgets.Form;
 import org.eclipse.ui.forms.widgets.FormToolkit;
 import org.eclipse.ui.forms.widgets.Section;
 
+import com.netxforge.base.NonModelUtils;
+import com.netxforge.netxstudio.common.model.StudioUtils;
 import com.netxforge.netxstudio.generics.Value;
 import com.netxforge.netxstudio.library.BaseResource;
 import com.netxforge.netxstudio.library.Component;
@@ -190,8 +192,7 @@ public class NewEditResource extends AbstractScreen implements
 						.getData(OperatorsPackage.Literals.OPERATOR);
 
 				ComponentFilterDialog dialog = new ComponentFilterDialog(
-						NewEditResource.this.getShell(), operatorsResource,
-						modelUtils);
+						NewEditResource.this.getShell(), operatorsResource);
 				if (dialog.open() == IDialogConstants.OK_ID) {
 
 					final Component component = (Component) dialog
@@ -203,7 +204,7 @@ public class NewEditResource extends AbstractScreen implements
 					String computedPath = null;
 					try {
 						computedPath = "/Node_/"
-								+ modelUtils.cdoResourceName(component);
+								+ StudioUtils.cdoResourceName(component);
 					} catch (IllegalAccessException e1) {
 						if (ScreensActivator.DEBUG) {
 							ScreensActivator.TRACE.trace(
@@ -217,18 +218,23 @@ public class NewEditResource extends AbstractScreen implements
 					// CDO Resource when the calculated name is different.
 					String path = cdoResource.getPath();
 					if (computedPath != null && !computedPath.equals(path)) {
-						
-						// Make sure we use an existing transaction, 
-						// if not we might get it through a CDOView which is read-only. 
-						// This can happen when the resource was already loaded by the 
-						// DisconnectedResourceScreen for example. (We are a sub-screen, 
-						// of this). DisconnectedResourceScreen uses a SQL query handler 
+
+						// Make sure we use an existing transaction,
+						// if not we might get it through a CDOView which is
+						// read-only.
+						// This can happen when the resource was already loaded
+						// by the
+						// DisconnectedResourceScreen for example. (We are a
+						// sub-screen,
+						// of this). DisconnectedResourceScreen uses a SQL query
+						// handler
 						// which is read-only.
 						final Resource emfNetxResource = editingService
-								.getDataService().getProvider()
-								.getResource(cdoResource.cdoView(), computedPath);
-						
-						
+								.getDataService()
+								.getProvider()
+								.getResource(cdoResource.cdoView(),
+										computedPath);
+
 						final Command moveResource = new AddCommand(
 								editingService.getEditingDomain(),
 								emfNetxResource.getContents(),
@@ -383,9 +389,9 @@ public class NewEditResource extends AbstractScreen implements
 				Value v = (Value) element;
 				switch (columnIndex) {
 				case 0: {
-					Date d = modelUtils.fromXMLDate(v.getTimeStamp());
-					String ts = new String(modelUtils.date(d) + " @ "
-							+ modelUtils.time(d));
+					Date d = NonModelUtils.fromXMLDate(v.getTimeStamp());
+					String ts = new String(NonModelUtils.date(d) + " @ "
+							+ NonModelUtils.time(d));
 					return ts;
 				}
 				case 1: {
@@ -516,10 +522,10 @@ public class NewEditResource extends AbstractScreen implements
 
 			public Object convert(Object fromObject) {
 				Component c = (Component) fromObject;
-				NodeType nt = modelUtils.resolveParentNodeType((EObject) c);
+				NodeType nt = StudioUtils.resolveParentNodeType((EObject) c);
 				if (nt != null) {
 					Node n = null;
-					if ((n = modelUtils.nodeFor(nt)) != null) {
+					if ((n = StudioUtils.nodeFor(nt)) != null) {
 						lblNode.setText("NE Instance:");
 						return n.getNodeID();
 					} else {
@@ -544,7 +550,7 @@ public class NewEditResource extends AbstractScreen implements
 			}
 
 			public Object convert(Object fromObject) {
-				return modelUtils.componentName((Component) fromObject);
+				return StudioUtils.componentName((Component) fromObject);
 			}
 
 		});

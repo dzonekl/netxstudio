@@ -40,7 +40,7 @@ import org.eclipse.osgi.framework.console.CommandInterpreter;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.inject.Inject;
-import com.netxforge.netxstudio.common.model.ModelUtils;
+import com.netxforge.base.NonModelUtils;
 import com.netxforge.netxstudio.data.IData;
 import com.netxforge.netxstudio.data.IQueryService;
 import com.netxforge.netxstudio.generics.Value;
@@ -95,7 +95,7 @@ public class ServerIntegrity extends JobChangeAdapter {
 		private Date lastRunDate;
 
 		public DataIntegrityReport() {
-			this.setLastRunDate(modelUtils.todayAndNow());
+			this.setLastRunDate(NonModelUtils.todayAndNow());
 		}
 
 		/** Count the quantity of {@link NetXResource} objects **/
@@ -180,7 +180,7 @@ public class ServerIntegrity extends JobChangeAdapter {
 		public String toString() {
 			StringBuilder sb = new StringBuilder();
 			sb.append("Server integrity report for: "
-					+ modelUtils.dateAndTime(this.getLastRunDate()) + "\n");
+					+ NonModelUtils.dateAndTime(this.getLastRunDate()) + "\n");
 
 			for (Method m : this.getClass().getMethods()) {
 
@@ -211,9 +211,6 @@ public class ServerIntegrity extends JobChangeAdapter {
 
 	@Inject
 	private IQueryService queryService;
-
-	@Inject
-	private ModelUtils modelUtils;
 
 	/** A result Processor which can deal with {@link CommandInterpreter} */
 	private Object resultProcessor;
@@ -434,7 +431,7 @@ public class ServerIntegrity extends JobChangeAdapter {
 									this.getReport().valueCount += sortedValues
 											.size();
 
-									getReport().duration = modelUtils
+									getReport().duration = NonModelUtils
 											.timeDurationNanoFromStart(totalTime);
 
 								}
@@ -451,7 +448,7 @@ public class ServerIntegrity extends JobChangeAdapter {
 						break;
 					}
 
-					getReport().duration = modelUtils
+					getReport().duration = NonModelUtils
 							.timeDurationNanoFromStart(totalTime);
 					// query the duplicate values for this
 					// NetXResource, store the values if there are duplicates.
@@ -464,7 +461,7 @@ public class ServerIntegrity extends JobChangeAdapter {
 				}
 			}
 
-			getReport().duration = modelUtils
+			getReport().duration = NonModelUtils
 					.timeDurationNanoFromStart(totalTime);
 
 			openView.close();

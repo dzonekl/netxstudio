@@ -47,6 +47,7 @@ import org.eclipse.wb.swt.ResourceManager;
 import com.google.common.collect.Lists;
 import com.netxforge.netxstudio.common.model.IChartModel;
 import com.netxforge.netxstudio.common.model.IChartResource;
+import com.netxforge.netxstudio.common.model.StudioUtils;
 import com.netxforge.netxstudio.metrics.MetricValueRange;
 import com.netxforge.netxstudio.screens.editing.AbstractScreenViewer;
 import com.netxforge.netxstudio.screens.editing.IScreen;
@@ -125,7 +126,7 @@ public class ChartScreenViewer extends AbstractScreenViewer {
 			}
 
 			RangeSelectionDialog selectDialog = new RangeSelectionDialog(
-					ChartScreenViewer.this.getSite().getShell(), modelUtils);
+					ChartScreenViewer.this.getSite().getShell());
 
 			selectDialog.setBlockOnOpen(true);
 			selectDialog.create();
@@ -133,7 +134,7 @@ public class ChartScreenViewer extends AbstractScreenViewer {
 			selectDialog.setMessage("Select the value range");
 			selectDialog.injectData(cr.getNetXResource());
 
-			MetricValueRange currentMVR = modelUtils
+			MetricValueRange currentMVR = StudioUtils
 					.valueRangeForIntervalAndKind(cr.getNetXResource(),
 							chartScreen.getChartModel().getKindHint(),
 							chartScreen.getChartModel().getInterval());

@@ -54,7 +54,8 @@ import org.eclipse.wb.swt.ResourceManager;
 import com.google.common.collect.Iterators;
 import com.google.common.collect.Lists;
 import com.google.inject.Inject;
-import com.netxforge.netxstudio.common.model.ModelUtils;
+import com.netxforge.base.NonModelUtils;
+import com.netxforge.netxstudio.common.model.StudioUtils;
 import com.netxforge.netxstudio.data.IDataService;
 import com.netxforge.netxstudio.data.fixtures.IFixtures;
 import com.netxforge.netxstudio.generics.GenericsPackage;
@@ -92,8 +93,6 @@ public class ScreenFormService implements IScreenFormService {
 
 	private IEditingService editingService;
 
-	private ModelUtils modelUtils;
-
 	private IScreenFactory screenFactory;
 
 	private SashForm sashForm;
@@ -114,10 +113,8 @@ public class ScreenFormService implements IScreenFormService {
 	private AbstractScreensViewPart absViewPart;
 
 	@Inject
-	public ScreenFormService(IEditingService editingService,
-			ModelUtils modelUtils, IScreenFactory screenFactory) {
+	public ScreenFormService(IEditingService editingService,IScreenFactory screenFactory) {
 		this.editingService = editingService;
-		this.modelUtils = modelUtils;
 		this.screenFactory = screenFactory;
 	}
 
@@ -405,10 +402,10 @@ public class ScreenFormService implements IScreenFormService {
 				.getSessionUserID();
 		Resource resource = editingService.getDataService().getProvider()
 				.getResource(GenericsPackage.Literals.PERSON);
-		List<Person> people = new ModelUtils.CollectionForObjects<Person>()
+		List<Person> people = new NonModelUtils.CollectionForObjects<Person>()
 				.collectionForObjects(resource.getContents());
 
-		final Role r = modelUtils.roleForUserWithName(currentUser, people);
+		final Role r = StudioUtils.roleForUserWithName(currentUser, people);
 		if (r.getName().equals(IFixtures.ROLE_READONLY)) {
 			operation = ScreenUtil.OPERATION_READ_ONLY;
 		}
@@ -494,7 +491,7 @@ public class ScreenFormService implements IScreenFormService {
 			if (editingService instanceof CDOEditingService) {
 				CDOView view = ((CDOEditingService) editingService).getView();
 				if (view instanceof CDOTransaction) {
-					modelUtils.cdoDumpDirtyObject((CDOTransaction) view);
+					StudioUtils.cdoDumpDirtyObject((CDOTransaction) view);
 
 					int result = DirtyStateMessageDialog
 							.openAndReturn(
@@ -502,7 +499,7 @@ public class ScreenFormService implements IScreenFormService {
 									Display.getCurrent().getActiveShell(),
 									"Save needed",
 									"You have unsaved changes, which will be discarded when not saved, save?",
-									(CDOTransaction) view, modelUtils);
+									(CDOTransaction) view);
 
 					switch (result) {
 
@@ -575,7 +572,7 @@ public class ScreenFormService implements IScreenFormService {
 		IMemento viewPartMemento = absViewPart.getMemento();
 
 		if (viewPartMemento != null) {
-			String validMementoElement = modelUtils
+			String validMementoElement = NonModelUtils
 					.underscopeWhiteSpaces(screen.getScreenName());
 			IMemento child = viewPartMemento.getChild(validMementoElement);
 			if (child == null) {
@@ -596,7 +593,7 @@ public class ScreenFormService implements IScreenFormService {
 		IMemento memento = absViewPart.getMemento();
 
 		if (memento != null) {
-			String validMementoElement = modelUtils
+			String validMementoElement = NonModelUtils
 					.underscopeWhiteSpaces(screen.getScreenName());
 			IMemento child = memento.getChild(validMementoElement);
 

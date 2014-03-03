@@ -165,6 +165,14 @@
          id="org.eclipse.emf.compare"
          version="0.0.0"/>
 
+   <includes
+         id="com.netxforge.base.feature"
+         version="0.0.0"/>
+
+   <includes
+         id="com.netxforge.netxstudio.screens.app.feature"
+         version="0.0.0"/>
+
    <plugin
          id="com.netxforge.netxstudio.client.product"
          download-size="0"

@@ -20,6 +20,8 @@ package com.netxforge.netxstudio.common.context;
 import java.util.List;
 
 import com.google.common.collect.Lists;
+import com.netxforge.base.context.IComputationContext;
+import com.netxforge.base.context.IComputationContextProvider;
 import com.netxforge.netxstudio.services.RFSService;
 
 /**

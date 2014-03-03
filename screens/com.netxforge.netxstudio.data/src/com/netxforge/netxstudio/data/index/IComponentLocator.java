@@ -15,7 +15,7 @@
  * Contributors: Christophe Bouhier - initial API and implementation and/or
  * initial documentation
  *******************************************************************************/
-package com.netxforge.netxstudio.data.importer;
+package com.netxforge.netxstudio.data.index;
 
 import java.util.List;
 import java.util.Map;
@@ -27,7 +27,7 @@ import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EStructuralFeature;
 
 import com.google.common.collect.Maps;
-import com.netxforge.netxstudio.common.model.ModelUtils;
+import com.netxforge.netxstudio.common.model.StudioUtils;
 import com.netxforge.netxstudio.data.IData;
 import com.netxforge.netxstudio.library.Component;
 import com.netxforge.netxstudio.library.LibraryPackage;
@@ -149,9 +149,9 @@ public interface IComponentLocator {
 		static {
 			{
 				featuresForNode = Maps.newHashMap();
-				for (String featureName : ModelUtils.MAPPING_NODE_ATTRIBUTES) {
-					if (featureName.equals(ModelUtils.NETWORK_ELEMENT_ID)) {
-						featureName = ModelUtils.NODE_ID;
+				for (String featureName : StudioUtils.MAPPING_NODE_ATTRIBUTES) {
+					if (featureName.equals(StudioUtils.NETWORK_ELEMENT_ID)) {
+						featureName = StudioUtils.NODE_ID;
 					}
 					EStructuralFeature feature = featureForName(
 							OperatorsPackage.Literals.NODE, featureName);
@@ -160,7 +160,7 @@ public interface IComponentLocator {
 			}
 			{
 				featuresForEquipment = Maps.newHashMap();
-				for (String featureName : ModelUtils.MAPPING_EQUIPMENT_ATTRIBUTES) {
+				for (String featureName : StudioUtils.MAPPING_EQUIPMENT_ATTRIBUTES) {
 					EStructuralFeature feature = featureForName(
 							LibraryPackage.Literals.EQUIPMENT, featureName);
 					featuresForEquipment.put(featureName, feature);
@@ -168,7 +168,7 @@ public interface IComponentLocator {
 			}
 			{
 				featuresForFunction = Maps.newHashMap();
-				for (String featureName : ModelUtils.MAPPING_FUNCTION_ATTRIBUTES) {
+				for (String featureName : StudioUtils.MAPPING_FUNCTION_ATTRIBUTES) {
 					EStructuralFeature feature = featureForName(
 							LibraryPackage.Literals.FUNCTION, featureName);
 					featuresForFunction.put(featureName, feature);
@@ -176,7 +176,7 @@ public interface IComponentLocator {
 			}
 			{
 				featuresForRelationship = Maps.newHashMap();
-				for (String featureName : ModelUtils.MAPPING_REL_ATTRIBUTES) {
+				for (String featureName : StudioUtils.MAPPING_REL_ATTRIBUTES) {
 					EStructuralFeature feature = featureForName(
 							OperatorsPackage.Literals.RELATIONSHIP, featureName);
 					featuresForRelationship.put(featureName, feature);

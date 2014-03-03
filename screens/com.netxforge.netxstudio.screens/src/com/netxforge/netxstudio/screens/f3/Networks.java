@@ -506,7 +506,7 @@ public class Networks extends AbstractScreen implements IDataServiceInjection {
 
 		ObservableListTreeContentProvider cp = new ObservableListTreeContentProvider(
 				new NetworkTreeFactoryImpl(editingService.getEditingDomain()),
-				new NetworkTreeStructureAdvisorImpl(modelUtils));
+				new NetworkTreeStructureAdvisorImpl());
 
 		networkTreeViewer.setContentProvider(cp);
 
@@ -620,8 +620,7 @@ public class Networks extends AbstractScreen implements IDataServiceInjection {
 		IObservableMap[] map = new IObservableMap[observableMap.size()];
 		observableMap.toArray(map);
 
-		networkTreeViewer.setLabelProvider(new NetworkTreeLabelProvider(
-				modelUtils, map));
+		networkTreeViewer.setLabelProvider(new NetworkTreeLabelProvider(map));
 
 		IEMFListProperty networksResourceProperty = EMFEditProperties
 				.resource(editingService.getEditingDomain());

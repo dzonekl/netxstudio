@@ -27,21 +27,16 @@ import com.google.inject.Provider;
  */
 public class RFSServiceSummaryProvider implements Provider<RFSServiceSummary> {
 
-	private ModelUtils utils;
-
 	private MonitoringStateModel stateModel;
 
 	@Inject
-	public RFSServiceSummaryProvider(MonitoringStateModel stateModel,
-			ModelUtils utils) {
-		this.utils = utils;
+	public RFSServiceSummaryProvider(MonitoringStateModel stateModel) {
 		this.stateModel = stateModel;
 	}
 
 	public RFSServiceSummary get() {
 		final RFSServiceSummary summary = new RFSServiceSummary();
 
-		summary.setModelUtils(utils);
 		summary.setStatModel(stateModel);
 
 		return summary;

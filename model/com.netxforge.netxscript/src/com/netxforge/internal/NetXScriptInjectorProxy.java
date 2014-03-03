@@ -18,7 +18,7 @@
 package com.netxforge.internal;
 
 import com.google.inject.Injector;
-import com.netxforge.netxstudio.common.guice.IInjectorProxy;
+import com.netxforge.base.di.IInjectorProxy;
 
 /**
  * Expose our injector for other modules, which do not which to define their own 

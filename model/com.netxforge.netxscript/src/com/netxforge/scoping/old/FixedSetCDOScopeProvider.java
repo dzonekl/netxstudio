@@ -24,7 +24,7 @@ import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
-import com.netxforge.netxstudio.common.model.ModelUtils;
+import com.netxforge.base.NonModelUtils;
 import com.netxforge.netxstudio.library.LibraryPackage;
 import com.netxforge.netxstudio.operators.OperatorsPackage;
 import com.netxforge.netxstudio.services.ServicesPackage;
@@ -43,8 +43,6 @@ public class FixedSetCDOScopeProvider extends AbstractGlobalScopeProvider {
 	// @Inject
 	private Provider<IResourceDescriptions> loadOnDemandDescriptions;
 
-	private ModelUtils modelUtils;
-
 	/*
 	 * Our single use transaction.
 	 */
@@ -62,10 +60,9 @@ public class FixedSetCDOScopeProvider extends AbstractGlobalScopeProvider {
 
 	@Inject
 	public FixedSetCDOScopeProvider(
-			Provider<IResourceDescriptions> descriptionsProvider, ModelUtils modelUtils) {
+			Provider<IResourceDescriptions> descriptionsProvider) {
 		super();
 
-		this.modelUtils = modelUtils;
 		this.loadOnDemandDescriptions = descriptionsProvider;
 
 		// Use a singleton transaction.
@@ -89,11 +86,12 @@ public class FixedSetCDOScopeProvider extends AbstractGlobalScopeProvider {
 		System.err.println(new Date(System.currentTimeMillis()));
 
 		IScope scope = IScope.NULLSCOPE;
-		
-		
-		// Builds the scope for all registered URI's, while the type is Equipment. 
-		// Iterate through the fixed of URI's. Perhaps we can map the EClass type to a
-		// URI. 
+
+		// Builds the scope for all registered URI's, while the type is
+		// Equipment.
+		// Iterate through the fixed of URI's. Perhaps we can map the EClass
+		// type to a
+		// URI.
 		for (URI uri : fixedURIs) {
 			scope = createLazyResourceScope(scope, uri, descriptions, type,
 					filter, ignoreCase);
@@ -204,7 +202,7 @@ public class FixedSetCDOScopeProvider extends AbstractGlobalScopeProvider {
 			if (resourceNode instanceof CDOResourceFolder) {
 				List<Resource> resources = this
 						.getResourcesFromNode((CDOResourceFolder) resourceNode);
-				childURIs.addAll(modelUtils.transformResourceToURI(resources));
+				childURIs.addAll(NonModelUtils.transformResourceToURI(resources));
 			}
 		}
 		return childURIs;

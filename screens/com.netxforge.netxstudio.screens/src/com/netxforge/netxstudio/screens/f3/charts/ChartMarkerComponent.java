@@ -42,7 +42,8 @@ import org.eclipse.ui.forms.widgets.FormToolkit;
 import org.eclipse.ui.forms.widgets.Section;
 
 import com.google.inject.Inject;
-import com.netxforge.netxstudio.common.model.ModelUtils;
+import com.netxforge.base.NonModelUtils;
+import com.netxforge.netxstudio.common.model.StudioUtils;
 import com.netxforge.netxstudio.generics.Value;
 import com.netxforge.netxstudio.operators.OperatorsPackage;
 import com.netxforge.netxstudio.operators.ToleranceMarker;
@@ -59,8 +60,6 @@ public class ChartMarkerComponent {
 
 	private TableHelper tableHelper;
 
-	private ModelUtils modelUtils;
-
 	private TableViewer markersTableViewer;
 
 	private Table table;
@@ -68,8 +67,7 @@ public class ChartMarkerComponent {
 	private final FormToolkit toolkit = new FormToolkit(Display.getCurrent());
 
 	@Inject
-	public ChartMarkerComponent(ModelUtils modelUtils, TableHelper tableHelper) {
-		this.modelUtils = modelUtils;
+	public ChartMarkerComponent(TableHelper tableHelper) {
 		this.tableHelper = tableHelper;
 	}
 
@@ -140,7 +138,7 @@ public class ChartMarkerComponent {
 
 			TBVCFeatureSorter<Value> tbvcFeatureSorter = tableHelper.new TBVCFeatureSorter<Value>(
 					tbvcFor, OperatorsPackage.Literals.MARKER__VALUE_REF,
-					modelUtils.valueTimeStampCompare());
+					StudioUtils.valueTimeStampCompare());
 			tbvcFeatureSorter.setSorter(TBVCFeatureSorter.DESC);
 		}
 
@@ -222,10 +220,10 @@ public class ChartMarkerComponent {
 					return rm.getDescription();
 				case 2:
 
-					return modelUtils.date(modelUtils.fromXMLDate(rm
+					return NonModelUtils.date(NonModelUtils.fromXMLDate(rm
 							.getValueRef().getTimeStamp()))
 							+ "@"
-							+ modelUtils.time(modelUtils.fromXMLDate(rm
+							+ NonModelUtils.time(NonModelUtils.fromXMLDate(rm
 									.getValueRef().getTimeStamp()));
 				case 3:
 					double value = rm.getValueRef().getValue();

@@ -21,19 +21,19 @@ import static org.ops4j.peaberry.Peaberry.service;
 
 import com.google.inject.AbstractModule;
 import com.google.inject.name.Names;
+import com.netxforge.base.di.IInjectorProxy;
 import com.netxforge.engine.IExpressionEngine;
-import com.netxforge.netxstudio.common.guice.IInjectorProxy;
+import com.netxforge.netxstudio.common.math.INativeFunctions;
 import com.netxforge.netxstudio.common.math.INativeFunctions2;
 import com.netxforge.netxstudio.common.model.IChartModelProvider;
-import com.netxforge.netxstudio.common.model.ModelUtils;
 import com.netxforge.netxstudio.common.model.MonitoringAdapterFactory;
 import com.netxforge.netxstudio.common.model.MonitoringStateModel;
 import com.netxforge.netxstudio.data.actions.ServerRequest;
 import com.netxforge.netxstudio.data.fixtures.IFixtures;
 import com.netxforge.netxstudio.data.importer.ICSVMetricValuesImporterProvider;
 import com.netxforge.netxstudio.data.importer.RDBMSMetricValuesImporterProvider;
-import com.netxforge.netxstudio.data.importer.ResultProcessor;
 import com.netxforge.netxstudio.data.importer.XLSMetricValuesImporterProvider;
+import com.netxforge.netxstudio.data.services.ResultProcessor;
 import com.netxforge.netxstudio.screens.editing.IEditingServiceProvider;
 import com.netxforge.netxstudio.screens.editing.IScreenFormServiceProvider;
 import com.netxforge.netxstudio.screens.f1.support.PeriodSelectionPage;
@@ -45,7 +45,6 @@ import com.netxforge.netxstudio.screens.f2.support.NodeTypeTreeLabelProvider;
 import com.netxforge.netxstudio.screens.f3.PeriodComponent;
 import com.netxforge.netxstudio.screens.f3.ResourcesComponent;
 import com.netxforge.netxstudio.screens.f3.SmartValueComponent;
-import com.netxforge.netxstudio.screens.f3.ValueComponentII;
 import com.netxforge.netxstudio.screens.xtext.embedded.EmbeddedLineExpression;
 import com.netxforge.ui.internal.override.NetXScriptInjectorProxy;
 
@@ -81,8 +80,6 @@ public class ScreensModule extends AbstractModule {
 		// Bind Components
 		this.bind(PeriodComponent.class);
 
-		this.bind(ValueComponentII.class);
-
 		this.bind(SmartValueComponent.class);
 
 		this.bind(ResourcesComponent.class);
@@ -95,12 +92,13 @@ public class ScreensModule extends AbstractModule {
 		// IMPORTED SERVICES
 		//
 		// {@link CommonModule}
-		bind(ModelUtils.class).toProvider(service(ModelUtils.class).single());
-
-		// {@link CommonModule}
 		bind(IChartModelProvider.class).toProvider(
 				service(IChartModelProvider.class).single());
 
+		// {@link CommonModule}
+		bind(INativeFunctions.class).toProvider(
+				service(INativeFunctions.class).single());
+		
 		// {@link CommonModule}
 		bind(INativeFunctions2.class).toProvider(
 				service(INativeFunctions2.class).single());

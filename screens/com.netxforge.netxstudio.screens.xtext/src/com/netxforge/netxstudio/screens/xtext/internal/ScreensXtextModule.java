@@ -20,7 +20,7 @@ package com.netxforge.netxstudio.screens.xtext.internal;
 import static org.ops4j.peaberry.Peaberry.service;
 
 import com.google.inject.AbstractModule;
-import com.netxforge.netxstudio.common.guice.IInjectorProxy;
+import com.netxforge.base.di.IInjectorProxy;
 
 public class ScreensXtextModule extends AbstractModule {
 

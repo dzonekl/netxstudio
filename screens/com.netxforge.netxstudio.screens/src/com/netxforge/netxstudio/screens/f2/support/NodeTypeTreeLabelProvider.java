@@ -32,8 +32,8 @@ import org.eclipse.swt.widgets.Display;
 import org.eclipse.wb.swt.ResourceManager;
 
 import com.google.inject.Inject;
+import com.netxforge.base.cdo.MonitoringStateEvent;
 import com.netxforge.netxstudio.common.model.IMonitoringSummary;
-import com.netxforge.netxstudio.common.model.MonitoringStateEvent;
 import com.netxforge.netxstudio.common.model.MonitoringStateModel;
 import com.netxforge.netxstudio.common.model.NodeTypeSummary;
 import com.netxforge.netxstudio.common.model.MonitoringStateModel.MonitoringStateCallBack;

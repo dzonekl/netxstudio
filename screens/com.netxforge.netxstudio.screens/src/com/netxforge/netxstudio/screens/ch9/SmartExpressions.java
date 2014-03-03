@@ -46,6 +46,8 @@ import org.eclipse.ui.forms.widgets.FormToolkit;
 import org.eclipse.wb.swt.ResourceManager;
 
 import com.google.common.collect.Lists;
+import com.netxforge.base.NonModelUtils;
+import com.netxforge.netxstudio.common.model.StudioUtils;
 import com.netxforge.netxstudio.library.Expression;
 import com.netxforge.netxstudio.library.LibraryFactory;
 import com.netxforge.netxstudio.library.LibraryPackage;
@@ -208,7 +210,6 @@ public class SmartExpressions extends AbstractSmartTableScreen {
 	@Override
 	protected IBaseLabelProvider delegateGetListLabelProvider() {
 		ExpressionsLabelProvider expressionsLabelProvider = new ExpressionsLabelProvider();
-		expressionsLabelProvider.setModelUtils(modelUtils);
 		return expressionsLabelProvider;
 	}
 
@@ -221,7 +222,7 @@ public class SmartExpressions extends AbstractSmartTableScreen {
 				String match = (String) expression.eGet(LibraryPackage.Literals.EXPRESSION__NAME);
 				boolean matchName = lazyItemsFilter.matches(match);
 				if(!matchName){
-					String expressionAsString = modelUtils.expressionAsString(expression);
+					String expressionAsString = StudioUtils.expressionAsString(expression);
 					return lazyItemsFilter.matches(expressionAsString);
 				}else return matchName;
 			}
@@ -250,7 +251,7 @@ public class SmartExpressions extends AbstractSmartTableScreen {
 	@SuppressWarnings("unchecked")
 	@Override
 	public <T> Comparator<T> delegateGetItemsComparator() {
-		Comparator<Tolerance> objectEAttributeComparator = modelUtils
+		Comparator<Tolerance> objectEAttributeComparator = NonModelUtils
 				.<Tolerance, String> objectEAttributeComparator(LibraryPackage.Literals.EXPRESSION__NAME);
 		return (Comparator<T>) objectEAttributeComparator;
 	}

@@ -24,6 +24,8 @@ import java.util.List;
 import org.eclipse.emf.cdo.common.id.CDOID;
 
 import com.google.common.collect.Iterables;
+import com.netxforge.base.NonModelUtils;
+import com.netxforge.netxstudio.common.model.StudioUtils;
 import com.netxforge.netxstudio.generics.DateTimeRange;
 import com.netxforge.netxstudio.library.NodeType;
 import com.netxforge.netxstudio.operators.Node;
@@ -65,8 +67,8 @@ public class RFSServiceMonitoringLogic extends BaseMonitoringLogic {
 		serviceMonitor.setName(rfsService.getServiceName());
 		serviceMonitor.setPeriod(dtr);
 		// The revision will hold the Object ID and creation time.
-		serviceMonitor.setRevision(this.getModelUtils().dateAndTime(
-				this.getModelUtils().todayAndNow()));
+		serviceMonitor.setRevision(NonModelUtils.dateAndTime(
+				NonModelUtils.todayAndNow()));
 		
 		
 		// Do the ONFE thing, disable for now as we catch ONFEs in own policy.  
@@ -76,13 +78,13 @@ public class RFSServiceMonitoringLogic extends BaseMonitoringLogic {
 		rfsService.getServiceMonitors().add(0, serviceMonitor); // Add at
 																// beginning.
 
-		List<ServiceMonitor> serviceMonitorDuplicates = this.getModelUtils()
+		List<ServiceMonitor> serviceMonitorDuplicates = StudioUtils
 				.serviceMonitorDuplicates(rfsService, dtr);
 
 		if (LogicActivator.DEBUG) {
 			LogicActivator.TRACE.trace(LogicActivator.TRACE_LOGIC_OPTION,
 					"Creating Service Monitor for period"
-							+ this.getModelUtils().periodToString(dtr));
+							+ StudioUtils.periodToString(dtr));
 			if (serviceMonitorDuplicates.size() > 0) {
 				LogicActivator.TRACE.trace(LogicActivator.TRACE_LOGIC_OPTION,
 						"Removing " + serviceMonitorDuplicates.size()
@@ -112,14 +114,14 @@ public class RFSServiceMonitoringLogic extends BaseMonitoringLogic {
 		final List<NodeType> nodeTypes = new ArrayList<NodeType>();
 		// first go through the leave nodes
 		for (final Node node : rfsService.getNodes()) {
-			if (getModelUtils().isInService(node)
+			if (StudioUtils.isInService(node)
 					&& node.getNodeType().isLeafNode()) {
 				nodeTypes.add(node.getNodeType());
 			}
 		}
 		// and then the other nodes
 		for (final Node node : rfsService.getNodes()) {
-			if (getModelUtils().isInService(node)
+			if (StudioUtils.isInService(node)
 					&& !node.getNodeType().isLeafNode()) {
 				nodeTypes.add(node.getNodeType());
 			}

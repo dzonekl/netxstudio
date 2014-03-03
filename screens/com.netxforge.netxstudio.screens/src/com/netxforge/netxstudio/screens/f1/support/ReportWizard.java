@@ -10,7 +10,7 @@ import org.eclipse.ui.INewWizard;
 import org.eclipse.ui.IWorkbench;
 
 import com.google.inject.Inject;
-import com.netxforge.netxstudio.common.model.ModelUtils;
+import com.netxforge.netxstudio.common.model.StudioUtils;
 import com.netxforge.netxstudio.data.actions.ServerRequest;
 import com.netxforge.netxstudio.generics.DateTimeRange;
 import com.netxforge.netxstudio.library.NodeType;
@@ -21,9 +21,6 @@ import com.netxforge.netxstudio.screens.internal.ScreensActivator;
 public class ReportWizard extends Wizard implements INewWizard {
 
 	private static final String REPORTING_WIZARD = "reporting_period";
-
-	@Inject
-	private ModelUtils modelUtils;
 
 	@Inject
 	private ServerRequest serverActions;
@@ -83,8 +80,8 @@ public class ReportWizard extends Wizard implements INewWizard {
 
 			DateTimeRange dtr = this.reportSelectionPeriod.period();
 
-			Date fromDate = modelUtils.begin(dtr);
-			Date toDate = modelUtils.end(dtr);
+			Date fromDate = StudioUtils.begin(dtr);
+			Date toDate = StudioUtils.end(dtr);
 
 			@SuppressWarnings("unused")
 			String result = null;
@@ -128,7 +125,7 @@ public class ReportWizard extends Wizard implements INewWizard {
 			case ReportTypeSelectionPage.REPORT_ON_COMPONENT: {
 
 				// We can only report for the whole node, so resolve it first!
-				Node nodeFor = modelUtils.nodeFor(targetObject);
+				Node nodeFor = StudioUtils.nodeFor(targetObject);
 				if (nodeFor != null) {
 					result = serverActions.callNodeReportingAction(nodeFor,
 							fromDate, toDate);

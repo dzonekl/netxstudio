@@ -24,10 +24,10 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.jface.databinding.viewers.IViewerObservableValue;
 import org.eclipse.swt.widgets.Display;
 
-import com.netxforge.netxstudio.common.context.IComputationContext;
-import com.netxforge.netxstudio.common.context.ObjectContext;
+import com.netxforge.base.cdo.MonitoringStateEvent;
+import com.netxforge.base.context.IComputationContext;
+import com.netxforge.base.context.ObjectContext;
 import com.netxforge.netxstudio.common.model.IMonitoringSummary;
-import com.netxforge.netxstudio.common.model.MonitoringStateEvent;
 import com.netxforge.netxstudio.common.model.MonitoringStateModel;
 import com.netxforge.netxstudio.common.model.MonitoringStateModel.MonitoringStateCallBack;
 import com.netxforge.netxstudio.generics.DateTimeRange;

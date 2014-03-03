@@ -49,11 +49,11 @@ import org.eclipse.ui.part.ShowInContext;
 import com.google.common.collect.Iterators;
 import com.google.common.collect.Lists;
 import com.google.inject.Inject;
+import com.netxforge.base.cdo.MonitoringStateEvent;
 import com.netxforge.netxstudio.common.model.ChartModelProvider;
 import com.netxforge.netxstudio.common.model.IChartModel;
 import com.netxforge.netxstudio.common.model.IChartResource;
 import com.netxforge.netxstudio.common.model.IMonitoringSummary;
-import com.netxforge.netxstudio.common.model.MonitoringStateEvent;
 import com.netxforge.netxstudio.common.model.MonitoringStateModel;
 import com.netxforge.netxstudio.common.model.MonitoringStateModel.JobCallBack;
 import com.netxforge.netxstudio.common.model.MonitoringStateModel.MonitoringStateCallBack;
@@ -202,8 +202,6 @@ public class ChartScreen extends AbstractScreen implements
 		gridData.heightHint = 400;
 		gridData.widthHint = 600;
 		chart = new ChartNetXResource(this, SWT.NONE, gridData);
-
-		chart.setModelUtils(modelUtils);
 
 		// buildScrollStick(cmChart);
 		// buildZoom(cmChart);

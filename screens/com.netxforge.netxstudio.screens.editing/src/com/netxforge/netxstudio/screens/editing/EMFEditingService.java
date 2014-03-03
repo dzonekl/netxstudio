@@ -38,7 +38,6 @@ import org.eclipse.jface.operation.IRunnableWithProgress;
 import org.eclipse.swt.widgets.Display;
 
 import com.google.inject.Inject;
-import com.netxforge.netxstudio.common.model.ModelUtils;
 import com.netxforge.netxstudio.data.IDataService;
 import com.netxforge.netxstudio.generics.provider.GenericsItemProviderAdapterFactory;
 import com.netxforge.netxstudio.geo.provider.GeoItemProviderAdapterFactory;
@@ -62,14 +61,11 @@ public abstract class EMFEditingService implements IEditingService {
 
 	protected IDataService dataService;
 
-	protected ModelUtils modelUtils;
-
 	private AdapterFactoryEditingDomain domain = null;
 
 	@Inject
-	public EMFEditingService(IDataService dataService, ModelUtils modelUtils) {
+	public EMFEditingService(IDataService dataService) {
 		this.dataService = dataService;
-		this.modelUtils = modelUtils;
 	}
 
 	/*

@@ -37,7 +37,8 @@ import org.apache.poi.ss.usermodel.Workbook;
 import com.google.common.base.Predicate;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Multimap;
-import com.netxforge.netxstudio.common.model.ModelUtils;
+import com.netxforge.base.NonModelUtils;
+import com.netxforge.netxstudio.common.model.StudioUtils;
 import com.netxforge.netxstudio.data.IQueryService;
 import com.netxforge.netxstudio.generics.DateTimeRange;
 import com.netxforge.netxstudio.generics.Value;
@@ -54,25 +55,22 @@ import com.netxforge.netxstudio.operators.ToleranceMarker;
 /**
  * Outputs resources reports.
  * 
- * @author Christophe
+ * @author Christophe Bouhier
  * 
  */
 public class ResourceReportingEngine {
 
-	private ModelUtils modelUtils;
-	
 	private DateTimeRange period;
-	
+
 	private Workbook workBook;
-	
+
 	@SuppressWarnings("unused")
 	private IQueryService queryService;
 
 	private static final int NODE_COLUMN = 2;
 
-	public ResourceReportingEngine(ModelUtils modelUtils,
-			DateTimeRange period, Workbook workBook, IQueryService queryService) {
-		this.modelUtils = modelUtils;
+	public ResourceReportingEngine(DateTimeRange period, Workbook workBook,
+			IQueryService queryService) {
 		this.period = period;
 		this.workBook = workBook;
 		this.queryService = queryService;
@@ -138,49 +136,6 @@ public class ResourceReportingEngine {
 	}
 
 	/**
-	 * Write the resources for a component in the engine's set period.
-	 * 
-	 * @param newRow
-	 * @param sheet
-	 * @param component
-	 * @param markersForNode
-	 */
-	// public void writeHiarchy(int newRow, HSSFSheet sheet, Component
-	// component,
-	// Map<NetXResource, List<Marker>> markersForNode) {
-	// int resourceIndex = newRow + 1;
-	//
-	// for (NetXResource resource : component.getResourceRefs()) {
-	//
-	// List<Marker> markersForResource = null;
-	// if (markersForNode != null && markersForNode.containsKey(resource)) {
-	// markersForResource = markersForNode.get(resource);
-	// }
-	//
-	// HSSFRow resourceRow = sheet.createRow(resourceIndex++);
-	//
-	// HSSFCell resourceCell = resourceRow.createCell(NODE_COLUMN + 2);
-	// resourceCell.setCellValue(resource.getLongName());
-	//
-	// for (MetricValueRange mvr : resource.getMetricValueRanges()) {
-	// resourceIndex = writeRange(sheet, resourceIndex, resource,
-	// markersForResource, mvr);
-	// }
-	//
-	// { // Write the capacity.
-	// // !Potentially long operation, as we sort of the whole rang.e
-	// resourceIndex = writeCapacity(sheet, resourceIndex, resource);
-	// }
-	//
-	// { // Write the utilization.
-	// // !Potentially long operation, as we sort of the whole rang.e
-	// resourceIndex = writeUtilization(sheet, resourceIndex, resource);
-	// }
-	//
-	// }
-	// }
-
-	/**
 	 * 
 	 * @param newRow
 	 * @param sheet
@@ -199,12 +154,14 @@ public class ResourceReportingEngine {
 			List<Marker> markersForResource = null;
 			if (markersForNode != null && markersForNode.containsKey(resource)) {
 				markersForResource = markersForNode.get(resource);
-				if(markersForResource.size() > 0 ){
-					System.out.println("Markers found for this resource " + resource.getLongName() + " size=" +markersForResource.size());
+				if (markersForResource.size() > 0) {
+					System.out.println("Markers found for this resource "
+							+ resource.getLongName() + " size="
+							+ markersForResource.size());
 				}
-				
+
 			}
-			
+
 			for (MetricValueRange mvr : resource.getMetricValueRanges()) {
 
 				if (mvr != null) {
@@ -226,8 +183,8 @@ public class ResourceReportingEngine {
 				}
 			}
 			{ // Write the capacity.
-				
-				// increment the index before creating a new row. 
+
+				// increment the index before creating a new row.
 				Row nextRow = this.rowForIndex(sheet, ++rowIndex);
 
 				// The component name.
@@ -247,8 +204,8 @@ public class ResourceReportingEngine {
 			}
 
 			{ // Write the utilization.
-				
-				// increment the index before creating a new row. 
+
+				// increment the index before creating a new row.
 				Row nextRow = this.rowForIndex(sheet, ++rowIndex);
 
 				// The component name.
@@ -279,7 +236,7 @@ public class ResourceReportingEngine {
 	 */
 	public void writeTS(Sheet sheet, int rowIndex) {
 		// Get the timestamps by week numbers.
-		Multimap<Integer, XMLGregorianCalendar> timeStampsByWeek = modelUtils
+		Multimap<Integer, XMLGregorianCalendar> timeStampsByWeek = StudioUtils
 				.hourlyTimeStampsByWeekFor(this.getPeriod());
 
 		Row tsRow = this.rowForIndex(sheet, rowIndex);
@@ -295,7 +252,7 @@ public class ResourceReportingEngine {
 			Collection<XMLGregorianCalendar> collection = timeStampsByWeek
 					.get(i);
 
-			List<Date> weekTS = modelUtils.transformXMLDateToDate(collection);
+			List<Date> weekTS = NonModelUtils.transformXMLDateToDate(collection);
 			Collections.sort(weekTS);
 
 			// CB Apply a check, if our usemodel for POI is based on HSSF which
@@ -324,16 +281,18 @@ public class ResourceReportingEngine {
 	// }
 
 	public void writeCapacity(Sheet sheet, Row capRow, NetXResource resource) {
-		List<Value> capRange = getModelUtils().sortValuesByTimeStamp(
+		List<Value> capRange = StudioUtils.sortValuesByTimeStamp(
 				resource.getCapacityValues());
-		capRange = getModelUtils().valuesInsideRange(capRange, this.getPeriod());
+		capRange = StudioUtils
+				.valuesInsideRange(capRange, this.getPeriod());
 		writeRange(null, sheet, capRow, capRange);
 	}
 
 	public void writeUtilization(Sheet sheet, Row capRow, NetXResource resource) {
-		List<Value> utilRange = getModelUtils().sortValuesByTimeStamp(
+		List<Value> utilRange = StudioUtils.sortValuesByTimeStamp(
 				resource.getUtilizationValues());
-		utilRange = getModelUtils().valuesInsideRange(utilRange, this.getPeriod());
+		utilRange = StudioUtils.valuesInsideRange(utilRange,
+				this.getPeriod());
 
 		writeRange(null, sheet, capRow, utilRange);
 	}
@@ -342,12 +301,12 @@ public class ResourceReportingEngine {
 			MetricValueRange mvr, Row valueRow) {
 
 		// use a query, experimental.
-//		List<Value> range = queryService.getSortedValues(mvr);
-		
+		// List<Value> range = queryService.getSortedValues(mvr);
+
 		// !Potentially long operation, as we sort of the whole rang.e
-		List<Value> range = getModelUtils().sortValuesByTimeStamp(
+		List<Value> range = StudioUtils.sortValuesByTimeStamp(
 				mvr.getMetricValues());
-		range = getModelUtils().valuesInsideRange(range, this.getPeriod());
+		range = StudioUtils.valuesInsideRange(range, this.getPeriod());
 		writeRange(markers, sheet, valueRow, range);
 	}
 
@@ -355,7 +314,7 @@ public class ResourceReportingEngine {
 	 * @param mvr
 	 */
 	private String nameForValueRange(MetricValueRange mvr) {
-		String fromMinutes = this.getModelUtils().fromMinutes(
+		String fromMinutes = NonModelUtils.fromMinutes(
 				mvr.getIntervalHint());
 
 		String rangeKind = mvr.getKindHint().getName();
@@ -371,17 +330,17 @@ public class ResourceReportingEngine {
 				"m-d-yy h:mm"));
 
 		// Styles for markers.
-//		CellStyle markerStyleRed = this.getWorkBook().createCellStyle();
-//		markerStyleRed.setFillForegroundColor(IndexedColors.RED.getIndex());
-//		markerStyleRed.setFillPattern(CellStyle.SOLID_FOREGROUND);
-		
-		CellStyle markerStyleRed  = createRedBorderStyle();
-		CellStyle markerStyleAmber  = createAmberBorderStyle();
-		
-//		CellStyle markerStyleAmber = this.getWorkBook().createCellStyle();
-//		markerStyleAmber.setFillPattern(CellStyle.SOLID_FOREGROUND);
-//		markerStyleAmber
-//				.setFillForegroundColor(IndexedColors.ORANGE.getIndex());
+		// CellStyle markerStyleRed = this.getWorkBook().createCellStyle();
+		// markerStyleRed.setFillForegroundColor(IndexedColors.RED.getIndex());
+		// markerStyleRed.setFillPattern(CellStyle.SOLID_FOREGROUND);
+
+		CellStyle markerStyleRed = createRedBorderStyle();
+		CellStyle markerStyleAmber = createAmberBorderStyle();
+
+		// CellStyle markerStyleAmber = this.getWorkBook().createCellStyle();
+		// markerStyleAmber.setFillPattern(CellStyle.SOLID_FOREGROUND);
+		// markerStyleAmber
+		// .setFillForegroundColor(IndexedColors.ORANGE.getIndex());
 
 		// Write the values.
 		for (Value v : range) {
@@ -401,7 +360,7 @@ public class ResourceReportingEngine {
 			// Set the markers.
 			if (markers != null) {
 				Marker m;
-				if ((m = this.getModelUtils().markerForValue(markers, v)) != null) {
+				if ((m = StudioUtils.markerForValue(markers, v)) != null) {
 					if (m instanceof ToleranceMarker) {
 						switch (((ToleranceMarker) m).getLevel().getValue()) {
 						case LevelKind.RED_VALUE: {
@@ -421,32 +380,32 @@ public class ResourceReportingEngine {
 
 	private CellStyle createAmberBorderStyle() {
 		CellStyle style = this.getWorkBook().createCellStyle();
-	    style.setBorderBottom(CellStyle.BORDER_THIN);
-	    style.setBottomBorderColor(IndexedColors.ORANGE.getIndex());
-	    style.setBorderLeft(CellStyle.BORDER_THIN);
-	    style.setLeftBorderColor(IndexedColors.ORANGE.getIndex());
-	    style.setBorderRight(CellStyle.BORDER_THIN);
-	    style.setRightBorderColor(IndexedColors.ORANGE.getIndex());
-	    style.setBorderTop(CellStyle.BORDER_THIN);
-	    style.setTopBorderColor(IndexedColors.ORANGE.getIndex());
-	    return style;
+		style.setBorderBottom(CellStyle.BORDER_THIN);
+		style.setBottomBorderColor(IndexedColors.ORANGE.getIndex());
+		style.setBorderLeft(CellStyle.BORDER_THIN);
+		style.setLeftBorderColor(IndexedColors.ORANGE.getIndex());
+		style.setBorderRight(CellStyle.BORDER_THIN);
+		style.setRightBorderColor(IndexedColors.ORANGE.getIndex());
+		style.setBorderTop(CellStyle.BORDER_THIN);
+		style.setTopBorderColor(IndexedColors.ORANGE.getIndex());
+		return style;
 	}
 
 	private CellStyle createRedBorderStyle() {
 		CellStyle style = this.getWorkBook().createCellStyle();
-	    style.setBorderBottom(CellStyle.BORDER_THIN);
-	    style.setBottomBorderColor(IndexedColors.RED.getIndex());
-	    style.setBorderLeft(CellStyle.BORDER_THIN);
-	    style.setLeftBorderColor(IndexedColors.RED.getIndex());
-	    style.setBorderRight(CellStyle.BORDER_THIN);
-	    style.setRightBorderColor(IndexedColors.RED.getIndex());
-	    style.setBorderTop(CellStyle.BORDER_THIN);
-	    style.setTopBorderColor(IndexedColors.RED.getIndex());
-	    return style;
+		style.setBorderBottom(CellStyle.BORDER_THIN);
+		style.setBottomBorderColor(IndexedColors.RED.getIndex());
+		style.setBorderLeft(CellStyle.BORDER_THIN);
+		style.setLeftBorderColor(IndexedColors.RED.getIndex());
+		style.setBorderRight(CellStyle.BORDER_THIN);
+		style.setRightBorderColor(IndexedColors.RED.getIndex());
+		style.setBorderTop(CellStyle.BORDER_THIN);
+		style.setTopBorderColor(IndexedColors.RED.getIndex());
+		return style;
 	}
 
 	private int tsColumnForValue(Value v) {
-		final Date toLookup = modelUtils.fromXMLDate(v.getTimeStamp());
+		final Date toLookup = NonModelUtils.fromXMLDate(v.getTimeStamp());
 		Map<Integer, Date> filterEntries = Maps.filterEntries(columnTS,
 				new Predicate<Entry<Integer, Date>>() {
 
@@ -460,7 +419,7 @@ public class ResourceReportingEngine {
 		// there should only be one entry, ugly hack.
 		// http://work.netxforge.com/issues/292
 		if (filterEntries.size() == 1) {
-			return filterEntries.keySet().iterator().next() -1 ;
+			return filterEntries.keySet().iterator().next() - 1;
 		}
 		return -1;
 	}
@@ -491,14 +450,6 @@ public class ResourceReportingEngine {
 	}
 
 	// Getters and setters.
-
-	public ModelUtils getModelUtils() {
-		return modelUtils;
-	}
-
-	public void setModelUtils(ModelUtils modelUtils) {
-		this.modelUtils = modelUtils;
-	}
 
 	public DateTimeRange getPeriod() {
 		return period;

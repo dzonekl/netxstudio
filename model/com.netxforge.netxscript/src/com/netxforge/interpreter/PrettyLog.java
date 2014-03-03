@@ -31,9 +31,8 @@ import java.util.List;
 
 import org.apache.log4j.Logger;
 
-import com.google.inject.Inject;
+import com.netxforge.base.NonModelUtils;
 import com.netxforge.internal.RuntimeActivator;
-import com.netxforge.netxstudio.common.model.ModelUtils;
 import com.netxforge.netxstudio.generics.Value;
 
 /**
@@ -46,8 +45,6 @@ public class PrettyLog implements IPrettyLog {
 
 	Logger log = Logger.getLogger(PrettyLog.class);
 
-	@Inject
-	private ModelUtils modelUtils;
 
 	/*
 	 * (non-Javadoc)
@@ -96,7 +93,7 @@ public class PrettyLog implements IPrettyLog {
 			if (o instanceof Value) {
 				Value value = (Value) o;
 				builder.append("(" + value.getValue() + ","
-						+ modelUtils.dateAndTime(value.getTimeStamp()) + ")");
+						+ NonModelUtils.dateAndTime(value.getTimeStamp()) + ")");
 			} else if (o instanceof BigDecimal) {
 				builder.append(asNum((BigDecimal) o).toString());
 			}

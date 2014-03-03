@@ -25,7 +25,6 @@ import org.eclipse.emf.cdo.view.CDOView;
 import org.eclipse.emf.ecore.resource.Resource;
 
 import com.google.inject.Inject;
-import com.netxforge.netxstudio.common.model.ModelUtils;
 import com.netxforge.netxstudio.data.internal.DataActivator;
 
 /**
@@ -35,9 +34,6 @@ import com.netxforge.netxstudio.data.internal.DataActivator;
  * @author Christophe Bouhier christophe.bouhier@netxforge.com
  */
 public class ClientCDOData extends CDOData {
-
-	@Inject
-	ModelUtils modelUtils;
 
 	@Inject
 	public ClientCDOData(ICDOConnection conn) {

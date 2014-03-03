@@ -16,7 +16,7 @@
  * Contributors: 
  * 	Martin Taal - initial API and implementation and/or initial documentation
  *******************************************************************************/
-package com.netxforge.netxstudio.data.importer;
+package com.netxforge.netxstudio.data.index;
 
 import java.util.List;
 
@@ -27,10 +27,8 @@ import org.eclipse.emf.cdo.view.CDOView;
 import com.google.common.collect.Lists;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
-import com.netxforge.netxstudio.common.model.ModelUtils;
+import com.netxforge.netxstudio.common.model.StudioUtils;
 import com.netxforge.netxstudio.data.IData;
-import com.netxforge.netxstudio.data.index.ComponentMappingIndex;
-import com.netxforge.netxstudio.data.index.IComponentMappingIndex;
 import com.netxforge.netxstudio.library.Component;
 import com.netxforge.netxstudio.metrics.Metric;
 
@@ -46,9 +44,6 @@ public class IndexComponentLocator extends JobChangeAdapter implements
 
 	@Inject
 	private ComponentMappingIndex index;
-
-	@Inject
-	private ModelUtils modelUtils;
 
 	private IData dataProvider;
 
@@ -106,7 +101,7 @@ public class IndexComponentLocator extends JobChangeAdapter implements
 
 		componentsForIdentifiers = this.locateComponents(view, descriptors);
 		
-		Iterable<Component> filter = modelUtils.componentsForMetric(
+		Iterable<Component> filter = StudioUtils.componentsForMetric(
 				componentsForIdentifiers, metric);
 		
 		result.addAll(Lists.newArrayList(filter));

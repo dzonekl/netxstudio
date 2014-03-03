@@ -33,7 +33,7 @@ import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.graphics.RGB;
 import org.eclipse.wb.swt.ResourceManager;
 
-import com.netxforge.netxstudio.common.model.ModelUtils;
+import com.netxforge.netxstudio.common.model.StudioUtils;
 import com.netxforge.netxstudio.library.Component;
 import com.netxforge.netxstudio.library.Equipment;
 import com.netxforge.netxstudio.library.Function;
@@ -45,12 +45,12 @@ import com.netxforge.netxstudio.operators.Node;
 import com.netxforge.netxstudio.operators.Operator;
 import com.netxforge.netxstudio.operators.Relationship;
 
-
 /**
- * A Styled Label provider which deals with model objects like Operator, Network. 
+ * A Styled Label provider which deals with model objects like Operator,
+ * Network.
  * 
  * @author Christophe Bouhier
- *
+ * 
  */
 public class NetworkTreeLabelProvider extends StyledCellLabelProvider {
 
@@ -58,15 +58,14 @@ public class NetworkTreeLabelProvider extends StyledCellLabelProvider {
 	private static final String METRIC_COLOR_STYLER = "METRIC_COLOR_STYLER";
 	private static final String EXPRESSION_COLOR_STYLER = "EXPRESSION_COLOR_STYLER";
 	private static final String LIFECYCLE_COLOR_STYLER = "LIFECYCLE_COLOR_STYLER";
-	
-	private ModelUtils modelUtils;
-	
+
 	static {
 		ColorRegistry colorRegistry = JFaceResources.getColorRegistry();
 		colorRegistry.put(REL_NOTCONNECTED_COLOR_STYLER, new RGB(255, 0, 0)); // yellowish
 		colorRegistry.put(METRIC_COLOR_STYLER, new RGB(0xBD, 0xB7, 0x6B)); // cherry
-		colorRegistry.put(EXPRESSION_COLOR_STYLER, new RGB(235, 80, 75)); // red. 
-		colorRegistry.put(LIFECYCLE_COLOR_STYLER, new RGB(241,146,69)); // fade grey
+		colorRegistry.put(EXPRESSION_COLOR_STYLER, new RGB(235, 80, 75)); // red.
+		colorRegistry.put(LIFECYCLE_COLOR_STYLER, new RGB(241, 146, 69)); // fade
+																			// grey
 	}
 
 	private IMapChangeListener mapChangeListener = new IMapChangeListener() {
@@ -80,12 +79,8 @@ public class NetworkTreeLabelProvider extends StyledCellLabelProvider {
 			}
 		}
 	};
-	
 
-	public NetworkTreeLabelProvider(ModelUtils modelUtils, IObservableMap... attributeMaps ) {
-		
-		this.modelUtils = modelUtils;
-		
+	public NetworkTreeLabelProvider(IObservableMap... attributeMaps) {
 		for (int i = 0; i < attributeMaps.length; i++) {
 			attributeMaps[i].addMapChangeListener(mapChangeListener);
 		}
@@ -234,18 +229,16 @@ public class NetworkTreeLabelProvider extends StyledCellLabelProvider {
 		}
 
 		if (element instanceof Component) {
-			
-			
+
 			Component c = (Component) element;
 			StyledString styledString = new StyledString();
-				
-			
-			Styler lifecycleColorStyler = StyledString.createColorRegistryStyler(
-					LIFECYCLE_COLOR_STYLER, null);
-			int lifeCycleState = modelUtils.lifecycleState(c.getLifecycle());
-			
-			styledString.append(modelUtils.componentName(c), null);
-			
+
+			Styler lifecycleColorStyler = StyledString
+					.createColorRegistryStyler(LIFECYCLE_COLOR_STYLER, null);
+			int lifeCycleState = StudioUtils.lifecycleState(c.getLifecycle());
+
+			styledString.append(StudioUtils.componentName(c), null);
+
 			if (element instanceof Function) {
 				cell.setImage(ResourceManager.getPluginImage(
 						"com.netxforge.netxstudio.models.edit",
@@ -260,24 +253,25 @@ public class NetworkTreeLabelProvider extends StyledCellLabelProvider {
 
 			Styler metricColorStyler = StyledString.createColorRegistryStyler(
 					METRIC_COLOR_STYLER, null);
-			
-			// Add Resources info. 
+
+			// Add Resources info.
 			if (!c.getResourceRefs().isEmpty()) {
 				String decoration = " (" + c.getResourceRefs().size()
 						+ " Res.)";
 				styledString.append(decoration, StyledString.COUNTER_STYLER);
 			}
-			
-			// Add Metrics info. 
+
+			// Add Metrics info.
 			if (!c.getMetricRefs().isEmpty()) {
 				String decoration = " (" + c.getMetricRefs().size()
 						+ " Metrics)";
 				styledString.append(decoration, metricColorStyler);
 			}
-			
-			// Add Life Cycle info. 
-			if( lifeCycleState != ModelUtils.LIFECYCLE_NOTSET){
-				String decoration = " (" + modelUtils.lifecycleText(lifeCycleState) + ")";
+
+			// Add Life Cycle info.
+			if (lifeCycleState != StudioUtils.LIFECYCLE_NOTSET) {
+				String decoration = " ("
+						+ StudioUtils.lifecycleText(lifeCycleState) + ")";
 				styledString.append(decoration, lifecycleColorStyler);
 			}
 

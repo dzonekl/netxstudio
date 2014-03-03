@@ -64,7 +64,7 @@ import org.eclipse.ui.forms.widgets.ImageHyperlink;
 import org.eclipse.wb.swt.ResourceManager;
 
 import com.google.common.collect.Lists;
-import com.netxforge.netxstudio.common.model.ModelUtils;
+import com.netxforge.base.NonModelUtils;
 import com.netxforge.netxstudio.library.LibraryFactory;
 import com.netxforge.netxstudio.library.LibraryPackage;
 import com.netxforge.netxstudio.library.Parameter;
@@ -379,7 +379,7 @@ public class Parameters extends AbstractScreen implements IDataServiceInjection 
 		public String getColumnText(Object element, int columnIndex) {
 			if (element instanceof Parameter && columnIndex == 3) {
 				return new DecimalFormat(
-						ModelUtils.DEFAULT_VALUE_FORMAT_PATTERN)
+						NonModelUtils.DEFAULT_VALUE_FORMAT_PATTERN)
 						.format(((Parameter) element).getValue());
 			}
 

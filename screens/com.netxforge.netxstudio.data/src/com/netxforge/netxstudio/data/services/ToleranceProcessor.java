@@ -16,7 +16,7 @@
  * Contributors:
  *    Christophe Bouhier - initial API and implementation and/or initial documentation
  *******************************************************************************/
-package com.netxforge.netxstudio.data.tolerance;
+package com.netxforge.netxstudio.data.services;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -29,7 +29,8 @@ import com.google.common.base.Predicate;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
 import com.google.inject.Inject;
-import com.netxforge.netxstudio.common.model.ModelUtils;
+import com.netxforge.base.NonModelUtils;
+import com.netxforge.netxstudio.common.model.StudioUtils;
 import com.netxforge.netxstudio.data.IQueryService;
 import com.netxforge.netxstudio.data.internal.DataActivator;
 import com.netxforge.netxstudio.generics.DateTimeRange;
@@ -55,9 +56,6 @@ import com.netxforge.netxstudio.operators.ToleranceMarkerDirectionKind;
  * @author Christophe Bouhier
  */
 public class ToleranceProcessor {
-
-	@Inject
-	private ModelUtils modelUtils;
 
 	@Inject
 	private IQueryService queryService;
@@ -94,7 +92,8 @@ public class ToleranceProcessor {
 			return;
 		}
 		if (DataActivator.DEBUG) {
-			DataActivator.TRACE.trace(DataActivator.TRACE_RESULT_TOL_OPTION,
+			DataActivator.TRACE.trace(
+					DataActivator.TRACE_RESULT_TOL_OPTION,
 					"markers before in resource monitor="
 							+ resourceMonitor.getMarkers().size());
 		}
@@ -103,14 +102,16 @@ public class ToleranceProcessor {
 		List<Marker> markersResult = state.process(expressionResult);
 
 		if (DataActivator.DEBUG) {
-			DataActivator.TRACE.trace(DataActivator.TRACE_RESULT_TOL_OPTION,
+			DataActivator.TRACE.trace(
+					DataActivator.TRACE_RESULT_TOL_OPTION,
 					"total markers created size=" + markersResult.size());
 		}
 
 		storeNewMarkers(markersResult);
 
 		if (DataActivator.DEBUG) {
-			DataActivator.TRACE.trace(DataActivator.TRACE_RESULT_TOL_OPTION,
+			DataActivator.TRACE.trace(
+					DataActivator.TRACE_RESULT_TOL_OPTION,
 					"markers now in resource monitor="
 							+ resourceMonitor.getMarkers().size());
 		}
@@ -170,7 +171,7 @@ public class ToleranceProcessor {
 
 		List<Value> usageValues = null;
 
-		MetricValueRange targetMVR = modelUtils.valueRangeForIntervalAndKind(
+		MetricValueRange targetMVR = StudioUtils.valueRangeForIntervalAndKind(
 				resource, expressionResult.getTargetKindHint(),
 				expressionResult.getTargetIntervalHint());
 		if (targetMVR != null) {
@@ -183,7 +184,7 @@ public class ToleranceProcessor {
 						" kind: "
 								+ targetMVR.getKindHint().getLiteral()
 								+ " interval: "
-								+ modelUtils.fromMinutes(targetMVR
+								+ NonModelUtils.fromMinutes(targetMVR
 										.getIntervalHint()));
 			}
 		} else {
@@ -202,7 +203,7 @@ public class ToleranceProcessor {
 						" kind: "
 								+ targetMVR.getKindHint().getLiteral()
 								+ " interval: "
-								+ modelUtils.fromMinutes(targetMVR
+								+ NonModelUtils.fromMinutes(targetMVR
 										.getIntervalHint()));
 			}
 		}
@@ -322,7 +323,7 @@ public class ToleranceProcessor {
 			}
 
 			// Get the tolerance computation
-			final List<Value> toleranceValues = modelUtils
+			final List<Value> toleranceValues = StudioUtils
 					.sortValuesByTimeStamp(expressionResult.getTargetValues());
 
 			long toTime = -1;
@@ -350,14 +351,14 @@ public class ToleranceProcessor {
 					if (i != toleranceValues.size() - 1) {
 						continue out;
 					}
-				} 
+				}
 
 				toTime = toleranceValues.get(i).getTimeStamp()
 						.toGregorianCalendar().getTimeInMillis();
-				
+
 				// Wrap to end of day.
 				Date d = new Date(toTime);
-				modelUtils.adjustToDayEnd(d);
+				NonModelUtils.adjustToDayEnd(d);
 				toTime = d.getTime();
 
 				if (DataActivator.DEBUG) {
@@ -366,8 +367,8 @@ public class ToleranceProcessor {
 							"tolerance="
 									+ v.getValue()
 									+ " ,"
-									+ modelUtils
-											.dateAndTime(new Date(fromTime)));
+									+ NonModelUtils.dateAndTime(new Date(
+											fromTime)));
 					DataActivator.TRACE.trace(
 							DataActivator.TRACE_RESULT_TOL_OPTION, "from: "
 									+ new Date(fromTime) + " to: "
@@ -375,7 +376,7 @@ public class ToleranceProcessor {
 				}
 
 				// values within period of tolerance hops.
-				final List<Value> checkValues = modelUtils.valuesInsideRange(
+				final List<Value> checkValues = StudioUtils.valuesInsideRange(
 						usageValues, fromTime, toTime);
 
 				// If we have values to check, we want to make sure we don't
@@ -532,7 +533,7 @@ public class ToleranceProcessor {
 								"adding marker"
 										+ checkValue.getValue()
 										+ " , "
-										+ modelUtils.dateAndTime(checkValue
+										+ NonModelUtils.dateAndTime(checkValue
 												.getTimeStamp()));
 					}
 					return marker;

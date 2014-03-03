@@ -63,6 +63,7 @@ import org.eclipse.ui.forms.widgets.FormToolkit;
 import org.eclipse.ui.forms.widgets.Hyperlink;
 import org.eclipse.ui.forms.widgets.Section;
 
+import com.netxforge.base.NonModelUtils;
 import com.netxforge.netxstudio.generics.Value;
 import com.netxforge.netxstudio.library.LibraryPackage;
 import com.netxforge.netxstudio.library.Unit;
@@ -434,9 +435,9 @@ public class NewEditDerivedResource extends AbstractScreen implements
 				Value v = (Value) cell.getElement();
 				switch (cell.getColumnIndex()) {
 				case 0: {
-					Date d = modelUtils.fromXMLDate(v.getTimeStamp());
-					String ts = new StyledString(modelUtils.date(d) + " @ "
-							+ modelUtils.time(d)).toString();
+					Date d = NonModelUtils.fromXMLDate(v.getTimeStamp());
+					String ts = new StyledString(NonModelUtils.date(d) + " @ "
+							+ NonModelUtils.time(d)).toString();
 					cell.setText(ts);
 				}
 					break;

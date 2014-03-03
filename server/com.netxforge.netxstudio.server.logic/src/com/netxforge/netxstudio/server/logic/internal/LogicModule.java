@@ -21,7 +21,7 @@ import static org.ops4j.peaberry.Peaberry.service;
 
 import com.google.inject.AbstractModule;
 import com.google.inject.Singleton;
-import com.netxforge.netxstudio.common.properties.IPropertiesProvider;
+import com.netxforge.base.properties.IPropertiesProvider;
 import com.netxforge.netxstudio.data.IQueryService;
 import com.netxforge.netxstudio.server.data.IServerDataProvider;
 import com.netxforge.netxstudio.server.data.IServerNoCacheDataProvider;

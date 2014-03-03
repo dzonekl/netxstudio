@@ -24,8 +24,8 @@ import org.eclipse.osgi.service.datalocation.Location;
 
 import com.google.inject.Inject;
 import com.google.inject.Provider;
-import com.netxforge.netxstudio.common.properties.IPropertiesProvider;
-import com.netxforge.netxstudio.common.properties.PropertiesUtil;
+import com.netxforge.base.properties.IPropertiesProvider;
+import com.netxforge.base.properties.PropertiesUtil;
 
 /**
  * Provides {@link Properties} from the file name

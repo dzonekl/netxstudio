@@ -30,7 +30,8 @@ import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.impl.AdapterImpl;
 import org.eclipse.emf.ecore.EObject;
 
-import com.netxforge.netxstudio.common.context.IComputationContext;
+import com.netxforge.base.NonModelUtils;
+import com.netxforge.base.context.IComputationContext;
 import com.netxforge.netxstudio.common.internal.CommonActivator;
 import com.netxforge.netxstudio.generics.DateTimeRange;
 import com.netxforge.netxstudio.generics.GenericsFactory;
@@ -47,8 +48,6 @@ import com.netxforge.netxstudio.services.Service;
 public abstract class MonitoringAdapter extends AdapterImpl implements
 		CDOAdapter, IMonitoringSummary {
 
-	protected ModelUtils modelUtils;
-
 	protected MonitoringStateModel stateModel;
 
 	private ComputationContextProvider contextProvider = new ComputationContextProvider();
@@ -59,8 +58,19 @@ public abstract class MonitoringAdapter extends AdapterImpl implements
 	 */
 	private static final boolean PARAMETER_USE_GLOBAL_PERIOD = true;
 
-	private static final DateTimeRange PARAMETER_GLOBAL_PERIOD = GenericsFactory.eINSTANCE
+	private static DateTimeRange PARAMETER_GLOBAL_PERIOD = GenericsFactory.eINSTANCE
 			.createDateTimeRange();
+
+	static {
+		// We need {@link ModelUtils} before we can set the global period.
+
+		Date beginTime = NonModelUtils.threeMonthsAgo();
+		beginTime = NonModelUtils.adjustToDayStart(beginTime);
+		PARAMETER_GLOBAL_PERIOD.setBegin(NonModelUtils.toXMLDate(beginTime));
+
+		Date endTime = NonModelUtils.todayAtDayEnd();
+		PARAMETER_GLOBAL_PERIOD.setEnd(NonModelUtils.toXMLDate(endTime));
+	}
 
 	/**
 	 * The RAG for this summary. Extending classes can create their own instance
@@ -195,13 +205,16 @@ public abstract class MonitoringAdapter extends AdapterImpl implements
 	}
 
 	// MODEL for CDOLazyContentProvider
-	
-	// These methods were previously required for self-adaptation, 
-	// the lazy content provider attaches itself as an object listener and 
-	// ataches itself. This proved complex, with a deep level of self-calling resulting
-	// in stack overflows. For example the 'related' check would sometime check the containment
-	// hierarchy , implicitly loading objects, triggering the self-adaptation again and again. 
-	// We keep the methods here, as the clients of this class 
+
+	// These methods were previously required for self-adaptation,
+	// the lazy content provider attaches itself as an object listener and
+	// ataches itself. This proved complex, with a deep level of self-calling
+	// resulting
+	// in stack overflows. For example the 'related' check would sometime check
+	// the containment
+	// hierarchy , implicitly loading objects, triggering the self-adaptation
+	// again and again.
+	// We keep the methods here, as the clients of this class
 	protected boolean isRelated(CDOObject object) {
 		return false;
 	}
@@ -209,29 +222,13 @@ public abstract class MonitoringAdapter extends AdapterImpl implements
 	protected boolean isSameAdapterFor(EObject object) {
 		return false;
 	}
-	
+
 	protected boolean isNotFiltered(EObject object) {
 		return false;
 	}
-	
-	
+
 	protected boolean isContained(EObject object) {
 		return false;
-	}
-
-	// MODEL
-	
-	public void setModelUtils(ModelUtils utils) {
-		this.modelUtils = utils;
-
-		// We need {@link ModelUtils} before we can set the global period.
-
-		Date beginTime = modelUtils.threeMonthsAgo();
-		beginTime = modelUtils.adjustToDayStart(beginTime);
-		PARAMETER_GLOBAL_PERIOD.setBegin(modelUtils.toXMLDate(beginTime));
-
-		Date endTime = modelUtils.todayAtDayEnd();
-		PARAMETER_GLOBAL_PERIOD.setEnd(modelUtils.toXMLDate(endTime));
 	}
 
 	public void setStatModel(MonitoringStateModel stateModel) {
@@ -245,7 +242,7 @@ public abstract class MonitoringAdapter extends AdapterImpl implements
 
 	public String getPeriodFormattedString() {
 
-		return getPeriod() != null ? modelUtils.periodToStringMore(this
+		return getPeriod() != null ? StudioUtils.periodToStringMore(this
 				.getPeriod()) + isComputedText() : "Not set";
 	}
 
@@ -281,8 +278,8 @@ public abstract class MonitoringAdapter extends AdapterImpl implements
 	 */
 	public DateTimeRange getPeriod() {
 		DateTimeRange periodInContext = contextProvider.periodInContext();
-		if ((periodInContext == null || modelUtils.periodUnset(periodInContext))
-				&& PARAMETER_USE_GLOBAL_PERIOD) {
+		if ((periodInContext == null || StudioUtils
+				.periodUnset(periodInContext)) && PARAMETER_USE_GLOBAL_PERIOD) {
 			periodInContext = PARAMETER_GLOBAL_PERIOD;
 		}
 		return periodInContext;
@@ -363,12 +360,12 @@ public abstract class MonitoringAdapter extends AdapterImpl implements
 		final StringBuffer sb = new StringBuffer();
 
 		sb.append("Target: "
-				+ modelUtils.printModelObject((EObject) getTarget()) + "\n");
+				+ StudioUtils.printModelObject((EObject) getTarget()) + "\n");
 		sb.append("Period: "
 				+ (contextProvider.periodInContext() != null ? getPeriodFormattedString()
 						: " Not set\n"));
 		sb.append("Service: "
-				+ (contextProvider.rfsServiceInContext() != null ? modelUtils
+				+ (contextProvider.rfsServiceInContext() != null ? StudioUtils
 						.printModelObject(contextProvider.rfsServiceInContext())
 						: " Not set\n"));
 		sb.append("RAG: (" + totalRag(RAG.RED) + "," + totalRag(RAG.AMBER)

@@ -22,7 +22,8 @@ import java.util.Date;
 import java.util.List;
 
 import com.google.inject.Inject;
-import com.netxforge.netxstudio.data.importer.ResultProcessor;
+import com.netxforge.base.NonModelUtils;
+import com.netxforge.netxstudio.data.services.ResultProcessor;
 import com.netxforge.netxstudio.generics.DateTimeRange;
 import com.netxforge.netxstudio.library.BaseExpressionResult;
 import com.netxforge.netxstudio.scheduling.Failure;
@@ -83,8 +84,8 @@ public class ProfileEngine extends BaseExpressionEngine {
 	protected void processResult(List<Object> currentContext,
 			List<BaseExpressionResult> expressionResults, DateTimeRange period) {
 
-		Date start = this.getModelUtils().fromXMLDate(period.getBegin());
-		Date end = this.getModelUtils().fromXMLDate(period.getEnd());
+		Date start = NonModelUtils.fromXMLDate(period.getBegin());
+		Date end = NonModelUtils.fromXMLDate(period.getEnd());
 
 		resultProcessor.processServiceProfileResult(currentContext,
 				expressionResults, start, end);

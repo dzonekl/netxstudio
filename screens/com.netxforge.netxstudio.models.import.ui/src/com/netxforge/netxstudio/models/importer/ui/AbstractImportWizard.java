@@ -61,7 +61,7 @@ import com.google.common.collect.BiMap;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
 import com.google.inject.Inject;
-import com.netxforge.netxstudio.common.model.ModelUtils;
+import com.netxforge.netxstudio.common.model.StudioUtils;
 import com.netxforge.netxstudio.data.IData;
 import com.netxforge.netxstudio.data.cdo.NonStatic;
 import com.netxforge.netxstudio.library.Component;
@@ -96,9 +96,6 @@ public abstract class AbstractImportWizard extends Wizard implements
 
 	@Inject
 	private IData uiDataProvider;
-
-	@Inject
-	private ModelUtils modelUtils;
 
 	private ITreeContentProvider importContentProvider;
 
@@ -609,24 +606,7 @@ public abstract class AbstractImportWizard extends Wizard implements
 					Component componentRef = netXResource.getComponentRef();
 					Resource resource = null;
 					if (componentRef != null) {
-
-						// Remove later:
-						// String cdoResourcePath;
-						// try {
-						// cdoResourcePath = modelUtils
-						// .cdoCalculateResourceName(componentRef);
-						// resource = dataProvider
-						// .getResource(cdoResourcePath);
-						//
-						// } catch (IllegalAccessException e) {
-						// if (ImportUIActivator.DEBUG) {
-						// ImportUIActivator.TRACE.trace(
-						// ImportUIActivator.TRACE_IMPORT_OPTION,
-						// "Attempt to deduce a name from an invalid object: "
-						// + componentRef);
-						// }
-						// }
-						resource = modelUtils.cdoResourceForNetXResource(
+						resource = StudioUtils.cdoResourceForNetXResource(
 								componentRef, transaction);
 
 					} else {

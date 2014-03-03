@@ -28,21 +28,15 @@ import com.google.inject.Provider;
 public class NodetypeSummaryProvider implements
 		Provider<NodeTypeSummary> {
 
-	private ModelUtils utils;
-
 	private MonitoringStateModel stateModel;
 
 	@Inject
-	public NodetypeSummaryProvider(MonitoringStateModel stateModel,
-			ModelUtils utils) {
-		this.utils = utils;
+	public NodetypeSummaryProvider(MonitoringStateModel stateModel) {
 		this.stateModel = stateModel;
 	}
 
 	public NodeTypeSummary get() {
 		final NodeTypeSummary summary = new NodeTypeSummary();
-
-		summary.setModelUtils(utils);
 		summary.setStatModel(stateModel);
 
 		return summary;

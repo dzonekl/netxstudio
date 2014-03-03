@@ -27,21 +27,16 @@ import com.google.inject.Provider;
  */
 public class OperatorSummaryProvider implements Provider<OperatorSummary> {
 
-	private ModelUtils utils;
-
 	private MonitoringStateModel stateModel;
 
 	@Inject
-	public OperatorSummaryProvider(MonitoringStateModel stateModel,
-			ModelUtils utils) {
-		this.utils = utils;
+	public OperatorSummaryProvider(MonitoringStateModel stateModel) {
 		this.stateModel = stateModel;
 	}
 
 	public OperatorSummary get() {
 		final OperatorSummary summary = new OperatorSummary();
 
-		summary.setModelUtils(utils);
 		summary.setStatModel(stateModel);
 
 		return summary;

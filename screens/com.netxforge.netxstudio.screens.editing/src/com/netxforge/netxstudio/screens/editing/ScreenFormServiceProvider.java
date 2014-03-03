@@ -18,20 +18,17 @@
 package com.netxforge.netxstudio.screens.editing;
 
 import com.google.inject.Inject;
-import com.netxforge.netxstudio.common.model.ModelUtils;
 
 public class ScreenFormServiceProvider implements IScreenFormServiceProvider {
 
 	private IEditingServiceProvider editingServiceProvider;
-	private ModelUtils modelUtils;
 	private IScreenFactory screenFactory;
 
 	@Inject
 	public ScreenFormServiceProvider(
 			IEditingServiceProvider editingServiceProvider,
-			ModelUtils modelUtils, IScreenFactory screenFactory) {
+			IScreenFactory screenFactory) {
 		this.editingServiceProvider = editingServiceProvider;
-		this.modelUtils = modelUtils;
 		this.screenFactory = screenFactory;
 	}
 
@@ -44,7 +41,7 @@ public class ScreenFormServiceProvider implements IScreenFormServiceProvider {
 	 */
 	public IScreenFormService get() {
 		IEditingService editingService = editingServiceProvider.get();
-		return new ScreenFormService(editingService, modelUtils, screenFactory);
+		return new ScreenFormService(editingService, screenFactory);
 	}
 
 }

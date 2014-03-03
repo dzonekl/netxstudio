@@ -32,11 +32,11 @@ import org.eclipse.jface.viewers.ViewerCell;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.wb.swt.ResourceManager;
 
-import com.netxforge.netxstudio.common.Tuple;
+import com.netxforge.base.NonModelUtils;
+import com.netxforge.base.Tuple;
 import com.netxforge.netxstudio.common.model.IMonitoringSummary;
-import com.netxforge.netxstudio.common.model.ModelUtils;
-import com.netxforge.netxstudio.common.model.MonitoringStateModel;
 import com.netxforge.netxstudio.common.model.IMonitoringSummary.RAG;
+import com.netxforge.netxstudio.common.model.MonitoringStateModel;
 import com.netxforge.netxstudio.generics.GenericsPackage;
 import com.netxforge.netxstudio.library.NetXResource;
 import com.netxforge.netxstudio.metrics.MetricValueRange;
@@ -63,8 +63,6 @@ public class MonitoringTreeLabelProvider extends StyledCellLabelProvider {
 	};
 	private NetworkTreeLabelProvider networkTreeLabelProvider;
 
-	private ModelUtils modelUtils;
-
 	@SuppressWarnings("unused")
 	private Styler ragRedStyler;
 	@SuppressWarnings("unused")
@@ -75,16 +73,11 @@ public class MonitoringTreeLabelProvider extends StyledCellLabelProvider {
 	private Styler ragYellowStyler;
 
 	public MonitoringTreeLabelProvider(MonitoringStateModel stateModel,
-			ModelUtils modelUtils, IObservableMap... attributeMaps) {
-
-		this.modelUtils = modelUtils;
+			IObservableMap... attributeMaps) {
 
 		for (int i = 0; i < attributeMaps.length; i++) {
 			attributeMaps[i].addMapChangeListener(mapChangeListener);
 		}
-
-		networkTreeLabelProvider = new NetworkTreeLabelProvider(modelUtils,
-				attributeMaps);
 
 	}
 
@@ -155,7 +148,7 @@ public class MonitoringTreeLabelProvider extends StyledCellLabelProvider {
 			MetricValueRange mvr = (MetricValueRange) element;
 			int size = mvr.getMetricValues().size();
 
-			Tuple interval = modelUtils.interval(mvr.getIntervalHint());
+			Tuple interval = NonModelUtils.interval(mvr.getIntervalHint());
 			StyledString styledString = new StyledString(interval.getKey()
 					+ " : " + mvr.getKindHint() + " : ("
 					+ new Integer(size).toString() + ")");
@@ -184,7 +177,7 @@ public class MonitoringTreeLabelProvider extends StyledCellLabelProvider {
 			if (!MonitoringStateModel.isAdapted((EObject) element)) {
 				// We let our screen deal with calling the monitoring state
 				// model.
-//				System.out.println(" No monitor for: " + element);
+				// System.out.println(" No monitor for: " + element);
 			} else {
 				IMonitoringSummary summary = MonitoringStateModel
 						.getAdapted((EObject) element);
@@ -230,10 +223,6 @@ public class MonitoringTreeLabelProvider extends StyledCellLabelProvider {
 			break;
 		}
 
-		
-		
-		
-		
 		styledString = new StyledString(rag);
 
 		return styledString;
@@ -243,10 +232,10 @@ public class MonitoringTreeLabelProvider extends StyledCellLabelProvider {
 			String symbolicName) {
 		// Determine if R, A or G from the RAG status, set the styler.
 		if (ragValue > 0) {
-			// remember the previous background. 
+			// remember the previous background.
 			cell.setBackground(JFaceResources.getColorRegistry().get(
 					symbolicName));
-		}else{
+		} else {
 			cell.setBackground(null);
 		}
 	}

@@ -28,7 +28,7 @@ import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.xml.type.XMLTypeFactory;
 
 import com.google.inject.Inject;
-import com.netxforge.netxstudio.common.model.ModelUtils;
+import com.netxforge.base.NonModelUtils;
 import com.netxforge.netxstudio.data.IData;
 import com.netxforge.netxstudio.data.job.IRunMonitor;
 import com.netxforge.netxstudio.scheduling.SchedulingFactory;
@@ -46,9 +46,6 @@ import com.netxforge.netxstudio.server.service.NetxForgeService;
  */
 public class RetentionService implements NetxForgeService {
 
-	@Inject
-	private static ModelUtils modelUtils;
-
 	public static final String SERVICE_PARAM = "rfsService";
 	public static final String NODE_PARAM = "node";
 	public static final String NODETYPE_PARAM = "nodeType";
@@ -60,7 +57,7 @@ public class RetentionService implements NetxForgeService {
 				.getInjector().getInstance(RetentionServiceRunner.class);
 		runner.setParameters(parameters);
 		CDOID run = runner.run();
-		return modelUtils.cdoLongIDAsString(run);
+		return NonModelUtils.cdoLongIDAsString(run);
 	}
 
 	public static class RetentionServiceRunner {

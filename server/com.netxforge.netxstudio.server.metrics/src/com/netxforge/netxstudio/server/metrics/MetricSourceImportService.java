@@ -27,7 +27,7 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
 
 import com.google.inject.Inject;
-import com.netxforge.netxstudio.common.model.ModelUtils;
+import com.netxforge.base.NonModelUtils;
 import com.netxforge.netxstudio.data.IData;
 import com.netxforge.netxstudio.data.importer.AbstractMetricValuesImporter;
 import com.netxforge.netxstudio.data.importer.CSVMetricValuesImporter;
@@ -59,9 +59,6 @@ public class MetricSourceImportService implements NetxForgeService {
 	@Inject
 	static private IImporterHelper importerHelper;
 
-	@Inject
-	static private ModelUtils modelUtils;
-
 	public static final String MS_PARAM = "metricSource";
 
 	public Object run(Map<String, String> parameters) {
@@ -69,7 +66,7 @@ public class MetricSourceImportService implements NetxForgeService {
 				.getInjector().getInstance(ServiceRunner.class);
 		runner.setParameters(parameters);
 		CDOID run = runner.run();
-		return modelUtils.cdoLongIDAsString(run);
+		return NonModelUtils.cdoLongIDAsString(run);
 	}
 
 	public static class ServiceRunner {
@@ -85,7 +82,7 @@ public class MetricSourceImportService implements NetxForgeService {
 		private Map<String, String> parameters;
 
 		private CDOID run() {
-			final CDOID msId = modelUtils.cdoLongIDFromString(
+			final CDOID msId = NonModelUtils.cdoLongIDFromString(
 					MetricsPackage.Literals.METRIC_SOURCE,
 					parameters.get(MS_PARAM));
 

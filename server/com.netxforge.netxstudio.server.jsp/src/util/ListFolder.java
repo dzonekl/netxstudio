@@ -28,9 +28,10 @@ import com.google.common.collect.Iterators;
 import com.google.common.collect.Lists;
 import com.google.common.collect.UnmodifiableIterator;
 import com.google.inject.Inject;
+import com.netxforge.base.NonModelUtils;
 import com.netxforge.netxstudio.NetxstudioPackage;
 import com.netxforge.netxstudio.ServerSettings;
-import com.netxforge.netxstudio.common.model.ModelUtils;
+import com.netxforge.netxstudio.common.model.StudioUtils;
 import com.netxforge.netxstudio.data.IData;
 import com.netxforge.netxstudio.server.data.IServerDataProvider;
 import com.netxforge.netxstudio.server.data.Server;
@@ -48,10 +49,6 @@ public final class ListFolder {
 	@Server
 	private IServerDataProvider dpProvider;
 	
-	
-	@Inject
-	private ModelUtils modelUtils;
-
 	private ServerSettings settings;
 
 	private static final ListFolder INSTANCE = new ListFolder();
@@ -86,9 +83,9 @@ public final class ListFolder {
 			File[] files = path.listFiles();
 			List<File> filesList = Lists.newArrayList(files);
 			Collections
-					.sort(filesList, modelUtils.fileLastModifiedComparator());
+					.sort(filesList, NonModelUtils.fileLastModifiedComparator());
 			UnmodifiableIterator<File> filter = Iterators.filter(
-					filesList.iterator(), modelUtils.nonHiddenFile());
+					filesList.iterator(), NonModelUtils.nonHiddenFile());
 			return Lists.newArrayList(filter);
 		}
 		return Lists.newArrayList();
@@ -114,33 +111,33 @@ public final class ListFolder {
 			File[] files = path.listFiles();
 			List<File> filesList = Lists.newArrayList(files);
 			Collections
-					.sort(filesList, modelUtils.fileLastModifiedComparator());
+					.sort(filesList, NonModelUtils.fileLastModifiedComparator());
 
 			Predicate<File> fileExtensionPredicate = null;
 			switch (type) {
 			
 			case NOT_PROCESSED: {
 				// All non DONE, and non DONE_WITH_FAILURES. 
-				fileExtensionPredicate = modelUtils.extensionFile(true,
-						ModelUtils.EXTENSION_DONE,
-						ModelUtils.EXTENSION_DONE_WITH_FAILURES);
+				fileExtensionPredicate = NonModelUtils.extensionFile(true,
+						StudioUtils.EXTENSION_DONE,
+						StudioUtils.EXTENSION_DONE_WITH_FAILURES);
 			}
 				break;
 			case DONE: {
-				fileExtensionPredicate = modelUtils
-						.extensionFile(ModelUtils.EXTENSION_DONE);
+				fileExtensionPredicate = NonModelUtils
+						.extensionFile(StudioUtils.EXTENSION_DONE);
 			}
 				break;
 
 			case DONE_WITH_FAILURE: {
-				fileExtensionPredicate = modelUtils
-						.extensionFile(ModelUtils.EXTENSION_DONE_WITH_FAILURES);
+				fileExtensionPredicate = NonModelUtils
+						.extensionFile(StudioUtils.EXTENSION_DONE_WITH_FAILURES);
 			}
 				break;
 			}
 
 			UnmodifiableIterator<File> filter = Iterators.filter(
-					filesList.iterator(), modelUtils.nonHiddenFile());
+					filesList.iterator(), NonModelUtils.nonHiddenFile());
 			// Check to see, if we have a predicate to filter. 
 			if (fileExtensionPredicate != null) {
 				filter = Iterators.filter(filter, fileExtensionPredicate);

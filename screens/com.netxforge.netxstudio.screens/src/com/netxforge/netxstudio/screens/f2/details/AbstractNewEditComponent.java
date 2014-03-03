@@ -75,6 +75,8 @@ import org.eclipse.ui.forms.widgets.Section;
 import org.eclipse.wb.swt.ResourceManager;
 
 import com.google.common.collect.Lists;
+import com.netxforge.base.NonModelUtils;
+import com.netxforge.netxstudio.common.model.StudioUtils;
 import com.netxforge.netxstudio.generics.GenericsFactory;
 import com.netxforge.netxstudio.generics.GenericsPackage;
 import com.netxforge.netxstudio.generics.Lifecycle;
@@ -681,7 +683,7 @@ public abstract class AbstractNewEditComponent extends AbstractDetailsScreen
 				resourceScreen.setOperation(ScreenUtil.OPERATION_NEW);
 				resourceScreen.setScreenService(screenService);
 
-				Resource cdoResourceForNetXResource = modelUtils.cdoResourceForNetXResource(comp, (CDOTransaction) comp.cdoView());
+				Resource cdoResourceForNetXResource = StudioUtils.cdoResourceForNetXResource(comp, (CDOTransaction) comp.cdoView());
 
 				resourceScreen.injectData(cdoResourceForNetXResource, comp,
 						LibraryFactory.eINSTANCE.createNetXResource());
@@ -1108,7 +1110,7 @@ public abstract class AbstractNewEditComponent extends AbstractDetailsScreen
 				if (fromObject == null) {
 					return null;
 				} else {
-					return modelUtils
+					return NonModelUtils
 							.fromXMLDate((XMLGregorianCalendar) fromObject);
 				}
 			}
@@ -1129,7 +1131,7 @@ public abstract class AbstractNewEditComponent extends AbstractDetailsScreen
 				if (fromObject == null) {
 					return null;
 				}
-				return modelUtils.toXMLDate((Date) fromObject);
+				return NonModelUtils.toXMLDate((Date) fromObject);
 			}
 		});
 

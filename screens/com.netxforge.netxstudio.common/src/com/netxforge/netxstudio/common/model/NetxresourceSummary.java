@@ -77,7 +77,7 @@ public class NetxresourceSummary extends MonitoringAdapter {
 		
 		// Filter the markers.
 		toleranceMarkers.clear();
-		toleranceMarkers.addAll(modelUtils.markersInsidePeriod(
+		toleranceMarkers.addAll(StudioUtils.markersInsidePeriod(
 				unfilteredToleranceMarkers, periodInContext));
 		
 		// Monitoring is not on or yields no markers when no markers are returned. 

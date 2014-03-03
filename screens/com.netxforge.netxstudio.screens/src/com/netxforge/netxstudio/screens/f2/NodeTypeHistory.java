@@ -51,8 +51,8 @@ import org.eclipse.ui.forms.widgets.Form;
 import org.eclipse.ui.forms.widgets.FormToolkit;
 import org.eclipse.ui.forms.widgets.Section;
 
-import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
+import com.netxforge.base.NonModelUtils;
 import com.netxforge.netxstudio.library.NodeType;
 import com.netxforge.netxstudio.screens.AbstractScreen;
 import com.netxforge.netxstudio.screens.actions.CompareAction;
@@ -89,7 +89,8 @@ public class NodeTypeHistory extends AbstractScreen implements
 		frmNTHistory.setSeparatorVisible(true);
 		toolkit.paintBordersFor(frmNTHistory);
 
-		frmNTHistory.setText("Network Element Type editing History:" + nodeType.getName());
+		frmNTHistory.setText("Network Element Type editing History:"
+				+ nodeType.getName());
 		frmNTHistory.getBody().setLayout(new FormLayout());
 
 		Section sctnInfo = toolkit.createSection(frmNTHistory.getBody(),
@@ -179,13 +180,14 @@ public class NodeTypeHistory extends AbstractScreen implements
 		tableViewer.setContentProvider(new ArrayContentProvider());
 		tableViewer
 				.setLabelProvider(new NodeTypeHistoryLabelProvider(nodeType));
-		tableViewer.setInput(Lists.newArrayList(modelUtils.cdoRevisions(nodeType)));
-		
-//		List<HistoricNodeType> histNodeTypes = Lists.newArrayList();
-		// use for non CDORevision supporting. 
-				// how to check supported features? 
-//		historicalNodeTypes(histNodeTypes);
-//		tableViewer.setInput(histNodeTypes.toArray());
+		tableViewer.setInput(Lists.newArrayList(NonModelUtils
+				.cdoRevisions(nodeType)));
+
+		// List<HistoricNodeType> histNodeTypes = Lists.newArrayList();
+		// use for non CDORevision supporting.
+		// how to check supported features?
+		// historicalNodeTypes(histNodeTypes);
+		// tableViewer.setInput(histNodeTypes.toArray());
 		return null;
 	}
 
@@ -194,7 +196,6 @@ public class NodeTypeHistory extends AbstractScreen implements
 		String historicalResourceName = editingService
 				.resolveHistoricalResourceName(nodeType);
 
-		
 		if (historicalResourceName != null) {
 			URI uri = URI.createURI(historicalResourceName);
 
@@ -208,7 +209,7 @@ public class NodeTypeHistory extends AbstractScreen implements
 										.getResourceSet(), uri);
 				int entryCount = historyResource.getContents().size();
 				// We need the resource list backwards.
-				for (EObject object : Iterables.reverse(historyResource
+				for (EObject object : Lists.reverse(historyResource
 						.getContents())) {
 					histNodeTypes.add(new HistoricNodeType(entryCount,
 							(NodeType) object));
@@ -286,7 +287,8 @@ public class NodeTypeHistory extends AbstractScreen implements
 
 					Date d = new Date(histNodeType.getNt().cdoRevision()
 							.getTimeStamp());
-					return modelUtils.date(d) + " @ " + modelUtils.time(d);
+					return NonModelUtils.date(d) + " @ "
+							+ NonModelUtils.time(d);
 				}
 				case 2: {
 					NodeType nt = histNodeType.getNt();
@@ -294,7 +296,7 @@ public class NodeTypeHistory extends AbstractScreen implements
 				}
 				}
 			}
-			
+
 			if (element instanceof CDORevision) {
 				CDORevision rev = (CDORevision) element;
 				switch (columnIndex) {
@@ -303,11 +305,12 @@ public class NodeTypeHistory extends AbstractScreen implements
 				}
 				case 1: {
 					Date d = new Date(rev.getTimeStamp());
-					return modelUtils.date(d) + " @ " + modelUtils.time(d);
+					return NonModelUtils.date(d) + " @ "
+							+ NonModelUtils.time(d);
 				}
 				}
 			}
-			
+
 			return null;
 		}
 
@@ -351,12 +354,11 @@ public class NodeTypeHistory extends AbstractScreen implements
 
 	@Override
 	public IAction[] getActions() {
-		// Lazy init actions. 
-		if(actions.isEmpty()){
-			actions.add(new CompareAction(modelUtils, "Compare...") );
+		// Lazy init actions.
+		if (actions.isEmpty()) {
+			actions.add(new CompareAction("Compare..."));
 		}
 		return actions.toArray(new IAction[actions.size()]);
 	}
 
-	
-}	
+}

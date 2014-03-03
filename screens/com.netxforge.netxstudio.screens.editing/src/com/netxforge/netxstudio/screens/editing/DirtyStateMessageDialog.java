@@ -49,7 +49,7 @@ import org.eclipse.swt.widgets.Tree;
 
 import com.google.common.base.Predicate;
 import com.google.common.collect.Iterables;
-import com.netxforge.netxstudio.common.model.ModelUtils;
+import com.netxforge.netxstudio.common.model.StudioUtils;
 
 public class DirtyStateMessageDialog extends MessageDialog {
 
@@ -57,25 +57,22 @@ public class DirtyStateMessageDialog extends MessageDialog {
 
 	private CDOTransaction transaction;
 
-	private ModelUtils modelUtils;
-
 	public DirtyStateMessageDialog(Shell parentShell, String dialogTitle,
 			Image dialogTitleImage, String dialogMessage, int dialogImageType,
 			String[] dialogButtonLabels, int defaultIndex,
-			CDOTransaction transaction, ModelUtils modelUtils) {
+			CDOTransaction transaction) {
 		super(parentShell, dialogTitle, dialogTitleImage, dialogMessage,
 				dialogImageType, dialogButtonLabels, defaultIndex);
 		super.setShellStyle(this.getShellStyle() | SWT.RESIZE);
 		this.transaction = transaction;
-		this.modelUtils = modelUtils;
 	}
 
 	public static int openAndReturn(int kind, Shell parent, String title,
-			String message, CDOTransaction transaction, ModelUtils modelUtils) {
+			String message, CDOTransaction transaction) {
 
 		DirtyStateMessageDialog dialog = new DirtyStateMessageDialog(parent,
 				title, null, message, kind, getButtonLabels(kind), 0,
-				transaction, modelUtils);
+				transaction);
 
 		return dialog.open();
 	}
@@ -142,7 +139,7 @@ public class DirtyStateMessageDialog extends MessageDialog {
 				if (element instanceof CDOFeatureDelta) {
 					return switchDelta((CDOFeatureDelta) element);
 				} else if (element instanceof EObject) {
-					return modelUtils.printModelObject((EObject) element);
+					return StudioUtils.printModelObject((EObject) element);
 				}
 				return super.getText(element);
 			}

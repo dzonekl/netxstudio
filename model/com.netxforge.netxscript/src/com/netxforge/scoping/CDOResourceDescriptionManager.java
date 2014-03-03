@@ -37,7 +37,6 @@ import org.eclipse.xtext.resource.impl.DefaultResourceDescriptionDelta;
 import com.google.common.collect.Sets;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
-import com.netxforge.netxstudio.common.model.ModelUtils;
 
 
 /**
@@ -72,9 +71,6 @@ public class CDOResourceDescriptionManager implements IResourceDescription.Manag
 	@Inject
 	private DescriptionUtils descriptionUtils;
 	
-	@Inject 
-	private ModelUtils modelUtils;
-	
 //	private static final String CACHE_KEY = DefaultResourceDescriptionManager.class.getName() + "#getResourceDescription";
 	
 	public IResourceDescription getResourceDescription(final Resource resource) {
@@ -93,7 +89,7 @@ public class CDOResourceDescriptionManager implements IResourceDescription.Manag
 	}
 
 	protected IResourceDescription internalGetResourceDescription(Resource resource, IDefaultResourceDescriptionStrategy strategy) {
-		return new CDOResourceDescription(resource, strategy, modelUtils);
+		return new CDOResourceDescription(resource, strategy);
 	}
 	
 	public IContainer.Manager getContainerManager() {

@@ -31,6 +31,7 @@ import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.ss.util.CellRangeAddress;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
+import com.netxforge.netxstudio.common.model.StudioUtils;
 import com.netxforge.netxstudio.generics.DateTimeRange;
 import com.netxforge.netxstudio.library.Component;
 import com.netxforge.netxstudio.library.Equipment;
@@ -119,7 +120,6 @@ public abstract class BaseServiceReportingLogic extends BasePeriodLogic {
 			workBook.write(this.getStream());
 		} catch (IOException e) {
 			e.printStackTrace();
-			// TODO, Perhaps add another failure?
 		}
 
 		 this.getData().commitTransactionThenClose();
@@ -134,7 +134,7 @@ public abstract class BaseServiceReportingLogic extends BasePeriodLogic {
 		List<NodeType> nodeTypes = this
 				.getNodeTypesToExecuteFor((RFSService) service);
 
-		List<NodeType> uniqueNodeTypes = this.getModelUtils().uniqueNodeTypes(
+		List<NodeType> uniqueNodeTypes = StudioUtils.uniqueNodeTypes(
 				nodeTypes);
 
 		int nodeTypeCount = 0;
@@ -177,100 +177,6 @@ public abstract class BaseServiceReportingLogic extends BasePeriodLogic {
 		}
 	}
 
-//	protected void processComponent(HSSFSheet sheet, Component component) {
-//		this.getJobMonitor().setTask("Reporting for " + component.getName());
-//
-//		// TODO set total work correctly.
-//		this.getJobMonitor().incrementProgress(1, false);
-//		this.writeContent(sheet, component);
-//
-//		// final ReportingEngine engine = (ReportingEngine) getEngine();
-//		// engine.setJobMonitor(getJobMonitor());
-//		// engine.setComponent(component);
-//		// engine.setDataProvider(this.getDataProvider());
-//		// // engine.setPeriod(getTimeRange());
-//		// engine.execute();
-//		// if (engine.getFailures().size() > 0) {
-//		// for (final Failure failure : engine.getFailures()) {
-//		// if (failure instanceof ComponentFailure) {
-//		// ((ComponentFailure) failure).setComponentRef(component);
-//		// }
-//		// this.getFailures().add(failure);
-//		// }
-//		// }
-//	}
-
-	/**
-	 * Clients should override to avoid walking the NodeType Hierarchy if not
-	 * required.
-	 * 
-	 * @param sheet
-	 * @param nodeType
-	 */
-//	protected void processNode(HSSFSheet sheet, NodeType nodeType) {
-//		int cnt = 0;
-
-//		// EQUIPMENTS
-//		{
-//			final Set<Equipment> leafEquipments = new HashSet<Equipment>();
-//			getLeafEquipments(nodeType.getEquipments(), leafEquipments);
-//			Set<Equipment> executeFor = leafEquipments;
-//			while (!executeFor.isEmpty()) {
-//				final Set<Equipment> newExecuteFor = new HashSet<Equipment>();
-//				for (final Equipment equipment : executeFor) {
-//					processComponent(sheet, equipment);
-//					if (equipment.eContainer() instanceof Equipment
-//							&& !newExecuteFor.contains(equipment.eContainer())) {
-//						newExecuteFor.add((Equipment) equipment.eContainer());
-//					}
-//					executeFor = newExecuteFor;
-//				}
-//				getJobMonitor().incrementProgress(0, (cnt++ % 10) == 0);
-//			}
-//		}
-//
-//		// FUNCTIONS
-//		{
-//			final Set<Function> leafFunctions = new HashSet<Function>();
-//			getLeafFunctions(nodeType.getFunctions(), leafFunctions);
-//			Set<Function> executeFor = leafFunctions;
-//			while (!executeFor.isEmpty()) {
-//				final Set<Function> newExecuteFor = new HashSet<Function>();
-//				for (final Function function : executeFor) {
-//					processComponent(sheet, function);
-//					if (function.eContainer() instanceof Function
-//							&& !newExecuteFor.contains(function.eContainer())) {
-//						newExecuteFor.add((Function) function.eContainer());
-//					}
-//					executeFor = newExecuteFor;
-//					getJobMonitor().incrementProgress(0, (cnt++ % 10) == 0);
-//				}
-//			}
-//		}
-//	}
-
-//	private void getLeafEquipments(List<Equipment> equipments,
-//			Set<Equipment> leafEquipments) {
-//		for (final Equipment equipment : equipments) {
-//			if (equipment.getEquipments().isEmpty()) {
-//				leafEquipments.add(equipment);
-//			} else {
-//				getLeafEquipments(equipment.getEquipments(), leafEquipments);
-//			}
-//		}
-//	}
-//
-//	private void getLeafFunctions(List<Function> functions,
-//			Set<Function> leafFunctions) {
-//		for (final Function function : functions) {
-//			if (function.getFunctions().isEmpty()) {
-//				leafFunctions.add(function);
-//			} else {
-//				getLeafFunctions(function.getFunctions(), leafFunctions);
-//			}
-//		}
-//	}
-	
 	/**
 	 * Clients should override to avoid walking the NodeType Hierarchy if not
 	 * required.

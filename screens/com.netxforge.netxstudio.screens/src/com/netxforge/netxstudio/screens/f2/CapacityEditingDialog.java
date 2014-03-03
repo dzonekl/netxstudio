@@ -28,7 +28,8 @@ import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.forms.widgets.Form;
 import org.eclipse.ui.forms.widgets.FormToolkit;
 
-import com.netxforge.netxstudio.common.model.ModelUtils;
+import com.netxforge.base.NonModelUtils;
+import com.netxforge.netxstudio.common.model.StudioUtils;
 import com.netxforge.netxstudio.generics.GenericsFactory;
 import com.netxforge.netxstudio.generics.Value;
 import com.netxforge.netxstudio.library.NetXResource;
@@ -39,7 +40,6 @@ public class CapacityEditingDialog extends Dialog {
 	private final FormToolkit formToolkit = new FormToolkit(
 			Display.getDefault());
 	private Text txtCapacityValue;
-	private ModelUtils modelUtils;
 	private CDateTime dateTimeTo;
 	private CDateTime dateTimeFrom;
 	private List<Value> values;
@@ -53,10 +53,10 @@ public class CapacityEditingDialog extends Dialog {
 	 * 
 	 * @param parentShell
 	 */
-	public CapacityEditingDialog(Shell parentShell, IEditingService editingService, ModelUtils modelUtils) {
+	public CapacityEditingDialog(Shell parentShell,
+			IEditingService editingService) {
 		super(parentShell);
 		this.editingService = editingService;
-		this.modelUtils = modelUtils;
 	}
 
 	/**
@@ -108,12 +108,13 @@ public class CapacityEditingDialog extends Dialog {
 
 		dateTimeFrom = new CDateTime(frmCapacityValue.getBody(), CDT.BORDER
 				| CDT.DROP_DOWN | CDT.DATE_MEDIUM);
-		GridData gd_dateTimeFrom = new GridData(SWT.LEFT, SWT.CENTER, false, false, 1, 1);
+		GridData gd_dateTimeFrom = new GridData(SWT.LEFT, SWT.CENTER, false,
+				false, 1, 1);
 		gd_dateTimeFrom.widthHint = 100;
 		dateTimeFrom.setLayoutData(gd_dateTimeFrom);
 		formToolkit.adapt(dateTimeFrom);
 		formToolkit.paintBordersFor(dateTimeFrom);
-		dateTimeFrom.setSelection(modelUtils.oneMonthAgo());
+		dateTimeFrom.setSelection(NonModelUtils.oneMonthAgo());
 
 		Label lblTo = formToolkit.createLabel(frmCapacityValue.getBody(),
 				"To:", SWT.NONE);
@@ -123,12 +124,13 @@ public class CapacityEditingDialog extends Dialog {
 
 		dateTimeTo = new CDateTime(frmCapacityValue.getBody(), CDT.BORDER
 				| CDT.DROP_DOWN | CDT.DATE_MEDIUM);
-		GridData gd_dateTimeTo = new GridData(SWT.LEFT, SWT.CENTER, false, false, 1, 1);
+		GridData gd_dateTimeTo = new GridData(SWT.LEFT, SWT.CENTER, false,
+				false, 1, 1);
 		gd_dateTimeTo.widthHint = 100;
 		dateTimeTo.setLayoutData(gd_dateTimeTo);
 		formToolkit.adapt(dateTimeTo);
 		formToolkit.paintBordersFor(dateTimeTo);
-		dateTimeTo.setSelection(modelUtils.todayAndNow());
+		dateTimeTo.setSelection(NonModelUtils.todayAndNow());
 
 		init();
 
@@ -145,8 +147,8 @@ public class CapacityEditingDialog extends Dialog {
 			Value v1 = values.get(0);
 			Value v2 = values.get(1);
 			if (v1.getValue() == v2.getValue()) {
-				Date v1Date = modelUtils.fromXMLDate(v1.getTimeStamp());
-				Date v2Date = modelUtils.fromXMLDate(v2.getTimeStamp());
+				Date v1Date = NonModelUtils.fromXMLDate(v1.getTimeStamp());
+				Date v2Date = NonModelUtils.fromXMLDate(v2.getTimeStamp());
 				dateTimeTo.setSelection(v1Date);
 				dateTimeFrom.setSelection(v2Date);
 				formattedText.setValue(v2.getValue());
@@ -173,7 +175,7 @@ public class CapacityEditingDialog extends Dialog {
 	public void injectData(NetXResource resource) {
 		this.res = resource;
 		values = resource.getCapacityValues();
-		this.values = modelUtils.sortValuesByTimeStamp(values);
+		this.values = StudioUtils.sortValuesByTimeStamp(values);
 	}
 
 	public List<Value> getResult() {
@@ -203,11 +205,11 @@ public class CapacityEditingDialog extends Dialog {
 							toTS);
 				} else {
 					Value fromValue = GenericsFactory.eINSTANCE.createValue();
-					fromValue.setTimeStamp(modelUtils.toXMLDate(fromTS));
+					fromValue.setTimeStamp(NonModelUtils.toXMLDate(fromTS));
 					fromValue.setValue(doubleValue);
 
 					Value toValue = GenericsFactory.eINSTANCE.createValue();
-					toValue.setTimeStamp(modelUtils.toXMLDate(toTS));
+					toValue.setTimeStamp(NonModelUtils.toXMLDate(toTS));
 					toValue.setValue(doubleValue);
 					values.add(fromValue);
 					values.add(toValue);
@@ -221,21 +223,17 @@ public class CapacityEditingDialog extends Dialog {
 
 	}
 
-	
-	
-	
-	
 	@Override
 	protected void okPressed() {
-		// Commit. 
-		
+		// Commit.
+
 		res.getCapacityValues().clear();
 		res.getCapacityValues().addAll(values);
-		
-		if(editingService != null && editingService.isDirty()){
+
+		if (editingService != null && editingService.isDirty()) {
 			editingService.doSave(new NullProgressMonitor());
 		}
-		
+
 		super.okPressed();
 	}
 
@@ -276,10 +274,10 @@ public class CapacityEditingDialog extends Dialog {
 			Value v1 = values.get(0); // to value
 			Value v2 = values.get(1); // from value
 			if (v1.getValue() == v2.getValue()) {
-				v1.setTimeStamp(modelUtils.toXMLDate(toTS));
+				v1.setTimeStamp(NonModelUtils.toXMLDate(toTS));
 				v1.setValue(to);
 
-				v2.setTimeStamp(modelUtils.toXMLDate(fromTS));
+				v2.setTimeStamp(NonModelUtils.toXMLDate(fromTS));
 				v2.setValue(from);
 			}
 		}

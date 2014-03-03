@@ -17,7 +17,7 @@
  *******************************************************************************/ 
 package com.netxforge.scoping;
 
-import com.netxforge.netxstudio.common.context.IComputationContext;
+import com.netxforge.base.context.IComputationContext;
 
  
 /**

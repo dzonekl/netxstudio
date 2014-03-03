@@ -14,7 +14,7 @@
  * 
  * Contributors: Christophe Bouhier - initial API and implementation and/or
  * initial documentation
- *******************************************************************************/ 
+ *******************************************************************************/
 package com.netxforge.netxstudio.screens.f2;
 
 import java.util.Date;
@@ -38,8 +38,8 @@ import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.ui.forms.widgets.FormToolkit;
 
-import com.netxforge.netxstudio.common.context.IComputationContext;
-import com.netxforge.netxstudio.common.model.ModelUtils;
+import com.netxforge.base.NonModelUtils;
+import com.netxforge.base.context.IComputationContext;
 import com.netxforge.netxstudio.generics.DateTimeRange;
 import com.netxforge.netxstudio.library.Equipment;
 import com.netxforge.netxstudio.library.Function;
@@ -47,20 +47,18 @@ import com.netxforge.netxstudio.library.NetXResource;
 import com.netxforge.netxstudio.operators.Node;
 import com.netxforge.netxstudio.screens.editing.IEditingService;
 
-
 /**
- * Show an expression context in a dialog. 
+ * Show an expression context in a dialog.
+ * 
  * @author Christophe
- *
+ * 
  */
 public class ExpressionContextDialog extends Dialog {
 
 	private final FormToolkit toolkit = new FormToolkit(Display.getDefault());
-	
+
 	@SuppressWarnings("unused")
 	private IEditingService editingService;
-	
-	private ModelUtils modelUtils;
 
 	// Our tableviewer.
 	private TableViewer tblViewerContext;
@@ -76,10 +74,9 @@ public class ExpressionContextDialog extends Dialog {
 	 * @param parentShell
 	 */
 	public ExpressionContextDialog(Shell parentShell,
-			IEditingService editingService, ModelUtils modelUtils) {
+			IEditingService editingService) {
 		super(parentShell);
 		this.editingService = editingService;
-		this.modelUtils = modelUtils;
 	}
 
 	/**
@@ -97,7 +94,7 @@ public class ExpressionContextDialog extends Dialog {
 	}
 
 	private void showContext(Composite parent) {
-		
+
 		// Remove the context
 		tblViewerContext = new TableViewer(parent, SWT.BORDER
 				| SWT.FULL_SELECTION);
@@ -105,8 +102,8 @@ public class ExpressionContextDialog extends Dialog {
 		tblContext.setHeaderVisible(true);
 		tblContext.setLinesVisible(true);
 		// gd_table.heightHint = 100;
-//		tblContext.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true,
-//				1, 1));
+		// tblContext.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true,
+		// 1, 1));
 		toolkit.paintBordersFor(tblContext);
 
 		tblViewerClmnType = new TableViewerColumn(tblViewerContext, SWT.NONE);
@@ -162,14 +159,15 @@ public class ExpressionContextDialog extends Dialog {
 										.getShortName();
 							} else if (contextObject instanceof DateTimeRange) {
 								DateTimeRange dtr = (DateTimeRange) contextObject;
-								Date start = modelUtils.fromXMLDate(dtr
+								Date start = NonModelUtils.fromXMLDate(dtr
 										.getBegin());
-								Date end = modelUtils.fromXMLDate(dtr.getEnd());
+								Date end = NonModelUtils.fromXMLDate(dtr
+										.getEnd());
 
-								text = modelUtils.date(start) + " ("
-										+ modelUtils.time(start) + ")"
-										+ " --> " + modelUtils.date(end) + " ("
-										+ modelUtils.time(end) + ")";
+								text = NonModelUtils.date(start) + " ("
+										+ NonModelUtils.time(start) + ")"
+										+ " --> " + NonModelUtils.date(end)
+										+ " (" + NonModelUtils.time(end) + ")";
 							}
 							cell.setText(text);
 						}

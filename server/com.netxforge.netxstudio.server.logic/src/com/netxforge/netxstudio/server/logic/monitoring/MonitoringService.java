@@ -28,7 +28,7 @@ import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.xml.type.XMLTypeFactory;
 
 import com.google.inject.Inject;
-import com.netxforge.netxstudio.common.model.ModelUtils;
+import com.netxforge.base.NonModelUtils;
 import com.netxforge.netxstudio.data.IData;
 import com.netxforge.netxstudio.data.job.IRunMonitor;
 import com.netxforge.netxstudio.library.LibraryPackage;
@@ -51,9 +51,6 @@ import com.netxforge.netxstudio.services.ServicesPackage;
  */
 public class MonitoringService implements NetxForgeService {
 
-	@Inject
-	private static ModelUtils modelUtils;
-
 	public static final String SERVICE_PARAM = "rfsService";
 	public static final String NODE_PARAM = "node";
 	public static final String NODETYPE_PARAM = "nodeType";
@@ -65,7 +62,7 @@ public class MonitoringService implements NetxForgeService {
 				.getInjector().getInstance(ResourceMonitoringRunner.class);
 		runner.setParameters(parameters);
 		CDOID run = runner.run();
-		return modelUtils.cdoLongIDAsString(run);
+		return NonModelUtils.cdoLongIDAsString(run);
 	}
 
 	public static class ResourceMonitoringRunner {
@@ -85,7 +82,7 @@ public class MonitoringService implements NetxForgeService {
 
 			// TODO Also for Operator monitoring all services?
 			if (parameters.containsKey(SERVICE_PARAM)) {
-				final CDOID id = modelUtils.cdoLongIDFromString(
+				final CDOID id = NonModelUtils.cdoLongIDFromString(
 						ServicesPackage.Literals.RFS_SERVICE,
 						parameters.get(SERVICE_PARAM));
 				monitoringLogic = LogicActivator.getInstance().getInjector()
@@ -103,7 +100,7 @@ public class MonitoringService implements NetxForgeService {
 				resourceProfileLogic.setEndTime(getEndTime(parameters));
 
 			} else if (parameters.containsKey(NODE_PARAM)) {
-				final CDOID id = modelUtils.cdoLongIDFromString(
+				final CDOID id = NonModelUtils.cdoLongIDFromString(
 						OperatorsPackage.Literals.NODE,
 						parameters.get(NODE_PARAM));
 				monitoringLogic = LogicActivator.getInstance().getInjector()
@@ -111,7 +108,7 @@ public class MonitoringService implements NetxForgeService {
 				((NodeMonitoringLogic) monitoringLogic).setNode(id);
 				resourceProfileLogic = null;
 			} else if (parameters.containsKey(NODETYPE_PARAM)) {
-				final CDOID id = modelUtils.cdoLongIDFromString(
+				final CDOID id = NonModelUtils.cdoLongIDFromString(
 						LibraryPackage.Literals.NODE_TYPE,
 						parameters.get(NODETYPE_PARAM));
 				monitoringLogic = LogicActivator.getInstance().getInjector()

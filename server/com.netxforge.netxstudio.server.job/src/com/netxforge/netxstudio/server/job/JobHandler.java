@@ -66,8 +66,8 @@ import org.quartz.impl.StdSchedulerFactory;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Ordering;
 import com.google.inject.Inject;
-import com.netxforge.netxstudio.common.model.ModelUtils;
-import com.netxforge.netxstudio.common.properties.IPropertiesProvider;
+import com.netxforge.base.NonModelUtils;
+import com.netxforge.base.properties.IPropertiesProvider;
 import com.netxforge.netxstudio.data.IData;
 import com.netxforge.netxstudio.data.actions.ServerRequest;
 import com.netxforge.netxstudio.scheduling.Job;
@@ -101,9 +101,6 @@ public class JobHandler {
 	private IServerDataProvider dpProvider;
 
 	private IData dataProvider;
-
-	@Inject
-	private ModelUtils modelUtils;
 
 	@Inject
 	private IPropertiesProvider propsProvier;
@@ -323,14 +320,14 @@ public class JobHandler {
 		final StringBuffer sb = new StringBuffer();
 
 		// Append the header.
-		sb.append(modelUtils.fixedLenthString("Index", 10));
-		sb.append(modelUtils.fixedLenthString("| Name", 50));
-		sb.append(modelUtils.fixedLenthString("| State", 15));
-		sb.append(modelUtils.fixedLenthString("| Repeat", 10));
-		sb.append(modelUtils.fixedLenthString("| Interval", 10));
-		sb.append(modelUtils.fixedLenthString("| Start", 30));
-		sb.append(modelUtils.fixedLenthString("| End", 30));
-		sb.append(modelUtils.fixedLenthString("| # Runs", 30));
+		sb.append(NonModelUtils.fixedLenthString("Index", 10));
+		sb.append(NonModelUtils.fixedLenthString("| Name", 50));
+		sb.append(NonModelUtils.fixedLenthString("| State", 15));
+		sb.append(NonModelUtils.fixedLenthString("| Repeat", 10));
+		sb.append(NonModelUtils.fixedLenthString("| Interval", 10));
+		sb.append(NonModelUtils.fixedLenthString("| Start", 30));
+		sb.append(NonModelUtils.fixedLenthString("| End", 30));
+		sb.append(NonModelUtils.fixedLenthString("| # Runs", 30));
 		sb.append("\n");
 
 		final CDOResource jobRunContainerResource = (CDOResource) dataProvider
@@ -338,20 +335,20 @@ public class JobHandler {
 		final List<Job> sortedJobs = sortedJobs(view);
 
 		for (final Job job : sortedJobs) {
-			sb.append(modelUtils.fixedLenthString(
+			sb.append(NonModelUtils.fixedLenthString(
 					new Integer(sortedJobs.indexOf(job)).toString(), 10));
-			sb.append(modelUtils.fixedLenthString("| " + job.getName(), 50));
-			sb.append(modelUtils.fixedLenthString("| "
+			sb.append(NonModelUtils.fixedLenthString("| " + job.getName(), 50));
+			sb.append(NonModelUtils.fixedLenthString("| "
 					+ job.getJobState().getName(), 15));
-			sb.append(modelUtils.fixedLenthString("| " + job.getRepeat(), 10));
-			sb.append(modelUtils.fixedLenthString("| " + job.getInterval(), 10));
-			sb.append(modelUtils.fixedLenthString("| " + job.getStartTime(), 30));
-			sb.append(modelUtils.fixedLenthString("| " + job.getEndTime(), 30));
+			sb.append(NonModelUtils.fixedLenthString("| " + job.getRepeat(), 10));
+			sb.append(NonModelUtils.fixedLenthString("| " + job.getInterval(), 10));
+			sb.append(NonModelUtils.fixedLenthString("| " + job.getStartTime(), 30));
+			sb.append(NonModelUtils.fixedLenthString("| " + job.getEndTime(), 30));
 
 			JobRunContainer container = this.getContainer(
 					jobRunContainerResource, job);
 			if (container != null) {
-				sb.append(modelUtils.fixedLenthString("| "
+				sb.append(NonModelUtils.fixedLenthString("| "
 						+ container.getWorkFlowRuns().size() + " times", 30));
 			}
 			sb.append("\n");
@@ -1177,10 +1174,10 @@ public class JobHandler {
 		CDOResource jobResource = (CDOResource) dataProvider.getResource(v,
 				SchedulingPackage.eINSTANCE.getJob());
 		List<EObject> sortedJobs = Ordering
-				.from(modelUtils
+				.from(NonModelUtils
 						.eFeatureComparator(SchedulingPackage.Literals.JOB__NAME))
 				.sortedCopy(jobResource.getContents());
-		return new ModelUtils.CollectionForObjects<Job>()
+		return new NonModelUtils.CollectionForObjects<Job>()
 				.collectionForObjects(sortedJobs);
 	}
 

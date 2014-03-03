@@ -47,7 +47,7 @@ import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.netxforge.internal.RuntimeActivator;
-import com.netxforge.netxstudio.common.model.ModelUtils;
+import com.netxforge.netxstudio.common.model.StudioUtils;
 import com.netxforge.netxstudio.library.Component;
 import com.netxforge.netxstudio.library.NetXResource;
 import com.netxforge.netxstudio.operators.Operator;
@@ -67,15 +67,13 @@ public class CDOResourceDescription extends AbstractResourceDescription {
 	private final static Logger log = Logger
 			.getLogger(DefaultResourceDescription.class);
 	private IDefaultResourceDescriptionStrategy strategy;
-	private ModelUtils modelUtils;
 
 	private final Resource resource;
 	private URI uri;
 
 	public CDOResourceDescription(Resource resource,
-			IDefaultResourceDescriptionStrategy strategy, ModelUtils modelUtils) {
+			IDefaultResourceDescriptionStrategy strategy) {
 		this.strategy = strategy;
-		this.modelUtils = modelUtils;
 		this.resource = resource;
 		this.uri = getNormalizedURI(resource);
 	}
@@ -128,7 +126,7 @@ public class CDOResourceDescription extends AbstractResourceDescription {
 				EList<EObject> contents = getResource().getContents();
 				for (EObject eo : contents) {
 					if (eo instanceof Operator) {
-						List<Component> componentsForOperator = modelUtils
+						List<Component> componentsForOperator = StudioUtils
 								.componentsForOperator((Operator) eo);
 						for (Component c : componentsForOperator) {
 							strategy.createEObjectDescriptions(c, acceptor);

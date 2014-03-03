@@ -56,7 +56,8 @@ import org.eclipse.swt.widgets.Display;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
 import com.google.inject.Inject;
-import com.netxforge.netxstudio.common.model.ModelUtils;
+import com.netxforge.base.NonModelUtils;
+import com.netxforge.netxstudio.common.model.StudioUtils;
 import com.netxforge.netxstudio.data.IData;
 import com.netxforge.netxstudio.data.IDataService;
 import com.netxforge.netxstudio.library.LibraryPackage;
@@ -84,8 +85,8 @@ public class CDOEditingService extends EMFEditingService implements
 	private DawnEMFEditorSupport dawnEditorSupport;
 
 	@Inject
-	public CDOEditingService(IDataService dataService, ModelUtils modelUtils) {
-		super(dataService, modelUtils);
+	public CDOEditingService(IDataService dataService) {
+		super(dataService);
 		dawnEditorSupport = new DawnEMFEditorSupport(this);
 	}
 
@@ -116,7 +117,7 @@ public class CDOEditingService extends EMFEditingService implements
 		if (view instanceof CDOTransaction) {
 
 			if (view.isDirty()) {
-				modelUtils.cdoDumpDirtyObject((CDOTransaction) view);
+				StudioUtils.cdoDumpDirtyObject((CDOTransaction) view);
 			}
 
 			if (((CDOTransaction) view).hasConflict()) {
@@ -561,14 +562,14 @@ public class CDOEditingService extends EMFEditingService implements
 
 								NodeType resolveNodeType = null;
 								if (hint == LibraryPackage.Literals.NODE_TYPE) {
-									resolveNodeType = modelUtils
+									resolveNodeType = StudioUtils
 											.resolveParentNodeType(cdoObject);
 								} else if (hint == OperatorsPackage.Literals.NODE) {
 									if (cdoObject.eClass() == OperatorsPackage.Literals.NODE) {
 										resolveNodeType = ((Node) cdoObject)
 												.getNodeType();
 									} else {
-										resolveNodeType = modelUtils
+										resolveNodeType = StudioUtils
 												.resolveParentNodeType(cdoObject);
 									}
 								}
@@ -621,7 +622,7 @@ public class CDOEditingService extends EMFEditingService implements
 	 */
 	public void doCopyNodeTypeToHistoryResource(CDOObject target) {
 
-		target = modelUtils.resolveParentNodeType(target);
+		target = StudioUtils.resolveParentNodeType(target);
 		if (target == null || !(target instanceof NodeType)) {
 			return;
 		}
@@ -638,7 +639,7 @@ public class CDOEditingService extends EMFEditingService implements
 	 * @param target
 	 */
 	public void doCopyNodeToHistoryResource(CDOObject target) {
-		target = modelUtils.nodeFor(target);
+		target = StudioUtils.nodeFor(target);
 		if (target == null || !(target instanceof Node)) {
 			return;
 		}
@@ -668,7 +669,7 @@ public class CDOEditingService extends EMFEditingService implements
 	 * resolveHistoricalResourceName(java.lang.Object)
 	 */
 	public String resolveHistoricalResourceName(Object object) {
-		return modelUtils.resolveHistoricalResourceName(object);
+		return NonModelUtils.resolveHistoricalResourceName(object);
 	}
 
 	public void sessionStillValid() {
@@ -706,7 +707,7 @@ public class CDOEditingService extends EMFEditingService implements
 								Display.getDefault().getActiveShell(),
 								"Trying to load nong-existing object",
 								"Source Object: "
-										+ modelUtils.printModelObject(source)
+										+ StudioUtils.printModelObject(source)
 										+ "\n"
 										+ "Reference: "
 										+ feature.getName()

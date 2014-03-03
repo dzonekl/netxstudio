@@ -30,7 +30,8 @@ import org.eclipse.emf.edit.domain.EditingDomain;
 
 import com.google.common.collect.Lists;
 import com.google.inject.Inject;
-import com.netxforge.netxstudio.common.model.ModelUtils;
+import com.netxforge.base.NonModelUtils;
+import com.netxforge.netxstudio.common.model.StudioUtils;
 import com.netxforge.netxstudio.edit.EditUtils;
 import com.netxforge.netxstudio.generics.GenericsFactory;
 import com.netxforge.netxstudio.generics.Lifecycle;
@@ -54,11 +55,8 @@ import com.netxforge.netxstudio.operators.Node;
 public class LibraryChildCreationExtender extends
 		AbstractConditionalChildCreationExtender {
 
-	protected ModelUtils modelUtils;
-
 	@Inject
-	public LibraryChildCreationExtender(ModelUtils modelUtils) {
-		this.modelUtils = modelUtils;
+	public LibraryChildCreationExtender() {
 	}
 
 	public Collection<?> getNewChildDescriptors(Object object,
@@ -72,7 +70,7 @@ public class LibraryChildCreationExtender extends
 
 				// Are we in the design view? (The target must have a parent
 				// Node).
-				Node node = modelUtils.nodeFor(target);
+				Node node = StudioUtils.nodeFor(target);
 				if (node != null) {
 
 					if (target.eClass() == LibraryPackage.Literals.NODE_TYPE) {
@@ -97,7 +95,7 @@ public class LibraryChildCreationExtender extends
 
 						Lifecycle newLC = GenericsFactory.eINSTANCE
 								.createLifecycle();
-						newLC.setProposed(modelUtils.toXMLDate(modelUtils
+						newLC.setProposed(NonModelUtils.toXMLDate(NonModelUtils
 								.todayAndNow()));
 						function.setLifecycle(newLC);
 
@@ -218,7 +216,7 @@ public class LibraryChildCreationExtender extends
 
 							Lifecycle newLC = GenericsFactory.eINSTANCE
 									.createLifecycle();
-							newLC.setProposed(modelUtils.toXMLDate(modelUtils
+							newLC.setProposed(NonModelUtils.toXMLDate(NonModelUtils
 									.todayAndNow()));
 							eqCopy.setLifecycle(newLC);
 

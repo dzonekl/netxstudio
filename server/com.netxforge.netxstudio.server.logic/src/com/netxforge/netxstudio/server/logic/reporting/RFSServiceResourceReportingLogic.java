@@ -9,11 +9,13 @@ import org.apache.poi.ss.usermodel.Sheet;
 import org.eclipse.core.runtime.NullProgressMonitor;
 
 import com.google.inject.Inject;
-import com.netxforge.netxstudio.common.context.IComputationContext;
-import com.netxforge.netxstudio.common.context.ObjectContext;
+import com.netxforge.base.NonModelUtils;
+import com.netxforge.base.context.IComputationContext;
+import com.netxforge.base.context.ObjectContext;
 import com.netxforge.netxstudio.common.model.IMonitoringSummary;
 import com.netxforge.netxstudio.common.model.MonitoringStateModel;
 import com.netxforge.netxstudio.common.model.NodeTypeSummary;
+import com.netxforge.netxstudio.common.model.StudioUtils;
 import com.netxforge.netxstudio.generics.DateTimeRange;
 import com.netxforge.netxstudio.library.Component;
 import com.netxforge.netxstudio.library.NetXResource;
@@ -50,11 +52,12 @@ public class RFSServiceResourceReportingLogic extends OperatorReportingLogic {
 		super.typeCell.setCellValue("Service Monitoring");
 		super.titleCell.setCellValue("Service Resources");
 		if (dtr != null) {
-			super.periodCell.setCellValue(this.getModelUtils().date(
-					getModelUtils().fromXMLDate(dtr.getBegin()))
-					+ "-"
-					+ this.getModelUtils().date(
-							getModelUtils().fromXMLDate(dtr.getEnd())));
+			super.periodCell
+					.setCellValue(NonModelUtils.date(NonModelUtils
+							.fromXMLDate(dtr.getBegin()))
+							+ "-"
+							+ NonModelUtils.date(NonModelUtils.fromXMLDate(dtr
+									.getEnd())));
 		}
 	}
 
@@ -96,8 +99,8 @@ public class RFSServiceResourceReportingLogic extends OperatorReportingLogic {
 		// this.getPeriod()))) {
 		if (reportingEngine == null) {
 			queryService.setDataProvider(this.getData());
-			reportingEngine = new ResourceReportingEngine(this.getModelUtils(),
-					this.getPeriod(), this.getWorkBook(), this.queryService);
+			reportingEngine = new ResourceReportingEngine(getPeriod(),
+					getWorkBook(), queryService);
 		}
 
 		// We skip reporting for this node, using a static check.
@@ -116,14 +119,14 @@ public class RFSServiceResourceReportingLogic extends OperatorReportingLogic {
 		reportingEngine.writeTS(sheet, ++newRow);
 
 		// We need a
-		IMonitoringSummary summary = monitoringStateModel.summary(new NullProgressMonitor(), node,
-				new IComputationContext[] {
+		IMonitoringSummary summary = monitoringStateModel.summary(
+				new NullProgressMonitor(), node, new IComputationContext[] {
 						new ObjectContext<RFSService>((RFSService) service),
 						new ObjectContext<DateTimeRange>(this.getPeriod())
 
 				});
 
-		if(summary instanceof NodeTypeSummary){
+		if (summary instanceof NodeTypeSummary) {
 			markersForNode = ((NodeTypeSummary) summary).markers();
 		}
 	}
@@ -138,8 +141,7 @@ public class RFSServiceResourceReportingLogic extends OperatorReportingLogic {
 				LogicActivator.TRACE.trace(
 						LogicActivator.TRACE_REPORT_OPTION,
 						"-- report component: "
-								+ this.getModelUtils().printModelObject(
-										component));
+								+ StudioUtils.printModelObject(component));
 			}
 			reportingEngine.writeFlat(sheet.getLastRowNum(), sheet, component,
 					markersForNode);

@@ -30,22 +30,24 @@ import org.eclipse.emf.common.util.URI;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
 import com.google.inject.Inject;
+import com.netxforge.base.NonModelUtils;
 import com.netxforge.netxstudio.NetxstudioPackage;
 import com.netxforge.netxstudio.ServerSettings;
 import com.netxforge.netxstudio.common.model.MonitoringStateModel;
+import com.netxforge.netxstudio.common.model.StudioUtils;
 import com.netxforge.netxstudio.library.NodeType;
 import com.netxforge.netxstudio.operators.Node;
 import com.netxforge.netxstudio.services.RFSService;
 import com.netxforge.netxstudio.services.Service;
 
 /**
- * Performs the capacity logic execution for a RFSService, 
- * adds functionality to write the reports in the intended 
- * location. 
+ * Performs the capacity logic execution for a RFSService, adds functionality to
+ * write the reports in the intended location.
  * 
  * @author Christophe Bouhier
  */
-public abstract class OperatorReportingLogic extends BaseServiceReportingAdapterLogic {
+public abstract class OperatorReportingLogic extends
+		BaseServiceReportingAdapterLogic {
 
 	private static final String REPORT_EXTENSION = "xlsx";
 
@@ -64,10 +66,10 @@ public abstract class OperatorReportingLogic extends BaseServiceReportingAdapter
 	public List<String> reports = ImmutableList.of(REPORT_PREFIX_SM_EXEC,
 			REPORT_PREFIX_SM_DASH, REPORT_PREFIX_SM_MATRIX,
 			REPORT_PREFIX_SM_USER, REPORT_PREFIX_RM, REPORT_PREFIX_RM_FORECAST);
-	
+
 	@Inject
 	protected MonitoringStateModel monStateModel;
-	
+
 	public void initializeStream(URI uri) {
 
 		// append the file name without the extension, for this run, try until
@@ -134,37 +136,35 @@ public abstract class OperatorReportingLogic extends BaseServiceReportingAdapter
 
 	@Override
 	protected List<NodeType> getNodeTypesToExecuteFor(RFSService service) {
-		
- 		final List<NodeType> nodeTypes = new ArrayList<NodeType>();
-		
-		
-		// Filter the nodes. 
+
+		final List<NodeType> nodeTypes = new ArrayList<NodeType>();
+
+		// Filter the nodes.
 		List<Node> acceptedNodes = Lists.newArrayList();
 		if (this.getNodeTypeAcceptor() != null) {
 			for (NodeType nt : this.getNodeTypeAcceptor()) {
-				acceptedNodes.addAll(this.getModelUtils().nodesForNodeType(
+				acceptedNodes.addAll(StudioUtils.nodesForNodeType(
 						service.getNodes(), nt));
 			}
-		}else{
-			// All from the service. 
-			acceptedNodes  = service.getNodes();
+		} else {
+			// All from the service.
+			acceptedNodes = service.getNodes();
 		}
 
 		// first go through the leave nodes
-		for (final Node node :acceptedNodes) {
-			if (getModelUtils().isInService(node)
+		for (final Node node : acceptedNodes) {
+			if (StudioUtils.isInService(node)
 					&& node.getNodeType().isLeafNode()) {
 				nodeTypes.add(node.getNodeType());
 			}
 		}
 		// and then the other nodes
 		for (final Node node : acceptedNodes) {
-			if (getModelUtils().isInService(node)
+			if (StudioUtils.isInService(node)
 					&& !node.getNodeType().isLeafNode()) {
 				nodeTypes.add(node.getNodeType());
 			}
 		}
-
 
 		return nodeTypes;
 	}
@@ -172,11 +172,8 @@ public abstract class OperatorReportingLogic extends BaseServiceReportingAdapter
 	protected String calculateFolderName() {
 		StringBuffer buf = new StringBuffer();
 
-		// buf.append(getModelUtils().date(this.getStartTime()) + "_"
-		// + getModelUtils().date(this.getEndTime()));
-
-		Date todayAndNow = getModelUtils().todayAndNow();
-		buf.append(this.getModelUtils().folderDateAndTime(todayAndNow));
+		Date todayAndNow = NonModelUtils.todayAndNow();
+		buf.append(NonModelUtils.folderDateAndTime(todayAndNow));
 
 		return buf.toString();
 	}
@@ -185,8 +182,8 @@ public abstract class OperatorReportingLogic extends BaseServiceReportingAdapter
 		StringBuffer buf = new StringBuffer();
 
 		// Use the reporting period as a file name.
-		buf.append(getModelUtils().date(this.getBeginTime()) + "_"
-				+ getModelUtils().date(this.getEndTime()));
+		buf.append(NonModelUtils.date(this.getBeginTime()) + "_"
+				+ NonModelUtils.date(this.getEndTime()));
 
 		return buf.toString();
 	}

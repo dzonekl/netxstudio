@@ -85,6 +85,10 @@
          id="org.eclipse.emf.common"
          version="0.0.0"/>
 
+   <includes
+         id="com.netxforge.base.feature"
+         version="0.0.0"/>
+
    <plugin
          id="com.netxforge.netxstudio.server.db.mysql.product"
          download-size="0"

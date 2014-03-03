@@ -22,7 +22,7 @@ import org.eclipse.jface.viewers.ITableLabelProvider;
 import org.eclipse.jface.viewers.ViewerCell;
 import org.eclipse.swt.graphics.Image;
 
-import com.netxforge.netxstudio.common.model.ModelUtils;
+import com.netxforge.netxstudio.common.model.StudioUtils;
 import com.netxforge.netxstudio.library.Expression;
 
 /**
@@ -31,8 +31,6 @@ import com.netxforge.netxstudio.library.Expression;
  */
 public class ExpressionsLabelProvider extends CellLabelProvider implements
 		ITableLabelProvider {
-
-	private ModelUtils modelUtils;
 
 	@Override
 	public void update(ViewerCell cell) {
@@ -56,7 +54,7 @@ public class ExpressionsLabelProvider extends CellLabelProvider implements
 
 				// Use a name provider....
 				return expression.getName().startsWith(
-						ModelUtils.GENERATED_EXPRESSION_PREFIX) ? "GENERATED"
+						StudioUtils.GENERATED_EXPRESSION_PREFIX) ? "GENERATED"
 						: "USER ENTRY";
 			}
 
@@ -66,17 +64,13 @@ public class ExpressionsLabelProvider extends CellLabelProvider implements
 				}
 			}
 			case 3: {
-				String expressionAsString = modelUtils
+				String expressionAsString = StudioUtils
 						.expressionAsString(expression);
 				return expressionAsString;
 			}
 			}
 		}
 		return "";
-	}
-
-	public void setModelUtils(ModelUtils modelUtils) {
-		this.modelUtils = modelUtils;
 	}
 
 	public Image getColumnImage(Object element, int columnIndex) {

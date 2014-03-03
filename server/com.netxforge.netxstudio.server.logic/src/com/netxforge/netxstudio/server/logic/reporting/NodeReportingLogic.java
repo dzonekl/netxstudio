@@ -30,8 +30,10 @@ import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
 
+import com.netxforge.base.NonModelUtils;
 import com.netxforge.netxstudio.NetxstudioPackage;
 import com.netxforge.netxstudio.ServerSettings;
+import com.netxforge.netxstudio.common.model.StudioUtils;
 import com.netxforge.netxstudio.library.NodeType;
 import com.netxforge.netxstudio.operators.Node;
 import com.netxforge.netxstudio.operators.Operator;
@@ -53,7 +55,7 @@ public abstract class NodeReportingLogic extends BaseNodeReportingLogic {
 	public static final String REPORT_PREFIX = "Cap";
 
 	private static final String REPORT_EXTENSION = "xlsx";
-	
+
 	// public static final String REPORT_PREFIX_SM_EXEC = "Exec_Summary";
 	// public static final String REPORT_PREFIX_SM_DASH = "DashBoard";
 	// public static final String REPORT_PREFIX_SM_MATRIX = "Distribution";
@@ -95,9 +97,9 @@ public abstract class NodeReportingLogic extends BaseNodeReportingLogic {
 		}
 
 	}
-	
+
 	public abstract void writeFinal(Sheet sheet);
-	
+
 	public URI folderURI() {
 
 		ServerSettings settings = getSettings();
@@ -143,32 +145,37 @@ public abstract class NodeReportingLogic extends BaseNodeReportingLogic {
 
 			// first go through the leave nodes
 			for (final Node node : getNodes()) {
-				if (getModelUtils().isInService(node)
+				if (StudioUtils.isInService(node)
 						&& node.getNodeType().isLeafNode()) {
 					nodeTypes.add(node.getNodeType());
 				}
 			}
 			// and then the other nodes
 			for (final Node node : getNodes()) {
-				if (getModelUtils().isInService(node)
+				if (StudioUtils.isInService(node)
 						&& !node.getNodeType().isLeafNode()) {
 					nodeTypes.add(node.getNodeType());
 				}
 			}
-		}else if (nodeType != null){
-			
-			// TODO, Algorithm gets all operators, all services and all nodes matching this type. 
-			Resource operatorResource = this.getData().getResource(OperatorsPackage.Literals.OPERATOR);
-			for(EObject eo : operatorResource.getContents()){
-				if(eo instanceof Operator){
-					for(Service service : ((Operator) eo).getServices()){
-						if(service instanceof RFSService){
-							List<Node> result = this.getModelUtils().nodesForNodeType((RFSService) service, nodeType);
-							for(Node n : result){
-								if(this.getModelUtils().isInService(n)){
+		} else if (nodeType != null) {
+
+			// TODO, Algorithm gets all operators, all services and all nodes
+			// matching this type.
+			Resource operatorResource = this.getData().getResource(
+					OperatorsPackage.Literals.OPERATOR);
+			for (EObject eo : operatorResource.getContents()) {
+				if (eo instanceof Operator) {
+					for (Service service : ((Operator) eo).getServices()) {
+						if (service instanceof RFSService) {
+							List<Node> result = StudioUtils.nodesForNodeType(
+									(RFSService) service, nodeType);
+							for (Node n : result) {
+								if (StudioUtils.isInService(n)) {
 									nodeTypes.add(n.getNodeType());
-								}else{
-									System.out.println("NodeReportingLogic: skipping node, not in service" + n.getNodeID());
+								} else {
+									System.out
+											.println("NodeReportingLogic: skipping node, not in service"
+													+ n.getNodeID());
 								}
 							}
 						}
@@ -186,8 +193,8 @@ public abstract class NodeReportingLogic extends BaseNodeReportingLogic {
 		// buf.append(getModelUtils().date(this.getStartTime()) + "_"
 		// + getModelUtils().date(this.getEndTime()));
 
-		Date todayAndNow = getModelUtils().todayAndNow();
-		buf.append(this.getModelUtils().folderDateAndTime(todayAndNow));
+		Date todayAndNow = NonModelUtils.todayAndNow();
+		buf.append(NonModelUtils.folderDateAndTime(todayAndNow));
 
 		return buf.toString();
 	}
@@ -196,8 +203,8 @@ public abstract class NodeReportingLogic extends BaseNodeReportingLogic {
 		StringBuffer buf = new StringBuffer();
 
 		// Use the reporting period as a file name.
-		buf.append(getModelUtils().date(this.getBeginTime()) + "_"
-				+ getModelUtils().date(this.getEndTime()));
+		buf.append(NonModelUtils.date(this.getBeginTime()) + "_"
+				+ NonModelUtils.date(this.getEndTime()));
 
 		return buf.toString();
 	}

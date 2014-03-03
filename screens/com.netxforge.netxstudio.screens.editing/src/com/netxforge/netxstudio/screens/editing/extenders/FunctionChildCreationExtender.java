@@ -14,7 +14,7 @@
  * 
  * Contributors: Christophe Bouhier - initial API and implementation and/or
  * initial documentation
- *******************************************************************************/ 
+ *******************************************************************************/
 package com.netxforge.netxstudio.screens.editing.extenders;
 
 import java.util.Collection;
@@ -24,26 +24,22 @@ import org.eclipse.emf.edit.domain.EditingDomain;
 
 import com.google.common.collect.Lists;
 import com.google.inject.Inject;
-import com.netxforge.netxstudio.common.model.ModelUtils;
+import com.netxforge.netxstudio.common.model.StudioUtils;
 import com.netxforge.netxstudio.library.LibraryFactory;
 import com.netxforge.netxstudio.library.LibraryPackage;
 import com.netxforge.netxstudio.operators.Node;
 
-
 /**
- * Custom child extender, capable to add conditional ( Type etc...) child descriptors
- * It works best, by disabling the generated EMF descriptors. 
- *  
+ * Custom child extender, capable to add conditional ( Type etc...) child
+ * descriptors It works best, by disabling the generated EMF descriptors.
+ * 
  * @author Christophe Bouhier
  */
-public class FunctionChildCreationExtender extends AbstractConditionalChildCreationExtender {
-	
-	
-	protected ModelUtils modelUtils;
+public class FunctionChildCreationExtender extends
+		AbstractConditionalChildCreationExtender {
 
 	@Inject
-	public FunctionChildCreationExtender(ModelUtils modelUtils) {
-		this.modelUtils = modelUtils;
+	public FunctionChildCreationExtender() {
 	}
 
 	public Collection<?> getNewChildDescriptors(Object object,
@@ -53,16 +49,16 @@ public class FunctionChildCreationExtender extends AbstractConditionalChildCreat
 
 		if (object instanceof EObject) {
 			EObject target = (EObject) object;
-			Node node = modelUtils.nodeFor(target);
+			Node node = StudioUtils.nodeFor(target);
 			if (node != null && node.getOriginalNodeTypeRef() != null) {
-				// Do nothing, we don't allow adding on Functions which have a parent node. 
+				// Do nothing, we don't allow adding on Functions which have a
+				// parent node.
 			} else {
 				System.out
 						.println("CreateChildExtender: no parent Node object found");
-				newChildDescriptors.add
-				(createChildParameter
-					(LibraryPackage.Literals.FUNCTION__FUNCTIONS,
-					 LibraryFactory.eINSTANCE.createFunction()));
+				newChildDescriptors.add(createChildParameter(
+						LibraryPackage.Literals.FUNCTION__FUNCTIONS,
+						LibraryFactory.eINSTANCE.createFunction()));
 
 			}
 		}

@@ -27,7 +27,7 @@ import org.eclipse.emf.cdo.common.id.CDOID;
 import org.eclipse.emf.cdo.session.CDOSession;
 
 import com.google.inject.Inject;
-import com.netxforge.netxstudio.common.model.ModelUtils;
+import com.netxforge.base.NonModelUtils;
 import com.netxforge.netxstudio.data.IData;
 import com.netxforge.netxstudio.data.job.WorkFlowRunMonitor;
 import com.netxforge.netxstudio.scheduling.ComponentWorkFlowRun;
@@ -51,9 +51,6 @@ public class ServerWorkFlowRunMonitor extends WorkFlowRunMonitor {
 	private CDOID workFlowRunId;
 
 	private IData dataProvider;
-
-	@Inject
-	private ModelUtils modelUtils;
 
 	/** One single session for the workflow monitor */
 	private CDOSession openSession;
@@ -89,7 +86,7 @@ public class ServerWorkFlowRunMonitor extends WorkFlowRunMonitor {
 			@Override
 			protected void body(final WorkFlowRun wfRun) {
 				wfRun.setState(JobRunState.RUNNING);
-				wfRun.setStarted(modelUtils.toXMLDate(new Date()));
+				wfRun.setStarted(NonModelUtils.toXMLDate(new Date()));
 				wfRun.setProgress(0);
 			}
 			
@@ -154,7 +151,7 @@ public class ServerWorkFlowRunMonitor extends WorkFlowRunMonitor {
 					}
 					wfRun.setProgress(100);
 				}
-				wfRun.setEnded(modelUtils.toXMLDate(new Date()));
+				wfRun.setEnded(NonModelUtils.toXMLDate(new Date()));
 			}
 		}.act();
 	}

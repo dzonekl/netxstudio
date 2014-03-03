@@ -29,7 +29,7 @@ import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.forms.widgets.FormToolkit;
 import org.eclipse.ui.forms.widgets.Section;
 
-import com.netxforge.netxstudio.common.model.ModelUtils;
+import com.netxforge.netxstudio.common.model.StudioUtils;
 import com.netxforge.netxstudio.metrics.ObjectKindType;
 
 public class IdentifierDialog extends Dialog {
@@ -163,19 +163,19 @@ public class IdentifierDialog extends Dialog {
 	public void updateAttributeView(int master) {
 		switch (master) {
 		case ObjectKindType.NODE_VALUE: {
-			this.attributeListViewer.setInput(ModelUtils.MAPPING_NODE_ATTRIBUTES);
+			this.attributeListViewer.setInput(StudioUtils.MAPPING_NODE_ATTRIBUTES);
 		}
 			break;
 		case ObjectKindType.EQUIPMENT_VALUE: {
-			this.attributeListViewer.setInput(ModelUtils.MAPPING_EQUIPMENT_ATTRIBUTES);
+			this.attributeListViewer.setInput(StudioUtils.MAPPING_EQUIPMENT_ATTRIBUTES);
 		}
 			break;
 		case ObjectKindType.FUNCTION_VALUE: {
-			this.attributeListViewer.setInput(ModelUtils.MAPPING_FUNCTION_ATTRIBUTES);
+			this.attributeListViewer.setInput(StudioUtils.MAPPING_FUNCTION_ATTRIBUTES);
 		}
 			break;
 		case ObjectKindType.RELATIONSHIP_VALUE: {
-			this.attributeListViewer.setInput(ModelUtils.MAPPING_REL_ATTRIBUTES);
+			this.attributeListViewer.setInput(StudioUtils.MAPPING_REL_ATTRIBUTES);
 		}
 			break;
 		}

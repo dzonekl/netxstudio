@@ -69,7 +69,7 @@ import org.eclipse.ui.forms.widgets.FormToolkit;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.inject.Inject;
-import com.netxforge.netxstudio.common.model.ModelUtils;
+import com.netxforge.netxstudio.common.model.StudioUtils;
 import com.netxforge.netxstudio.data.IQueryService;
 import com.netxforge.netxstudio.generics.Value;
 import com.netxforge.netxstudio.library.Component;
@@ -99,8 +99,6 @@ public class DisconnectedResourcesComponent {
 
 	private TreeViewer resourcesTreeViewer;
 
-	private ModelUtils modelUtils;
-
 	private IScreenFormService screenService;
 	private IEditingService editingService;
 
@@ -113,8 +111,7 @@ public class DisconnectedResourcesComponent {
 	 * @param style
 	 */
 	@Inject
-	public DisconnectedResourcesComponent(ModelUtils modelUtils) {
-		this.modelUtils = modelUtils;
+	public DisconnectedResourcesComponent() {
 	}
 
 	public void configure(IScreenFormService screenService) {
@@ -233,7 +230,7 @@ public class DisconnectedResourcesComponent {
 		@Override
 		protected Object getValue(Object element) {
 			if (element instanceof NetXResource) {
-				Value v = modelUtils
+				Value v = StudioUtils
 						.mostRecentCapacityValue((NetXResource) element);
 
 				if (v != null) {
@@ -277,7 +274,7 @@ public class DisconnectedResourcesComponent {
 
 			CapacityEditingDialog capacityEditingDialog = new CapacityEditingDialog(
 					cellEditorWindow.getShell(),
-					screenService.getEditingService(), modelUtils);
+					screenService.getEditingService());
 			capacityEditingDialog.setBlockOnOpen(true);
 			capacityEditingDialog.injectData(resource);
 			int open = capacityEditingDialog.open();
@@ -488,10 +485,10 @@ public class DisconnectedResourcesComponent {
 				switch (columnIndex) {
 
 				case 1: {
-					NodeType nt = modelUtils.resolveParentNodeType(c);
+					NodeType nt = StudioUtils.resolveParentNodeType(c);
 					if (nt != null) {
 						Node n = null;
-						if ((n = modelUtils.nodeFor(nt)) != null) {
+						if ((n = StudioUtils.nodeFor(nt)) != null) {
 							return n.getNodeID();
 						} else {
 							return nt.getName();

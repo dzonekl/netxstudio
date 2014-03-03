@@ -31,7 +31,7 @@ import org.eclipse.emf.ecore.xml.type.XMLTypeFactory;
 
 import com.google.common.collect.Lists;
 import com.google.inject.Inject;
-import com.netxforge.netxstudio.common.model.ModelUtils;
+import com.netxforge.base.NonModelUtils;
 import com.netxforge.netxstudio.data.IData;
 import com.netxforge.netxstudio.data.IQueryService;
 import com.netxforge.netxstudio.generics.DateTimeRange;
@@ -57,9 +57,6 @@ public class CDOQueryService implements IQueryService {
 
 	@Inject
 	private CDOQueryUtil queryService;
-
-	@Inject
-	private ModelUtils modelUtils;
 
 	private IData provider;
 
@@ -342,7 +339,7 @@ public class CDOQueryService implements IQueryService {
 
 			if (dialect.equals(QUERY_MYSQL)) {
 				cdoQuery = view.createQuery(dialect, queryString);
-				String cdoLongIDAsString = modelUtils
+				String cdoLongIDAsString = NonModelUtils
 						.cdoLongIDAsString(netXResource);
 				cdoQuery.setParameter("res_cdodid", cdoLongIDAsString);
 
@@ -436,7 +433,7 @@ public class CDOQueryService implements IQueryService {
 
 			if (dialect.equals(QUERY_MYSQL)) {
 				cdoQuery = view.createQuery(dialect, queryString);
-				String cdoLongIDAsString = modelUtils
+				String cdoLongIDAsString = NonModelUtils
 						.cdoLongIDAsString(netXResource);
 				cdoQuery.setParameter("res_cdodid", cdoLongIDAsString);
 
@@ -534,7 +531,7 @@ public class CDOQueryService implements IQueryService {
 
 			if (dialect.equals(QUERY_MYSQL)) {
 				cdoQuery = view.createQuery(dialect, queryString);
-				String cdoLongIDAsString = modelUtils.cdoLongIDAsString(mvr);
+				String cdoLongIDAsString = NonModelUtils.cdoLongIDAsString(mvr);
 				cdoQuery.setParameter("mvr_cdoid", cdoLongIDAsString);
 
 				if (period != null) {
@@ -638,7 +635,7 @@ public class CDOQueryService implements IQueryService {
 
 			if (dialect.equals(QUERY_MYSQL)) {
 				cdoQuery = view.createQuery(dialect, queryString);
-				String cdoLongIDAsString = modelUtils.cdoLongIDAsString(mvr);
+				String cdoLongIDAsString = NonModelUtils.cdoLongIDAsString(mvr);
 				cdoQuery.setParameter("mvr_cdoid", cdoLongIDAsString);
 
 				if (period != null) {
@@ -696,7 +693,7 @@ public class CDOQueryService implements IQueryService {
 
 			if (dialect.equals(QUERY_MYSQL)) {
 				cdoQuery = view.createQuery(dialect, queryString);
-				String cdoLongIDAsString = modelUtils.cdoLongIDAsString(mvr);
+				String cdoLongIDAsString = NonModelUtils.cdoLongIDAsString(mvr);
 				cdoQuery.setParameter("mvr_cdoid", cdoLongIDAsString);
 			} else if (dialect.equals(QUERY_OCL)) {
 				cdoQuery = view.createQuery(dialect, queryString, mvr.cdoID());
@@ -776,7 +773,7 @@ public class CDOQueryService implements IQueryService {
 	 * http://work.netxforge.com/issues/312
 	 */
 	public String getValuesQuery(CDOID container, EReference ref) {
-		String longID = modelUtils.cdoLongIDAsString(container);
+		String longID = NonModelUtils.cdoLongIDAsString(container);
 
 		// dispatch the range.
 		if (ref == MetricsPackage.Literals.METRIC_VALUE_RANGE__METRIC_VALUES) {

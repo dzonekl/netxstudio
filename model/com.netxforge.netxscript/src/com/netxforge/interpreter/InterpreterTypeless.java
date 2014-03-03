@@ -20,6 +20,8 @@ import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.inject.Inject;
+import com.netxforge.base.NonModelUtils;
+import com.netxforge.base.context.IComputationContext;
 import com.netxforge.internal.RuntimeActivator;
 import com.netxforge.netxscript.AbstractFunction;
 import com.netxforge.netxscript.AbstractVarOrArgument;
@@ -77,11 +79,10 @@ import com.netxforge.netxscript.ValueRange;
 import com.netxforge.netxscript.VarOrArgumentCall;
 import com.netxforge.netxscript.Variable;
 import com.netxforge.netxscript.While;
-import com.netxforge.netxstudio.common.context.IComputationContext;
 import com.netxforge.netxstudio.common.math.INativeFunctions2;
 import com.netxforge.netxstudio.common.model.IMonitoringSummary.RAG;
-import com.netxforge.netxstudio.common.model.ModelUtils;
 import com.netxforge.netxstudio.common.model.RFSServiceSummary;
+import com.netxforge.netxstudio.common.model.StudioUtils;
 import com.netxforge.netxstudio.data.IQueryService;
 import com.netxforge.netxstudio.data.cdo.CDOQueryService;
 import com.netxforge.netxstudio.generics.DateTimeRange;
@@ -142,9 +143,6 @@ public class InterpreterTypeless implements IInterpreter, IExternalContextAware 
 	INativeFunctions2 nativeFunctions;
 
 	IPrettyLog pLog;
-
-	@Inject
-	ModelUtils modelUtils;
 
 	@Inject
 	private IQueryService cdoQueryService;
@@ -723,7 +721,7 @@ public class InterpreterTypeless implements IInterpreter, IExternalContextAware 
 		if (tmpResource.getExpressionName() != null) {
 			// Find matching resources with this
 			// name.
-			resources = modelUtils.resourcesWithExpressionName(n,
+			resources = StudioUtils.resourcesWithExpressionName(n,
 					tmpResource.getExpressionName());
 		}
 		return resources;
@@ -737,7 +735,7 @@ public class InterpreterTypeless implements IInterpreter, IExternalContextAware 
 		if (tmpResource.getExpressionName() != null) {
 			// Find matching resources with this
 			// name.
-			resources = modelUtils.resourcesWithExpressionName(
+			resources = StudioUtils.resourcesWithExpressionName(
 					ImmutableList.of(c), tmpResource.getExpressionName(),
 					resourceRef.isAll());
 		}
@@ -843,7 +841,7 @@ public class InterpreterTypeless implements IInterpreter, IExternalContextAware 
 					// Note II: We do not check the range, so this could also
 					// apply to other ranges, than the capacity value.
 					DateTimeRange dtr = this.getContextualPeriod();
-					List<XMLGregorianCalendar> transformPeriodToDailyTimestamps = modelUtils
+					List<XMLGregorianCalendar> transformPeriodToDailyTimestamps = StudioUtils
 							.transformPeriodToDailyTimestamps(dtr);
 					for (XMLGregorianCalendar ts : transformPeriodToDailyTimestamps) {
 
@@ -1231,7 +1229,7 @@ public class InterpreterTypeless implements IInterpreter, IExternalContextAware 
 			PrimaryRef primaryRef = nodeTypeReference.getPrimaryRef();
 
 			NodeType nt = nodeTypeReference.getNodetype();
-			List<Node> nodes = modelUtils.nodesForNodeType(
+			List<Node> nodes = StudioUtils.nodesForNodeType(
 					(RFSService) service, nt);
 
 			List<Component> components = Lists.newArrayList();
@@ -1386,12 +1384,12 @@ public class InterpreterTypeless implements IInterpreter, IExternalContextAware 
 					// http://work.netxforge.com/issues/300
 					if (eq.eIsSet(LibraryPackage.Literals.COMPONENT__NAME)) {
 						String eName = cr.getEquipment().getName();
-						List<Equipment> equipments = modelUtils
+						List<Equipment> equipments = StudioUtils
 								.equimentsWithCodeAndName(node.getNodeType()
 										.getEquipments(), eCode, eName);
 						result = equipments;
 					} else {
-						List<Equipment> equipments = modelUtils
+						List<Equipment> equipments = StudioUtils
 								.equimentsWithCode(node.getNodeType()
 										.getEquipments(), eCode);
 						result = equipments;
@@ -1401,7 +1399,7 @@ public class InterpreterTypeless implements IInterpreter, IExternalContextAware 
 			if (cr.getFunction() != null) {
 
 				String name = cr.getFunction().getName();
-				List<com.netxforge.netxstudio.library.Function> functions = modelUtils
+				List<com.netxforge.netxstudio.library.Function> functions = StudioUtils
 						.functionsWithName(node.getNodeType().getFunctions(),
 								name);
 				result = functions;
@@ -1462,61 +1460,6 @@ public class InterpreterTypeless implements IInterpreter, IExternalContextAware 
 
 		throw new UnsupportedOperationException(
 				"ResourceRef AST node should not be evaluated.");
-
-		// // copy the parameters.
-		// Map<String, Object> localVarsAndArguments = Maps.newHashMap();
-		// localVarsAndArguments.putAll(ImmutableMap.copyOf(params));
-		//
-		// Node n = null;
-		// if (params.containsKey("node")) {
-		// n = (Node) params.get("node");
-		// }
-		//
-		// Component component = null;
-		// if (params.containsKey("component")) {
-		// component = (Component) params.get("component");
-		// }
-		//
-		// Service s = null;
-		// if (params.containsKey("service")) {
-		// s = (Service) params.get("service");
-		// }
-		//
-		// try {
-		//
-		// BaseResource resource = null;
-		// if (component != null) {
-		// List<NetXResource> netxResources = this.resourcesByName(
-		// component, resourceRef);
-		// resource = netxResources.size() > 0 ? netxResources.get(0)
-		// : null;
-		// } else if (n != null) {
-		// List<NetXResource> netxResources = this.resourcesByName(n,
-		// resourceRef);
-		// resource = netxResources.size() > 0 ? netxResources.get(0)
-		// : null;
-		// } else if (s != null) {
-		//
-		// for (@SuppressWarnings("unused")
-		// ServiceUser su : s.getServiceUserRefs()) {
-		//
-		// }
-		// }
-		//
-		// if (resource != null) {
-		//
-		// localVarsAndArguments.put("resource", resource);
-		// return dispatcher.invoke(resourceRef.getRangeRef(),
-		// ImmutableMap.copyOf(localVarsAndArguments));
-		// }
-		//
-		// } catch (Exception exception) {
-		// throw new IllegalStateException(processException(exception,
-		// resourceRef));
-		// }
-		//
-		// return null;
-
 	}
 
 	/**
@@ -1542,7 +1485,7 @@ public class InterpreterTypeless implements IInterpreter, IExternalContextAware 
 			case ValueRange.METRIC_VALUE: {
 
 				if (USE_QUERIES && cdoQueryService instanceof CDOQueryService) {
-					MetricValueRange mvr = modelUtils
+					MetricValueRange mvr = StudioUtils
 							.valueRangeForIntervalAndKind(
 									(NetXResource) resource, targetKind,
 									targetInterval);
@@ -1554,19 +1497,19 @@ public class InterpreterTypeless implements IInterpreter, IExternalContextAware 
 					}
 				} else {
 
-					v = modelUtils.valuesForIntervalKindAndPeriod(
+					v = StudioUtils.valuesForIntervalKindAndPeriod(
 							(NetXResource) resource, targetInterval,
 							targetKind, dtr);
 				}
 			}
 				break;
 			case ValueRange.CAP_VALUE: {
-				v = modelUtils.valuesInsideRange(
+				v = StudioUtils.valuesInsideRange(
 						((NetXResource) resource).getCapacityValues(), dtr);
 			}
 				break;
 			case ValueRange.UTILIZATION_VALUE: {
-				v = modelUtils.valuesInsideRange(
+				v = StudioUtils.valuesInsideRange(
 						((NetXResource) resource).getUtilizationValues(), dtr);
 			}
 				break;
@@ -1576,7 +1519,7 @@ public class InterpreterTypeless implements IInterpreter, IExternalContextAware 
 			switch (rangeRef.getValuerange().getValue()) {
 			case ValueRange.DERIVED_VALUE: {
 				v = ((DerivedResource) resource).getValues();
-				v = modelUtils.valuesInsideRange(v, dtr);
+				v = StudioUtils.valuesInsideRange(v, dtr);
 			}
 			}
 		}
@@ -1591,16 +1534,16 @@ public class InterpreterTypeless implements IInterpreter, IExternalContextAware 
 		} else if (interval.getKind() != null) {
 			switch (interval.getKind().getValue()) {
 			case IntervalKind.MONTH_VALUE: {
-				return new BigDecimal(ModelUtils.MINUTES_IN_A_MONTH);
+				return new BigDecimal(NonModelUtils.MINUTES_IN_A_MONTH);
 			}
 			case IntervalKind.WEEK_VALUE: {
-				return new BigDecimal(ModelUtils.MINUTES_IN_A_WEEK);
+				return new BigDecimal(NonModelUtils.MINUTES_IN_A_WEEK);
 			}
 			case IntervalKind.DAY_VALUE: {
-				return new BigDecimal(ModelUtils.MINUTES_IN_A_DAY);
+				return new BigDecimal(NonModelUtils.MINUTES_IN_A_DAY);
 			}
 			case IntervalKind.HOUR_VALUE: {
-				return new BigDecimal(ModelUtils.MINUTES_IN_AN_HOUR);
+				return new BigDecimal(NonModelUtils.MINUTES_IN_AN_HOUR);
 			}
 			}
 		}
@@ -1671,7 +1614,7 @@ public class InterpreterTypeless implements IInterpreter, IExternalContextAware 
 
 						// break up the range using the interval.
 						@SuppressWarnings("unchecked")
-						List<List<Value>> splitValueRange = modelUtils.values_(
+						List<List<Value>> splitValueRange = StudioUtils.values_(
 								(List<Value>) eval, targetRangeInterval);
 
 						List<Object> evalResult = Lists.newArrayList();
@@ -1729,7 +1672,7 @@ public class InterpreterTypeless implements IInterpreter, IExternalContextAware 
 										for (Object ri : (List<?>) rangeItem) {
 
 											if (ri instanceof Value
-													&& modelUtils
+													&& StudioUtils
 															.valueTimeStampCompare()
 															.compare(
 																	(Value) ri,
@@ -2474,7 +2417,7 @@ public class InterpreterTypeless implements IInterpreter, IExternalContextAware 
 	 * Structural equality according to
 	 */
 	protected boolean assertValueTSEqual(Value leftValue, Value rightValue) {
-		return modelUtils.valueTimeStampCompare()
+		return StudioUtils.valueTimeStampCompare()
 				.compare(leftValue, rightValue) == 0;
 	}
 

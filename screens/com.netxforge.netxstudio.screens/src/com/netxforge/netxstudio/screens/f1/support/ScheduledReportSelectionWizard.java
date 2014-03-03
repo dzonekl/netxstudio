@@ -14,7 +14,7 @@
  * 
  * Contributors: Christophe Bouhier - initial API and implementation and/or
  * initial documentation
- *******************************************************************************/ 
+ *******************************************************************************/
 package com.netxforge.netxstudio.screens.f1.support;
 
 import org.eclipse.emf.ecore.EObject;
@@ -24,8 +24,8 @@ import org.eclipse.jface.wizard.Wizard;
 import org.eclipse.ui.INewWizard;
 import org.eclipse.ui.IWorkbench;
 
-import com.google.inject.Inject;
-import com.netxforge.netxstudio.common.model.ModelUtils;
+import com.netxforge.base.NonModelUtils;
+import com.netxforge.netxstudio.common.model.StudioUtils;
 import com.netxforge.netxstudio.library.NodeType;
 import com.netxforge.netxstudio.operators.Node;
 import com.netxforge.netxstudio.operators.Operator;
@@ -45,9 +45,6 @@ import com.netxforge.netxstudio.services.Service;
 
 public class ScheduledReportSelectionWizard extends Wizard implements
 		INewWizard {
-
-	@Inject
-	ModelUtils modelUtils;
 
 	IEditingService editingService;
 
@@ -112,7 +109,7 @@ public class ScheduledReportSelectionWizard extends Wizard implements
 
 	private Job jobForService(Resource jobResource) {
 		Job job;
-		job = modelUtils
+		job = StudioUtils
 				.jobForSingleObject(
 						jobResource,
 						SchedulingPackage.Literals.RFS_SERVICE_REPORTER_JOB,
@@ -127,8 +124,9 @@ public class ScheduledReportSelectionWizard extends Wizard implements
 			job = SchedulingFactory.eINSTANCE.createRFSServiceReporterJob();
 			job.setJobState(JobState.IN_ACTIVE);
 			job.setName(((Service) o).getServiceName());
-			job.setInterval(ModelUtils.SECONDS_IN_A_WEEK);
-			job.setStartTime(modelUtils.toXMLDate(modelUtils.todayAndNow()));
+			job.setInterval(NonModelUtils.SECONDS_IN_A_WEEK);
+			job.setStartTime(NonModelUtils.toXMLDate(NonModelUtils
+					.todayAndNow()));
 			if (job instanceof RFSServiceReporterJob) {
 				((RFSServiceReporterJob) job).setRFSService((RFSService) o);
 			}
@@ -139,7 +137,7 @@ public class ScheduledReportSelectionWizard extends Wizard implements
 	private Job jobForOperator(Resource jobResource) {
 		Job job;
 
-		job = modelUtils.jobForSingleObject(jobResource,
+		job = StudioUtils.jobForSingleObject(jobResource,
 				SchedulingPackage.Literals.OPERATOR_REPORTER_JOB,
 				SchedulingPackage.Literals.OPERATOR_REPORTER_JOB__OPERATOR,
 				(EObject) o);
@@ -152,8 +150,9 @@ public class ScheduledReportSelectionWizard extends Wizard implements
 			job = SchedulingFactory.eINSTANCE.createOperatorReporterJob();
 			job.setName(((Operator) o).getName());
 			job.setJobState(JobState.IN_ACTIVE);
-			job.setInterval(ModelUtils.SECONDS_IN_A_WEEK);
-			job.setStartTime(modelUtils.toXMLDate(modelUtils.todayAndNow()));
+			job.setInterval(NonModelUtils.SECONDS_IN_A_WEEK);
+			job.setStartTime(NonModelUtils.toXMLDate(NonModelUtils
+					.todayAndNow()));
 			if (job instanceof OperatorReporterJob) {
 				((OperatorReporterJob) job).setOperator((Operator) o);
 			}
@@ -163,7 +162,7 @@ public class ScheduledReportSelectionWizard extends Wizard implements
 
 	private Job jobForNode(Resource jobResource) {
 		Job job;
-		job = modelUtils
+		job = StudioUtils
 				.jobForSingleObject(jobResource,
 						SchedulingPackage.Literals.NODE_REPORTER_JOB,
 						SchedulingPackage.Literals.NODE_REPORTER_JOB__NODE,
@@ -178,8 +177,9 @@ public class ScheduledReportSelectionWizard extends Wizard implements
 			job = SchedulingFactory.eINSTANCE.createNodeReporterJob();
 			job.setName(((Node) o).getNodeID());
 			job.setJobState(JobState.IN_ACTIVE);
-			job.setInterval(ModelUtils.SECONDS_IN_A_WEEK);
-			job.setStartTime(modelUtils.toXMLDate(modelUtils.todayAndNow()));
+			job.setInterval(NonModelUtils.SECONDS_IN_A_WEEK);
+			job.setStartTime(NonModelUtils.toXMLDate(NonModelUtils
+					.todayAndNow()));
 			if (job instanceof NodeReporterJob) {
 				((NodeReporterJob) job).setNode((Node) o);
 			}
@@ -189,7 +189,7 @@ public class ScheduledReportSelectionWizard extends Wizard implements
 
 	private Job jobForNodeType(Resource jobResource, NodeType nodeType) {
 		Job job;
-		job = modelUtils.jobForSingleObject(jobResource,
+		job = StudioUtils.jobForSingleObject(jobResource,
 				SchedulingPackage.Literals.NODE_REPORTER_JOB,
 				SchedulingPackage.Literals.NODE_TYPE_REPORTER_JOB__NODE_TYPE,
 				(EObject) nodeType);
@@ -202,8 +202,9 @@ public class ScheduledReportSelectionWizard extends Wizard implements
 			job = SchedulingFactory.eINSTANCE.createNodeTypeReporterJob();
 			job.setName(((Operator) o).getName());
 			job.setJobState(JobState.IN_ACTIVE);
-			job.setInterval(ModelUtils.SECONDS_IN_A_WEEK);
-			job.setStartTime(modelUtils.toXMLDate(modelUtils.todayAndNow()));
+			job.setInterval(NonModelUtils.SECONDS_IN_A_WEEK);
+			job.setStartTime(NonModelUtils.toXMLDate(NonModelUtils
+					.todayAndNow()));
 			if (job instanceof NodeTypeReporterJob) {
 				((NodeTypeReporterJob) job).setScopeObject((EObject) o);
 			}

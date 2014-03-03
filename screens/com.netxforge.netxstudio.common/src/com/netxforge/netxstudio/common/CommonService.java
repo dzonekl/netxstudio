@@ -19,7 +19,7 @@
 package com.netxforge.netxstudio.common;
 
 import com.google.inject.Inject;
-import com.netxforge.netxstudio.common.jca.IJCAService;
+import com.netxforge.base.security.IJCAService;
 
 /**
  * @author Christophe Bouhier christophe.bouhier@netxforge.com

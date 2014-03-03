@@ -27,8 +27,10 @@ import org.eclipse.emf.cdo.common.id.CDOID;
 import org.eclipse.emf.common.util.URI;
 
 import com.google.common.collect.ImmutableList;
+import com.netxforge.base.NonModelUtils;
 import com.netxforge.netxstudio.NetxstudioPackage;
 import com.netxforge.netxstudio.ServerSettings;
+import com.netxforge.netxstudio.common.model.StudioUtils;
 import com.netxforge.netxstudio.library.NodeType;
 import com.netxforge.netxstudio.operators.Node;
 import com.netxforge.netxstudio.services.RFSService;
@@ -56,51 +58,7 @@ public abstract class RFSServiceReportingLogic extends
 			REPORT_PREFIX_SM_USER, REPORT_PREFIX_RM, REPORT_PREFIX_RM_FORECAST);
 
 	void initializeReportingLogic() {
-
-		// ServiceMonitor sm =
-		// this.getModelUtils().lastServiceMonitor(this.getRfsService());
-
-		// if(sm != null){
-		// this.setStartTime(this.getModelUtils().fromXMLDate(sm.getPeriod().getBegin()));
-		// this.setEndTime(this.getModelUtils().fromXMLDate(sm.getPeriod().getEnd()));
-		// this.setServiceMonitor(sm);
-		// }
-
-		//
-		// Date startTime = getStartTime();
-		// if (startTime == null) {
-		// // TODO: make the period for the look back configurable
-		// // TODO: note that a user can do a separate run which runs in the
-		// // past
-		// // creating new last service monitor with an end date in the past
-		// // the system, should not pick the last servicemonitor in the list
-		// // but should find the last end time of all service monitors.
-		// startTime = new Date(System.currentTimeMillis() - 30 * 24 * 60 * 60
-		// * 1000);
-		// if (!rfsService.getServiceMonitors().isEmpty()) {
-		// final Date previousEndTime = rfsService.getServiceMonitors()
-		// .get(rfsService.getServiceMonitors().size() - 1)
-		// .getPeriod().getEnd().toGregorianCalendar().getTime();
-		// startTime = new Date(previousEndTime.getTime() + 1);
-		// }
-		// setStartTime(startTime);
-		// }
-		// Date endTime = getEndTime();
-		// if (endTime == null) {
-		// endTime = new Date(System.currentTimeMillis());
-		// setEndTime(endTime);
-		// }
-
-		this.initializeStream();
-
-		// TODO Remove later, we don't need a service monitor for reporting.
-		// serviceMonitor = ServicesFactory.eINSTANCE.createServiceMonitor();
-		// // what name should a servicemonitor have?
-		// serviceMonitor.setName(rfsService.getServiceName());
-		// serviceMonitor.setPeriod(getTimeRange());
-		// rfsService.getServiceMonitors().add(serviceMonitor);
-		// getEngine().setServiceMonitor(serviceMonitor);
-		// this.getEngine().s
+		initializeStream();
 	}
 
 	public void initializeStream() {
@@ -119,7 +77,6 @@ public abstract class RFSServiceReportingLogic extends
 						.appendFileExtension("xls");
 
 				// FIXME, What if the file exists.
-
 				FileOutputStream fileOut = new FileOutputStream(
 						uri.toFileString());
 				this.setStream(fileOut);
@@ -146,14 +103,14 @@ public abstract class RFSServiceReportingLogic extends
 
 		// first go through the leave nodes
 		for (final Node node : rfsService.getNodes()) {
-			if (getModelUtils().isInService(node)
+			if (StudioUtils.isInService(node)
 					&& node.getNodeType().isLeafNode()) {
 				nodeTypes.add(node.getNodeType());
 			}
 		}
 		// and then the other nodes
 		for (final Node node : rfsService.getNodes()) {
-			if (getModelUtils().isInService(node)
+			if (StudioUtils.isInService(node)
 					&& !node.getNodeType().isLeafNode()) {
 				nodeTypes.add(node.getNodeType());
 			}
@@ -163,8 +120,8 @@ public abstract class RFSServiceReportingLogic extends
 
 	protected String calculateFileName() {
 		StringBuffer buf = new StringBuffer();
-		buf.append(getModelUtils().date(this.getBeginTime()) + "_"
-				+ getModelUtils().date(this.getEndTime()));
+		buf.append(NonModelUtils.date(this.getBeginTime()) + "_"
+				+ NonModelUtils.date(this.getEndTime()));
 
 		return buf.toString();
 	}

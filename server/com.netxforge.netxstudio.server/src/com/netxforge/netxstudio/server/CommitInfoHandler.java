@@ -42,8 +42,8 @@ import org.eclipse.emf.ecore.resource.Resource;
 
 import com.google.common.collect.Lists;
 import com.google.inject.Inject;
-import com.netxforge.netxstudio.common.model.ModelUtils;
-import com.netxforge.netxstudio.common.properties.IPropertiesProvider;
+import com.netxforge.base.NonModelUtils;
+import com.netxforge.base.properties.IPropertiesProvider;
 import com.netxforge.netxstudio.data.IData;
 import com.netxforge.netxstudio.generics.ActionType;
 import com.netxforge.netxstudio.generics.CommitLogEntry;
@@ -59,9 +59,6 @@ import com.netxforge.netxstudio.server.internal.ServerActivator;
  * @author Christophe Bouhier
  */
 public class CommitInfoHandler implements CDOCommitInfoHandler {
-
-	@Inject
-	ModelUtils modelUtils;
 
 	@Inject
 	IServerUtils serverUtils;
@@ -115,7 +112,7 @@ public class CommitInfoHandler implements CDOCommitInfoHandler {
 			}
 		}
 
-		final XMLGregorianCalendar commitTimeStamp = modelUtils
+		final XMLGregorianCalendar commitTimeStamp = NonModelUtils
 				.toXMLDate(new Date(commitInfo.getTimeStamp()));
 
 		// Do not use our dataprovider.
@@ -150,7 +147,7 @@ public class CommitInfoHandler implements CDOCommitInfoHandler {
 				CDOClassInfo classInfo = icdoRev.getClassInfo();
 				logEntry.setObjectId(classInfo.getEClass().getName() + " "
 						+ icdoRev.getID() + "" + icdoRev.getVersion());
-				logEntry.setChange(modelUtils.cdoDumpNewObject(icdoRev));
+				logEntry.setChange(NonModelUtils.cdoDumpNewObject(icdoRev));
 			}
 			addAndTruncate(resource, logEntry);
 		}
@@ -167,12 +164,12 @@ public class CommitInfoHandler implements CDOCommitInfoHandler {
 
 			CDOID id = delta.getID();
 
-			logEntry.setObjectId(modelUtils.truncate(id.toString()));
+			logEntry.setObjectId(NonModelUtils.truncate(id.toString()));
 
 			final StringBuilder sb = new StringBuilder();
-			modelUtils.cdoDumpFeatureDeltas(sb, delta.getFeatureDeltas());
+			NonModelUtils.cdoDumpFeatureDeltas(sb, delta.getFeatureDeltas());
 
-			logEntry.setChange(modelUtils.truncate(sb.toString()));
+			logEntry.setChange(NonModelUtils.truncate(sb.toString()));
 			addAndTruncate(resource, logEntry);
 		}
 		try {

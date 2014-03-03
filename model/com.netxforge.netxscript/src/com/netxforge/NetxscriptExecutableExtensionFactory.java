@@ -3,8 +3,8 @@ package com.netxforge;
 import org.osgi.framework.Bundle;
 
 import com.google.inject.Injector;
+import com.netxforge.base.di.AbstractGuiceAwareExecutableExtensionFactory;
 import com.netxforge.internal.RuntimeActivator;
-import com.netxforge.netxstudio.common.guice.AbstractGuiceAwareExecutableExtensionFactory;
 
 /**
  * This class was generated. Customizations should only happen in a newly

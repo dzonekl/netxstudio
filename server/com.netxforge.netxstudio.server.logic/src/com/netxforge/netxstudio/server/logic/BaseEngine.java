@@ -22,8 +22,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import com.google.inject.Inject;
-import com.netxforge.netxstudio.common.model.ModelUtils;
+import com.netxforge.base.NonModelUtils;
 import com.netxforge.netxstudio.data.IData;
 import com.netxforge.netxstudio.data.job.IRunMonitor;
 import com.netxforge.netxstudio.generics.DateTimeRange;
@@ -48,9 +47,6 @@ public abstract class BaseEngine {
 	// on purpose no @Inject as we need the same instance
 	// as used in the job implementation
 	private IData dataProvider;
-
-	@Inject
-	private ModelUtils modelUtils;
 
 	private DateTimeRange period;
 	private Date start;
@@ -78,16 +74,12 @@ public abstract class BaseEngine {
 
 	public void setPeriod(DateTimeRange range) {
 		this.period = range;
-		start = modelUtils.fromXMLDate(range.getBegin());
-		end = modelUtils.fromXMLDate(range.getEnd());
+		start = NonModelUtils.fromXMLDate(range.getBegin());
+		end = NonModelUtils.fromXMLDate(range.getEnd());
 	}
 
 	public List<Failure> getFailures() {
 		return failures;
-	}
-
-	public ModelUtils getModelUtils() {
-		return modelUtils;
 	}
 
 	public Date getStart() {

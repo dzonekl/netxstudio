@@ -290,8 +290,7 @@ public class Warehouses extends AbstractScreen implements IDataServiceInjection 
 		IObservableMap[] map = new IObservableMap[observableMap.size()];
 		observableMap.toArray(map);
 
-		warehouseTreeViewer.setLabelProvider(new NetworkTreeLabelProvider(
-				modelUtils, map));
+		warehouseTreeViewer.setLabelProvider(new NetworkTreeLabelProvider(map));
 
 		IEMFListProperty networksResourceProperty = EMFEditProperties.list(
 				editingService.getEditingDomain(),

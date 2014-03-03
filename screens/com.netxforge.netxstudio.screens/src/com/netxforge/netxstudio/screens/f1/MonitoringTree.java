@@ -66,12 +66,13 @@ import org.eclipse.ui.forms.widgets.Form;
 
 import com.google.common.collect.Lists;
 import com.google.inject.Inject;
-import com.netxforge.netxstudio.common.context.IComputationContext;
-import com.netxforge.netxstudio.common.context.ObjectContext;
-import com.netxforge.netxstudio.common.model.ModelUtils;
-import com.netxforge.netxstudio.common.model.MonitoringStateEvent;
+import com.netxforge.base.NonModelUtils;
+import com.netxforge.base.cdo.MonitoringStateEvent;
+import com.netxforge.base.context.IComputationContext;
+import com.netxforge.base.context.ObjectContext;
 import com.netxforge.netxstudio.common.model.MonitoringStateModel;
 import com.netxforge.netxstudio.common.model.MonitoringStateModel.MonitoringStateCallBack;
+import com.netxforge.netxstudio.common.model.StudioUtils;
 import com.netxforge.netxstudio.data.actions.ServerRequest;
 import com.netxforge.netxstudio.generics.DateTimeRange;
 import com.netxforge.netxstudio.generics.GenericsPackage;
@@ -132,8 +133,9 @@ public class MonitoringTree extends AbstractPeriodScreen implements
 		addDisposeListener(new DisposeListener() {
 			public void widgetDisposed(DisposeEvent e) {
 				toolkit.dispose();
-				while( !monitoringStateModel.cancel()){
-					//Will hang the UI, so should really wait in other thread...
+				while (!monitoringStateModel.cancel()) {
+					// Will hang the UI, so should really wait in other
+					// thread...
 					try {
 						monitoringStateModel.wait(500);
 						System.out.println("waiting for job to complete.");
@@ -241,7 +243,7 @@ public class MonitoringTree extends AbstractPeriodScreen implements
 		TreeColumn trclmn_2 = treeViewerColumn_2.getColumn();
 		trclmn_2.setWidth(50);
 		trclmn_2.setResizable(true);
-		
+
 		TreeViewerColumn treeViewerColumn_3 = new TreeViewerColumn(
 				monitoringTreeViewer, SWT.NONE);
 		TreeColumn trclmn_3 = treeViewerColumn_3.getColumn();
@@ -253,7 +255,7 @@ public class MonitoringTree extends AbstractPeriodScreen implements
 		TreeColumn trclmn_4 = treeViewerColumn_4.getColumn();
 		trclmn_4.setWidth(50);
 		trclmn_4.setResizable(true);
-		
+
 		toolkit.paintBordersFor(tree);
 
 		monitoringTreeViewer.addFilter(new TreeSearchFilter(this
@@ -294,15 +296,15 @@ public class MonitoringTree extends AbstractPeriodScreen implements
 	public EMFDataBindingContext initDataBindings_() {
 
 		EMFDataBindingContext bindingContext = new EMFDataBindingContext();
-		
+
 		super.initDataBindings_();
-		
-		// Set to one month ago...will be overwritten if state is available. 
+
+		// Set to one month ago...will be overwritten if state is available.
 		getPeriodComponent().presetLastMonth();
-		
+
 		ObservableListTreeContentProvider cp = new ObservableListTreeContentProvider(
 				new MonitoringTreeFactoryImpl(editingService.getEditingDomain()),
-				new MonitoringTreeStructureAdvisorImpl(modelUtils));
+				new MonitoringTreeStructureAdvisorImpl());
 		monitoringTreeViewer.setContentProvider(cp);
 		IObservableSet set = cp.getKnownElements();
 
@@ -322,7 +324,7 @@ public class MonitoringTree extends AbstractPeriodScreen implements
 		mapList.toArray(map);
 
 		monitoringTreeViewer.setLabelProvider(new MonitoringTreeLabelProvider(
-				monitoringStateModel, modelUtils, map));
+				monitoringStateModel, map));
 
 		IEMFListProperty projects = EMFEditProperties.resource(editingService
 				.getEditingDomain());
@@ -503,7 +505,7 @@ public class MonitoringTree extends AbstractPeriodScreen implements
 						Resource jobResource = editingService
 								.getData(SchedulingPackage.Literals.JOB);
 
-						Job job = modelUtils
+						Job job = StudioUtils
 								.jobForSingleObject(
 										jobResource,
 										SchedulingPackage.Literals.RFS_SERVICE_MONITORING_JOB,
@@ -522,9 +524,9 @@ public class MonitoringTree extends AbstractPeriodScreen implements
 							job = SchedulingFactory.eINSTANCE
 									.createRFSServiceMonitoringJob();
 							job.setName(((Service) o).getServiceName());
-							job.setInterval(ModelUtils.SECONDS_IN_A_WEEK);
-							job.setStartTime(modelUtils.toXMLDate(modelUtils
-									.todayAndNow()));
+							job.setInterval(NonModelUtils.SECONDS_IN_A_WEEK);
+							job.setStartTime(NonModelUtils
+									.toXMLDate(NonModelUtils.todayAndNow()));
 							job.setJobState(JobState.IN_ACTIVE);
 							if (job instanceof RFSServiceMonitoringJob) {
 								((RFSServiceMonitoringJob) job)

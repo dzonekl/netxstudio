@@ -40,7 +40,8 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.ui.forms.widgets.FormToolkit;
 
 import com.google.inject.Inject;
-import com.netxforge.netxstudio.common.model.ModelUtils;
+import com.netxforge.base.NonModelUtils;
+import com.netxforge.netxstudio.common.model.StudioUtils;
 import com.netxforge.netxstudio.generics.DateTimeRange;
 import com.netxforge.netxstudio.generics.GenericsFactory;
 import com.netxforge.netxstudio.generics.GenericsPackage;
@@ -66,8 +67,6 @@ public class PeriodComponent {
 	private final DateTimeRange period = GenericsFactory.eINSTANCE
 			.createDateTimeRange();
 
-	private ModelUtils modelUtils;
-
 	private Composite cmpPeriod;
 
 	/**
@@ -86,9 +85,8 @@ public class PeriodComponent {
 	private boolean showBorder = true;
 
 	@Inject
-	public PeriodComponent(ModelUtils modelUtils) {
+	public PeriodComponent() {
 		super();
-		this.modelUtils = modelUtils;
 	}
 
 	public void setShowBorder(boolean showBorder) {
@@ -190,7 +188,7 @@ public class PeriodComponent {
 				if (fromObject == null) {
 					return null;
 				}
-				return modelUtils.toXMLDate((Date) fromObject);
+				return NonModelUtils.toXMLDate((Date) fromObject);
 			}
 		});
 
@@ -209,7 +207,7 @@ public class PeriodComponent {
 				if (fromObject == null) {
 					return null;
 				} else {
-					return modelUtils
+					return NonModelUtils
 							.fromXMLDate((XMLGregorianCalendar) fromObject);
 				}
 			}
@@ -247,10 +245,10 @@ public class PeriodComponent {
 		Date from = this.dateTimeFrom.getSelection();
 		Date to = this.dateTimeTo.getSelection();
 
-		modelUtils.adjustToDayStartAndEnd(from, to);
+		NonModelUtils.adjustToDayStartAndEnd(from, to);
 
-		period.setBegin(modelUtils.toXMLDate(from));
-		period.setEnd(modelUtils.toXMLDate(to));
+		period.setBegin(NonModelUtils.toXMLDate(from));
+		period.setEnd(NonModelUtils.toXMLDate(to));
 	}
 
 	public DateTimeRange getPeriod() {
@@ -282,45 +280,39 @@ public class PeriodComponent {
 		}
 
 		if (setToDayStartAndEnd) {
-			modelUtils.adjustToDayStartAndEnd(from, to);
+			NonModelUtils.adjustToDayStartAndEnd(from, to);
 		}
 
-		// Achtung! Selection listeners not fired....update your databinding
-		// writables manually.
-//		dateTimeFrom.setSelection(from);
-//		dateTimeTo.setSelection(to);
-
-		period.setBegin(modelUtils.toXMLDate(from));
-		period.setEnd(modelUtils.toXMLDate(to));
-
+		period.setBegin(NonModelUtils.toXMLDate(from));
+		period.setEnd(NonModelUtils.toXMLDate(to));
 	}
 
 	public void setPeriod(DateTimeRange dtr) {
-		this.setPeriod(modelUtils.begin(dtr), modelUtils.end(dtr));
+		this.setPeriod(StudioUtils.begin(dtr), StudioUtils.end(dtr));
 	}
 
 	public void presetYesterday() {
-		Date yesterday = modelUtils.yesterday();
-		yesterday = modelUtils.adjustToDayStart(yesterday);
-		this.setPeriod(yesterday, modelUtils.todayAtDayEnd());
+		Date yesterday = NonModelUtils.yesterday();
+		yesterday = NonModelUtils.adjustToDayStart(yesterday);
+		this.setPeriod(yesterday, NonModelUtils.todayAtDayEnd());
 	}
 
 	public void presetLastWeek() {
-		Date oneWeekAgo = modelUtils.oneWeekAgo();
-		oneWeekAgo = modelUtils.adjustToDayStart(oneWeekAgo);
-		this.setPeriod(oneWeekAgo, modelUtils.todayAtDayEnd());
+		Date oneWeekAgo = NonModelUtils.oneWeekAgo();
+		oneWeekAgo = NonModelUtils.adjustToDayStart(oneWeekAgo);
+		this.setPeriod(oneWeekAgo, NonModelUtils.todayAtDayEnd());
 	}
 
 	public void presetLastMonth() {
-		Date oneMonthAgo = modelUtils.oneMonthAgo();
-		oneMonthAgo = modelUtils.adjustToDayStart(oneMonthAgo);
-		this.setPeriod(oneMonthAgo, modelUtils.todayAtDayEnd());
+		Date oneMonthAgo = NonModelUtils.oneMonthAgo();
+		oneMonthAgo = NonModelUtils.adjustToDayStart(oneMonthAgo);
+		this.setPeriod(oneMonthAgo, NonModelUtils.todayAtDayEnd());
 	}
 
 	public void presetLastQuarter() {
-		Date threeMonthsAgo = modelUtils.threeMonthsAgo();
-		threeMonthsAgo = modelUtils.adjustToDayStart(threeMonthsAgo);
-		this.setPeriod(threeMonthsAgo, modelUtils.todayAtDayEnd());
+		Date threeMonthsAgo = NonModelUtils.threeMonthsAgo();
+		threeMonthsAgo = NonModelUtils.adjustToDayStart(threeMonthsAgo);
+		this.setPeriod(threeMonthsAgo, NonModelUtils.todayAtDayEnd());
 	}
 	
 	public void dispose(){

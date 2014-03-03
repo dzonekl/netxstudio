@@ -101,6 +101,8 @@ import org.eclipse.ui.forms.widgets.Section;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
 import com.google.inject.Inject;
+import com.netxforge.base.NonModelUtils;
+import com.netxforge.netxstudio.common.model.StudioUtils;
 import com.netxforge.netxstudio.data.importer.IMetricValueImporter;
 import com.netxforge.netxstudio.generics.DateTimeRange;
 import com.netxforge.netxstudio.generics.GenericsPackage;
@@ -145,7 +147,7 @@ public class MappingStatistics extends AbstractScreen implements
 	@SuppressWarnings("unused")
 	@Inject
 	private ClipboardService clipboard;
-	
+
 	private Text txtMetricStartDateTime;
 	private Text txtMetricEndDateTime;
 
@@ -280,7 +282,7 @@ public class MappingStatistics extends AbstractScreen implements
 
 						Resource metricResource = editingService
 								.getData(MetricsPackage.Literals.METRIC);
-						List<NetXResource> resourcesInMetricSource = modelUtils
+						List<NetXResource> resourcesInMetricSource = StudioUtils
 								.resourcesInMetricSource(
 										metricResource.getContents(),
 										metricSource);
@@ -296,9 +298,9 @@ public class MappingStatistics extends AbstractScreen implements
 						System.out.println("VALUES FOR PERIOD:");
 
 						System.out.println("FROM="
-								+ modelUtils.dateAndTime(dtr.getBegin()));
+								+ NonModelUtils.dateAndTime(dtr.getBegin()));
 						System.out.println("TO="
-								+ modelUtils.dateAndTime(dtr.getEnd()));
+								+ NonModelUtils.dateAndTime(dtr.getEnd()));
 
 						int valueCount = 0;
 						for (NetXResource res : resourcesInMetricSource) {
@@ -306,7 +308,7 @@ public class MappingStatistics extends AbstractScreen implements
 									+ res.getShortName() + "on Component"
 									+ res.getComponentRef().getName());
 
-							List<Value> values = modelUtils
+							List<Value> values = StudioUtils
 									.valuesForIntervalKindAndPeriod(res,
 											targetIntervalHint, null, dtr);
 							if (values.size() > 0) {
@@ -314,10 +316,9 @@ public class MappingStatistics extends AbstractScreen implements
 								System.out.println("number of values "
 										+ Iterables.size(values));
 								for (Value v : values) {
-									System.out.println(modelUtils.fromXMLDate(v
-											.getTimeStamp())
-											+ ":"
-											+ v.getValue());
+									System.out.println(NonModelUtils
+											.fromXMLDate(v.getTimeStamp())
+											+ ":" + v.getValue());
 								}
 							}
 						}
@@ -345,7 +346,7 @@ public class MappingStatistics extends AbstractScreen implements
 								.getIntervalEstimate();
 						Resource metricResource = editingService
 								.getData(MetricsPackage.Literals.METRIC);
-						List<NetXResource> resourcesInMetricSource = modelUtils
+						List<NetXResource> resourcesInMetricSource = StudioUtils
 								.resourcesInMetricSource(
 										metricResource.getContents(),
 										metricSource);
@@ -353,7 +354,7 @@ public class MappingStatistics extends AbstractScreen implements
 								.getPeriodEstimate();
 
 						for (NetXResource res : resourcesInMetricSource) {
-							List<Value> values = modelUtils
+							List<Value> values = StudioUtils
 									.valuesForIntervalKindAndPeriod(res,
 											targetIntervalHint, null, dtr);
 							if (values.size() > 0) {
@@ -758,7 +759,7 @@ public class MappingStatistics extends AbstractScreen implements
 						selectionObservable).getValue();
 				if (value instanceof Integer) {
 
-					return new Integer(modelUtils.metricsInMetricSource(
+					return new Integer(StudioUtils.metricsInMetricSource(
 							metricSource).size()
 							* (Integer) value).toString();
 				}
@@ -775,7 +776,7 @@ public class MappingStatistics extends AbstractScreen implements
 				// recursively compute for sub-statistics.
 				if (selectedObject instanceof MappingStatistic) {
 					return new Integer(
-							modelUtils
+							StudioUtils
 									.mappingFailedCount((MappingStatistic) selectedObject))
 							.toString();
 				}
@@ -856,9 +857,9 @@ public class MappingStatistics extends AbstractScreen implements
 
 		public Object convert(Object fromObject) {
 			if (fromObject instanceof XMLGregorianCalendar) {
-				Date d = modelUtils
+				Date d = NonModelUtils
 						.fromXMLDate((XMLGregorianCalendar) fromObject);
-				return modelUtils.date(d) + " @ " + modelUtils.time(d);
+				return NonModelUtils.date(d) + " @ " + NonModelUtils.time(d);
 			}
 
 			return null;
@@ -970,7 +971,7 @@ public class MappingStatistics extends AbstractScreen implements
 					@Override
 					protected void processLinesHeader(StringBuilder sb,
 							int errorCode) {
-						switch(errorCode){
+						switch (errorCode) {
 						case 0:
 						case 1:
 						case 2:
@@ -1100,42 +1101,6 @@ public class MappingStatistics extends AbstractScreen implements
 	class StatisticObservableMapLabelProvider extends
 			ObservableMapLabelProvider {
 
-		// public StatisticObservableMapLabelProvider(
-		// IObservableMap[] attributeMaps) {
-		// super(attributeMaps);
-		// }
-		//
-		// public StatisticObservableMapLabelProvider(IObservableMap
-		// attributeMap) {
-		// super(attributeMap);
-		// }
-		//
-		// public String getToolTipText(Object element) {
-		// return "<html><body>Tooltip (" + element + ")</body></html>";
-		// }
-		//
-		// public Point getToolTipShift(Object object) {
-		// return new Point(5, 5);
-		// }
-		//
-		// public int getToolTipDisplayDelayTime(Object object) {
-		// return 2000;
-		// }
-		//
-		// public int getToolTipTimeDisplayed(Object object) {
-		// return 5000;
-		// }
-		//
-		// public void update(ViewerCell cell) {
-		//
-		// Object element = cell.getElement();
-		//
-		// if (element instanceof MappingStatistic) {
-		// MappingStatistic s = (MappingStatistic) element;
-		// cell.setText(s.getMessage() + "[" + s.getTotalRecords() + "]");
-		// }
-		// }
-
 		public StatisticObservableMapLabelProvider(
 				IObservableMap[] attributeMaps) {
 			super(attributeMaps);
@@ -1153,15 +1118,15 @@ public class MappingStatistics extends AbstractScreen implements
 					DateTimeRange durationEstimate = s.getMappingDuration();
 					if (durationEstimate.getBegin() != null
 							&& durationEstimate.getEnd() != null) {
-						Date start = modelUtils.begin(durationEstimate);
-						Date end = modelUtils.end(durationEstimate);
+						Date start = StudioUtils.begin(durationEstimate);
+						Date end = StudioUtils.end(durationEstimate);
 
 						if (s.eContainer() != null
 								&& !(s.eContainer() instanceof MappingStatistic)) {
 							// we are the parent.
 							sb.append("Scan started on: "
-									+ modelUtils.date(start) + " @ "
-									+ modelUtils.time(start));
+									+ NonModelUtils.date(start) + " @ "
+									+ NonModelUtils.time(start));
 						} else {
 
 							long ms = (end.getTime() - start.getTime());
@@ -1169,8 +1134,8 @@ public class MappingStatistics extends AbstractScreen implements
 							sb.append("Duration : "
 									+ (ms > 1000 ? (ms / 1000 + " (sec) : ")
 											: ms + " (ms) ") + "ended on "
-									+ modelUtils.date(start) + " @ "
-									+ modelUtils.timeAndSeconds(end));
+									+ NonModelUtils.date(start) + " @ "
+									+ NonModelUtils.timeAndSeconds(end));
 						}
 					}
 				} else {

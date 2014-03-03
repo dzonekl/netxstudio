@@ -27,7 +27,6 @@ import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Shell;
 
 import com.google.inject.Inject;
-import com.netxforge.netxstudio.common.model.ModelUtils;
 import com.netxforge.netxstudio.library.NetXResource;
 import com.netxforge.netxstudio.metrics.MetricValueRange;
 import com.netxforge.netxstudio.screens.f3.ValueRangeSelectionComponent;
@@ -49,9 +48,9 @@ public class RangeSelectionDialog extends TitleAreaDialog {
 	 * @param parentShell
 	 */
 
-	public RangeSelectionDialog(Shell parentShell, ModelUtils modelUtils) {
+	public RangeSelectionDialog(Shell parentShell) {
 		super(parentShell);
-		this.valueRangeComponent = new ValueRangeSelectionComponent(modelUtils);
+		this.valueRangeComponent = new ValueRangeSelectionComponent();
 	}
 
 	/**

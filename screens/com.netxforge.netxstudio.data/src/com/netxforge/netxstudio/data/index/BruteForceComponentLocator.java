@@ -16,7 +16,7 @@
  * Contributors: 
  * 	Martin Taal - initial API and implementation and/or initial documentation
  *******************************************************************************/
-package com.netxforge.netxstudio.data.importer;
+package com.netxforge.netxstudio.data.index;
 
 import java.util.List;
 import java.util.regex.Matcher;
@@ -32,9 +32,9 @@ import org.eclipse.emf.ecore.EStructuralFeature;
 import com.google.common.base.Predicate;
 import com.google.common.collect.Iterators;
 import com.google.common.collect.Lists;
-import com.google.inject.Inject;
+import com.netxforge.base.NonModelUtils;
 import com.netxforge.netxstudio.common.AllPurposeCache;
-import com.netxforge.netxstudio.common.model.ModelUtils;
+import com.netxforge.netxstudio.common.model.StudioUtils;
 import com.netxforge.netxstudio.data.IData;
 import com.netxforge.netxstudio.data.internal.DataActivator;
 import com.netxforge.netxstudio.library.Component;
@@ -63,9 +63,6 @@ import com.netxforge.netxstudio.operators.Warehouse;
 public class BruteForceComponentLocator implements IComponentLocator {
 
 	private IData dataProvider;
-
-	@Inject
-	private ModelUtils modelUtils;
 
 	// the key format is:
 	private AllPurposeCache<String, List<Component>> componentsCache;
@@ -190,7 +187,7 @@ public class BruteForceComponentLocator implements IComponentLocator {
 													+ ((Component) referingObject)
 															.getName()
 													+ " cdo res path="
-													+ modelUtils
+													+ NonModelUtils
 															.cdoResourcePath(referingObject));
 						}
 					}
@@ -323,8 +320,9 @@ public class BruteForceComponentLocator implements IComponentLocator {
 							+ " id's are: ");
 			for (IComponentLocator.IdentifierDescriptor iv : descriptors) {
 				DataActivator.TRACE.trace(
-						DataActivator.TRACE_IMPORT_LOCATOR_OPTION, "-- ID col="
-								+ iv.getColumn() + " ,value=" + iv.getIdentifier());
+						DataActivator.TRACE_IMPORT_LOCATOR_OPTION,
+						"-- ID col=" + iv.getColumn() + " ,value="
+								+ iv.getIdentifier());
 			}
 		}
 
@@ -343,7 +341,8 @@ public class BruteForceComponentLocator implements IComponentLocator {
 		final String key = getKey(nodeDescriptor, metric);
 		if (DataActivator.DEBUG) {
 			DataActivator.TRACE.trace(
-					DataActivator.TRACE_IMPORT_LOCATOR_OPTION, "-- key=" + key);
+					DataActivator.TRACE_IMPORT_LOCATOR_OPTION, "-- key="
+							+ key);
 		}
 
 		// CB MOVED TO A FUNCTIONAL CACHE, 16-12-2012.
@@ -516,12 +515,14 @@ public class BruteForceComponentLocator implements IComponentLocator {
 					// Check if the identifier matches the component name.
 					if (!isMatching(componentToVerify, idDescriptor, true)) {
 						if (DataActivator.DEBUG) {
-							DataActivator.TRACE.trace(
-									DataActivator.TRACE_IMPORT_LOCATOR_OPTION,
-									"-- matching failed:"
-											+ idDescriptor.getIdentifier()
-											+ " , for component name="
-											+ componentToVerify.getName());
+							DataActivator.TRACE
+									.trace(DataActivator.TRACE_IMPORT_LOCATOR_OPTION,
+											"-- matching failed:"
+													+ idDescriptor
+															.getIdentifier()
+													+ " , for component name="
+													+ componentToVerify
+															.getName());
 						}
 						allIdentifiersValid = false;
 						// The Component doesn't match the identifier.
@@ -530,12 +531,14 @@ public class BruteForceComponentLocator implements IComponentLocator {
 						localSucssFullComponents.add(componentToVerify);
 						localSuccessFullIdentifiers.add(idDescriptor);
 						if (DataActivator.DEBUG) {
-							DataActivator.TRACE.trace(
-									DataActivator.TRACE_IMPORT_LOCATOR_OPTION,
-									"-- matching succeeded:"
-											+ idDescriptor.getIdentifier()
-											+ " , for component name="
-											+ componentToVerify.getName());
+							DataActivator.TRACE
+									.trace(DataActivator.TRACE_IMPORT_LOCATOR_OPTION,
+											"-- matching succeeded:"
+													+ idDescriptor
+															.getIdentifier()
+													+ " , for component name="
+													+ componentToVerify
+															.getName());
 						}
 					}
 				}
@@ -627,10 +630,10 @@ public class BruteForceComponentLocator implements IComponentLocator {
 				} else {
 					allIdentifiersValid = false;
 					if (DataActivator.DEBUG) {
-						DataActivator.TRACE
-								.trace(DataActivator.TRACE_IMPORT_LOCATOR_OPTION,
-										"-- matching failed:"
-												+ idDescriptor.getIdentifier());
+						DataActivator.TRACE.trace(
+								DataActivator.TRACE_IMPORT_LOCATOR_OPTION,
+								"-- matching failed:"
+										+ idDescriptor.getIdentifier());
 					}
 				}
 			}
@@ -775,23 +778,21 @@ public class BruteForceComponentLocator implements IComponentLocator {
 
 					Function function = (Function) target;
 
-					if (modelUtils != null) {
-						Node node = modelUtils.nodeFor(function);
-						if (node != null && node.eContainer() != null
-								&& node.eContainer() instanceof Network) {
+					Node node = StudioUtils.nodeFor(function);
+					if (node != null && node.eContainer() != null
+							&& node.eContainer() instanceof Network) {
 
-							Network net = (Network) node.eContainer();
-							FunctionRelationship link = OperatorsFactory.eINSTANCE
-									.createFunctionRelationship();
+						Network net = (Network) node.eContainer();
+						FunctionRelationship link = OperatorsFactory.eINSTANCE
+								.createFunctionRelationship();
 
-							// CB 02-11-2011 Model could use a bidi here
+						// CB 02-11-2011 Model could use a bidi here
 
-							link.setFunction1Ref(function);
-							link.setName(value);
-							link.setNodeID1Ref(node);
-							function.getFunctionRelationshipRefs().add(link);
-							net.getFunctionRelationships().add(link);
-						}
+						link.setFunction1Ref(function);
+						link.setName(value);
+						link.setNodeID1Ref(node);
+						function.getFunctionRelationshipRefs().add(link);
+						net.getFunctionRelationships().add(link);
 					}
 
 					// CB, not a component, but a relationship.
@@ -802,20 +803,18 @@ public class BruteForceComponentLocator implements IComponentLocator {
 
 				} else if (target instanceof Equipment) {
 					Equipment equipment = (Equipment) target;
-					if (modelUtils != null) {
-						Node node = modelUtils.nodeFor(equipment);
-						if (node != null && node.eContainer() != null
-								&& node.eContainer() instanceof Network) {
+					Node node = StudioUtils.nodeFor(equipment);
+					if (node != null && node.eContainer() != null
+							&& node.eContainer() instanceof Network) {
 
-							Network net = (Network) node.eContainer();
-							EquipmentRelationship link = OperatorsFactory.eINSTANCE
-									.createEquipmentRelationship();
-							link.setEquipment1Ref(equipment);
-							link.setName(value);
-							link.setNodeID1Ref(node);
-							equipment.getEquipmentRelationshipRefs().add(link);
-							net.getEquipmentRelationships().add(link);
-						}
+						Network net = (Network) node.eContainer();
+						EquipmentRelationship link = OperatorsFactory.eINSTANCE
+								.createEquipmentRelationship();
+						link.setEquipment1Ref(equipment);
+						link.setName(value);
+						link.setNodeID1Ref(node);
+						equipment.getEquipmentRelationshipRefs().add(link);
+						net.getEquipmentRelationships().add(link);
 					}
 
 					// CB, not a component, but a relationship.

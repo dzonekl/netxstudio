@@ -20,7 +20,7 @@ package com.netxforge.netxstudio.models.export.ui.internal;
 import org.osgi.framework.Bundle;
 
 import com.google.inject.Injector;
-import com.netxforge.netxstudio.common.guice.AbstractGuiceAwareExecutableExtensionFactory;
+import com.netxforge.base.di.AbstractGuiceAwareExecutableExtensionFactory;
 
 public class ExportEExtensionFactory extends AbstractGuiceAwareExecutableExtensionFactory {
 

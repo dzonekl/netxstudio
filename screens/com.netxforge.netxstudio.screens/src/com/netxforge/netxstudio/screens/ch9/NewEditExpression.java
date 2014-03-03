@@ -57,7 +57,7 @@ import org.eclipse.xtext.util.concurrent.IUnitOfWork;
 
 import com.google.inject.Inject;
 import com.google.inject.name.Named;
-import com.netxforge.netxstudio.common.guice.IInjectorProxy;
+import com.netxforge.base.di.IInjectorProxy;
 import com.netxforge.netxstudio.library.Expression;
 import com.netxforge.netxstudio.library.LibraryPackage.Literals;
 import com.netxforge.netxstudio.screens.AbstractScreen;

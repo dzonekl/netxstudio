@@ -51,6 +51,7 @@ import org.eclipse.wb.swt.TableViewerColumnSorter;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.inject.Inject;
+import com.netxforge.netxstudio.common.model.StudioUtils;
 import com.netxforge.netxstudio.generics.Value;
 import com.netxforge.netxstudio.library.Component;
 import com.netxforge.netxstudio.library.Equipment;
@@ -188,7 +189,7 @@ public abstract class AbstractResources extends AbstractScreen implements
 		@Override
 		protected Object getValue(Object element) {
 			if (element instanceof NetXResource) {
-				Value v = modelUtils
+				Value v = StudioUtils
 						.mostRecentCapacityValue((NetXResource) element);
 
 				if (v != null) {
@@ -231,7 +232,7 @@ public abstract class AbstractResources extends AbstractScreen implements
 		protected Object openDialogBox(Control cellEditorWindow) {
 
 			CapacityEditingDialog capacityEditingDialog = new CapacityEditingDialog(
-					cellEditorWindow.getShell(), editingService, modelUtils);
+					cellEditorWindow.getShell(), editingService);
 			capacityEditingDialog.setBlockOnOpen(true);
 			capacityEditingDialog.injectData(resource);
 			int open = capacityEditingDialog.open();
@@ -472,10 +473,10 @@ public abstract class AbstractResources extends AbstractScreen implements
 				switch (columnIndex) {
 
 				case 0: {
-					NodeType nt = modelUtils.resolveParentNodeType(c);
+					NodeType nt = StudioUtils.resolveParentNodeType(c);
 					if (nt != null) {
 						Node n = null;
-						if ((n = modelUtils.nodeFor(nt)) != null) {
+						if ((n = StudioUtils.nodeFor(nt)) != null) {
 							return n.getNodeID();
 						} else {
 							return nt.getName();

@@ -32,7 +32,7 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.ui.forms.widgets.FormToolkit;
 
 import com.google.inject.Inject;
-import com.netxforge.netxstudio.common.model.ModelUtils;
+import com.netxforge.base.NonModelUtils;
 import com.netxforge.netxstudio.library.NetXResource;
 import com.netxforge.netxstudio.metrics.MetricValueRange;
 
@@ -47,7 +47,6 @@ public class ValueRangeSelectionComponent {
 
 	private final FormToolkit toolkit = new FormToolkit(Display.getCurrent());
 
-	private ModelUtils modelUtils;
 
 	private Composite cmpValueRange;
 
@@ -64,9 +63,8 @@ public class ValueRangeSelectionComponent {
 	protected MetricValueRange mvr;
 
 	@Inject
-	public ValueRangeSelectionComponent(ModelUtils modelUtils) {
+	public ValueRangeSelectionComponent() {
 		super();
-		this.modelUtils = modelUtils;
 	}
 
 	public void setShowBorder(boolean showBorder) {
@@ -108,7 +106,7 @@ public class ValueRangeSelectionComponent {
 				if (element instanceof MetricValueRange) {
 					MetricValueRange mvr = (MetricValueRange) element;
 					sb.append(""
-							+ modelUtils.fromMinutes(mvr.getIntervalHint()));
+							+ NonModelUtils.fromMinutes(mvr.getIntervalHint()));
 					sb.append(", " + mvr.getKindHint().getName());
 					sb.append(" (count=" + mvr.getMetricValues().size() + ")");
 

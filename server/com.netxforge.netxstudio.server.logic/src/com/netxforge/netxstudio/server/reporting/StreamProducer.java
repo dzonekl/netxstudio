@@ -27,9 +27,9 @@ import java.util.Date;
 import org.eclipse.emf.common.util.URI;
 
 import com.google.inject.Inject;
+import com.netxforge.base.NonModelUtils;
 import com.netxforge.netxstudio.NetxstudioPackage;
 import com.netxforge.netxstudio.ServerSettings;
-import com.netxforge.netxstudio.common.model.ModelUtils;
 import com.netxforge.netxstudio.common.model.MonitoringStateModel;
 
 /**
@@ -38,9 +38,6 @@ import com.netxforge.netxstudio.common.model.MonitoringStateModel;
  * @author Christophe Bouhier
  */
 public class StreamProducer implements IStreamProducer {
-
-	@Inject
-	private ModelUtils modelUtils;
 
 	private OutputStream stream;
 
@@ -145,8 +142,8 @@ public class StreamProducer implements IStreamProducer {
 		// buf.append(getModelUtils().date(this.getStartTime()) + "_"
 		// + getModelUtils().date(this.getEndTime()));
 
-		Date todayAndNow = modelUtils.todayAndNow();
-		buf.append(this.modelUtils.folderDateAndTime(todayAndNow));
+		Date todayAndNow = NonModelUtils.todayAndNow();
+		buf.append(NonModelUtils.folderDateAndTime(todayAndNow));
 
 		return buf.toString();
 	}
@@ -156,7 +153,7 @@ public class StreamProducer implements IStreamProducer {
 
 		// Use the reporting period as a file name.
 		String fileName = REPORT_PREFIX + "_" + emitter.getReportName()
-				+ modelUtils.date(begin) + "_" + modelUtils.date(end);
+				+ NonModelUtils.date(begin) + "_" + NonModelUtils.date(end);
 		return fileName;
 	}
 

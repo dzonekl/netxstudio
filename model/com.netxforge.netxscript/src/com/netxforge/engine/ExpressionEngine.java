@@ -35,12 +35,12 @@ import org.eclipse.xtext.util.CancelIndicator;
 import org.eclipse.xtext.util.StringInputStream;
 
 import com.google.inject.Inject;
+import com.netxforge.base.context.IComputationContext;
 import com.netxforge.internal.RuntimeActivator;
 import com.netxforge.interpreter.IInterpreter;
 import com.netxforge.interpreter.IInterpreterContextFactory;
 import com.netxforge.netxscript.Mod;
-import com.netxforge.netxstudio.common.context.IComputationContext;
-import com.netxforge.netxstudio.common.model.ModelUtils;
+import com.netxforge.netxstudio.common.model.StudioUtils;
 import com.netxforge.netxstudio.generics.DateTimeRange;
 import com.netxforge.netxstudio.library.BaseExpressionResult;
 import com.netxforge.netxstudio.library.BaseResource;
@@ -84,9 +84,6 @@ public class ExpressionEngine implements IExpressionEngine {
 	private IInterpreter xInterpreter;
 
 	@Inject
-	private ModelUtils modelUtils;
-
-	@Inject
 	private IGlobalScopeProvider scopeProvider;
 
 	private List<Object> context = new ArrayList<Object>();
@@ -104,7 +101,7 @@ public class ExpressionEngine implements IExpressionEngine {
 		throwable = null;
 		getExpressionResult().clear();
 
-		final String asString = this.modelUtils.expressionAsString(expression);
+		final String asString = StudioUtils.expressionAsString(expression);
 		if (asString == null || asString.trim().length() == 0) {
 			return;
 		}
@@ -295,7 +292,7 @@ public class ExpressionEngine implements IExpressionEngine {
 				RuntimeActivator.TRACE
 						.trace(RuntimeActivator.TRACE_NETXSCRIPT_EXPRESSION_OPTION,
 								"Context DTR:"
-										+ modelUtils
+										+ StudioUtils
 												.periodToStringMore((DateTimeRange) context));
 			}
 			if (context instanceof Node) {

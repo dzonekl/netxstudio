@@ -52,7 +52,7 @@ public class NodeSummary extends MonitoringAdapter {
 
 		final SubMonitor subMonitor = SubMonitor.convert(monitor, work);
 		subMonitor.setTaskName("Computing summary for "
-				+ modelUtils.printModelObject(target));
+				+ StudioUtils.printModelObject(target));
 
 		while (iterator.hasNext()) {
 

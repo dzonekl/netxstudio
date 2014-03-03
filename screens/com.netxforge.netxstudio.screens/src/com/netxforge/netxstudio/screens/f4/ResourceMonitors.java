@@ -50,6 +50,7 @@ import org.eclipse.ui.forms.widgets.Form;
 import org.eclipse.ui.forms.widgets.FormToolkit;
 import org.eclipse.ui.part.ShowInContext;
 
+import com.netxforge.base.NonModelUtils;
 import com.netxforge.netxstudio.operators.OperatorsPackage;
 import com.netxforge.netxstudio.operators.ResourceMonitor;
 import com.netxforge.netxstudio.screens.AbstractScreen;
@@ -231,18 +232,18 @@ public class ResourceMonitors extends AbstractScreen implements
 					return new Integer(rm.getMarkers().size()).toString();
 				case 3:
 					if (rm.getPeriod() != null) {
-						Date begin = modelUtils.fromXMLDate(rm.getPeriod()
+						Date begin = NonModelUtils.fromXMLDate(rm.getPeriod()
 								.getBegin());
-						return modelUtils.date(begin) + " @ "
-								+ modelUtils.time(begin);
+						return NonModelUtils.date(begin) + " @ "
+								+ NonModelUtils.time(begin);
 					}
 					break;
 				case 4:
 					if (rm.getPeriod() != null) {
-						Date end = modelUtils.fromXMLDate(rm.getPeriod()
+						Date end = NonModelUtils.fromXMLDate(rm.getPeriod()
 								.getEnd());
-						return modelUtils.date(end) + " @ "
-								+ modelUtils.time(end);
+						return NonModelUtils.date(end) + " @ "
+								+ NonModelUtils.time(end);
 					}
 					break;
 				}
@@ -272,10 +273,10 @@ public class ResourceMonitors extends AbstractScreen implements
 		@SuppressWarnings("unused")
 		ISelection resourceMonitorSelection = this.resourceMonitorsTableViewer
 				.getSelection();
-		
-		// TODO, Use the ChartModel to produce the Chart Input from a ResourceMonitor. 
-		
-		
+
+		// TODO, Use the ChartModel to produce the Chart Input from a
+		// ResourceMonitor.
+
 		// ChartShowInContext chartInput = new ChartShowInContext();
 		// chartInput.setPeriod(period);
 		// chartInput.setInterval(ModelUtils.MINUTES_IN_AN_HOUR);

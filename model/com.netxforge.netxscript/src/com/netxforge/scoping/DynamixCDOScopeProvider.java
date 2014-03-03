@@ -49,10 +49,10 @@ import com.google.common.collect.Maps;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
+import com.netxforge.base.NonModelUtils;
+import com.netxforge.base.context.IComputationContext;
 import com.netxforge.internal.RuntimeActivator;
 import com.netxforge.netxscript.NetxscriptPackage;
-import com.netxforge.netxstudio.common.context.IComputationContext;
-import com.netxforge.netxstudio.common.model.ModelUtils;
 import com.netxforge.netxstudio.library.Component;
 import com.netxforge.netxstudio.library.LibraryPackage;
 import com.netxforge.netxstudio.operators.Node;
@@ -86,8 +86,6 @@ public class DynamixCDOScopeProvider extends AbstractGlobalScopeProvider
 
 	private Provider<IResourceDescriptions> loadOnDemandDescriptions;
 
-	private ModelUtils modelUtils;
-
 	private CDOView view;
 
 	/**
@@ -110,13 +108,10 @@ public class DynamixCDOScopeProvider extends AbstractGlobalScopeProvider
 
 	@Inject
 	public DynamixCDOScopeProvider(
-			Provider<IResourceDescriptions> descriptionsProvider,
-			ModelUtils modelUtils) {
+			Provider<IResourceDescriptions> descriptionsProvider) {
 		super();
 
-		this.modelUtils = modelUtils;
 		this.loadOnDemandDescriptions = descriptionsProvider;
-
 		initialize();
 	}
 
@@ -490,7 +485,7 @@ public class DynamixCDOScopeProvider extends AbstractGlobalScopeProvider
 			if (resourceNode instanceof CDOResourceFolder) {
 				List<Resource> resources = this
 						.getResourcesFromNode((CDOResourceFolder) resourceNode);
-				childURIs.addAll(modelUtils.transformResourceToURI(resources));
+				childURIs.addAll(NonModelUtils.transformResourceToURI(resources));
 			}
 		}
 		return childURIs;
@@ -551,7 +546,7 @@ public class DynamixCDOScopeProvider extends AbstractGlobalScopeProvider
 						.getResourcesFromNode(cdoFolder);
 
 				List<URI> dirtyURIS = Lists.newArrayList();
-				dirtyURIS.addAll(modelUtils
+				dirtyURIS.addAll(NonModelUtils
 						.transformResourceToURI(resourcesFromNode));
 
 				if (cdoFolder.getName().equals("Node_")

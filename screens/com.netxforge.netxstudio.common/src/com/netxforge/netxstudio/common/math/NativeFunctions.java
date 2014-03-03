@@ -25,9 +25,9 @@ import org.apache.commons.math.stat.descriptive.DescriptiveStatistics;
 import org.apache.commons.math.stat.regression.SimpleRegression;
 
 import com.google.common.collect.Ordering;
-import com.google.inject.Inject;
-import com.netxforge.netxstudio.common.GenericsTuple;
-import com.netxforge.netxstudio.common.model.ModelUtils;
+import com.netxforge.base.GenericsTuple;
+import com.netxforge.base.NonModelUtils;
+import com.netxforge.netxstudio.common.model.StudioUtils;
 import com.netxforge.netxstudio.generics.GenericsFactory;
 import com.netxforge.netxstudio.generics.Value;
 
@@ -37,9 +37,6 @@ import com.netxforge.netxstudio.generics.Value;
  * @author Christophe Bouhier
  */
 public class NativeFunctions implements INativeFunctions, INativeFunctions2 {
-
-	@Inject
-	ModelUtils modelUtils;
 
 	/**
 	 * Count the number of objects in the list.
@@ -117,7 +114,7 @@ public class NativeFunctions implements INativeFunctions, INativeFunctions2 {
 		double[] result = new double[firstLength];
 		for (Double[] dr : input) {
 			result = sumCollections(result,
-					modelUtils.transformToDoublePrimitiveArray(dr));
+					NonModelUtils.transformToDoublePrimitiveArray(dr));
 		}
 		return result;
 	}
@@ -242,12 +239,12 @@ public class NativeFunctions implements INativeFunctions, INativeFunctions2 {
 				break;
 			}
 			if (v instanceof BigDecimal) {
-				doubleList = modelUtils
+				doubleList = NonModelUtils
 						.transformBigDecimalToDouble((List<BigDecimal>) values);
 				break;
 			}
 		}
-		return modelUtils.transformToDoublePrimitiveArray(doubleList);
+		return NonModelUtils.transformToDoublePrimitiveArray(doubleList);
 	}
 
 	/*
@@ -258,7 +255,7 @@ public class NativeFunctions implements INativeFunctions, INativeFunctions2 {
 		List<Double> doubleList = null;
 		// We would need some assertion, that all objects in the collection are
 		// of the same type?
-		doubleList = modelUtils.transformValueToDouble((List<Value>) values);
+		doubleList = StudioUtils.transformValueToDouble((List<Value>) values);
 		return doubleList;
 	}
 
@@ -317,7 +314,7 @@ public class NativeFunctions implements INativeFunctions, INativeFunctions2 {
 	}
 
 	public Value minValue(List<Value> range) {
-		List<Value> sortedCopy = Ordering.from(modelUtils.valueValueCompare())
+		List<Value> sortedCopy = Ordering.from(StudioUtils.valueValueCompare())
 				.sortedCopy(range);
 		return sortedCopy.get(0);
 	}
@@ -327,7 +324,7 @@ public class NativeFunctions implements INativeFunctions, INativeFunctions2 {
 			return range.get(0);
 		} else if (range.size() > 1) {
 			List<Value> sortedCopy = Ordering.from(
-					modelUtils.valueValueCompare()).sortedCopy(range);
+					StudioUtils.valueValueCompare()).sortedCopy(range);
 			return sortedCopy.get(sortedCopy.size() - 1);
 		}
 		return null;
@@ -336,7 +333,7 @@ public class NativeFunctions implements INativeFunctions, INativeFunctions2 {
 	public Value meanValue(List<Value> range) {
 
 		List<Double> doubles = this.doubleList(range);
-		double[] rangeSelection = modelUtils
+		double[] rangeSelection = NonModelUtils
 				.transformToDoublePrimitiveArray(doubles);
 		double mean = StatUtils.mean(rangeSelection);
 

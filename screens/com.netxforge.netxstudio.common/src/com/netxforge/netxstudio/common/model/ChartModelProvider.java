@@ -31,19 +31,14 @@ public class ChartModelProvider implements Provider<IChartModel>,
 
 	private INativeFunctions nativeFunctions;
 
-	private ModelUtils modelUtils;
-
 	@Inject
-	public ChartModelProvider(INativeFunctions nativeFunctions,
-			ModelUtils modelUtils) {
+	public ChartModelProvider(INativeFunctions nativeFunctions) {
 		this.nativeFunctions = nativeFunctions;
-		this.modelUtils = modelUtils;
 
 	}
 
 	public IChartModel get() {
 		final ChartModel cm = new ChartModel();
-		cm.setModelUtils(modelUtils);
 		cm.setNativeFunctions(nativeFunctions);
 		return cm;
 	}

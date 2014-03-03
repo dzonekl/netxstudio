@@ -28,12 +28,11 @@ import org.eclipse.emf.ecore.util.EcoreUtil;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
-import com.google.inject.Inject;
 import com.google.inject.Singleton;
+import com.netxforge.base.NonModelUtils;
 import com.netxforge.netxstudio.NetxstudioFactory;
 import com.netxforge.netxstudio.NetxstudioPackage;
 import com.netxforge.netxstudio.ServerSettings;
-import com.netxforge.netxstudio.common.model.ModelUtils;
 import com.netxforge.netxstudio.data.IData;
 import com.netxforge.netxstudio.generics.ExpansionDuration;
 import com.netxforge.netxstudio.generics.ExpansionDurationSetting;
@@ -72,9 +71,6 @@ import com.netxforge.netxstudio.scheduling.SchedulingPackage;
 public class Fixtures implements IFixtures {
 
 	private IData dataProvider;
-
-	@Inject
-	private ModelUtils modelUtils;
 
 	public void setDataProvider(IData dataProvider){
 		this.dataProvider = dataProvider;
@@ -350,7 +346,7 @@ public class Fixtures implements IFixtures {
 				// range, clears the original range.
 				final String eAsString = "";
 				monthlyRetentionExpression.getExpressionLines().addAll(
-						modelUtils.expressionLines(eAsString));
+						NonModelUtils.splitLines(eAsString));
 				expressionResource.getContents()
 						.add(monthlyRetentionExpression);
 			}
@@ -367,7 +363,7 @@ public class Fixtures implements IFixtures {
 				// +
 				// "this METRIC AVG WEEK.clear(); // Clear for the rule period. ";
 				weeklyRetentionExpression.getExpressionLines().addAll(
-						modelUtils.expressionLines(eAsString));
+						NonModelUtils.splitLines(eAsString));
 				expressionResource.getContents().add(weeklyRetentionExpression);
 			}
 			{
@@ -382,7 +378,7 @@ public class Fixtures implements IFixtures {
 				// +
 				// "this METRIC AVG DAY.clear(); // Clear for the rule period. ";
 				dailyRetentionExpression.getExpressionLines().addAll(
-						modelUtils.expressionLines(eAsString));
+						NonModelUtils.splitLines(eAsString));
 				expressionResource.getContents().add(dailyRetentionExpression);
 			}
 
@@ -398,7 +394,7 @@ public class Fixtures implements IFixtures {
 				// +
 				// "this METRIC AVG HOUR.clear(); // Clear for the rule period. ";
 				hourlyRetentionExpression.getExpressionLines().addAll(
-						modelUtils.expressionLines(eAsString));
+						NonModelUtils.splitLines(eAsString));
 				expressionResource.getContents().add(hourlyRetentionExpression);
 			}
 			
@@ -415,7 +411,7 @@ public class Fixtures implements IFixtures {
 				// +
 				// "this METRIC AVG HOUR.clear(); // Clear for the rule period. ";
 				_15minRetentionExpression.getExpressionLines().addAll(
-						modelUtils.expressionLines(eAsString));
+						NonModelUtils.splitLines(eAsString));
 				expressionResource.getContents().add(_15minRetentionExpression);
 			}
 		}
@@ -427,7 +423,7 @@ public class Fixtures implements IFixtures {
 				r.setName("Monthly values");
 				r.setPeriod(MetricRetentionPeriod.ALWAYS);
 				r.setRetentionExpression(monthlyRetentionExpression);
-				r.setIntervalHint(ModelUtils.MINUTES_IN_A_MONTH);
+				r.setIntervalHint(NonModelUtils.MINUTES_IN_A_MONTH);
 				rules.getMetricRetentionRules().add(r);
 			}
 			{
@@ -436,7 +432,7 @@ public class Fixtures implements IFixtures {
 				r.setName("Weekly values");
 				r.setPeriod(MetricRetentionPeriod.ALWAYS);
 				r.setRetentionExpression(weeklyRetentionExpression);
-				r.setIntervalHint(ModelUtils.MINUTES_IN_A_WEEK);
+				r.setIntervalHint(NonModelUtils.MINUTES_IN_A_WEEK);
 				rules.getMetricRetentionRules().add(r);
 			}
 			{
@@ -445,7 +441,7 @@ public class Fixtures implements IFixtures {
 				r.setName("Daily values");
 				r.setPeriod(MetricRetentionPeriod.ONE_MONTH);
 				r.setRetentionExpression(dailyRetentionExpression);
-				r.setIntervalHint(ModelUtils.MINUTES_IN_A_DAY);
+				r.setIntervalHint(NonModelUtils.MINUTES_IN_A_DAY);
 				rules.getMetricRetentionRules().add(r);
 			}
 			{
@@ -454,7 +450,7 @@ public class Fixtures implements IFixtures {
 				r.setName("Hourly values");
 				r.setPeriod(MetricRetentionPeriod.ONE_WEEK);
 				r.setRetentionExpression(hourlyRetentionExpression);
-				r.setIntervalHint(ModelUtils.MINUTES_IN_AN_HOUR);
+				r.setIntervalHint(NonModelUtils.MINUTES_IN_AN_HOUR);
 				rules.getMetricRetentionRules().add(r);
 			}
 			
@@ -476,7 +472,7 @@ public class Fixtures implements IFixtures {
 			final RetentionJob retentionJob = SchedulingFactory.eINSTANCE
 					.createRetentionJob();
 			retentionJob.setJobState(JobState.IN_ACTIVE);
-			retentionJob.setStartTime(modelUtils.toXMLDate(modelUtils
+			retentionJob.setStartTime(NonModelUtils.toXMLDate(NonModelUtils
 					.tomorrow()));
 			retentionJob.setInterval(60);
 			retentionJob.setName("Data Retention");
@@ -557,15 +553,15 @@ public class Fixtures implements IFixtures {
 
 		final Value v = GenericsFactory.eINSTANCE.createValue();
 		v.setValue(2.0);
-		v.setTimeStamp(modelUtils.toXMLDate(modelUtils.yesterday()));
+		v.setTimeStamp(NonModelUtils.toXMLDate(NonModelUtils.yesterday()));
 
 		final Value v1 = GenericsFactory.eINSTANCE.createValue();
 		v1.setValue(2.1);
-		v1.setTimeStamp(modelUtils.toXMLDate(modelUtils.twoDaysAgo()));
+		v1.setTimeStamp(NonModelUtils.toXMLDate(NonModelUtils.twoDaysAgo()));
 
 		final Value v2 = GenericsFactory.eINSTANCE.createValue();
 		v2.setValue(2.1);
-		v2.setTimeStamp(modelUtils.toXMLDate(modelUtils.threeDaysAgo()));
+		v2.setTimeStamp(NonModelUtils.toXMLDate(NonModelUtils.threeDaysAgo()));
 
 		range.getMetricValues().addAll(ImmutableList.of(v, v1, v2));
 	}

@@ -22,22 +22,19 @@ import static org.ops4j.peaberry.Peaberry.service;
 import static org.ops4j.peaberry.util.Attributes.objectClass;
 import static org.ops4j.peaberry.util.TypeLiterals.export;
 
-import com.google.inject.Singleton;
-import com.netxforge.netxstudio.common.jca.JCAServiceModule;
+import com.netxforge.base.security.JCAServiceModule;
 import com.netxforge.netxstudio.common.math.INativeFunctions;
 import com.netxforge.netxstudio.common.math.INativeFunctions2;
 import com.netxforge.netxstudio.common.math.NativeFunctions;
 import com.netxforge.netxstudio.common.model.ChartModelProvider;
 import com.netxforge.netxstudio.common.model.ComponentSummaryProvider;
 import com.netxforge.netxstudio.common.model.IChartModelProvider;
-import com.netxforge.netxstudio.common.model.ModelUtils;
 import com.netxforge.netxstudio.common.model.MonitoringAdapterFactory;
 import com.netxforge.netxstudio.common.model.MonitoringStateModel;
 import com.netxforge.netxstudio.common.model.NetxresourceSummaryProvider;
 import com.netxforge.netxstudio.common.model.NodetypeSummaryProvider;
 import com.netxforge.netxstudio.common.model.OperatorSummaryProvider;
 import com.netxforge.netxstudio.common.model.RFSServiceSummaryProvider;
-import com.netxforge.netxstudio.common.properties.PropertiesUtil;
 
 /**
  * @author Christophe Bouhier christophe.bouhier@netxforge.com
@@ -56,12 +53,6 @@ public class CommonModule extends JCAServiceModule {
 
 		// ///////////////////////////////
 		// EXPORT SERVICES
-
-		// Bind our model Utilities for export
-		// http://code.google.com/p/peaberry/issues/detail?id=70
-		bind(export(ModelUtils.class)).toProvider(
-				service(new ModelUtils()).attributes(
-						objectClass(ModelUtils.class)).export());
 
 		// Inject static.
 		requestStaticInjection(MonitoringStateModel.class);
@@ -102,7 +93,7 @@ public class CommonModule extends JCAServiceModule {
 
 		bind(export(INativeFunctions.class)).toProvider(
 				service(NativeFunctions.class).export());
-		
+
 		bind(export(INativeFunctions2.class)).toProvider(
 				service(NativeFunctions.class).export());
 
@@ -110,14 +101,8 @@ public class CommonModule extends JCAServiceModule {
 		// IMPORT SERVICES
 		// (Copy to modules in other OSGI bundles to import the service).
 
-		// {@link CommonModule}
-		bind(ModelUtils.class).toProvider(service(ModelUtils.class).single());
-
 		bind(INativeFunctions.class).toProvider(
 				service(INativeFunctions.class).single());
-
-		// CB TODO Migrate to what?
-		this.bind(PropertiesUtil.class).in(Singleton.class);
 
 	}
 }

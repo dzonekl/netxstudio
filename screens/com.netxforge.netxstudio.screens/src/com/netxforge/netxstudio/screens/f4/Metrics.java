@@ -62,7 +62,8 @@ import org.eclipse.wb.swt.ResourceManager;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
 import com.google.inject.Inject;
-import com.netxforge.netxstudio.common.model.ModelUtils;
+import com.netxforge.base.NonModelUtils;
+import com.netxforge.netxstudio.common.model.StudioUtils;
 import com.netxforge.netxstudio.generics.DateTimeRange;
 import com.netxforge.netxstudio.generics.GenericsFactory;
 import com.netxforge.netxstudio.generics.Value;
@@ -320,21 +321,21 @@ public class Metrics extends AbstractScreen implements IDataServiceInjection {
 					List<Metric> metrics = Lists
 							.newArrayList(((IStructuredSelection) selection)
 									.iterator());
-					List<NetXResource> resources = modelUtils
+					List<NetXResource> resources = StudioUtils
 							.resourcesForMetrics(metrics);
 
 					// TODO, Invoke a dialog to select a DTR and Interval.
 
 					DateTimeRange dtr = GenericsFactory.eINSTANCE
 							.createDateTimeRange();
-					int targetIntervalHint = ModelUtils.MINUTES_IN_AN_HOUR;
+					int targetIntervalHint = NonModelUtils.MINUTES_IN_AN_HOUR;
 
 					System.out.println("VALUES FOR PERIOD:");
 
 					System.out.println("FROM="
-							+ modelUtils.dateAndTime(dtr.getBegin()));
+							+ NonModelUtils.dateAndTime(dtr.getBegin()));
 					System.out.println("TO="
-							+ modelUtils.dateAndTime(dtr.getEnd()));
+							+ NonModelUtils.dateAndTime(dtr.getEnd()));
 
 					int valueCount = 0;
 					for (NetXResource res : resources) {
@@ -342,7 +343,7 @@ public class Metrics extends AbstractScreen implements IDataServiceInjection {
 								+ res.getShortName() + "on Component"
 								+ res.getComponentRef().getName());
 
-						List<Value> values = modelUtils
+						List<Value> values = StudioUtils
 								.valuesForIntervalKindAndPeriod(res,
 										targetIntervalHint, null, dtr);
 						if (values.size() > 0) {
@@ -350,7 +351,7 @@ public class Metrics extends AbstractScreen implements IDataServiceInjection {
 							System.out.println("number of values "
 									+ Iterables.size(values));
 							for (Value v : values) {
-								System.out.println(modelUtils.fromXMLDate(v
+								System.out.println(NonModelUtils.fromXMLDate(v
 										.getTimeStamp()) + ":" + v.getValue());
 							}
 						}

@@ -19,8 +19,9 @@ package com.netxforge.ui.internal.override;
 
 import static org.ops4j.peaberry.Peaberry.service;
 import static org.ops4j.peaberry.util.TypeLiterals.export;
+
 import com.google.inject.AbstractModule;
-import com.netxforge.netxstudio.common.guice.IInjectorProxy;
+import com.netxforge.base.di.IInjectorProxy;
 
 public class ScriptUIExportModule extends AbstractModule {
 

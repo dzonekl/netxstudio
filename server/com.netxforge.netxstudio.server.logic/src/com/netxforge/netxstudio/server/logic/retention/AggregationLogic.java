@@ -25,6 +25,8 @@ import java.util.List;
 import org.eclipse.emf.cdo.common.id.CDOID;
 import org.eclipse.emf.ecore.resource.Resource;
 
+import com.netxforge.base.NonModelUtils;
+import com.netxforge.netxstudio.common.model.StudioUtils;
 import com.netxforge.netxstudio.library.Component;
 import com.netxforge.netxstudio.library.NodeType;
 import com.netxforge.netxstudio.metrics.MetricRetentionRules;
@@ -104,7 +106,7 @@ public class AggregationLogic extends BaseComponentLogic {
 			// first go through the leave nodes
 			final List<NodeType> nodeTypes = new ArrayList<NodeType>();
 			for (final Node node : rfsService.getNodes()) {
-				if (getModelUtils().isInService(node)) {
+				if (StudioUtils.isInService(node)) {
 					nodeTypes.add(node.getNodeType());
 				}
 			}
@@ -117,7 +119,7 @@ public class AggregationLogic extends BaseComponentLogic {
 	private List<NodeType> allNodes() {
 		operatorResources = this.getData().getResource(
 				OperatorsPackage.Literals.OPERATOR);
-		return this.getModelUtils().nodeTypesForResource(operatorResources);
+		return StudioUtils.nodeTypesForResource(operatorResources);
 	}
 
 	@Override
@@ -145,8 +147,8 @@ public class AggregationLogic extends BaseComponentLogic {
 		for (final Component component : getComponents(nodeType)) {
 			executeFor(component);
 			this.getJobMonitor().setTask("Aggregation");
-			this.getJobMonitor().setMsg(
-					this.getModelUtils().printModelObject(component));
+			this.getJobMonitor()
+					.setMsg(StudioUtils.printModelObject(component));
 			getJobMonitor().incrementProgress(0, (cnt++ % 10) == 0);
 		}
 	}
@@ -196,18 +198,17 @@ public class AggregationLogic extends BaseComponentLogic {
 
 	public void setRfsService(CDOID cdoId) {
 		// read the rfsservice in the transaction of the run
-		this.rfsService = (RFSService) getData().getTransaction()
-				.getObject(cdoId);
+		this.rfsService = (RFSService) getData().getTransaction().getObject(
+				cdoId);
 	}
 
 	public void setNode(CDOID cdoId) {
-		this.nodeType = ((Node) getData().getTransaction().getObject(
-				cdoId)).getNodeType();
+		this.nodeType = ((Node) getData().getTransaction().getObject(cdoId))
+				.getNodeType();
 	}
 
 	public void setNodeType(CDOID cdoId) {
-		this.nodeType = (NodeType) getData().getTransaction()
-				.getObject(cdoId);
+		this.nodeType = (NodeType) getData().getTransaction().getObject(cdoId);
 	}
 
 	/**
@@ -216,9 +217,9 @@ public class AggregationLogic extends BaseComponentLogic {
 	 */
 	public void intializeLogic() {
 
-		Date end = this.getModelUtils().todayAtDayEnd();
-		Date begin = this.getModelUtils().yearsAgo(YEARS_TO_EVALUATE);
-		setPeriod(this.getModelUtils().period(begin, end));
+		Date end = NonModelUtils.todayAtDayEnd();
+		Date begin = NonModelUtils.yearsAgo(YEARS_TO_EVALUATE);
+		setPeriod(StudioUtils.period(begin, end));
 
 	}
 

@@ -60,6 +60,7 @@ import org.eclipse.ui.forms.widgets.Section;
 import org.eclipse.wb.swt.ResourceManager;
 
 import com.google.common.collect.Lists;
+import com.netxforge.netxstudio.common.model.StudioUtils;
 import com.netxforge.netxstudio.library.Expression;
 import com.netxforge.netxstudio.library.LibraryPackage;
 import com.netxforge.netxstudio.library.NetXResource;
@@ -149,8 +150,8 @@ public class ServiceDistributionScreen extends AbstractScreen implements
 				for (Node n : service.getNodes()) {
 					types.add(n.getNodeType());
 				}
-				types = modelUtils.uniqueNodeTypes(types);
-				List<NetXResource> allResources = modelUtils
+				types = StudioUtils.uniqueNodeTypes(types);
+				List<NetXResource> allResources = StudioUtils
 						.resourcesFromNodeTypes(service.cdoView(), types);
 
 				NetXResourceFilterDialog netXResourceFilterDialog = new NetXResourceFilterDialog(
@@ -357,9 +358,6 @@ public class ServiceDistributionScreen extends AbstractScreen implements
 				});
 
 		if (readonly) {
-
-			// TODO, add other actions here.
-
 		}
 
 	}
@@ -423,7 +421,7 @@ public class ServiceDistributionScreen extends AbstractScreen implements
 					if (entry
 							.eIsSet(ServicesPackage.Literals.DISTRIBUTION_ENTRY__RESOURCE_REF)) {
 						NetXResource resource = entry.getResourceRef();
-						Node node = modelUtils.nodeFor(resource
+						Node node = StudioUtils.nodeFor(resource
 								.getComponentRef());
 						if (node != null) {
 							return node.getNodeType().getName();
@@ -491,8 +489,8 @@ public class ServiceDistributionScreen extends AbstractScreen implements
 		}
 
 		// Print the service distribution matrix.
-		Node[][] matrix = modelUtils.matrix(service.getNodes());
-		modelUtils.printMatrix(matrix);
+		final Node[][] matrix = StudioUtils.matrix(service.getNodes());
+		StudioUtils.printMatrix(matrix);
 
 		buildUI();
 		this.initDataBindings_();

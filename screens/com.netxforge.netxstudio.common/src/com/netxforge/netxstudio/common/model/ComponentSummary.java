@@ -25,7 +25,7 @@ import org.eclipse.core.runtime.SubMonitor;
 import org.eclipse.emf.cdo.CDOObject;
 import org.eclipse.emf.ecore.EObject;
 
-import com.netxforge.netxstudio.common.context.IComputationContext;
+import com.netxforge.base.context.IComputationContext;
 import com.netxforge.netxstudio.library.Component;
 import com.netxforge.netxstudio.library.Equipment;
 import com.netxforge.netxstudio.library.Function;
@@ -70,7 +70,7 @@ public class ComponentSummary extends MonitoringAdapter {
 		}
 		boolean childComponentComputed = false;
 
-		List<Component> componentsForComponent = modelUtils
+		List<Component> componentsForComponent = StudioUtils
 				.childComponentsForComponent(component, false);
 
 		// Might throw an Exception.
@@ -78,7 +78,7 @@ public class ComponentSummary extends MonitoringAdapter {
 
 		final SubMonitor subMonitor = SubMonitor.convert(monitor, work);
 		subMonitor.setTaskName("Computing summary for "
-				+ modelUtils.printModelObject(component));
+				+ StudioUtils.printModelObject(component));
 
 		for (Component c : componentsForComponent) {
 
@@ -107,7 +107,7 @@ public class ComponentSummary extends MonitoringAdapter {
 					totalResources());
 
 			resourcesMonitor.setTaskName("Computing summary for "
-					+ modelUtils.printModelObject(getComponent()));
+					+ StudioUtils.printModelObject(getComponent()));
 
 			for (NetXResource netxresource : component.getResourceRefs()) {
 
@@ -129,7 +129,7 @@ public class ComponentSummary extends MonitoringAdapter {
 					}
 				} else {
 					System.out.println("SHOULD NOT OCCUR: child not adapted! "
-							+ modelUtils.printModelObject(netxresource));
+							+ StudioUtils.printModelObject(netxresource));
 				}
 				resourcesMonitor.worked(1);
 			}
@@ -167,7 +167,7 @@ public class ComponentSummary extends MonitoringAdapter {
 	}
 
 	public String getComponentName() {
-		return modelUtils.componentName(getComponent());
+		return StudioUtils.componentName(getComponent());
 	}
 
 	public Map<NetXResource, List<Marker>> markers() {

@@ -1,3 +1,20 @@
+/*******************************************************************************
+ * Copyright (c) 1 mrt. 2014 NetXForge.
+ * 
+ * This program is free software: you can redistribute it and/or modify it under
+ * the terms of the GNU General Public License as published by the Free Software
+ * Foundation, either version 3 of the License, or (at your option) any later
+ * version.
+ * 
+ * This program is distributed in the hope that it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+ * FOR A PARTICULAR PURPOSE. See the GNU General Public License for more
+ * details. You should have received a copy of the GNU General Public License
+ * along with this program. If not, see <http://www.gnu.org/licenses/>
+ * 
+ * Contributors: Christophe Bouhier - initial API and implementation and/or
+ * initial documentation
+ *******************************************************************************/ 
 package com.netxforge.netxstudio.screens.f4;
 
 import java.util.List;
@@ -57,7 +74,8 @@ import org.eclipse.ui.forms.widgets.Section;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
-import com.netxforge.netxstudio.common.model.ModelUtils;
+import com.netxforge.base.NonModelUtils;
+import com.netxforge.netxstudio.common.model.StudioUtils;
 import com.netxforge.netxstudio.metrics.DataKind;
 import com.netxforge.netxstudio.metrics.IdentifierDataKind;
 import com.netxforge.netxstudio.metrics.KindHintType;
@@ -411,9 +429,9 @@ public class NewEditMappingColumn extends AbstractScreen implements
 							// Translate the literal "Network Element ID" to
 							// NodeID.
 							String objectAttribute = id.getObjectAttribute();
-							if (ModelUtils.NETWORK_ELEMENT_ID
+							if (StudioUtils.NETWORK_ELEMENT_ID
 									.equals(objectAttribute)) {
-								objectAttribute = ModelUtils.NODE_ID;
+								objectAttribute = StudioUtils.NODE_ID;
 							}
 							SetCommand sc = new SetCommand(
 									editingService.getEditingDomain(),
@@ -483,12 +501,12 @@ public class NewEditMappingColumn extends AbstractScreen implements
 	// Z Time zone RFC 822 time zone -0800
 	private void populatePatterns() {
 
-		List<String> datePatterns = ImmutableList.of(ModelUtils.DATE_PATTERN_1,
-				ModelUtils.DATE_PATTERN_2, ModelUtils.DATE_PATTERN_3);
+		List<String> datePatterns = ImmutableList.of(NonModelUtils.DATE_PATTERN_1,
+				NonModelUtils.DATE_PATTERN_2, NonModelUtils.DATE_PATTERN_3);
 
-		List<String> timePatterns = ImmutableList.of(ModelUtils.TIME_PATTERN_1,
-				ModelUtils.TIME_PATTERN_2, ModelUtils.TIME_PATTERN_3,
-				ModelUtils.TIME_PATTERN_4);
+		List<String> timePatterns = ImmutableList.of(NonModelUtils.TIME_PATTERN_1,
+				NonModelUtils.TIME_PATTERN_2, NonModelUtils.TIME_PATTERN_3,
+				NonModelUtils.TIME_PATTERN_4);
 
 		// For datetime pattenrs, create combinations, add a space in between
 		// date and time pattern.
@@ -796,7 +814,7 @@ public class NewEditMappingColumn extends AbstractScreen implements
 				ObjectKindType okt = (ObjectKindType) fromObject;
 				switch (okt.getValue()) {
 				case ObjectKindType.NODE_VALUE: {
-					return ModelUtils.NETWORK_ELEMENT;
+					return StudioUtils.NETWORK_ELEMENT;
 				}
 				default: {
 					return okt.getName();
@@ -819,8 +837,8 @@ public class NewEditMappingColumn extends AbstractScreen implements
 
 		public Object convert(Object fromObject) {
 			if (fromObject != null
-					&& fromObject.equals(ModelUtils.NETWORK_ELEMENT)) {
-				return ModelUtils.NODE;
+					&& fromObject.equals(StudioUtils.NETWORK_ELEMENT)) {
+				return StudioUtils.NODE;
 			} else {
 				return fromObject;
 			}
@@ -837,8 +855,8 @@ public class NewEditMappingColumn extends AbstractScreen implements
 		}
 
 		public Object convert(Object fromObject) {
-			if (fromObject != null && fromObject.equals(ModelUtils.NODE_ID)) {
-				return ModelUtils.NETWORK_ELEMENT_ID;
+			if (fromObject != null && fromObject.equals(StudioUtils.NODE_ID)) {
+				return StudioUtils.NETWORK_ELEMENT_ID;
 			}
 			return fromObject;
 		}
@@ -855,8 +873,8 @@ public class NewEditMappingColumn extends AbstractScreen implements
 
 		public Object convert(Object fromObject) {
 			if (fromObject != null
-					&& fromObject.equals(ModelUtils.NETWORK_ELEMENT_ID)) {
-				return ModelUtils.NODE_ID;
+					&& fromObject.equals(StudioUtils.NETWORK_ELEMENT_ID)) {
+				return StudioUtils.NODE_ID;
 			}
 			return fromObject;
 		}

@@ -66,6 +66,8 @@ import org.eclipse.ui.forms.widgets.ImageHyperlink;
 import org.eclipse.ui.forms.widgets.Section;
 import org.eclipse.wb.swt.ResourceManager;
 
+import com.netxforge.base.NonModelUtils;
+import com.netxforge.netxstudio.common.model.StudioUtils;
 import com.netxforge.netxstudio.generics.GenericsFactory;
 import com.netxforge.netxstudio.generics.GenericsPackage;
 import com.netxforge.netxstudio.generics.Lifecycle;
@@ -487,8 +489,8 @@ public class NewEditNode extends AbstractDetailsScreen implements
 
 								Lifecycle newLC = GenericsFactory.eINSTANCE
 										.createLifecycle();
-								newLC.setProposed(modelUtils
-										.toXMLDate(modelUtils.todayAndNow()));
+								newLC.setProposed(NonModelUtils
+										.toXMLDate(NonModelUtils.todayAndNow()));
 								((Component) createCopy).setLifecycle(newLC);
 
 							}
@@ -603,7 +605,7 @@ public class NewEditNode extends AbstractDetailsScreen implements
 														// .getResourceSet(),
 														// cdoResourcePath);
 
-														final Resource cdoResourceForNetXResource = modelUtils
+														final Resource cdoResourceForNetXResource = StudioUtils
 																.cdoResourceForNetXResource(
 																		node,
 																		(CDOTransaction) node
@@ -814,7 +816,7 @@ public class NewEditNode extends AbstractDetailsScreen implements
 
 			public Object convert(Object fromObject) {
 				if (fromObject != null) {
-					return modelUtils
+					return NonModelUtils
 							.fromXMLDate((XMLGregorianCalendar) fromObject);
 				} else {
 					return null;
@@ -836,7 +838,7 @@ public class NewEditNode extends AbstractDetailsScreen implements
 
 			public Object convert(Object fromObject) {
 				if (fromObject != null) {
-					return modelUtils.toXMLDate((Date) fromObject);
+					return NonModelUtils.toXMLDate((Date) fromObject);
 				} else {
 					return null;
 				}

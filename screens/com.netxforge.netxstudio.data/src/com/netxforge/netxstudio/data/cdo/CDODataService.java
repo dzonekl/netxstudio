@@ -18,7 +18,6 @@
 package com.netxforge.netxstudio.data.cdo;
 
 import com.google.inject.Inject;
-import com.netxforge.netxstudio.common.model.ModelUtils;
 import com.netxforge.netxstudio.data.DataService;
 import com.netxforge.netxstudio.data.IData;
 import com.netxforge.netxstudio.data.IQueryService;
@@ -26,8 +25,8 @@ import com.netxforge.netxstudio.data.IQueryService;
 public class CDODataService extends DataService {
 	
 	@Inject
-	public CDODataService(IData provider, IQueryService queryService, CDOQueryUtil queryUtil, ModelUtils modelUtils) {
-		super(provider, queryService, modelUtils);
+	public CDODataService(IData provider, IQueryService queryService, CDOQueryUtil queryUtil) {
+		super(provider, queryService);
 	}
 
 	@Override

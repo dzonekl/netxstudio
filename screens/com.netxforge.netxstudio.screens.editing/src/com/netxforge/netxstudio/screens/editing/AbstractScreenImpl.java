@@ -55,7 +55,6 @@ import org.eclipse.ui.part.ShowInContext;
 
 import com.google.inject.Inject;
 import com.google.inject.Injector;
-import com.netxforge.netxstudio.common.model.ModelUtils;
 import com.netxforge.netxstudio.screens.editing.internal.EditingActivator;
 import com.netxforge.netxstudio.screens.editing.util.FormValidationEvent;
 import com.netxforge.netxstudio.screens.editing.util.IValidationListener;
@@ -84,9 +83,6 @@ public abstract class AbstractScreenImpl extends Composite implements IScreen,
 	}
 
 	private String screenName = "TODO_Provide_screenname";
-
-	@Inject
-	protected ModelUtils modelUtils;
 
 	@Inject
 	protected MementoUtil mementoUtils;

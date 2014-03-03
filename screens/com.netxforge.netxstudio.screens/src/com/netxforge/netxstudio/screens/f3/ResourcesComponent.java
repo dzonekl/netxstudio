@@ -62,7 +62,7 @@ import org.eclipse.wb.swt.TableViewerColumnSorter;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.inject.Inject;
-import com.netxforge.netxstudio.common.model.ModelUtils;
+import com.netxforge.netxstudio.common.model.StudioUtils;
 import com.netxforge.netxstudio.generics.Value;
 import com.netxforge.netxstudio.library.Component;
 import com.netxforge.netxstudio.library.Equipment;
@@ -89,7 +89,6 @@ public class ResourcesComponent {
 	private Table table;
 	private Text txtFilterText;
 	private TableViewer resourcesTableViewer;
-	private ModelUtils modelUtils;
 
 	@Inject
 	private SearchFilter searchFilter;
@@ -103,8 +102,7 @@ public class ResourcesComponent {
 	 * @param style
 	 */
 	@Inject
-	public ResourcesComponent(ModelUtils modelUtils) {
-		this.modelUtils = modelUtils;
+	public ResourcesComponent() {
 	}
 
 	public void configure(IScreenFormService screenService) {
@@ -208,7 +206,7 @@ public class ResourcesComponent {
 		@Override
 		protected Object getValue(Object element) {
 			if (element instanceof NetXResource) {
-				Value v = modelUtils
+				Value v = StudioUtils
 						.mostRecentCapacityValue((NetXResource) element);
 
 				if (v != null) {
@@ -252,7 +250,7 @@ public class ResourcesComponent {
 
 			CapacityEditingDialog capacityEditingDialog = new CapacityEditingDialog(
 					cellEditorWindow.getShell(),
-					screenService.getEditingService(), modelUtils);
+					screenService.getEditingService());
 			capacityEditingDialog.setBlockOnOpen(true);
 			capacityEditingDialog.injectData(resource);
 			int open = capacityEditingDialog.open();
@@ -346,75 +344,6 @@ public class ResourcesComponent {
 		}
 	}
 
-	// FIXME As this is a component, how do we deal with invokation of other
-	// screens? Shoudn't this be done by the parent?
-
-	// class EditResourceAction extends Action {
-	//
-	// public EditResourceAction(String text) {
-	// super(text);
-	// }
-	//
-	// @Override
-	// public void run() {
-	// ISelection selection = getViewer().getSelection();
-	// if (selection instanceof IStructuredSelection) {
-	// Object o = ((IStructuredSelection) selection).getFirstElement();
-	// NewEditResource resourceScreen = new NewEditResource(
-	// screenService.getScreenContainer(), SWT.NONE);
-	// resourceScreen.setOperation(getOperation());
-	// resourceScreen.setScreenService(screenService);
-	//
-	// // CB, the parent is the container resource.
-	// if (o instanceof CDOObject) {
-	// resourceScreen.injectData(null, o);
-	// screenService.setActiveScreen(resourceScreen);
-	// }
-	// }
-	// }
-	// }
-
-	// class MonitorResourceAction extends Action {
-	//
-	// public MonitorResourceAction(String text, int style) {
-	// super(text, style);
-	// }
-	//
-	// @Override
-	// public void run() {
-	// ISelection selection = getViewer().getSelection();
-	// if (selection instanceof IStructuredSelection) {
-	// Object o = ((IStructuredSelection) selection).getFirstElement();
-	// if (o instanceof NetXResource) {
-	//
-	// // TODO, Ask for a time range.
-	// // TODO, Select the value range.
-	// MetricValueRange mvr = ((NetXResource) o)
-	// .getMetricValueRanges().get(0);
-	//
-	// XMLGregorianCalendar start = mvr.getMetricValues().get(0)
-	// .getTimeStamp();
-	// XMLGregorianCalendar end = mvr.getMetricValues()
-	// .get(mvr.getMetricValues().size() - 1)
-	// .getTimeStamp();
-	//
-	// DateTimeRange timerange = GenericsFactory.eINSTANCE
-	// .createDateTimeRange();
-	//
-	// timerange.setBegin(start);
-	// timerange.setEnd(end);
-	//
-	// ResourceMonitorScreen monitorScreen = new ResourceMonitorScreen(
-	// screenService.getScreenContainer(), SWT.NONE);
-	// monitorScreen.setOperation(Screens.OPERATION_READ_ONLY);
-	// monitorScreen.setScreenService(screenService);
-	// monitorScreen.injectData(null, o, timerange);
-	// screenService.setActiveScreen(monitorScreen);
-	// }
-	// }
-	// }
-	// }
-
 	public EMFDataBindingContext initDataBindings_() {
 		EMFDataBindingContext bindingContext = new EMFDataBindingContext();
 
@@ -488,10 +417,10 @@ public class ResourcesComponent {
 				switch (columnIndex) {
 
 				case 0: {
-					NodeType nt = modelUtils.resolveParentNodeType(c);
+					NodeType nt = StudioUtils.resolveParentNodeType(c);
 					if (nt != null) {
 						Node n = null;
-						if ((n = modelUtils.nodeFor(nt)) != null) {
+						if ((n = StudioUtils.nodeFor(nt)) != null) {
 							return n.getNodeID();
 						} else {
 							return nt.getName();

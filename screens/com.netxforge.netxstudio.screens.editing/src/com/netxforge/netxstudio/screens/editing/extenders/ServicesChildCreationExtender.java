@@ -24,7 +24,6 @@ import org.eclipse.emf.edit.domain.EditingDomain;
 
 import com.google.common.collect.Lists;
 import com.google.inject.Inject;
-import com.netxforge.netxstudio.common.model.ModelUtils;
 import com.netxforge.netxstudio.operators.OperatorsPackage;
 import com.netxforge.netxstudio.services.RFSService;
 import com.netxforge.netxstudio.services.ServicesFactory;
@@ -41,11 +40,8 @@ import com.netxforge.netxstudio.services.ServicesFactory;
 public class ServicesChildCreationExtender extends
 		AbstractConditionalChildCreationExtender {
 
-	protected ModelUtils modelUtils;
-
 	@Inject
-	public ServicesChildCreationExtender(ModelUtils modelUtils) {
-		this.modelUtils = modelUtils;
+	public ServicesChildCreationExtender() {
 	}
 
 	public Collection<?> getNewChildDescriptors(Object object,

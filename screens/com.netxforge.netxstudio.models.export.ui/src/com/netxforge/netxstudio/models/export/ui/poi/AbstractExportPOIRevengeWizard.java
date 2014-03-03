@@ -29,7 +29,7 @@ import org.eclipse.ui.IImportWizard;
 import org.eclipse.ui.IWorkbench;
 
 import com.google.inject.Inject;
-import com.netxforge.netxstudio.common.model.ModelUtils;
+import com.netxforge.base.NonModelUtils;
 import com.netxforge.netxstudio.data.IData;
 import com.netxforge.netxstudio.models.export.IExportFilter;
 import com.netxforge.netxstudio.models.export.MasterDataExporterRevengeJob;
@@ -48,9 +48,6 @@ public abstract class AbstractExportPOIRevengeWizard extends Wizard implements
 
 	@Inject
 	protected IData dataProvider;
-	
-	@Inject
-	protected ModelUtils modelUtils;
 
 	private ExportNewFileWizardPage exportNewFilePage;
 
@@ -60,8 +57,7 @@ public abstract class AbstractExportPOIRevengeWizard extends Wizard implements
 	abstract EPackage[] getEPackages();
 
 	abstract IExportFilter getExportFilter();
-	
-	
+
 	@Override
 	public boolean performFinish() {
 
@@ -117,7 +113,9 @@ public abstract class AbstractExportPOIRevengeWizard extends Wizard implements
 		//
 
 		if (this.baseFileName != null) {
-			exportNewFilePage.setFileName(baseFileName + modelUtils.folderDateAndTime(modelUtils.todayAndNow())  + ".xlsx");
+			exportNewFilePage.setFileName(baseFileName
+					+ NonModelUtils.folderDateAndTime(NonModelUtils
+							.todayAndNow()) + ".xlsx");
 		}
 		exportNewFilePage.setContainerFullPath(WorkspaceUtil.INSTANCE
 				.getExportsPath());

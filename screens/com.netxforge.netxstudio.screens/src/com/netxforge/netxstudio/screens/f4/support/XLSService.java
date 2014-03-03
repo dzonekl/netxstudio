@@ -48,7 +48,7 @@ import org.eclipse.core.runtime.NullProgressMonitor;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
-import com.netxforge.netxstudio.common.Tuple;
+import com.netxforge.base.Tuple;
 
 /**
  * Reads an .xls file and returns the records as a List of tuples.

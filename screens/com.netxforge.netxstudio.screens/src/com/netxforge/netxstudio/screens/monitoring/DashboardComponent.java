@@ -36,9 +36,9 @@ import org.eclipse.ui.forms.widgets.FormToolkit;
 
 import com.google.common.collect.Lists;
 import com.google.inject.Inject;
+import com.netxforge.base.cdo.MonitoringStateEvent;
 import com.netxforge.netxstudio.common.model.IMonitoringSummary;
 import com.netxforge.netxstudio.common.model.IMonitoringSummary.RAG;
-import com.netxforge.netxstudio.common.model.MonitoringStateEvent;
 import com.netxforge.netxstudio.common.model.MonitoringStateModel;
 import com.netxforge.netxstudio.common.model.MonitoringStateModel.JobCallBack;
 import com.netxforge.netxstudio.common.model.MonitoringStateModel.MonitoringStateCallBack;

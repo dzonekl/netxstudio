@@ -23,7 +23,7 @@ import java.util.List;
 import org.eclipse.emf.ecore.resource.Resource;
 
 import com.google.inject.Inject;
-import com.netxforge.netxstudio.common.model.ModelUtils;
+import com.netxforge.netxstudio.common.model.StudioUtils;
 import com.netxforge.netxstudio.generics.GenericsPackage;
 import com.netxforge.netxstudio.generics.Person;
 import com.netxforge.netxstudio.generics.Role;
@@ -37,14 +37,11 @@ public class DataService implements IDataService {
 
 	private final IData provider;
 	private final IQueryService queryService;
-	private ModelUtils modelUtils;
 
 	@Inject
-	public DataService(IData provider, IQueryService queryService,
-			ModelUtils modelUtils) {
+	public DataService(IData provider, IQueryService queryService) {
 		this.provider = provider;
 		this.queryService = queryService;
-		this.modelUtils = modelUtils;
 	}
 
 	public IData getProvider() {
@@ -64,9 +61,9 @@ public class DataService implements IDataService {
 		String currentUser = provider.getSessionUserID();
 		Resource resource = provider
 				.getResource(GenericsPackage.Literals.PERSON);
-		List<Person> people = new ModelUtils.CollectionForObjects<Person>()
+		List<Person> people = new StudioUtils.CollectionForObjects<Person>()
 				.collectionForObjects(resource.getContents());
-		Role r = modelUtils.roleForUserWithName(currentUser, people);
+		Role r = StudioUtils.roleForUserWithName(currentUser, people);
 		return r;
 	}
 
