@@ -30,12 +30,13 @@
 		<module>../model/com.netxforge.netxstudio.models.13042011</module>
 		<module>../model/com.netxforge.netxstudio.models.13042011.edit</module>
 		<module>../model/com.netxforge.netxstudio.models16042013_delta</module>
+		<module>../model/com.netxforge.netxstudio.data.import</module>
+		<module>../model/com.netxforge.netxstudio.data.fixtures</module>
+		<module>../model/com.netxforge.netxstudio.webservice</module>
 		<module>../screens/com.netxforge.netxscript.ui</module>
 		<module>../screens/com.netxforge.netxstudio.common</module>
 		<module>../screens/com.netxforge.netxstudio.console</module>
 		<module>../screens/com.netxforge.netxstudio.data</module>
-		<module>../model/com.netxforge.netxstudio.data.fixtures</module>
-		<module>../model/com.netxforge.netxstudio.data.importer</module>
 		<module>../screens/com.netxforge.netxstudio.help</module>
 		<module>../screens/com.netxforge.netxstudio.models.export.ui</module>
 		<module>../screens/com.netxforge.netxstudio.models.import.ui</module>
@@ -47,6 +48,5 @@
 		<module>../screens/com.netxforge.netxstudio.screens.xtext</module>
 		<module>../products/com.netxforge.netxstudio.client.product</module>
 		<module>../products/com.netxforge.netxstudio.server.db.mysql.product</module>
-		<module>../products/com.netxforge.netxstudio.webservice</module>
 	</modules>
 </project>

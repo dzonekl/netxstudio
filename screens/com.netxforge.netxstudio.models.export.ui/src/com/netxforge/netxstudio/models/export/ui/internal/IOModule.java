@@ -14,19 +14,25 @@
  * 
  * Contributors: Christophe Bouhier - initial API and implementation and/or
  * initial documentation
- *******************************************************************************/ 
+ *******************************************************************************/
 package com.netxforge.netxstudio.models.export.ui.internal;
 
+import static org.ops4j.peaberry.Peaberry.service;
+
 import com.google.inject.AbstractModule;
+import com.netxforge.netxstudio.data.cdo.IClientDataProvider;
 
 public class IOModule extends AbstractModule {
 
 	@Override
 	protected void configure() {
-		
+
 		// ///////////////////////////////
 		// IMPORT SERVICES
 		// (Copy to modules in other OSGI bundles to import the service).
+		// {@link DataModule}
+		bind(IClientDataProvider.class).toProvider(
+				service(IClientDataProvider.class).single());
 		
 	}
 

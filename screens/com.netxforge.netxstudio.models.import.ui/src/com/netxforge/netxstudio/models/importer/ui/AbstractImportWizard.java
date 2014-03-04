@@ -63,7 +63,7 @@ import com.google.common.collect.Lists;
 import com.google.inject.Inject;
 import com.netxforge.base.cdo.ICDOData;
 import com.netxforge.netxstudio.common.model.StudioUtils;
-import com.netxforge.netxstudio.data.cdo.NonStatic;
+import com.netxforge.netxstudio.data.cdo.IClientDataProvider;
 import com.netxforge.netxstudio.library.Component;
 import com.netxforge.netxstudio.library.LibraryPackage;
 import com.netxforge.netxstudio.library.NetXResource;
@@ -91,12 +91,10 @@ public abstract class AbstractImportWizard extends Wizard implements
 	}
 
 	@Inject
-	@NonStatic
-	private ICDOData dataProvider;
-
-	@Inject
-	private ICDOData uiDataProvider;
-
+	protected IClientDataProvider dataProvider;
+	
+	protected ICDOData data;
+	
 	private ITreeContentProvider importContentProvider;
 
 	abstract EPackage[] getEPackages();
@@ -109,9 +107,11 @@ public abstract class AbstractImportWizard extends Wizard implements
 		final IPath inFilePath = dbImportResourcePage.getPath();
 		boolean indexed = dbImportResourcePage.isIndexed();
 		// Implement the import.
-
+		
+		data = dataProvider.get();
+		
 		final MasterDataImporterJob job = new MasterDataImporterJob(
-				dataProvider, getEPackages());
+				data, getEPackages());
 
 		job.addNotifier(new JobChangeAdapter() {
 			@Override
@@ -367,13 +367,13 @@ public abstract class AbstractImportWizard extends Wizard implements
 			// return dataProvider.getTransaction().createResource("/" +
 			// OperatorsPackage.eINSTANCE
 			// .getOperator().getName());
-			return dataProvider.getResource(OperatorsPackage.eINSTANCE
+			return data.getResource(OperatorsPackage.eINSTANCE
 					.getOperator());
 		} else if (superExtendsEClass(eClass, SchedulingPackage.Literals.JOB)) {
-			return dataProvider.getResource(SchedulingPackage.Literals.JOB);
+			return data.getResource(SchedulingPackage.Literals.JOB);
 		}
 
-		return dataProvider.getResource(eClass);
+		return data.getResource(eClass);
 	}
 
 	private boolean superExtendsEClass(EClass toCheck, EClass eClass) {
@@ -492,19 +492,7 @@ public abstract class AbstractImportWizard extends Wizard implements
 		 */
 		private void storeForSameEClass() {
 
-			String server;
-
-			if (uiDataProvider != null) {
-				server = uiDataProvider.getServer();
-			} else {
-				return;
-			}
-
-			dataProvider.setDoGetResourceFromOwnTransaction(false);
-			// FIXME THIS WILL OPEN WITH CURRENT CREDENTIALS,
-			// REGARDLESS ALL IS PERMITTED NOW.
-			dataProvider.openSession("admin", "admin", server);
-			final CDOTransaction transaction = dataProvider.getTransaction();
+			final CDOTransaction transaction = data.getTransaction();
 
 			if (ImportUIActivator.DEBUG) {
 				ImportUIActivator.TRACE.trace(
@@ -581,11 +569,7 @@ public abstract class AbstractImportWizard extends Wizard implements
 				transaction.commit(monitor);
 			} catch (CommitException e) {
 				e.printStackTrace();
-			} finally {
-
-				dataProvider.setDoGetResourceFromOwnTransaction(true);
-				dataProvider.closeSession();
-			}
+			} 
 		}
 
 		/**
@@ -610,7 +594,7 @@ public abstract class AbstractImportWizard extends Wizard implements
 								componentRef, transaction);
 
 					} else {
-						resource = dataProvider
+						resource = data
 								.getResource(LibraryPackage.Literals.NET_XRESOURCE);
 
 					}
