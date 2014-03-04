@@ -90,7 +90,7 @@
          version="0.0.0"/>
 
    <includes
-         id="com.netxforge.data.import.feature"
+         id="com.netxforge.netxstudio.data.import.feature"
          version="0.0.0"/>
 
    <plugin
