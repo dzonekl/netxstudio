@@ -25,8 +25,6 @@ import java.util.Date;
 import java.util.List;
 import java.util.NoSuchElementException;
 
-import javafx.scene.chart.Chart;
-
 import com.google.common.base.Function;
 import com.google.common.base.Predicate;
 import com.google.common.collect.Iterables;
@@ -49,7 +47,7 @@ import com.netxforge.netxstudio.operators.Marker;
 
 /**
  * 
- * A model suitable for a {@link Chart}
+ * A model suitable for a {@link org.swtchart.Chart}
  * 
  * @author Christophe Bouhier
  */
