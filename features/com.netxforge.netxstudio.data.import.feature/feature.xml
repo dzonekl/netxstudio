@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <feature
-      id="com.netxforge.data.import.feature"
+      id="com.netxforge.netxstudio.data.import.feature"
       label="NetXStudio Data Import"
       version="1.0.0.qualifier"
       provider-name="NetXForge">
