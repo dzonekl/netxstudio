@@ -34,9 +34,9 @@ import org.quartz.SchedulerException;
 
 import com.google.inject.Inject;
 import com.netxforge.base.NonModelUtils;
+import com.netxforge.base.cdo.ICDOData;
 import com.netxforge.base.properties.IPropertiesProvider;
 import com.netxforge.netxstudio.common.model.StudioUtils;
-import com.netxforge.netxstudio.data.IData;
 import com.netxforge.netxstudio.data.importer.AbstractMetricValuesImporter;
 import com.netxforge.netxstudio.data.importer.IImporterHelper;
 import com.netxforge.netxstudio.data.index.IComponentLocator;
@@ -95,9 +95,9 @@ public class ServerImporterHelper implements IImporterHelper {
 		networkElementLocator.initialize();
 	}
 
-	public IData getDataProvider() {
+	public ICDOData getDataProvider() {
 		// get it from the serverside
-		final IData dataProvider = MetricsActivator.getInstance().getInjector()
+		final ICDOData dataProvider = MetricsActivator.getInstance().getInjector()
 				.getInstance(LocalDataProviderProvider.class).getDataProvider();
 		// Set in the importer so we are called only once.
 		// importer.setDataProvider(dataProvider);
@@ -110,9 +110,9 @@ public class ServerImporterHelper implements IImporterHelper {
 		@Server
 		private IServerDataProvider dpProvider;
 
-		private IData dataProvider;
+		private ICDOData dataProvider;
 
-		public IData getDataProvider() {
+		public ICDOData getDataProvider() {
 			if (dataProvider == null) {
 				dataProvider = dpProvider.get();
 			}

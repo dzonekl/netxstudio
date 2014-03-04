@@ -23,8 +23,8 @@ import java.util.List;
 
 import javax.inject.Inject;
 
+import com.netxforge.base.cdo.ICDOData;
 import com.netxforge.netxstudio.common.model.StudioUtils;
-import com.netxforge.netxstudio.data.IData;
 import com.netxforge.netxstudio.generics.DateTimeRange;
 import com.netxforge.netxstudio.library.Component;
 import com.netxforge.netxstudio.library.Equipment;
@@ -87,7 +87,7 @@ public abstract class EmittingLogic extends BasePeriodLogic {
 		 * @see
 		 * com.netxforge.netxstudio.server.reporting.IInternalEmitter#activate()
 		 */
-		public void activate(IData dataProvider) {
+		public void activate(ICDOData dataProvider) {
 			System.out.println(">>activate()");
 		}
 

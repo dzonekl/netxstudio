@@ -28,7 +28,7 @@ import org.eclipse.emf.cdo.session.CDOSession;
 
 import com.google.inject.Inject;
 import com.netxforge.base.NonModelUtils;
-import com.netxforge.netxstudio.data.IData;
+import com.netxforge.base.cdo.ICDOData;
 import com.netxforge.netxstudio.data.job.WorkFlowRunMonitor;
 import com.netxforge.netxstudio.scheduling.ComponentWorkFlowRun;
 import com.netxforge.netxstudio.scheduling.Failure;
@@ -50,7 +50,7 @@ public class ServerWorkFlowRunMonitor extends WorkFlowRunMonitor {
 
 	private CDOID workFlowRunId;
 
-	private IData dataProvider;
+	private ICDOData dataProvider;
 
 	/** One single session for the workflow monitor */
 	private CDOSession openSession;

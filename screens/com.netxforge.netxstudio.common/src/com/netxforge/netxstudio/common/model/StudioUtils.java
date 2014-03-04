@@ -86,6 +86,7 @@ import com.google.common.collect.Multimaps;
 import com.google.common.collect.Ordering;
 import com.google.inject.Singleton;
 import com.netxforge.base.NonModelUtils;
+import com.netxforge.base.cdo.CDO;
 import com.netxforge.netxstudio.ServerSettings;
 import com.netxforge.netxstudio.common.internal.CommonActivator;
 import com.netxforge.netxstudio.generics.DateTimeRange;
@@ -921,35 +922,6 @@ public class StudioUtils {
 		}
 
 		return valueMatrix;
-	}
-
-	/**
-	 * Copied from class {@link Arrays#copyOfRange(int[], int, int)} , as this
-	 * requires java 1.6, and our app should work with 1.5.
-	 * 
-	 * @param original
-	 * @param from
-	 * @param to
-	 * @return
-	 */
-	public int[] copyOfRange(int[] original, int from, int to) {
-		int newLength = to - from;
-		if (newLength < 0)
-			throw new IllegalArgumentException(from + " > " + to);
-		int[] copy = new int[newLength];
-		System.arraycopy(original, from, copy, 0,
-				Math.min(original.length - from, newLength));
-		return copy;
-	}
-
-	public class NonHiddenFilePredicate implements Predicate<File> {
-		public boolean apply(final File f) {
-			return !f.isHidden();
-		}
-	}
-
-	public NonHiddenFilePredicate nonHiddenFile() {
-		return new NonHiddenFilePredicate();
 	}
 
 	/**
@@ -2252,7 +2224,7 @@ public class StudioUtils {
 		return sb.toString();
 	}
 
-	public String serviceMonitorToString(ServiceMonitor sm) {
+	public static String serviceMonitorToString(ServiceMonitor sm) {
 		DateTimeRange dtr = sm.getPeriod();
 		return periodToStringMore(dtr);
 	}
@@ -3504,7 +3476,7 @@ public class StudioUtils {
 			if (revisionDeltas.containsKey(o.cdoID())) {
 				CDORevisionDelta cdoRevisionDelta = revisionDeltas.get(o
 						.cdoID());
-				NonModelUtils.cdoPrintFeatureDeltas(sb,
+				CDO.cdoPrintFeatureDeltas(sb,
 						cdoRevisionDelta.getFeatureDeltas());
 			}
 		}
@@ -3668,7 +3640,7 @@ public class StudioUtils {
 		}
 
 		// TODO, keep a cache of CDOObject ID, and resource path.
-		String affectedPath = NonModelUtils.cdoResourcePath((CDOObject) object);
+		String affectedPath = CDO.cdoResourcePath((CDOObject) object);
 
 		// The object needs to be in the correct state, if not persisted (CLEAN,
 		// DIRTY etc..),
@@ -3695,7 +3667,7 @@ public class StudioUtils {
 	public boolean isHistoricalComponent(Component c) {
 
 		if (c instanceof CDOObject) {
-			String path = NonModelUtils.cdoResourcePath(c);
+			String path = CDO.cdoResourcePath(c);
 
 			// Check for Node first.
 			Node node = nodeFor(c);
@@ -4522,7 +4494,7 @@ public class StudioUtils {
 						final List<Metric> metricsInPath = Lists.newArrayList();
 						metricsInPath(metricsInPath, c);
 						return Iterables.any(metricsInPath,
-								new NonModelUtils.CDOObjectEqualsPredicate(
+								new CDO.CDOObjectEqualsPredicate(
 										metric));
 					}
 

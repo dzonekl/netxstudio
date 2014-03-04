@@ -17,6 +17,7 @@
  *******************************************************************************/
 package com.netxforge.netxstudio.screens.editing;
 
+import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.ISelectionProvider;
 import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.ui.IWorkbenchPart;

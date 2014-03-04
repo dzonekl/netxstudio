@@ -6,8 +6,8 @@ Bundle-Version: 1.0.0.qualifier
 Bundle-Activator: com.netxforge.netxstudio.server.logic.internal.LogicActivator
 Bundle-Vendor: NetXForge
 Require-Bundle: org.eclipse.core.runtime,
- com.netxforge.base;bundle-version="1.0.0",
  com.netxforge.netxscript;bundle-version="1.0.0",
+ com.netxforge.base.cdo;bundle-version="1.0.0",
  com.netxforge.netxstudio.data;bundle-version="1.0.0",
  com.netxforge.netxstudio.server.job;bundle-version="1.0.0",
  com.netxforge.netxstudio.common;bundle-version="1.0.0",

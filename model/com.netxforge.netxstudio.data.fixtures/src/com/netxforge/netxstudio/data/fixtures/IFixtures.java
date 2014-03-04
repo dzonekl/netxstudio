@@ -18,7 +18,7 @@
  *******************************************************************************/
 package com.netxforge.netxstudio.data.fixtures;
 
-import com.netxforge.netxstudio.data.IData;
+import com.netxforge.base.cdo.ICDOData;
 
 /**
  * @author Christophe Bouhier christophe.bouhier@netxforge.com
@@ -63,5 +63,5 @@ public interface IFixtures {
 	 * Set the data provider. 
 	 * @param dataProvider
 	 */
-	public void setDataProvider(IData dataProvider);
+	public void setDataProvider(ICDOData dataProvider);
 }

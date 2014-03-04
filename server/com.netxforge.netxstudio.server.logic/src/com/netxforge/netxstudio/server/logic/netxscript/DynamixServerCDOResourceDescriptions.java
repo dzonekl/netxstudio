@@ -8,7 +8,7 @@
 package com.netxforge.netxstudio.server.logic.netxscript;
 
 import com.google.inject.Inject;
-import com.netxforge.netxstudio.data.IData;
+import com.netxforge.base.cdo.ICDOData;
 import com.netxforge.netxstudio.server.data.IServerDataProvider;
 import com.netxforge.netxstudio.server.data.Server;
 import com.netxforge.scoping.AbstractDynamixCDOResourceDescriptions;
@@ -36,10 +36,10 @@ public class DynamixServerCDOResourceDescriptions extends
 	@Server
 	private IServerDataProvider dpProvider;
 	
-	private IData dataProvider;
+	private ICDOData dataProvider;
 
 	@Override
-	public IData getDataProvider() {
+	public ICDOData getDataProvider() {
 		if(dataProvider == null){
 			dataProvider = dpProvider.get();
 		}

@@ -19,10 +19,10 @@ package com.netxforge.netxstudio.server.data;
 
 import com.google.inject.Inject;
 import com.google.inject.Provider;
-import com.netxforge.netxstudio.data.IData;
+import com.netxforge.base.cdo.ICDOData;
 import com.netxforge.netxstudio.data.cdo.ICDOConnection;
 
-public class ServerCDODataProvider implements Provider<IData>, IServerDataProvider {
+public class ServerCDODataProvider implements Provider<ICDOData>, IServerDataProvider {
 
 	private ICDOConnection connection;
 
@@ -31,7 +31,7 @@ public class ServerCDODataProvider implements Provider<IData>, IServerDataProvid
 		this.connection = connection;
 	}
 
-	public IData get() {
+	public ICDOData get() {
 
 		ServerCDOData serverCDOData = new ServerCDOData(
 				connection);

@@ -64,6 +64,7 @@ import org.eclipse.ui.forms.widgets.Section;
 
 import com.google.common.collect.Lists;
 import com.netxforge.base.NonModelUtils;
+import com.netxforge.base.cdo.CDO;
 import com.netxforge.netxstudio.library.NodeType;
 import com.netxforge.netxstudio.operators.Node;
 import com.netxforge.netxstudio.screens.AbstractScreen;
@@ -189,7 +190,7 @@ public class NodeHistory extends AbstractScreen implements IDataScreenInjection 
 		if (firstElement instanceof CDORevision) {
 			CDORevision rev = (CDORevision) firstElement;
 			CDOObject cdoObject = null;
-			cdoObject = NonModelUtils.cdoObject(node, rev);
+			cdoObject = CDO.cdoObject(node, rev);
 			if (cdoObject instanceof Node) {
 				Node n = (Node) cdoObject;
 				graphicalViewer.setContents(new WrappedNode(n));
@@ -277,7 +278,7 @@ public class NodeHistory extends AbstractScreen implements IDataScreenInjection 
 
 	public EMFDataBindingContext initDataBindings_() {
 		try {
-			Iterator<CDORevision> cdoRevisions = NonModelUtils.cdoRevisions(node);
+			Iterator<CDORevision> cdoRevisions = CDO.cdoRevisions(node);
 			List<CDORevision> revisionsList = Lists.newArrayList(cdoRevisions);
 			tableViewerRevisions.setContentProvider(new ArrayContentProvider());
 			tableViewerRevisions.setLabelProvider(new NodeHistoryLabelProvider(

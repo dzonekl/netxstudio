@@ -18,12 +18,12 @@ import com.google.common.base.Predicates;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Maps;
 import com.google.inject.Inject;
-import com.netxforge.netxstudio.data.IData;
+import com.netxforge.base.cdo.ICDOData;
 
 public abstract class AbstractCDOLoadOnDemandResourceDescriptions extends
 		AbstractCompoundSelectable implements IResourceDescriptions {
 
-	protected abstract IData getDataProvider();
+	protected abstract ICDOData getDataProvider();
 
 	@SuppressWarnings("unused")
 	private IResourceDescriptions delegate;

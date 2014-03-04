@@ -67,8 +67,8 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Ordering;
 import com.google.inject.Inject;
 import com.netxforge.base.NonModelUtils;
+import com.netxforge.base.cdo.ICDOData;
 import com.netxforge.base.properties.IPropertiesProvider;
-import com.netxforge.netxstudio.data.IData;
 import com.netxforge.netxstudio.data.actions.ServerRequest;
 import com.netxforge.netxstudio.scheduling.Job;
 import com.netxforge.netxstudio.scheduling.JobRunContainer;
@@ -100,7 +100,7 @@ public class JobHandler {
 	@Server
 	private IServerDataProvider dpProvider;
 
-	private IData dataProvider;
+	private ICDOData dataProvider;
 
 	@Inject
 	private IPropertiesProvider propsProvier;

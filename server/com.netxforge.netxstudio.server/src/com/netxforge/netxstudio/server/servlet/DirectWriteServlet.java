@@ -35,9 +35,9 @@ import javax.servlet.http.HttpServletResponse;
 import org.eclipse.emf.ecore.resource.Resource;
 
 import com.google.inject.Inject;
+import com.netxforge.base.cdo.ICDOData;
 import com.netxforge.netxstudio.NetxstudioPackage;
 import com.netxforge.netxstudio.ServerSettings;
-import com.netxforge.netxstudio.data.IData;
 import com.netxforge.netxstudio.server.data.Server;
 import com.netxforge.netxstudio.server.internal.ServerActivator;
 
@@ -53,7 +53,7 @@ public class DirectWriteServlet implements Servlet {
 
 	@Inject
 	@Server
-	private IData provider;
+	private ICDOData provider;
 	private ServerSettings settings;
 	
 	public DirectWriteServlet() {

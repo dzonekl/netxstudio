@@ -53,6 +53,7 @@ import org.eclipse.ui.forms.widgets.Section;
 
 import com.google.common.collect.Lists;
 import com.netxforge.base.NonModelUtils;
+import com.netxforge.base.cdo.CDO;
 import com.netxforge.netxstudio.library.NodeType;
 import com.netxforge.netxstudio.screens.AbstractScreen;
 import com.netxforge.netxstudio.screens.actions.CompareAction;
@@ -180,7 +181,7 @@ public class NodeTypeHistory extends AbstractScreen implements
 		tableViewer.setContentProvider(new ArrayContentProvider());
 		tableViewer
 				.setLabelProvider(new NodeTypeHistoryLabelProvider(nodeType));
-		tableViewer.setInput(Lists.newArrayList(NonModelUtils
+		tableViewer.setInput(Lists.newArrayList(CDO
 				.cdoRevisions(nodeType)));
 
 		// List<HistoricNodeType> histNodeTypes = Lists.newArrayList();

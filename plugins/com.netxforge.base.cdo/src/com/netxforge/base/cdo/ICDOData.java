@@ -16,22 +16,20 @@
  * Contributors:
  *    Christophe Bouhier - initial API and implementation and/or initial documentation
  *******************************************************************************/
-package com.netxforge.netxstudio.data;
-
-import java.util.List;
+package com.netxforge.base.cdo;
 
 import org.eclipse.emf.cdo.session.CDOSession;
 import org.eclipse.emf.cdo.transaction.CDOTransaction;
 import org.eclipse.emf.cdo.view.CDOView;
-import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.resource.Resource;
-import org.eclipse.emf.ecore.resource.ResourceSet;
+
+import com.netxforge.base.data.IBaseData;
 
 /**
  * @author Christophe Bouhier christophe.bouhier@netxforge.com
  */
-public interface IData {
+public interface ICDOData extends IBaseData {
 
 	/**
 	 * The timeout time.
@@ -54,9 +52,6 @@ public interface IData {
 	 */
 	public static final String COMMITINFO_COMMIT_COMMENT = "infocommit";
 
-	
-	
-	
 	/**
 	 * Get the server as a String.
 	 * 
@@ -68,34 +63,6 @@ public interface IData {
 
 	
 	/**
-	 * Get the resource in the the provided set, with the provided resourcePath.
-	 * 
-	 * @param set
-	 * @param resourcePath
-	 * @return
-	 */
-	public Resource getResource(ResourceSet set, EClass clazz);
-	
-	/**
-	 * The resource path. 
-	 * @param set
-	 * @param resourcePath
-	 * @return
-	 */
-	public Resource getResource(ResourceSet set, String resourcePath);
-
-	/**
-	 * Get a resource with a given resource set.
-	 * 
-	 * @deprecated Use getResource(EStructuralFeature feature) instead.
-	 * @param set
-	 * @param feature
-	 * @return
-	 */
-	@Deprecated
-	public Resource getResource(ResourceSet set, int feature);
-
-	/**
 	 * Get a specific commit info resource for the specified user. TODO Consider
 	 * refactoring this, and making it less object specific.
 	 * 
@@ -103,43 +70,6 @@ public interface IData {
 	 * @return
 	 */
 	public Resource getCommitInfoResource(String userID);
-
-	/**
-	 * Get the resource for a feature (Index)
-	 * 
-	 * @deprecated Use getResource(EStructuralFeature feature) instead.
-	 * @param feature
-	 * @return
-	 */
-	@Deprecated
-	public Resource getResource(int feature);
-
-	
-	/**
-	 * If the repository has a resource with this URI. 
-	 * @param resourcePath
-	 * @return
-	 */
-	public boolean hasResource(URI resourceURI);
-
-	
-	/**
-	 * If the repository has a resource with this path. 
-	 * @param resourcePath
-	 * @return
-	 */
-	public boolean hasResource(String resourcePath);
-	
-	
-	
-	
-	/**
-	 * Get the resource for a specific EClass.
-	 * 
-	 * @param feature
-	 * @return
-	 */
-	public Resource getResource(EClass clazz);
 
 	/**
 	 * Get the resource for the specified EClass using 
@@ -150,8 +80,6 @@ public interface IData {
 	 */
 	public Resource getResource(CDOView view, EClass clazz);
 	
-	
-	
 	/**
 	 * et the resource for the specified path using 
 	 * the provided view. 
@@ -161,44 +89,6 @@ public interface IData {
 	 * @return
 	 */
 	public Resource getResource(CDOView view, String res);
-	
-	
-	/**
-	 * Get a resource from it's URI. 
-	 * @param uri
-	 * @return
-	 */
-	public Resource getResource(ResourceSet set, URI uri);
-	
-	/**
-	 * Get a resource from it's URI. 
-	 * @param uri
-	 * @return
-	 */
-	public Resource getResource(URI uri);
-	
-	/**
-	 * @return a resource on the basis of a string path
-	 */
-	public Resource getResource(String resourcePath);
-	
-	/**
-	 * Implementers should consider parsing the path and look for 
-	 * folder structures. 
-	 * 
-	 * @return a list of resources on the basis of a string path
-	 */
-	public List<Resource> getResources(ResourceSet set, String resourcePath);
-	
-	
-	/**
-	 * Implementers should consider parsing the path and look for 
-	 * folder structures.
-	 *   
-	 * @param resourcePath
-	 * @return
-	 */
-	public List<Resource> getResources(String resourcePath);
 	
 	
 	/**

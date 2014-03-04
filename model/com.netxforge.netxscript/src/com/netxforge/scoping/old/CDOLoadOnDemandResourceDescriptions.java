@@ -8,7 +8,7 @@
 package com.netxforge.scoping.old;
 
 import com.google.inject.Inject;
-import com.netxforge.netxstudio.data.IData;
+import com.netxforge.base.cdo.ICDOData;
 
 /**
  * Customized version of LoadOnDemandDescriptions, the original version uses
@@ -36,11 +36,11 @@ public class CDOLoadOnDemandResourceDescriptions extends
 
 
 	@Inject
-	private IData dataProvider;
+	private ICDOData dataProvider;
 	
 	
 	@Override
-	protected IData getDataProvider() {
+	protected ICDOData getDataProvider() {
 		return dataProvider;
 	}
 }

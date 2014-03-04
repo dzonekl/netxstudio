@@ -30,10 +30,10 @@ import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
 import com.google.inject.Singleton;
 import com.netxforge.base.NonModelUtils;
+import com.netxforge.base.cdo.ICDOData;
 import com.netxforge.netxstudio.NetxstudioFactory;
 import com.netxforge.netxstudio.NetxstudioPackage;
 import com.netxforge.netxstudio.ServerSettings;
-import com.netxforge.netxstudio.data.IData;
 import com.netxforge.netxstudio.generics.ExpansionDuration;
 import com.netxforge.netxstudio.generics.ExpansionDurationSetting;
 import com.netxforge.netxstudio.generics.ExpansionDurationValue;
@@ -70,9 +70,9 @@ import com.netxforge.netxstudio.scheduling.SchedulingPackage;
 @Singleton
 public class Fixtures implements IFixtures {
 
-	private IData dataProvider;
+	private ICDOData dataProvider;
 
-	public void setDataProvider(IData dataProvider){
+	public void setDataProvider(ICDOData dataProvider){
 		this.dataProvider = dataProvider;
 	}
 	

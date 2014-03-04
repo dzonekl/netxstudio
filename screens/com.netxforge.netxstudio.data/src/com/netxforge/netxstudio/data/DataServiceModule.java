@@ -18,6 +18,7 @@
  *******************************************************************************/ 
 package com.netxforge.netxstudio.data;
 
+import com.netxforge.base.cdo.ICDOData;
 import com.netxforge.netxstudio.data.test.TestData;
 
 /**
@@ -32,7 +33,7 @@ public class DataServiceModule extends com.google.inject.AbstractModule {
 	 */
 	@Override
 	protected void configure() {
-		this.bind(IData.class).to(TestData.class);
+		this.bind(ICDOData.class).to(TestData.class);
 		this.bind(IDataService.class).to(DataService.class);
 	}
 

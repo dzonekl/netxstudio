@@ -29,7 +29,7 @@ import org.eclipse.ui.IImportWizard;
 import org.eclipse.ui.IWorkbench;
 
 import com.google.inject.Inject;
-import com.netxforge.netxstudio.data.IData;
+import com.netxforge.base.cdo.ICDOData;
 import com.netxforge.netxstudio.models.export.MasterDataExporterJob;
 import com.netxforge.netxstudio.models.export.ui.pages.ExportNewFileWizardPage;
 import com.netxforge.netxstudio.screens.ide.WorkspaceUtil;
@@ -47,7 +47,7 @@ public abstract class AbstractExportPOIWizard extends Wizard implements
 	}
 
 	@Inject
-	protected IData dataProvider;
+	protected ICDOData dataProvider;
 
 	private ExportNewFileWizardPage exportNewFilePage;
 

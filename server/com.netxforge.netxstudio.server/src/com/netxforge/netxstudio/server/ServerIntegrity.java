@@ -41,7 +41,7 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.inject.Inject;
 import com.netxforge.base.NonModelUtils;
-import com.netxforge.netxstudio.data.IData;
+import com.netxforge.base.cdo.ICDOData;
 import com.netxforge.netxstudio.data.IQueryService;
 import com.netxforge.netxstudio.generics.Value;
 import com.netxforge.netxstudio.library.NetXResource;
@@ -207,7 +207,7 @@ public class ServerIntegrity extends JobChangeAdapter {
 
 	@Server
 	@Inject
-	private IData provider;
+	private ICDOData provider;
 
 	@Inject
 	private IQueryService queryService;

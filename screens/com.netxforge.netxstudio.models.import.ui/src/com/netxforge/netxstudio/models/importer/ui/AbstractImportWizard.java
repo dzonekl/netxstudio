@@ -61,8 +61,8 @@ import com.google.common.collect.BiMap;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
 import com.google.inject.Inject;
+import com.netxforge.base.cdo.ICDOData;
 import com.netxforge.netxstudio.common.model.StudioUtils;
-import com.netxforge.netxstudio.data.IData;
 import com.netxforge.netxstudio.data.cdo.NonStatic;
 import com.netxforge.netxstudio.library.Component;
 import com.netxforge.netxstudio.library.LibraryPackage;
@@ -92,10 +92,10 @@ public abstract class AbstractImportWizard extends Wizard implements
 
 	@Inject
 	@NonStatic
-	private IData dataProvider;
+	private ICDOData dataProvider;
 
 	@Inject
-	private IData uiDataProvider;
+	private ICDOData uiDataProvider;
 
 	private ITreeContentProvider importContentProvider;
 

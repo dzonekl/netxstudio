@@ -30,7 +30,7 @@ import org.eclipse.ui.IWorkbench;
 
 import com.google.inject.Inject;
 import com.netxforge.base.NonModelUtils;
-import com.netxforge.netxstudio.data.IData;
+import com.netxforge.base.cdo.ICDOData;
 import com.netxforge.netxstudio.models.export.IExportFilter;
 import com.netxforge.netxstudio.models.export.MasterDataExporterRevengeJob;
 import com.netxforge.netxstudio.models.export.ui.pages.ExportNewFileWizardPage;
@@ -47,7 +47,7 @@ public abstract class AbstractExportPOIRevengeWizard extends Wizard implements
 	private IStructuredSelection selection;
 
 	@Inject
-	protected IData dataProvider;
+	protected ICDOData dataProvider;
 
 	private ExportNewFileWizardPage exportNewFilePage;
 

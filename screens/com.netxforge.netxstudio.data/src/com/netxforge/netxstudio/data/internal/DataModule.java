@@ -22,8 +22,8 @@ import static org.ops4j.peaberry.Peaberry.service;
 import static org.ops4j.peaberry.util.Attributes.objectClass;
 import static org.ops4j.peaberry.util.TypeLiterals.export;
 
+import com.netxforge.base.cdo.ICDOData;
 import com.netxforge.netxstudio.data.DataServiceModule;
-import com.netxforge.netxstudio.data.IData;
 import com.netxforge.netxstudio.data.IDataService;
 import com.netxforge.netxstudio.data.IQueryService;
 import com.netxforge.netxstudio.data.cdo.CDODataConnection;
@@ -66,7 +66,7 @@ public class DataModule extends DataServiceModule {
 
 		this.bind(IQueryService.class).to(CDOQueryService.class);
 
-		this.bind(IData.class).to(ClientCDOData.class);
+		this.bind(ICDOData.class).to(ClientCDOData.class);
 
 		// ///////////////////////////////
 		// EXPORT SERVICES

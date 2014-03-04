@@ -35,8 +35,8 @@ import com.google.common.base.Predicates;
 import com.google.common.collect.Iterables;
 import com.google.inject.Inject;
 import com.netxforge.base.NonModelUtils;
+import com.netxforge.base.cdo.ICDOData;
 import com.netxforge.internal.RuntimeActivator;
-import com.netxforge.netxstudio.data.IData;
 import com.netxforge.netxstudio.data.cdo.CDOData;
 
 /**
@@ -50,7 +50,7 @@ import com.netxforge.netxstudio.data.cdo.CDOData;
 public abstract class AbstractDynamixCDOResourceDescriptions extends
 		AbstractCompoundSelectable implements IResourceDescriptions {
 
-	public abstract IData getDataProvider();
+	public abstract ICDOData getDataProvider();
 
 	boolean initialized = false;
 
@@ -74,7 +74,7 @@ public abstract class AbstractDynamixCDOResourceDescriptions extends
 							Resource resource = null;
 
 							try {
-								IData provider = getDataProvider();
+								ICDOData provider = getDataProvider();
 								if (provider instanceof CDOData) {
 
 									String lookup;

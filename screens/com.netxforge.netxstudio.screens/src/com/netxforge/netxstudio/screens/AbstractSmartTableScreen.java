@@ -45,7 +45,7 @@ import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.IMemento;
 
-import com.netxforge.base.NonModelUtils;
+import com.netxforge.base.cdo.CDO;
 import com.netxforge.netxstudio.screens.AbstractSmartTableViewer.SelectionHistory;
 import com.netxforge.netxstudio.screens.editing.EMFEditingService;
 import com.netxforge.netxstudio.screens.editing.IDataServiceInjection;
@@ -148,7 +148,7 @@ public abstract class AbstractSmartTableScreen extends AbstractScreen implements
 			if (item instanceof CDOObject) {
 
 				if (FSMUtil.isClean((CDOObject) item)) {
-					String cdoLongIDAsString = NonModelUtils
+					String cdoLongIDAsString = CDO
 							.cdoLongIDAsString((CDOObject) item);
 
 					// This is the root memento, find children matching our ID.

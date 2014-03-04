@@ -56,9 +56,9 @@ import org.eclipse.swt.widgets.Display;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
 import com.google.inject.Inject;
-import com.netxforge.base.NonModelUtils;
+import com.netxforge.base.cdo.CDO;
+import com.netxforge.base.cdo.ICDOData;
 import com.netxforge.netxstudio.common.model.StudioUtils;
-import com.netxforge.netxstudio.data.IData;
 import com.netxforge.netxstudio.data.IDataService;
 import com.netxforge.netxstudio.library.LibraryPackage;
 import com.netxforge.netxstudio.library.NodeType;
@@ -514,7 +514,7 @@ public class CDOEditingService extends EMFEditingService implements
 			monitor.subTask(subMsg);
 
 		}
-		transaction.setCommitComment(IData.CLIENT_COMMIT_COMMENT);
+		transaction.setCommitComment(ICDOData.CLIENT_COMMIT_COMMENT);
 		transaction.commit();
 
 	}
@@ -669,7 +669,7 @@ public class CDOEditingService extends EMFEditingService implements
 	 * resolveHistoricalResourceName(java.lang.Object)
 	 */
 	public String resolveHistoricalResourceName(Object object) {
-		return NonModelUtils.resolveHistoricalResourceName(object);
+		return CDO.resolveHistoricalResourceName(object);
 	}
 
 	public void sessionStillValid() {

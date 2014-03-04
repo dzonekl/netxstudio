@@ -73,7 +73,7 @@ import org.eclipse.ui.views.properties.IPropertySheetPage;
 
 import com.google.common.collect.Lists;
 import com.google.inject.Inject;
-import com.netxforge.base.NonModelUtils;
+import com.netxforge.base.cdo.CDO;
 import com.netxforge.netxstudio.screens.editing.actions.handlers.ActionHandlerDescriptor;
 import com.netxforge.netxstudio.screens.editing.actions.handlers.CreationActionsHandler;
 import com.netxforge.netxstudio.screens.editing.actions.handlers.ObjectEditingActionsHandler;
@@ -658,7 +658,7 @@ public abstract class AbstractScreensViewPart extends ViewPart implements
 			case 1: {
 				Object next = collection.iterator().next();
 				if (next instanceof CDOObject) {
-					message = NonModelUtils.cdoObjectToString(
+					message = CDO.cdoObjectToString(
 							(CDOObject) next,
 							new AdapterFactoryItemDelegator(EMFEditingService
 									.getAdapterFactory()).getText(next));

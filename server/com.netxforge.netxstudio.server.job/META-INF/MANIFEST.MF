@@ -8,7 +8,7 @@ Bundle-Vendor: NetXForge
 Require-Bundle: org.eclipse.core.runtime,
  org.quartz;bundle-version="1.0.0";visibility:=reexport,
  org.eclipse.emf.cdo.server;bundle-version="4.0.0",
- com.netxforge.base;bundle-version="1.0.0",
+ com.netxforge.base.cdo;bundle-version="1.0.0",
  com.netxforge.netxstudio.server;bundle-version="1.0.0",
  com.netxforge.netxstudio.common;bundle-version="1.0.0",
  com.netxforge.netxstudio.data;bundle-version="1.0.0",

@@ -50,7 +50,7 @@ import org.eclipse.emf.ecore.util.ExtendedMetaData;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
-import com.netxforge.netxstudio.data.IData;
+import com.netxforge.base.cdo.ICDOData;
 import com.netxforge.netxstudio.generics.GenericsPackage;
 import com.netxforge.netxstudio.generics.Lifecycle;
 import com.netxforge.netxstudio.library.Component;
@@ -79,7 +79,7 @@ import com.netxforge.netxstudio.services.Service;
  */
 public class MasterDataImporter {
 
-	private IData dataProvider;
+	private ICDOData dataProvider;
 
 	private EClass eClassToImport;
 
@@ -901,11 +901,11 @@ public class MasterDataImporter {
 		this.ePackagesToImport = ePackagesToImport;
 	}
 
-	public IData getDataProvider() {
+	public ICDOData getDataProvider() {
 		return dataProvider;
 	}
 
-	public void setDataProvider(IData dataProvider) {
+	public void setDataProvider(ICDOData dataProvider) {
 		this.dataProvider = dataProvider;
 	}
 

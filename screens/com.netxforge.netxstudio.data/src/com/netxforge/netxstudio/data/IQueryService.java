@@ -26,6 +26,7 @@ import org.eclipse.emf.cdo.common.id.CDOID;
 import org.eclipse.emf.cdo.view.CDOView;
 import org.eclipse.emf.ecore.EReference;
 
+import com.netxforge.base.cdo.ICDOData;
 import com.netxforge.netxstudio.generics.DateTimeRange;
 import com.netxforge.netxstudio.generics.Role;
 import com.netxforge.netxstudio.generics.Value;
@@ -49,7 +50,7 @@ public interface IQueryService {
 	public static final String QUERY_HQL = "hql";
 	public static final String QUERY_OCL = "ocl";
 
-	public void setDataProvider(IData provider);
+	public void setDataProvider(ICDOData provider);
 
 	/**
 	 * Get the role for this user.

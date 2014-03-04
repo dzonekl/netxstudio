@@ -60,8 +60,8 @@ public class DiagramScreenViewer extends AbstractScreenViewer {
 				Object firstElement = ((StructuredSelection) selection)
 						.getFirstElement();
 				if (firstElement instanceof EObject) {
-					System.out.println(modelUtils
-							.printModelObject((EObject) firstElement));
+//					System.out.println(modelUtils
+//							.printModelObject((EObject) firstElement));
 				}
 			}
 

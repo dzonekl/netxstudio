@@ -26,10 +26,10 @@ import org.eclipse.emf.ecore.resource.Resource;
 
 import com.google.inject.Inject;
 import com.netxforge.base.NonModelUtils;
+import com.netxforge.base.cdo.ICDOData;
 import com.netxforge.netxstudio.NetxstudioPackage;
 import com.netxforge.netxstudio.ServerSettings;
 import com.netxforge.netxstudio.common.model.StudioUtils;
-import com.netxforge.netxstudio.data.IData;
 import com.netxforge.netxstudio.data.IQueryService;
 import com.netxforge.netxstudio.data.job.IRunMonitor;
 import com.netxforge.netxstudio.library.Component;
@@ -56,7 +56,7 @@ public abstract class BaseLogic {
 	@Server
 	private IServerDataProvider dataProvider;
 
-	private IData data;
+	private ICDOData data;
 
 	@Inject
 	protected IQueryService queryService;
@@ -233,11 +233,11 @@ public abstract class BaseLogic {
 	}
 
 	/**
-	 * Lazy load our {@link IData} from a {@link IServerDataProvider Provider}
+	 * Lazy load our {@link ICDOData} from a {@link IServerDataProvider Provider}
 	 * 
 	 * @return
 	 */
-	public IData getData() {
+	public ICDOData getData() {
 
 		if (data == null) {
 			data = dataProvider.get();

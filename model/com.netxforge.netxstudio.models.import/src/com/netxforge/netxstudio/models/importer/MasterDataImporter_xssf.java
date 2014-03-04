@@ -56,7 +56,7 @@ import org.eclipse.emf.ecore.util.ExtendedMetaData;
 
 import com.google.common.collect.HashBiMap;
 import com.google.common.collect.Lists;
-import com.netxforge.netxstudio.data.IData;
+import com.netxforge.base.cdo.ICDOData;
 import com.netxforge.netxstudio.generics.ActionType;
 import com.netxforge.netxstudio.generics.DiagramKindType;
 import com.netxforge.netxstudio.generics.ExpansionDuration;
@@ -96,7 +96,7 @@ import com.netxforge.netxstudio.services.ServiceClassType;
  */
 public class MasterDataImporter_xssf {
 
-	private IData dataProvider;
+	private ICDOData dataProvider;
 
 	private EClass eClassToImport;
 
@@ -1053,11 +1053,11 @@ public class MasterDataImporter_xssf {
 		this.ePackagesToImport = ePackagesToImport;
 	}
 
-	public IData getDataProvider() {
+	public ICDOData getDataProvider() {
 		return dataProvider;
 	}
 
-	public void setDataProvider(IData dataProvider) {
+	public void setDataProvider(ICDOData dataProvider) {
 		this.dataProvider = dataProvider;
 	}
 

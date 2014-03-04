@@ -18,6 +18,7 @@
  *******************************************************************************/ 
 package com.netxforge.netxstudio.data;
 
+import com.netxforge.base.cdo.ICDOData;
 import com.netxforge.netxstudio.generics.Role;
 
 /**
@@ -31,7 +32,7 @@ public interface IDataService {
 	 * Get the data provider. 
 	 * @return
 	 */
-	public IData getProvider();
+	public ICDOData getProvider();
 	
 	/**
 	 * Get the Data service role handler. 

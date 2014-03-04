@@ -25,6 +25,8 @@ import java.util.Date;
 import java.util.List;
 import java.util.NoSuchElementException;
 
+import javafx.scene.chart.Chart;
+
 import com.google.common.base.Function;
 import com.google.common.base.Predicate;
 import com.google.common.collect.Iterables;

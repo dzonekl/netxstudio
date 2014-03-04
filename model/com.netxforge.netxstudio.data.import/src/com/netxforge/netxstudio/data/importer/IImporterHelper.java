@@ -21,7 +21,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Properties;
 
-import com.netxforge.netxstudio.data.IData;
+import com.netxforge.base.cdo.ICDOData;
 import com.netxforge.netxstudio.data.index.IComponentLocator;
 import com.netxforge.netxstudio.generics.Value;
 import com.netxforge.netxstudio.library.Component;
@@ -61,7 +61,7 @@ public interface IImporterHelper {
 	 * 
 	 * @return
 	 */
-	public abstract IData getDataProvider();
+	public abstract ICDOData getDataProvider();
 
 	/**
 	 * Set the importer to be used.

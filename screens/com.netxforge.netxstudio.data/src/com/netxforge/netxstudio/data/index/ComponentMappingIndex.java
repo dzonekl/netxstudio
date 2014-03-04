@@ -42,9 +42,9 @@ import com.google.common.base.Predicate;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
 import com.google.inject.Singleton;
-import com.netxforge.base.NonModelUtils;
+import com.netxforge.base.cdo.CDO;
+import com.netxforge.base.cdo.ICDOData;
 import com.netxforge.netxstudio.common.model.StudioUtils;
-import com.netxforge.netxstudio.data.IData;
 import com.netxforge.netxstudio.data.index.IComponentLocator.IdentifierDescriptor;
 import com.netxforge.netxstudio.data.internal.DataActivator;
 import com.netxforge.netxstudio.library.Component;
@@ -65,7 +65,7 @@ import com.netxforge.netxstudio.operators.OperatorsPackage;
 @Singleton
 public class ComponentMappingIndex implements IComponentMappingIndex {
 
-	private IData dataProvider;
+	private ICDOData dataProvider;
 
 	/** Our index */
 	private final List<ComponentIndexEntry> cachedIndex = Lists.newArrayList();
@@ -222,7 +222,7 @@ public class ComponentMappingIndex implements IComponentMappingIndex {
 		return components;
 	}
 
-	public void setDataProvider(IData dataProvider) {
+	public void setDataProvider(ICDOData dataProvider) {
 		this.dataProvider = dataProvider;
 	}
 
@@ -305,7 +305,7 @@ public class ComponentMappingIndex implements IComponentMappingIndex {
 						// The revision delta is not necessarily available.
 						if (cdoRevisionDelta != null) {
 							StringBuffer sb = new StringBuffer();
-							NonModelUtils.cdoPrintRevisionDelta(sb,
+							CDO.cdoPrintRevisionDelta(sb,
 									cdoRevisionDelta);
 							DataActivator.TRACE
 									.trace(DataActivator.TRACE_COMPONENT_INDEX_OPTION,

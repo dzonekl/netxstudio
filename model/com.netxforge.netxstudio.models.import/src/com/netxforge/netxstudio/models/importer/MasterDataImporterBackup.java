@@ -42,7 +42,7 @@ import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.ecore.util.ExtendedMetaData;
 
 import com.google.common.collect.Lists;
-import com.netxforge.netxstudio.data.IData;
+import com.netxforge.base.cdo.ICDOData;
 import com.netxforge.netxstudio.library.Equipment;
 import com.netxforge.netxstudio.library.Function;
 import com.netxforge.netxstudio.library.LibraryPackage;
@@ -64,7 +64,7 @@ import com.netxforge.netxstudio.services.Service;
  */
 public class MasterDataImporterBackup {
 
-	private IData dataProvider;
+	private ICDOData dataProvider;
 
 	private EClass eClassToImport;
 
@@ -639,11 +639,11 @@ public class MasterDataImporterBackup {
 		this.ePackagesToImport = ePackagesToImport;
 	}
 
-	public IData getDataProvider() {
+	public ICDOData getDataProvider() {
 		return dataProvider;
 	}
 
-	public void setDataProvider(IData dataProvider) {
+	public void setDataProvider(ICDOData dataProvider) {
 		this.dataProvider = dataProvider;
 	}
 

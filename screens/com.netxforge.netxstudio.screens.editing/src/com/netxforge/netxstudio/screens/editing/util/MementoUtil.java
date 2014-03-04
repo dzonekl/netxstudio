@@ -47,6 +47,7 @@ import org.eclipse.ui.IMemento;
 import org.eclipse.ui.forms.widgets.Section;
 
 import com.netxforge.base.NonModelUtils;
+import com.netxforge.base.cdo.CDO;
 
 /**
  * Various memento shortcut boilerplate busters!
@@ -419,7 +420,7 @@ public class MementoUtil {
 			String key) {
 		String string = memento.getString(key);
 		if (string != null) {
-			CDOID cdoid = NonModelUtils.cdoLongIDFromString(string);
+			CDOID cdoid = CDO.cdoLongIDFromString(string);
 			try {
 				return view.getObject(cdoid);
 			} catch (ObjectNotFoundException onfe) {
@@ -435,7 +436,7 @@ public class MementoUtil {
 			return; // Can't remember this state.
 		}
 
-		String cdoLongIDAsString = NonModelUtils.cdoLongIDAsString(object);
+		String cdoLongIDAsString = CDO.cdoLongIDAsString(object);
 		memento.putString(key, cdoLongIDAsString);
 	}
 

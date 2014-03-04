@@ -17,8 +17,8 @@
  *******************************************************************************/ 
 package com.netxforge.netxstudio.server.data;
 
-import com.netxforge.netxstudio.data.IData;
+import com.netxforge.base.cdo.ICDOData;
 
 public interface IServerDataProvider {
-	public IData get();	
+	public ICDOData get();	
 }

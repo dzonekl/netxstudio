@@ -28,8 +28,8 @@ import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.xml.type.XMLTypeFactory;
 
 import com.google.inject.Inject;
-import com.netxforge.base.NonModelUtils;
-import com.netxforge.netxstudio.data.IData;
+import com.netxforge.base.cdo.CDO;
+import com.netxforge.base.cdo.ICDOData;
 import com.netxforge.netxstudio.data.job.IRunMonitor;
 import com.netxforge.netxstudio.library.LibraryPackage;
 import com.netxforge.netxstudio.operators.OperatorsPackage;
@@ -62,7 +62,7 @@ public class MonitoringService implements NetxForgeService {
 				.getInjector().getInstance(ResourceMonitoringRunner.class);
 		runner.setParameters(parameters);
 		CDOID run = runner.run();
-		return NonModelUtils.cdoLongIDAsString(run);
+		return CDO.cdoLongIDAsString(run);
 	}
 
 	public static class ResourceMonitoringRunner {
@@ -71,7 +71,7 @@ public class MonitoringService implements NetxForgeService {
 		@Server
 		private IServerDataProvider dpProvider;
 
-		private IData dataProvider;
+		private ICDOData dataProvider;
 
 		private Map<String, String> parameters;
 
@@ -82,7 +82,7 @@ public class MonitoringService implements NetxForgeService {
 
 			// TODO Also for Operator monitoring all services?
 			if (parameters.containsKey(SERVICE_PARAM)) {
-				final CDOID id = NonModelUtils.cdoLongIDFromString(
+				final CDOID id = CDO.cdoLongIDFromString(
 						ServicesPackage.Literals.RFS_SERVICE,
 						parameters.get(SERVICE_PARAM));
 				monitoringLogic = LogicActivator.getInstance().getInjector()
@@ -100,7 +100,7 @@ public class MonitoringService implements NetxForgeService {
 				resourceProfileLogic.setEndTime(getEndTime(parameters));
 
 			} else if (parameters.containsKey(NODE_PARAM)) {
-				final CDOID id = NonModelUtils.cdoLongIDFromString(
+				final CDOID id = CDO.cdoLongIDFromString(
 						OperatorsPackage.Literals.NODE,
 						parameters.get(NODE_PARAM));
 				monitoringLogic = LogicActivator.getInstance().getInjector()
@@ -108,7 +108,7 @@ public class MonitoringService implements NetxForgeService {
 				((NodeMonitoringLogic) monitoringLogic).setNode(id);
 				resourceProfileLogic = null;
 			} else if (parameters.containsKey(NODETYPE_PARAM)) {
-				final CDOID id = NonModelUtils.cdoLongIDFromString(
+				final CDOID id = CDO.cdoLongIDFromString(
 						LibraryPackage.Literals.NODE_TYPE,
 						parameters.get(NODETYPE_PARAM));
 				monitoringLogic = LogicActivator.getInstance().getInjector()
@@ -189,7 +189,7 @@ public class MonitoringService implements NetxForgeService {
 			this.parameters = parameters;
 		}
 
-		public IData getDataProvider() {
+		public ICDOData getDataProvider() {
 			if (dataProvider == null) {
 				dataProvider = dpProvider.get();
 			}

@@ -23,6 +23,7 @@ import java.util.List;
 import org.eclipse.emf.ecore.resource.Resource;
 
 import com.google.inject.Inject;
+import com.netxforge.base.cdo.ICDOData;
 import com.netxforge.netxstudio.common.model.StudioUtils;
 import com.netxforge.netxstudio.generics.GenericsPackage;
 import com.netxforge.netxstudio.generics.Person;
@@ -35,16 +36,16 @@ import com.netxforge.netxstudio.generics.Role;
  */
 public class DataService implements IDataService {
 
-	private final IData provider;
+	private final ICDOData provider;
 	private final IQueryService queryService;
 
 	@Inject
-	public DataService(IData provider, IQueryService queryService) {
+	public DataService(ICDOData provider, IQueryService queryService) {
 		this.provider = provider;
 		this.queryService = queryService;
 	}
 
-	public IData getProvider() {
+	public ICDOData getProvider() {
 		return provider;
 	}
 

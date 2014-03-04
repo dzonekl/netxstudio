@@ -17,9 +17,9 @@
  *******************************************************************************/ 
 package com.netxforge.netxstudio.data.cdo;
 
-import com.netxforge.netxstudio.data.IData;
+import com.netxforge.base.cdo.ICDOData;
 
 public interface INonStaticDataProvider {
-	public IData get();
+	public ICDOData get();
 	
 }

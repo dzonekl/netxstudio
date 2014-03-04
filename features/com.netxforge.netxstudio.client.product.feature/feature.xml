@@ -173,6 +173,10 @@
          id="com.netxforge.netxstudio.screens.app.feature"
          version="0.0.0"/>
 
+   <includes
+         id="com.netxforge.data.import.feature"
+         version="0.0.0"/>
+
    <plugin
          id="com.netxforge.netxstudio.client.product"
          download-size="0"

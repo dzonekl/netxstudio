@@ -28,8 +28,8 @@ import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.xml.type.XMLTypeFactory;
 
 import com.google.inject.Inject;
-import com.netxforge.base.NonModelUtils;
-import com.netxforge.netxstudio.data.IData;
+import com.netxforge.base.cdo.CDO;
+import com.netxforge.base.cdo.ICDOData;
 import com.netxforge.netxstudio.data.job.IRunMonitor;
 import com.netxforge.netxstudio.scheduling.SchedulingFactory;
 import com.netxforge.netxstudio.scheduling.SchedulingPackage;
@@ -57,13 +57,13 @@ public class RetentionService implements NetxForgeService {
 				.getInjector().getInstance(RetentionServiceRunner.class);
 		runner.setParameters(parameters);
 		CDOID run = runner.run();
-		return NonModelUtils.cdoLongIDAsString(run);
+		return CDO.cdoLongIDAsString(run);
 	}
 
 	public static class RetentionServiceRunner {
 		@Inject
 		@Server
-		private IData dataProvider;
+		private ICDOData dataProvider;
 
 		private Map<String, String> parameters;
 

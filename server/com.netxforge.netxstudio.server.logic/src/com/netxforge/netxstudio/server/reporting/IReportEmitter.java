@@ -21,7 +21,7 @@ import java.io.OutputStream;
 import java.util.List;
 
 import com.google.common.collect.ImmutableList;
-import com.netxforge.netxstudio.data.IData;
+import com.netxforge.base.cdo.ICDOData;
 import com.netxforge.netxstudio.generics.DateTimeRange;
 import com.netxforge.netxstudio.library.Component;
 import com.netxforge.netxstudio.library.NodeType;
@@ -67,7 +67,7 @@ public interface IReportEmitter {
 	/**
 	 * 
 	 */
-	public abstract void activate(IData dataProvider);
+	public abstract void activate(ICDOData dataProvider);
 
 	/**
 	 * Flush what has been produced to the output stream

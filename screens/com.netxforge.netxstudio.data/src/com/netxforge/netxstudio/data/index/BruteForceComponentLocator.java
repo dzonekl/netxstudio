@@ -32,10 +32,10 @@ import org.eclipse.emf.ecore.EStructuralFeature;
 import com.google.common.base.Predicate;
 import com.google.common.collect.Iterators;
 import com.google.common.collect.Lists;
-import com.netxforge.base.NonModelUtils;
+import com.netxforge.base.cdo.CDO;
+import com.netxforge.base.cdo.ICDOData;
 import com.netxforge.netxstudio.common.AllPurposeCache;
 import com.netxforge.netxstudio.common.model.StudioUtils;
-import com.netxforge.netxstudio.data.IData;
 import com.netxforge.netxstudio.data.internal.DataActivator;
 import com.netxforge.netxstudio.library.Component;
 import com.netxforge.netxstudio.library.Equipment;
@@ -62,7 +62,7 @@ import com.netxforge.netxstudio.operators.Warehouse;
  */
 public class BruteForceComponentLocator implements IComponentLocator {
 
-	private IData dataProvider;
+	private ICDOData dataProvider;
 
 	// the key format is:
 	private AllPurposeCache<String, List<Component>> componentsCache;
@@ -187,8 +187,7 @@ public class BruteForceComponentLocator implements IComponentLocator {
 													+ ((Component) referingObject)
 															.getName()
 													+ " cdo res path="
-													+ NonModelUtils
-															.cdoResourcePath(referingObject));
+													+ CDO.cdoResourcePath(referingObject));
 						}
 					}
 				}
@@ -341,8 +340,7 @@ public class BruteForceComponentLocator implements IComponentLocator {
 		final String key = getKey(nodeDescriptor, metric);
 		if (DataActivator.DEBUG) {
 			DataActivator.TRACE.trace(
-					DataActivator.TRACE_IMPORT_LOCATOR_OPTION, "-- key="
-							+ key);
+					DataActivator.TRACE_IMPORT_LOCATOR_OPTION, "-- key=" + key);
 		}
 
 		// CB MOVED TO A FUNCTIONAL CACHE, 16-12-2012.
@@ -515,14 +513,12 @@ public class BruteForceComponentLocator implements IComponentLocator {
 					// Check if the identifier matches the component name.
 					if (!isMatching(componentToVerify, idDescriptor, true)) {
 						if (DataActivator.DEBUG) {
-							DataActivator.TRACE
-									.trace(DataActivator.TRACE_IMPORT_LOCATOR_OPTION,
-											"-- matching failed:"
-													+ idDescriptor
-															.getIdentifier()
-													+ " , for component name="
-													+ componentToVerify
-															.getName());
+							DataActivator.TRACE.trace(
+									DataActivator.TRACE_IMPORT_LOCATOR_OPTION,
+									"-- matching failed:"
+											+ idDescriptor.getIdentifier()
+											+ " , for component name="
+											+ componentToVerify.getName());
 						}
 						allIdentifiersValid = false;
 						// The Component doesn't match the identifier.
@@ -531,14 +527,12 @@ public class BruteForceComponentLocator implements IComponentLocator {
 						localSucssFullComponents.add(componentToVerify);
 						localSuccessFullIdentifiers.add(idDescriptor);
 						if (DataActivator.DEBUG) {
-							DataActivator.TRACE
-									.trace(DataActivator.TRACE_IMPORT_LOCATOR_OPTION,
-											"-- matching succeeded:"
-													+ idDescriptor
-															.getIdentifier()
-													+ " , for component name="
-													+ componentToVerify
-															.getName());
+							DataActivator.TRACE.trace(
+									DataActivator.TRACE_IMPORT_LOCATOR_OPTION,
+									"-- matching succeeded:"
+											+ idDescriptor.getIdentifier()
+											+ " , for component name="
+											+ componentToVerify.getName());
 						}
 					}
 				}
@@ -990,7 +984,7 @@ public class BruteForceComponentLocator implements IComponentLocator {
 		}
 	}
 
-	public void setDataProvider(IData dataProvider) {
+	public void setDataProvider(ICDOData dataProvider) {
 		this.dataProvider = dataProvider;
 	}
 

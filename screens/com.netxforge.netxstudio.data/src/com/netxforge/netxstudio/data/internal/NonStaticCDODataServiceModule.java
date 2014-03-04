@@ -22,7 +22,7 @@ import static com.google.inject.util.Modules.override;
 
 import com.google.inject.AbstractModule;
 import com.google.inject.Module;
-import com.netxforge.netxstudio.data.IData;
+import com.netxforge.base.cdo.ICDOData;
 import com.netxforge.netxstudio.data.cdo.NonStatic;
 import com.netxforge.netxstudio.data.cdo.NonStaticCDOData;
 
@@ -44,6 +44,6 @@ public class NonStaticCDODataServiceModule extends AbstractModule {
 	 */
 	@Override
 	protected void configure() {
-		this.bind(IData.class).annotatedWith(NonStatic.class).to(NonStaticCDOData.class);
+		this.bind(ICDOData.class).annotatedWith(NonStatic.class).to(NonStaticCDOData.class);
 	}
 }

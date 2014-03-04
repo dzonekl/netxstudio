@@ -22,7 +22,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import com.google.inject.Inject;
-import com.netxforge.netxstudio.data.IData;
+import com.netxforge.base.cdo.ICDOData;
 import com.netxforge.netxstudio.data.job.IRunMonitor;
 import com.netxforge.netxstudio.scheduling.Job;
 import com.netxforge.netxstudio.scheduling.JobRunState;
@@ -45,7 +45,7 @@ public abstract class JobImplementation {
 	@ServerNoCache
 	private IServerNoCacheDataProvider dpProvider;
 	
-	private IData dataProvider; 
+	private ICDOData dataProvider; 
 	
 	/**
 	 * Jobs generally process values in NetXResource objects, either a
@@ -74,7 +74,7 @@ public abstract class JobImplementation {
 		this.netxForgeJob = netxForgeJob;
 	}
 
-	protected IData getDataProvider() {
+	protected ICDOData getDataProvider() {
 		if(dataProvider == null){
 			dataProvider = dpProvider.get();
 		}

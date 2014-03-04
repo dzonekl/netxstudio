@@ -46,10 +46,10 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.inject.Inject;
 import com.netxforge.base.NonModelUtils;
+import com.netxforge.base.cdo.ICDOData;
 import com.netxforge.netxstudio.NetxstudioPackage;
 import com.netxforge.netxstudio.ServerSettings;
 import com.netxforge.netxstudio.common.model.StudioUtils;
-import com.netxforge.netxstudio.data.IData;
 import com.netxforge.netxstudio.data.index.IComponentLocator;
 import com.netxforge.netxstudio.data.index.IComponentLocator.IdentifierDescriptor;
 import com.netxforge.netxstudio.data.index.IComponentLocator.MetricDescriptor;
@@ -92,7 +92,7 @@ public abstract class AbstractMetricValuesImporter implements IImporterHelper,
 	private IRunMonitor jobMonitor;
 
 	// Note: Not injected, as we inject with a local provider.
-	protected IData dataProvider;
+	protected ICDOData dataProvider;
 
 	protected IComponentLocator componentLocator;
 
@@ -530,7 +530,7 @@ public abstract class AbstractMetricValuesImporter implements IImporterHelper,
 		// Commit in a throwable, otherwise the session woudn't be closed.
 		try {
 			CDOTransaction transaction = getDataProvider().getTransaction();
-			transaction.setCommitComment(IData.SERVER_COMMIT_COMMENT);
+			transaction.setCommitComment(ICDOData.SERVER_COMMIT_COMMENT);
 			transaction.commit();
 		} catch (final Throwable t) {
 			if (ImportActivator.DEBUG) {
@@ -942,7 +942,7 @@ public abstract class AbstractMetricValuesImporter implements IImporterHelper,
 		}
 		try {
 			tmpTransaction
-					.setCommitComment(IData.SERVER_COMMIT_COMMENT);
+					.setCommitComment(ICDOData.SERVER_COMMIT_COMMENT);
 			tmpTransaction.commit();
 		} catch (CommitException e) {
 		} finally {
@@ -1939,7 +1939,7 @@ public abstract class AbstractMetricValuesImporter implements IImporterHelper,
 	 * com.netxforge.netxstudio.data.importer.IMetricValueImporter#setDataProvider
 	 * (com.netxforge.netxstudio.data.IDataProvider)
 	 */
-	public void setDataProvider(IData dataProvider) {
+	public void setDataProvider(ICDOData dataProvider) {
 		this.dataProvider = dataProvider;
 	}
 
@@ -1992,7 +1992,7 @@ public abstract class AbstractMetricValuesImporter implements IImporterHelper,
 	 * com.netxforge.netxstudio.data.importer.IMetricValueImporter#getDataProvider
 	 * ()
 	 */
-	public IData getDataProvider() {
+	public ICDOData getDataProvider() {
 
 		if (dataProvider == null) {
 			if (helper != null) {

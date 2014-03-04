@@ -23,7 +23,7 @@ import java.util.List;
 import java.util.Properties;
 
 import com.google.inject.Inject;
-import com.netxforge.netxstudio.data.IData;
+import com.netxforge.base.cdo.ICDOData;
 import com.netxforge.netxstudio.data.index.IComponentLocator;
 import com.netxforge.netxstudio.data.internal.ImportActivator;
 import com.netxforge.netxstudio.generics.Value;
@@ -59,9 +59,9 @@ public class DefaultImporterHelper implements IImporterHelper {
 		networkElementLocator.setDataProvider(getDataProvider());
 	}
 
-	public IData getDataProvider() {
+	public ICDOData getDataProvider() {
 		// get it from the serverside
-		IData dataProvider = ImportActivator.getInjector()
+		ICDOData dataProvider = ImportActivator.getInjector()
 				.getInstance(LocalDataProviderProvider.class).getDataProvider();
 		// Set in the importer so we are called only once.
 		// importer.setDataProvider(dataProvider);
@@ -71,9 +71,9 @@ public class DefaultImporterHelper implements IImporterHelper {
 	public static class LocalDataProviderProvider {
 
 		@Inject
-		private IData dataProvider;
+		private ICDOData dataProvider;
 
-		public IData getDataProvider() {
+		public ICDOData getDataProvider() {
 			return dataProvider;
 		}
 	}

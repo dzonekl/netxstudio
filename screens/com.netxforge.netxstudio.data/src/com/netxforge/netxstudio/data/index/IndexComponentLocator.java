@@ -27,8 +27,8 @@ import org.eclipse.emf.cdo.view.CDOView;
 import com.google.common.collect.Lists;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
+import com.netxforge.base.cdo.ICDOData;
 import com.netxforge.netxstudio.common.model.StudioUtils;
-import com.netxforge.netxstudio.data.IData;
 import com.netxforge.netxstudio.library.Component;
 import com.netxforge.netxstudio.metrics.Metric;
 
@@ -45,7 +45,7 @@ public class IndexComponentLocator extends JobChangeAdapter implements
 	@Inject
 	private ComponentMappingIndex index;
 
-	private IData dataProvider;
+	private ICDOData dataProvider;
 
 	private boolean initialized = false;
 
@@ -116,7 +116,7 @@ public class IndexComponentLocator extends JobChangeAdapter implements
 		return null;
 	}
 
-	public void setDataProvider(IData provider) {
+	public void setDataProvider(ICDOData provider) {
 		this.dataProvider = provider;
 	}
 

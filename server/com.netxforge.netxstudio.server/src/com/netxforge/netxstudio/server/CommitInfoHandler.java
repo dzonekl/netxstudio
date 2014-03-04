@@ -43,8 +43,9 @@ import org.eclipse.emf.ecore.resource.Resource;
 import com.google.common.collect.Lists;
 import com.google.inject.Inject;
 import com.netxforge.base.NonModelUtils;
+import com.netxforge.base.cdo.CDO;
+import com.netxforge.base.cdo.ICDOData;
 import com.netxforge.base.properties.IPropertiesProvider;
-import com.netxforge.netxstudio.data.IData;
 import com.netxforge.netxstudio.generics.ActionType;
 import com.netxforge.netxstudio.generics.CommitLogEntry;
 import com.netxforge.netxstudio.generics.GenericsFactory;
@@ -95,7 +96,7 @@ public class CommitInfoHandler implements CDOCommitInfoHandler {
 		// skip server side committing.
 		if (commitInfo.getComment() != null
 				&& commitInfo.getComment().equals(
-						IData.SERVER_COMMIT_COMMENT)) {
+						ICDOData.SERVER_COMMIT_COMMENT)) {
 			// do not log server side handling.
 			return;
 		}
@@ -147,7 +148,7 @@ public class CommitInfoHandler implements CDOCommitInfoHandler {
 				CDOClassInfo classInfo = icdoRev.getClassInfo();
 				logEntry.setObjectId(classInfo.getEClass().getName() + " "
 						+ icdoRev.getID() + "" + icdoRev.getVersion());
-				logEntry.setChange(NonModelUtils.cdoDumpNewObject(icdoRev));
+				logEntry.setChange(CDO.cdoDumpNewObject(icdoRev));
 			}
 			addAndTruncate(resource, logEntry);
 		}
@@ -167,14 +168,14 @@ public class CommitInfoHandler implements CDOCommitInfoHandler {
 			logEntry.setObjectId(NonModelUtils.truncate(id.toString()));
 
 			final StringBuilder sb = new StringBuilder();
-			NonModelUtils.cdoDumpFeatureDeltas(sb, delta.getFeatureDeltas());
+			CDO.cdoDumpFeatureDeltas(sb, delta.getFeatureDeltas());
 
 			logEntry.setChange(NonModelUtils.truncate(sb.toString()));
 			addAndTruncate(resource, logEntry);
 		}
 		try {
 			transaction
-					.setCommitComment(IData.COMMITINFO_COMMIT_COMMENT);
+					.setCommitComment(ICDOData.COMMITINFO_COMMIT_COMMENT);
 			transaction.commit();
 			transaction.close();
 		} catch (final Exception e) {

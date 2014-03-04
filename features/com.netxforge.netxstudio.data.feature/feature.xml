@@ -40,23 +40,4 @@
          version="0.0.0"
          unpack="false"/>
 
-   <plugin
-         id="oracle.jdbc.driver.10_2_0_4"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"/>
-
-   <plugin
-         id="org.postgresql"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"/>
-
-   <plugin
-         id="com.netxforge.netxstudio.data.import"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
-
 </feature>

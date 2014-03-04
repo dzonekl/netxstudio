@@ -25,8 +25,8 @@ import org.eclipse.emf.cdo.spi.server.RepositoryUserManager;
 
 import com.google.inject.AbstractModule;
 import com.google.inject.Scopes;
+import com.netxforge.base.cdo.ICDOData;
 import com.netxforge.base.properties.IPropertiesProvider;
-import com.netxforge.netxstudio.data.IData;
 import com.netxforge.netxstudio.data.IQueryService;
 import com.netxforge.netxstudio.data.cdo.CDOQueryService;
 import com.netxforge.netxstudio.data.cdo.ICDOConnection;
@@ -70,7 +70,7 @@ public class ServerModule extends AbstractModule {
 				.to(ServerCDOConnection.class);
 
 		// Bind the server standard CDO Provider
-		bind(IData.class).annotatedWith(Server.class).to(
+		bind(ICDOData.class).annotatedWith(Server.class).to(
 				ServerCDOData.class);
 
 		// Bind the server no-caching CDO Connection
@@ -78,7 +78,7 @@ public class ServerModule extends AbstractModule {
 				.to(ServerNoCacheCDOConnection.class);
 
 		// Bind the server standard CDO Provider
-		bind(IData.class).annotatedWith(ServerNoCache.class).to(
+		bind(ICDOData.class).annotatedWith(ServerNoCache.class).to(
 				ServerNoCacheCDOData.class);
 
 		// Bind the server initializer

@@ -30,7 +30,7 @@ import org.apache.poi.ss.util.CellRangeAddress;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 import com.google.inject.Inject;
-import com.netxforge.netxstudio.data.IData;
+import com.netxforge.base.cdo.ICDOData;
 import com.netxforge.netxstudio.data.IQueryService;
 import com.netxforge.netxstudio.generics.DateTimeRange;
 import com.netxforge.netxstudio.library.Component;
@@ -70,7 +70,7 @@ public abstract class XLSXPOIEmitter implements IReportEmitter {
 		return XLSX_EXTENSION;
 	}
 
-	public void activate(IData dataProvider) {
+	public void activate(ICDOData dataProvider) {
 
 		queryService.setDataProvider(dataProvider);
 		// A new workbook

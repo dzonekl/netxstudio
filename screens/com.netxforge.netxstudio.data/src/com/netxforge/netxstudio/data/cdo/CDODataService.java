@@ -18,14 +18,14 @@
 package com.netxforge.netxstudio.data.cdo;
 
 import com.google.inject.Inject;
+import com.netxforge.base.cdo.ICDOData;
 import com.netxforge.netxstudio.data.DataService;
-import com.netxforge.netxstudio.data.IData;
 import com.netxforge.netxstudio.data.IQueryService;
 
 public class CDODataService extends DataService {
 	
 	@Inject
-	public CDODataService(IData provider, IQueryService queryService, CDOQueryUtil queryUtil) {
+	public CDODataService(ICDOData provider, IQueryService queryService, CDOQueryUtil queryUtil) {
 		super(provider, queryService);
 	}
 

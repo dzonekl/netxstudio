@@ -55,8 +55,8 @@ import org.eclipse.net4j.util.security.PasswordCredentialsProvider;
 
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
+import com.netxforge.base.cdo.ICDOData;
 import com.netxforge.netxstudio.NetxstudioPackage;
-import com.netxforge.netxstudio.data.IData;
 import com.netxforge.netxstudio.data.cdo.CDOData;
 import com.netxforge.netxstudio.data.fixtures.Fixtures;
 import com.netxforge.netxstudio.generics.GenericsPackage;
@@ -237,7 +237,7 @@ public class ServerUtils implements IServerUtils {
 						if (protocol instanceof ISignalProtocol) {
 							ISignalProtocol<?> signalProtocol = (ISignalProtocol<?>) protocol;
 							signalProtocol
-									.setTimeout(IData.SIGNAL_TIME_OUT);
+									.setTimeout(ICDOData.SIGNAL_TIME_OUT);
 						}
 					}
 				});
@@ -286,7 +286,7 @@ public class ServerUtils implements IServerUtils {
 
 		@Inject
 		@Server
-		private IData dataProvider;
+		private ICDOData dataProvider;
 
 		@Inject
 		private Fixtures fixtures;

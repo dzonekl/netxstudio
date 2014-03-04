@@ -21,6 +21,7 @@ package com.netxforge.netxstudio.screens.editing.util;
 import java.util.List;
 
 import org.eclipse.ui.forms.IMessage;
+import org.eclipse.ui.internal.forms.MessageManager;
 
 /**
  * A specialized event which provides validation information suitable for a

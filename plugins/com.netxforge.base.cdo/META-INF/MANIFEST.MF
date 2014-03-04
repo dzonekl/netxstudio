@@ -1,0 +1,13 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Base CDO
+Bundle-SymbolicName: com.netxforge.base.cdo
+Bundle-Version: 1.0.0.qualifier
+Bundle-Activator: com.netxforge.base.cdo.internal.CDOActivator
+Bundle-Vendor: NetXForge
+Require-Bundle: org.eclipse.core.runtime,
+ org.eclipse.emf.cdo;bundle-version="4.2.0",
+ com.netxforge.base;bundle-version="1.0.0";visibility:=reexport
+Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Bundle-ActivationPolicy: lazy
+Export-Package: com.netxforge.base.cdo

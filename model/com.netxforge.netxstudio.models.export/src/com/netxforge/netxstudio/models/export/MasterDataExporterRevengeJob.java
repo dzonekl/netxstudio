@@ -36,7 +36,7 @@ import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.progress.IProgressConstants;
 
-import com.netxforge.netxstudio.data.IData;
+import com.netxforge.base.cdo.ICDOData;
 
 /**
  * Background exporter.
@@ -48,10 +48,10 @@ public class MasterDataExporterRevengeJob extends JobChangeAdapter {
 	private IPath res;
 	private ExportJob j = new ExportJob("Exporting Data");
 
-	private IData dataProvider;
+	private ICDOData dataProvider;
 	private EPackage[] ePackages;
 
-	public MasterDataExporterRevengeJob(IData dataProvider,
+	public MasterDataExporterRevengeJob(ICDOData dataProvider,
 			EPackage[] ePackages) {
 		this.dataProvider = dataProvider;
 		this.ePackages = ePackages;

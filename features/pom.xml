@@ -21,6 +21,7 @@
 		<module>com.netxforge.netxstudio.console.feature</module>
 		<module>com.netxforge.netxstudio.common.feature</module>
 		<module>com.netxforge.netxstudio.data.feature</module>
+		<module>com.netxforge.netxstudio.data.import.feature</module>
 		<module>com.netxforge.netxstudio.help.feature</module>
 		<module>com.netxforge.netxstudio.models.feature</module>
 		<module>com.netxforge.netxstudio.models.13042011.feature</module>

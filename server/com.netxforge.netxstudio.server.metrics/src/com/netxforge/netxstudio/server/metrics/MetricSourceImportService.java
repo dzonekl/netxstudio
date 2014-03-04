@@ -27,8 +27,8 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
 
 import com.google.inject.Inject;
-import com.netxforge.base.NonModelUtils;
-import com.netxforge.netxstudio.data.IData;
+import com.netxforge.base.cdo.CDO;
+import com.netxforge.base.cdo.ICDOData;
 import com.netxforge.netxstudio.data.importer.AbstractMetricValuesImporter;
 import com.netxforge.netxstudio.data.importer.CSVMetricValuesImporter;
 import com.netxforge.netxstudio.data.importer.IImporterHelper;
@@ -66,7 +66,7 @@ public class MetricSourceImportService implements NetxForgeService {
 				.getInjector().getInstance(ServiceRunner.class);
 		runner.setParameters(parameters);
 		CDOID run = runner.run();
-		return NonModelUtils.cdoLongIDAsString(run);
+		return CDO.cdoLongIDAsString(run);
 	}
 
 	public static class ServiceRunner {
@@ -75,14 +75,14 @@ public class MetricSourceImportService implements NetxForgeService {
 		@Server
 		private IServerDataProvider dpProvider;
 
-		private IData dataProvider;
+		private ICDOData dataProvider;
 
 		private AbstractMetricValuesImporter importer;
 
 		private Map<String, String> parameters;
 
 		private CDOID run() {
-			final CDOID msId = NonModelUtils.cdoLongIDFromString(
+			final CDOID msId = CDO.cdoLongIDFromString(
 					MetricsPackage.Literals.METRIC_SOURCE,
 					parameters.get(MS_PARAM));
 
@@ -192,7 +192,7 @@ public class MetricSourceImportService implements NetxForgeService {
 			this.parameters = parameters;
 		}
 
-		public IData getDataProvider() {
+		public ICDOData getDataProvider() {
 			if (dataProvider == null) {
 				dataProvider = dpProvider.get();
 			}

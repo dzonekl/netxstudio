@@ -23,7 +23,7 @@ import java.util.Date;
 import java.util.List;
 
 import com.netxforge.base.NonModelUtils;
-import com.netxforge.netxstudio.data.IData;
+import com.netxforge.base.cdo.ICDOData;
 import com.netxforge.netxstudio.data.job.IRunMonitor;
 import com.netxforge.netxstudio.generics.DateTimeRange;
 import com.netxforge.netxstudio.scheduling.Failure;
@@ -46,7 +46,7 @@ public abstract class BaseEngine {
 
 	// on purpose no @Inject as we need the same instance
 	// as used in the job implementation
-	private IData dataProvider;
+	private ICDOData dataProvider;
 
 	private DateTimeRange period;
 	private Date start;
@@ -60,11 +60,11 @@ public abstract class BaseEngine {
 
 	public abstract void doExecute();
 
-	public IData getDataProvider() {
+	public ICDOData getDataProvider() {
 		return dataProvider;
 	}
 
-	public void setDataProvider(IData dataProvider) {
+	public void setDataProvider(ICDOData dataProvider) {
 		this.dataProvider = dataProvider;
 	}
 

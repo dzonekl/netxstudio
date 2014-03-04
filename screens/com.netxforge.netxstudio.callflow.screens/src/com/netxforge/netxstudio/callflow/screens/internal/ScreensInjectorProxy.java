@@ -18,7 +18,7 @@
 package com.netxforge.netxstudio.callflow.screens.internal;
 
 import com.google.inject.Injector;
-import com.netxforge.netxstudio.common.guice.IInjectorProxy;
+import com.netxforge.base.di.IInjectorProxy;
 
 /**
  * Proxies to whatever Activator can return the injector. 

@@ -39,6 +39,7 @@ import com.google.common.collect.Lists;
 import com.google.inject.Inject;
 import com.netxforge.base.NonModelUtils;
 import com.netxforge.base.Tuple;
+import com.netxforge.base.cdo.CDO;
 import com.netxforge.netxstudio.data.IDataService;
 
 /**
@@ -134,21 +135,21 @@ public class ServerRequest {
 	public String callMonitorAction(CDOObject cdoObject, Date fromDate,
 			Date toDate) throws Exception {
 		Tuple[] params = new Tuple[] { new Tuple(NETWORK_SERVICE_PARAM,
-				NonModelUtils.cdoLongIDAsString(cdoObject)) };
+				CDO.cdoLongIDAsString(cdoObject)) };
 		return callPeriodAction(MONITOR_SERVICE, fromDate, toDate, params);
 	}
 
 	public String callServiceReportingAction(CDOObject cdoObject,
 			Date fromDate, Date toDate) throws Exception {
 		Tuple[] params = new Tuple[] { new Tuple(NETWORK_SERVICE_PARAM,
-				NonModelUtils.cdoLongIDAsString(cdoObject)) };
+				CDO.cdoLongIDAsString(cdoObject)) };
 		return callPeriodAction(REPORTING_SERVICE, fromDate, toDate, params);
 	}
 
 	public String callNodeReportingAction(CDOObject cdoObject, Date fromDate,
 			Date toDate) throws Exception {
 		Tuple[] params = new Tuple[] { new Tuple(NODE_PARAM,
-				NonModelUtils.cdoLongIDAsString(cdoObject)) };
+				CDO.cdoLongIDAsString(cdoObject)) };
 
 		return callPeriodAction(REPORTING_SERVICE, fromDate, toDate, params);
 	}
@@ -169,9 +170,9 @@ public class ServerRequest {
 
 		Tuple[] params = new Tuple[] {
 				new Tuple(NODETYPE_PARAM,
-						NonModelUtils.cdoLongIDAsString(nodeTypeObject)),
+						CDO.cdoLongIDAsString(nodeTypeObject)),
 				new Tuple(NETWORK_SERVICE_PARAM,
-						NonModelUtils.cdoLongIDAsString(serviceObject)) };
+						CDO.cdoLongIDAsString(serviceObject)) };
 
 		return callPeriodAction(REPORTING_SERVICE, fromDate, toDate, params);
 	}
@@ -182,9 +183,9 @@ public class ServerRequest {
 
 		Tuple[] params = new Tuple[] {
 				new Tuple(NODETYPE_PARAM,
-						NonModelUtils.cdoLongIDAsString(nodeTypeObject)),
+						CDO.cdoLongIDAsString(nodeTypeObject)),
 				new Tuple(NETWORK_OPERATOR_PARAM,
-						NonModelUtils.cdoLongIDAsString(operatorObject)) };
+						CDO.cdoLongIDAsString(operatorObject)) };
 
 		return callPeriodAction(REPORTING_SERVICE, fromDate, toDate, params);
 	}
@@ -193,7 +194,7 @@ public class ServerRequest {
 			Date fromDate, Date toDate) throws Exception {
 
 		Tuple[] params = new Tuple[] { new Tuple(NETWORK_OPERATOR_PARAM,
-				NonModelUtils.cdoLongIDAsString(cdoObject)) };
+				CDO.cdoLongIDAsString(cdoObject)) };
 
 		return callPeriodAction(REPORTING_SERVICE, fromDate, toDate, params);
 	}
@@ -211,7 +212,7 @@ public class ServerRequest {
 		url.append(server + NETXFORGE_SERVICE);
 		url.append("?" + SERVICE_PARAM_NAME + "=" + serviceName);
 		url.append("&" + parameterName + "="
-				+ NonModelUtils.cdoLongIDAsString(cdoObject));
+				+ CDO.cdoLongIDAsString(cdoObject));
 
 		System.err.println(url.toString());
 		final String result = doRequest(url.toString());
