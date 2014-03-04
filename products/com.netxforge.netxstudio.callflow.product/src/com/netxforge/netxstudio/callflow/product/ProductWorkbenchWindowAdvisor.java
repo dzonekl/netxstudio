@@ -23,10 +23,7 @@ import org.eclipse.ui.IPerspectiveListener;
 import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.application.IWorkbenchWindowConfigurer;
 
-import com.google.inject.Inject;
 import com.netxforge.netxstudio.console.ConsoleService;
-import com.netxforge.netxstudio.generics.Role;
-import com.netxforge.netxstudio.screens.activities.IActivityAndRoleService;
 import com.netxforge.netxstudio.screens.app.AbstractWorkbenchWindowLifecycle;
 import com.netxforge.netxstudio.screens.ide.WorkspaceUtil;
 
@@ -37,9 +34,6 @@ import com.netxforge.netxstudio.screens.ide.WorkspaceUtil;
  */
 public class ProductWorkbenchWindowAdvisor extends
 		AbstractWorkbenchWindowLifecycle {
-
-	@Inject
-	private IActivityAndRoleService activityAndRoleService;
 
 	@Override
 	public void preWindowOpen(IWorkbenchWindowConfigurer configurer) {
@@ -66,29 +60,8 @@ public class ProductWorkbenchWindowAdvisor extends
 		// Create a Console.
 		// Requires auto activation in OSGI config.ini
 		ConsoleService.INSTANCE.addConsole("NetXStudio");
-
 		WorkspaceUtil.INSTANCE.initDefaultProject();
-
-		final Role currentRole = activityAndRoleService.getCurrentRole();
-
-		String currentUser = activityAndRoleService.getCurrentUser();
-
-		if (currentUser != null) {
-			configurer.setTitle("NetXStudio User: " + currentUser.toUpperCase()
-					+ "  with role: " + currentRole.getName().toUpperCase());
-
-		} else {
-			configurer.setTitle("NetXStudio");
-		}
-		if (currentRole != null) {
-			activityAndRoleService.enableActivity(currentRole);
-			currentRole.cdoView().close();
-		} else {
-			// Data corruption issue.
-		}
-
-		// close the transaction.
-		// dService.getProvider().commitTransactionThenClose();
+		configurer.setTitle("NetXStudio - Callflows");
 
 		// Get the workbench and disable some actionsets:
 		// These will be added again for another perspective.

@@ -37,9 +37,6 @@ import org.eclipse.ui.application.IWorkbenchWindowConfigurer;
 import org.eclipse.ui.application.WorkbenchAdvisor;
 import org.eclipse.ui.application.WorkbenchWindowAdvisor;
 
-import com.google.inject.Inject;
-import com.netxforge.netxstudio.generics.Role;
-import com.netxforge.netxstudio.screens.activities.IActivityAndRoleService;
 import com.netxforge.netxstudio.screens.app.IWorkbenchService;
 import com.netxforge.netxstudio.screens.app.ScreensWorkbenchWindowAdvisor;
 import com.netxforge.netxstudio.screens.app.internal.ScreensApplicationActivator;
@@ -54,16 +51,9 @@ import com.netxforge.netxstudio.screens.ide.PickWorkspaceDialog;
  */
 public class ProductWorkbenchAdvisor extends IDEWorkbenchAdvisor {
 	
-	@Inject
-	private IActivityAndRoleService roleService;
-	
 	@Override
 	public void preStartup() {
 		super.preStartup();
-
-		// SHould force the workbench to start with a clean sheet, if the role
-		// changed.
-		resetWorkbenchIfRoleChanged();
 	}
 
 	public WorkbenchWindowAdvisor createWorkbenchWindowAdvisor(
@@ -97,23 +87,6 @@ public class ProductWorkbenchAdvisor extends IDEWorkbenchAdvisor {
 	public String getInitialWindowPerspectiveId() {
 		// return LibraryPerspective.ID;
 		return null; // With a common screen, there is no initial perspective.
-	}
-
-	/**
-	 * checks the last role of the user, which was authenticated by now and
-	 * makes sure the workbench init file is cleaned, if the role changed from
-	 * the previous this to avoid the workbench restoring UI components not
-	 * allowed by the activities.
-	 * 
-	 * @param dataService
-	 */
-	public void resetWorkbenchIfRoleChanged() {
-		Role r = roleService.getCurrentRole();
-
-		if (r != null && PickWorkspaceDialog.roleChanged(r.getName())) {
-			this.getWorkbenchConfigurer().setSaveAndRestore(false);
-			// Should really show the intro. 
-		}
 	}
 
 	/*

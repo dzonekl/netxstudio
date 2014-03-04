@@ -17,14 +17,10 @@
  *******************************************************************************/
 package com.netxforge.netxstudio.callflow.product.internal;
 
-import static org.ops4j.peaberry.Peaberry.service;
-
 import com.google.inject.AbstractModule;
 import com.netxforge.netxstudio.callflow.product.ProductWorkbenchAdvisor;
 import com.netxforge.netxstudio.callflow.product.ProductWorkbenchService;
 import com.netxforge.netxstudio.callflow.product.ProductWorkbenchWindowAdvisor;
-import com.netxforge.netxstudio.data.IDataService;
-import com.netxforge.netxstudio.screens.activities.IActivityAndRoleService;
 import com.netxforge.netxstudio.screens.app.IWorkbenchService;
 import com.netxforge.netxstudio.screens.app.IWorkbenchWindowLifecycle;
 
@@ -45,20 +41,8 @@ public class ProductModule extends AbstractModule {
 
 		// ////////////////////////////////
 		// EXPORTED SERVICES
-		// CB TODO, Currently rexported with OSGI Service.
 		this.bind(IWorkbenchService.class).to(ProductWorkbenchService.class);
-
-		// ///////////////////////////////
-		// IMPORT SERVICES
-		// (Copy to modules in other OSGI bundles to import the service).
-
-		// {@link CDODataServiceModule}
-		bind(IDataService.class).toProvider(
-				service(IDataService.class).single());
-
-		// {@link ActivitiesModule}
-		bind(IActivityAndRoleService.class).toProvider(
-				service(IActivityAndRoleService.class).single());
+		
 
 	}
 
