@@ -21,7 +21,7 @@ import org.eclipse.ui.forms.widgets.Section;
 
 import com.netxforge.netxstudio.generics.ExpansionDuration;
 import com.netxforge.netxstudio.library.LibraryPackage;
-import com.netxforge.netxstudio.screens.editing.IEditingService;
+import com.netxforge.screens.editing.base.IEditingService;
 
 public class NewEditEquipment extends AbstractNewEditComponent  {
 

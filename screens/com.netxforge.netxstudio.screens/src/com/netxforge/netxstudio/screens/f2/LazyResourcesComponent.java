@@ -68,9 +68,9 @@ import com.netxforge.netxstudio.library.NetXResource;
 import com.netxforge.netxstudio.library.NodeType;
 import com.netxforge.netxstudio.operators.Node;
 import com.netxforge.netxstudio.screens.LabelTextTableColumnFilter;
-import com.netxforge.netxstudio.screens.editing.IScreenFormService;
-import com.netxforge.netxstudio.screens.editing.filter.SearchFilter;
 import com.netxforge.netxstudio.screens.editing.tables.CDOElementComparer;
+import com.netxforge.screens.editing.base.IScreenFormService;
+import com.netxforge.screens.editing.base.filter.SearchFilter;
 
 /**
  * A UI Component for NetXResource objects.

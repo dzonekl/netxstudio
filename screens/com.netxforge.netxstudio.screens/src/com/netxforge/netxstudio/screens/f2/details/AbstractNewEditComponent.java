@@ -93,14 +93,14 @@ import com.netxforge.netxstudio.screens.ch9.NewEditExpression;
 import com.netxforge.netxstudio.screens.dialog.ExpressionFilterDialog;
 import com.netxforge.netxstudio.screens.dialog.MetricFilterDialog;
 import com.netxforge.netxstudio.screens.dialog.ToleranceFilterDialog;
-import com.netxforge.netxstudio.screens.editing.IDataScreenInjection;
-import com.netxforge.netxstudio.screens.editing.IEditingService;
-import com.netxforge.netxstudio.screens.editing.ScreenUtil;
-import com.netxforge.netxstudio.screens.editing.util.DateChooserComboObservableValue;
 import com.netxforge.netxstudio.screens.f2.NewEditResource;
 import com.netxforge.netxstudio.screens.f2.support.ToleranceObservableMapLabelProvider;
 import com.netxforge.netxstudio.screens.f4.support.MetricTreeLabelProvider;
 import com.netxforge.netxstudio.screens.internal.ScreensActivator;
+import com.netxforge.screens.editing.base.IDataScreenInjection;
+import com.netxforge.screens.editing.base.IEditingService;
+import com.netxforge.screens.editing.base.ScreenUtil;
+import com.netxforge.screens.editing.base.util.DateChooserComboObservableValue;
 
 /**
  * Abstract Component screen implementation, which can deliver various sections.

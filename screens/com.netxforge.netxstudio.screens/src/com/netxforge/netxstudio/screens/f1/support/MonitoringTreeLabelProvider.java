@@ -43,9 +43,9 @@ import com.netxforge.netxstudio.metrics.MetricValueRange;
 import com.netxforge.netxstudio.operators.Node;
 import com.netxforge.netxstudio.operators.Operator;
 import com.netxforge.netxstudio.operators.OperatorsPackage;
-import com.netxforge.netxstudio.screens.editing.ScreenUtil;
 import com.netxforge.netxstudio.screens.f3.support.NetworkTreeLabelProvider;
 import com.netxforge.netxstudio.services.RFSService;
+import com.netxforge.screens.editing.base.ScreenUtil;
 
 public class MonitoringTreeLabelProvider extends StyledCellLabelProvider {
 

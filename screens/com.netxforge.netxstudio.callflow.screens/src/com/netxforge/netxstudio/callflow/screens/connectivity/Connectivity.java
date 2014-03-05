@@ -29,8 +29,8 @@ import org.eclipse.ui.forms.widgets.Form;
 import org.eclipse.ui.forms.widgets.FormToolkit;
 
 import com.netxforge.netxstudio.callflow.screens.AbstractScreen;
-import com.netxforge.netxstudio.screens.editing.IDataServiceInjection;
-import com.netxforge.netxstudio.screens.editing.ScreenUtil;
+import com.netxforge.screens.editing.base.IDataServiceInjection;
+import com.netxforge.screens.editing.base.ScreenUtil;
 
 public class Connectivity extends AbstractScreen implements IDataServiceInjection {
 	

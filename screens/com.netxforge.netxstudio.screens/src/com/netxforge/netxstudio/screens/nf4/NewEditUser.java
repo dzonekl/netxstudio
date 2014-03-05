@@ -78,10 +78,10 @@ import com.netxforge.netxstudio.generics.GenericsPackage;
 import com.netxforge.netxstudio.generics.GenericsPackage.Literals;
 import com.netxforge.netxstudio.generics.Person;
 import com.netxforge.netxstudio.screens.AbstractScreen;
-import com.netxforge.netxstudio.screens.editing.IDataScreenInjection;
-import com.netxforge.netxstudio.screens.editing.ScreenUtil;
-import com.netxforge.netxstudio.screens.editing.util.ValidationService;
 import com.netxforge.netxstudio.screens.internal.ScreensActivator;
+import com.netxforge.screens.editing.base.IDataScreenInjection;
+import com.netxforge.screens.editing.base.ScreenUtil;
+import com.netxforge.screens.editing.base.util.ValidationService;
 
 /**
  * 

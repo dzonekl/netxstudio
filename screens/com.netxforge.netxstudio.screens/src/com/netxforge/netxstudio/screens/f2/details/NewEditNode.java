@@ -81,14 +81,14 @@ import com.netxforge.netxstudio.operators.OperatorsPackage;
 import com.netxforge.netxstudio.screens.AbstractDetailsScreen;
 import com.netxforge.netxstudio.screens.dialog.LocationFilterDialog;
 import com.netxforge.netxstudio.screens.dialog.NodeTypeFilterDialog;
-import com.netxforge.netxstudio.screens.editing.IDataScreenInjection;
-import com.netxforge.netxstudio.screens.editing.IEditingService;
-import com.netxforge.netxstudio.screens.editing.ScreenUtil;
 import com.netxforge.netxstudio.screens.editing.commands.WarningDeleteCommand;
-import com.netxforge.netxstudio.screens.editing.dialogs.MessageDialogWithResult;
-import com.netxforge.netxstudio.screens.editing.util.DateChooserComboObservableValue;
-import com.netxforge.netxstudio.screens.editing.util.ValidationService;
 import com.netxforge.netxstudio.screens.internal.ScreensActivator;
+import com.netxforge.screens.editing.base.IDataScreenInjection;
+import com.netxforge.screens.editing.base.IEditingService;
+import com.netxforge.screens.editing.base.ScreenUtil;
+import com.netxforge.screens.editing.base.dialogs.MessageDialogWithResult;
+import com.netxforge.screens.editing.base.util.DateChooserComboObservableValue;
+import com.netxforge.screens.editing.base.util.ValidationService;
 
 /**
  * 

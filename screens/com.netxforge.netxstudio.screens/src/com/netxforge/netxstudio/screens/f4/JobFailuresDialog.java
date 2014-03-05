@@ -3,7 +3,6 @@ package com.netxforge.netxstudio.screens.f4;
 import java.util.Set;
 
 import org.eclipse.core.databinding.observable.map.IObservableMap;
-import org.eclipse.emf.cdo.CDOObject;
 import org.eclipse.emf.databinding.EMFObservables;
 import org.eclipse.emf.databinding.EMFProperties;
 import org.eclipse.emf.databinding.IEMFListProperty;
@@ -35,7 +34,7 @@ import com.netxforge.netxstudio.scheduling.ExpressionFailure;
 import com.netxforge.netxstudio.scheduling.Failure;
 import com.netxforge.netxstudio.scheduling.SchedulingPackage;
 import com.netxforge.netxstudio.scheduling.WorkFlowRun;
-import com.netxforge.netxstudio.screens.editing.IDataScreenInjection;
+import com.netxforge.screens.editing.base.IDataScreenInjection;
 
 public class JobFailuresDialog extends Dialog implements IDataScreenInjection {
 	private final FormToolkit formToolkit = new FormToolkit(
@@ -193,7 +192,7 @@ public class JobFailuresDialog extends Dialog implements IDataScreenInjection {
 		// N/A, This is a view.
 	}
 
-	public boolean shouldInjectForObject(Set<CDOObject> injectionSet) {
+	public boolean shouldInjectForObject(Set<Object> injectionSet) {
 		return false;
 	}
 	

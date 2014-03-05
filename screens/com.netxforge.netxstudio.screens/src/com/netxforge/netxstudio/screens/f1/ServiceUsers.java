@@ -40,12 +40,12 @@ import org.eclipse.wb.swt.ResourceManager;
 
 import com.google.common.collect.Lists;
 import com.netxforge.netxstudio.screens.AbstractScreen;
-import com.netxforge.netxstudio.screens.editing.IDataServiceInjection;
-import com.netxforge.netxstudio.screens.editing.ScreenUtil;
 import com.netxforge.netxstudio.screens.editing.tables.CDOElementComparer;
 import com.netxforge.netxstudio.services.ServiceUser;
 import com.netxforge.netxstudio.services.ServicesFactory;
 import com.netxforge.netxstudio.services.ServicesPackage;
+import com.netxforge.screens.editing.base.IDataServiceInjection;
+import com.netxforge.screens.editing.base.ScreenUtil;
 
 public class ServiceUsers extends AbstractScreen implements
 		IDataServiceInjection {

@@ -22,11 +22,11 @@ import org.eclipse.net4j.util.lifecycle.ILifecycleEvent;
 import org.eclipse.net4j.util.lifecycle.ILifecycleEvent.Kind;
 import org.eclipse.swt.widgets.Display;
 
-import com.netxforge.netxstudio.screens.editing.IDataInjection;
-import com.netxforge.netxstudio.screens.editing.IScreen;
-import com.netxforge.netxstudio.screens.editing.IScreenProvider;
-import com.netxforge.netxstudio.screens.editing.ScreenUtil;
 import com.netxforge.netxstudio.screens.editing.internal.EditingActivator;
+import com.netxforge.screens.editing.base.IDataInjection;
+import com.netxforge.screens.editing.base.IScreen;
+import com.netxforge.screens.editing.base.IScreenProvider;
+import com.netxforge.screens.editing.base.ScreenUtil;
 
 /**
  * @author Martin Fluegge
@@ -122,12 +122,17 @@ public class DawnEMFHandler extends BasicDawnListener {
 				IScreen[] screens = ((IScreenProvider) editor).getScreens();
 
 				for (IScreen screen : screens) {
+
+					@SuppressWarnings("unused")
 					IDataInjection dataInjection = ScreenUtil
 							.dataInjectionFor(screen);
 
-					if (dataInjection.shouldInjectForObject(dos)) {
-						// Inject here.... the screen can accept or not.
-					}
+					// CB Disable for now
+					// we need conversion from Set<CDOObject> to
+					// Collection<Object>
+					// if (dataInjection.shouldInjectForObject(dos)) {
+					// Inject here.... the screen can accept or not.
+					// }
 
 					if (screen.shouldHandleRefresh()) {
 						screen.handleRefresh(dos);

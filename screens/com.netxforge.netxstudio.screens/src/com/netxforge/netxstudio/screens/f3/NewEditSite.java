@@ -48,8 +48,8 @@ import com.netxforge.netxstudio.geo.Country;
 import com.netxforge.netxstudio.geo.GeoPackage;
 import com.netxforge.netxstudio.geo.Site;
 import com.netxforge.netxstudio.screens.AbstractScreen;
-import com.netxforge.netxstudio.screens.editing.IDataScreenInjection;
-import com.netxforge.netxstudio.screens.editing.ScreenUtil;
+import com.netxforge.screens.editing.base.IDataScreenInjection;
+import com.netxforge.screens.editing.base.ScreenUtil;
 
 /**
  * 

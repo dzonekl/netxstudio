@@ -58,6 +58,7 @@ import com.google.common.collect.Lists;
 import com.google.inject.Inject;
 import com.netxforge.base.cdo.CDO;
 import com.netxforge.base.cdo.ICDOData;
+import com.netxforge.base.data.IBaseDataService;
 import com.netxforge.netxstudio.common.model.StudioUtils;
 import com.netxforge.netxstudio.data.IDataService;
 import com.netxforge.netxstudio.library.LibraryPackage;
@@ -68,6 +69,9 @@ import com.netxforge.netxstudio.screens.editing.dawn.DawnEMFEditorSupport;
 import com.netxforge.netxstudio.screens.editing.dawn.IDawnEditor;
 import com.netxforge.netxstudio.screens.editing.dawn.IDawnEditorSupport;
 import com.netxforge.netxstudio.screens.editing.internal.EditingActivator;
+import com.netxforge.screens.editing.base.EMFEditingService;
+import com.netxforge.screens.editing.base.IScreen;
+import com.netxforge.screens.editing.base.IScreenProvider;
 
 /**
  * For the lifetime of this service, we keep various editing facilities. We also
@@ -85,7 +89,7 @@ public class CDOEditingService extends EMFEditingService implements
 	private DawnEMFEditorSupport dawnEditorSupport;
 
 	@Inject
-	public CDOEditingService(IDataService dataService) {
+	public CDOEditingService(IBaseDataService dataService) {
 		super(dataService);
 		dawnEditorSupport = new DawnEMFEditorSupport(this);
 	}
@@ -305,7 +309,7 @@ public class CDOEditingService extends EMFEditingService implements
 		}
 
 		// Check the standalone transaction for dirtyness...
-		CDOTransaction transaction = this.dataService.getProvider()
+		CDOTransaction transaction = this.getExtendedDataService().getProvider()
 				.getTransaction();
 		if (transaction != null) {
 			boolean transactionDirty = transaction.isDirty();
@@ -397,7 +401,8 @@ public class CDOEditingService extends EMFEditingService implements
 						commitRegular(monitor, transaction);
 					}
 					monitor.subTask("Committing transaction from regular view");
-					transaction = dataService.getProvider().getTransaction();
+					transaction = getExtendedDataService().getProvider()
+							.getTransaction();
 					if (transaction != null) {
 						commitRegular(monitor, transaction);
 					}
@@ -674,7 +679,7 @@ public class CDOEditingService extends EMFEditingService implements
 
 	public void sessionStillValid() {
 		try {
-			this.dataService.getProvider().getSession();
+			this.getExtendedDataService().getProvider().getSession();
 		} catch (final IllegalStateException ise) {
 
 			Display.getDefault().asyncExec(new Runnable() {
@@ -741,19 +746,23 @@ public class CDOEditingService extends EMFEditingService implements
 	}
 
 	/**
-	 * A set of objects is alive when the {@link CDOObject} is 
+	 * A set of objects is alive when the {@link CDOObject} is
 	 * 
 	 */
 	public boolean isDataAlive(Object[] objects) {
-		for(Object o : objects){
-			if(o instanceof CDOObject){
+		for (Object o : objects) {
+			if (o instanceof CDOObject) {
 				CDOObject cdoO = (CDOObject) o;
-				if(FSMUtil.isInvalid(cdoO)){
+				if (FSMUtil.isInvalid(cdoO)) {
 					return false;
 				}
 			}
 		}
 		return true;
+	}
+
+	public IDataService getExtendedDataService() {
+		return (IDataService) super.getDataService();
 	}
 
 }

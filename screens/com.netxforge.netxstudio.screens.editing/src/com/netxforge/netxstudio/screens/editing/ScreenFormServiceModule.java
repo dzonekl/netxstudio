@@ -18,6 +18,9 @@
  *******************************************************************************/ 
 package com.netxforge.netxstudio.screens.editing;
 
+import com.netxforge.screens.editing.base.IScreenFormService;
+import com.netxforge.screens.editing.base.ScreenFormService;
+
 
 /**
  * Provides access to a data provider. 

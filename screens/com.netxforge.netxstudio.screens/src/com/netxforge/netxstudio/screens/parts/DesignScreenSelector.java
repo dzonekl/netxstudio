@@ -21,8 +21,6 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.forms.widgets.FormToolkit;
 
-import com.netxforge.netxstudio.screens.editing.AbstractScreenSelector;
-import com.netxforge.netxstudio.screens.editing.ScreenUtil;
 import com.netxforge.netxstudio.screens.f3.Countries;
 import com.netxforge.netxstudio.screens.f3.DisconnectedResources;
 import com.netxforge.netxstudio.screens.f3.Networks;
@@ -31,6 +29,8 @@ import com.netxforge.netxstudio.screens.f3.RoomsTree;
 import com.netxforge.netxstudio.screens.f3.SitesTree;
 import com.netxforge.netxstudio.screens.f3.SmartResources;
 import com.netxforge.netxstudio.screens.f3.WarehouseTree;
+import com.netxforge.screens.editing.base.AbstractScreenSelector;
+import com.netxforge.screens.editing.base.ScreenUtil;
 
 public class DesignScreenSelector extends AbstractScreenSelector {
 

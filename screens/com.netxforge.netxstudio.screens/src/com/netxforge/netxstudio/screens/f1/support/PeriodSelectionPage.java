@@ -14,8 +14,8 @@ import org.eclipse.ui.forms.widgets.FormToolkit;
 import com.google.inject.Inject;
 import com.netxforge.netxstudio.common.model.StudioUtils;
 import com.netxforge.netxstudio.generics.DateTimeRange;
-import com.netxforge.netxstudio.screens.editing.util.MementoUtil;
 import com.netxforge.netxstudio.screens.f3.PeriodComponent;
+import com.netxforge.screens.editing.base.util.MementoUtil;
 
 public class PeriodSelectionPage extends WizardPage {
 
@@ -27,9 +27,6 @@ public class PeriodSelectionPage extends WizardPage {
 
 	@Inject
 	private PeriodComponent periodComponent;
-
-	@Inject
-	private MementoUtil mementoUtil;
 
 	/**
 	 * Create the wizard.
@@ -58,14 +55,14 @@ public class PeriodSelectionPage extends WizardPage {
 
 		restoreDialogSettings();
 
-//		this.initiBinding();
+		// this.initiBinding();
 	}
 
 	private void restoreDialogSettings() {
 		IDialogSettings ds = getDialogSettings();
 		if (ds != null) {
-			Date start = mementoUtil.retrieveDate(ds, REPORTING_PERIOD_START);
-			Date end = mementoUtil.retrieveDate(ds, REPORTING_PERIOD_END);
+			Date start = MementoUtil.retrieveDate(ds, REPORTING_PERIOD_START);
+			Date end = MementoUtil.retrieveDate(ds, REPORTING_PERIOD_END);
 			if (start != null && end != null) {
 				setPeriod(start, end);
 				return;
@@ -99,9 +96,9 @@ public class PeriodSelectionPage extends WizardPage {
 		Date fromDate = StudioUtils.begin(dtr);
 		Date toDate = StudioUtils.end(dtr);
 
-		mementoUtil.rememberDate(this.getDialogSettings(), fromDate,
+		MementoUtil.rememberDate(this.getDialogSettings(), fromDate,
 				REPORTING_PERIOD_START);
-		mementoUtil.rememberDate(this.getDialogSettings(), toDate,
+		MementoUtil.rememberDate(this.getDialogSettings(), toDate,
 				REPORTING_PERIOD_END);
 
 	}

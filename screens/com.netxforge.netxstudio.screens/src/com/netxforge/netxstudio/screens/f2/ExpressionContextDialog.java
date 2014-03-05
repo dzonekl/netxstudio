@@ -45,7 +45,7 @@ import com.netxforge.netxstudio.library.Equipment;
 import com.netxforge.netxstudio.library.Function;
 import com.netxforge.netxstudio.library.NetXResource;
 import com.netxforge.netxstudio.operators.Node;
-import com.netxforge.netxstudio.screens.editing.IEditingService;
+import com.netxforge.screens.editing.base.IEditingService;
 
 /**
  * Show an expression context in a dialog.

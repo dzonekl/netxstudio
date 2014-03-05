@@ -95,11 +95,11 @@ import com.netxforge.netxstudio.metrics.ValueKindType;
 import com.netxforge.netxstudio.metrics.impl.IdentifierDataKindImpl;
 import com.netxforge.netxstudio.metrics.impl.ValueDataKindImpl;
 import com.netxforge.netxstudio.screens.AbstractScreen;
-import com.netxforge.netxstudio.screens.editing.IScreen;
-import com.netxforge.netxstudio.screens.editing.ScreenUtil;
 import com.netxforge.netxstudio.screens.f4.support.CSVServiceJob;
 import com.netxforge.netxstudio.screens.f4.support.XLSServiceJob;
 import com.netxforge.netxstudio.screens.ide.WorkspaceUtil;
+import com.netxforge.screens.editing.base.IScreen;
+import com.netxforge.screens.editing.base.ScreenUtil;
 
 public abstract class AbstractFileBasedMapping extends AbstractScreen {
 

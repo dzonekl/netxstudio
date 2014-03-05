@@ -21,7 +21,7 @@ import org.eclipse.jface.viewers.ILabelProvider;
 import org.eclipse.jface.viewers.IStructuredContentProvider;
 import org.eclipse.swt.widgets.Shell;
 
-import com.netxforge.netxstudio.screens.editing.dialogs.CheckedTableSelectionDialog;
+import com.netxforge.screens.editing.base.dialogs.CheckedTableSelectionDialog;
 
 public class ChartModelDialog extends CheckedTableSelectionDialog {
 

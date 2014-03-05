@@ -91,10 +91,6 @@ import com.netxforge.netxstudio.screens.AbstractDetailsScreen;
 import com.netxforge.netxstudio.screens.dialog.NodeOrNetworkFilterDialog;
 import com.netxforge.netxstudio.screens.dialog.ServiceUserFilterDialog;
 import com.netxforge.netxstudio.screens.dialog.ToleranceFilterDialog;
-import com.netxforge.netxstudio.screens.editing.IDataScreenInjection;
-import com.netxforge.netxstudio.screens.editing.IEditingService;
-import com.netxforge.netxstudio.screens.editing.ScreenUtil;
-import com.netxforge.netxstudio.screens.editing.util.DateChooserComboObservableValue;
 import com.netxforge.netxstudio.screens.f1.ServiceDistributionScreen;
 import com.netxforge.netxstudio.screens.f1.ServiceHierarchy;
 import com.netxforge.netxstudio.screens.f2.support.ToleranceObservableMapLabelProvider;
@@ -103,6 +99,10 @@ import com.netxforge.netxstudio.services.ServiceDistribution;
 import com.netxforge.netxstudio.services.ServiceUser;
 import com.netxforge.netxstudio.services.ServicesFactory;
 import com.netxforge.netxstudio.services.ServicesPackage;
+import com.netxforge.screens.editing.base.IDataScreenInjection;
+import com.netxforge.screens.editing.base.IEditingService;
+import com.netxforge.screens.editing.base.ScreenUtil;
+import com.netxforge.screens.editing.base.util.DateChooserComboObservableValue;
 
 /**
  * Component for showing the Service Summary.

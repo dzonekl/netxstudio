@@ -69,8 +69,6 @@ import com.netxforge.netxstudio.operators.Node;
 import com.netxforge.netxstudio.screens.AbstractScreen;
 import com.netxforge.netxstudio.screens.dialog.ExpressionFilterDialog;
 import com.netxforge.netxstudio.screens.dialog.NetXResourceFilterDialog;
-import com.netxforge.netxstudio.screens.editing.IDataScreenInjection;
-import com.netxforge.netxstudio.screens.editing.ScreenUtil;
 import com.netxforge.netxstudio.services.DerivedResource;
 import com.netxforge.netxstudio.services.DistributionEntry;
 import com.netxforge.netxstudio.services.RFSService;
@@ -79,6 +77,8 @@ import com.netxforge.netxstudio.services.Service;
 import com.netxforge.netxstudio.services.ServiceDistribution;
 import com.netxforge.netxstudio.services.ServicesFactory;
 import com.netxforge.netxstudio.services.ServicesPackage;
+import com.netxforge.screens.editing.base.IDataScreenInjection;
+import com.netxforge.screens.editing.base.ScreenUtil;
 
 public class ServiceDistributionScreen extends AbstractScreen implements
 		IDataScreenInjection {

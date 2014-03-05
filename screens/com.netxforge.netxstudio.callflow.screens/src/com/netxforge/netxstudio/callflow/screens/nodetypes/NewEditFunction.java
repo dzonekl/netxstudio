@@ -14,8 +14,8 @@ import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.forms.widgets.Section;
 
 import com.netxforge.netxstudio.library.LibraryPackage;
-import com.netxforge.netxstudio.screens.editing.IEditingService;
-import com.netxforge.netxstudio.screens.editing.ScreenUtil;
+import com.netxforge.screens.editing.base.IEditingService;
+import com.netxforge.screens.editing.base.ScreenUtil;
 
 public class NewEditFunction extends NewEditComponent {
 

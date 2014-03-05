@@ -2,7 +2,7 @@ package com.netxforge.netxstudio.callflow.screens.perspective;
 
 import org.eclipse.ui.IPageLayout;
 
-import com.netxforge.netxstudio.screens.editing.perspective.AbstractFormPerspective;
+import com.netxforge.screens.editing.base.perspective.AbstractFormPerspective;
 
 
 public class CallFlowPerspective extends AbstractFormPerspective {

@@ -24,10 +24,10 @@ import org.eclipse.emf.edit.domain.EditingDomain;
 
 import com.google.common.collect.Lists;
 import com.google.inject.Inject;
-import com.netxforge.netxstudio.screens.editing.extenders.AbstractConditionalChildCreationExtender;
 import com.netxforge.netxstudio.services.ServiceFlowRelationship;
 import com.netxforge.netxstudio.services.ServicesFactory;
 import com.netxforge.netxstudio.services.ServicesPackage;
+import com.netxforge.screens.editing.base.extenders.AbstractConditionalChildCreationExtender;
 
 /**
  * Custom child extender, capable to add conditional ( Type etc...) child

@@ -48,8 +48,8 @@ import org.eclipse.ui.forms.widgets.Section;
 import com.netxforge.netxstudio.operators.OperatorsPackage;
 import com.netxforge.netxstudio.operators.Warehouse;
 import com.netxforge.netxstudio.screens.AbstractScreen;
-import com.netxforge.netxstudio.screens.editing.IDataScreenInjection;
-import com.netxforge.netxstudio.screens.editing.ScreenUtil;
+import com.netxforge.screens.editing.base.IDataScreenInjection;
+import com.netxforge.screens.editing.base.ScreenUtil;
 
 public class NewEditWarehouse extends AbstractScreen implements
 		IDataScreenInjection {

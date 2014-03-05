@@ -95,10 +95,12 @@ import com.netxforge.netxstudio.scheduling.RFSServiceReporterJob;
 import com.netxforge.netxstudio.scheduling.RetentionJob;
 import com.netxforge.netxstudio.scheduling.SchedulingPackage;
 import com.netxforge.netxstudio.screens.AbstractScreen;
-import com.netxforge.netxstudio.screens.editing.IDataServiceInjection;
-import com.netxforge.netxstudio.screens.editing.ScreenUtil;
-import com.netxforge.netxstudio.screens.editing.filter.SearchFilter;
 import com.netxforge.netxstudio.screens.editing.tables.CDOElementComparer;
+import com.netxforge.netxstudio.screens.editing.util.CDOMementoUtil;
+import com.netxforge.screens.editing.base.IDataServiceInjection;
+import com.netxforge.screens.editing.base.ScreenUtil;
+import com.netxforge.screens.editing.base.filter.SearchFilter;
+import com.netxforge.screens.editing.base.util.MementoUtil;
 
 /**
  * 
@@ -701,9 +703,9 @@ public class Jobs extends AbstractScreen implements IDataServiceInjection {
 	public void saveState(IMemento memento) {
 
 		// sash state vertical.
-		mementoUtils.rememberStructuredViewerSelection(memento,
+		MementoUtil.rememberStructuredViewerSelection(memento,
 				jobsTableViewer, MEM_KEY_JOBS_SELECTION_TABLE);
-		mementoUtils.rememberStructuredViewerColumns(memento, jobsTableViewer,
+		MementoUtil.rememberStructuredViewerColumns(memento, jobsTableViewer,
 				MEM_KEY_JOBS_COLUMNS_TABLE);
 	}
 
@@ -717,10 +719,10 @@ public class Jobs extends AbstractScreen implements IDataServiceInjection {
 	@Override
 	public void restoreState(IMemento memento) {
 		if (memento != null) {
-			mementoUtils.retrieveStructuredViewerSelection(memento,
+			CDOMementoUtil.retrieveStructuredViewerSelection(memento,
 					jobsTableViewer, MEM_KEY_JOBS_SELECTION_TABLE,
 					((CDOResource) jobsResource).cdoView());
-			mementoUtils.retrieveStructuredViewerColumns(memento,
+			MementoUtil.retrieveStructuredViewerColumns(memento,
 					jobsTableViewer, MEM_KEY_JOBS_COLUMNS_TABLE);
 		}
 	}

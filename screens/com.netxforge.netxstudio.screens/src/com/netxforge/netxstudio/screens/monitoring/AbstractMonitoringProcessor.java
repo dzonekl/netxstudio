@@ -32,12 +32,12 @@ import com.netxforge.netxstudio.common.model.MonitoringStateModel;
 import com.netxforge.netxstudio.common.model.MonitoringStateModel.MonitoringStateCallBack;
 import com.netxforge.netxstudio.generics.DateTimeRange;
 import com.netxforge.netxstudio.generics.GenericsFactory;
-import com.netxforge.netxstudio.screens.editing.util.IValidationListener;
-import com.netxforge.netxstudio.screens.editing.util.ValidationEvent;
 import com.netxforge.netxstudio.screens.internal.ScreensActivator;
 import com.netxforge.netxstudio.screens.preferences.ScreenConstants;
 import com.netxforge.netxstudio.services.RFSService;
 import com.netxforge.netxstudio.services.Service;
+import com.netxforge.screens.editing.base.util.IValidationListener;
+import com.netxforge.screens.editing.base.util.ValidationEvent;
 
 /**
  * An abstract implementation of a monitoring processor. Clients should

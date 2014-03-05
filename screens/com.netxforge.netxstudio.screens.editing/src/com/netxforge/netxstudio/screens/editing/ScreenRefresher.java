@@ -27,6 +27,7 @@ import org.eclipse.ui.progress.UIJob;
 
 import com.netxforge.netxstudio.common.model.IMonitoringSummary;
 import com.netxforge.netxstudio.screens.editing.internal.EditingActivator;
+import com.netxforge.screens.editing.base.IScreen;
 
 /**
  * A common {@link UIJob} for refreshing an {@link IScreen screen} with the for

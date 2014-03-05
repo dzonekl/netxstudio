@@ -62,11 +62,11 @@ import com.netxforge.netxstudio.library.Component;
 import com.netxforge.netxstudio.library.NetXResource;
 import com.netxforge.netxstudio.operators.ResourceMonitor;
 import com.netxforge.netxstudio.screens.AbstractScreen;
-import com.netxforge.netxstudio.screens.editing.IDataScreenInjection;
-import com.netxforge.netxstudio.screens.editing.IScreen;
 import com.netxforge.netxstudio.screens.editing.ScreenRefresher;
 import com.netxforge.netxstudio.screens.showins.ChartInput;
 import com.netxforge.netxstudio.screens.showins.ChartMergeInput;
+import com.netxforge.screens.editing.base.IDataScreenInjection;
+import com.netxforge.screens.editing.base.IScreen;
 
 /**
  * 

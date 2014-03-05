@@ -83,11 +83,6 @@ import com.netxforge.netxstudio.scheduling.RFSServiceMonitoringJob;
 import com.netxforge.netxstudio.scheduling.SchedulingFactory;
 import com.netxforge.netxstudio.scheduling.SchedulingPackage;
 import com.netxforge.netxstudio.screens.AbstractPeriodScreen;
-import com.netxforge.netxstudio.screens.editing.IDataServiceInjection;
-import com.netxforge.netxstudio.screens.editing.ScreenUtil;
-import com.netxforge.netxstudio.screens.editing.WizardUtil;
-import com.netxforge.netxstudio.screens.editing.actions.SeparatorAction;
-import com.netxforge.netxstudio.screens.editing.filter.TreeSearchFilter;
 import com.netxforge.netxstudio.screens.editing.tables.CDOElementComparer;
 import com.netxforge.netxstudio.screens.f1.support.MonitoringTreeFactoryImpl;
 import com.netxforge.netxstudio.screens.f1.support.MonitoringTreeLabelProvider;
@@ -99,6 +94,11 @@ import com.netxforge.netxstudio.screens.monitoring.AbstractMonitoringProcessor;
 import com.netxforge.netxstudio.services.RFSService;
 import com.netxforge.netxstudio.services.Service;
 import com.netxforge.netxstudio.services.ServicesPackage;
+import com.netxforge.screens.editing.base.IDataServiceInjection;
+import com.netxforge.screens.editing.base.ScreenUtil;
+import com.netxforge.screens.editing.base.WizardUtil;
+import com.netxforge.screens.editing.base.actions.SeparatorAction;
+import com.netxforge.screens.editing.base.filter.TreeSearchFilter;
 
 /**
  * A non editing Monitoring screen.

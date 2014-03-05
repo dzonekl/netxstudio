@@ -15,8 +15,8 @@ import com.netxforge.netxstudio.data.actions.ServerRequest;
 import com.netxforge.netxstudio.generics.DateTimeRange;
 import com.netxforge.netxstudio.library.NodeType;
 import com.netxforge.netxstudio.operators.Node;
-import com.netxforge.netxstudio.screens.editing.IEditingService;
 import com.netxforge.netxstudio.screens.internal.ScreensActivator;
+import com.netxforge.screens.editing.base.IEditingService;
 
 public class ReportWizard extends Wizard implements INewWizard {
 

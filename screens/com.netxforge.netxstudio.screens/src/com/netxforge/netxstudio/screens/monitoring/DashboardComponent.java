@@ -49,10 +49,10 @@ import com.netxforge.netxstudio.library.NodeType;
 import com.netxforge.netxstudio.operators.Node;
 import com.netxforge.netxstudio.operators.Operator;
 import com.netxforge.netxstudio.operators.OperatorsPackage;
-import com.netxforge.netxstudio.screens.editing.IScreen;
 import com.netxforge.netxstudio.screens.editing.ScreenRefresher;
-import com.netxforge.netxstudio.screens.editing.ScreenUtil;
 import com.netxforge.netxstudio.services.RFSService;
+import com.netxforge.screens.editing.base.IScreen;
+import com.netxforge.screens.editing.base.ScreenUtil;
 
 /**
  * An injectable component showing the monitoring dashboard. </P> The dashboard

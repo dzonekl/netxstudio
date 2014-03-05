@@ -67,10 +67,10 @@ import com.netxforge.netxstudio.geo.Country;
 import com.netxforge.netxstudio.geo.GeoFactory;
 import com.netxforge.netxstudio.geo.GeoPackage;
 import com.netxforge.netxstudio.screens.AbstractScreen;
-import com.netxforge.netxstudio.screens.editing.IDataServiceInjection;
-import com.netxforge.netxstudio.screens.editing.ScreenUtil;
-import com.netxforge.netxstudio.screens.editing.filter.SearchFilter;
 import com.netxforge.netxstudio.screens.editing.tables.CDOElementComparer;
+import com.netxforge.screens.editing.base.IDataServiceInjection;
+import com.netxforge.screens.editing.base.ScreenUtil;
+import com.netxforge.screens.editing.base.filter.SearchFilter;
 
 /**
  * @author Christophe Bouhier christophe.bouhier@netxforge.com
@@ -322,9 +322,9 @@ public class Countries extends AbstractScreen implements IDataServiceInjection {
 	 * @see com.netxforge.netxstudio.screens.AbstractScreenImpl#getScreenObjects()
 	 */
 	@Override
-	public Collection<CDOObject> getScreenObjects() {
+	public Collection<Object> getScreenObjects() {
 		if( countryResource instanceof CDOObject){
-			return Lists.newArrayList((CDOObject)countryResource);
+			return Lists.newArrayList(countryResource);
 		}
 		return super.getScreenObjects();
 	}

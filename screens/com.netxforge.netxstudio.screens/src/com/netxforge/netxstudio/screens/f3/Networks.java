@@ -94,12 +94,7 @@ import com.netxforge.netxstudio.screens.actions.ExportHTMLAction;
 import com.netxforge.netxstudio.screens.actions.ExportXLSAction;
 import com.netxforge.netxstudio.screens.dialog.OperatorFilterDialog;
 import com.netxforge.netxstudio.screens.dialog.WarehouseFilterDialog;
-import com.netxforge.netxstudio.screens.editing.IDataServiceInjection;
-import com.netxforge.netxstudio.screens.editing.ScreenUtil;
-import com.netxforge.netxstudio.screens.editing.WizardUtil;
-import com.netxforge.netxstudio.screens.editing.actions.BaseSelectionListenerAction;
-import com.netxforge.netxstudio.screens.editing.actions.SeparatorAction;
-import com.netxforge.netxstudio.screens.editing.filter.TreeSearchFilter;
+import com.netxforge.netxstudio.screens.editing.util.CDOMementoUtil;
 import com.netxforge.netxstudio.screens.f1.support.ScheduledReportSelectionWizard;
 import com.netxforge.netxstudio.screens.f2.NodeHistory;
 import com.netxforge.netxstudio.screens.f2.details.NewEditEquipmentLinkII;
@@ -113,6 +108,13 @@ import com.netxforge.netxstudio.screens.f3.support.NetworkTreeFactoryImpl;
 import com.netxforge.netxstudio.screens.f3.support.NetworkTreeLabelProvider;
 import com.netxforge.netxstudio.screens.f3.support.NetworkTreeStructureAdvisorImpl;
 import com.netxforge.netxstudio.screens.f4.NewEditJob;
+import com.netxforge.screens.editing.base.IDataServiceInjection;
+import com.netxforge.screens.editing.base.ScreenUtil;
+import com.netxforge.screens.editing.base.WizardUtil;
+import com.netxforge.screens.editing.base.actions.BaseSelectionListenerAction;
+import com.netxforge.screens.editing.base.actions.SeparatorAction;
+import com.netxforge.screens.editing.base.filter.TreeSearchFilter;
+import com.netxforge.screens.editing.base.util.MementoUtil;
 
 /**
  * @author Christophe Bouhier christophe.bouhier@netxforge.com
@@ -766,7 +768,7 @@ public class Networks extends AbstractScreen implements IDataServiceInjection {
 	 */
 	@Override
 	public void saveState(IMemento memento) {
-		mementoUtils.rememberStructuredViewerSelection(memento,
+		MementoUtil.rememberStructuredViewerSelection(memento,
 				networkTreeViewer, MEM_KEY_NETWORKS_SELECTION_TREE);
 
 		// We might not have a currentDetails state.
@@ -784,7 +786,7 @@ public class Networks extends AbstractScreen implements IDataServiceInjection {
 				.getMemento();
 		String key = keyForComposite(currentDetails);
 		if (key != null) {
-			mementoUtils.rememberSectionsInComposite(memento, currentDetails,
+			MementoUtil.rememberSectionsInComposite(memento, currentDetails,
 					key);
 		}
 	}
@@ -795,7 +797,7 @@ public class Networks extends AbstractScreen implements IDataServiceInjection {
 
 		String key = keyForComposite(currentDetails);
 		if (key != null) {
-			mementoUtils.retrieveSectionsInComposite(memento, currentDetails,
+			MementoUtil.retrieveSectionsInComposite(memento, currentDetails,
 					key);
 		}
 	}
@@ -838,7 +840,7 @@ public class Networks extends AbstractScreen implements IDataServiceInjection {
 	public void restoreState(IMemento memento) {
 
 		if (memento != null) {
-			mementoUtils.retrieveStructuredViewerSelection(memento,
+			CDOMementoUtil.retrieveStructuredViewerSelection(memento,
 					networkTreeViewer, MEM_KEY_NETWORKS_SELECTION_TREE,
 					this.operatorsResource.cdoView());
 		}

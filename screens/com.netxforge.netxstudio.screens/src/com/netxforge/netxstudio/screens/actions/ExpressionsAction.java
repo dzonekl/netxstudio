@@ -24,9 +24,9 @@ import com.netxforge.netxstudio.library.Component;
 import com.netxforge.netxstudio.library.LibraryPackage;
 import com.netxforge.netxstudio.screens.ScreenDialog;
 import com.netxforge.netxstudio.screens.ch9.ObjectExpressions;
-import com.netxforge.netxstudio.screens.editing.IScreenFormService;
-import com.netxforge.netxstudio.screens.editing.ScreenUtil;
-import com.netxforge.netxstudio.screens.editing.actions.BaseSelectionListenerAction;
+import com.netxforge.screens.editing.base.IScreenFormService;
+import com.netxforge.screens.editing.base.ScreenUtil;
+import com.netxforge.screens.editing.base.actions.BaseSelectionListenerAction;
 
 /**
  * @author Christophe Bouhier

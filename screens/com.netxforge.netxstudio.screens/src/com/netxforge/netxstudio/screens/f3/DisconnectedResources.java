@@ -43,12 +43,14 @@ import com.google.inject.Inject;
 import com.netxforge.netxstudio.library.NetXResource;
 import com.netxforge.netxstudio.operators.OperatorsPackage;
 import com.netxforge.netxstudio.screens.AbstractScreen;
-import com.netxforge.netxstudio.screens.editing.IDataServiceInjection;
-import com.netxforge.netxstudio.screens.editing.ScreenUtil;
-import com.netxforge.netxstudio.screens.editing.actions.BaseSelectionListenerAction;
-import com.netxforge.netxstudio.screens.editing.actions.SeparatorAction;
+import com.netxforge.netxstudio.screens.editing.util.CDOMementoUtil;
 import com.netxforge.netxstudio.screens.f2.DisconnectedResourcesComponent;
 import com.netxforge.netxstudio.screens.f2.NewEditResource;
+import com.netxforge.screens.editing.base.IDataServiceInjection;
+import com.netxforge.screens.editing.base.ScreenUtil;
+import com.netxforge.screens.editing.base.actions.BaseSelectionListenerAction;
+import com.netxforge.screens.editing.base.actions.SeparatorAction;
+import com.netxforge.screens.editing.base.util.MementoUtil;
 
 /**
  * 
@@ -221,7 +223,7 @@ public class DisconnectedResources extends AbstractScreen implements
 
 		// sash state vertical.
 		// combo operator.
-		mementoUtils.rememberStructuredViewerSelection(memento,
+		MementoUtil.rememberStructuredViewerSelection(memento,
 				(StructuredViewer) cmpResources.getViewer(),
 				MEM_KEY_NODERESOURCEADVANCED_SELECTION_RESOURCE);
 	}
@@ -238,7 +240,7 @@ public class DisconnectedResources extends AbstractScreen implements
 		if (memento != null) {
 			super.restoreState(memento);
 
-			mementoUtils.retrieveStructuredViewerSelection(memento,
+			CDOMementoUtil.retrieveStructuredViewerSelection(memento,
 					(StructuredViewer) cmpResources.getViewer(),
 					MEM_KEY_NODERESOURCEADVANCED_SELECTION_RESOURCE,
 					operatorResource.cdoView());

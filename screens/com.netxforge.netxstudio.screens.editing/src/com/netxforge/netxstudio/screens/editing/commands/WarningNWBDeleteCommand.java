@@ -49,6 +49,7 @@ import com.netxforge.netxstudio.library.NetXResource;
 import com.netxforge.netxstudio.metrics.MetricsPackage;
 import com.netxforge.netxstudio.operators.OperatorsPackage;
 import com.netxforge.netxstudio.screens.editing.internal.EditingActivator;
+import com.netxforge.screens.editing.base.commands.NoWayBackCommand;
 
 /**
  * A command which 
@@ -222,7 +223,6 @@ public class WarningNWBDeleteCommand extends NoWayBackCommand {
 			try {
 				cdoTransaction.commit();
 			} catch (CommitException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}

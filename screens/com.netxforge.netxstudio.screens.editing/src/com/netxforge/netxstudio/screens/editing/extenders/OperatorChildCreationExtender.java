@@ -37,6 +37,7 @@ import com.netxforge.netxstudio.operators.Network;
 import com.netxforge.netxstudio.operators.Node;
 import com.netxforge.netxstudio.operators.OperatorsFactory;
 import com.netxforge.netxstudio.operators.OperatorsPackage;
+import com.netxforge.screens.editing.base.extenders.AbstractConditionalChildCreationExtender;
 
 /**
  * Custom child extender, capable to add conditional ( Type etc...) child

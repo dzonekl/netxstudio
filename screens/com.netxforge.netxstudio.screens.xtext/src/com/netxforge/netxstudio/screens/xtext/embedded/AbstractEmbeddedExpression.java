@@ -52,9 +52,9 @@ import org.eclipse.xtext.util.concurrent.IUnitOfWork;
 import com.google.inject.Injector;
 import com.netxforge.netxstudio.library.Expression;
 import com.netxforge.netxstudio.library.LibraryPackage;
-import com.netxforge.netxstudio.screens.editing.IEditingService;
-import com.netxforge.netxstudio.screens.editing.ScreenUtil;
 import com.netxforge.netxstudio.screens.xtext.EmbeddedXtextService;
+import com.netxforge.screens.editing.base.IEditingService;
+import com.netxforge.screens.editing.base.ScreenUtil;
 
 /**
  * 

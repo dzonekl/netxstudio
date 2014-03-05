@@ -18,6 +18,12 @@
 package com.netxforge.netxstudio.screens.editing;
 
 import com.google.inject.Inject;
+import com.netxforge.screens.editing.base.IEditingService;
+import com.netxforge.screens.editing.base.IEditingServiceProvider;
+import com.netxforge.screens.editing.base.IScreenFactory;
+import com.netxforge.screens.editing.base.IScreenFormService;
+import com.netxforge.screens.editing.base.IScreenFormServiceProvider;
+import com.netxforge.screens.editing.base.ScreenFormService;
 
 public class ScreenFormServiceProvider implements IScreenFormServiceProvider {
 

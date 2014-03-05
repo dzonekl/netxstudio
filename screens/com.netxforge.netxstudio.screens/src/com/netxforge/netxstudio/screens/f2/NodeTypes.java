@@ -75,16 +75,18 @@ import com.netxforge.netxstudio.library.NodeType;
 import com.netxforge.netxstudio.screens.AbstractScreen;
 import com.netxforge.netxstudio.screens.actions.NodeTypeExportHTMLAction;
 import com.netxforge.netxstudio.screens.actions.NodeTypeExportXLSAction;
-import com.netxforge.netxstudio.screens.editing.IDataServiceInjection;
-import com.netxforge.netxstudio.screens.editing.ScreenUtil;
-import com.netxforge.netxstudio.screens.editing.filter.TreeSearchFilter;
 import com.netxforge.netxstudio.screens.editing.tables.CDOElementComparer;
+import com.netxforge.netxstudio.screens.editing.util.CDOMementoUtil;
 import com.netxforge.netxstudio.screens.f2.details.NewEditEquipment;
 import com.netxforge.netxstudio.screens.f2.details.NewEditFunction;
 import com.netxforge.netxstudio.screens.f2.details.NewEditNodeType;
 import com.netxforge.netxstudio.screens.f2.support.NodeTypeTreeFactoryImpl;
 import com.netxforge.netxstudio.screens.f2.support.NodeTypeTreeLabelProvider;
 import com.netxforge.netxstudio.screens.f3.NetworkViewerComparator;
+import com.netxforge.screens.editing.base.IDataServiceInjection;
+import com.netxforge.screens.editing.base.ScreenUtil;
+import com.netxforge.screens.editing.base.filter.TreeSearchFilter;
+import com.netxforge.screens.editing.base.util.MementoUtil;
 
 /**
  * @author Christophe Bouhier christophe.bouhier@netxforge.com
@@ -512,7 +514,7 @@ public class NodeTypes extends AbstractScreen implements IDataServiceInjection {
 	public void saveState(IMemento memento) {
 
 		// sash state vertical.
-		mementoUtils.rememberStructuredViewerSelection(memento,
+		MementoUtil.rememberStructuredViewerSelection(memento,
 				nodeTypeTreeViewer, MEM_KEY_NODETYPES_SELECTION_TREE);
 
 	}
@@ -522,7 +524,7 @@ public class NodeTypes extends AbstractScreen implements IDataServiceInjection {
 				.getMemento();
 		String key = keyForComposite(currentDetails);
 		if (key != null) {
-			mementoUtils.rememberSectionsInComposite(memento, currentDetails,
+			MementoUtil.rememberSectionsInComposite(memento, currentDetails,
 					key);
 		}
 	}
@@ -556,7 +558,7 @@ public class NodeTypes extends AbstractScreen implements IDataServiceInjection {
 	@Override
 	public void restoreState(IMemento memento) {
 		if (memento != null) {
-			mementoUtils.retrieveStructuredViewerSelection(memento,
+			CDOMementoUtil.retrieveStructuredViewerSelection(memento,
 					nodeTypeTreeViewer, MEM_KEY_NODETYPES_SELECTION_TREE,
 					this.nodeTypeResource.cdoView());
 		}
@@ -569,7 +571,7 @@ public class NodeTypes extends AbstractScreen implements IDataServiceInjection {
 
 		String key = keyForComposite(currentDetails);
 		if (key != null) {
-			mementoUtils.retrieveSectionsInComposite(memento, currentDetails,
+			MementoUtil.retrieveSectionsInComposite(memento, currentDetails,
 					key);
 		}
 	}

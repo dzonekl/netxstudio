@@ -49,13 +49,13 @@ import com.netxforge.netxstudio.common.model.IChartModel;
 import com.netxforge.netxstudio.common.model.IChartResource;
 import com.netxforge.netxstudio.common.model.StudioUtils;
 import com.netxforge.netxstudio.metrics.MetricValueRange;
-import com.netxforge.netxstudio.screens.editing.AbstractScreenViewer;
-import com.netxforge.netxstudio.screens.editing.IScreen;
-import com.netxforge.netxstudio.screens.editing.ScreenUtil;
 import com.netxforge.netxstudio.screens.f2.RangeSelectionDialog;
 import com.netxforge.netxstudio.screens.f3.charts.ChartModelDialog;
 import com.netxforge.netxstudio.screens.f3.charts.ChartScreen;
 import com.netxforge.netxstudio.screens.showins.ChartMergeInput;
+import com.netxforge.screens.editing.base.AbstractScreenViewer;
+import com.netxforge.screens.editing.base.IScreen;
+import com.netxforge.screens.editing.base.ScreenUtil;
 
 /**
  * A Chart screen in a viewer.

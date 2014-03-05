@@ -32,8 +32,8 @@ import org.osgi.framework.BundleContext;
 import com.google.inject.Guice;
 import com.google.inject.Inject;
 import com.google.inject.Injector;
-import com.netxforge.netxstudio.screens.editing.IEditingServiceProvider;
-import com.netxforge.netxstudio.screens.editing.IScreenFormServiceProvider;
+import com.netxforge.screens.editing.base.IEditingServiceProvider;
+import com.netxforge.screens.editing.base.IScreenFormServiceProvider;
 
 /**
  * The activator class controls the plug-in life cycle

@@ -37,8 +37,8 @@ import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.PlatformUI;
 
-import com.netxforge.netxstudio.screens.editing.AbstractScreenSelector;
 import com.netxforge.netxstudio.screens.editing.CDOEditingService;
+import com.netxforge.screens.editing.base.AbstractScreenSelector;
 
 /**
  * @author Martin Fluegge

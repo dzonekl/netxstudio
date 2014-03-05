@@ -34,8 +34,6 @@ import com.netxforge.netxstudio.data.importer.ICSVMetricValuesImporterProvider;
 import com.netxforge.netxstudio.data.importer.RDBMSMetricValuesImporterProvider;
 import com.netxforge.netxstudio.data.importer.XLSMetricValuesImporterProvider;
 import com.netxforge.netxstudio.data.services.ResultProcessor;
-import com.netxforge.netxstudio.screens.editing.IEditingServiceProvider;
-import com.netxforge.netxstudio.screens.editing.IScreenFormServiceProvider;
 import com.netxforge.netxstudio.screens.f1.support.PeriodSelectionPage;
 import com.netxforge.netxstudio.screens.f1.support.ValueRangeSelectionPage;
 import com.netxforge.netxstudio.screens.f2.DisconnectedResourcesComponent;
@@ -46,6 +44,8 @@ import com.netxforge.netxstudio.screens.f3.PeriodComponent;
 import com.netxforge.netxstudio.screens.f3.ResourcesComponent;
 import com.netxforge.netxstudio.screens.f3.SmartValueComponent;
 import com.netxforge.netxstudio.screens.xtext.embedded.EmbeddedLineExpression;
+import com.netxforge.screens.editing.base.IEditingServiceProvider;
+import com.netxforge.screens.editing.base.IScreenFormServiceProvider;
 import com.netxforge.ui.internal.override.NetXScriptInjectorProxy;
 
 /**

@@ -113,11 +113,11 @@ import com.netxforge.netxstudio.metrics.MappingStatistic;
 import com.netxforge.netxstudio.metrics.MetricSource;
 import com.netxforge.netxstudio.metrics.MetricsPackage;
 import com.netxforge.netxstudio.screens.AbstractScreen;
-import com.netxforge.netxstudio.screens.editing.IDataScreenInjection;
-import com.netxforge.netxstudio.screens.editing.actions.BaseSelectionListenerAction;
-import com.netxforge.netxstudio.screens.editing.actions.clipboard.ClipboardService;
 import com.netxforge.netxstudio.screens.editing.commands.WarningDeleteCommand;
 import com.netxforge.netxstudio.screens.editing.tables.CDOElementComparer;
+import com.netxforge.screens.editing.base.IDataScreenInjection;
+import com.netxforge.screens.editing.base.actions.BaseSelectionListenerAction;
+import com.netxforge.screens.editing.base.actions.clipboard.ClipboardService;
 
 /**
  * A screen presenting {@link MetricSource} mapping statistics

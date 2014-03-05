@@ -34,9 +34,9 @@ import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.part.ShowInContext;
 
 import com.google.common.collect.Lists;
-import com.netxforge.netxstudio.screens.editing.AbstractScreenViewer;
-import com.netxforge.netxstudio.screens.editing.IScreen;
-import com.netxforge.netxstudio.screens.editing.ScreenUtil;
+import com.netxforge.screens.editing.base.AbstractScreenViewer;
+import com.netxforge.screens.editing.base.IScreen;
+import com.netxforge.screens.editing.base.ScreenUtil;
 
 /**
  * A Chart screen in a viewer.

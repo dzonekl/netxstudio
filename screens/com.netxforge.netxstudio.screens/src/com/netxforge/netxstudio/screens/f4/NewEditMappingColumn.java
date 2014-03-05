@@ -89,10 +89,10 @@ import com.netxforge.netxstudio.metrics.ValueDataKind;
 import com.netxforge.netxstudio.metrics.ValueKindType;
 import com.netxforge.netxstudio.screens.AbstractScreen;
 import com.netxforge.netxstudio.screens.dialog.MetricFilterDialog;
-import com.netxforge.netxstudio.screens.editing.IDataScreenInjection;
-import com.netxforge.netxstudio.screens.editing.ScreenUtil;
 import com.netxforge.netxstudio.screens.f4.support.IdentifierDialog;
 import com.netxforge.netxstudio.screens.internal.ScreensActivator;
+import com.netxforge.screens.editing.base.IDataScreenInjection;
+import com.netxforge.screens.editing.base.ScreenUtil;
 
 public class NewEditMappingColumn extends AbstractScreen implements
 		IDataScreenInjection {

@@ -27,6 +27,7 @@ import com.google.inject.Inject;
 import com.netxforge.netxstudio.operators.OperatorsPackage;
 import com.netxforge.netxstudio.services.RFSService;
 import com.netxforge.netxstudio.services.ServicesFactory;
+import com.netxforge.screens.editing.base.extenders.AbstractConditionalChildCreationExtender;
 
 /**
  * Custom child extender, capable to add conditional ( Type etc...) child

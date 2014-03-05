@@ -46,10 +46,10 @@ import com.netxforge.netxstudio.common.model.NetxresourceSummary;
 import com.netxforge.netxstudio.library.NetXResource;
 import com.netxforge.netxstudio.operators.Marker;
 import com.netxforge.netxstudio.screens.AbstractScreen;
-import com.netxforge.netxstudio.screens.editing.IDataScreenInjection;
 import com.netxforge.netxstudio.screens.editing.ScreenRefresher;
 import com.netxforge.netxstudio.screens.f3.SmartValueComponent;
 import com.netxforge.netxstudio.services.RFSService;
+import com.netxforge.screens.editing.base.IDataScreenInjection;
 
 /**
  * Data Screen

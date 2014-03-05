@@ -27,16 +27,16 @@ import com.google.inject.Singleton;
 import com.netxforge.netxstudio.data.IDataService;
 import com.netxforge.netxstudio.screens.editing.CDOEditingService;
 import com.netxforge.netxstudio.screens.editing.CDOEditingServiceProvider;
-import com.netxforge.netxstudio.screens.editing.IEditingService;
-import com.netxforge.netxstudio.screens.editing.IEditingServiceProvider;
-import com.netxforge.netxstudio.screens.editing.IScreenFactory;
-import com.netxforge.netxstudio.screens.editing.IScreenFormServiceProvider;
-import com.netxforge.netxstudio.screens.editing.ScreenFactory;
-import com.netxforge.netxstudio.screens.editing.ScreenFormServiceProvider;
-import com.netxforge.netxstudio.screens.editing.actions.clipboard.ClipboardService;
-import com.netxforge.netxstudio.screens.editing.tables.TableHelper;
-import com.netxforge.netxstudio.screens.editing.util.MementoUtil;
-import com.netxforge.netxstudio.screens.editing.util.ValidationService;
+import com.netxforge.netxstudio.screens.editing.util.CDOMementoUtil;
+import com.netxforge.screens.editing.base.IEditingService;
+import com.netxforge.screens.editing.base.IEditingServiceProvider;
+import com.netxforge.screens.editing.base.IScreenFactory;
+import com.netxforge.screens.editing.base.IScreenFormServiceProvider;
+import com.netxforge.screens.editing.base.ScreenFactory;
+import com.netxforge.screens.editing.base.ScreenFormServiceProvider;
+import com.netxforge.screens.editing.base.actions.clipboard.ClipboardService;
+import com.netxforge.screens.editing.base.tables.TableHelper;
+import com.netxforge.screens.editing.base.util.ValidationService;
 
 /**
  * @author Christophe Bouhier christophe.bouhier@netxforge.com
@@ -57,7 +57,7 @@ public class EditingModule extends AbstractModule {
 
 		// Binding util.
 		this.bind(TableHelper.class);
-		this.bind(MementoUtil.class).in(Singleton.class);
+		this.bind(CDOMementoUtil.class).in(Singleton.class);
 		this.bind(ValidationService.class);
 
 		// ///////////////////////////////

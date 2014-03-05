@@ -26,7 +26,7 @@ import org.eclipse.ui.forms.widgets.Hyperlink;
 import org.eclipse.ui.forms.widgets.Section;
 
 import com.netxforge.netxstudio.screens.AbstractScreen;
-import com.netxforge.netxstudio.screens.editing.IDataScreenInjection;
+import com.netxforge.screens.editing.base.IDataScreenInjection;
 
 public class PurgeMetrics extends AbstractScreen implements IDataScreenInjection{
 

@@ -38,9 +38,9 @@ import org.eclipse.ui.part.ShowInContext;
 import com.netxforge.netxstudio.callflow.screens.AbstractScreen;
 import com.netxforge.netxstudio.callflow.screens.callflows.model.CanvasModel;
 import com.netxforge.netxstudio.callflow.screens.callflows.parts.CallflowEditPartsFactory;
-import com.netxforge.netxstudio.screens.editing.IDataServiceInjection;
-import com.netxforge.netxstudio.screens.editing.ScreenUtil;
 import com.netxforge.netxstudio.services.ServiceFlow;
+import com.netxforge.screens.editing.base.IDataServiceInjection;
+import com.netxforge.screens.editing.base.ScreenUtil;
 
 public class DiagramScreen extends AbstractScreen implements
 		IDataServiceInjection {

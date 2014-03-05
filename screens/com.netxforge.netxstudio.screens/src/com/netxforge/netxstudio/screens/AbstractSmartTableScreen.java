@@ -47,10 +47,11 @@ import org.eclipse.ui.IMemento;
 
 import com.netxforge.base.cdo.CDO;
 import com.netxforge.netxstudio.screens.AbstractSmartTableViewer.SelectionHistory;
-import com.netxforge.netxstudio.screens.editing.EMFEditingService;
-import com.netxforge.netxstudio.screens.editing.IDataServiceInjection;
-import com.netxforge.netxstudio.screens.editing.util.MementoUtil;
+import com.netxforge.netxstudio.screens.editing.util.CDOMementoUtil;
 import com.netxforge.netxstudio.screens.internal.ScreensActivator;
+import com.netxforge.screens.editing.base.EMFEditingService;
+import com.netxforge.screens.editing.base.IDataServiceInjection;
+import com.netxforge.screens.editing.base.util.MementoUtil;
 
 /**
  * An abstract implementation of a screen with an embedded tableviewer.
@@ -100,7 +101,8 @@ public abstract class AbstractSmartTableScreen extends AbstractScreen implements
 				EMFEditingService.getAdapterFactory());
 
 		// Set our adapter factory for additional facilities.
-		lazyTableViewer.setAdapterFactory(EMFEditingService.getAdapterFactory());
+		lazyTableViewer
+				.setAdapterFactory(EMFEditingService.getAdapterFactory());
 
 		// Set a default or custom label provider. The default uses EMF.edit to
 		// retrieve the ItemProvider getText()
@@ -136,7 +138,7 @@ public abstract class AbstractSmartTableScreen extends AbstractScreen implements
 
 			String[] attributeKeys = memento.getAttributeKeys();
 			if (attributeKeys.length == 1) {
-				return mementoUtils.retrieveCDOObject(memento, view,
+				return CDOMementoUtil.retrieveCDOObject(memento, view,
 						attributeKeys[0]);
 			}
 			return null;
@@ -167,7 +169,7 @@ public abstract class AbstractSmartTableScreen extends AbstractScreen implements
 					// Remember clean CDOObjects only.
 
 					// Remember in a child node.
-					mementoUtils.rememberCDOObject(
+					CDOMementoUtil.rememberCDOObject(
 							memento.createChild(this.infoNodeName),
 							(CDOObject) item, MEM_KEY_LAZY_OID
 									+ cdoLongIDAsString);
@@ -399,13 +401,13 @@ public abstract class AbstractSmartTableScreen extends AbstractScreen implements
 	public void saveState(IMemento memento) {
 		lazyTableViewer.saveState(memento);
 		// sash state vertical.
-		mementoUtils.rememberStructuredViewerSelection(memento,
+		MementoUtil.rememberStructuredViewerSelection(memento,
 				lazyTableViewer.getTableViewer(),
 				MementoUtil.MEM_KEY_SELECTION_TABLE);
 
 		// Note: Not compatible with the refresh algorithm of the underlying
 		// viewer.
-		mementoUtils.rememberStructuredViewerColumns(memento,
+		MementoUtil.rememberStructuredViewerColumns(memento,
 				lazyTableViewer.getTableViewer(),
 				MementoUtil.MEM_KEY_COLUMNS_TABLE);
 
@@ -413,7 +415,7 @@ public abstract class AbstractSmartTableScreen extends AbstractScreen implements
 
 			TextSearchPattern pattern = (TextSearchPattern) lazyItemsFilter
 					.getPattern();
-			mementoUtils.rememberString(memento, pattern.getPattern(),
+			MementoUtil.rememberString(memento, pattern.getPattern(),
 					MementoUtil.MEM_KEY_SEARCH_PATTERN);
 		}
 	}
@@ -424,14 +426,14 @@ public abstract class AbstractSmartTableScreen extends AbstractScreen implements
 		if (memento != null) {
 			lazyTableViewer.restoreState(memento);
 
-			mementoUtils.retrieveStructuredViewerSelection(memento,
+			CDOMementoUtil.retrieveStructuredViewerSelection(memento,
 					lazyTableViewer.getTableViewer(),
 					MementoUtil.MEM_KEY_SELECTION_TABLE, delegateGetCDOView());
-			mementoUtils.retrieveStructuredViewerColumns(memento,
+			MementoUtil.retrieveStructuredViewerColumns(memento,
 					lazyTableViewer.getTableViewer(),
 					MementoUtil.MEM_KEY_COLUMNS_TABLE);
 
-			pattern = mementoUtils.retrieveString(memento,
+			pattern = MementoUtil.retrieveString(memento,
 					MementoUtil.MEM_KEY_SEARCH_PATTERN);
 		}
 

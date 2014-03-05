@@ -35,8 +35,8 @@ import org.eclipse.xtext.util.concurrent.IUnitOfWork;
 
 import com.netxforge.netxstudio.library.Expression;
 import com.netxforge.netxstudio.library.LibraryPackage;
-import com.netxforge.netxstudio.screens.editing.IEditingService;
 import com.netxforge.netxstudio.screens.xtext.embedded.EmbeddedXtextEditor;
+import com.netxforge.screens.editing.base.IEditingService;
 
 /**
  * THIS CLASS SUCKS, REFACTOR IT.

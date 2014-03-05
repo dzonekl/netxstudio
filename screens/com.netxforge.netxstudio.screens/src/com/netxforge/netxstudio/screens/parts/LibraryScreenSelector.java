@@ -22,8 +22,6 @@ import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.forms.widgets.FormToolkit;
 
 import com.netxforge.netxstudio.screens.ch9.SmartExpressions;
-import com.netxforge.netxstudio.screens.editing.AbstractScreenSelector;
-import com.netxforge.netxstudio.screens.editing.ScreenUtil;
 import com.netxforge.netxstudio.screens.f2.NodeTypeResources;
 import com.netxforge.netxstudio.screens.f2.NodeTypes;
 import com.netxforge.netxstudio.screens.f2.Parameters;
@@ -31,6 +29,8 @@ import com.netxforge.netxstudio.screens.f2.Protocols;
 import com.netxforge.netxstudio.screens.f2.Units;
 import com.netxforge.netxstudio.screens.f2.smarts.SmartTolerances;
 import com.netxforge.netxstudio.screens.f4.Metrics;
+import com.netxforge.screens.editing.base.AbstractScreenSelector;
+import com.netxforge.screens.editing.base.ScreenUtil;
 
 public class LibraryScreenSelector extends AbstractScreenSelector {
 

@@ -34,6 +34,7 @@ import org.eclipse.ui.forms.widgets.FormToolkit;
 import com.google.inject.Inject;
 import com.netxforge.netxstudio.generics.DateTimeRange;
 import com.netxforge.netxstudio.screens.f3.PeriodComponent;
+import com.netxforge.screens.editing.base.util.MementoUtil;
 
 /**
  * A screen with a period component.
@@ -81,7 +82,6 @@ public abstract class AbstractPeriodScreen extends AbstractScreen implements
 		FillLayout fl = new FillLayout();
 		frmAbstractPeriod.getBody().setLayout(fl);
 
-		
 		cmpPeriod.buildUI(frmAbstractPeriod.getHead(), null);
 
 		frmAbstractPeriod.setHeadClient(cmpPeriod.getCmpPeriod());
@@ -114,11 +114,11 @@ public abstract class AbstractPeriodScreen extends AbstractScreen implements
 	@Override
 	public void saveState(IMemento memento) {
 		// from date.
-		mementoUtils.rememberDate(memento, this.getPeriod().getBegin(),
+		MementoUtil.rememberDate(memento, this.getPeriod().getBegin(),
 				MEM_KEY_NODERESOURCEADVANCED_PERIOD_FROM);
 
 		// to date.
-		mementoUtils.rememberDate(memento, this.getPeriod().getEnd(),
+		MementoUtil.rememberDate(memento, this.getPeriod().getEnd(),
 				MEM_KEY_NODERESOURCEADVANCED_PERIOD_TO);
 	}
 
@@ -129,8 +129,8 @@ public abstract class AbstractPeriodScreen extends AbstractScreen implements
 			// Resource selection, as this will
 			// trigger the loading
 			// of values.
-			cmpPeriod.setPeriod(mementoUtils.retrieveDate(memento,
-					MEM_KEY_NODERESOURCEADVANCED_PERIOD_FROM), mementoUtils
+			cmpPeriod.setPeriod(MementoUtil.retrieveDate(memento,
+					MEM_KEY_NODERESOURCEADVANCED_PERIOD_FROM), MementoUtil
 					.retrieveDate(memento,
 							MEM_KEY_NODERESOURCEADVANCED_PERIOD_TO));
 		}
@@ -139,7 +139,7 @@ public abstract class AbstractPeriodScreen extends AbstractScreen implements
 	public Form getScreenForm() {
 		return frmAbstractPeriod;
 	}
-	
+
 	@Override
 	public String getScreenName() {
 		return "PeriodScreen";

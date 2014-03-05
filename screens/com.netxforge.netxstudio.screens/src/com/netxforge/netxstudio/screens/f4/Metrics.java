@@ -72,13 +72,15 @@ import com.netxforge.netxstudio.metrics.Metric;
 import com.netxforge.netxstudio.metrics.MetricsFactory;
 import com.netxforge.netxstudio.metrics.MetricsPackage;
 import com.netxforge.netxstudio.screens.AbstractScreen;
-import com.netxforge.netxstudio.screens.editing.IDataServiceInjection;
-import com.netxforge.netxstudio.screens.editing.ScreenUtil;
-import com.netxforge.netxstudio.screens.editing.filter.SearchFilter;
 import com.netxforge.netxstudio.screens.editing.tables.CDOElementComparer;
+import com.netxforge.netxstudio.screens.editing.util.CDOMementoUtil;
 import com.netxforge.netxstudio.screens.f4.support.MetricTreeFactory;
 import com.netxforge.netxstudio.screens.f4.support.MetricTreeLabelProvider;
 import com.netxforge.netxstudio.screens.f4.support.MetricTreeStructureAdvisor;
+import com.netxforge.screens.editing.base.IDataServiceInjection;
+import com.netxforge.screens.editing.base.ScreenUtil;
+import com.netxforge.screens.editing.base.filter.SearchFilter;
+import com.netxforge.screens.editing.base.util.MementoUtil;
 
 public class Metrics extends AbstractScreen implements IDataServiceInjection {
 
@@ -444,10 +446,10 @@ public class Metrics extends AbstractScreen implements IDataServiceInjection {
 	public void saveState(IMemento memento) {
 
 		// sash state vertical.
-		mementoUtils.rememberStructuredViewerSelection(memento,
+		MementoUtil.rememberStructuredViewerSelection(memento,
 				metricsTreeViewer, MEM_KEY_METRIC_SELECTION_TABLE);
-		mementoUtils.rememberStructuredViewerColumns(memento,
-				metricsTreeViewer, MEM_KEY_METRIC_COLUMNS_TABLE);
+		MementoUtil.rememberStructuredViewerColumns(memento, metricsTreeViewer,
+				MEM_KEY_METRIC_COLUMNS_TABLE);
 	}
 
 	/*
@@ -460,10 +462,10 @@ public class Metrics extends AbstractScreen implements IDataServiceInjection {
 	@Override
 	public void restoreState(IMemento memento) {
 		if (memento != null) {
-			mementoUtils.retrieveStructuredViewerSelection(memento,
+			CDOMementoUtil.retrieveStructuredViewerSelection(memento,
 					metricsTreeViewer, MEM_KEY_METRIC_SELECTION_TABLE,
 					((CDOResource) metricResource).cdoView());
-			mementoUtils.retrieveStructuredViewerColumns(memento,
+			MementoUtil.retrieveStructuredViewerColumns(memento,
 					metricsTreeViewer, MEM_KEY_METRIC_COLUMNS_TABLE);
 		}
 	}

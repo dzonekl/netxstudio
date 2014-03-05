@@ -22,7 +22,6 @@ import java.util.Set;
 
 import org.eclipse.core.runtime.jobs.IJobChangeEvent;
 import org.eclipse.core.runtime.jobs.JobChangeAdapter;
-import org.eclipse.emf.cdo.CDOObject;
 import org.eclipse.emf.cdo.CDOState;
 import org.eclipse.emf.common.command.Command;
 import org.eclipse.emf.ecore.EObject;
@@ -56,10 +55,10 @@ import org.eclipse.xtext.util.concurrent.IUnitOfWork;
 
 import com.google.inject.Inject;
 import com.netxforge.netxstudio.library.Expression;
-import com.netxforge.netxstudio.screens.editing.IDataScreenInjection;
-import com.netxforge.netxstudio.screens.editing.IEditingService;
 import com.netxforge.netxstudio.screens.xtext.EmbeddedXtextService;
 import com.netxforge.netxstudio.screens.xtext.internal.ScreensXtextActivator;
+import com.netxforge.screens.editing.base.IDataScreenInjection;
+import com.netxforge.screens.editing.base.IEditingService;
 import com.netxforge.ui.internal.override.NetXScriptInjectorProxy;
 
 /**
@@ -123,13 +122,12 @@ public class EmbeddedLineExpression implements IDataScreenInjection {
 		parent.addDisposeListener(new DisposeListener() {
 
 			public void widgetDisposed(DisposeEvent e) {
-				
+
 				xtextEditor.cancelLoading();
 				// dispose prior to disposing the widget.
 				xtextEditor.getSourceViewerDecorationSupport(
 						xtextEditor.getViewer()).dispose();
-				
-				
+
 			}
 
 		});
@@ -655,7 +653,7 @@ public class EmbeddedLineExpression implements IDataScreenInjection {
 		return xtextEditor;
 	}
 
-	public boolean shouldInjectForObject(Set<CDOObject> injectionSet) {
+	public boolean shouldInjectForObject(Set<Object> injectionSet) {
 		return false;
 	}
 

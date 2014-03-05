@@ -16,10 +16,10 @@ import org.eclipse.ui.forms.widgets.FormToolkit;
 
 import com.netxforge.netxstudio.common.model.StudioUtils;
 import com.netxforge.netxstudio.screens.AbstractScreen;
-import com.netxforge.netxstudio.screens.editing.IDataScreenInjection;
 import com.netxforge.netxstudio.screens.f1.model.WrappedRFSService;
 import com.netxforge.netxstudio.screens.f1.parts.ServiceEditPartFactory;
 import com.netxforge.netxstudio.services.RFSService;
+import com.netxforge.screens.editing.base.IDataScreenInjection;
 
 public class ServiceHierarchy extends AbstractScreen implements
 		IDataScreenInjection {

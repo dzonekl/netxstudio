@@ -87,15 +87,17 @@ import com.netxforge.netxstudio.library.ReferenceNetwork;
 import com.netxforge.netxstudio.protocols.Message;
 import com.netxforge.netxstudio.protocols.ProtocolsFactory;
 import com.netxforge.netxstudio.protocols.ProtocolsPackage;
-import com.netxforge.netxstudio.screens.editing.IDataServiceInjection;
-import com.netxforge.netxstudio.screens.editing.ScreenUtil;
-import com.netxforge.netxstudio.screens.editing.actions.BaseSelectionListenerAction;
-import com.netxforge.netxstudio.screens.editing.filter.TreeSearchFilter;
+import com.netxforge.netxstudio.screens.editing.util.CDOMementoUtil;
 import com.netxforge.netxstudio.services.ServiceFlow;
 import com.netxforge.netxstudio.services.ServiceFlowDirection;
 import com.netxforge.netxstudio.services.ServiceFlowRelationship;
 import com.netxforge.netxstudio.services.ServicesFactory;
 import com.netxforge.netxstudio.services.ServicesPackage;
+import com.netxforge.screens.editing.base.IDataServiceInjection;
+import com.netxforge.screens.editing.base.ScreenUtil;
+import com.netxforge.screens.editing.base.actions.BaseSelectionListenerAction;
+import com.netxforge.screens.editing.base.filter.TreeSearchFilter;
+import com.netxforge.screens.editing.base.util.MementoUtil;
 
 public class CallFlows extends AbstractScreen implements IDataServiceInjection {
 
@@ -853,9 +855,9 @@ public class CallFlows extends AbstractScreen implements IDataServiceInjection {
 	public void saveState(IMemento memento) {
 
 		// sash state vertical.
-		mementoUtils.rememberStructuredViewerSelection(memento,
+		MementoUtil.rememberStructuredViewerSelection(memento,
 				callFlowTreeViewer, MEM_KEY_CALLFLOWS_SELECTION_TREE);
-		mementoUtils.rememberStructuredViewerColumns(memento,
+		MementoUtil.rememberStructuredViewerColumns(memento,
 				callFlowTreeViewer, MEM_KEY_CALLFLOWS_COLUMNS_TREE);
 	}
 
@@ -869,10 +871,10 @@ public class CallFlows extends AbstractScreen implements IDataServiceInjection {
 	@Override
 	public void restoreState(IMemento memento) {
 
-		mementoUtils.retrieveStructuredViewerSelection(memento,
+		CDOMementoUtil.retrieveStructuredViewerSelection(memento,
 				callFlowTreeViewer, MEM_KEY_CALLFLOWS_SELECTION_TREE,
 				((CDOResource) cdoResourceCallFlows).cdoView());
-		mementoUtils.retrieveStructuredViewerColumns(memento,
+		MementoUtil.retrieveStructuredViewerColumns(memento,
 				callFlowTreeViewer, MEM_KEY_CALLFLOWS_COLUMNS_TREE);
 	}
 

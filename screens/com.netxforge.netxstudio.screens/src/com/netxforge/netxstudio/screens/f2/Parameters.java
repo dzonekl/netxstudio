@@ -69,10 +69,12 @@ import com.netxforge.netxstudio.library.LibraryFactory;
 import com.netxforge.netxstudio.library.LibraryPackage;
 import com.netxforge.netxstudio.library.Parameter;
 import com.netxforge.netxstudio.screens.AbstractScreen;
-import com.netxforge.netxstudio.screens.editing.IDataServiceInjection;
-import com.netxforge.netxstudio.screens.editing.ScreenUtil;
-import com.netxforge.netxstudio.screens.editing.filter.SearchFilter;
 import com.netxforge.netxstudio.screens.editing.tables.CDOElementComparer;
+import com.netxforge.netxstudio.screens.editing.util.CDOMementoUtil;
+import com.netxforge.screens.editing.base.IDataServiceInjection;
+import com.netxforge.screens.editing.base.ScreenUtil;
+import com.netxforge.screens.editing.base.filter.SearchFilter;
+import com.netxforge.screens.editing.base.util.MementoUtil;
 
 /**
  * @author Christophe Bouhier christophe.bouhier@netxforge.com
@@ -341,9 +343,9 @@ public class Parameters extends AbstractScreen implements IDataServiceInjection 
 
 	@Override
 	public void saveState(IMemento memento) {
-		mementoUtils.rememberStructuredViewerSelection(memento, tableViewer,
+		MementoUtil.rememberStructuredViewerSelection(memento, tableViewer,
 				MEM_KEY_PARAMETERS_SELECTION_TABLE);
-		mementoUtils.rememberStructuredViewerColumns(memento, tableViewer,
+		MementoUtil.rememberStructuredViewerColumns(memento, tableViewer,
 				MEM_KEY_PARAMETERS_COLUMNS_TABLE);
 
 	}
@@ -351,9 +353,9 @@ public class Parameters extends AbstractScreen implements IDataServiceInjection 
 	@Override
 	public void restoreState(IMemento memento) {
 		if (memento != null && parametersResource != null) {
-			mementoUtils.retrieveStructuredViewerColumns(memento, tableViewer,
+			MementoUtil.retrieveStructuredViewerColumns(memento, tableViewer,
 					MEM_KEY_PARAMETERS_COLUMNS_TABLE);
-			mementoUtils.retrieveStructuredViewerSelection(memento,
+			CDOMementoUtil.retrieveStructuredViewerSelection(memento,
 					tableViewer, MEM_KEY_PARAMETERS_SELECTION_TABLE,
 					((CDOResource) parametersResource).cdoView());
 

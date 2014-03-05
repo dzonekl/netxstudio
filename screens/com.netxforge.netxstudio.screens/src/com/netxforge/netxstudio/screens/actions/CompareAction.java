@@ -26,7 +26,7 @@ import org.eclipse.swt.widgets.Display;
 
 import com.google.common.collect.Lists;
 import com.netxforge.netxstudio.screens.FeatureDeltaDialog;
-import com.netxforge.netxstudio.screens.editing.actions.BaseSelectionListenerAction;
+import com.netxforge.screens.editing.base.actions.BaseSelectionListenerAction;
 
 public class CompareAction extends BaseSelectionListenerAction {
 

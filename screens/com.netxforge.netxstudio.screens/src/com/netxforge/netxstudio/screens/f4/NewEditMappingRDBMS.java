@@ -87,11 +87,11 @@ import com.netxforge.netxstudio.metrics.ValueKindType;
 import com.netxforge.netxstudio.metrics.impl.IdentifierDataKindImpl;
 import com.netxforge.netxstudio.metrics.impl.ValueDataKindImpl;
 import com.netxforge.netxstudio.screens.AbstractScreen;
-import com.netxforge.netxstudio.screens.editing.IDataScreenInjection;
-import com.netxforge.netxstudio.screens.editing.ScreenUtil;
 import com.netxforge.netxstudio.screens.f4.support.ColumnMappingMenu;
 import com.netxforge.netxstudio.screens.f4.support.ColumnMappingMenu.MappingMenuListener;
 import com.netxforge.netxstudio.screens.f4.support.RDBMSServiceJob;
+import com.netxforge.screens.editing.base.IDataScreenInjection;
+import com.netxforge.screens.editing.base.ScreenUtil;
 
 public class NewEditMappingRDBMS extends AbstractScreen implements
 		IDataScreenInjection {

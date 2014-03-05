@@ -45,11 +45,11 @@ import org.eclipse.wb.swt.SWTResourceManager;
 import com.netxforge.base.Tuple;
 import com.netxforge.netxstudio.metrics.MappingColumn;
 import com.netxforge.netxstudio.metrics.MetricsPackage;
-import com.netxforge.netxstudio.screens.editing.IDataScreenInjection;
-import com.netxforge.netxstudio.screens.editing.ScreenUtil;
 import com.netxforge.netxstudio.screens.f4.support.ColumnMappingMenu;
 import com.netxforge.netxstudio.screens.f4.support.ColumnMappingMenu.MappingMenuListener;
 import com.netxforge.netxstudio.screens.ide.WorkspaceUtil;
+import com.netxforge.screens.editing.base.IDataScreenInjection;
+import com.netxforge.screens.editing.base.ScreenUtil;
 
 public class NewEditMappingCSV extends AbstractFileBasedMapping implements
 		IDataScreenInjection {

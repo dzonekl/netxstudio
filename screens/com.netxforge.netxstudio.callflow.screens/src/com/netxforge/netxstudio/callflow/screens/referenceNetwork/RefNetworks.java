@@ -46,8 +46,8 @@ import com.netxforge.netxstudio.library.LibraryPackage;
 import com.netxforge.netxstudio.library.ReferenceNetwork;
 import com.netxforge.netxstudio.library.ReferenceRelationship;
 import com.netxforge.netxstudio.protocols.ProtocolsPackage;
-import com.netxforge.netxstudio.screens.editing.IDataServiceInjection;
-import com.netxforge.netxstudio.screens.editing.ScreenUtil;
+import com.netxforge.screens.editing.base.IDataServiceInjection;
+import com.netxforge.screens.editing.base.ScreenUtil;
 
 public class RefNetworks extends AbstractScreen implements
 		IDataServiceInjection {

@@ -20,7 +20,7 @@ package com.netxforge.netxstudio.callflow.screens;
 import org.eclipse.swt.widgets.Composite;
 
 import com.netxforge.netxstudio.callflow.screens.internal.CallFlowsActivator;
-import com.netxforge.netxstudio.screens.editing.AbstractDetailsScreenImpl;
+import com.netxforge.screens.editing.base.AbstractDetailsScreenImpl;
 
 /**
  * Injects the members for this Screens Plugins.

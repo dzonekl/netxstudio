@@ -18,9 +18,9 @@ import org.eclipse.ui.forms.widgets.Section;
 import com.netxforge.netxstudio.operators.Network;
 import com.netxforge.netxstudio.operators.OperatorsPackage;
 import com.netxforge.netxstudio.screens.AbstractDetailsScreen;
-import com.netxforge.netxstudio.screens.editing.IDataScreenInjection;
-import com.netxforge.netxstudio.screens.editing.IEditingService;
-import com.netxforge.netxstudio.screens.editing.ScreenUtil;
+import com.netxforge.screens.editing.base.IDataScreenInjection;
+import com.netxforge.screens.editing.base.IEditingService;
+import com.netxforge.screens.editing.base.ScreenUtil;
 
 public class NewEditNetwork extends AbstractDetailsScreen implements
 		IDataScreenInjection {

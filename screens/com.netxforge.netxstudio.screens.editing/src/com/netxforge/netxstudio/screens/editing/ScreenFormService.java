@@ -62,6 +62,17 @@ import com.netxforge.netxstudio.generics.GenericsPackage;
 import com.netxforge.netxstudio.generics.Person;
 import com.netxforge.netxstudio.generics.Role;
 import com.netxforge.netxstudio.screens.editing.internal.EditingActivator;
+import com.netxforge.screens.editing.base.AbstractScreensViewPart;
+import com.netxforge.screens.editing.base.IDataScreenInjection;
+import com.netxforge.screens.editing.base.IDataServiceInjection;
+import com.netxforge.screens.editing.base.IEditingService;
+import com.netxforge.screens.editing.base.IScreen;
+import com.netxforge.screens.editing.base.IScreenFactory;
+import com.netxforge.screens.editing.base.IScreenFormService;
+import com.netxforge.screens.editing.base.NothingScreenImpl;
+import com.netxforge.screens.editing.base.ScreenBody;
+import com.netxforge.screens.editing.base.ScreenChangeListener;
+import com.netxforge.screens.editing.base.ScreenUtil;
 
 /**
  * This service is capable to place a composite in a dedicated section (The

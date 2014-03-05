@@ -47,8 +47,8 @@ import com.netxforge.netxstudio.common.model.StudioUtils;
 import com.netxforge.netxstudio.generics.Value;
 import com.netxforge.netxstudio.operators.OperatorsPackage;
 import com.netxforge.netxstudio.operators.ToleranceMarker;
-import com.netxforge.netxstudio.screens.editing.tables.TableHelper;
-import com.netxforge.netxstudio.screens.editing.tables.TableHelper.TBVCFeatureSorter;
+import com.netxforge.screens.editing.base.tables.TableHelper;
+import com.netxforge.screens.editing.base.tables.TableHelper.TBVCFeatureSorter;
 
 /**
  * A UI compoment for showing markers.

@@ -42,6 +42,7 @@ import com.netxforge.netxstudio.library.LibraryFactory;
 import com.netxforge.netxstudio.library.LibraryPackage;
 import com.netxforge.netxstudio.library.NodeType;
 import com.netxforge.netxstudio.operators.Node;
+import com.netxforge.screens.editing.base.extenders.AbstractConditionalChildCreationExtender;
 
 /**
  * Custom child extender, capable to add conditional ( Type etc...) child

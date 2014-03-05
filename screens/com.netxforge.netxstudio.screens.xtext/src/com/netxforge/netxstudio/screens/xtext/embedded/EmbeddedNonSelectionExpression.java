@@ -8,7 +8,7 @@ import org.eclipse.swt.layout.FormData;
 import org.eclipse.swt.widgets.Composite;
 
 import com.netxforge.netxstudio.library.Expression;
-import com.netxforge.netxstudio.screens.editing.IEditingService;
+import com.netxforge.screens.editing.base.IEditingService;
 
 /**
  * Concrete implementation which can set and clear the expression from an owner.

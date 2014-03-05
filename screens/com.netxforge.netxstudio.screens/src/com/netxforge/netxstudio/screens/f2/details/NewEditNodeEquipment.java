@@ -15,7 +15,7 @@ import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.forms.widgets.Section;
 
 import com.netxforge.netxstudio.library.LibraryPackage;
-import com.netxforge.netxstudio.screens.editing.IEditingService;
+import com.netxforge.screens.editing.base.IEditingService;
 
 public class NewEditNodeEquipment extends AbstractNewEditComponent  {
 

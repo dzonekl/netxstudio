@@ -61,12 +61,12 @@ import com.netxforge.base.di.IInjectorProxy;
 import com.netxforge.netxstudio.library.Expression;
 import com.netxforge.netxstudio.library.LibraryPackage.Literals;
 import com.netxforge.netxstudio.screens.AbstractScreen;
-import com.netxforge.netxstudio.screens.editing.IDataScreenInjection;
-import com.netxforge.netxstudio.screens.editing.ScreenUtil;
-import com.netxforge.netxstudio.screens.editing.util.IValidationListener;
-import com.netxforge.netxstudio.screens.editing.util.ValidationService;
 import com.netxforge.netxstudio.screens.xtext.embedded.AbstractEmbeddedExpression;
 import com.netxforge.netxstudio.screens.xtext.embedded.EmbeddedNonSelectionExpression;
+import com.netxforge.screens.editing.base.IDataScreenInjection;
+import com.netxforge.screens.editing.base.ScreenUtil;
+import com.netxforge.screens.editing.base.util.IValidationListener;
+import com.netxforge.screens.editing.base.util.ValidationService;
 
 /**
  * @author Christophe Bouhier christophe.bouhier@netxforge.com

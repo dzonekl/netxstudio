@@ -29,8 +29,8 @@ import org.eclipse.ui.forms.widgets.FormToolkit;
 
 import com.google.inject.Inject;
 import com.netxforge.netxstudio.screens.AbstractScreen;
-import com.netxforge.netxstudio.screens.editing.IDataScreenInjection;
 import com.netxforge.netxstudio.screens.monitoring.DashboardComponent;
+import com.netxforge.screens.editing.base.IDataScreenInjection;
 
 /**
  * Monitoring Dashboard. 

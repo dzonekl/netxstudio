@@ -80,12 +80,6 @@ import com.netxforge.netxstudio.scheduling.SchedulingFactory;
 import com.netxforge.netxstudio.scheduling.SchedulingPackage;
 import com.netxforge.netxstudio.screens.AbstractScreen;
 import com.netxforge.netxstudio.screens.dialog.OperatorFilterDialog;
-import com.netxforge.netxstudio.screens.editing.IDataServiceInjection;
-import com.netxforge.netxstudio.screens.editing.IScreen;
-import com.netxforge.netxstudio.screens.editing.ScreenUtil;
-import com.netxforge.netxstudio.screens.editing.WizardUtil;
-import com.netxforge.netxstudio.screens.editing.actions.SeparatorAction;
-import com.netxforge.netxstudio.screens.editing.filter.TreeSearchFilter;
 import com.netxforge.netxstudio.screens.editing.tables.CDOElementComparer;
 import com.netxforge.netxstudio.screens.f1.details.NewEditServiceTree;
 import com.netxforge.netxstudio.screens.f1.support.RFSServiceTreeFactoryImpl;
@@ -98,6 +92,12 @@ import com.netxforge.netxstudio.services.RFSService;
 import com.netxforge.netxstudio.services.Service;
 import com.netxforge.netxstudio.services.ServicesFactory;
 import com.netxforge.netxstudio.services.ServicesPackage;
+import com.netxforge.screens.editing.base.IDataServiceInjection;
+import com.netxforge.screens.editing.base.IScreen;
+import com.netxforge.screens.editing.base.ScreenUtil;
+import com.netxforge.screens.editing.base.WizardUtil;
+import com.netxforge.screens.editing.base.actions.SeparatorAction;
+import com.netxforge.screens.editing.base.filter.TreeSearchFilter;
 
 /**
  * @author Christophe Bouhier christophe.bouhier@netxforge.com

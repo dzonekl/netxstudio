@@ -19,7 +19,7 @@ import com.netxforge.netxstudio.NetxstudioPackage;
 import com.netxforge.netxstudio.ServerSettings;
 import com.netxforge.netxstudio.data.actions.ServerRequest;
 import com.netxforge.netxstudio.screens.AbstractScreen;
-import com.netxforge.netxstudio.screens.editing.IDataServiceInjection;
+import com.netxforge.screens.editing.base.IDataServiceInjection;
 
 public class MetricSourceLocations extends AbstractScreen implements IDataServiceInjection {
 

@@ -19,7 +19,7 @@ package com.netxforge.netxstudio.screens.actions;
 
 import org.eclipse.jface.resource.ImageDescriptor;
 
-import com.netxforge.netxstudio.screens.editing.actions.BaseSelectionListenerAction;
+import com.netxforge.screens.editing.base.actions.BaseSelectionListenerAction;
 
 
 /**

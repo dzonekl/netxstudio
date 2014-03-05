@@ -18,11 +18,11 @@ import com.netxforge.netxstudio.metrics.MetricsFactory;
 import com.netxforge.netxstudio.metrics.ObjectKindType;
 import com.netxforge.netxstudio.metrics.ValueDataKind;
 import com.netxforge.netxstudio.metrics.ValueKindType;
-import com.netxforge.netxstudio.screens.editing.IScreen;
-import com.netxforge.netxstudio.screens.editing.IScreenFormService;
-import com.netxforge.netxstudio.screens.editing.ScreenUtil;
 import com.netxforge.netxstudio.screens.f4.AbstractFileBasedMapping;
 import com.netxforge.netxstudio.screens.f4.NewEditMappingColumn;
+import com.netxforge.screens.editing.base.IScreen;
+import com.netxforge.screens.editing.base.IScreenFormService;
+import com.netxforge.screens.editing.base.ScreenUtil;
 
 public class ColumnMappingMenu {
 

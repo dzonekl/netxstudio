@@ -76,11 +76,13 @@ import com.netxforge.netxstudio.scheduling.MetricSourceJob;
 import com.netxforge.netxstudio.scheduling.SchedulingFactory;
 import com.netxforge.netxstudio.scheduling.SchedulingPackage;
 import com.netxforge.netxstudio.screens.AbstractScreen;
-import com.netxforge.netxstudio.screens.editing.IDataServiceInjection;
-import com.netxforge.netxstudio.screens.editing.ScreenUtil;
-import com.netxforge.netxstudio.screens.editing.actions.SeparatorAction;
-import com.netxforge.netxstudio.screens.editing.filter.SearchFilter;
 import com.netxforge.netxstudio.screens.editing.tables.CDOElementComparer;
+import com.netxforge.netxstudio.screens.editing.util.CDOMementoUtil;
+import com.netxforge.screens.editing.base.IDataServiceInjection;
+import com.netxforge.screens.editing.base.ScreenUtil;
+import com.netxforge.screens.editing.base.actions.SeparatorAction;
+import com.netxforge.screens.editing.base.filter.SearchFilter;
+import com.netxforge.screens.editing.base.util.MementoUtil;
 
 /**
  * @author Christophe Bouhier
@@ -554,9 +556,9 @@ public class MetricSources extends AbstractScreen implements
 	public void saveState(IMemento memento) {
 
 		// sash state vertical.
-		mementoUtils.rememberStructuredViewerSelection(memento,
+		MementoUtil.rememberStructuredViewerSelection(memento,
 				metricSourceTableViewer, MEM_KEY_METRICSOURCE_SELECTION_TABLE);
-		mementoUtils.rememberStructuredViewerColumns(memento,
+		MementoUtil.rememberStructuredViewerColumns(memento,
 				metricSourceTableViewer, MEM_KEY_METRICSOURCE_COLUMNS_TABLE);
 	}
 
@@ -571,11 +573,11 @@ public class MetricSources extends AbstractScreen implements
 	public void restoreState(IMemento memento) {
 
 		if (memento != null) {
-			mementoUtils.retrieveStructuredViewerSelection(memento,
+			CDOMementoUtil.retrieveStructuredViewerSelection(memento,
 					metricSourceTableViewer,
 					MEM_KEY_METRICSOURCE_SELECTION_TABLE,
 					((CDOResource) msResource).cdoView());
-			mementoUtils
+			MementoUtil
 					.retrieveStructuredViewerColumns(memento,
 							metricSourceTableViewer,
 							MEM_KEY_METRICSOURCE_COLUMNS_TABLE);

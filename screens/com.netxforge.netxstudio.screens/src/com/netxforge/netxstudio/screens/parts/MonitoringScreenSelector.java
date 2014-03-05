@@ -21,12 +21,12 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.forms.widgets.FormToolkit;
 
-import com.netxforge.netxstudio.screens.editing.AbstractScreenSelector;
-import com.netxforge.netxstudio.screens.editing.ScreenUtil;
 import com.netxforge.netxstudio.screens.f1.MonitoringTree;
 import com.netxforge.netxstudio.screens.f1.Reports;
 import com.netxforge.netxstudio.screens.f1.ServiceUsers;
 import com.netxforge.netxstudio.screens.f1.ServicesTree;
+import com.netxforge.screens.editing.base.AbstractScreenSelector;
+import com.netxforge.screens.editing.base.ScreenUtil;
 
 public class MonitoringScreenSelector extends AbstractScreenSelector {
 

@@ -59,9 +59,11 @@ import com.netxforge.netxstudio.library.LibraryPackage;
 import com.netxforge.netxstudio.library.Tolerance;
 import com.netxforge.netxstudio.screens.AbstractScreen;
 import com.netxforge.netxstudio.screens.LoadingFactory;
-import com.netxforge.netxstudio.screens.editing.IDataServiceInjection;
-import com.netxforge.netxstudio.screens.editing.ScreenUtil;
 import com.netxforge.netxstudio.screens.editing.tables.CDOElementComparer;
+import com.netxforge.netxstudio.screens.editing.util.CDOMementoUtil;
+import com.netxforge.screens.editing.base.IDataServiceInjection;
+import com.netxforge.screens.editing.base.ScreenUtil;
+import com.netxforge.screens.editing.base.util.MementoUtil;
 
 /**
  * @author Christophe Bouhier christophe.bouhier@netxforge.com
@@ -199,7 +201,7 @@ public class LazyTolerances extends AbstractScreen implements
 		table.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 3, 1));
 		toolkit.paintBordersFor(table);
 
-//		toleranceTblViewer.addFilter(new SearchFilter(editingService));
+		// toleranceTblViewer.addFilter(new SearchFilter(editingService));
 	}
 
 	/**
@@ -370,9 +372,9 @@ public class LazyTolerances extends AbstractScreen implements
 	public void saveState(IMemento memento) {
 
 		// sash state vertical.
-		mementoUtils.rememberStructuredViewerSelection(memento,
+		MementoUtil.rememberStructuredViewerSelection(memento,
 				toleranceTblViewer, MEM_KEY_TOLERANCE_SELECTION_TABLE);
-		mementoUtils.rememberStructuredViewerColumns(memento,
+		MementoUtil.rememberStructuredViewerColumns(memento,
 				toleranceTblViewer, MEM_KEY_TOLERANCE_COLUMNS_TABLE);
 	}
 
@@ -387,10 +389,10 @@ public class LazyTolerances extends AbstractScreen implements
 	public void restoreState(IMemento memento) {
 
 		if (toleranceResource != null) {
-			mementoUtils.retrieveStructuredViewerSelection(memento,
+			CDOMementoUtil.retrieveStructuredViewerSelection(memento,
 					toleranceTblViewer, MEM_KEY_TOLERANCE_SELECTION_TABLE,
 					((CDOResource) toleranceResource).cdoView());
-			mementoUtils.retrieveStructuredViewerColumns(memento,
+			MementoUtil.retrieveStructuredViewerColumns(memento,
 					toleranceTblViewer, MEM_KEY_TOLERANCE_COLUMNS_TABLE);
 		}
 	}

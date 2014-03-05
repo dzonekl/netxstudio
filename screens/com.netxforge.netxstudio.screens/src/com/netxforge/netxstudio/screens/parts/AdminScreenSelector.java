@@ -21,13 +21,13 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.forms.widgets.FormToolkit;
 
-import com.netxforge.netxstudio.screens.editing.AbstractScreenSelector;
-import com.netxforge.netxstudio.screens.editing.ScreenUtil;
 import com.netxforge.netxstudio.screens.f4.Jobs;
 import com.netxforge.netxstudio.screens.f4.smarts.SmartMetricSources;
 import com.netxforge.netxstudio.screens.nf3.Retention;
 import com.netxforge.netxstudio.screens.nf4.Settings;
 import com.netxforge.netxstudio.screens.nf4.UsersAndRoles;
+import com.netxforge.screens.editing.base.AbstractScreenSelector;
+import com.netxforge.screens.editing.base.ScreenUtil;
 
 public class AdminScreenSelector extends AbstractScreenSelector {
 

@@ -19,6 +19,8 @@ package com.netxforge.netxstudio.screens.editing;
 
 import com.google.inject.Inject;
 import com.netxforge.netxstudio.data.IDataService;
+import com.netxforge.screens.editing.base.IEditingService;
+import com.netxforge.screens.editing.base.IEditingServiceProvider;
 
 public class CDOEditingServiceProvider implements IEditingServiceProvider {
 

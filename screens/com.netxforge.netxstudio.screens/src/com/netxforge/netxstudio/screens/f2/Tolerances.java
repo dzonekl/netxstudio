@@ -67,18 +67,19 @@ import com.google.common.collect.Lists;
 import com.netxforge.netxstudio.library.LibraryFactory;
 import com.netxforge.netxstudio.library.Tolerance;
 import com.netxforge.netxstudio.screens.AbstractScreen;
-import com.netxforge.netxstudio.screens.editing.IDataServiceInjection;
-import com.netxforge.netxstudio.screens.editing.ScreenUtil;
-import com.netxforge.netxstudio.screens.editing.filter.SearchFilter;
 import com.netxforge.netxstudio.screens.editing.tables.CDOElementComparer;
+import com.netxforge.netxstudio.screens.editing.util.CDOMementoUtil;
 import com.netxforge.netxstudio.screens.f2.support.ToleranceObservableMapLabelProvider;
+import com.netxforge.screens.editing.base.IDataServiceInjection;
+import com.netxforge.screens.editing.base.ScreenUtil;
+import com.netxforge.screens.editing.base.filter.SearchFilter;
+import com.netxforge.screens.editing.base.util.MementoUtil;
 
 /**
  * @author Christophe Bouhier christophe.bouhier@netxforge.com
  * 
  */
-public class Tolerances extends AbstractScreen implements
-		IDataServiceInjection  {
+public class Tolerances extends AbstractScreen implements IDataServiceInjection {
 
 	private static final String MEM_KEY_TOLERANCE_SELECTION_TABLE = "MEM_KEY_TOLERANCE_SELECTION_TABLE";
 	private static final String MEM_KEY_TOLERANCE_COLUMNS_TABLE = "MEM_KEY_TOLERANCE_COLUMNS_TABLE";
@@ -282,7 +283,7 @@ public class Tolerances extends AbstractScreen implements
 			CDOResource tolResource = (CDOResource) toleranceResource;
 			tolResource.cdoPrefetch(CDORevision.DEPTH_INFINITE);
 		}
-		
+
 		buildUI();
 		initDataBindings_();
 	}
@@ -292,9 +293,9 @@ public class Tolerances extends AbstractScreen implements
 		listContentProvider = new ObservableListContentProvider();
 		toleranceTblViewer.setContentProvider(listContentProvider);
 		toleranceTblViewer
-		.setLabelProvider(new ToleranceObservableMapLabelProvider(
-				new IObservableMap[]{}));
-		
+				.setLabelProvider(new ToleranceObservableMapLabelProvider(
+						new IObservableMap[] {}));
+
 		IEMFListProperty l = EMFEditProperties.resource(editingService
 				.getEditingDomain());
 		IObservableList toleranceObservableList = l.observe(toleranceResource);
@@ -357,9 +358,9 @@ public class Tolerances extends AbstractScreen implements
 	public void saveState(IMemento memento) {
 
 		// sash state vertical.
-		mementoUtils.rememberStructuredViewerSelection(memento,
+		MementoUtil.rememberStructuredViewerSelection(memento,
 				toleranceTblViewer, MEM_KEY_TOLERANCE_SELECTION_TABLE);
-		mementoUtils.rememberStructuredViewerColumns(memento,
+		MementoUtil.rememberStructuredViewerColumns(memento,
 				toleranceTblViewer, MEM_KEY_TOLERANCE_COLUMNS_TABLE);
 	}
 
@@ -374,10 +375,10 @@ public class Tolerances extends AbstractScreen implements
 	public void restoreState(IMemento memento) {
 
 		if (memento != null && toleranceResource != null) {
-			mementoUtils.retrieveStructuredViewerSelection(memento,
+			CDOMementoUtil.retrieveStructuredViewerSelection(memento,
 					toleranceTblViewer, MEM_KEY_TOLERANCE_SELECTION_TABLE,
 					((CDOResource) toleranceResource).cdoView());
-			mementoUtils.retrieveStructuredViewerColumns(memento,
+			MementoUtil.retrieveStructuredViewerColumns(memento,
 					toleranceTblViewer, MEM_KEY_TOLERANCE_COLUMNS_TABLE);
 		}
 	}

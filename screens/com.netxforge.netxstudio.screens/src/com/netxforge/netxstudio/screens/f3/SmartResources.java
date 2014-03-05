@@ -144,22 +144,8 @@ import com.netxforge.netxstudio.screens.LabelTextTableColumnFilter;
 import com.netxforge.netxstudio.screens.ScreenDialog;
 import com.netxforge.netxstudio.screens.ch9.ObjectExpressions;
 import com.netxforge.netxstudio.screens.dialog.ToleranceFilterDialog;
-import com.netxforge.netxstudio.screens.editing.EMFEditingService;
-import com.netxforge.netxstudio.screens.editing.IDataServiceInjection;
-import com.netxforge.netxstudio.screens.editing.ScreenUtil;
-import com.netxforge.netxstudio.screens.editing.WizardUtil;
-import com.netxforge.netxstudio.screens.editing.actions.BaseSelectionListenerAction;
-import com.netxforge.netxstudio.screens.editing.actions.SeparatorAction;
-import com.netxforge.netxstudio.screens.editing.actions.TableViewerWithState;
-import com.netxforge.netxstudio.screens.editing.filter.SearchFilter;
 import com.netxforge.netxstudio.screens.editing.tables.CDOElementComparer;
-import com.netxforge.netxstudio.screens.editing.tables.CopyFeatureCommand.FeatureInitializer;
-import com.netxforge.netxstudio.screens.editing.tables.CopyFeaturesActionHandler;
-import com.netxforge.netxstudio.screens.editing.tables.FocusBlockOwnerDrawHighlighterForMultiselection;
-import com.netxforge.netxstudio.screens.editing.tables.FocusColumnToModelMap;
-import com.netxforge.netxstudio.screens.editing.tables.OpenTreeViewer;
-import com.netxforge.netxstudio.screens.editing.tables.TableHelper;
-import com.netxforge.netxstudio.screens.editing.tables.TreeViewerFocusBlockManager;
+import com.netxforge.netxstudio.screens.editing.util.CDOMementoUtil;
 import com.netxforge.netxstudio.screens.f1.support.ReportWizard;
 import com.netxforge.netxstudio.screens.f2.CapacityEditingDialog;
 import com.netxforge.netxstudio.screens.f2.ExpressionContextDialog;
@@ -173,6 +159,22 @@ import com.netxforge.netxstudio.screens.showins.ChartInput;
 import com.netxforge.netxstudio.screens.xtext.embedded.EmbeddedLineExpression;
 import com.netxforge.netxstudio.services.RFSService;
 import com.netxforge.netxstudio.services.Service;
+import com.netxforge.screens.editing.base.EMFEditingService;
+import com.netxforge.screens.editing.base.IDataServiceInjection;
+import com.netxforge.screens.editing.base.ScreenUtil;
+import com.netxforge.screens.editing.base.WizardUtil;
+import com.netxforge.screens.editing.base.actions.BaseSelectionListenerAction;
+import com.netxforge.screens.editing.base.actions.SeparatorAction;
+import com.netxforge.screens.editing.base.actions.TableViewerWithState;
+import com.netxforge.screens.editing.base.filter.SearchFilter;
+import com.netxforge.screens.editing.base.tables.CopyFeatureCommand.FeatureInitializer;
+import com.netxforge.screens.editing.base.tables.CopyFeaturesActionHandler;
+import com.netxforge.screens.editing.base.tables.FocusBlockOwnerDrawHighlighterForMultiselection;
+import com.netxforge.screens.editing.base.tables.FocusColumnToModelMap;
+import com.netxforge.screens.editing.base.tables.OpenTreeViewer;
+import com.netxforge.screens.editing.base.tables.TableHelper;
+import com.netxforge.screens.editing.base.tables.TreeViewerFocusBlockManager;
+import com.netxforge.screens.editing.base.util.MementoUtil;
 
 /**
  * 
@@ -2492,34 +2494,34 @@ public class SmartResources extends AbstractPeriodScreen implements
 		super.saveState(memento);
 
 		// sash state vertical.
-		mementoUtils.rememberSashForm(memento, sashVertical,
+		MementoUtil.rememberSashForm(memento, sashVertical,
 				MEM_KEY_NODERESOURCEADVANCED_SEPARATOR_VERTICAL);
 
 		// sash state data.
-		mementoUtils.rememberSashForm(memento, sashData,
+		MementoUtil.rememberSashForm(memento, sashData,
 				MEM_KEY_NODERESOURCEADVANCED_SEPARATOR_DATA);
 
 		// combo operator.
-		mementoUtils.rememberStructuredViewerSelection(memento,
+		MementoUtil.rememberStructuredViewerSelection(memento,
 				cmbViewerOperator,
 				MEM_KEY_NODERESOURCEADVANCED_SELECTION_OPERATOR);
 
 		// combo network.
-		mementoUtils.rememberStructuredViewerSelection(memento,
+		MementoUtil.rememberStructuredViewerSelection(memento,
 				cmbViewerNetwork,
 				MEM_KEY_NODERESOURCEADVANCED_SELECTION_NETWORK);
 
 		// combo node.
-		mementoUtils.rememberStructuredViewerSelection(memento, cmbViewerNode,
+		MementoUtil.rememberStructuredViewerSelection(memento, cmbViewerNode,
 				MEM_KEY_NODERESOURCEADVANCED_SELECTION_NODE);
 
 		// tree component
-		mementoUtils.rememberStructuredViewerSelection(memento,
+		MementoUtil.rememberStructuredViewerSelection(memento,
 				componentsTreeViewer,
 				MEM_KEY_NODERESOURCEADVANCED_SELECTION_COMPONENT);
 
 		// table resource
-		mementoUtils.rememberStructuredViewerSelection(memento,
+		MementoUtil.rememberStructuredViewerSelection(memento,
 				resourcesTableViewer,
 				MEM_KEY_NODERESOURCEADVANCED_SELECTION_RESOURCE);
 
@@ -2539,32 +2541,32 @@ public class SmartResources extends AbstractPeriodScreen implements
 			try {
 				super.restoreState(memento);
 
-				mementoUtils.retrieveSashForm(memento, sashVertical,
+				MementoUtil.retrieveSashForm(memento, sashVertical,
 						MEM_KEY_NODERESOURCEADVANCED_SEPARATOR_VERTICAL);
-				mementoUtils.retrieveSashForm(memento, sashData,
+				MementoUtil.retrieveSashForm(memento, sashData,
 						MEM_KEY_NODERESOURCEADVANCED_SEPARATOR_DATA);
 
-				mementoUtils.retrieveStructuredViewerSelection(memento,
+				CDOMementoUtil.retrieveStructuredViewerSelection(memento,
 						cmbViewerOperator,
 						MEM_KEY_NODERESOURCEADVANCED_SELECTION_OPERATOR,
 						this.operatorResource.cdoView());
 
-				mementoUtils.retrieveStructuredViewerSelection(memento,
+				CDOMementoUtil.retrieveStructuredViewerSelection(memento,
 						cmbViewerNetwork,
 						MEM_KEY_NODERESOURCEADVANCED_SELECTION_NETWORK,
 						this.operatorResource.cdoView());
 
-				mementoUtils.retrieveStructuredViewerSelection(memento,
+				CDOMementoUtil.retrieveStructuredViewerSelection(memento,
 						cmbViewerNode,
 						MEM_KEY_NODERESOURCEADVANCED_SELECTION_NODE,
 						this.operatorResource.cdoView());
 
-				mementoUtils.retrieveStructuredViewerSelection(memento,
+				CDOMementoUtil.retrieveStructuredViewerSelection(memento,
 						componentsTreeViewer,
 						MEM_KEY_NODERESOURCEADVANCED_SELECTION_COMPONENT,
 						this.operatorResource.cdoView());
 
-				mementoUtils.retrieveStructuredViewerSelection(memento,
+				CDOMementoUtil.retrieveStructuredViewerSelection(memento,
 						resourcesTableViewer,
 						MEM_KEY_NODERESOURCEADVANCED_SELECTION_RESOURCE,
 						this.operatorResource.cdoView());

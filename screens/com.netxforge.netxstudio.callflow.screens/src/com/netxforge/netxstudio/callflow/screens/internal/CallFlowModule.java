@@ -22,8 +22,8 @@ import static org.ops4j.peaberry.Peaberry.service;
 import com.google.inject.AbstractModule;
 import com.google.inject.name.Names;
 import com.netxforge.base.di.IInjectorProxy;
-import com.netxforge.netxstudio.screens.editing.IEditingServiceProvider;
-import com.netxforge.netxstudio.screens.editing.IScreenFormServiceProvider;
+import com.netxforge.screens.editing.base.IEditingServiceProvider;
+import com.netxforge.screens.editing.base.IScreenFormServiceProvider;
 
 public class CallFlowModule extends AbstractModule {
 

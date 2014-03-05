@@ -19,8 +19,8 @@ package com.netxforge.netxstudio.screens;
 
 import org.eclipse.swt.widgets.Composite;
 
-import com.netxforge.netxstudio.screens.editing.AbstractDetailsScreenImpl;
 import com.netxforge.netxstudio.screens.internal.ScreensActivator;
+import com.netxforge.screens.editing.base.AbstractDetailsScreenImpl;
 
 /**
  * Injects the members for this Screens Plugins.

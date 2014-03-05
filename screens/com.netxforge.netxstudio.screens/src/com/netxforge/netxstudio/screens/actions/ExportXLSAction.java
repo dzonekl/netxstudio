@@ -19,8 +19,8 @@
 import org.eclipse.jface.viewers.IStructuredSelection;
 
 import com.netxforge.netxstudio.operators.Node;
-import com.netxforge.netxstudio.screens.editing.WizardUtil;
-import com.netxforge.netxstudio.screens.editing.actions.BaseSelectionListenerAction;
+import com.netxforge.screens.editing.base.WizardUtil;
+import com.netxforge.screens.editing.base.actions.BaseSelectionListenerAction;
 
 /**
  * @author Christophe Bouhier
