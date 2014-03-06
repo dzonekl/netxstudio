@@ -21,12 +21,7 @@ Require-Bundle: org.swtchart;bundle-version="0.7.0",
  com.netxforge.netxstudio.screens.editing;bundle-version="1.0.0",
  com.netxforge.netxstudio.screens.ide;bundle-version="1.0.0",
  com.netxforge.netxstudio.screens.xtext;bundle-version="1.0.0",
- com.netxforge.netxstudio.webservice;bundle-version="1.0.0",
- de.bacin.geoff;resolution:=optional,
- de.bacin.geoff.ui;resolution:=optional,
- de.bacin.geoff.geocoding;resolution:=optional,
- de.bacin.geoff.map.model;bundle-version="0.7.0";resolution:=optional,
- de.bacin.geoff.ui.swt;bundle-version="0.7.0";resolution:=optional
+ com.netxforge.netxstudio.webservice;bundle-version="1.0.0"
 Bundle-RequiredExecutionEnvironment: J2SE-1.5
 Bundle-ActivationPolicy: lazy
 Bundle-ClassPath: .

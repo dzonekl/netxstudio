@@ -17,12 +17,8 @@
  *******************************************************************************/
 package com.netxforge.netxstudio.common.model;
 
-import java.io.File;
 import java.math.BigDecimal;
-import java.text.DateFormat;
 import java.text.DecimalFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
@@ -36,14 +32,11 @@ import java.util.List;
 import java.util.Map;
 import java.util.NoSuchElementException;
 
-import javax.xml.datatype.DatatypeConfigurationException;
-import javax.xml.datatype.DatatypeFactory;
 import javax.xml.datatype.XMLGregorianCalendar;
 
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.emf.cdo.CDOObject;
 import org.eclipse.emf.cdo.CDOObjectReference;
-import org.eclipse.emf.cdo.CDOState;
 import org.eclipse.emf.cdo.common.id.CDOID;
 import org.eclipse.emf.cdo.common.revision.CDORevision;
 import org.eclipse.emf.cdo.common.revision.delta.CDOAddFeatureDelta;
@@ -57,7 +50,6 @@ import org.eclipse.emf.cdo.common.revision.delta.CDOSetFeatureDelta;
 import org.eclipse.emf.cdo.eresource.CDOResource;
 import org.eclipse.emf.cdo.eresource.CDOResourceFolder;
 import org.eclipse.emf.cdo.eresource.CDOResourceNode;
-import org.eclipse.emf.cdo.spi.common.revision.InternalCDORevision;
 import org.eclipse.emf.cdo.transaction.CDOTransaction;
 import org.eclipse.emf.cdo.util.ObjectNotFoundException;
 import org.eclipse.emf.cdo.view.CDOView;
@@ -78,7 +70,6 @@ import com.google.common.base.Joiner;
 import com.google.common.base.Predicate;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Iterables;
-import com.google.common.collect.Iterators;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Multimap;
@@ -131,7 +122,6 @@ import com.netxforge.netxstudio.scheduling.SchedulingPackage;
 import com.netxforge.netxstudio.services.DerivedResource;
 import com.netxforge.netxstudio.services.RFSService;
 import com.netxforge.netxstudio.services.Service;
-import com.netxforge.netxstudio.services.ServiceDistribution;
 import com.netxforge.netxstudio.services.ServiceMonitor;
 import com.netxforge.netxstudio.services.ServiceUser;
 import com.netxforge.netxstudio.services.ServicesPackage;
@@ -163,7 +153,7 @@ public class StudioUtils {
 	public static final String NODE_ID = "NodeID";
 	public static final String NODE = "NODE";
 
-	private static final int MAX_CHANGE_LENGTH = 2000;
+	public static final int MAX_CHANGE_LENGTH = 2000;
 
 	public static final Iterable<String> MAPPING_NODE_ATTRIBUTES = ImmutableList
 			.of(NETWORK_ELEMENT_ID);
@@ -175,16 +165,6 @@ public class StudioUtils {
 			.of("Name", "EquipmentCode", "Position");
 
 	public static final String GENERATED_EXPRESSION_PREFIX = " Generated_comp_";
-
-	private DatatypeFactory dataTypeFactory;
-
-	public StudioUtils() {
-		try {
-			this.dataTypeFactory = DatatypeFactory.newInstance();
-		} catch (DatatypeConfigurationException e) {
-			e.printStackTrace();
-		}
-	}
 
 	/**
 	 * Compare the time stamp of two {@link Value} objects. This implementation
@@ -206,36 +186,6 @@ public class StudioUtils {
 
 	public static ValueTimeStampComparator valueTimeStampCompare() {
 		return new ValueTimeStampComparator();
-	}
-
-	public class EFeatureComparator implements Comparator<EObject> {
-
-		private EStructuralFeature eFeature;
-
-		public EFeatureComparator(EStructuralFeature eFeature) {
-			this.eFeature = eFeature;
-			// Analyse the data type for supported comparison types?
-		}
-
-		@SuppressWarnings({ "unchecked", "rawtypes" })
-		public int compare(final EObject v1, final EObject v2) {
-
-			// check if set.
-			if (v1 != null && v1.eIsSet(eFeature) && v2 != null
-					&& v2.eIsSet(eFeature)) {
-				Object eGet1 = v1.eGet(eFeature);
-				Object eGet2 = v2.eGet(eFeature);
-
-				if (eGet1 instanceof Comparable) {
-					return ((Comparable) eGet1).compareTo(eGet2);
-				}
-			}
-			return -1;
-		}
-	};
-
-	public EFeatureComparator eFeatureComparator(EStructuralFeature eFeature) {
-		return new EFeatureComparator(eFeature);
 	}
 
 	/**
@@ -289,7 +239,7 @@ public class StudioUtils {
 		return sb.toString();
 	}
 
-	public Value value() {
+	public static Value value() {
 		Value createValue = GenericsFactory.eINSTANCE.createValue();
 		return createValue;
 	}
@@ -306,56 +256,11 @@ public class StudioUtils {
 	 * @param multiply
 	 * @return
 	 */
-	public Value valueWithRandom(int multiply) {
+	public static Value valueWithRandom(int multiply) {
 		Value value = value();
 		double random = Math.random();
 		value.setValue(random * multiply);
 		return value;
-	}
-
-	/**
-	 * CDO Object equality, is not customized {@link CDOObject#equals(Object)
-	 * see equals()} when two CDOObjects with same OID are compared with '=='
-	 * will result in false if either is read by a different CDOTransaction. A
-	 * dedicated comparator will compare the OID's, even if from different
-	 * transactions. </br> The {@link CDOState} of the objects is required to be
-	 * {@link CDOState#CLEAN clean} (Object is state {@link CDOState#NEW new}
-	 * and {@link CDOState#TRANSIENT transient} have a temporary OID} which
-	 * makes comparison superfluous)
-	 * 
-	 * @author Christophe Bouhier
-	 */
-	public boolean cdoOIDEquals(CDOObject o1, CDOObject o2) {
-		if (FSMUtil.isClean(o1) && FSMUtil.isClean(o2)) {
-			return o1.cdoID().equals(o2.cdoID());
-		}
-		return false;
-	}
-
-	/**
-	 * Compare two values
-	 */
-	public class DateComparator implements Comparator<Date> {
-		public int compare(final Date v1, final Date v2) {
-			return v1.compareTo(v2);
-		}
-	};
-
-	public DateComparator dateComparator() {
-		return new DateComparator();
-	}
-
-	/**
-	 * Compare two values
-	 */
-	public class DoubleComparator implements Comparator<Double> {
-		public int compare(final Double v1, final Double v2) {
-			return Double.compare(v1, v2);
-		}
-	};
-
-	public DoubleComparator doubleCompare() {
-		return new DoubleComparator();
 	}
 
 	/**
@@ -457,16 +362,6 @@ public class StudioUtils {
 		return null;
 	}
 
-	public FileLastModifiedComparator fileLastModifiedComparator() {
-		return new FileLastModifiedComparator();
-	}
-
-	public class FileLastModifiedComparator implements Comparator<File> {
-		public int compare(final File f1, File f2) {
-			return new Long(f2.lastModified()).compareTo(f1.lastModified());
-		}
-	};
-
 	public static ServiceMonitorComparator serviceMonitorCompare() {
 		return new ServiceMonitorComparator();
 	}
@@ -533,11 +428,13 @@ public class StudioUtils {
 		return new MarkerWithinPeriodPredicate(dtr);
 	}
 
-	public MarkerWithinPeriodPredicate markerInsidePeriod(Date from, Date to) {
+	public static MarkerWithinPeriodPredicate markerInsidePeriod(Date from,
+			Date to) {
 		return new MarkerWithinPeriodPredicate(from, to);
 	}
 
-	public MarkerWithinPeriodPredicate markerInsidePeriod(long from, long to) {
+	public static MarkerWithinPeriodPredicate markerInsidePeriod(long from,
+			long to) {
 		return new MarkerWithinPeriodPredicate(from, to);
 	}
 
@@ -556,7 +453,7 @@ public class StudioUtils {
 		return Lists.newArrayList(filterValues);
 	}
 
-	public List<Marker> markersInsidePeriod(Iterable<Marker> unfiltered,
+	public static List<Marker> markersInsidePeriod(Iterable<Marker> unfiltered,
 			Date from, Date to) {
 
 		Iterable<Marker> filterValues = Iterables.filter(unfiltered,
@@ -564,7 +461,7 @@ public class StudioUtils {
 		return Lists.newArrayList(filterValues);
 	}
 
-	public List<Marker> markersInsidePeriod(Iterable<Marker> unfiltered,
+	public static List<Marker> markersInsidePeriod(Iterable<Marker> unfiltered,
 			long from, long to) {
 
 		Iterable<Marker> filterValues = Iterables.filter(unfiltered,
@@ -610,7 +507,7 @@ public class StudioUtils {
 		return new ValueWithinPeriodPredicate(dtr);
 	}
 
-	public ValueWithinPeriodPredicate valueInsideRange(Date from, Date to) {
+	public static ValueWithinPeriodPredicate valueInsideRange(Date from, Date to) {
 		return new ValueWithinPeriodPredicate(from, to);
 	}
 
@@ -621,15 +518,15 @@ public class StudioUtils {
 	public static List<Value> valuesInsideRange(Iterable<Value> unfiltered,
 			DateTimeRange dtr) {
 
-		Iterable<Value> filterValues = Iterables.filter(unfiltered,
+		final Iterable<Value> filterValues = Iterables.filter(unfiltered,
 				valueInsideRange(dtr));
 		return Lists.newArrayList(filterValues);
 	}
 
-	public List<Value> valuesInsideRange(Iterable<Value> unfiltered, Date from,
-			Date to) {
+	public static List<Value> valuesInsideRange(Iterable<Value> unfiltered,
+			Date from, Date to) {
 
-		Iterable<Value> filterValues = Iterables.filter(unfiltered,
+		final Iterable<Value> filterValues = Iterables.filter(unfiltered,
 				valueInsideRange(from, to));
 		return Lists.newArrayList(filterValues);
 	}
@@ -796,7 +693,7 @@ public class StudioUtils {
 	 * @deprecated
 	 * @return
 	 */
-	public List<List<Value>> values(List<Value> values, int srcInterval,
+	public static List<List<Value>> values(List<Value> values, int srcInterval,
 			int targetInterval) {
 
 		List<List<Value>> valueMatrix = Lists.newArrayList();
@@ -924,58 +821,6 @@ public class StudioUtils {
 		return valueMatrix;
 	}
 
-	/**
-	 * A Predicate which can filter files based on one or more file extensions
-	 * including the '.' separator, when the negate paramter is provided the
-	 * reverse predicate is applied.
-	 * 
-	 * @author Christophe
-	 * 
-	 */
-	public class ExtensionFilePredicate implements Predicate<File> {
-
-		private String[] extensions;
-		private boolean negate = false;
-
-		public ExtensionFilePredicate(String... extensions) {
-			this.extensions = extensions;
-		}
-
-		public ExtensionFilePredicate(boolean negate, String... extensions) {
-			this.extensions = extensions;
-			this.negate = negate;
-		}
-
-		public boolean apply(final File f) {
-			String fileName = f.getName();
-			if (f.isDirectory())
-				return false;
-
-			int dotIndex = fileName.lastIndexOf('.');
-
-			if (dotIndex == -1) {
-				return false;
-			}
-			String extension = fileName.substring(dotIndex, fileName.length());
-
-			for (String ext : this.extensions) {
-				if (ext.equals(extension)) {
-					return negate ? true : !true;
-				}
-			}
-			return false;
-		}
-	}
-
-	public ExtensionFilePredicate extensionFile(String... extension) {
-		return new ExtensionFilePredicate(extension);
-	}
-
-	public ExtensionFilePredicate extensionFile(boolean negate,
-			String... extensions) {
-		return new ExtensionFilePredicate(negate, extensions);
-	}
-
 	public static class NodeOfTypePredicate implements Predicate<Node> {
 		private final NodeType nt;
 
@@ -998,7 +843,7 @@ public class StudioUtils {
 		return new NodeOfTypePredicate(nodeType);
 	}
 
-	public class NodeInRelationshipPredicate implements Predicate<Node> {
+	public static class NodeInRelationshipPredicate implements Predicate<Node> {
 		private final Relationship r;
 
 		public NodeInRelationshipPredicate(final Relationship r) {
@@ -1010,7 +855,7 @@ public class StudioUtils {
 		}
 	}
 
-	public class SourceRelationshipForNodePredicate implements
+	public static class SourceRelationshipForNodePredicate implements
 			Predicate<Relationship> {
 		private final Node n;
 
@@ -1023,11 +868,12 @@ public class StudioUtils {
 		}
 	}
 
-	public NodeInRelationshipPredicate nodeInRelationship(Relationship r) {
+	public static NodeInRelationshipPredicate nodeInRelationship(Relationship r) {
 		return new NodeInRelationshipPredicate(r);
 	}
 
-	public SourceRelationshipForNodePredicate sourceRelationshipInNode(Node n) {
+	public static SourceRelationshipForNodePredicate sourceRelationshipInNode(
+			Node n) {
 		return new SourceRelationshipForNodePredicate(n);
 	}
 
@@ -1036,7 +882,7 @@ public class StudioUtils {
 	 * in range. targetBegin <= begin && targetEnd <= end. (Example of an
 	 * overlapping).
 	 */
-	public class ServiceMonitorWithinPeriodPredicate implements
+	public static class ServiceMonitorWithinPeriodPredicate implements
 			Predicate<ServiceMonitor> {
 		private final DateTimeRange dtr;
 
@@ -1134,7 +980,7 @@ public class StudioUtils {
 		}
 	}
 
-	public ServiceMonitorWithinPeriodPredicate serviceMonitorWithinPeriod(
+	public static ServiceMonitorWithinPeriodPredicate serviceMonitorWithinPeriod(
 			DateTimeRange dtr) {
 		return new ServiceMonitorWithinPeriodPredicate(dtr);
 	}
@@ -1147,16 +993,16 @@ public class StudioUtils {
 	 * @param dtr
 	 * @return
 	 */
-	public List<ServiceMonitor> serviceMonitorsWithinPeriod(Service service,
-			DateTimeRange dtr) {
+	public static List<ServiceMonitor> serviceMonitorsWithinPeriod(
+			Service service, DateTimeRange dtr) {
 		// Sort and reverse the Service Monitors.
 		List<ServiceMonitor> sortedCopy = Ordering
 				.from(serviceMonitorCompare()).reverse()
 				.sortedCopy(service.getServiceMonitors());
 
 		// Filter ServiceMonitors on the time range.
-		List<ServiceMonitor> filtered = this.filterSerciceMonitorInRange(
-				sortedCopy, dtr);
+		List<ServiceMonitor> filtered = filterSerciceMonitorInRange(sortedCopy,
+				dtr);
 		return filtered;
 	}
 
@@ -1190,13 +1036,13 @@ public class StudioUtils {
 
 	}
 
-	public class IsRelationshipPredicate implements Predicate<EObject> {
+	public static class IsRelationshipPredicate implements Predicate<EObject> {
 		public boolean apply(final EObject eo) {
 			return eo instanceof Relationship;
 		}
 	}
 
-	public IsRelationshipPredicate isRelationship() {
+	public static IsRelationshipPredicate isRelationship() {
 		return new IsRelationshipPredicate();
 	}
 
@@ -1286,11 +1132,13 @@ public class StudioUtils {
 	}
 
 	/**
+	 * Call {@link StudioUtils#isInService(Lifecycle)} for
+	 * {@link LibraryPackage#COMPONENT__LIFECYCLE}
 	 * 
 	 * @param c
 	 * @return
 	 */
-	public boolean isInService(Component c) {
+	public static boolean isInService(Component c) {
 		if (!c.eIsSet(LibraryPackage.Literals.COMPONENT__LIFECYCLE)) {
 			return true;
 		} else
@@ -1330,7 +1178,7 @@ public class StudioUtils {
 	 * @deprecated
 	 * 
 	 */
-	public String cdoCalculateResourcePath(EObject eObject) {
+	public static String cdoCalculateResourcePath(EObject eObject) {
 		if (eObject instanceof Component) {
 
 			final Component component = (Component) eObject;
@@ -1567,7 +1415,7 @@ public class StudioUtils {
 		return Joiner.on("\n").join(lines);
 	}
 
-	public List<NetXResource> resourcesFor(Node node) {
+	public static List<NetXResource> resourcesFor(Node node) {
 		List<NetXResource> resources = Lists.newArrayList();
 		TreeIterator<EObject> iterator = node.eAllContents();
 		while (iterator.hasNext()) {
@@ -1599,7 +1447,7 @@ public class StudioUtils {
 		return false;
 	}
 
-	public List<NetXResource> resourcesForComponent(Component component) {
+	public static List<NetXResource> resourcesForComponent(Component component) {
 		List<NetXResource> resources = Lists.newArrayList();
 		List<Component> componentsForComponent = componentsForComponent(component);
 		for (Component c : componentsForComponent) {
@@ -1608,7 +1456,7 @@ public class StudioUtils {
 		return resources;
 	}
 
-	public List<DerivedResource> derivedResourcesWithName(Service s,
+	public static List<DerivedResource> derivedResourcesWithName(Service s,
 			String expressionName) {
 
 		final List<DerivedResource> drL = Lists.newArrayList();
@@ -1626,7 +1474,7 @@ public class StudioUtils {
 		return drL;
 	}
 
-	public List<NetXResource> resourcesWithExpressionName(NodeType nt,
+	public static List<NetXResource> resourcesWithExpressionName(NodeType nt,
 			String expressionName) {
 		final List<Component> cl = Lists.newArrayList();
 		cl.addAll(nt.getEquipments());
@@ -1668,22 +1516,11 @@ public class StudioUtils {
 		return sortedCopy;
 	}
 
-	public List<ServiceMonitor> filterSerciceMonitorInRange(
+	public static List<ServiceMonitor> filterSerciceMonitorInRange(
 			List<ServiceMonitor> unfiltered, DateTimeRange dtr) {
 		Iterable<ServiceMonitor> filterValues = Iterables.filter(unfiltered,
-				this.serviceMonitorWithinPeriod(dtr));
+				serviceMonitorWithinPeriod(dtr));
 		return (Lists.newArrayList(filterValues));
-	}
-
-	/**
-	 * return a String with a fixed length.
-	 * 
-	 * @param string
-	 * @param length
-	 * @return
-	 */
-	public String fixedLenthString(String string, int length) {
-		return String.format("%1$-" + length + "s", string);
 	}
 
 	/**
@@ -1706,13 +1543,6 @@ public class StudioUtils {
 		} else {
 			return null;
 		}
-	}
-
-	public int depthToResource(int initialDepth, EObject eObject) {
-		if (eObject.eContainer() != null) {
-			return depthToResource(++initialDepth, eObject.eContainer());
-		}
-		return initialDepth;
 	}
 
 	/**
@@ -1738,6 +1568,7 @@ public class StudioUtils {
 	}
 
 	/**
+	 * Resolve the root {@link Service} for a given {@link Service} object.
 	 * 
 	 * @param target
 	 * @return
@@ -1750,7 +1581,7 @@ public class StudioUtils {
 		}
 	}
 
-	public ServiceMonitor lastServiceMonitor(Service service) {
+	public static ServiceMonitor lastServiceMonitor(Service service) {
 		if (service.getServiceMonitors().isEmpty()) {
 			return null;
 		}
@@ -1768,7 +1599,7 @@ public class StudioUtils {
 	 * @param lf
 	 * @return
 	 */
-	public boolean lifeCycleValid(Lifecycle lf) {
+	public static boolean lifeCycleValid(Lifecycle lf) {
 
 		long proposed = lf.getProposed().toGregorianCalendar()
 				.getTimeInMillis();
@@ -1804,7 +1635,7 @@ public class StudioUtils {
 	 * @param state
 	 * @return
 	 */
-	public String lifecycleText(Lifecycle lc) {
+	public static String lifecycleText(Lifecycle lc) {
 		return lifecycleText(lifecycleState(lc));
 	}
 
@@ -1906,16 +1737,6 @@ public class StudioUtils {
 		return uniques;
 	}
 
-	/**
-	 * Replaces all white spaces with an underscore
-	 * 
-	 * @param inString
-	 * @return
-	 */
-	public String underscopeWhiteSpaces(String inString) {
-		return inString.replaceAll("\\s", "_");
-	}
-
 	public static List<Node> nodesForNodeType(List<Node> nodes,
 			NodeType targetNodeType) {
 		final Iterable<Node> filtered = Iterables.filter(nodes,
@@ -1963,7 +1784,7 @@ public class StudioUtils {
 	 * @param netxResource
 	 * @return
 	 */
-	public ResourceMonitor resourceMonitorForServiceAndResource(
+	public static ResourceMonitor resourceMonitorForServiceAndResource(
 			Service service, Node n, NetXResource netxResource) {
 
 		ResourceMonitor monitor = null;
@@ -2019,7 +1840,7 @@ public class StudioUtils {
 	 * @param monitor
 	 * @return
 	 */
-	public Map<NetXResource, List<ResourceMonitor>> resourceMonitorMapPerResourceForServiceMonitorAndNodeAndPeriod(
+	public static Map<NetXResource, List<ResourceMonitor>> resourceMonitorMapPerResourceForServiceMonitorAndNodeAndPeriod(
 			Node n, DateTimeRange dtr, IProgressMonitor monitor,
 			ServiceMonitor... serviceMonitors) {
 
@@ -2038,7 +1859,7 @@ public class StudioUtils {
 	 *            The {@link Node} for which the Resource Monitor should be.
 	 * @return
 	 */
-	public Map<NetXResource, List<ResourceMonitor>> resourceMonitorMapPerResourceForServiceMonitorsAndNode(
+	public static Map<NetXResource, List<ResourceMonitor>> resourceMonitorMapPerResourceForServiceMonitorsAndNode(
 			List<ServiceMonitor> serviceMonitors, Node n,
 			IProgressMonitor monitor) {
 		Map<NetXResource, List<ResourceMonitor>> monitorsPerResource = Maps
@@ -2104,7 +1925,7 @@ public class StudioUtils {
 	 * @param jobResource
 	 * @return
 	 */
-	public Job jobWithName(String jobName, Resource jobResource) {
+	public static Job jobWithName(String jobName, Resource jobResource) {
 
 		for (final EObject eObject : jobResource.getContents()) {
 			final Job job = (Job) eObject;
@@ -2194,10 +2015,10 @@ public class StudioUtils {
 		return null;
 	}
 
-	public DateTimeRange lastMonthPeriod() {
+	public static DateTimeRange lastMonthPeriod() {
 		DateTimeRange dtr = GenericsFactory.eINSTANCE.createDateTimeRange();
-		dtr.setBegin(this.toXMLDate(NonModelUtils.oneMonthAgo()));
-		dtr.setEnd(this.toXMLDate(NonModelUtils.todayAndNow()));
+		dtr.setBegin(NonModelUtils.toXMLDate(NonModelUtils.oneMonthAgo()));
+		dtr.setEnd(NonModelUtils.toXMLDate(NonModelUtils.todayAndNow()));
 		return dtr;
 	}
 
@@ -2593,7 +2414,7 @@ public class StudioUtils {
 		return allResources;
 	}
 
-	public List<NetXResource> resourcesWithExpressionNameFromNodeTypes(
+	public static List<NetXResource> resourcesWithExpressionNameFromNodeTypes(
 			List<NodeType> nodeTypes, NetXResource resource) {
 
 		List<NetXResource> allResources = Lists.newArrayList();
@@ -2603,14 +2424,6 @@ public class StudioUtils {
 			allResources.addAll(resources);
 		}
 		return allResources;
-	}
-
-	public void deriveValues(ServiceDistribution distribution, List<Node> nodes) {
-
-		// Sequence of the nodes is by Leaf first, and then follow the
-		// relationships.
-		// Need an algo, to build a matrix of sorted nodes.
-
 	}
 
 	public static void printMatrix(Node[][] matrix) {
@@ -2625,21 +2438,22 @@ public class StudioUtils {
 		}
 	}
 
-	public String printNodeStructure(Node node) {
+	public static String printNodeStructure(Node node) {
 		StringBuilder result = new StringBuilder();
 		result.append("-" + printModelObject(node) + "\n");
 		if (node.eIsSet(OperatorsPackage.Literals.NODE__NODE_TYPE)) {
 			NodeType nt = node.getNodeType();
 			result.append("-" + printModelObject(nt) + "\n");
-			result.append(this.printComponents("--",
+			result.append(printComponents("--",
 					transformToComponents(nt.getFunctions())));
-			result.append(this.printComponents("--",
+			result.append(printComponents("--",
 					transformToComponents(nt.getEquipments())));
 		}
 		return result.toString();
 	}
 
-	public String printComponents(String prefix, List<Component> components) {
+	public static String printComponents(String prefix,
+			List<Component> components) {
 		StringBuilder result = new StringBuilder();
 		for (Component c : components) {
 			result.append(prefix + printModelObject(c) + "\n");
@@ -2763,7 +2577,7 @@ public class StudioUtils {
 		return matrix;
 	}
 
-	public List<Relationship> connections(RFSService service, Node n) {
+	public static List<Relationship> connections(RFSService service, Node n) {
 
 		if (service.eContainer() instanceof Operator) {
 			Operator op = (Operator) service.eContainer();
@@ -2779,7 +2593,7 @@ public class StudioUtils {
 
 			List<Relationship> filteredRelationships = Lists.newArrayList();
 			Iterable<Relationship> filtered = Iterables.filter(relationships,
-					this.sourceRelationshipInNode(n));
+					sourceRelationshipInNode(n));
 			if (Iterables.size(filtered) > 0) {
 				filteredRelationships.addAll(Lists.newArrayList(filtered));
 			}
@@ -2788,7 +2602,7 @@ public class StudioUtils {
 		return null;
 	};
 
-	public List<Node> connectedNodes(RFSService service) {
+	public static List<Node> connectedNodes(RFSService service) {
 
 		if (service.eContainer() instanceof Operator) {
 			Operator op = (Operator) service.eContainer();
@@ -2806,7 +2620,7 @@ public class StudioUtils {
 
 			for (Node n : service.getNodes()) {
 				Iterable<Relationship> filtered = Iterables.filter(
-						relationships, this.sourceRelationshipInNode(n));
+						relationships, sourceRelationshipInNode(n));
 				if (Iterables.size(filtered) > 0) {
 					filteredRelationships.addAll(Lists.newArrayList(filtered));
 				}
@@ -2857,28 +2671,6 @@ public class StudioUtils {
 	}
 
 	/**
-	 * Merge the time from a date into a given base date and return the result.
-	 * 
-	 * @param baseDate
-	 * @param dateWithTime
-	 * @return
-	 */
-	public Date mergeTimeIntoDate(Date baseDate, Date dateWithTime) {
-		final Calendar baseCalendar = GregorianCalendar.getInstance();
-		baseCalendar.setTime(baseDate);
-
-		final Calendar dateWithTimeCalendar = GregorianCalendar.getInstance();
-		dateWithTimeCalendar.setTime(dateWithTime);
-
-		baseCalendar.set(Calendar.HOUR_OF_DAY,
-				dateWithTimeCalendar.get(Calendar.HOUR_OF_DAY));
-		baseCalendar.set(Calendar.MINUTE,
-				dateWithTimeCalendar.get(Calendar.MINUTE));
-		return baseCalendar.getTime();
-
-	}
-
-	/**
 	 * Get a collection of {@link Metric} objects from a the mapping definitions
 	 * in a {@link MetricSource}
 	 * 
@@ -2926,96 +2718,6 @@ public class StudioUtils {
 		return null;
 	}
 
-	public List<Integer> weekDaysAsInteger() {
-		final List<Integer> week = ImmutableList.of(Calendar.MONDAY,
-				Calendar.TUESDAY, Calendar.WEDNESDAY, Calendar.THURSDAY,
-				Calendar.FRIDAY, Calendar.SATURDAY, Calendar.SUNDAY);
-		return week;
-	}
-
-	public int weekDay(Date date) {
-
-		final Function<Date, Integer> getDayString = new Function<Date, Integer>() {
-			public Integer apply(Date from) {
-				final Calendar c = GregorianCalendar.getInstance();
-				c.setTime(from);
-				return new Integer(c.get(Calendar.DAY_OF_WEEK));
-			}
-		};
-		return getDayString.apply(date);
-	}
-
-	public String weekDay(Integer weekDay) {
-		final Function<Integer, String> getDayString = new Function<Integer, String>() {
-			public String apply(Integer from) {
-				final Calendar c = GregorianCalendar.getInstance();
-				c.set(Calendar.DAY_OF_WEEK, from.intValue());
-				final Date date = c.getTime();
-				final SimpleDateFormat df = new SimpleDateFormat("EEEE");
-				return df.format(date);
-			}
-		};
-		return getDayString.apply(weekDay);
-	}
-
-	/**
-	 * Returns a {@link Date} as a <code>String</code> in the pre-defined
-	 * format: <code>'dd-MM-yyyy'</code>
-	 * 
-	 * @param d
-	 * @return
-	 */
-	public String date(Date d) {
-		final Function<Date, String> getDateString = new Function<Date, String>() {
-			public String apply(Date from) {
-				final SimpleDateFormat df = new SimpleDateFormat("dd-MM-yyyy");
-				return df.format(from);
-			}
-		};
-		return getDateString.apply(d);
-	}
-
-	public String folderDate(Date d) {
-		final Function<Date, String> getDateString = new Function<Date, String>() {
-			public String apply(Date from) {
-				final SimpleDateFormat df = new SimpleDateFormat("ddMMyyyy");
-				return df.format(from);
-			}
-		};
-		return getDateString.apply(d);
-	}
-
-	/**
-	 * Returns a {@link Date} as a <code>String</code> in a pre-defined format:
-	 * <code>'HH:mm'</code>
-	 * 
-	 * @param d
-	 * @return
-	 */
-	public String time(Date d) {
-		final Function<Date, String> getDateString = new Function<Date, String>() {
-			public String apply(Date from) {
-				final SimpleDateFormat df = new SimpleDateFormat("HH:mm");
-				return df.format(from);
-			}
-		};
-		return getDateString.apply(d);
-	}
-
-	/**
-	 * The duration as a String since the provided UTC
-	 * 
-	 * @param l
-	 *            UTC
-	 * @return
-	 */
-	public String timeDuration(long l) {
-		long delta = System.currentTimeMillis() - l;
-		String result = (delta > 1000 ? (delta / 1000 + "." + delta % 1000 + " (sec) : ")
-				: delta + " (ms) ");
-		return result;
-	}
-
 	/**
 	 * All {@link Date timestamps} for the specified {@link DateTimeRange
 	 * period}
@@ -3023,14 +2725,14 @@ public class StudioUtils {
 	 * @param dtr
 	 * @return
 	 */
-	public List<Date> timeStamps(DateTimeRange dtr) {
+	public static List<Date> timeStamps(DateTimeRange dtr) {
 		List<Date> allTS = Lists.newArrayList();
 		Multimap<Integer, XMLGregorianCalendar> timeStampsByWeek = hourlyTimeStampsByWeekFor(dtr);
 		// build an index of colums and timestamps.
 		for (int i : timeStampsByWeek.keySet()) {
 			Collection<XMLGregorianCalendar> collection = timeStampsByWeek
 					.get(i);
-			allTS.addAll(transformXMLDateToDate(collection));
+			allTS.addAll(NonModelUtils.transformXMLDateToDate(collection));
 
 		}
 		Collections.sort(allTS);
@@ -3038,297 +2740,18 @@ public class StudioUtils {
 	}
 
 	/**
-	 * Returns a {@link Date} as a <code>String</code> in a pre-defined format:
-	 * <code>'HH:mm:ss'</code>
+	 * Dump the dirty objects of a {@link CDOTransaction transaction} to
+	 * standard out.
 	 * 
-	 * @param d
-	 * @return
+	 * @param transaction
 	 */
-	public String timeAndSeconds(Date d) {
-		final Function<Date, String> getDateString = new Function<Date, String>() {
-			public String apply(Date from) {
-				final SimpleDateFormat df = new SimpleDateFormat("HH:mm:ss");
-				return df.format(from);
-			}
-		};
-		return getDateString.apply(d);
-	}
-
-	/**
-	 * Returns a {@link Date} as a <code>String</code> in a pre-defined format:
-	 * <code>'HH:mm:ss SSS'</code>
-	 * 
-	 * @param d
-	 * @return
-	 */
-	public String timeAndSecondsAmdMillis(Date d) {
-		final Function<Date, String> getDateString = new Function<Date, String>() {
-			public String apply(Date from) {
-				final SimpleDateFormat df = new SimpleDateFormat("HH:mm:ss SSS");
-				return df.format(from);
-			}
-		};
-		return getDateString.apply(d);
-	}
-
-	/**
-	 * The current time as a <code>String</code> formatted as
-	 * {@link #timeAndSeconds(Date)}
-	 * 
-	 * @return
-	 */
-	public String currentTimeAndSeconds() {
-		return timeAndSeconds(new Date());
-	}
-
-	/**
-	 * The current time as a String formatted as "HH:mm:ss SSS"
-	 * 
-	 * @return
-	 */
-	public String currentTimeAndSecondsAndMillis() {
-		return timeAndSecondsAmdMillis(new Date());
-	}
-
-	/**
-	 * returns a {@link Date} as a <code>String</code> with the following
-	 * pre-defined format. {@link #date} '-' {@link #time}
-	 * 
-	 * @param l
-	 * @return
-	 */
-
-	public String dateAndTime(long l) {
-		return dateAndTime(new Date(l));
-	}
-
-	/**
-	 * returns a {@link Date} as a <code>String</code> with the following
-	 * pre-defined format. {@link #date} '-' {@link #time}
-	 * 
-	 * @param d
-	 * @return
-	 */
-	public String dateAndTime(Date d) {
-
-		StringBuilder sb = new StringBuilder();
-		sb.append(date(d) + " ");
-		sb.append(time(d));
-		return sb.toString();
-	}
-
-	public String dateAndTime(XMLGregorianCalendar d) {
-		Date date = fromXMLDate(d);
-		return folderDateAndTime(date);
-	}
-
-	/**
-	 * returns a {@link Date} as a <code>String</code> with the following
-	 * pre-defined format. <code>'ddMMyyyy-HHmm'</code> suitable for a file
-	 * folder name.
-	 * 
-	 * 
-	 * @see {@link File}
-	 * @param d
-	 * @return
-	 */
-	public String folderDateAndTime(Date d) {
-
-		StringBuilder sb = new StringBuilder();
-
-		final Function<Date, String> folderTime = new Function<Date, String>() {
-			public String apply(Date from) {
-				final SimpleDateFormat df = new SimpleDateFormat("HHmm");
-				return df.format(from);
-			}
-		};
-		sb.append(folderDate(d) + "_");
-		sb.append(folderTime.apply(d));
-		return sb.toString();
-	}
-
-	/**
-	 * Get the days of the week, in a long textual format i.e. "Monday". The
-	 * days of the week, adapts to the current Locale.
-	 * 
-	 * @return
-	 */
-	public List<String> weekDays() {
-		final Function<Integer, String> getDayString = new Function<Integer, String>() {
-			public String apply(Integer from) {
-				final Calendar c = GregorianCalendar.getInstance();
-				c.set(Calendar.DAY_OF_WEEK, from.intValue());
-				final Date date = c.getTime();
-				final SimpleDateFormat df = new SimpleDateFormat("EEEE");
-				return df.format(date);
-			}
-		};
-
-		return Lists.transform(weekDaysAsInteger(), getDayString);
-	}
-
-	public int weekDay(String day) {
-		final Function<String, Integer> getDayFromString = new Function<String, Integer>() {
-			public Integer apply(String from) {
-				try {
-					final Date d = DateFormat.getDateInstance().parse(from);
-					final Calendar c = GregorianCalendar.getInstance();
-					c.setTime(d);
-					return c.get(Calendar.DAY_OF_WEEK);
-
-				} catch (final ParseException e) {
-					e.printStackTrace();
-				}
-				return -1;
-			}
-		};
-		return getDayFromString.apply(day).intValue();
-	}
-
-	public Date mergeDateIntoTime(Date baseTime, Date targetDate) {
-
-		final Calendar baseCalendar = GregorianCalendar.getInstance();
-		baseCalendar.setTime(baseTime);
-
-		final Calendar targetCalendar = GregorianCalendar.getInstance();
-		targetCalendar.setTime(targetDate);
-
-		// CB 06-09-2011, removed date has to be later requirement.
-		// if (targetCalendar.compareTo(GregorianCalendar.getInstance()) > 0) {
-		baseCalendar.set(Calendar.YEAR, targetCalendar.get(Calendar.YEAR));
-		baseCalendar.set(Calendar.MONTH, targetCalendar.get(Calendar.MONTH));
-		baseCalendar.set(Calendar.WEEK_OF_YEAR,
-				targetCalendar.get(Calendar.WEEK_OF_YEAR));
-
-		// We need to roll the week, if the target day
-		// is after the current day in that same week
-		if (targetCalendar.get(Calendar.WEEK_OF_YEAR) == baseCalendar
-				.get(Calendar.WEEK_OF_YEAR)
-				&& targetCalendar.get(Calendar.DAY_OF_WEEK) > baseCalendar
-						.get(Calendar.DAY_OF_WEEK)) {
-			baseCalendar.add(Calendar.WEEK_OF_YEAR, 1);
-		}
-		// baseCalendar.set(Calendar.DAY_OF_WEEK,
-		// targetCalendar.get(Calendar.DAY_OF_WEEK));
-		// }
-		return baseCalendar.getTime();
-	}
-
-	/**
-	 * Calculate a new date for a certain day of week and hour of day. If the
-	 * startdate is not provided or earlier than today, the current date (today)
-	 * is used.
-	 * 
-	 * @param baseDate
-	 * @param dayOfWeek
-	 * @return
-	 */
-	public Date mergeDayIntoDate(Date baseDate, int dayOfWeek) {
-
-		final Calendar c = GregorianCalendar.getInstance();
-		c.setTime(baseDate);
-		if (dayOfWeek != -1) {
-			c.set(Calendar.DAY_OF_WEEK, dayOfWeek);
-		}
-		return c.getTime();
-	}
-
-	public XMLGregorianCalendar toXMLDate(Date date) {
-		final XMLGregorianCalendar gregCalendar = dataTypeFactory
-				.newXMLGregorianCalendar();
-		final Calendar calendar = GregorianCalendar.getInstance();
-		calendar.setTime(date);
-
-		gregCalendar.setYear(calendar.get(Calendar.YEAR));
-		gregCalendar.setMonth(calendar.get(Calendar.MONTH) + 1); // correct with
-																	// 1 on
-																	// purpose
-		gregCalendar.setDay(calendar.get(Calendar.DAY_OF_MONTH));
-
-		gregCalendar.setHour(calendar.get(Calendar.HOUR_OF_DAY));
-		gregCalendar.setMinute(calendar.get(Calendar.MINUTE));
-		gregCalendar.setSecond(calendar.get(Calendar.SECOND));
-		gregCalendar.setMillisecond(calendar.get(Calendar.MILLISECOND));
-		// gregCalendar.setTimezone(calendar.get(Calendar.ZONE_OFFSET));
-
-		return gregCalendar;
-	}
-
-	public Date fromXMLDate(XMLGregorianCalendar date) {
-		return date.toGregorianCalendar().getTime();
-	}
-
-	public int daysInJanuary(int year) {
-		return daysInMonth(year, Calendar.JANUARY);
-	}
-
-	public int daysInFebruari(int year) {
-		return daysInMonth(year, Calendar.FEBRUARY);
-	}
-
-	public int daysInMarch(int year) {
-		return daysInMonth(year, Calendar.MARCH);
-	}
-
-	public int daysInApril(int year) {
-		return daysInMonth(year, Calendar.APRIL);
-	}
-
-	// .... etc...
-
-	public int daysInMonth(int year, int month) {
-		final Calendar cal = new GregorianCalendar(year, month, 1);
-		return cal.getActualMaximum(Calendar.DAY_OF_MONTH);
-	}
-
-	public Date lastWeek() {
-		final Calendar cal = GregorianCalendar.getInstance();
-		cal.setTime(new Date(System.currentTimeMillis()));
-		cal.add(Calendar.WEEK_OF_YEAR, -1);
-		return cal.getTime();
-	}
-
-	public Date yesterday() {
-		final Calendar cal = GregorianCalendar.getInstance();
-		cal.setTime(new Date(System.currentTimeMillis()));
-		cal.add(Calendar.DAY_OF_WEEK, -1);
-		return cal.getTime();
-	}
-
-	public Date tomorrow() {
-		final Calendar cal = GregorianCalendar.getInstance();
-		cal.setTime(new Date(System.currentTimeMillis()));
-		cal.add(Calendar.DAY_OF_WEEK, 1);
-		return cal.getTime();
-	}
-
-	public Date twoDaysAgo() {
-		final Calendar cal = GregorianCalendar.getInstance();
-		cal.setTime(new Date(System.currentTimeMillis()));
-		cal.add(Calendar.DAY_OF_MONTH, -2);
-		return cal.getTime();
-	}
-
-	public Date threeDaysAgo() {
-		final Calendar cal = Calendar.getInstance();
-		cal.setTime(new Date(System.currentTimeMillis()));
-		cal.add(Calendar.DAY_OF_MONTH, -3);
-		return cal.getTime();
-	}
-
-	public Date fourDaysAgo() {
-		final Calendar cal = Calendar.getInstance();
-		cal.setTime(new Date(System.currentTimeMillis()));
-		cal.add(Calendar.DAY_OF_MONTH, -4);
-		return cal.getTime();
-	}
-
-	public Date daysAgo(int days) {
-		final Calendar cal = Calendar.getInstance();
-		cal.setTime(new Date(System.currentTimeMillis()));
-		cal.add(Calendar.DAY_OF_YEAR, -days);
-		return cal.getTime();
-
+	public static void cdoDumpDirtyObject(CDOTransaction transaction) {
+		StringBuffer sb = new StringBuffer();
+		sb.append("\n Dirty objects for transaction: "
+				+ transaction.getViewID());
+		sb.append("\n Revisions ==============================\n");
+		cdoPrintDirtyObjects(sb, transaction);
+		System.out.println(sb.toString());
 	}
 
 	/**
@@ -3352,105 +2775,6 @@ public class StudioUtils {
 			days++;
 		}
 		return days;
-	}
-
-	/**
-	 * Dump the content of a CDORevision. Iterates through the features of the
-	 * revision, and gets the value of the object. The String will not exceed a
-	 * maximum change length.
-	 * 
-	 * @param revision
-	 * @return
-	 */
-	public String cdoDumpNewObject(InternalCDORevision revision) {
-		final StringBuilder sb = new StringBuilder();
-		for (final EStructuralFeature feature : revision.getClassInfo()
-				.getAllPersistentFeatures()) {
-			final Object value = revision.getValue(feature);
-			cdoDumpFeature(sb, feature, value);
-		}
-		return truncate(sb.toString());
-	}
-
-	/**
-	 * For each {@link CDOFeatureDelta} in the collection, dump the feature
-	 * delta content to the StringBuffer.
-	 * 
-	 * @param sb
-	 * @param featureDeltas
-	 */
-	public void cdoDumpFeatureDeltas(StringBuilder sb,
-			List<CDOFeatureDelta> featureDeltas) {
-		for (final CDOFeatureDelta featureDelta : featureDeltas) {
-			if (featureDelta instanceof CDOListFeatureDelta) {
-				final CDOListFeatureDelta list = (CDOListFeatureDelta) featureDelta;
-				cdoDumpFeatureDeltas(sb, list.getListChanges());
-			} else {
-				cdoDumpFeature(sb, featureDelta);
-			}
-		}
-	}
-
-	public void cdoDumpFeature(StringBuilder sb, EStructuralFeature feature,
-			Object value) {
-		addNewLine(sb);
-		sb.append(feature.getName() + " = " + value);
-	}
-
-	public void cdoDumpFeature(StringBuilder sb, CDOFeatureDelta featureDelta) {
-		addNewLine(sb);
-		sb.append(featureDelta.getFeature().getName() + " = "
-				+ cdoPrintFeatureDelta(featureDelta));
-	}
-
-	public String cdoPrintFeatureDelta(CDOFeatureDelta delta) {
-		String str = delta.toString();
-		if (str.indexOf(",") != -1) {
-			// do + 2 to get of one space
-			str = str.substring(str.indexOf(",") + 2);
-		}
-		// and get rid of the ] at the end
-		return str.substring(0, str.length() - 1);
-	}
-
-	public void addNewLine(StringBuilder sb) {
-		if (sb.length() > 0) {
-			sb.append("\n");
-		}
-	}
-
-	/**
-	 * Truncates a string to the max. length of a change.
-	 * 
-	 * @param value
-	 * @return
-	 */
-	public String truncate(String value) {
-		if (value.length() >= MAX_CHANGE_LENGTH) {
-			return value.substring(0, MAX_CHANGE_LENGTH);
-		}
-		return value;
-	}
-
-	public void cdoDumpRevisionDelta(CDORevisionDelta delta) {
-		for (CDOFeatureDelta fd : delta.getFeatureDeltas()) {
-			System.out.println("-- delta=" + fd);
-		}
-	}
-
-	/**
-	 * Dump the dirty objects of a {@link CDOTransaction transaction} to
-	 * standard out.
-	 * 
-	 * @param transaction
-	 */
-	public static void cdoDumpDirtyObject(CDOTransaction transaction) {
-		StringBuffer sb = new StringBuffer();
-		sb.append("\n Dirty objects for transaction: "
-				+ transaction.getViewID());
-		sb.append("\n Revisions ==============================\n");
-		cdoPrintDirtyObjects(sb, transaction);
-		System.out.println(sb.toString());
 	}
 
 	/**
@@ -3479,32 +2803,6 @@ public class StudioUtils {
 				CDO.cdoPrintFeatureDeltas(sb,
 						cdoRevisionDelta.getFeatureDeltas());
 			}
-		}
-	}
-
-	/**
-	 * Print the {@link CDORevisionDelta Revision delta} to a
-	 * {@link StringBuffer}, for a {@link CDOTransaction transaction}. The
-	 * content will contain information from {@link CDOFeatureDelta the feature
-	 * delta(s)}
-	 * 
-	 * @param sb
-	 * @param transaction
-	 */
-	public void cdoPrintRevisionDeltas(StringBuffer sb,
-			CDOTransaction transaction) {
-		Map<CDOID, CDORevisionDelta> revisionDeltas = transaction
-				.getRevisionDeltas();
-		for (CDORevisionDelta delta : revisionDeltas.values()) {
-			for (CDOFeatureDelta fd : delta.getFeatureDeltas()) {
-				sb.append("\n delta: " + fd);
-			}
-		}
-	}
-
-	public void cdoPrintRevisionDelta(StringBuffer sb, CDORevisionDelta delta) {
-		for (CDOFeatureDelta fd : delta.getFeatureDeltas()) {
-			sb.append("-- delta=" + fd);
 		}
 	}
 
@@ -3633,7 +2931,7 @@ public class StudioUtils {
 	 * @param object
 	 * @return
 	 */
-	public String resolveHistoricalResourceName(Object object) {
+	public static String resolveHistoricalResourceName(Object object) {
 
 		if (!(object instanceof CDOObject)) {
 			return null;
@@ -3664,7 +2962,7 @@ public class StudioUtils {
 	 * path, we check both the Node and NodeType. (Both could be historical
 	 * elements).
 	 */
-	public boolean isHistoricalComponent(Component c) {
+	public static boolean isHistoricalComponent(Component c) {
 
 		if (c instanceof CDOObject) {
 			String path = CDO.cdoResourcePath(c);
@@ -3672,8 +2970,7 @@ public class StudioUtils {
 			// Check for Node first.
 			Node node = nodeFor(c);
 			if (node != null) {
-				String nodeHistoricalPath = this
-						.resolveHistoricalResourceName(node);
+				String nodeHistoricalPath = resolveHistoricalResourceName(node);
 				if (path.equals(nodeHistoricalPath)) {
 					return true;
 				}
@@ -3683,8 +2980,7 @@ public class StudioUtils {
 			// Check for Node type.
 			NodeType nt = resolveParentNodeType(c);
 			if (nt != null) {
-				String nodeTypeHistoricalPath = this
-						.resolveHistoricalResourceName(nt);
+				String nodeTypeHistoricalPath = resolveHistoricalResourceName(nt);
 				if (path.equals(nodeTypeHistoricalPath)) {
 					return true;
 				}
@@ -3696,21 +2992,6 @@ public class StudioUtils {
 		return false;
 	}
 
-	/**
-	 * Transform a list of resources to a list of URI for the resource.
-	 * 
-	 * @param resources
-	 * @return
-	 */
-	public List<URI> transformResourceToURI(List<Resource> resources) {
-		final Function<Resource, URI> resourceToURI = new Function<Resource, URI>() {
-			public URI apply(Resource from) {
-				return from.getURI();
-			}
-		};
-		return Lists.transform(resources, resourceToURI);
-	}
-
 	public static List<NodeType> transformNodeToNodeType(List<Node> nodes) {
 		final Function<Node, NodeType> nodeTypeFromNode = new Function<Node, NodeType>() {
 			public NodeType apply(Node from) {
@@ -3720,16 +3001,6 @@ public class StudioUtils {
 		return Lists.transform(nodes, nodeTypeFromNode);
 	}
 
-	public Iterator<CDOObject> transformEObjectToCDOObjects(
-			Iterator<EObject> eObjects) {
-		final Function<EObject, CDOObject> cdoObjectFromEObject = new Function<EObject, CDOObject>() {
-			public CDOObject apply(EObject from) {
-				return (CDOObject) from;
-			}
-		};
-		return Iterators.transform(eObjects, cdoObjectFromEObject);
-	}
-
 	/**
 	 * Transform a list of Value object, to only the value part of the Value
 	 * Object.
@@ -3737,19 +3008,10 @@ public class StudioUtils {
 	 * @param values
 	 * @return
 	 */
-	public List<BigDecimal> transformValueToBigDecimal(List<Value> values) {
+	public static List<BigDecimal> transformValueToBigDecimal(List<Value> values) {
 		final Function<Value, BigDecimal> valueToBigDecimal = new Function<Value, BigDecimal>() {
 			public BigDecimal apply(Value from) {
 				return new BigDecimal(from.getValue());
-			}
-		};
-		return Lists.transform(values, valueToBigDecimal);
-	}
-
-	public List<Double> transformBigDecimalToDouble(List<BigDecimal> values) {
-		final Function<BigDecimal, Double> valueToBigDecimal = new Function<BigDecimal, Double>() {
-			public Double apply(BigDecimal from) {
-				return from.doubleValue();
 			}
 		};
 		return Lists.transform(values, valueToBigDecimal);
@@ -3808,7 +3070,7 @@ public class StudioUtils {
 	 * @param values
 	 * @return
 	 */
-	public double[][] transformValueToDoubleTrendMatrix(List<Value> values) {
+	public static double[][] transformValueToDoubleTrendMatrix(List<Value> values) {
 
 		double[][] data = new double[values.size()][2];
 
@@ -3820,7 +3082,7 @@ public class StudioUtils {
 		return data;
 	}
 
-	public List<Component> transformToComponents(
+	public static List<Component> transformToComponents(
 			List<? extends EObject> components) {
 		final Function<EObject, Component> valueToDouble = new Function<EObject, Component>() {
 			public Component apply(EObject from) {
@@ -3901,20 +3163,6 @@ public class StudioUtils {
 		return timeStamps;
 	}
 
-	public double[] multiplyByHundredAndToArray(List<Double> values) {
-		final Function<Double, Double> valueToDouble = new Function<Double, Double>() {
-			public Double apply(Double from) {
-				return from * 100;
-			}
-		};
-		List<Double> doubles = Lists.transform(values, valueToDouble);
-		double[] doubleArray = new double[doubles.size()];
-		for (int i = 0; i < doubles.size(); i++) {
-			doubleArray[i] = doubles.get(i).doubleValue();
-		}
-		return doubleArray;
-	}
-
 	public static List<Double> transformValueToDouble(List<Value> values) {
 		final Function<Value, Double> valueToDouble = new Function<Value, Double>() {
 			public Double apply(Value from) {
@@ -3924,23 +3172,13 @@ public class StudioUtils {
 		return Lists.transform(values, valueToDouble);
 	}
 
-	public List<Date> transformValueToDate(List<Value> values) {
+	public static List<Date> transformValueToDate(List<Value> values) {
 		final Function<Value, Date> valueToDouble = new Function<Value, Date>() {
 			public Date apply(Value from) {
-				return fromXMLDate(from.getTimeStamp());
+				return NonModelUtils.fromXMLDate(from.getTimeStamp());
 			}
 		};
 		return Lists.transform(values, valueToDouble);
-	}
-
-	public List<Date> transformXMLDateToDate(
-			Collection<XMLGregorianCalendar> dates) {
-		final Function<XMLGregorianCalendar, Date> valueToDouble = new Function<XMLGregorianCalendar, Date>() {
-			public Date apply(XMLGregorianCalendar from) {
-				return fromXMLDate(from);
-			}
-		};
-		return Lists.newArrayList(Iterables.transform(dates, valueToDouble));
 	}
 
 	public static Date[] transformValueToDateArray(List<Value> values) {
@@ -3953,7 +3191,7 @@ public class StudioUtils {
 		return transform.toArray(new Date[transform.size()]);
 	}
 
-	public List<Double> merge(List<Date> dates, List<Value> valuesToMerge) {
+	public static List<Double> merge(List<Date> dates, List<Value> valuesToMerge) {
 		return merge("", dates, valuesToMerge, null);
 	}
 
@@ -4022,8 +3260,8 @@ public class StudioUtils {
 	 * @return the {@link DateTimeRange period} or <code>null</code>, when the
 	 *         retention period is {@link MetricRetentionPeriod#ALWAYS}
 	 */
-	public static DateTimeRange periodForRetentionRule(MetricRetentionRule rule,
-			Date begin) {
+	public static DateTimeRange periodForRetentionRule(
+			MetricRetentionRule rule, Date begin) {
 		DateTimeRange dtr = null;
 		dtr = GenericsFactory.eINSTANCE.createDateTimeRange();
 		Calendar instance = Calendar.getInstance();
@@ -4082,7 +3320,7 @@ public class StudioUtils {
 	 * @param dtr
 	 * @return
 	 */
-	public List<DateTimeRange> monthlyPeriods(DateTimeRange dtr) {
+	public static List<DateTimeRange> monthlyPeriods(DateTimeRange dtr) {
 
 		List<DateTimeRange> result = Lists.newArrayList();
 
@@ -4097,15 +3335,15 @@ public class StudioUtils {
 			Date begin;
 			if (cal.getTime().getTime() < dtr.getBegin().toGregorianCalendar()
 					.getTimeInMillis()) {
-				begin = this.fromXMLDate(dtr.getBegin());
+				begin = NonModelUtils.fromXMLDate(dtr.getBegin());
 			} else {
 				begin = cal.getTime();
 			}
 
 			DateTimeRange createDateTimeRange = GenericsFactory.eINSTANCE
 					.createDateTimeRange();
-			createDateTimeRange.setEnd(toXMLDate(end));
-			createDateTimeRange.setEnd(toXMLDate(begin));
+			createDateTimeRange.setEnd(NonModelUtils.toXMLDate(end));
+			createDateTimeRange.setEnd(NonModelUtils.toXMLDate(begin));
 		}
 
 		return result;
@@ -4215,104 +3453,6 @@ public class StudioUtils {
 
 	}
 
-	/**
-	 * Get the last day of the week respecting the first day of the week for the
-	 * provided Calendar.
-	 * 
-	 * @param cal
-	 * @return
-	 */
-	public int lastDayOfWeek(Calendar cal) {
-		final int firstDayOfWeek = cal.getFirstDayOfWeek();
-
-		final int lastDayOfWeek;
-		if (firstDayOfWeek != 1) {
-			lastDayOfWeek = firstDayOfWeek - 1; // One before the first day...
-		} else {
-			lastDayOfWeek = cal.getActualMaximum(Calendar.DAY_OF_WEEK); // Expect
-		}
-		return lastDayOfWeek;
-	}
-
-	public int positionOf(List<Date> dates, Date toCheckDate) {
-		int indexOf = dates.indexOf(toCheckDate);
-		return indexOf;
-	}
-
-	/**
-	 * Transform to a primitive double array.
-	 * 
-	 * @param values
-	 * @return
-	 */
-	public double[] transformToDoublePrimitiveArray(List<Double> values) {
-		final double[] doubles = new double[values.size()];
-		int i = 0;
-		for (final Double d : values) {
-			doubles[i] = d.doubleValue();
-			i++;
-		}
-		return doubles;
-	}
-
-	/**
-	 * Transform to an Array primitive double array.
-	 * 
-	 * @param values
-	 * @return
-	 */
-	public double[] transformToDoublePrimitiveArray(Double[] values) {
-		final double[] doubles = new double[values.length];
-		int i = 0;
-		for (final Double d : values) {
-			doubles[i] = d.doubleValue();
-			i++;
-		}
-		return doubles;
-	}
-
-	/**
-	 * Transform from a Double list to a double array.
-	 * 
-	 * @param values
-	 * @return
-	 */
-	public Double[] transformToDoubleArray(double[] array) {
-		final Double[] doubles = new Double[array.length];
-		int i = 0;
-		for (final double d : array) {
-			doubles[i] = d;
-			i++;
-		}
-		return doubles;
-	}
-
-	/**
-	 * look down the containment tree, and find the most recenrt date.
-	 * 
-	 * @param object
-	 * @return
-	 */
-	public long mostRecentContainedDated(CDOObject object) {
-
-		long ts = object.cdoRevision().getTimeStamp();
-
-		TreeIterator<EObject> eAllContents = object.eAllContents();
-		while (eAllContents.hasNext()) {
-			EObject eo = eAllContents.next();
-			if (eo.eContainer() != null) {
-				// We are contained, so we might have been updated.
-				if (eo instanceof CDOObject) {
-					long leafTS = ((CDOObject) eo).cdoRevision().getTimeStamp();
-					if (leafTS > ts) {
-						ts = leafTS;
-					}
-				}
-
-			}
-		}
-		return ts;
-	}
 
 	/**
 	 * All closure networks.
@@ -4494,8 +3634,7 @@ public class StudioUtils {
 						final List<Metric> metricsInPath = Lists.newArrayList();
 						metricsInPath(metricsInPath, c);
 						return Iterables.any(metricsInPath,
-								new CDO.CDOObjectEqualsPredicate(
-										metric));
+								new CDO.CDOObjectEqualsPredicate(metric));
 					}
 
 				});
@@ -4588,7 +3727,7 @@ public class StudioUtils {
 		}
 		return null;
 	}
-	
+
 	/**
 	 * Looks for instances of {@link Operator} in the given {@link Resource}.
 	 * 

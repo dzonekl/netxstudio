@@ -15,38 +15,37 @@
  *
  * Contributors:
  *    Christophe Bouhier - initial API and implementation and/or initial documentation
- *******************************************************************************/ 
+ *******************************************************************************/
 package com.netxforge.netxstudio.data;
 
-import com.netxforge.base.data.IBaseDataService;
 import com.netxforge.netxstudio.generics.Role;
 
 /**
- * Provides various services. 
+ * Provides various services.
  * 
  * @author Christophe Bouhier christophe.bouhier@netxforge.com
  */
-public interface IDataService extends IBaseDataService {
-	
+public interface IDataService {
+
 	/**
-	 * Get the Data service role handler. 
+	 * Get the Data service role handler.
+	 * 
 	 * @return
 	 */
 	public IQueryService getQueryService();
 
-	
 	/**
-	 * get the current user role. 
+	 * get the current user role.
+	 * 
 	 * @return
 	 */
 	public Role getCurrentRole();
-	
+
 	/**
 	 * get the current server
 	 * 
 	 * @return
 	 */
 	public String getServer();
-	
-	
+
 }

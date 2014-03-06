@@ -23,15 +23,14 @@ import com.netxforge.screens.editing.base.IEditingServiceProvider;
 import com.netxforge.screens.editing.base.IScreenFactory;
 import com.netxforge.screens.editing.base.IScreenFormService;
 import com.netxforge.screens.editing.base.IScreenFormServiceProvider;
-import com.netxforge.screens.editing.base.ScreenFormService;
 
-public class ScreenFormServiceProvider implements IScreenFormServiceProvider {
+public class CDOScreenFormServiceProvider implements IScreenFormServiceProvider {
 
 	private IEditingServiceProvider editingServiceProvider;
 	private IScreenFactory screenFactory;
 
 	@Inject
-	public ScreenFormServiceProvider(
+	public CDOScreenFormServiceProvider(
 			IEditingServiceProvider editingServiceProvider,
 			IScreenFactory screenFactory) {
 		this.editingServiceProvider = editingServiceProvider;
@@ -47,7 +46,7 @@ public class ScreenFormServiceProvider implements IScreenFormServiceProvider {
 	 */
 	public IScreenFormService get() {
 		IEditingService editingService = editingServiceProvider.get();
-		return new ScreenFormService(editingService, screenFactory);
+		return new CDOScreenFormService(editingService, screenFactory);
 	}
 
 }

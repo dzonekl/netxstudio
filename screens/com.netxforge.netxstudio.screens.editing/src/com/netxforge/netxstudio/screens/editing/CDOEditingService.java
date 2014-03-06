@@ -45,6 +45,8 @@ import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.ecore.util.EcoreUtil.Copier;
 import org.eclipse.emf.edit.provider.ComposedAdapterFactory;
+import org.eclipse.emf.edit.provider.ItemProviderAdapter;
+import org.eclipse.emf.edit.provider.ReflectiveItemProviderAdapterFactory;
 import org.eclipse.emf.spi.cdo.FSMUtil;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.dialogs.ProgressMonitorDialog;
@@ -58,17 +60,28 @@ import com.google.common.collect.Lists;
 import com.google.inject.Inject;
 import com.netxforge.base.cdo.CDO;
 import com.netxforge.base.cdo.ICDOData;
-import com.netxforge.base.data.IBaseDataService;
+import com.netxforge.base.data.IBaseData;
 import com.netxforge.netxstudio.common.model.StudioUtils;
 import com.netxforge.netxstudio.data.IDataService;
+import com.netxforge.netxstudio.data.IQueryService;
+import com.netxforge.netxstudio.generics.Role;
+import com.netxforge.netxstudio.generics.provider.GenericsItemProviderAdapterFactory;
+import com.netxforge.netxstudio.geo.provider.GeoItemProviderAdapterFactory;
 import com.netxforge.netxstudio.library.LibraryPackage;
 import com.netxforge.netxstudio.library.NodeType;
+import com.netxforge.netxstudio.library.provider.LibraryItemProviderAdapterFactory;
+import com.netxforge.netxstudio.metrics.provider.MetricsItemProviderAdapterFactory;
 import com.netxforge.netxstudio.operators.Node;
 import com.netxforge.netxstudio.operators.OperatorsPackage;
+import com.netxforge.netxstudio.operators.provider.OperatorsItemProviderAdapterFactory;
+import com.netxforge.netxstudio.protocols.provider.ProtocolsItemProviderAdapterFactory;
+import com.netxforge.netxstudio.provider.NetxstudioItemProviderAdapterFactory;
+import com.netxforge.netxstudio.scheduling.provider.SchedulingItemProviderAdapterFactory;
 import com.netxforge.netxstudio.screens.editing.dawn.DawnEMFEditorSupport;
 import com.netxforge.netxstudio.screens.editing.dawn.IDawnEditor;
 import com.netxforge.netxstudio.screens.editing.dawn.IDawnEditorSupport;
 import com.netxforge.netxstudio.screens.editing.internal.EditingActivator;
+import com.netxforge.netxstudio.services.provider.ServicesItemProviderAdapterFactory;
 import com.netxforge.screens.editing.base.EMFEditingService;
 import com.netxforge.screens.editing.base.IScreen;
 import com.netxforge.screens.editing.base.IScreenProvider;
@@ -81,16 +94,22 @@ import com.netxforge.screens.editing.base.IScreenProvider;
  * 
  */
 public class CDOEditingService extends EMFEditingService implements
-		IDawnEditor, IViewerProvider, IScreenProvider {
+		IDataService, IDawnEditor, IViewerProvider, IScreenProvider {
 
 	/**
 	 * Our editor support for Dawn.
 	 */
 	private DawnEMFEditorSupport dawnEditorSupport;
 
+	/**
+	 * Our data service facility.
+	 */
+	private IDataService dataService;
+
 	@Inject
-	public CDOEditingService(IBaseDataService dataService) {
-		super(dataService);
+	public CDOEditingService(IDataService dataService, ICDOData data) {
+		super(data);
+		this.dataService = dataService;
 		dawnEditorSupport = new DawnEMFEditorSupport(this);
 	}
 
@@ -176,7 +195,7 @@ public class CDOEditingService extends EMFEditingService implements
 		}
 
 		@SuppressWarnings("deprecation")
-		Resource res = dataService.getProvider().getResource(
+		Resource res = getCDOData().getResource(
 				this.getEditingDomain().getResourceSet(), feature);
 
 		if (res instanceof CDOResource) {
@@ -186,10 +205,18 @@ public class CDOEditingService extends EMFEditingService implements
 		return res;
 	}
 
+	public ICDOData getCDOData() {
+		IBaseData data = getData();
+		if (data instanceof ICDOData) {
+			return (ICDOData) data;
+		}
+		throw new IllegalStateException("Expected instanceof ICDOData");
+	}
+
 	public Resource getData(EClass clazz) {
 
 		sessionStillValid();
-		Resource res = dataService.getProvider().getResource(
+		Resource res = getCDOData().getResource(
 				this.getEditingDomain().getResourceSet(), clazz);
 
 		if (res instanceof CDOResource) {
@@ -205,7 +232,7 @@ public class CDOEditingService extends EMFEditingService implements
 	public List<Resource> getData(String path) {
 		// Check if we have a view already.
 		sessionStillValid();
-		List<Resource> resources = dataService.getProvider().getResources(
+		List<Resource> resources = getCDOData().getResources(
 				this.getEditingDomain().getResourceSet(), path);
 
 		if (resources != null && resources.size() > 0) {
@@ -309,8 +336,7 @@ public class CDOEditingService extends EMFEditingService implements
 		}
 
 		// Check the standalone transaction for dirtyness...
-		CDOTransaction transaction = this.getExtendedDataService().getProvider()
-				.getTransaction();
+		CDOTransaction transaction = getCDOData().getTransaction();
 		if (transaction != null) {
 			boolean transactionDirty = transaction.isDirty();
 			if (EditingActivator.DEBUG && transactionDirty) {
@@ -401,8 +427,7 @@ public class CDOEditingService extends EMFEditingService implements
 						commitRegular(monitor, transaction);
 					}
 					monitor.subTask("Committing transaction from regular view");
-					transaction = getExtendedDataService().getProvider()
-							.getTransaction();
+					transaction = getCDOData().getTransaction();
 					if (transaction != null) {
 						commitRegular(monitor, transaction);
 					}
@@ -656,7 +681,7 @@ public class CDOEditingService extends EMFEditingService implements
 		if (affectedPath != null) {
 			URI uri = URI.createURI(affectedPath);
 			// Write a new version.
-			Resource historyResource = dataService.getProvider().getResource(
+			Resource historyResource = getCDOData().getResource(
 					this.getEditingDomain().getResourceSet(), uri);
 
 			// We make a copy, using a custom copier, as we don't want to copy
@@ -679,7 +704,7 @@ public class CDOEditingService extends EMFEditingService implements
 
 	public void sessionStillValid() {
 		try {
-			this.getExtendedDataService().getProvider().getSession();
+			getCDOData().getSession();
 		} catch (final IllegalStateException ise) {
 
 			Display.getDefault().asyncExec(new Runnable() {
@@ -736,13 +761,37 @@ public class CDOEditingService extends EMFEditingService implements
 		});
 	}
 
+	/**
+	 * An {@link AdapterFactory} which can produce the model specific
+	 * {@link ItemProviderAdapter adapters}
+	 * 
+	 * @return
+	 */
 	public static AdapterFactory getAdapterFactory() {
-		AdapterFactory adapterFactory = EMFEditingService.getAdapterFactory();
-		if (adapterFactory instanceof ComposedAdapterFactory) {
-			((ComposedAdapterFactory) adapterFactory)
-					.addAdapterFactory(new EresourceAdapterFactory());
-		}
-		return adapterFactory;
+		ComposedAdapterFactory emfEditAdapterFactory = (ComposedAdapterFactory) EMFEditingService
+				.getAdapterFactory();
+		emfEditAdapterFactory.addAdapterFactory(new EresourceAdapterFactory());
+		emfEditAdapterFactory
+				.addAdapterFactory(new GenericsItemProviderAdapterFactory());
+		emfEditAdapterFactory
+				.addAdapterFactory(new ServicesItemProviderAdapterFactory());
+		emfEditAdapterFactory
+				.addAdapterFactory(new LibraryItemProviderAdapterFactory());
+		emfEditAdapterFactory
+				.addAdapterFactory(new MetricsItemProviderAdapterFactory());
+		emfEditAdapterFactory
+				.addAdapterFactory(new ProtocolsItemProviderAdapterFactory());
+		emfEditAdapterFactory
+				.addAdapterFactory(new OperatorsItemProviderAdapterFactory());
+		emfEditAdapterFactory
+				.addAdapterFactory(new GeoItemProviderAdapterFactory());
+		emfEditAdapterFactory
+				.addAdapterFactory(new SchedulingItemProviderAdapterFactory());
+		emfEditAdapterFactory
+				.addAdapterFactory(new NetxstudioItemProviderAdapterFactory());
+		emfEditAdapterFactory
+				.addAdapterFactory(new ReflectiveItemProviderAdapterFactory());
+		return emfEditAdapterFactory;
 	}
 
 	/**
@@ -761,8 +810,25 @@ public class CDOEditingService extends EMFEditingService implements
 		return true;
 	}
 
-	public IDataService getExtendedDataService() {
-		return (IDataService) super.getDataService();
+	/**
+	 * Delegation to injected IDataService
+	 */
+	public IQueryService getQueryService() {
+		return dataService.getQueryService();
+	}
+
+	/**
+	 * Delegation to injected IDataService
+	 */
+	public Role getCurrentRole() {
+		return dataService.getCurrentRole();
+	}
+
+	/**
+	 * Delegation to injected IDataService
+	 */
+	public String getServer() {
+		return dataService.getServer();
 	}
 
 }

@@ -27,13 +27,13 @@ import com.google.inject.Singleton;
 import com.netxforge.netxstudio.data.IDataService;
 import com.netxforge.netxstudio.screens.editing.CDOEditingService;
 import com.netxforge.netxstudio.screens.editing.CDOEditingServiceProvider;
+import com.netxforge.netxstudio.screens.editing.CDOScreenFormServiceProvider;
 import com.netxforge.netxstudio.screens.editing.util.CDOMementoUtil;
 import com.netxforge.screens.editing.base.IEditingService;
 import com.netxforge.screens.editing.base.IEditingServiceProvider;
 import com.netxforge.screens.editing.base.IScreenFactory;
 import com.netxforge.screens.editing.base.IScreenFormServiceProvider;
 import com.netxforge.screens.editing.base.ScreenFactory;
-import com.netxforge.screens.editing.base.ScreenFormServiceProvider;
 import com.netxforge.screens.editing.base.actions.clipboard.ClipboardService;
 import com.netxforge.screens.editing.base.tables.TableHelper;
 import com.netxforge.screens.editing.base.util.ValidationService;
@@ -67,7 +67,7 @@ public class EditingModule extends AbstractModule {
 				service(CDOEditingServiceProvider.class).export());
 
 		bind(export(IScreenFormServiceProvider.class)).toProvider(
-				service(ScreenFormServiceProvider.class).export());
+				service(CDOScreenFormServiceProvider.class).export());
 
 		// ////////////////////////////////
 		// INTERNAL SERVICES

@@ -36,7 +36,7 @@ import com.google.inject.Inject;
 import com.netxforge.base.security.JCAService;
 import com.netxforge.netxstudio.client.product.internal.ProductActivator;
 import com.netxforge.netxstudio.common.CommonService;
-import com.netxforge.netxstudio.data.IDataService;
+import com.netxforge.netxstudio.data.cdo.IClientDataProvider;
 
 /**
  * @since 3.3
@@ -67,7 +67,7 @@ public class InteractiveSplashHandler extends AbstractSplashHandler {
 	private boolean fAuthenticated;
 
 	@Inject
-	private IDataService dataService;
+	private IClientDataProvider dataProvider;
 
 	public InteractiveSplashHandler() {
 		fTextUsername = null;
@@ -205,7 +205,7 @@ public class InteractiveSplashHandler extends AbstractSplashHandler {
 					}
 				}
 
-				dataService.getProvider().openSession(username, password,
+				dataProvider.get().openSession(username, password,
 						server, true);
 
 				fAuthenticated = true;

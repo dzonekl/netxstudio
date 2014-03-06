@@ -57,6 +57,7 @@ import com.netxforge.screens.editing.base.actions.TableViewerWithState.StateSele
 public class WarningDeleteAction extends DeleteAction {
 
 	private IEditingService editingService;
+
 	private boolean nwb;
 	public static final int UNDO_LIMIT = 1;
 
@@ -124,7 +125,8 @@ public class WarningDeleteAction extends DeleteAction {
 								+ UNDO_LIMIT + ") is exceeded");
 		if (questionResult && warnUserOnReferences(eObjects)) {
 			// Set the undo flag to false.
-			// Note: it might already have been created with undo = false, when selection of the objects occurred while pressing the CTRL key. 
+			// Note: it might already have been created with undo = false, when
+			// selection of the objects occurred while pressing the CTRL key.
 			((WarningDeleteCommand) command).undo = false;
 			domain.getCommandStack().execute(command);
 		}
@@ -190,15 +192,15 @@ public class WarningDeleteAction extends DeleteAction {
 		SelectionChangedEvent originalEvent = this.getOriginalEvent();
 		if (originalEvent instanceof StateSelectionChangedEvent) {
 			if (((StateSelectionChangedEvent) originalEvent).isState_ALT()) {
-				
+
 				c = removeAllReferences ? WarningDeleteCommand.create(domain,
 						newSelection) : RemoveCommand.create(domain,
 						newSelection);
-				if(c instanceof WarningDeleteCommand){
-					// Pre-instruct the command, not to support undo. 
+				if (c instanceof WarningDeleteCommand) {
+					// Pre-instruct the command, not to support undo.
 					((WarningDeleteCommand) c).undo = false;
 				}
-				
+
 			}
 		}
 		if (c == null) {
@@ -224,9 +226,7 @@ public class WarningDeleteAction extends DeleteAction {
 				Job job = (Job) o;
 
 				// Use a call, which doesn't force listing to changes.
-				Resource jobRunContainerResource = editingService
-						.getDataService()
-						.getProvider()
+				Resource jobRunContainerResource = editingService.getData()
 						.getResource(
 								editingService.getEditingDomain()
 										.getResourceSet(),
@@ -234,7 +234,7 @@ public class WarningDeleteAction extends DeleteAction {
 
 				// Resource jobRunContainerResource = editingService
 				// .getData(SchedulingPackage.Literals.JOB_RUN_CONTAINER);
-				
+
 				// find our jobcontainer .
 				for (final EObject eObject : jobRunContainerResource
 						.getContents()) {

@@ -36,17 +36,12 @@ import com.netxforge.netxstudio.generics.Role;
  */
 public class DataService implements IDataService {
 
-	private final ICDOData data;
 	private final IQueryService queryService;
-
+	
+	
 	@Inject
-	public DataService(ICDOData provider, IQueryService queryService) {
-		this.data = provider;
+	public DataService(IQueryService queryService) {
 		this.queryService = queryService;
-	}
-
-	public ICDOData getProvider() {
-		return data;
 	}
 
 	/*
@@ -62,7 +57,7 @@ public class DataService implements IDataService {
 		String currentUser = data.getSessionUserID();
 		Resource resource = data
 				.getResource(GenericsPackage.Literals.PERSON);
-		List<Person> people = new StudioUtils.CollectionForObjects<Person>()
+		final List<Person> people = new StudioUtils.CollectionForObjects<Person>()
 				.collectionForObjects(resource.getContents());
 		Role r = StudioUtils.roleForUserWithName(currentUser, people);
 		return r;

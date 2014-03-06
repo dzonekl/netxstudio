@@ -19,16 +19,21 @@ package com.netxforge.netxstudio.screens.editing;
 
 import com.google.inject.Inject;
 import com.netxforge.netxstudio.data.IDataService;
+import com.netxforge.netxstudio.data.cdo.IClientDataProvider;
 import com.netxforge.screens.editing.base.IEditingService;
 import com.netxforge.screens.editing.base.IEditingServiceProvider;
 
 public class CDOEditingServiceProvider implements IEditingServiceProvider {
 
 	private IDataService dataService;
+	
+	private IClientDataProvider dataProvider;
 
 	@Inject
-	public CDOEditingServiceProvider(IDataService dataService) {
+	public CDOEditingServiceProvider(IDataService dataService,
+			IClientDataProvider dataProvider) {
 		this.dataService = dataService;
+		this.dataProvider = dataProvider;
 	}
 
 	/*
@@ -38,7 +43,9 @@ public class CDOEditingServiceProvider implements IEditingServiceProvider {
 	 * com.netxforge.netxstudio.screens.editing.IEditingServiceProvider#get()
 	 */
 	public IEditingService get() {
-		return new CDOEditingService(dataService);
+		// Create a single provider instance associated with this editing session.
+		// When closing the editing
+		return new CDOEditingService(dataService, dataProvider.get());
 	}
 
 }
