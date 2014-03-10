@@ -343,7 +343,7 @@ public class Parameters extends AbstractScreen implements IDataServiceInjection 
 
 	@Override
 	public void saveState(IMemento memento) {
-		MementoUtil.rememberStructuredViewerSelection(memento, tableViewer,
+		CDOMementoUtil.rememberStructuredViewerSelection(memento, tableViewer,
 				MEM_KEY_PARAMETERS_SELECTION_TABLE);
 		MementoUtil.rememberStructuredViewerColumns(memento, tableViewer,
 				MEM_KEY_PARAMETERS_COLUMNS_TABLE);

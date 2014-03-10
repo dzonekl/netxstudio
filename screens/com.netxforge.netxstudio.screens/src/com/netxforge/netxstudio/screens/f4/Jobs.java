@@ -703,7 +703,7 @@ public class Jobs extends AbstractScreen implements IDataServiceInjection {
 	public void saveState(IMemento memento) {
 
 		// sash state vertical.
-		MementoUtil.rememberStructuredViewerSelection(memento,
+		CDOMementoUtil.rememberStructuredViewerSelection(memento,
 				jobsTableViewer, MEM_KEY_JOBS_SELECTION_TABLE);
 		MementoUtil.rememberStructuredViewerColumns(memento, jobsTableViewer,
 				MEM_KEY_JOBS_COLUMNS_TABLE);

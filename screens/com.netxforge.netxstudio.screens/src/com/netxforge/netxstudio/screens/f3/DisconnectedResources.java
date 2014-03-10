@@ -50,7 +50,6 @@ import com.netxforge.screens.editing.base.IDataServiceInjection;
 import com.netxforge.screens.editing.base.ScreenUtil;
 import com.netxforge.screens.editing.base.actions.BaseSelectionListenerAction;
 import com.netxforge.screens.editing.base.actions.SeparatorAction;
-import com.netxforge.screens.editing.base.util.MementoUtil;
 
 /**
  * 
@@ -223,7 +222,7 @@ public class DisconnectedResources extends AbstractScreen implements
 
 		// sash state vertical.
 		// combo operator.
-		MementoUtil.rememberStructuredViewerSelection(memento,
+		CDOMementoUtil.rememberStructuredViewerSelection(memento,
 				(StructuredViewer) cmpResources.getViewer(),
 				MEM_KEY_NODERESOURCEADVANCED_SELECTION_RESOURCE);
 	}

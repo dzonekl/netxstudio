@@ -446,7 +446,7 @@ public class Metrics extends AbstractScreen implements IDataServiceInjection {
 	public void saveState(IMemento memento) {
 
 		// sash state vertical.
-		MementoUtil.rememberStructuredViewerSelection(memento,
+		CDOMementoUtil.rememberStructuredViewerSelection(memento,
 				metricsTreeViewer, MEM_KEY_METRIC_SELECTION_TABLE);
 		MementoUtil.rememberStructuredViewerColumns(memento, metricsTreeViewer,
 				MEM_KEY_METRIC_COLUMNS_TABLE);

@@ -22,6 +22,7 @@ import org.eclipse.emf.cdo.common.id.CDOID;
 import org.eclipse.emf.cdo.util.ObjectNotFoundException;
 import org.eclipse.emf.cdo.view.CDOView;
 import org.eclipse.emf.spi.cdo.FSMUtil;
+import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.jface.viewers.StructuredViewer;
@@ -35,12 +36,28 @@ import com.netxforge.base.cdo.CDO;
 import com.netxforge.screens.editing.base.util.MementoUtil;
 
 /**
- * Various memento shortcut boilerplate busters!
+ * Various memento shortcut boilerplate busters! The utility is specific for
+ * {@link CDOObject} as the {@link CDOID ID} of the object is stored in the
+ * {@link IMemento}
  * 
  * @author Christophe Bouhier
  * 
  */
 public class CDOMementoUtil {
+
+	/**
+	 * Remember a {@link StructuredViewer} {@link ISelection}
+	 * 
+	 * @param memento
+	 * @param viewer
+	 * @param key
+	 */
+	public static void rememberStructuredViewerSelection(IMemento memento,
+			StructuredViewer viewer, String key) {
+		ISelection selection = viewer.getSelection();
+
+		rememberSelection(memento, (IStructuredSelection) selection, key);
+	}
 
 	/**
 	 * Retrieve a Combo viewer.

@@ -372,7 +372,7 @@ public class LazyTolerances extends AbstractScreen implements
 	public void saveState(IMemento memento) {
 
 		// sash state vertical.
-		MementoUtil.rememberStructuredViewerSelection(memento,
+		CDOMementoUtil.rememberStructuredViewerSelection(memento,
 				toleranceTblViewer, MEM_KEY_TOLERANCE_SELECTION_TABLE);
 		MementoUtil.rememberStructuredViewerColumns(memento,
 				toleranceTblViewer, MEM_KEY_TOLERANCE_COLUMNS_TABLE);

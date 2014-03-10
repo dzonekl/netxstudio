@@ -358,7 +358,7 @@ public class Tolerances extends AbstractScreen implements IDataServiceInjection 
 	public void saveState(IMemento memento) {
 
 		// sash state vertical.
-		MementoUtil.rememberStructuredViewerSelection(memento,
+		CDOMementoUtil.rememberStructuredViewerSelection(memento,
 				toleranceTblViewer, MEM_KEY_TOLERANCE_SELECTION_TABLE);
 		MementoUtil.rememberStructuredViewerColumns(memento,
 				toleranceTblViewer, MEM_KEY_TOLERANCE_COLUMNS_TABLE);

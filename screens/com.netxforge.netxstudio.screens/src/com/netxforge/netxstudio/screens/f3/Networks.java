@@ -768,7 +768,7 @@ public class Networks extends AbstractScreen implements IDataServiceInjection {
 	 */
 	@Override
 	public void saveState(IMemento memento) {
-		MementoUtil.rememberStructuredViewerSelection(memento,
+		CDOMementoUtil.rememberStructuredViewerSelection(memento,
 				networkTreeViewer, MEM_KEY_NETWORKS_SELECTION_TREE);
 
 		// We might not have a currentDetails state.

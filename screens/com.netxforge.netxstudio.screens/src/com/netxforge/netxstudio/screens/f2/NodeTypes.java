@@ -514,7 +514,7 @@ public class NodeTypes extends AbstractScreen implements IDataServiceInjection {
 	public void saveState(IMemento memento) {
 
 		// sash state vertical.
-		MementoUtil.rememberStructuredViewerSelection(memento,
+		CDOMementoUtil.rememberStructuredViewerSelection(memento,
 				nodeTypeTreeViewer, MEM_KEY_NODETYPES_SELECTION_TREE);
 
 	}

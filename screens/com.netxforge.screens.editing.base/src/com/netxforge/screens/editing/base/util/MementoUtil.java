@@ -26,8 +26,6 @@ import java.util.List;
 import javax.xml.datatype.XMLGregorianCalendar;
 
 import org.eclipse.jface.dialogs.IDialogSettings;
-import org.eclipse.jface.viewers.ISelection;
-import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.StructuredViewer;
 import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.jface.viewers.TreeViewer;
@@ -137,20 +135,6 @@ public class MementoUtil {
 		if (date != null) {
 			cdatetime.setSelection(date);
 		}
-	}
-
-	/**
-	 * Remember a Combo viewer.
-	 * 
-	 * @param memento
-	 * @param viewer
-	 * @param key
-	 */
-	public static void rememberStructuredViewerSelection(IMemento memento,
-			StructuredViewer viewer, String key) {
-		ISelection selection = viewer.getSelection();
-
-		rememberSelection(memento, selection, key);
 	}
 
 	/**
@@ -332,20 +316,6 @@ public class MementoUtil {
 			}
 		}
 		return null;
-	}
-
-	/**
-	 * Remember a Selection
-	 * 
-	 * @param memento
-	 * @param selection
-	 * @param key
-	 */
-	public static void rememberSelection(IMemento memento,
-			ISelection selection, String key) {
-		if (selection instanceof IStructuredSelection) {
-			rememberSelection(memento, (IStructuredSelection) selection, key);
-		}
 	}
 
 	/**

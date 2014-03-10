@@ -555,7 +555,7 @@ public class MetricSources extends AbstractScreen implements
 	public void saveState(IMemento memento) {
 
 		// sash state vertical.
-		MementoUtil.rememberStructuredViewerSelection(memento,
+		CDOMementoUtil.rememberStructuredViewerSelection(memento,
 				metricSourceTableViewer, MEM_KEY_METRICSOURCE_SELECTION_TABLE);
 		MementoUtil.rememberStructuredViewerColumns(memento,
 				metricSourceTableViewer, MEM_KEY_METRICSOURCE_COLUMNS_TABLE);

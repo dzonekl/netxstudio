@@ -401,7 +401,7 @@ public abstract class AbstractSmartTableScreen extends AbstractScreen implements
 	public void saveState(IMemento memento) {
 		lazyTableViewer.saveState(memento);
 		// sash state vertical.
-		MementoUtil.rememberStructuredViewerSelection(memento,
+		CDOMementoUtil.rememberStructuredViewerSelection(memento,
 				lazyTableViewer.getTableViewer(),
 				MementoUtil.MEM_KEY_SELECTION_TABLE);
 

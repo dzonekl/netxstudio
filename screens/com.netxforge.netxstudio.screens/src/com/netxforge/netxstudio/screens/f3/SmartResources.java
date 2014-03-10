@@ -2502,26 +2502,26 @@ public class SmartResources extends AbstractPeriodScreen implements
 				MEM_KEY_NODERESOURCEADVANCED_SEPARATOR_DATA);
 
 		// combo operator.
-		MementoUtil.rememberStructuredViewerSelection(memento,
+		CDOMementoUtil.rememberStructuredViewerSelection(memento,
 				cmbViewerOperator,
 				MEM_KEY_NODERESOURCEADVANCED_SELECTION_OPERATOR);
 
 		// combo network.
-		MementoUtil.rememberStructuredViewerSelection(memento,
+		CDOMementoUtil.rememberStructuredViewerSelection(memento,
 				cmbViewerNetwork,
 				MEM_KEY_NODERESOURCEADVANCED_SELECTION_NETWORK);
 
 		// combo node.
-		MementoUtil.rememberStructuredViewerSelection(memento, cmbViewerNode,
-				MEM_KEY_NODERESOURCEADVANCED_SELECTION_NODE);
+		CDOMementoUtil.rememberStructuredViewerSelection(memento,
+				cmbViewerNode, MEM_KEY_NODERESOURCEADVANCED_SELECTION_NODE);
 
 		// tree component
-		MementoUtil.rememberStructuredViewerSelection(memento,
+		CDOMementoUtil.rememberStructuredViewerSelection(memento,
 				componentsTreeViewer,
 				MEM_KEY_NODERESOURCEADVANCED_SELECTION_COMPONENT);
 
 		// table resource
-		MementoUtil.rememberStructuredViewerSelection(memento,
+		CDOMementoUtil.rememberStructuredViewerSelection(memento,
 				resourcesTableViewer,
 				MEM_KEY_NODERESOURCEADVANCED_SELECTION_RESOURCE);
 
