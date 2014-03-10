@@ -25,6 +25,7 @@ import com.google.inject.AbstractModule;
 import com.google.inject.Scopes;
 import com.google.inject.Singleton;
 import com.netxforge.netxstudio.data.ICDODataService;
+import com.netxforge.netxstudio.data.cdo.IClientCDODataProvider;
 import com.netxforge.netxstudio.screens.editing.CDOEditingServiceProvider;
 import com.netxforge.netxstudio.screens.editing.CDOScreenFormServiceProvider;
 import com.netxforge.netxstudio.screens.editing.util.CDOMementoUtil;
@@ -71,16 +72,21 @@ public class EditingModule extends AbstractModule {
 		// INTERNAL SERVICES
 
 		bind(IScreenFactory.class).to(ScreenFactory.class);
+
 		bind(ClipboardService.class).in(Scopes.SINGLETON);
-
-
-		// /////////////////////////////////////
-		// IMPORTED SERVICES
-
+		
 		bind(IEditingServiceProvider.class).toProvider(
 				service(IEditingServiceProvider.class).single());
 		
-		// {@link IDataService}
+		// /////////////////////////////////////
+		// IMPORTED SERVICES
+		
+		
+		// {@link DataModule}
+		bind(IClientCDODataProvider.class).toProvider(
+				service(IClientCDODataProvider.class).single());
+
+		// {@link DataModule}
 		bind(ICDODataService.class).toProvider(
 				service(ICDODataService.class).single());
 	}
