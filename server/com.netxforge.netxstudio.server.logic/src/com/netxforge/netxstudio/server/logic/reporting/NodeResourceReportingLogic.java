@@ -89,9 +89,8 @@ public class NodeResourceReportingLogic extends NodeReportingLogic {
 
 		
 		if (reportingEngine == null) {
-			queryService.setDataProvider(this.getData());
 			reportingEngine = new ResourceReportingEngine(
-					this.getPeriod(), this.getWorkBook(), this.queryService);
+					this.getPeriod(), this.getWorkBook());
 		}
 
 		// We skip reporting for this node, using a static check.

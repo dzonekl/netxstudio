@@ -26,7 +26,7 @@ import org.eclipse.ui.activities.IActivityManager;
 import org.eclipse.ui.activities.IWorkbenchActivitySupport;
 
 import com.google.inject.Inject;
-import com.netxforge.netxstudio.data.IDataService;
+import com.netxforge.netxstudio.data.ICDODataService;
 import com.netxforge.netxstudio.data.fixtures.IFixtures;
 import com.netxforge.netxstudio.generics.Role;
 import com.netxforge.netxstudio.screens.roles.IRoleService;
@@ -35,7 +35,7 @@ import com.netxforge.netxstudio.screens.roles.IRoleService;
  * Maps a user role, to it's activities. 
  * Enables/disables activities based on the role. 
  * </p>
- * A {@link IRoleService} implementation which uses an {@link IDataService} to
+ * A {@link IRoleService} implementation which uses an {@link ICDODataService} to
  * retrieve the current {@link User} and {@link Role} </p> Note: As it wraps the
  * data service, it should make sure the session is released.
  * 
@@ -55,7 +55,7 @@ public class ActivityAndRoleService implements IActivityAndRoleService {
 	
 	
 	@Inject
-	private IDataService dataService;
+	private ICDODataService dataService;
 
 	
 	/**
@@ -127,10 +127,10 @@ public class ActivityAndRoleService implements IActivityAndRoleService {
 	}
 
 	public String getCurrentUser() {
-		return dataService.getProvider().getSessionUserID();
+		return dataService.getCDOData().getSessionUserID();
 	}
 	
-	public IDataService getDataService() {
+	public ICDODataService getDataService() {
 		return dataService;
 		
 	}

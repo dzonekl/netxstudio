@@ -29,9 +29,7 @@ import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.ss.util.CellRangeAddress;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
-import com.google.inject.Inject;
 import com.netxforge.base.cdo.ICDOData;
-import com.netxforge.netxstudio.data.IQueryService;
 import com.netxforge.netxstudio.generics.DateTimeRange;
 import com.netxforge.netxstudio.library.Component;
 import com.netxforge.netxstudio.library.NodeType;
@@ -53,9 +51,6 @@ public abstract class XLSXPOIEmitter implements IReportEmitter {
 
 	private static final int HEADER_CELL_SIZE = 10;
 
-	@Inject
-	protected IQueryService queryService;
-
 	/**
 	 * The current work book.
 	 */
@@ -72,7 +67,6 @@ public abstract class XLSXPOIEmitter implements IReportEmitter {
 
 	public void activate(ICDOData dataProvider) {
 
-		queryService.setDataProvider(dataProvider);
 		// A new workbook
 		setWorkBook(new XSSFWorkbook());
 	}

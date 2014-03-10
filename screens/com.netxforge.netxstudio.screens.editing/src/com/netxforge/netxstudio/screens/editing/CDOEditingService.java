@@ -62,8 +62,8 @@ import com.netxforge.base.cdo.CDO;
 import com.netxforge.base.cdo.ICDOData;
 import com.netxforge.base.data.IBaseData;
 import com.netxforge.netxstudio.common.model.StudioUtils;
-import com.netxforge.netxstudio.data.IDataService;
-import com.netxforge.netxstudio.data.IQueryService;
+import com.netxforge.netxstudio.generics.GenericsPackage;
+import com.netxforge.netxstudio.generics.Person;
 import com.netxforge.netxstudio.generics.Role;
 import com.netxforge.netxstudio.generics.provider.GenericsItemProviderAdapterFactory;
 import com.netxforge.netxstudio.geo.provider.GeoItemProviderAdapterFactory;
@@ -94,22 +94,16 @@ import com.netxforge.screens.editing.base.IScreenProvider;
  * 
  */
 public class CDOEditingService extends EMFEditingService implements
-		IDataService, IDawnEditor, IViewerProvider, IScreenProvider {
+		ICDOEditingService, IDawnEditor, IViewerProvider, IScreenProvider {
 
 	/**
 	 * Our editor support for Dawn.
 	 */
 	private DawnEMFEditorSupport dawnEditorSupport;
 
-	/**
-	 * Our data service facility.
-	 */
-	private IDataService dataService;
-
 	@Inject
-	public CDOEditingService(IDataService dataService, ICDOData data) {
+	public CDOEditingService(ICDOData data) {
 		super(data);
-		this.dataService = dataService;
 		dawnEditorSupport = new DawnEMFEditorSupport(this);
 	}
 
@@ -383,7 +377,7 @@ public class CDOEditingService extends EMFEditingService implements
 	 * @return
 	 */
 	public String printDataStatus() {
-		return dataService.toString();
+		return getCDOData().toString();
 	}
 
 	/*
@@ -813,22 +807,21 @@ public class CDOEditingService extends EMFEditingService implements
 	/**
 	 * Delegation to injected IDataService
 	 */
-	public IQueryService getQueryService() {
-		return dataService.getQueryService();
-	}
-
-	/**
-	 * Delegation to injected IDataService
-	 */
 	public Role getCurrentRole() {
-		return dataService.getCurrentRole();
+		String currentUser = getCDOData().getSessionUserID();
+		Resource resource = getCDOData().getResource(
+				GenericsPackage.Literals.PERSON);
+		final List<Person> people = new StudioUtils.CollectionForObjects<Person>()
+				.collectionForObjects(resource.getContents());
+		Role r = StudioUtils.roleForUserWithName(currentUser, people);
+		return r;
 	}
 
 	/**
 	 * Delegation to injected IDataService
 	 */
 	public String getServer() {
-		return dataService.getServer();
+		return getCDOData().getServer();
 	}
 
 }

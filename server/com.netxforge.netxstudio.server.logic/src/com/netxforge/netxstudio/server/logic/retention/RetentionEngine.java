@@ -32,7 +32,8 @@ import com.google.common.collect.Ordering;
 import com.google.inject.Inject;
 import com.netxforge.base.NonModelUtils;
 import com.netxforge.netxstudio.common.model.StudioUtils;
-import com.netxforge.netxstudio.data.IQueryService;
+import com.netxforge.netxstudio.data.cdo.CDOQueryService;
+import com.netxforge.netxstudio.data.cdo.CDOQueryUtil;
 import com.netxforge.netxstudio.data.services.ResultProcessor;
 import com.netxforge.netxstudio.data.services.ValueProcessor;
 import com.netxforge.netxstudio.generics.DateTimeRange;
@@ -86,9 +87,6 @@ public class RetentionEngine extends BaseComponentEngine {
 
 	@Inject
 	private ValueProcessor valueProcessor;
-
-	@Inject
-	private IQueryService queryService;
 
 	@Inject
 	private AddonHandler addonHandler;
@@ -376,18 +374,18 @@ public class RetentionEngine extends BaseComponentEngine {
 		// the smallest interval defined as a fixture.
 		// ??? Why not clearing for other values?
 		if (intervalHint == 15) {
-			final List<Value> capacityValues = queryService.capacityValues(
+			final List<Value> capacityValues = CDOQueryService.capacityValues(
 					netXResource.cdoView(), netXResource,
-					IQueryService.QUERY_MYSQL, period);
+					CDOQueryUtil.QUERY_MYSQL, period);
 
 			if (!capacityValues.isEmpty()) {
 				valueProcessor.removeValues(netXResource.getCapacityValues(),
 						capacityValues);
 			}
 
-			final List<Value> utilizationValues = queryService
+			final List<Value> utilizationValues = CDOQueryService
 					.utilizationValues(netXResource.cdoView(), netXResource,
-							IQueryService.QUERY_MYSQL, period);
+							CDOQueryUtil.QUERY_MYSQL, period);
 
 			if (!utilizationValues.isEmpty()) {
 				valueProcessor.removeValues(
@@ -421,8 +419,8 @@ public class RetentionEngine extends BaseComponentEngine {
 								+ StudioUtils.periodToStringMore(period));
 
 				// // Do we get a List or ELis?
-				final List<Value> mvrValues = queryService.mvrValues(
-						mvr.cdoView(), mvr, IQueryService.QUERY_MYSQL, period);
+				final List<Value> mvrValues = CDOQueryService.mvrValues(
+						mvr.cdoView(), mvr, CDOQueryUtil.QUERY_MYSQL, period);
 
 				if (!valueProcessor.removeValues(mvr, mvrValues)) {
 					LogicActivator.TRACE.trace(

@@ -280,8 +280,7 @@ public class MetricSources extends AbstractScreen implements
 				if (o instanceof MetricSource) {
 					final MetricSource ms = (MetricSource) o;
 					try {
-						serverActions.setCDOServer(editingService
-								.getDataService().getProvider().getServer());
+						serverActions.setCDOServer(getCDOEditingService().getServer());
 
 						@SuppressWarnings("unused")
 						String result = serverActions

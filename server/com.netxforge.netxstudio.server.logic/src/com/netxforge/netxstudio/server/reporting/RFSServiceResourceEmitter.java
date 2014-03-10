@@ -126,7 +126,7 @@ public class RFSServiceResourceEmitter extends XLSXPOIEmitter {
 		if (reportingEngine == null) {
 			// queryService.setDataProvider(this.getDataProvider());
 			reportingEngine = new ResourceReportingEngine(period,
-					this.getWorkBook(), this.queryService);
+					this.getWorkBook());
 		}
 
 		// We skip reporting for this node, using a static check.

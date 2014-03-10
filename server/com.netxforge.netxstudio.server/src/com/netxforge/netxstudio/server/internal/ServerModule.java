@@ -27,8 +27,6 @@ import com.google.inject.AbstractModule;
 import com.google.inject.Scopes;
 import com.netxforge.base.cdo.ICDOData;
 import com.netxforge.base.properties.IPropertiesProvider;
-import com.netxforge.netxstudio.data.IQueryService;
-import com.netxforge.netxstudio.data.cdo.CDOQueryService;
 import com.netxforge.netxstudio.data.cdo.ICDOConnection;
 import com.netxforge.netxstudio.server.CommitInfoHandler;
 import com.netxforge.netxstudio.server.IServerUtils;
@@ -113,10 +111,6 @@ public class ServerModule extends AbstractModule {
 		// ///////////////////////////////
 		// IMPORT SERVICES
 		// (Copy to modules in other OSGI bundles to import the service).
-
-		// {@link CDOServiceModule}
-		bind(IQueryService.class).toProvider(
-				service(CDOQueryService.class).single());
 
 		// {@link ServerModule}
 		bind(IServerUtils.class).toProvider(

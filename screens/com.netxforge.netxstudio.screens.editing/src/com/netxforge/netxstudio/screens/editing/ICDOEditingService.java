@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 7 jun. 2013 NetXForge.
+ * Copyright (c) 6 mrt. 2014 NetXForge.
  * 
  * This program is free software: you can redistribute it and/or modify it under
  * the terms of the GNU General Public License as published by the Free Software
@@ -14,12 +14,15 @@
  * 
  * Contributors: Christophe Bouhier - initial API and implementation and/or
  * initial documentation
- *******************************************************************************/ 
-package com.netxforge.netxstudio.data.cdo;
+ *******************************************************************************/
+package com.netxforge.netxstudio.screens.editing;
 
-import com.netxforge.base.cdo.ICDOData;
+import org.eclipse.emf.cdo.view.CDOView;
 
-public interface IClientDataProvider {
-	public ICDOData get();
-	
+import com.netxforge.netxstudio.data.ICDODataService;
+
+public interface ICDOEditingService extends ICDODataService {
+
+	public CDOView getView();
+
 }

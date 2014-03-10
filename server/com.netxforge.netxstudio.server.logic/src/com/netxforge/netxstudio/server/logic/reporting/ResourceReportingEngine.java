@@ -39,7 +39,6 @@ import com.google.common.collect.Maps;
 import com.google.common.collect.Multimap;
 import com.netxforge.base.NonModelUtils;
 import com.netxforge.netxstudio.common.model.StudioUtils;
-import com.netxforge.netxstudio.data.IQueryService;
 import com.netxforge.netxstudio.generics.DateTimeRange;
 import com.netxforge.netxstudio.generics.Value;
 import com.netxforge.netxstudio.library.Component;
@@ -64,16 +63,11 @@ public class ResourceReportingEngine {
 
 	private Workbook workBook;
 
-	@SuppressWarnings("unused")
-	private IQueryService queryService;
-
 	private static final int NODE_COLUMN = 2;
 
-	public ResourceReportingEngine(DateTimeRange period, Workbook workBook,
-			IQueryService queryService) {
+	public ResourceReportingEngine(DateTimeRange period, Workbook workBook) {
 		this.period = period;
 		this.workBook = workBook;
-		this.queryService = queryService;
 	}
 
 	public void writeComponentLine(int newRow, Sheet sheet, Component component) {

@@ -28,10 +28,10 @@ import com.google.common.base.Function;
 import com.google.common.base.Predicate;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
-import com.google.inject.Inject;
 import com.netxforge.base.NonModelUtils;
 import com.netxforge.netxstudio.common.model.StudioUtils;
-import com.netxforge.netxstudio.data.IQueryService;
+import com.netxforge.netxstudio.data.cdo.CDOQueryService;
+import com.netxforge.netxstudio.data.cdo.CDOQueryUtil;
 import com.netxforge.netxstudio.data.internal.DataActivator;
 import com.netxforge.netxstudio.generics.DateTimeRange;
 import com.netxforge.netxstudio.generics.Value;
@@ -56,9 +56,6 @@ import com.netxforge.netxstudio.operators.ToleranceMarkerDirectionKind;
  * @author Christophe Bouhier
  */
 public class ToleranceProcessor {
-
-	@Inject
-	private IQueryService queryService;
 
 	private ResourceMonitor resourceMonitor;
 
@@ -92,8 +89,7 @@ public class ToleranceProcessor {
 			return;
 		}
 		if (DataActivator.DEBUG) {
-			DataActivator.TRACE.trace(
-					DataActivator.TRACE_RESULT_TOL_OPTION,
+			DataActivator.TRACE.trace(DataActivator.TRACE_RESULT_TOL_OPTION,
 					"markers before in resource monitor="
 							+ resourceMonitor.getMarkers().size());
 		}
@@ -102,16 +98,14 @@ public class ToleranceProcessor {
 		List<Marker> markersResult = state.process(expressionResult);
 
 		if (DataActivator.DEBUG) {
-			DataActivator.TRACE.trace(
-					DataActivator.TRACE_RESULT_TOL_OPTION,
+			DataActivator.TRACE.trace(DataActivator.TRACE_RESULT_TOL_OPTION,
 					"total markers created size=" + markersResult.size());
 		}
 
 		storeNewMarkers(markersResult);
 
 		if (DataActivator.DEBUG) {
-			DataActivator.TRACE.trace(
-					DataActivator.TRACE_RESULT_TOL_OPTION,
+			DataActivator.TRACE.trace(DataActivator.TRACE_RESULT_TOL_OPTION,
 					"markers now in resource monitor="
 							+ resourceMonitor.getMarkers().size());
 		}
@@ -217,8 +211,8 @@ public class ToleranceProcessor {
 		}
 
 		if (USE_QUERIES) {
-			usageValues = queryService.mvrValues(targetMVR.cdoView(),
-					targetMVR, IQueryService.QUERY_MYSQL, period);
+			usageValues = CDOQueryService.mvrValues(targetMVR.cdoView(),
+					targetMVR, CDOQueryUtil.QUERY_MYSQL, period);
 
 		} else {
 

@@ -197,7 +197,7 @@ public class UserActivity extends AbstractScreen implements
 			String userID = user.getLogin();
 			buildUI();
 			getScreenForm().setText("User: " + userID);
-			commitEntries = this.editingService.getDataService().getProvider()
+			commitEntries = getCDOEditingService().getCDOData()
 					.getCommitInfoResource(userID);
 		} else {
 			throw new java.lang.IllegalArgumentException();

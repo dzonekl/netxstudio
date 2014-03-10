@@ -1,3 +1,20 @@
+/*******************************************************************************
+ * Copyright (c) 7 mrt. 2014 NetXForge.
+ * 
+ * This program is free software: you can redistribute it and/or modify it under
+ * the terms of the GNU General Public License as published by the Free Software
+ * Foundation, either version 3 of the License, or (at your option) any later
+ * version.
+ * 
+ * This program is distributed in the hope that it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+ * FOR A PARTICULAR PURPOSE. See the GNU General Public License for more
+ * details. You should have received a copy of the GNU General Public License
+ * along with this program. If not, see <http://www.gnu.org/licenses/>
+ * 
+ * Contributors: Christophe Bouhier - initial API and implementation and/or
+ * initial documentation
+ *******************************************************************************/
 package com.netxforge.netxstudio.screens.f1.support;
 
 import java.util.Date;
@@ -11,6 +28,7 @@ import org.eclipse.ui.IWorkbench;
 
 import com.google.inject.Inject;
 import com.netxforge.netxstudio.common.model.StudioUtils;
+import com.netxforge.netxstudio.data.ICDODataService;
 import com.netxforge.netxstudio.data.actions.ServerRequest;
 import com.netxforge.netxstudio.generics.DateTimeRange;
 import com.netxforge.netxstudio.library.NodeType;
@@ -87,8 +105,10 @@ public class ReportWizard extends Wizard implements INewWizard {
 			String result = null;
 
 			int reportSelection = reportSelectionType.getReportSelection();
-			serverActions.setCDOServer(editingService.getDataService()
-					.getProvider().getServer());
+
+			if (editingService instanceof ICDODataService) {
+				serverActions.setCDOServer(((ICDODataService) editingService).getServer());
+			}
 
 			switch (reportSelection) {
 			case ReportTypeSelectionPage.REPORT_ON_SERVICE_NODETYPE: {

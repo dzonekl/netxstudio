@@ -322,7 +322,7 @@ public class Countries extends AbstractScreen implements IDataServiceInjection {
 	 * @see com.netxforge.netxstudio.screens.AbstractScreenImpl#getScreenObjects()
 	 */
 	@Override
-	public Collection<Object> getScreenObjects() {
+	public Collection<? extends Object> getScreenObjects() {
 		if( countryResource instanceof CDOObject){
 			return Lists.newArrayList(countryResource);
 		}

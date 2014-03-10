@@ -30,7 +30,6 @@ import com.netxforge.base.cdo.ICDOData;
 import com.netxforge.netxstudio.NetxstudioPackage;
 import com.netxforge.netxstudio.ServerSettings;
 import com.netxforge.netxstudio.common.model.StudioUtils;
-import com.netxforge.netxstudio.data.IQueryService;
 import com.netxforge.netxstudio.data.job.IRunMonitor;
 import com.netxforge.netxstudio.library.Component;
 import com.netxforge.netxstudio.library.Expression;
@@ -57,9 +56,6 @@ public abstract class BaseLogic {
 	private IServerDataProvider dataProvider;
 
 	private ICDOData data;
-
-	@Inject
-	protected IQueryService queryService;
 
 	private IRunMonitor jobMonitor;
 

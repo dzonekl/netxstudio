@@ -303,11 +303,9 @@ public class NodeHistory extends AbstractScreen implements IDataScreenInjection 
 			// Do we have an existing resource for this historical node.
 			// If not we add at least the node.
 
-			if (editingService.getDataService().getProvider().hasResource(uri)) {
+			if (getCDOEditingService().getCDOData().hasResource(uri)) {
 
-				Resource historyResource = editingService
-						.getDataService()
-						.getProvider()
+				Resource historyResource = editingService.getData()
 						.getResource(
 								editingService.getEditingDomain()
 										.getResourceSet(), uri);
@@ -397,7 +395,8 @@ public class NodeHistory extends AbstractScreen implements IDataScreenInjection 
 				case 1: {
 					Date d = new Date(((HistoricNode) element).getNode()
 							.cdoRevision().getTimeStamp());
-					return NonModelUtils.date(d) + " @ " + NonModelUtils.time(d);
+					return NonModelUtils.date(d) + " @ "
+							+ NonModelUtils.time(d);
 				}
 				case 2: {
 					Node nt = ((HistoricNode) element).getNode();
@@ -414,7 +413,8 @@ public class NodeHistory extends AbstractScreen implements IDataScreenInjection 
 				}
 				case 1: {
 					Date d = new Date(rev.getTimeStamp());
-					return NonModelUtils.date(d) + " @ " + NonModelUtils.time(d);
+					return NonModelUtils.date(d) + " @ "
+							+ NonModelUtils.time(d);
 				}
 				case 2: {
 					return "perhaps remove this.";

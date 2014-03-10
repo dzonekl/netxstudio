@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 12 jun. 2013 NetXForge.
+ * Copyright (c) 7 jun. 2013 NetXForge.
  * 
  * This program is free software: you can redistribute it and/or modify it under
  * the terms of the GNU General Public License as published by the Free Software
@@ -14,26 +14,12 @@
  * 
  * Contributors: Christophe Bouhier - initial API and implementation and/or
  * initial documentation
- *******************************************************************************/
-package com.netxforge.netxstudio.models.export.ui.internal;
+ *******************************************************************************/ 
+package com.netxforge.netxstudio.data.cdo;
 
-import static org.ops4j.peaberry.Peaberry.service;
+import com.netxforge.base.cdo.ICDOData;
 
-import com.google.inject.AbstractModule;
-import com.netxforge.netxstudio.data.cdo.IClientCDODataProvider;
-
-public class IOModule extends AbstractModule {
-
-	@Override
-	protected void configure() {
-
-		// ///////////////////////////////
-		// IMPORT SERVICES
-		// (Copy to modules in other OSGI bundles to import the service).
-		// {@link DataModule}
-		bind(IClientCDODataProvider.class).toProvider(
-				service(IClientCDODataProvider.class).single());
-		
-	}
-
+public interface INonStaticCDODataProvider {
+	public ICDOData get();
+	
 }

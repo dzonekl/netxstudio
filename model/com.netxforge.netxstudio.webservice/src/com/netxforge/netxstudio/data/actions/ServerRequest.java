@@ -40,7 +40,7 @@ import com.google.inject.Inject;
 import com.netxforge.base.NonModelUtils;
 import com.netxforge.base.Tuple;
 import com.netxforge.base.cdo.CDO;
-import com.netxforge.netxstudio.data.IDataService;
+import com.netxforge.netxstudio.data.ICDODataService;
 
 /**
  * 
@@ -66,7 +66,7 @@ public class ServerRequest {
 	// "http://localhost:8080/netxforge/service?service=com.netxforge.netxstudio.server.metrics.MetricSourceImportService&metricSource=7246";
 
 	@Inject
-	private IDataService dataService;
+	private ICDODataService dataService;
 
 	private String server;
 

@@ -22,7 +22,7 @@ import static org.ops4j.peaberry.util.Attributes.objectClass;
 import static org.ops4j.peaberry.util.TypeLiterals.export;
 
 import com.google.inject.AbstractModule;
-import com.netxforge.netxstudio.data.IDataService;
+import com.netxforge.netxstudio.data.ICDODataService;
 import com.netxforge.netxstudio.data.actions.ServerRequest;
 
 public class WebserviceModule extends AbstractModule {
@@ -46,7 +46,7 @@ public class WebserviceModule extends AbstractModule {
 		// IMPORT SERVICES
 		
 		// {@link DataModule}
-		bind(IDataService.class).toProvider(
-				service(IDataService.class).single());
+		bind(ICDODataService.class).toProvider(
+				service(ICDODataService.class).single());
 	}
 }

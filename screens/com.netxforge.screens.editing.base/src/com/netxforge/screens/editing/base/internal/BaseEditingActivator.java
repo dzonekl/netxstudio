@@ -26,14 +26,10 @@ import org.eclipse.osgi.service.debug.DebugOptions;
 import org.eclipse.osgi.service.debug.DebugOptionsListener;
 import org.eclipse.osgi.service.debug.DebugTrace;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
-import org.ops4j.peaberry.Export;
 import org.osgi.framework.BundleContext;
 
 import com.google.inject.Guice;
-import com.google.inject.Inject;
 import com.google.inject.Injector;
-import com.netxforge.screens.editing.base.IEditingServiceProvider;
-import com.netxforge.screens.editing.base.IScreenFormServiceProvider;
 
 /**
  * The activator class controls the plug-in life cycle
@@ -67,12 +63,14 @@ public class BaseEditingActivator extends AbstractUIPlugin implements
 		DEBUG = options.getBooleanOption(PLUGIN_ID + "/debug", false);
 		TRACE = options.newDebugTrace(PLUGIN_ID);
 	}
+	
+	// TODO REACTIVATE later for binding of IBaseData. 
 
-	@Inject
-	Export<IEditingServiceProvider> editingServiceProvider;
+//	@Inject
+//	Export<IEditingServiceProvider> editingServiceProvider;
 
-	@Inject
-	Export<IScreenFormServiceProvider> screenFormServiceProvider;
+//	@Inject
+//	Export<IScreenFormServiceProvider> screenFormServiceProvider;
 	
 	/*
 	 * (non-Javadoc)

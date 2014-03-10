@@ -21,7 +21,7 @@ import static org.ops4j.peaberry.Peaberry.service;
 import static org.ops4j.peaberry.util.TypeLiterals.export;
 
 import com.google.inject.AbstractModule;
-import com.netxforge.netxstudio.data.IDataService;
+import com.netxforge.netxstudio.data.ICDODataService;
 import com.netxforge.netxstudio.screens.activities.ActivityAndRoleService;
 import com.netxforge.netxstudio.screens.activities.IActivityAndRoleService;
 
@@ -36,7 +36,7 @@ public class ActivitiesModule extends AbstractModule {
 		
 		// ////////////////////////////////
 		// IMPORT SERVICES
-		bind(IDataService.class).toProvider(service(IDataService.class).single());
+		bind(ICDODataService.class).toProvider(service(ICDODataService.class).single());
 		
 	}
 }

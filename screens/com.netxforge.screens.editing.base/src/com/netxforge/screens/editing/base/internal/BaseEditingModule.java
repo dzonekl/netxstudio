@@ -56,12 +56,15 @@ public class BaseEditingModule extends AbstractModule {
 
 		// ///////////////////////////////
 		// EXPORT SERVICES
+		
+		
+		// TODO Only worksd with IDataProvider is bound as welll. 
 
-		bind(export(IScreenFormServiceProvider.class)).toProvider(
-				service(ScreenFormServiceProvider.class).export());
+//		bind(export(IScreenFormServiceProvider.class)).toProvider(
+//				service(ScreenFormServiceProvider.class).export());
 
-		bind(export(IEditingServiceProvider.class)).toProvider(
-				service(EMFEditingServiceProvider.class).export());
+//		bind(export(IEditingServiceProvider.class)).toProvider(
+//				service(EMFEditingServiceProvider.class).export());
 
 		// ////////////////////////////////
 		// INTERNAL SERVICES
@@ -71,5 +74,9 @@ public class BaseEditingModule extends AbstractModule {
 
 		// /////////////////////////////////////
 		// IMPORTED SERVICES
+		
+		
+		
+		
 	}
 }

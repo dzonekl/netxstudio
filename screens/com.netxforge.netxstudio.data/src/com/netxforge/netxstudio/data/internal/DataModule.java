@@ -23,18 +23,14 @@ import static org.ops4j.peaberry.util.Attributes.objectClass;
 import static org.ops4j.peaberry.util.TypeLiterals.export;
 
 import com.netxforge.base.cdo.ICDOData;
-import com.netxforge.netxstudio.data.DataServiceModule;
-import com.netxforge.netxstudio.data.IDataService;
-import com.netxforge.netxstudio.data.IQueryService;
+import com.netxforge.netxstudio.data.ICDODataService;
 import com.netxforge.netxstudio.data.cdo.CDODataConnection;
 import com.netxforge.netxstudio.data.cdo.CDODataService;
-import com.netxforge.netxstudio.data.cdo.CDOQueryService;
-import com.netxforge.netxstudio.data.cdo.CDOQueryUtil;
 import com.netxforge.netxstudio.data.cdo.ClientCDOData;
 import com.netxforge.netxstudio.data.cdo.ClientCDODataProvider;
 import com.netxforge.netxstudio.data.cdo.ICDOConnection;
-import com.netxforge.netxstudio.data.cdo.IClientDataProvider;
-import com.netxforge.netxstudio.data.cdo.INonStaticDataProvider;
+import com.netxforge.netxstudio.data.cdo.IClientCDODataProvider;
+import com.netxforge.netxstudio.data.cdo.INonStaticCDODataProvider;
 import com.netxforge.netxstudio.data.cdo.NonStaticCDODataProvider;
 import com.netxforge.netxstudio.data.index.ComponentMappingIndex;
 import com.netxforge.netxstudio.data.index.IComponentLocator;
@@ -47,7 +43,7 @@ import com.netxforge.netxstudio.data.services.ValueProcessor;
  * @author Christophe Bouhier christophe.bouhier@netxforge.com
  * 
  */
-public class DataModule extends DataServiceModule {
+public class DataModule extends com.google.inject.AbstractModule {
 
 	/*
 	 * (non-Javadoc)
@@ -60,27 +56,20 @@ public class DataModule extends DataServiceModule {
 		// //////////////////////////////////////////////
 		// INTERNAL SERVICES
 
-		this.bind(CDOQueryUtil.class);
-
 		this.bind(ICDOConnection.class).to(CDODataConnection.class);
-
-		this.bind(IQueryService.class).to(CDOQueryService.class);
 
 		this.bind(ICDOData.class).to(ClientCDOData.class);
 
 		// ///////////////////////////////
 		// EXPORT SERVICES
 
-		bind(export(IClientDataProvider.class)).toProvider(
+		bind(export(IClientCDODataProvider.class)).toProvider(
 				service(ClientCDODataProvider.class).export());
 
-		bind(export(INonStaticDataProvider.class)).toProvider(
+		bind(export(INonStaticCDODataProvider.class)).toProvider(
 				service(NonStaticCDODataProvider.class).export());
 
-		bind(export(IQueryService.class)).toProvider(
-				service(CDOQueryService.class).export());
-
-		bind(export(IDataService.class)).toProvider(
+		bind(export(ICDODataService.class)).toProvider(
 				service(CDODataService.class).export());
 
 		bind(export(ResultProcessor.class)).toProvider(
@@ -102,8 +91,11 @@ public class DataModule extends DataServiceModule {
 		// (Copy to modules in other OSGI bundles to import the service).
 
 		// {@link DataModule}
-		bind(IDataService.class).toProvider(
-				service(IDataService.class).single());
+		bind(ICDODataService.class).toProvider(
+				service(ICDODataService.class).single());
+
+		bind(IClientCDODataProvider.class).toProvider(
+				service(IClientCDODataProvider.class).single());
 
 	}
 }

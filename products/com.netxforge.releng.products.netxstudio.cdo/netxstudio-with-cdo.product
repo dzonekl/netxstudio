@@ -53,10 +53,12 @@
       <feature id="com.netxforge.netxstudio.models.export.ui.feature" version="1.0.0.qualifier"/>
       <feature id="com.netxforge.netxstudio.models.import.feature" version="1.0.0.qualifier"/>
       <feature id="com.netxforge.netxstudio.models.import.ui.feature" version="1.0.0.qualifier"/>
+      <feature id="com.netxforge.netxstudio.screens.editing.feature" version="1.0.0.qualifier"/>
    </features>
 
    <configurations>
       <plugin id="com.netxforge.netxstudio.client.product" autoStart="true" startLevel="1" />
+      <plugin id="com.netxforge.netxstudio.screens.editing" autoStart="true" startLevel="0" />
       <plugin id="org.eclipse.core.runtime" autoStart="true" startLevel="2" />
       <plugin id="org.eclipse.equinox.ds" autoStart="true" startLevel="3" />
       <plugin id="org.eclipse.equinox.event" autoStart="true" startLevel="3" />

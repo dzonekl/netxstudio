@@ -20,7 +20,7 @@ package com.netxforge.netxstudio.models.importer.ui.internal;
 import static org.ops4j.peaberry.Peaberry.service;
 
 import com.google.inject.AbstractModule;
-import com.netxforge.netxstudio.data.cdo.IClientDataProvider;
+import com.netxforge.netxstudio.data.cdo.IClientCDODataProvider;
 
 public class IOModule extends AbstractModule {
 
@@ -30,8 +30,8 @@ public class IOModule extends AbstractModule {
 		// ///////////////////////////////
 		// IMPORT SERVICES
 		// (Copy to modules in other OSGI bundles to import the service).
-		bind(IClientDataProvider.class).toProvider(
-				service(IClientDataProvider.class).single());
+		bind(IClientCDODataProvider.class).toProvider(
+				service(IClientCDODataProvider.class).single());
 
 	}
 

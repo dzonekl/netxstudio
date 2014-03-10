@@ -177,6 +177,6 @@ public interface IScreen extends IViewerProvider, ISelectionProvider, IPersistab
 	 * The screen objects being served. 
 	 * @return
 	 */
-	public abstract Collection<Object> getScreenObjects();
+	public abstract Collection<? extends Object> getScreenObjects();
 	
 }

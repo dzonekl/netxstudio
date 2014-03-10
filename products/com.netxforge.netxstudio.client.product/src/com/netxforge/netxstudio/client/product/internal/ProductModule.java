@@ -23,7 +23,8 @@ import com.google.inject.AbstractModule;
 import com.netxforge.netxstudio.client.product.ProductWorkbenchAdvisor;
 import com.netxforge.netxstudio.client.product.ProductWorkbenchService;
 import com.netxforge.netxstudio.client.product.ProductWorkbenchWindowAdvisor;
-import com.netxforge.netxstudio.data.IDataService;
+import com.netxforge.netxstudio.data.ICDODataService;
+import com.netxforge.netxstudio.data.cdo.IClientCDODataProvider;
 import com.netxforge.netxstudio.screens.activities.IActivityAndRoleService;
 import com.netxforge.netxstudio.screens.app.IWorkbenchService;
 import com.netxforge.netxstudio.screens.app.IWorkbenchWindowLifecycle;
@@ -55,8 +56,13 @@ public class ProductModule extends AbstractModule {
 		// (Copy to modules in other OSGI bundles to import the service).
 
 		// {@link CDODataServiceModule}
-		bind(IDataService.class).toProvider(
-				service(IDataService.class).single());
+		bind(ICDODataService.class).toProvider(
+				service(ICDODataService.class).single());
+		
+
+		// {@link CDODataServiceModule}
+		bind(IClientCDODataProvider.class).toProvider(
+				service(IClientCDODataProvider.class).single());
 
 		// {@link ActivitiesModule}
 		bind(IActivityAndRoleService.class).toProvider(

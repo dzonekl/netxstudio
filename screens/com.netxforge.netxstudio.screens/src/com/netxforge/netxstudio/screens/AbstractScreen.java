@@ -19,6 +19,7 @@ package com.netxforge.netxstudio.screens;
 
 import org.eclipse.swt.widgets.Composite;
 
+import com.netxforge.netxstudio.screens.editing.ICDOEditingService;
 import com.netxforge.netxstudio.screens.internal.ScreensActivator;
 import com.netxforge.screens.editing.base.AbstractScreenImpl;
 
@@ -33,6 +34,16 @@ public abstract class AbstractScreen extends AbstractScreenImpl {
 	public AbstractScreen(Composite parent, int style) {
 		super(parent, style);
 		injectMembers(ScreensActivator.getInstance().getInjector());
+	}
+	
+	/**
+	 * Provide access to ICDOEditingService
+	 */
+	public ICDOEditingService getCDOEditingService(){
+		if(editingService instanceof ICDOEditingService){
+			return (ICDOEditingService) editingService;
+		}
+		throw new IllegalStateException("Expecting an ICDOEditingService");
 	}
 	
 }

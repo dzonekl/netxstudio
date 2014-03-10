@@ -34,9 +34,8 @@ import com.google.inject.Guice;
 import com.google.inject.Inject;
 import com.google.inject.Injector;
 import com.google.inject.Module;
-import com.netxforge.netxstudio.data.IDataService;
-import com.netxforge.netxstudio.data.IQueryService;
-import com.netxforge.netxstudio.data.cdo.IClientDataProvider;
+import com.netxforge.netxstudio.data.ICDODataService;
+import com.netxforge.netxstudio.data.cdo.IClientCDODataProvider;
 import com.netxforge.netxstudio.data.index.IComponentLocator;
 import com.netxforge.netxstudio.data.index.IComponentMappingIndex;
 import com.netxforge.netxstudio.data.services.ResultProcessor;
@@ -87,13 +86,10 @@ public class DataActivator implements BundleActivator, DebugOptionsListener {
 	// Note: Order is imported. I.e. ServerRequest requires the IDataService.
 
 	@Inject
-	Export<IDataService> dataService;
+	Export<ICDODataService> dataService;
 
 	@Inject
-	Export<IClientDataProvider> clientDPProvider;
-
-	@Inject
-	Export<IQueryService> queryService;
+	Export<IClientCDODataProvider> clientDPProvider;
 
 	@Inject
 	Export<IComponentMappingIndex> componentMappingIndex;

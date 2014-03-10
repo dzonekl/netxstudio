@@ -70,7 +70,8 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.inject.Inject;
 import com.netxforge.netxstudio.common.model.StudioUtils;
-import com.netxforge.netxstudio.data.IQueryService;
+import com.netxforge.netxstudio.data.cdo.CDOQueryService;
+import com.netxforge.netxstudio.data.cdo.CDOQueryUtil;
 import com.netxforge.netxstudio.generics.Value;
 import com.netxforge.netxstudio.library.Component;
 import com.netxforge.netxstudio.library.Equipment;
@@ -81,6 +82,7 @@ import com.netxforge.netxstudio.library.NodeType;
 import com.netxforge.netxstudio.operators.Node;
 import com.netxforge.netxstudio.screens.LabelTextTableColumnFilter;
 import com.netxforge.netxstudio.screens.editing.CDOEditingService;
+import com.netxforge.netxstudio.screens.editing.ICDOEditingService;
 import com.netxforge.netxstudio.screens.editing.tables.CDOElementComparer;
 import com.netxforge.screens.editing.base.IEditingService;
 import com.netxforge.screens.editing.base.IScreenFormService;
@@ -100,6 +102,7 @@ public class DisconnectedResourcesComponent {
 	private TreeViewer resourcesTreeViewer;
 
 	private IScreenFormService screenService;
+
 	private IEditingService editingService;
 
 	private Composite resourcesComposite;
@@ -398,16 +401,14 @@ public class DisconnectedResourcesComponent {
 	 */
 	private List<NetXResource> updateDisconnectedResources() {
 
-		final IQueryService queryService = screenService.getEditingService()
-				.getDataService().getQueryService();
-		IEditingService editingService = screenService.getEditingService();
-
-		if (editingService instanceof CDOEditingService
-				&& ((CDOEditingService) editingService).getView() != null) {
-			view = ((CDOEditingService) editingService).getView();
-			List<NetXResource> unconnectedResources = queryService
-					.getUnconnectedResources(view, IQueryService.QUERY_MYSQL);
-			return unconnectedResources;
+		if (editingService instanceof ICDOEditingService) {
+			ICDOEditingService cdoEditing = (ICDOEditingService) editingService;
+			if (cdoEditing.getView() != null) {
+				view = cdoEditing.getView();
+				List<NetXResource> unconnectedResources = CDOQueryService
+						.getUnconnectedResources(view, CDOQueryUtil.QUERY_MYSQL);
+				return unconnectedResources;
+			}
 		}
 
 		return null;

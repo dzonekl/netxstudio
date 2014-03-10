@@ -19,5 +19,6 @@ Require-Bundle: org.eclipse.ui,
 Bundle-RequiredExecutionEnvironment: J2SE-1.5
 Bundle-ActivationPolicy: lazy
 Export-Package: com.netxforge.netxstudio.client.product,
- com.netxforge.netxstudio.client.product.splashHandlers
+ com.netxforge.netxstudio.client.product.splashHandlers,
+ org.eclipse.wb.swt
 Import-Package: com.netxforge.netxstudio.generics

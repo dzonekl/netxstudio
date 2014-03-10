@@ -557,7 +557,7 @@ public abstract class AbstractScreenImpl extends Composite implements IScreen,
 	 * com.netxforge.netxstudio.screens.editing.selector.IScreen#getScreenObjects
 	 * ()
 	 */
-	public Collection<Object> getScreenObjects() {
+	public Collection<? extends Object> getScreenObjects() {
 		return Collections.emptyList();
 	}
 

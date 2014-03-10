@@ -63,7 +63,7 @@ import com.google.common.collect.Lists;
 import com.google.inject.Inject;
 import com.netxforge.base.cdo.ICDOData;
 import com.netxforge.netxstudio.common.model.StudioUtils;
-import com.netxforge.netxstudio.data.cdo.IClientDataProvider;
+import com.netxforge.netxstudio.data.cdo.IClientCDODataProvider;
 import com.netxforge.netxstudio.library.Component;
 import com.netxforge.netxstudio.library.LibraryPackage;
 import com.netxforge.netxstudio.library.NetXResource;
@@ -91,7 +91,7 @@ public abstract class AbstractImportWizard extends Wizard implements
 	}
 
 	@Inject
-	protected IClientDataProvider dataProvider;
+	protected IClientCDODataProvider dataProvider;
 	
 	protected ICDOData data;
 	

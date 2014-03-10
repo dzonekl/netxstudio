@@ -21,7 +21,7 @@ package com.netxforge.netxstudio.screens.activities;
 import org.eclipse.ui.activities.IActivityManager;
 import org.eclipse.ui.application.WorkbenchAdvisor;
 
-import com.netxforge.netxstudio.data.IDataService;
+import com.netxforge.netxstudio.data.ICDODataService;
 import com.netxforge.netxstudio.generics.Role;
 import com.netxforge.netxstudio.screens.roles.IRoleService;
 
@@ -51,7 +51,7 @@ public interface IActivityAndRoleService extends IRoleService {
 	 * Get the data service as well, as we likely inject it to get the role. 
 	 * @return 
 	 */
-	public abstract IDataService getDataService();
+	public abstract ICDODataService getDataService();
 	
 	
 }

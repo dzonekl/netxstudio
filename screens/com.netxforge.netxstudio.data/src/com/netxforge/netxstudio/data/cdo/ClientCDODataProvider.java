@@ -18,12 +18,16 @@
 package com.netxforge.netxstudio.data.cdo;
 
 import com.google.inject.Inject;
-import com.google.inject.Provider;
 import com.netxforge.base.cdo.ICDOData;
-import com.netxforge.netxstudio.data.cdo.ICDOConnection;
 
-public class ClientCDODataProvider implements Provider<ICDOData>,
-		IClientDataProvider {
+/**
+ * DI Provider for {@link ClientCDOData}
+ * 
+ * @author Christophe Bouhier
+ * 
+ */
+public class ClientCDODataProvider extends AbstractCDODataProvider implements
+		IClientCDODataProvider {
 
 	private ICDOConnection connection;
 
@@ -34,9 +38,12 @@ public class ClientCDODataProvider implements Provider<ICDOData>,
 
 	public ICDOData get() {
 
-		ClientCDOData clientCDODataProvider = new ClientCDOData(
-				connection);
-		return clientCDODataProvider;
+		ClientCDOData clientCDOData = new ClientCDOData(connection);
+		
+		if (!cdoDataCollection.contains(clientCDOData)) {
+			cdoDataCollection.add(clientCDOData);
+		}
+		return clientCDOData;
 	}
 
 }

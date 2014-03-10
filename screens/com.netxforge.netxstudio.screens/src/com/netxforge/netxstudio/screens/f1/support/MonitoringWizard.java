@@ -30,8 +30,8 @@ import com.google.inject.Inject;
 import com.netxforge.netxstudio.common.model.StudioUtils;
 import com.netxforge.netxstudio.data.actions.ServerRequest;
 import com.netxforge.netxstudio.generics.DateTimeRange;
+import com.netxforge.netxstudio.screens.editing.ICDOEditingService;
 import com.netxforge.netxstudio.screens.internal.ScreensActivator;
-import com.netxforge.screens.editing.base.IEditingService;
 
 public class MonitoringWizard extends Wizard implements INewWizard {
 
@@ -41,7 +41,7 @@ public class MonitoringWizard extends Wizard implements INewWizard {
 	private ServerRequest serverActions;
 
 	@Inject
-	private IEditingService editingService;
+	private ICDOEditingService editingService;
 
 	private Object firstSelectedObject;
 
@@ -90,8 +90,7 @@ public class MonitoringWizard extends Wizard implements INewWizard {
 
 			@SuppressWarnings("unused")
 			String result = null;
-			serverActions.setCDOServer(editingService.getDataService()
-					.getProvider().getServer());
+			serverActions.setCDOServer(editingService.getServer());
 
 			result = serverActions.callMonitorAction(targetObject, fromDate,
 					toDate);

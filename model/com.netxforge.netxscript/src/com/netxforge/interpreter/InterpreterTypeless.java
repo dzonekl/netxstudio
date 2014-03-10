@@ -83,8 +83,8 @@ import com.netxforge.netxstudio.common.math.INativeFunctions2;
 import com.netxforge.netxstudio.common.model.IMonitoringSummary.RAG;
 import com.netxforge.netxstudio.common.model.RFSServiceSummary;
 import com.netxforge.netxstudio.common.model.StudioUtils;
-import com.netxforge.netxstudio.data.IQueryService;
 import com.netxforge.netxstudio.data.cdo.CDOQueryService;
+import com.netxforge.netxstudio.data.cdo.CDOQueryUtil;
 import com.netxforge.netxstudio.generics.DateTimeRange;
 import com.netxforge.netxstudio.generics.GenericsFactory;
 import com.netxforge.netxstudio.generics.Value;
@@ -143,9 +143,6 @@ public class InterpreterTypeless implements IInterpreter, IExternalContextAware 
 	INativeFunctions2 nativeFunctions;
 
 	IPrettyLog pLog;
-
-	@Inject
-	private IQueryService cdoQueryService;
 
 	// Options Parameters.
 
@@ -1484,14 +1481,14 @@ public class InterpreterTypeless implements IInterpreter, IExternalContextAware 
 			switch (rangeRef.getValuerange().getValue()) {
 			case ValueRange.METRIC_VALUE: {
 
-				if (USE_QUERIES && cdoQueryService instanceof CDOQueryService) {
+				if (USE_QUERIES) {
 					MetricValueRange mvr = StudioUtils
 							.valueRangeForIntervalAndKind(
 									(NetXResource) resource, targetKind,
 									targetInterval);
 					if (mvr != null) {
-						v = cdoQueryService.mvrValues(resource.cdoView(), mvr,
-								IQueryService.QUERY_MYSQL, dtr);
+						v = CDOQueryService.mvrValues(resource.cdoView(), mvr,
+								CDOQueryUtil.QUERY_MYSQL, dtr);
 					} else {
 						v = Lists.newArrayList();
 					}
@@ -1614,8 +1611,9 @@ public class InterpreterTypeless implements IInterpreter, IExternalContextAware 
 
 						// break up the range using the interval.
 						@SuppressWarnings("unchecked")
-						List<List<Value>> splitValueRange = StudioUtils.values_(
-								(List<Value>) eval, targetRangeInterval);
+						List<List<Value>> splitValueRange = StudioUtils
+								.values_((List<Value>) eval,
+										targetRangeInterval);
 
 						List<Object> evalResult = Lists.newArrayList();
 						// iterate through the sublists, and apply the native
@@ -2417,8 +2415,8 @@ public class InterpreterTypeless implements IInterpreter, IExternalContextAware 
 	 * Structural equality according to
 	 */
 	protected boolean assertValueTSEqual(Value leftValue, Value rightValue) {
-		return StudioUtils.valueTimeStampCompare()
-				.compare(leftValue, rightValue) == 0;
+		return StudioUtils.valueTimeStampCompare().compare(leftValue,
+				rightValue) == 0;
 	}
 
 	public static boolean assertCollection(Object eval) {

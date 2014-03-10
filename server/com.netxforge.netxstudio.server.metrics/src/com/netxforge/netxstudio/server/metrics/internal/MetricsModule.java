@@ -21,7 +21,6 @@ import static org.ops4j.peaberry.Peaberry.service;
 
 import com.google.inject.AbstractModule;
 import com.netxforge.base.properties.IPropertiesProvider;
-import com.netxforge.netxstudio.data.IQueryService;
 import com.netxforge.netxstudio.data.importer.ICSVMetricValuesImporterProvider;
 import com.netxforge.netxstudio.data.importer.IImporterHelper;
 import com.netxforge.netxstudio.data.importer.IRDBMSMetricValuesImporterProvider;
@@ -58,10 +57,6 @@ public class MetricsModule extends AbstractModule {
 
 		// ///////////////////////////////
 		// IMPORT SERVICES
-
-		// {@link CDODataServiceModule}
-		bind(IQueryService.class).toProvider(
-				service(IQueryService.class).single());
 
 		// {@link ServerModule}
 		bind(IServerDataProvider.class).annotatedWith(Server.class).toProvider(

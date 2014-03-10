@@ -21,7 +21,6 @@ import com.google.inject.Inject;
 import com.netxforge.screens.editing.base.IEditingService;
 import com.netxforge.screens.editing.base.IEditingServiceProvider;
 import com.netxforge.screens.editing.base.IScreenFactory;
-import com.netxforge.screens.editing.base.IScreenFormService;
 import com.netxforge.screens.editing.base.IScreenFormServiceProvider;
 
 public class CDOScreenFormServiceProvider implements IScreenFormServiceProvider {
@@ -44,7 +43,7 @@ public class CDOScreenFormServiceProvider implements IScreenFormServiceProvider 
 	 * com.netxforge.netxstudio.screens.editing.internal.IScreenFormServiceProvider
 	 * #get()
 	 */
-	public IScreenFormService get() {
+	public ICDOScreenFormService get() {
 		IEditingService editingService = editingServiceProvider.get();
 		return new CDOScreenFormService(editingService, screenFactory);
 	}

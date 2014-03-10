@@ -33,12 +33,12 @@ import org.eclipse.emf.spi.cdo.FSMUtil;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
-import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import com.netxforge.base.NonModelUtils;
 import com.netxforge.netxstudio.common.model.StudioUtils;
-import com.netxforge.netxstudio.data.IQueryService;
 import com.netxforge.netxstudio.data.ReferenceHelper;
+import com.netxforge.netxstudio.data.cdo.CDOQueryService;
+import com.netxforge.netxstudio.data.cdo.CDOQueryUtil;
 import com.netxforge.netxstudio.data.internal.DataActivator;
 import com.netxforge.netxstudio.generics.DateTimeRange;
 import com.netxforge.netxstudio.generics.GenericsFactory;
@@ -69,9 +69,6 @@ import com.netxforge.netxstudio.services.ServiceMonitor;
 @Singleton
 public class ValueProcessor {
 
-	@Inject
-	private IQueryService queryService;
-
 	/**
 	 * In this mode the processor will match a single value within the target
 	 * interval. If the time stamp equals and the value equals, the existing
@@ -92,7 +89,7 @@ public class ValueProcessor {
 	 * @param start
 	 * @param end
 	 */
-	public  void processServiceProfileResult(List<Object> currentContext,
+	public void processServiceProfileResult(List<Object> currentContext,
 			List<BaseExpressionResult> expressionResults, Date start, Date end) {
 		for (final BaseExpressionResult baseExpressionResult : expressionResults) {
 
@@ -147,7 +144,7 @@ public class ValueProcessor {
 	 * 
 	 * @param values
 	 */
-	public  void removeValues(EList<Value> values, Date start, Date end) {
+	public void removeValues(EList<Value> values, Date start, Date end) {
 		final long startMillis = start.getTime();
 		final long endMillis = end.getTime();
 		final List<Value> toRemove = new ArrayList<Value>();
@@ -171,7 +168,7 @@ public class ValueProcessor {
 	 * 
 	 * @param values
 	 */
-	public  void removeValues(List<Value> values) {
+	public void removeValues(List<Value> values) {
 		final List<Value> toRemove = new ArrayList<Value>(values);
 
 		removeValueReferences(toRemove);
@@ -186,7 +183,7 @@ public class ValueProcessor {
 	 * 
 	 * @param values
 	 */
-	public  boolean removeValues(MetricValueRange mvr, List<Value> values) {
+	public boolean removeValues(MetricValueRange mvr, List<Value> values) {
 
 		int size = mvr.getMetricValues().size();
 		// final List<Value> toRemove = Lists.newArrayList(values);
@@ -213,8 +210,7 @@ public class ValueProcessor {
 	 *            The values to remove.
 	 * @return
 	 */
-	public  boolean removeValues(EList<Value> targetRange,
-			List<Value> values) {
+	public boolean removeValues(EList<Value> targetRange, List<Value> values) {
 
 		int size = targetRange.size();
 
@@ -241,8 +237,7 @@ public class ValueProcessor {
 		List<Marker> markersToRemove = Lists.newArrayList();
 
 		if (DataActivator.DEBUG) {
-			DataActivator.TRACE.trace(
-					DataActivator.TRACE_RESULT_VALUE_OPTION,
+			DataActivator.TRACE.trace(DataActivator.TRACE_RESULT_VALUE_OPTION,
 					"x-ref value references");
 		}
 
@@ -386,7 +381,7 @@ public class ValueProcessor {
 	 * @param start
 	 * @param end
 	 */
-	public  void addToValueRange(NetXResource foundNetXResource,
+	public void addToValueRange(NetXResource foundNetXResource,
 			int intervalHint, KindHintType kindHintType, List<Value> newValues,
 			Date start, Date end, int writeMode) {
 
@@ -414,8 +409,7 @@ public class ValueProcessor {
 						kindHintType, intervalHint);
 
 		if (DataActivator.DEBUG) {
-			DataActivator.TRACE.trace(
-					DataActivator.TRACE_RESULT_VALUE_OPTION,
+			DataActivator.TRACE.trace(DataActivator.TRACE_RESULT_VALUE_OPTION,
 					"-- Located/create value range for resource : "
 							+ foundNetXResource.getShortName() + "interval="
 							+ intervalHint + " range size = "
@@ -466,7 +460,7 @@ public class ValueProcessor {
 	 * @param newValues
 	 * @param intervalHint
 	 */
-	public  void addToValues(EList<Value> values, List<Value> newValues,
+	public void addToValues(EList<Value> values, List<Value> newValues,
 			int intervalHint) {
 		for (final Value newValue : new ArrayList<Value>(newValues)) {
 			if (DataActivator.DEBUG) {
@@ -488,7 +482,7 @@ public class ValueProcessor {
 	 * @param newValues
 	 * @param intervalHint
 	 */
-	public  void addToValues(MetricValueRange mvr, List<Value> newValues,
+	public void addToValues(MetricValueRange mvr, List<Value> newValues,
 			int intervalHint, int writeMode) {
 		for (final Value newValue : new ArrayList<Value>(newValues)) {
 			if (DataActivator.DEBUG) {
@@ -511,7 +505,7 @@ public class ValueProcessor {
 	 * @param intervalHint
 	 * @deprecated
 	 */
-	public  void addToValues(EList<Value> currentValues, Value value,
+	public void addToValues(EList<Value> currentValues, Value value,
 			int intervalHint) {
 
 		final long timeInMillis = value.getTimeStamp().toGregorianCalendar()
@@ -570,7 +564,7 @@ public class ValueProcessor {
 	 * @param value
 	 * @param intervalHint
 	 */
-	public  void addToValues(MetricValueRange mvr, Value value,
+	public void addToValues(MetricValueRange mvr, Value value,
 			int intervalHint, int currentWriteMode) {
 
 		Value foundValue = null;
@@ -611,8 +605,8 @@ public class ValueProcessor {
 		if (!FSMUtil.isNew(mvr)) {
 
 			if (currentWriteMode == INDIFFERENT_VALUES_IN_INTERVAL_MODE) {
-				sortedValues = queryService.mvrValues(mvr.cdoView(), mvr,
-						IQueryService.QUERY_MYSQL, value.getTimeStamp());
+				sortedValues = CDOQueryService.mvrValues(mvr.cdoView(), mvr,
+						CDOQueryUtil.QUERY_MYSQL, value.getTimeStamp());
 
 				if (sortedValues != null && sortedValues.size() == 1) {
 					foundValue = sortedValues.get(0); // we only have one entry.
@@ -648,8 +642,8 @@ public class ValueProcessor {
 				DateTimeRange intervalPeriod = StudioUtils.period(value,
 						intervalHint);
 
-				sortedValues = queryService.mvrValues(mvr.cdoView(), mvr,
-						IQueryService.QUERY_MYSQL, intervalPeriod);
+				sortedValues = CDOQueryService.mvrValues(mvr.cdoView(), mvr,
+						CDOQueryUtil.QUERY_MYSQL, intervalPeriod);
 				ImmutableList<Value> toRemove = ImmutableList
 						.copyOf(sortedValues);
 				removeValues(mvr, toRemove);

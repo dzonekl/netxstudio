@@ -70,6 +70,7 @@ import org.eclipse.wb.swt.ResourceManager;
 
 import com.google.inject.Inject;
 import com.netxforge.base.NonModelUtils;
+import com.netxforge.base.cdo.ICDOData;
 import com.netxforge.netxstudio.data.actions.ServerRequest;
 import com.netxforge.netxstudio.data.fixtures.Fixtures;
 import com.netxforge.netxstudio.data.fixtures.IFixtures;
@@ -224,8 +225,7 @@ public class Retention extends AbstractScreen implements IDataServiceInjection {
 					public void linkActivated(HyperlinkEvent e) {
 						try {
 							serverActions
-									.setCDOServer(editingService
-											.getDataService().getProvider()
+									.setCDOServer(getCDOEditingService()
 											.getServer());
 							// TODO, We get the workflow run ID back, which
 							// could be used
@@ -604,20 +604,17 @@ public class Retention extends AbstractScreen implements IDataServiceInjection {
 							"Please confirm the reset to the default retention rules.\n This will also clear the custom retention rules. ");
 
 			if (openConfirm) {
-				editingService.getDataService().getProvider().getTransaction();
-				editingService.getDataService().getProvider()
-						.setDoGetResourceFromOwnTransaction(false);
+				ICDOData cdoData = getCDOEditingService().getCDOData();
+				cdoData.getTransaction();
+				cdoData.setDoGetResourceFromOwnTransaction(false);
 				// Data change, not through an editing domain, so should commit
 				// explicitly.
-				fixtures.setDataProvider(editingService.getDataService()
-						.getProvider());
+				fixtures.setDataProvider(cdoData);
 				fixtures.reloadRetentionRules();
 
 				// Will close our one of transaction.
-				editingService.getDataService().getProvider()
-						.commitTransactionThenClose();
-				editingService.getDataService().getProvider()
-						.setDoGetResourceFromOwnTransaction(true);
+				cdoData.commitTransactionThenClose();
+				cdoData.setDoGetResourceFromOwnTransaction(true);
 
 				// We need to reload the screen here, as it won't be noticed
 				// otherwise, and databinding will keep references to

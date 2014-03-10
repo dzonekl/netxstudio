@@ -593,7 +593,7 @@ public abstract class AbstractScreensViewPart extends ViewPart implements
 		}
 	}
 
-	protected void setStatusLineManager(Collection<Object> screenObjects) {
+	protected void setStatusLineManager(Collection<? extends Object> screenObjects) {
 		String message = "";
 		switch (screenObjects.size()) {
 		case 0: {

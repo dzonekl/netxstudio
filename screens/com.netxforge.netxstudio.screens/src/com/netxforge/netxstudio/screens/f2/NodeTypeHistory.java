@@ -200,11 +200,10 @@ public class NodeTypeHistory extends AbstractScreen implements
 		if (historicalResourceName != null) {
 			URI uri = URI.createURI(historicalResourceName);
 
-			if (editingService.getDataService().getProvider().hasResource(uri)) {
+			if (editingService.getData().hasResource(uri)) {
 
 				Resource historyResource = editingService
-						.getDataService()
-						.getProvider()
+						.getData()
 						.getResource(
 								editingService.getEditingDomain()
 										.getResourceSet(), uri);

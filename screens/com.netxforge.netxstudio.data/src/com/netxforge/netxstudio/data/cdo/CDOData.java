@@ -57,6 +57,7 @@ import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
 import com.google.inject.Inject;
 import com.netxforge.base.cdo.ICDOData;
+import com.netxforge.base.data.AbstractBeanObject;
 import com.netxforge.netxstudio.NetxstudioPackage;
 import com.netxforge.netxstudio.data.internal.DataActivator;
 import com.netxforge.netxstudio.generics.GenericsPackage;
@@ -82,7 +83,7 @@ import com.netxforge.netxstudio.services.ServicesPackage;
  * 
  * @author Christophe Bouhier christophe.bouhier@netxforge.com
  */
-public abstract class CDOData implements ICDOData {
+public abstract class CDOData extends AbstractBeanObject implements ICDOData {
 
 	private List<EPackage> ePackages = new ArrayList<EPackage>();
 	private ICDOConnection connection;
@@ -738,16 +739,13 @@ public abstract class CDOData implements ICDOData {
 				}
 
 				if (DataActivator.DEBUG) {
-					
-					
-					DataActivator.TRACE
-							.trace(DataActivator.TRACE_DATA_ONFE_OPTION,
-									"Calling method ("
-											+ name
-											+ ") on a Proxy object: "
-											+ target);
-					
-					// Dump the stack, as we don't through an exception. 
+
+					DataActivator.TRACE.trace(
+							DataActivator.TRACE_DATA_ONFE_OPTION,
+							"Calling method (" + name + ") on a Proxy object: "
+									+ target);
+
+					// Dump the stack, as we don't through an exception.
 					Thread.dumpStack();
 				}
 

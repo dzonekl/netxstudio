@@ -6,10 +6,10 @@ Bundle-Version: 1.0.0.qualifier
 Bundle-Activator: com.netxforge.netxstudio.screens.editing.internal.EditingActivator
 Bundle-Vendor: NetXForge
 Require-Bundle: com.netxforge.base.cdo;bundle-version="1.0.0",
- com.netxforge.screens.editing.base;bundle-version="1.0.0";visibility:=reexport,
  com.netxforge.netxstudio.common;bundle-version="1.0.0",
  com.netxforge.netxstudio.data;bundle-version="1.0.0";visibility:=reexport,
- com.netxforge.netxstudio.data.fixtures;bundle-version="1.0.0";visibility:=reexport
+ com.netxforge.netxstudio.data.fixtures;bundle-version="1.0.0";visibility:=reexport,
+ com.netxforge.screens.editing.base;bundle-version="1.0.0";visibility:=reexport
 Bundle-RequiredExecutionEnvironment: J2SE-1.5
 Bundle-ActivationPolicy: lazy
 Eclipse-BuddyPolicy: registered

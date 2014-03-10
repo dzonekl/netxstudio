@@ -105,7 +105,6 @@ public class DataScreen extends AbstractScreen implements IDataScreenInjection,
 		toolkit.paintBordersFor(content);
 		content.setLayout(new FillLayout());
 
-		cmpValues.configure(screenService);
 		cmpValues.buildUI(content, null);
 
 	}
@@ -146,7 +145,7 @@ public class DataScreen extends AbstractScreen implements IDataScreenInjection,
 	public void reset() {
 		// dashboardComponent.reset();
 	}
-	
+
 	protected void updateValues(EObject target) {
 		IMonitoringSummary adapted = MonitoringStateModel.getAdapted(target);
 		if (adapted instanceof NetxresourceSummary) {
@@ -175,7 +174,7 @@ public class DataScreen extends AbstractScreen implements IDataScreenInjection,
 		}
 		if (shouldRefresh) {
 			refreshSummary();
-		}		
+		}
 		monitoringState.deActivate(jobCallBack);
 	}
 
@@ -193,8 +192,8 @@ public class DataScreen extends AbstractScreen implements IDataScreenInjection,
 				}
 			}
 		}
-		
-		if(summariesToRefresh.isEmpty()){
+
+		if (summariesToRefresh.isEmpty()) {
 		}
 		// Do the refresh.
 		if (refreshSummaryJob == null) {
@@ -245,7 +244,7 @@ public class DataScreen extends AbstractScreen implements IDataScreenInjection,
 			}
 		}
 	}
-	
+
 	public synchronized void setInjectedObjects(Object[] params) {
 		this.objects = params;
 	}
@@ -253,8 +252,8 @@ public class DataScreen extends AbstractScreen implements IDataScreenInjection,
 	public synchronized Object[] getInjectedObjects() {
 		return objects;
 	}
-	
-	public synchronized void clearInjectedObjects(){
+
+	public synchronized void clearInjectedObjects() {
 		objects = null;
 	}
 

@@ -42,7 +42,8 @@ import com.google.common.collect.Maps;
 import com.google.inject.Inject;
 import com.netxforge.base.NonModelUtils;
 import com.netxforge.base.cdo.ICDOData;
-import com.netxforge.netxstudio.data.IQueryService;
+import com.netxforge.netxstudio.data.cdo.CDOQueryService;
+import com.netxforge.netxstudio.data.cdo.CDOQueryUtil;
 import com.netxforge.netxstudio.generics.Value;
 import com.netxforge.netxstudio.library.NetXResource;
 import com.netxforge.netxstudio.metrics.MetricValueRange;
@@ -208,9 +209,6 @@ public class ServerIntegrity extends JobChangeAdapter {
 	@Server
 	@Inject
 	private ICDOData provider;
-
-	@Inject
-	private IQueryService queryService;
 
 	/** A result Processor which can deal with {@link CommandInterpreter} */
 	private Object resultProcessor;
@@ -425,9 +423,9 @@ public class ServerIntegrity extends JobChangeAdapter {
 									this.getReport().rangeCount++;
 
 									// query the values for this NetXResource
-									List<Value> sortedValues = queryService
+									List<Value> sortedValues = CDOQueryService
 											.mvrValues(openView, mvr,
-													IQueryService.QUERY_MYSQL);
+													CDOQueryUtil.QUERY_MYSQL);
 									this.getReport().valueCount += sortedValues
 											.size();
 
@@ -452,8 +450,9 @@ public class ServerIntegrity extends JobChangeAdapter {
 							.timeDurationNanoFromStart(totalTime);
 					// query the duplicate values for this
 					// NetXResource, store the values if there are duplicates.
-					List<Value> duplicates = queryService.getDuplicateValues(
-							openView, mvr, IQueryService.QUERY_MYSQL);
+					List<Value> duplicates = CDOQueryService
+							.getDuplicateValues(openView, mvr,
+									CDOQueryUtil.QUERY_MYSQL);
 
 					if (!duplicates.isEmpty()) {
 						getReport().getDuplicateValueMap().put(mvr, duplicates);

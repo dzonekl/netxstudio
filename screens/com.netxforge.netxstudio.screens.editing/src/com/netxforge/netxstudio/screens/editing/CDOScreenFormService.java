@@ -30,7 +30,7 @@ import org.eclipse.swt.widgets.Display;
 import com.google.inject.Inject;
 import com.netxforge.base.NonModelUtils;
 import com.netxforge.netxstudio.common.model.StudioUtils;
-import com.netxforge.netxstudio.data.IDataService;
+import com.netxforge.netxstudio.data.ICDODataService;
 import com.netxforge.netxstudio.data.fixtures.IFixtures;
 import com.netxforge.netxstudio.generics.GenericsPackage;
 import com.netxforge.netxstudio.generics.Person;
@@ -59,7 +59,7 @@ import com.netxforge.screens.editing.base.ScreenUtil;
  * toolbar with Hyperlinks to navigate and invoke actions, between the screens,
  * depending on the implemented interfaces: <uL <li>{@link IScreen}, for New,
  * Edit and Table type screens</li> <li>{@link IDataServiceInjection}, for
- * screens which get their data injected from {@link IDataService}</li> <li>
+ * screens which get their data injected from {@link ICDODataService}</li> <li>
  * {@link IDataScreenInjection}, for screens which get their data injected from
  * another screen, will show the <b>Save</b> action</li> </ul>
  * 
@@ -69,7 +69,7 @@ import com.netxforge.screens.editing.base.ScreenUtil;
  * 
  * @author Christophe Bouhier christophe.bouhier@netxforge.com
  */
-public class CDOScreenFormService extends ScreenFormService {
+public class CDOScreenFormService extends ScreenFormService implements ICDOScreenFormService {
 
 	@Inject
 	public CDOScreenFormService(IEditingService editingService,

@@ -18,274 +18,83 @@
  *******************************************************************************/
 package com.netxforge.netxstudio.data.cdo;
 
+import static com.netxforge.netxstudio.data.cdo.CDOQueryUtil.dateString;
+
 import java.util.List;
 
 import javax.xml.datatype.XMLGregorianCalendar;
 
 import org.eclipse.emf.cdo.common.id.CDOID;
-import org.eclipse.emf.cdo.transaction.CDOTransaction;
 import org.eclipse.emf.cdo.view.CDOQuery;
 import org.eclipse.emf.cdo.view.CDOView;
 import org.eclipse.emf.ecore.EReference;
-import org.eclipse.emf.ecore.xml.type.XMLTypeFactory;
 
-import com.google.common.collect.Lists;
-import com.google.inject.Inject;
 import com.netxforge.base.cdo.CDO;
-import com.netxforge.base.cdo.ICDOData;
-import com.netxforge.netxstudio.data.IQueryService;
 import com.netxforge.netxstudio.generics.DateTimeRange;
-import com.netxforge.netxstudio.generics.Role;
 import com.netxforge.netxstudio.generics.Value;
-import com.netxforge.netxstudio.library.Equipment;
-import com.netxforge.netxstudio.library.Function;
 import com.netxforge.netxstudio.library.LibraryPackage;
 import com.netxforge.netxstudio.library.NetXResource;
-import com.netxforge.netxstudio.metrics.KindHintType;
-import com.netxforge.netxstudio.metrics.MetricSource;
 import com.netxforge.netxstudio.metrics.MetricValueRange;
 import com.netxforge.netxstudio.metrics.MetricsPackage;
-import com.netxforge.netxstudio.operators.Operator;
-import com.netxforge.netxstudio.scheduling.Job;
-import com.netxforge.netxstudio.services.Service;
 
 /**
+ * Static queries.
+ * 
+ * TODO: As some of the methods need to be parameterized (Like the Style being
+ * CAMEL or non-CAMEL case or the DB Name to use for SQL queries.
  * 
  * @author Christophe Bouhier christophe.bouhier@netxforge.com
  */
-public class CDOQueryService implements IQueryService {
-
-	@Inject
-	private CDOQueryUtil queryService;
-
-	private ICDOData provider;
-
-	private List<CDOTransaction> usedTransactions = Lists.newArrayList();
+public class CDOQueryService {
 
 	private static final String DB_NAME = "TM";
 
-	private boolean CamelCase = true;
-
-	public boolean isCamelCase() {
-		return CamelCase;
-	}
-
-	public void setCamelCase(boolean camelCase) {
-		CamelCase = camelCase;
-	}
-
-	public CDOQueryService() {
-	}
-
-	public void setDataProvider(ICDOData provider) {
-		this.provider = provider;
-	}
-
-	public void close() {
-		for (CDOTransaction t : usedTransactions) {
-			t.close();
-		}
-	}
-
 	/**
-	 * TODO
+	 * SQL Databases need the statements to be in a certain style.
 	 * 
-	 * @deprecated
-	 */
-	public List<Role> getRole(String userID) {
-
-		CDOTransaction t = provider.getSession().openTransaction();
-
-		if (!usedTransactions.contains(t)) {
-			usedTransactions.add(t);
-		}
-
-		CDOQuery q = t.createQuery("hql", ICDOQueries.SELECT_ROLES_FROM_PERSON);
-		q.setParameter("name", userID);
-		queryService.setCacheParameter(q);
-		return q.getResult(Role.class);
-	}
-
-	/**
-	 * @TODO
-	 * @deprecated
-	 */
-	public List<Job> getJobWithMetricSource(MetricSource source) {
-
-		CDOTransaction t = provider.getSession().openTransaction();
-		CDOQuery q = t.createQuery("hql",
-				ICDOQueries.SELECT_JOBS_WITH_METRICSOURCE);
-		q.setParameter("metricSource", source);
-		queryService.setCacheParameter(q);
-		return q.getResult(Job.class);
-	}
-
-	/**
-	 * @TODO
-	 * @deprecated
-	 */
-	public List<Job> getJobWithService(Service service) {
-
-		CDOTransaction t = provider.getSession().openTransaction();
-		CDOQuery q = t.createQuery("hql", ICDOQueries.SELECT_JOBS_WITH_SERVICE);
-		q.setParameter("rfsService", service);
-		queryService.setCacheParameter(q);
-		return q.getResult(Job.class);
-	}
-
-	/**
-	 * TODO
+	 * @author Christophe Bouhier
 	 * 
-	 * @deprecated
 	 */
-	public List<Job> getJobWithServiceReporting(Service service) {
-		CDOTransaction t = provider.getSession().openTransaction();
-		CDOQuery q = t.createQuery("hql",
-				ICDOQueries.SELECT_JOBS_WITH_SERVICE_REPORTING);
-		q.setParameter("rfsService", service);
-		queryService.setCacheParameter(q);
-		return q.getResult(Job.class);
+	public static enum STYLE {
+		CAMEL_CASE, NON_CAMEL_CASE;
 	}
 
 	/**
-	 * TODO
 	 * 
-	 * @deprecated
-	 */
-	public List<Job> getJobWithOperatorReporting(Operator operator) {
-		CDOTransaction t = provider.getSession().openTransaction();
-		CDOQuery q = t.createQuery("hql",
-				ICDOQueries.SELECT_JOBS_WITH_OPERATOR_REPORTING);
-		q.setParameter("operator", operator);
-		queryService.setCacheParameter(q);
-		return q.getResult(Job.class);
-	}
-
-	/**
-	 * TODO
-	 * 
-	 * @deprecated
-	 */
-	public Role getCurrentRole() {
-
-		String userID = provider.getSessionUserID();
-		List<Role> roles = this.getRole(userID);
-		if (roles.size() != 1) {
-			throw new java.lang.IllegalStateException("Data corruption, user +"
-					+ userID + "should have a role defined");
-		} else {
-			return roles.get(0);
-		}
-	}
-
-	/**
-	 * TODO, Migrate to new API.
-	 * 
-	 * @deprecated
-	 */
-	public List<Equipment> getEquipments(String nodeID, String equipmentCode) {
-		final CDOTransaction transaction = provider.getTransaction();
-		final CDOQuery cdoQuery = transaction
-				.createQuery(
-						"hql",
-						"select e from Equipment e, Node n"
-								+ "e in elements(n.equipments) "
-								+ "and e.equipmentCode=:equipmentCode and n.nodeID=:nodeid");
-		cdoQuery.setParameter("nodeid", nodeID);
-		cdoQuery.setParameter("equipmentCode", equipmentCode);
-
-		queryService.setCacheParameter(cdoQuery);
-		final List<Equipment> equipments = cdoQuery.getResult(Equipment.class);
-		return equipments;
-	}
-
-	/**
-	 * TODO, Migrate to new API.
-	 * 
-	 * @param nodeID
-	 * @param name
+	 * @param view
+	 * @param netXResource
+	 * @param dialect
+	 * @param period
 	 * @return
-	 * @deprecated
 	 */
-	public List<Function> getFunctions(String nodeID, String name) {
-		final CDOTransaction transaction = provider.getTransaction();
-		final CDOQuery cdoQuery = transaction.createQuery("hql",
-				"select e from Function e, Node n"
-						+ "e in elements(n.functions) "
-						+ "and e.name=:name and n.nodeID=:nodeid");
-		cdoQuery.setParameter("nodeid", nodeID);
-		cdoQuery.setParameter("equipmentCode", name);
-
-		queryService.setCacheParameter(cdoQuery);
-		final List<Function> functions = cdoQuery.getResult(Function.class);
-		return functions;
+	public static List<Value> capacityValues(CDOView view,
+			NetXResource netXResource, String dialect, DateTimeRange period) {
+		return capacityValues(view, netXResource, dialect, period, null,
+				STYLE.NON_CAMEL_CASE);
 	}
 
 	/**
-	 * TODO Migrate to new API.
 	 * 
-	 * @deprecated
+	 * @param view
+	 * @param netXResource
+	 * @param dialect
+	 * @param period
+	 * @param date
+	 * @param style
+	 * @return
 	 */
-	public List<NetXResource> getResources(String nodeID, String expressionName) {
-		final CDOTransaction transaction = provider.getTransaction();
-		final CDOQuery cdoQuery = transaction.createQuery("hql",
-				"select r from NetXResource r, Component c, Node n"
-						+ "r in elements(c.resources) "
-						+ "and r.name=:expressionName and n.nodeID=:nodeid");
-		cdoQuery.setParameter("nodeid", nodeID);
-		cdoQuery.setParameter("expressioName", expressionName);
-
-		queryService.setCacheParameter(cdoQuery);
-		final List<NetXResource> resources = cdoQuery
-				.getResult(NetXResource.class);
-		return resources;
-	}
-
-	/**
-	 * TODO Migrate to new API.
-	 * 
-	 * @deprecated
-	 */
-	public List<Value> getMetricsFromResource(String expressionName,
-			XMLGregorianCalendar from, XMLGregorianCalendar to,
-			int intervalHint, KindHintType kindHint) {
-		final CDOTransaction transaction = provider.getTransaction();
-		final CDOQuery cdoQuery = transaction
-				.createQuery(
-						"hql",
-						"select v from Value v, MetricValueRange mvr, NetXResource res where "
-								+ "v in elements(mvr.metricValues) "
-								+ "and v.timeStamp >= :dateFrom and v.timeStamp <= :dateTo "
-								+ "and mvr.intervalHint=:intervalHint and mvr.kindHint = :kindHint "
-								+ "and mvr in elements(res.metricValueRanges) and res.expressionName=:name");
-		cdoQuery.setParameter("name", expressionName);
-		cdoQuery.setParameter("dateFrom", dateString(from));
-		cdoQuery.setParameter("dateTo", dateString(to));
-		cdoQuery.setParameter("intervalHint",
-				new Integer(intervalHint).toString());
-		cdoQuery.setParameter("kindHint", kindHint);
-
-		queryService.setCacheParameter(cdoQuery);
-		final List<Value> values = cdoQuery.getResult(Value.class);
-		return values;
-	}
-
-	public List<Value> capacityValues(CDOView view, NetXResource netXResource,
-			String dialect, DateTimeRange period) {
-		return capacityValues(view, netXResource, dialect, period, null);
-	}
-
-	public List<Value> capacityValues(CDOView view, NetXResource netXResource,
-			String dialect, DateTimeRange period, XMLGregorianCalendar date) {
+	public static List<Value> capacityValues(CDOView view,
+			NetXResource netXResource, String dialect, DateTimeRange period,
+			XMLGregorianCalendar date, STYLE style) {
 
 		List<Value> result = null; // Might become assigned.
 
 		String queryString = null;
-		if (dialect.equals(QUERY_MYSQL)) {
+		if (dialect.equals(CDOQueryUtil.QUERY_MYSQL)) {
 
 			StringBuffer sb = new StringBuffer();
 
-			if (!CamelCase) {
+			if (style == STYLE.NON_CAMEL_CASE) {
 
 				sb.append("select val.cdo_id "
 						+ "from "
@@ -321,12 +130,12 @@ public class CDOQueryService implements IQueryService {
 			sb.append(" order by val.timeStamp0 DESC;");
 			queryString = sb.toString();
 
-		} else if (dialect.equals(QUERY_OCL)) {
+		} else if (dialect.equals(CDOQueryUtil.QUERY_OCL)) {
 			// Syntax for OCL?
 			// queryString =
 			// "metrics::MetricValueRange.allInstances().metricValues->size()";
 			throw new UnsupportedOperationException("OCL query not supported");
-		} else if (dialect.equals(QUERY_HQL)) {
+		} else if (dialect.equals(CDOQueryUtil.QUERY_HQL)) {
 			// "select v from Value v, NetXResource res where "
 			// + "v in elements(res.capacityValues) "
 			// "and res.cdo_id=:res_cdoid"
@@ -337,7 +146,7 @@ public class CDOQueryService implements IQueryService {
 
 			CDOQuery cdoQuery = null;
 
-			if (dialect.equals(QUERY_MYSQL)) {
+			if (dialect.equals(CDOQueryUtil.QUERY_MYSQL)) {
 				cdoQuery = view.createQuery(dialect, queryString);
 				String cdoLongIDAsString = CDO.cdoLongIDAsString(netXResource);
 				cdoQuery.setParameter("res_cdodid", cdoLongIDAsString);
@@ -349,7 +158,7 @@ public class CDOQueryService implements IQueryService {
 				} else if (date != null) {
 					cdoQuery.setParameter("date", dateString(date));
 				}
-			} else if (dialect.equals(QUERY_OCL)) {
+			} else if (dialect.equals(CDOQueryUtil.QUERY_OCL)) {
 				cdoQuery = view.createQuery(dialect, queryString,
 						netXResource.cdoID());
 			}
@@ -361,23 +170,42 @@ public class CDOQueryService implements IQueryService {
 		return result;
 	}
 
-	public List<Value> utilizationValues(CDOView view,
+	/**
+	 * 
+	 * @param view
+	 * @param netXResource
+	 * @param dialect
+	 * @param period
+	 * @return
+	 */
+	public static List<Value> utilizationValues(CDOView view,
 			NetXResource netXResource, String dialect, DateTimeRange period) {
-		return utilizationValues(view, netXResource, dialect, period, null);
+		return utilizationValues(view, netXResource, dialect, period, null,
+				STYLE.NON_CAMEL_CASE);
 	}
 
-	public List<Value> utilizationValues(CDOView view,
+	/**
+	 * 
+	 * @param view
+	 * @param netXResource
+	 * @param dialect
+	 * @param period
+	 * @param date
+	 * @param style
+	 * @return
+	 */
+	public static List<Value> utilizationValues(CDOView view,
 			NetXResource netXResource, String dialect, DateTimeRange period,
-			XMLGregorianCalendar date) {
+			XMLGregorianCalendar date, STYLE style) {
 
 		List<Value> result = null; // Might become assigned.
 
 		String queryString = null;
-		if (dialect.equals(QUERY_MYSQL)) {
+		if (dialect.equals(CDOQueryUtil.QUERY_MYSQL)) {
 
 			StringBuffer sb = new StringBuffer();
 
-			if (!CamelCase) {
+			if (style == STYLE.NON_CAMEL_CASE) {
 
 				sb.append("select val.cdo_id"
 						+ "from "
@@ -414,12 +242,12 @@ public class CDOQueryService implements IQueryService {
 			sb.append(" order by val.timeStamp0 DESC;");
 			queryString = sb.toString();
 
-		} else if (dialect.equals(QUERY_OCL)) {
+		} else if (dialect.equals(CDOQueryUtil.QUERY_OCL)) {
 			// Syntax for OCL?
 			// queryString =
 			// "metrics::MetricValueRange.allInstances().metricValues->size()";
 			throw new UnsupportedOperationException("OCL query not supported");
-		} else if (dialect.equals(QUERY_HQL)) {
+		} else if (dialect.equals(CDOQueryUtil.QUERY_HQL)) {
 			// "select v from Value v, NetXResource res where "
 			// + "v in elements(res.capacityValues) "
 			// "and res.cdo_id=:res_cdoid"
@@ -430,10 +258,9 @@ public class CDOQueryService implements IQueryService {
 
 			CDOQuery cdoQuery = null;
 
-			if (dialect.equals(QUERY_MYSQL)) {
+			if (dialect.equals(CDOQueryUtil.QUERY_MYSQL)) {
 				cdoQuery = view.createQuery(dialect, queryString);
-				String cdoLongIDAsString = CDO
-						.cdoLongIDAsString(netXResource);
+				String cdoLongIDAsString = CDO.cdoLongIDAsString(netXResource);
 				cdoQuery.setParameter("res_cdodid", cdoLongIDAsString);
 
 				if (period != null) {
@@ -443,7 +270,7 @@ public class CDOQueryService implements IQueryService {
 				} else if (date != null) {
 					cdoQuery.setParameter("date", dateString(date));
 				}
-			} else if (dialect.equals(QUERY_OCL)) {
+			} else if (dialect.equals(CDOQueryUtil.QUERY_OCL)) {
 				cdoQuery = view.createQuery(dialect, queryString,
 						netXResource.cdoID());
 			}
@@ -455,36 +282,33 @@ public class CDOQueryService implements IQueryService {
 		return result;
 	}
 
-	private String dateString(XMLGregorianCalendar date) {
-		return XMLTypeFactory.eINSTANCE.convertDateTime(date);
-	}
-
-	public List<Value> mvrValues(CDOView view, MetricValueRange mvr,
+	public static List<Value> mvrValues(CDOView view, MetricValueRange mvr,
 			String dialect) {
-		return mvrValues(view, mvr, dialect, null, null);
+		return mvrValues(view, mvr, dialect, null, null, STYLE.NON_CAMEL_CASE);
 	}
 
-	public List<Value> mvrValues(CDOView view, MetricValueRange mvr,
+	public static List<Value> mvrValues(CDOView view, MetricValueRange mvr,
 			String dialect, XMLGregorianCalendar date) {
-		return mvrValues(view, mvr, dialect, null, date);
+		return mvrValues(view, mvr, dialect, null, date, STYLE.NON_CAMEL_CASE);
 	}
 
-	public List<Value> mvrValues(CDOView view, MetricValueRange mvr,
+	public static List<Value> mvrValues(CDOView view, MetricValueRange mvr,
 			String dialect, DateTimeRange period) {
-		return mvrValues(view, mvr, dialect, period, null);
+		return mvrValues(view, mvr, dialect, period, null, STYLE.NON_CAMEL_CASE);
 	}
 
-	public List<Value> mvrValues(CDOView view, MetricValueRange mvr,
-			String dialect, DateTimeRange period, XMLGregorianCalendar date) {
+	public static List<Value> mvrValues(CDOView view, MetricValueRange mvr,
+			String dialect, DateTimeRange period, XMLGregorianCalendar date,
+			STYLE style) {
 
 		List<Value> result = null; // Might become assigned.
 
 		String queryString = null;
-		if (dialect.equals(QUERY_MYSQL)) {
+		if (dialect.equals(CDOQueryUtil.QUERY_MYSQL)) {
 
 			StringBuffer sb = new StringBuffer();
 
-			if (!CamelCase) {
+			if (style == STYLE.NON_CAMEL_CASE) {
 				sb.append("select val.cdo_id"
 						+ " from "
 						+ DB_NAME
@@ -519,7 +343,7 @@ public class CDOQueryService implements IQueryService {
 			sb.append(" order by val.timeStamp0 ASC;");
 			queryString = sb.toString();
 
-		} else if (dialect.equals(QUERY_OCL)) {
+		} else if (dialect.equals(CDOQueryUtil.QUERY_OCL)) {
 			// Syntax for OCL?
 			queryString = "metrics::MetricValueRange.allInstances().metricValues->size()";
 		}
@@ -528,7 +352,7 @@ public class CDOQueryService implements IQueryService {
 
 			CDOQuery cdoQuery = null;
 
-			if (dialect.equals(QUERY_MYSQL)) {
+			if (dialect.equals(CDOQueryUtil.QUERY_MYSQL)) {
 				cdoQuery = view.createQuery(dialect, queryString);
 				String cdoLongIDAsString = CDO.cdoLongIDAsString(mvr);
 				cdoQuery.setParameter("mvr_cdoid", cdoLongIDAsString);
@@ -542,7 +366,7 @@ public class CDOQueryService implements IQueryService {
 
 				}
 
-			} else if (dialect.equals(QUERY_OCL)) {
+			} else if (dialect.equals(CDOQueryUtil.QUERY_OCL)) {
 				cdoQuery = view.createQuery(dialect, queryString, mvr.cdoID());
 			}
 
@@ -554,41 +378,35 @@ public class CDOQueryService implements IQueryService {
 	}
 
 	/**
-	 * DO NOT USE
-	 * 
-	 * @deprecated
 	 */
-	public List<Value> removeMvrValues(CDOView view, MetricValueRange mvr,
-			String dialect, XMLGregorianCalendar date) {
-		return removeMvrValues(view, mvr, dialect, null, date);
+	public static List<Value> removeMvrValues(CDOView view,
+			MetricValueRange mvr, String dialect, XMLGregorianCalendar date) {
+		return removeMvrValues(view, mvr, dialect, null, date,
+				STYLE.NON_CAMEL_CASE);
 	}
 
 	/**
-	 * DO NOT USE
-	 * 
-	 * @deprecated
 	 */
-	public List<Value> removeMvrValues(CDOView view, MetricValueRange mvr,
-			String dialect, DateTimeRange period) {
-		return removeMvrValues(view, mvr, dialect, period, null);
+	public static List<Value> removeMvrValues(CDOView view,
+			MetricValueRange mvr, String dialect, DateTimeRange period) {
+		return removeMvrValues(view, mvr, dialect, period, null,
+				STYLE.NON_CAMEL_CASE);
 	}
 
 	/**
-	 * DO NOT USE
-	 * 
-	 * @deprecated
 	 */
-	public List<Value> removeMvrValues(CDOView view, MetricValueRange mvr,
-			String dialect, DateTimeRange period, XMLGregorianCalendar date) {
+	public static List<Value> removeMvrValues(CDOView view,
+			MetricValueRange mvr, String dialect, DateTimeRange period,
+			XMLGregorianCalendar date, STYLE style) {
 
 		List<Value> result = null; // Might become assigned.
 
 		String queryString = null;
-		if (dialect.equals(QUERY_MYSQL)) {
+		if (dialect.equals(CDOQueryUtil.QUERY_MYSQL)) {
 
 			StringBuffer sb = new StringBuffer();
 
-			if (!CamelCase) {
+			if (style == STYLE.NON_CAMEL_CASE) {
 				sb.append("delete from "
 						+ DB_NAME
 						+ ".metrics_metricvaluerange as mvr"
@@ -623,7 +441,7 @@ public class CDOQueryService implements IQueryService {
 			sb.append(";");
 			queryString = sb.toString();
 
-		} else if (dialect.equals(QUERY_OCL)) {
+		} else if (dialect.equals(CDOQueryUtil.QUERY_OCL)) {
 			// Syntax for OCL?
 			queryString = "metrics::MetricValueRange.allInstances().metricValues->size()";
 		}
@@ -632,7 +450,7 @@ public class CDOQueryService implements IQueryService {
 
 			CDOQuery cdoQuery = null;
 
-			if (dialect.equals(QUERY_MYSQL)) {
+			if (dialect.equals(CDOQueryUtil.QUERY_MYSQL)) {
 				cdoQuery = view.createQuery(dialect, queryString);
 				String cdoLongIDAsString = CDO.cdoLongIDAsString(mvr);
 				cdoQuery.setParameter("mvr_cdoid", cdoLongIDAsString);
@@ -646,7 +464,7 @@ public class CDOQueryService implements IQueryService {
 
 				}
 
-			} else if (dialect.equals(QUERY_OCL)) {
+			} else if (dialect.equals(CDOQueryUtil.QUERY_OCL)) {
 				cdoQuery = view.createQuery(dialect, queryString, mvr.cdoID());
 			}
 
@@ -657,16 +475,21 @@ public class CDOQueryService implements IQueryService {
 		return result;
 	}
 
-	public List<Value> getDuplicateValues(CDOView view, MetricValueRange mvr,
-			String dialect) {
+	public static List<Value> getDuplicateValues(CDOView view,
+			MetricValueRange mvr, String dialect) {
+		return getDuplicateValues(view, mvr, dialect, STYLE.NON_CAMEL_CASE);
+	}
+
+	public static List<Value> getDuplicateValues(CDOView view,
+			MetricValueRange mvr, String dialect, STYLE style) {
 
 		List<Value> result = null; // Might become assigned.
 
 		String queryString = null;
-		if (dialect.equals(QUERY_MYSQL)) {
+		if (dialect.equals(CDOQueryUtil.QUERY_MYSQL)) {
 
 			StringBuffer sb = new StringBuffer();
-			if (!CamelCase) {
+			if (style == STYLE.NON_CAMEL_CASE) {
 				sb.append("select a.cdo_id from " + DB_NAME
 						+ ".generics_value AS a ");
 				sb.append("inner join " + DB_NAME + ".generics_value AS b ");
@@ -681,7 +504,7 @@ public class CDOQueryService implements IQueryService {
 			}
 			queryString = sb.toString();
 
-		} else if (dialect.equals(QUERY_OCL)) {
+		} else if (dialect.equals(CDOQueryUtil.QUERY_OCL)) {
 			// Syntax for OCL?
 			queryString = "self.";
 		}
@@ -690,11 +513,11 @@ public class CDOQueryService implements IQueryService {
 
 			CDOQuery cdoQuery = null;
 
-			if (dialect.equals(QUERY_MYSQL)) {
+			if (dialect.equals(CDOQueryUtil.QUERY_MYSQL)) {
 				cdoQuery = view.createQuery(dialect, queryString);
 				String cdoLongIDAsString = CDO.cdoLongIDAsString(mvr);
 				cdoQuery.setParameter("mvr_cdoid", cdoLongIDAsString);
-			} else if (dialect.equals(QUERY_OCL)) {
+			} else if (dialect.equals(CDOQueryUtil.QUERY_OCL)) {
 				cdoQuery = view.createQuery(dialect, queryString, mvr.cdoID());
 			}
 
@@ -750,10 +573,10 @@ public class CDOQueryService implements IQueryService {
 	 * @param dialect
 	 * @return
 	 */
-	public List<NetXResource> getUnconnectedResources(CDOView view,
+	public static List<NetXResource> getUnconnectedResources(CDOView view,
 			String dialect) {
 
-		if (dialect.equals(QUERY_MYSQL)) {
+		if (dialect.equals(CDOQueryUtil.QUERY_MYSQL)) {
 			final CDOQuery cdoQuery = view
 					.createQuery(
 							"sql",
@@ -771,7 +594,7 @@ public class CDOQueryService implements IQueryService {
 	 * 
 	 * http://work.netxforge.com/issues/312
 	 */
-	public String getValuesQuery(CDOID container, EReference ref) {
+	public static String getValuesQuery(CDOID container, EReference ref) {
 		String longID = CDO.cdoLongIDAsString(container);
 
 		// dispatch the range.

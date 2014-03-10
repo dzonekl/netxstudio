@@ -18,6 +18,7 @@
  *******************************************************************************/
 package com.netxforge.netxstudio.data;
 
+import com.netxforge.base.cdo.ICDOData;
 import com.netxforge.netxstudio.generics.Role;
 
 /**
@@ -25,14 +26,7 @@ import com.netxforge.netxstudio.generics.Role;
  * 
  * @author Christophe Bouhier christophe.bouhier@netxforge.com
  */
-public interface IDataService {
-
-	/**
-	 * Get the Data service role handler.
-	 * 
-	 * @return
-	 */
-	public IQueryService getQueryService();
+public interface ICDODataService {
 
 	/**
 	 * get the current user role.
@@ -47,5 +41,13 @@ public interface IDataService {
 	 * @return
 	 */
 	public String getServer();
-
+	
+	
+	/**
+	 * get the {@link ICDOData}
+	 * 
+	 * @return
+	 */
+	public ICDOData getCDOData();
+	
 }

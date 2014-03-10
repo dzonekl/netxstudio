@@ -14,30 +14,59 @@
  * 
  * Contributors: Christophe Bouhier - initial API and implementation and/or
  * initial documentation
- *******************************************************************************/ 
+ *******************************************************************************/
 package com.netxforge.netxstudio.data.cdo;
 
+import java.util.List;
+
+import org.eclipse.emf.cdo.transaction.CDOTransaction;
+import org.eclipse.emf.ecore.resource.Resource;
+
 import com.google.inject.Inject;
-import com.netxforge.netxstudio.data.DataService;
-import com.netxforge.netxstudio.data.IQueryService;
+import com.netxforge.base.cdo.ICDOData;
+import com.netxforge.netxstudio.common.model.StudioUtils;
+import com.netxforge.netxstudio.data.ICDODataService;
+import com.netxforge.netxstudio.generics.GenericsPackage;
+import com.netxforge.netxstudio.generics.Person;
+import com.netxforge.netxstudio.generics.Role;
 
 /**
- * Utilities for handling the 
+ * Provides convenience methods on top of {@link ICDOData} which is instantiated
+ * here. As we use a {@link ClientCDODataProvider static provider}, we should
+ * ensure the session is already open. Also an {@link CDOTransaction
+ * transaction} which is opened will not be closed it is the clients
+ * responsibility to close it.
  * 
  * @author Christophe Bouhier
- *
+ * 
  */
-public class CDODataService extends DataService {
+public class CDODataService implements ICDODataService {
+
 	
+	private ICDOData data;
 	
 	@Inject
-	public CDODataService(IQueryService queryService, CDOQueryUtil queryUtil) {
-		super(queryService);
+	public CDODataService(ClientCDODataProvider provider) {
+		data = provider.get();
 	}
 
-	@Override
-	public String toString() {
-		return super.toString();
+	public Role getCurrentRole() {
+
+		final String currentUser = data.getSessionUserID();
+		final Resource resource = data
+				.getResource(GenericsPackage.Literals.PERSON);
+		final List<Person> people = new StudioUtils.CollectionForObjects<Person>()
+				.collectionForObjects(resource.getContents());
+		final Role r = StudioUtils.roleForUserWithName(currentUser, people);
+		return r;
+	}
+
+	public String getServer() {
+		return data.getServer();
+	}
+
+	public ICDOData getCDOData() {
+		return data;
 	}
 
 }

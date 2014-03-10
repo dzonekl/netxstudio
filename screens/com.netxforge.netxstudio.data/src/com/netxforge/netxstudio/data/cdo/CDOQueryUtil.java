@@ -15,19 +15,31 @@
  *
  * Contributors:
  *    Christophe Bouhier - initial API and implementation and/or initial documentation
- *******************************************************************************/ 
+ *******************************************************************************/
 package com.netxforge.netxstudio.data.cdo;
 
+import javax.xml.datatype.XMLGregorianCalendar;
+
 import org.eclipse.emf.cdo.view.CDOQuery;
+import org.eclipse.emf.ecore.xml.type.XMLTypeFactory;
 
 /**
  * @author Christophe Bouhier christophe.bouhier@netxforge.com
- *
+ * 
  */
 public class CDOQueryUtil {
 
-	public void setCacheParameter(CDOQuery query) {
+	public static final String QUERY_MYSQL = "sql";
+	public static final String QUERY_HQL = "hql";
+	public static final String QUERY_OCL = "ocl";
+
+	public static void setCacheParameter(CDOQuery query) {
 		query.setParameter(ICDOQueries.CACHE_RESULTS, true);
 	}
 	
+	public static String dateString(XMLGregorianCalendar date) {
+		return XMLTypeFactory.eINSTANCE.convertDateTime(date);
+	}
+
+
 }

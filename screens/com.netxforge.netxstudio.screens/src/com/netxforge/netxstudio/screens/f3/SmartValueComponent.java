@@ -65,8 +65,8 @@ import com.google.common.collect.Ordering;
 import com.google.inject.Inject;
 import com.netxforge.base.NonModelUtils;
 import com.netxforge.netxstudio.common.model.StudioUtils;
-import com.netxforge.netxstudio.data.IQueryService;
 import com.netxforge.netxstudio.data.cdo.CDOQueryService;
+import com.netxforge.netxstudio.data.cdo.CDOQueryUtil;
 import com.netxforge.netxstudio.generics.DateTimeRange;
 import com.netxforge.netxstudio.generics.Value;
 import com.netxforge.netxstudio.library.BaseResource;
@@ -84,7 +84,6 @@ import com.netxforge.netxstudio.screens.ISearchPattern;
 import com.netxforge.netxstudio.screens.PeriodItemsFilter;
 import com.netxforge.netxstudio.screens.PeriodItemsFilter.PeriodPattern;
 import com.netxforge.netxstudio.screens.internal.ScreensActivator;
-import com.netxforge.screens.editing.base.IScreenFormService;
 import com.netxforge.screens.editing.base.ScreenUtil;
 import com.netxforge.screens.editing.base.tables.TableHelper;
 import com.netxforge.screens.editing.base.tables.TableHelper.TBVCSorterValueProvider;
@@ -101,16 +100,11 @@ public class SmartValueComponent {
 	private TableHelper tableHelper;
 
 	@Inject
-	private CDOQueryService queryService;
-
-	@Inject
 	public SmartValueComponent(TableHelper tableHelper) {
 		this.tableHelper = tableHelper;
 	}
 
 	private BaseResource baseResource;
-
-	private IScreenFormService screenService;
 
 	private AbstractSmartTableViewerComponent viewerComponent;
 
@@ -121,10 +115,6 @@ public class SmartValueComponent {
 
 	private Date from;
 	private Date to;
-
-	public void configure(IScreenFormService screenService) {
-		this.screenService = screenService;
-	}
 
 	public TableViewer getValuesTableViewer() {
 		return viewerComponent.getTableViewer();
@@ -203,7 +193,8 @@ public class SmartValueComponent {
 							Date d1 = (Date) ((Object[]) o1)[0];
 							Date d2 = (Date) ((Object[]) o2)[0];
 							// Compare Ascending.
-							return NonModelUtils.dateComparator().compare(d2, d1);
+							return NonModelUtils.dateComparator().compare(d2,
+									d1);
 						}
 						return 0;
 					}
@@ -417,9 +408,10 @@ public class SmartValueComponent {
 				TableColumn tc = (TableColumn) widget;
 				Object data = tc.getData();
 				if (data instanceof CDOID) {
-					String valuesQuery = screenService.getEditingService()
-							.getDataService().getQueryService()
-							.getValuesQuery((CDOID) data, reference);
+
+					String valuesQuery = CDOQueryService.getValuesQuery(
+							(CDOID) data, reference);
+
 					System.out.println(valuesQuery);
 					MessageDialog.openInformation(Display.getCurrent()
 							.getActiveShell(), "SQL Query", valuesQuery);
@@ -552,8 +544,8 @@ public class SmartValueComponent {
 			int metricWork = 0;
 
 			for (MetricValueRange mvr : sortedCopy) {
-				List<Value> values = queryService.mvrValues(
-						baseResource.cdoView(), mvr, IQueryService.QUERY_MYSQL,
+				List<Value> values = CDOQueryService.mvrValues(
+						baseResource.cdoView(), mvr, CDOQueryUtil.QUERY_MYSQL,
 						period);
 				if (!values.isEmpty()) {
 					totalWork += values.size();
@@ -725,8 +717,8 @@ public class SmartValueComponent {
 						Object object = array[columnIndex - 1];
 						if (object instanceof Date) {
 							Date d = (Date) object;
-							String ts = new String(NonModelUtils.date(d) + " @ "
-									+ NonModelUtils.time(d));
+							String ts = new String(NonModelUtils.date(d)
+									+ " @ " + NonModelUtils.time(d));
 							// find a marker for this date.
 							Styler markerStyle = null;
 							final Marker marker = markerForDate(d);

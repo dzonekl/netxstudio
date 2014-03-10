@@ -35,6 +35,7 @@ import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EClassifier;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.net4j.connector.IConnector;
+import org.eclipse.net4j.db.ddl.IDBSchema;
 import org.eclipse.net4j.jvm.IJVMAcceptor;
 import org.eclipse.net4j.jvm.JVMUtil;
 import org.eclipse.net4j.signal.ISignalProtocol;
@@ -105,8 +106,12 @@ public class ServerUtils implements IServerUtils {
 	public ServerUtils() {
 	}
 
-	/* (non-Javadoc)
-	 * @see com.netxforge.netxstudio.server.IServerUtils#checkRepositorySupported(org.eclipse.emf.cdo.server.IRepository)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * com.netxforge.netxstudio.server.IServerUtils#checkRepositorySupported
+	 * (org.eclipse.emf.cdo.server.IRepository)
 	 */
 	public void checkRepositorySupported(IRepository repository) {
 		if (!repository.getName().equals(REPO_NAME)) {
@@ -115,7 +120,9 @@ public class ServerUtils implements IServerUtils {
 		}
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see com.netxforge.netxstudio.server.IServerUtils#openJVMSession()
 	 */
 	public CDOSession openJVMSession() {
@@ -126,7 +133,9 @@ public class ServerUtils implements IServerUtils {
 		return cdoSession;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see com.netxforge.netxstudio.server.IServerUtils#deActivate()
 	 */
 	public void deActivate() {
@@ -138,15 +147,22 @@ public class ServerUtils implements IServerUtils {
 		}
 	}
 
-	/* (non-Javadoc)
-	 * @see com.netxforge.netxstudio.server.IServerUtils#createSessionConfiguration()
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * com.netxforge.netxstudio.server.IServerUtils#createSessionConfiguration()
 	 */
 	public CDONet4jSessionConfiguration createSessionConfiguration() {
 		return createSessionConfiguration(true);
 	}
 
-	/* (non-Javadoc)
-	 * @see com.netxforge.netxstudio.server.IServerUtils#createSessionConfiguration(boolean)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * com.netxforge.netxstudio.server.IServerUtils#createSessionConfiguration
+	 * (boolean)
 	 */
 	public CDONet4jSessionConfiguration createSessionConfiguration(
 			boolean caching) {
@@ -204,15 +220,21 @@ public class ServerUtils implements IServerUtils {
 		}
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see com.netxforge.netxstudio.server.IServerUtils#getServerSideLogin()
 	 */
 	public String getServerSideLogin() {
 		return serverSideLogin;
 	}
 
-	/* (non-Javadoc)
-	 * @see com.netxforge.netxstudio.server.IServerUtils#initializeServer(org.eclipse.emf.cdo.server.IRepository)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * com.netxforge.netxstudio.server.IServerUtils#initializeServer(org.eclipse
+	 * .emf.cdo.server.IRepository)
 	 */
 	public synchronized void initializeServer(IRepository repository) {
 		if (initServerDone) {
@@ -221,10 +243,13 @@ public class ServerUtils implements IServerUtils {
 		isInitializing = true;
 
 		// TODO, Find out the DB schema name and table name to create queries.
+		
 		IStore store = repository.getStore();
 		if (store instanceof IDBStore) {
-			@SuppressWarnings("unused")
 			IDBStore dbStore = (IDBStore) store;
+			IDBSchema dbSchema = dbStore.getDBSchema();
+			System.out.println("Our Schema name (To use in Queries)"
+					+ dbSchema.getName());
 		}
 
 		// Increase the signal timeout.
@@ -236,8 +261,7 @@ public class ServerUtils implements IServerUtils {
 						ISessionProtocol protocol = session.getProtocol();
 						if (protocol instanceof ISignalProtocol) {
 							ISignalProtocol<?> signalProtocol = (ISignalProtocol<?>) protocol;
-							signalProtocol
-									.setTimeout(ICDOData.SIGNAL_TIME_OUT);
+							signalProtocol.setTimeout(ICDOData.SIGNAL_TIME_OUT);
 						}
 					}
 				});
@@ -275,7 +299,9 @@ public class ServerUtils implements IServerUtils {
 		isInitializing = false;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see com.netxforge.netxstudio.server.IServerUtils#isInitializing()
 	 */
 	public boolean isInitializing() {

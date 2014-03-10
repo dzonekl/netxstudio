@@ -20,7 +20,7 @@ import com.google.common.base.Predicate;
 import com.google.common.collect.Lists;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
-import com.netxforge.netxstudio.data.IDataService;
+import com.netxforge.netxstudio.data.ICDODataService;
 import com.netxforge.netxstudio.library.LibraryPackage;
 import com.netxforge.netxstudio.operators.OperatorsPackage;
 import com.netxforge.netxstudio.services.ServicesPackage;
@@ -36,7 +36,7 @@ public class SimpleCDOScopeProvider extends AbstractGlobalScopeProvider {
 	
 	// Inject our data service. 
 	@Inject
-	IDataService dataService;
+	ICDODataService dataService;
 	
 	@Inject
 	private Provider<IResourceDescriptions> loadOnDemandDescriptions;

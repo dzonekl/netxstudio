@@ -229,11 +229,9 @@ public class NewEditResource extends AbstractScreen implements
 						// of this). DisconnectedResourceScreen uses a SQL query
 						// handler
 						// which is read-only.
-						final Resource emfNetxResource = editingService
-								.getDataService()
-								.getProvider()
-								.getResource(cdoResource.cdoView(),
-										computedPath);
+						final Resource emfNetxResource = getCDOEditingService()
+								.getCDOData().getResource(
+										cdoResource.cdoView(), computedPath);
 
 						final Command moveResource = new AddCommand(
 								editingService.getEditingDomain(),
