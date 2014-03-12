@@ -855,7 +855,7 @@ public class CallFlows extends AbstractScreen implements IDataServiceInjection {
 	public void saveState(IMemento memento) {
 
 		// sash state vertical.
-		MementoUtil.rememberStructuredViewerSelection(memento,
+		CDOMementoUtil.rememberStructuredViewerSelection(memento,
 				callFlowTreeViewer, MEM_KEY_CALLFLOWS_SELECTION_TREE);
 		MementoUtil.rememberStructuredViewerColumns(memento,
 				callFlowTreeViewer, MEM_KEY_CALLFLOWS_COLUMNS_TREE);

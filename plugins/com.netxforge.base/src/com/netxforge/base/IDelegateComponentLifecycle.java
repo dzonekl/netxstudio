@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 7 mrt. 2014 NetXForge.
+ * Copyright (c) 11 mrt. 2014 NetXForge.
  * 
  * This program is free software: you can redistribute it and/or modify it under
  * the terms of the GNU General Public License as published by the Free Software
@@ -15,30 +15,25 @@
  * Contributors: Christophe Bouhier - initial API and implementation and/or
  * initial documentation
  *******************************************************************************/
-package com.netxforge.netxstudio.data.cdo;
+package com.netxforge.base;
 
-import java.util.List;
-
-import com.google.common.collect.Lists;
-import com.google.inject.Provider;
-import com.netxforge.base.cdo.ICDOData;
-import com.netxforge.base.data.AbstractBeanObject;
+import com.netxforge.base.IComponentLifecycleListener.LIFE_EVENT;
 
 /**
- * A DI {@link Provider} which is suitable for binding to a UI as it implements the Java
- * Beans concept. 
+ * An internal version which allows for registration of the source
  * 
  * @author Christophe
+ * 
  */
-public abstract class AbstractCDODataProvider extends AbstractBeanObject
-		implements Provider<ICDOData> {
+public interface IDelegateComponentLifecycle {
 
-	protected final List<ICDOData> cdoDataCollection = Lists.newArrayList();
+	public void activate(Object source, Object target);
 
-	public List<ICDOData> getCDODataCollection() {
-		return cdoDataCollection;
-	}
+	public void deactivate(Object source, Object target);
 	
-	// mis setter? Beans don't like? 
+	public void register(Object source);
 
+	public void deregister(Object source);
+	
+	public LIFE_EVENT getState();
 }

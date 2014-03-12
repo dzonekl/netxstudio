@@ -84,13 +84,10 @@ public class ClientCDOData extends CDOData {
 	}
 
 	@Override
-	protected boolean isTransactionSet() {
-		return transaction != null;
-	}
-
-	@Override
 	protected void setSession(CDOSession session) {
+		CDOSession oldValue = ClientCDOData.session;
 		ClientCDOData.session = session;
+		super.firePropertyChange("Session", oldValue, session);
 	}
 
 	@Override
@@ -99,9 +96,16 @@ public class ClientCDOData extends CDOData {
 	}
 
 	private String printSession() {
+
 		StringBuilder sb = new StringBuilder();
+		if (session == null) {
+			sb.append("Session is never opened");
+			return sb.toString();
+		}
+
 		if (session.isClosed()) {
 			sb.append("Session closed!, can not provide views or transactions");
+			return sb.toString();
 		}
 
 		// Report the transactions on our session:
@@ -192,7 +196,8 @@ public class ClientCDOData extends CDOData {
 	@Override
 	public String toString() {
 		StringBuilder sb = new StringBuilder();
-		sb.append("-------------- in session\n");
+		sb.append("-------------- Data instance:" + this.hashCode() + "\n");
+		sb.append("in session\n");
 		sb.append(printSession());
 		if (transaction != null || view != null) {
 			sb.append("-------------- cached\n");
@@ -204,4 +209,17 @@ public class ClientCDOData extends CDOData {
 		}
 		return sb.toString();
 	}
+
+	public boolean hasSession() {
+		return session != null;
+	}
+
+	public boolean hasTransaction() {
+		return transaction != null;
+	}
+
+	public boolean hasView() {
+		return view != null;
+	}
+
 }

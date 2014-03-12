@@ -40,9 +40,9 @@ public class NonStaticCDOData extends CDOData {
 	private CDOSession session = null;
 
 	private CDOTransaction transaction = null;
-	
+
 	private CDOView view = null;
-	
+
 	@Override
 	public CDOSession getSession() {
 		if (session == null) {
@@ -57,11 +57,6 @@ public class NonStaticCDOData extends CDOData {
 			transaction = getSession().openTransaction();
 		}
 		return transaction;
-	}
-
-	@Override
-	protected boolean isTransactionSet() {
-		return transaction != null;
 	}
 
 	@Override
@@ -81,17 +76,29 @@ public class NonStaticCDOData extends CDOData {
 
 	@Override
 	public CDOView getView() {
-		if( view == null){
+		if (view == null) {
 			view = this.getSession().openView();
 		}
 		return view;
 	}
 
 	public void closeView() {
-		if(this.view != null){
+		if (this.view != null) {
 			this.view.close();
 			view = null;
 		}
+	}
+
+	public boolean hasTransaction() {
+		return transaction != null;
+	}
+
+	public boolean hasSession() {
+		return session != null;
+	}
+
+	public boolean hasView() {
+		return view != null;
 	}
 
 }

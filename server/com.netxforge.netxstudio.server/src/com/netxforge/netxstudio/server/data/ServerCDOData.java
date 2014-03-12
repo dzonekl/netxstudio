@@ -38,6 +38,7 @@ import com.netxforge.netxstudio.server.internal.ServerActivator;
  * Uses a jvm connection to connect to the repository.
  * 
  * @author Martin Taal
+ * @author Christophe Bouhier
  */
 public class ServerCDOData extends CDOData implements CDOStaleReferencePolicy {
 
@@ -129,10 +130,10 @@ public class ServerCDOData extends CDOData implements CDOStaleReferencePolicy {
 		if (transaction == null || transaction.isClosed()) {
 			// This will open a new session.
 			transaction = getSession().openTransaction();
-			
-			// Set stale reference policy. 
+
+			// Set stale reference policy.
 			transaction.options().setStaleReferencePolicy(this);
-			
+
 			// In case we loose our sessions, clear the session.
 			transaction.getSession().addListener(new IListener() {
 
@@ -181,11 +182,6 @@ public class ServerCDOData extends CDOData implements CDOStaleReferencePolicy {
 	}
 
 	@Override
-	protected boolean isTransactionSet() {
-		return transaction != null;
-	}
-
-	@Override
 	protected void setTransaction(CDOTransaction transaction) {
 		this.transaction = transaction;
 	}
@@ -209,7 +205,7 @@ public class ServerCDOData extends CDOData implements CDOStaleReferencePolicy {
 						ServerActivator.TRACE_SERVER_CDO_SESSION,
 						"DEACTIVATE lifecycle: " + lfEvent.toString());
 			}
-			
+
 		}
 
 		void logCloseSession(CDOSession session) {
@@ -333,4 +329,17 @@ public class ServerCDOData extends CDOData implements CDOStaleReferencePolicy {
 			}
 		}
 	}
+
+	public boolean hasTransaction() {
+		return transaction != null;
+	}
+
+	public boolean hasSession() {
+		return session != null;
+	}
+
+	public boolean hasView() {
+		return view != null;
+	}
+
 }

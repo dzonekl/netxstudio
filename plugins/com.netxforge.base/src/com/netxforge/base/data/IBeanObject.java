@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 7 mrt. 2014 NetXForge.
+ * Copyright (c) 11 mrt. 2014 NetXForge.
  * 
  * This program is free software: you can redistribute it and/or modify it under
  * the terms of the GNU General Public License as published by the Free Software
@@ -14,31 +14,23 @@
  * 
  * Contributors: Christophe Bouhier - initial API and implementation and/or
  * initial documentation
- *******************************************************************************/
-package com.netxforge.netxstudio.data.cdo;
+ *******************************************************************************/ 
+package com.netxforge.base.data;
 
-import java.util.List;
+import java.beans.PropertyChangeListener;
 
-import com.google.common.collect.Lists;
-import com.google.inject.Provider;
-import com.netxforge.base.cdo.ICDOData;
-import com.netxforge.base.data.AbstractBeanObject;
+public interface IBeanObject {
 
-/**
- * A DI {@link Provider} which is suitable for binding to a UI as it implements the Java
- * Beans concept. 
- * 
- * @author Christophe
- */
-public abstract class AbstractCDODataProvider extends AbstractBeanObject
-		implements Provider<ICDOData> {
+	public abstract void addPropertyChangeListener(
+			PropertyChangeListener listener);
 
-	protected final List<ICDOData> cdoDataCollection = Lists.newArrayList();
+	public abstract void removePropertyChangeListener(
+			PropertyChangeListener listener);
 
-	public List<ICDOData> getCDODataCollection() {
-		return cdoDataCollection;
-	}
-	
-	// mis setter? Beans don't like? 
+	public abstract void addPropertyChangeListener(String propertyName,
+			PropertyChangeListener listener);
+
+	public abstract void removePropertyChangeListener(String propertyName,
+			PropertyChangeListener listener);
 
 }

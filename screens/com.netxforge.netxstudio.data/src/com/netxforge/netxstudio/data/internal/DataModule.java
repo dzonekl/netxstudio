@@ -62,7 +62,10 @@ public class DataModule extends com.google.inject.AbstractModule {
 
 		// ///////////////////////////////
 		// EXPORT SERVICES
-
+		
+		// FIXME, this is a shared module, so when exposing client fucntions, 
+		// it will also instantiate on the server side. 
+		
 		bind(export(IClientCDODataProvider.class)).toProvider(
 				service(ClientCDODataProvider.class).export());
 
@@ -89,7 +92,7 @@ public class DataModule extends com.google.inject.AbstractModule {
 		// ///////////////////////////////
 		// IMPORT SERVICES
 		// (Copy to modules in other OSGI bundles to import the service).
-
+	
 		// {@link DataModule}
 		bind(ICDODataService.class).toProvider(
 				service(ICDODataService.class).single());

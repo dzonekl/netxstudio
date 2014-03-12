@@ -25,10 +25,12 @@ import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 
+import com.netxforge.base.IComponentLifecycle;
+
 /**
  * @author Christophe Bouhier christophe.bouhier@netxforge.com
  */
-public interface IBaseData {
+public interface IBaseData extends IComponentLifecycle {
 
 	/**
 	 * Get the resource in the the provided set, with the provided resourcePath.

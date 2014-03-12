@@ -824,4 +824,16 @@ public class CDOEditingService extends EMFEditingService implements
 		return getCDOData().getServer();
 	}
 
+	@Override
+	public void activate(Object source) {
+		super.activate(source);
+	}
+
+	@Override
+	public void deactivate(Object source) {
+		disposeData();
+		getCDOData().deactivate(this);
+		super.deactivate(source);
+	}
+
 }

@@ -39,6 +39,8 @@ import org.eclipse.jface.dialogs.ProgressMonitorDialog;
 import org.eclipse.jface.operation.IRunnableWithProgress;
 import org.eclipse.swt.widgets.Display;
 
+import com.netxforge.base.DelegateComponentLifecycle;
+import com.netxforge.base.IDelegateComponentLifecycle;
 import com.netxforge.base.data.IBaseData;
 
 /**
@@ -52,8 +54,11 @@ import com.netxforge.base.data.IBaseData;
 public class EMFEditingService implements IEditingService {
 
 	private AdapterFactoryEditingDomain domain = null;
-	
+
 	private IBaseData data;
+
+	// Composed as we would require multiple inheritance otherwise
+	final IDelegateComponentLifecycle lcDelegate = new DelegateComponentLifecycle();
 
 	public EMFEditingService(IBaseData data) {
 		this.data = data;
@@ -236,5 +241,24 @@ public class EMFEditingService implements IEditingService {
 
 	public IBaseData getData() {
 		return data;
+	}
+
+	public void activate(Object source) {
+		lcDelegate.activate(source, this);
+
+	}
+
+	public void deactivate(Object source) {
+		lcDelegate.deactivate(source, this);
+
+	}
+
+	public void register(Object source) {
+		lcDelegate.register(source);
+
+	}
+
+	public void deregister(Object source) {
+		lcDelegate.deregister(source);
 	}
 }

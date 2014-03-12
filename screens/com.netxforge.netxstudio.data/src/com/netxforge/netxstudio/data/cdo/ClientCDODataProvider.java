@@ -17,7 +17,10 @@
  *******************************************************************************/
 package com.netxforge.netxstudio.data.cdo;
 
+import java.util.Collections;
+
 import com.google.inject.Inject;
+import com.netxforge.base.IComponentLifecycleListener;
 import com.netxforge.base.cdo.ICDOData;
 
 /**
@@ -27,7 +30,7 @@ import com.netxforge.base.cdo.ICDOData;
  * 
  */
 public class ClientCDODataProvider extends AbstractCDODataProvider implements
-		IClientCDODataProvider {
+		IClientCDODataProvider, IComponentLifecycleListener {
 
 	private ICDOConnection connection;
 
@@ -39,11 +42,47 @@ public class ClientCDODataProvider extends AbstractCDODataProvider implements
 	public ICDOData get() {
 
 		ClientCDOData clientCDOData = new ClientCDOData(connection);
-		
-		if (!cdoDataCollection.contains(clientCDOData)) {
-			cdoDataCollection.add(clientCDOData);
-		}
+
+		// We want to register for the lifecycle if this component.
+
+		clientCDOData.register(this);
+		clientCDOData.activate(this);
+
+		// External processes will deactivate our component.
+
 		return clientCDOData;
 	}
 
+	public void lifeEvent(LifeEvent event) {
+		if (event.getEvent() == LIFE_EVENT.ACTIVATE) {
+
+			Object target = event.getTarget();
+
+			if (target instanceof ICDOData
+					&& !cdoDataCollection.contains(target)) {
+				cdoDataCollection.add((ICDOData) target); // Does this trigger a
+															// Change?
+
+				super.firePropertyChange("CDODataCollection",
+						null, Collections.unmodifiableList(cdoDataCollection));
+			}
+		}
+
+		if (event.getEvent() == LIFE_EVENT.DEACTIVATE) {
+
+			Object target = event.getTarget();
+			if (target instanceof ICDOData
+					&& cdoDataCollection.contains(target)) {
+				ICDOData data = (ICDOData) target;
+				data.deregister(this);
+				cdoDataCollection.remove(data); // Does this
+												// trigger a
+												// Change?
+				super.firePropertyChange("CDODataCollection",
+						null, Collections.unmodifiableList(cdoDataCollection));
+			}
+
+		}
+
+	}
 }

@@ -33,6 +33,7 @@ import org.eclipse.ui.splash.AbstractSplashHandler;
 import org.eclipse.wb.swt.SWTResourceManager;
 
 import com.google.inject.Inject;
+import com.netxforge.base.cdo.ICDOData;
 import com.netxforge.base.security.JCAService;
 import com.netxforge.netxstudio.client.product.internal.ProductActivator;
 import com.netxforge.netxstudio.common.CommonService;
@@ -189,7 +190,7 @@ public class InteractiveSplashHandler extends AbstractSplashHandler {
 
 			// We will open a session here, this will be along running
 			// operation.
-
+			ICDOData dataAccess = null;
 			try {
 				if (!"admin".equals(username)) {
 
@@ -205,8 +206,8 @@ public class InteractiveSplashHandler extends AbstractSplashHandler {
 					}
 				}
 
-				dataProvider.get().openSession(username, password,
-						server, true);
+				dataAccess = dataProvider.get();
+				dataAccess.openSession(username, password, server, true);
 
 				fAuthenticated = true;
 				// Store the last user value.
@@ -240,6 +241,11 @@ public class InteractiveSplashHandler extends AbstractSplashHandler {
 
 				}
 
+			} finally {
+				if(dataAccess != null){
+					dataAccess.deactivate(this);
+					dataAccess = null;
+				}
 			}
 
 		} else {

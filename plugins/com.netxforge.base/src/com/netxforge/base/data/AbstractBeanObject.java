@@ -20,24 +20,36 @@ package com.netxforge.base.data;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 
-public abstract class AbstractBeanObject {
+public abstract class AbstractBeanObject implements IBeanObject {
 
 	private PropertyChangeSupport changeSupport = new PropertyChangeSupport(
 			this);
 
+	/* (non-Javadoc)
+	 * @see com.netxforge.base.data.IBeanObject#addPropertyChangeListener(java.beans.PropertyChangeListener)
+	 */
 	public void addPropertyChangeListener(PropertyChangeListener listener) {
 		changeSupport.addPropertyChangeListener(listener);
 	}
 
+	/* (non-Javadoc)
+	 * @see com.netxforge.base.data.IBeanObject#removePropertyChangeListener(java.beans.PropertyChangeListener)
+	 */
 	public void removePropertyChangeListener(PropertyChangeListener listener) {
 		changeSupport.removePropertyChangeListener(listener);
 	}
 
+	/* (non-Javadoc)
+	 * @see com.netxforge.base.data.IBeanObject#addPropertyChangeListener(java.lang.String, java.beans.PropertyChangeListener)
+	 */
 	public void addPropertyChangeListener(String propertyName,
 			PropertyChangeListener listener) {
 		changeSupport.addPropertyChangeListener(propertyName, listener);
 	}
 
+	/* (non-Javadoc)
+	 * @see com.netxforge.base.data.IBeanObject#removePropertyChangeListener(java.lang.String, java.beans.PropertyChangeListener)
+	 */
 	public void removePropertyChangeListener(String propertyName,
 			PropertyChangeListener listener) {
 		changeSupport.removePropertyChangeListener(propertyName, listener);

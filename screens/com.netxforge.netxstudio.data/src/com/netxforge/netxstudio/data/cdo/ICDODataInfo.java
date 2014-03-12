@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 7 mrt. 2014 NetXForge.
+ * Copyright (c) 10 mrt. 2014 NetXForge.
  * 
  * This program is free software: you can redistribute it and/or modify it under
  * the terms of the GNU General Public License as published by the Free Software
@@ -19,26 +19,10 @@ package com.netxforge.netxstudio.data.cdo;
 
 import java.util.List;
 
-import com.google.common.collect.Lists;
-import com.google.inject.Provider;
 import com.netxforge.base.cdo.ICDOData;
-import com.netxforge.base.data.AbstractBeanObject;
 
-/**
- * A DI {@link Provider} which is suitable for binding to a UI as it implements the Java
- * Beans concept. 
- * 
- * @author Christophe
- */
-public abstract class AbstractCDODataProvider extends AbstractBeanObject
-		implements Provider<ICDOData> {
+public interface ICDODataInfo {
 
-	protected final List<ICDOData> cdoDataCollection = Lists.newArrayList();
-
-	public List<ICDOData> getCDODataCollection() {
-		return cdoDataCollection;
-	}
-	
-	// mis setter? Beans don't like? 
+	public List<ICDOData> getCDODataCollection();
 
 }

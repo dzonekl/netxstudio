@@ -18,8 +18,9 @@
 package com.netxforge.netxstudio.data.cdo;
 
 import com.netxforge.base.cdo.ICDOData;
+import com.netxforge.base.data.IBeanObject;
 
-public interface IClientCDODataProvider {
+public interface IClientCDODataProvider extends ICDODataInfo, IBeanObject {
 	public ICDOData get();
 	
 }

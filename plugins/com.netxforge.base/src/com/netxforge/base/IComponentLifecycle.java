@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 7 mrt. 2014 NetXForge.
+ * Copyright (c) 11 mrt. 2014 NetXForge.
  * 
  * This program is free software: you can redistribute it and/or modify it under
  * the terms of the GNU General Public License as published by the Free Software
@@ -15,30 +15,21 @@
  * Contributors: Christophe Bouhier - initial API and implementation and/or
  * initial documentation
  *******************************************************************************/
-package com.netxforge.netxstudio.data.cdo;
-
-import java.util.List;
-
-import com.google.common.collect.Lists;
-import com.google.inject.Provider;
-import com.netxforge.base.cdo.ICDOData;
-import com.netxforge.base.data.AbstractBeanObject;
+package com.netxforge.base;
 
 /**
- * A DI {@link Provider} which is suitable for binding to a UI as it implements the Java
- * Beans concept. 
+ * Volatile components should implement {@link IComponentLifecycle} for
+ * consumers to notify.
  * 
- * @author Christophe
+ * @author Christophe Bouhier
  */
-public abstract class AbstractCDODataProvider extends AbstractBeanObject
-		implements Provider<ICDOData> {
+public interface IComponentLifecycle {
 
-	protected final List<ICDOData> cdoDataCollection = Lists.newArrayList();
+	public void activate(Object source);
 
-	public List<ICDOData> getCDODataCollection() {
-		return cdoDataCollection;
-	}
-	
-	// mis setter? Beans don't like? 
+	public void deactivate(Object source);
 
+	public void register(Object source);
+
+	public void deregister(Object source);
 }

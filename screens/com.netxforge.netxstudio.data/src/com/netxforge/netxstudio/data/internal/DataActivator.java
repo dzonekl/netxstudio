@@ -87,7 +87,7 @@ public class DataActivator implements BundleActivator, DebugOptionsListener {
 
 	@Inject
 	Export<ICDODataService> dataService;
-
+	
 	@Inject
 	Export<IClientCDODataProvider> clientDPProvider;
 

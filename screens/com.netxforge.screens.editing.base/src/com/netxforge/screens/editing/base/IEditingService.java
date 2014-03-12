@@ -27,14 +27,15 @@ import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.edit.domain.EditingDomain;
 import org.eclipse.emf.edit.provider.AdapterFactoryItemDelegator;
 
+import com.netxforge.base.IComponentLifecycle;
 import com.netxforge.base.data.IBaseData;
 
 /**
  * @author Christophe Bouhier christophe.bouhier@netxforge.com
  * 
  */
-public interface IEditingService {
-
+public interface IEditingService extends IComponentLifecycle {
+	
 	/**
 	 * Get the editing domain for this service.
 	 * 

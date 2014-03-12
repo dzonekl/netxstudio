@@ -56,6 +56,8 @@ import org.eclipse.net4j.util.security.PasswordCredentialsProvider;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
 import com.google.inject.Inject;
+import com.netxforge.base.DelegateComponentLifecycle;
+import com.netxforge.base.IDelegateComponentLifecycle;
 import com.netxforge.base.cdo.ICDOData;
 import com.netxforge.base.data.AbstractBeanObject;
 import com.netxforge.netxstudio.NetxstudioPackage;
@@ -78,8 +80,8 @@ import com.netxforge.netxstudio.services.ServicesPackage;
  * 
  * Typical usage is to get a CDOResource using a Resourceset (Which will have a
  * CDOView associated). The provider can also use a one of transaction which is
- * not associated with a resource set.
- * 
+ * not associated with a resource set. </p> This component has not specific
+ * active state.
  * 
  * @author Christophe Bouhier christophe.bouhier@netxforge.com
  */
@@ -90,6 +92,9 @@ public abstract class CDOData extends AbstractBeanObject implements ICDOData {
 	private boolean doGetResourceFromOwnTransaction = true;
 
 	public static final int COMMIT_TIMEOUT = 500; // seconds.
+
+	// Composed as we would require multiple inheritance otherwise
+	final IDelegateComponentLifecycle lcDelegate = new DelegateComponentLifecycle();
 
 	@Inject
 	public CDOData(ICDOConnection conn) {
@@ -172,8 +177,6 @@ public abstract class CDOData extends AbstractBeanObject implements ICDOData {
 	public abstract CDOTransaction getTransaction();
 
 	public abstract CDOView getView();
-
-	protected abstract boolean isTransactionSet();
 
 	protected abstract void setSession(CDOSession session);
 
@@ -619,7 +622,8 @@ public abstract class CDOData extends AbstractBeanObject implements ICDOData {
 	}
 
 	/**
-	 * Forces to resolve the resource from
+	 * Forces to resolve the resource from an existing {@link CDOTransaction} in
+	 * our {@link CDOSession}.
 	 * 
 	 * @return
 	 */
@@ -651,7 +655,7 @@ public abstract class CDOData extends AbstractBeanObject implements ICDOData {
 
 	public void rollbackTransaction() {
 		try {
-			if (isTransactionSet()) {
+			if (hasTransaction()) {
 				getTransaction().rollback();
 			}
 		} catch (final Exception e) {
@@ -672,7 +676,7 @@ public abstract class CDOData extends AbstractBeanObject implements ICDOData {
 		CDOTransaction transaction = null;
 
 		try {
-			if (isTransactionSet()) {
+			if (hasTransaction()) {
 				if (commitComment != null && commitComment.length() > 0) {
 					this.getTransaction().setCommitComment(commitComment);
 					transaction = getTransaction();
@@ -768,6 +772,22 @@ public abstract class CDOData extends AbstractBeanObject implements ICDOData {
 
 		return Proxy.newProxyInstance(instanceClass.getClassLoader(),
 				interfaces, handler);
+	}
+
+	public void activate(Object source) {
+		lcDelegate.activate(source, this);
+	}
+
+	public void deactivate(Object source) {
+		lcDelegate.deactivate(source, this);
+	}
+
+	public void register(Object source) {
+		lcDelegate.register(source);
+	}
+
+	public void deregister(Object source) {
+		lcDelegate.deregister(source);
 	}
 
 }

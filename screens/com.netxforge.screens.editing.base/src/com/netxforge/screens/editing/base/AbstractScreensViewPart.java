@@ -172,7 +172,8 @@ public abstract class AbstractScreensViewPart extends ViewPart implements
 
 	public void dispose() {
 		this.getSite().getPage().removePartListener(this);
-		this.getEditingService().disposeData();
+//		this.getEditingService().disposeData();
+		this.getEditingService().deactivate(this);
 		super.dispose();
 	}
 

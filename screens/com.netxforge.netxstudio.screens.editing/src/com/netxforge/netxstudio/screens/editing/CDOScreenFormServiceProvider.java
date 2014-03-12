@@ -45,6 +45,7 @@ public class CDOScreenFormServiceProvider implements IScreenFormServiceProvider 
 	 */
 	public ICDOScreenFormService get() {
 		IEditingService editingService = editingServiceProvider.get();
+		editingService.activate(this);
 		return new CDOScreenFormService(editingService, screenFactory);
 	}
 

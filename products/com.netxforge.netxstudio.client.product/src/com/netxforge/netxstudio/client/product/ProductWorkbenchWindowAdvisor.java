@@ -118,6 +118,7 @@ public class ProductWorkbenchWindowAdvisor extends
 			@Override
 			public void perspectiveDeactivated(IWorkbenchPage page,
 					IPerspectiveDescriptor perspective) {
+				System.out.println("Deactivating perspective");
 			}
 
 		});

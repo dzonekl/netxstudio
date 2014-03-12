@@ -36,17 +36,17 @@ public interface ICDOData extends IBaseData {
 	 */
 	public static final long SIGNAL_TIME_OUT = 600L * 1000L;
 	public static final long SIGNAL_TIME_OUT_CLIENT = 60L * 1000L;
-	
+
 	/**
-	 * Comment set on a server side CDO Transaction when committing. 
+	 * Comment set on a server side CDO Transaction when committing.
 	 */
 	public static final String SERVER_COMMIT_COMMENT = "servercommit";
-	
+
 	/**
 	 * Comment set on a client side CDO Transaction when committing.
 	 */
 	public static final String CLIENT_COMMIT_COMMENT = "clientcommit";
-	
+
 	/**
 	 * Comment set on a commit handler side CDO Transaction when committing.
 	 */
@@ -61,7 +61,6 @@ public interface ICDOData extends IBaseData {
 	 */
 	public String getServer();
 
-	
 	/**
 	 * Get a specific commit info resource for the specified user. TODO Consider
 	 * refactoring this, and making it less object specific.
@@ -72,25 +71,23 @@ public interface ICDOData extends IBaseData {
 	public Resource getCommitInfoResource(String userID);
 
 	/**
-	 * Get the resource for the specified EClass using 
-	 * the provided view. 
+	 * Get the resource for the specified EClass using the provided view.
+	 * 
 	 * @param view
 	 * @param clazz
 	 * @return
 	 */
 	public Resource getResource(CDOView view, EClass clazz);
-	
+
 	/**
-	 * et the resource for the specified path using 
-	 * the provided view. 
+	 * et the resource for the specified path using the provided view.
 	 * 
 	 * @param view
 	 * @param res
 	 * @return
 	 */
 	public Resource getResource(CDOView view, String res);
-	
-	
+
 	/**
 	 * Open a session, depending on the implementation will use default
 	 * credentials or no credentials (which can fail if credentials are
@@ -105,8 +102,7 @@ public interface ICDOData extends IBaseData {
 	 * @param passwd
 	 */
 	public void openSession(String uid, String passwd);
-	
-	
+
 	/**
 	 * 
 	 * @param username
@@ -114,42 +110,40 @@ public interface ICDOData extends IBaseData {
 	 * @param server
 	 */
 	public void openSession(String username, String password, String server);
-	
+
 	/**
-	 * Open a session and capability to reset the session. 
+	 * Open a session and capability to reset the session.
 	 * 
 	 * @param username
 	 * @param password
 	 * @param server
 	 */
-	public void openSession(String username, String password, String server, boolean reset);
-	
+	public void openSession(String username, String password, String server,
+			boolean reset);
+
 	/**
 	 * Gets the current transaction if no current transaction then a new one
 	 * will be opened.
 	 */
 	public CDOTransaction getTransaction();
-	
-	
-	/**
-	 * Gets the current view if no current view then a new one
-	 * will be opened.
-	 */
-	public CDOView getView();
-	
 
 	/**
-	 * Commit the current transaction if there is any and close it. 
+	 * Gets the current view if no current view then a new one will be opened.
+	 */
+	public CDOView getView();
+
+	/**
+	 * Commit the current transaction if there is any and close it.
 	 */
 	public void commitTransactionThenClose();
-	
+
 	/**
-	 * Commit the current transaction and keep it open. 
+	 * Commit the current transaction and keep it open.
 	 */
 	public void commitTransaction();
 
 	/**
-	 * Closes a view, and potentially nullify an instance in the provider. 
+	 * Closes a view, and potentially nullify an instance in the provider.
 	 */
 	public void closeView();
 
@@ -189,6 +183,25 @@ public interface ICDOData extends IBaseData {
 	public void setDoGetResourceFromOwnTransaction(
 			boolean createResourceInSeparateTransaction);
 
-	
+	/**
+	 * If the implementor has a {@link CDOSession}
+	 * 
+	 * @return
+	 */
+	public boolean hasSession();
+
+	/**
+	 * If the implementor has a {@link CDOTransaction}
+	 * 
+	 * @return
+	 */
+	public boolean hasTransaction();
+
+	/**
+	 * If the implementor has a {@link CDOView}
+	 * 
+	 * @return
+	 */
+	public boolean hasView();
 
 }
