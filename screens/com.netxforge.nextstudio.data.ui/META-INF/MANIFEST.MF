@@ -1,7 +1,7 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: NetXStudio CDO UI
-Bundle-SymbolicName: com.netxforge.nextstudio.data.ui;singleton:=true
+Bundle-SymbolicName: com.netxforge.netxstudio.data.ui;singleton:=true
 Bundle-Version: 1.0.0.qualifier
 Bundle-Activator: com.netxforge.base.cdo.ui.internal.CDOUIActivator
 Bundle-Vendor: NetXForge

@@ -37,6 +37,7 @@
 		<module>../screens/com.netxforge.netxstudio.common</module>
 		<module>../screens/com.netxforge.netxstudio.console</module>
 		<module>../screens/com.netxforge.netxstudio.data</module>
+		<module>../screens/com.netxforge.netxstudio.data.ui</module>
 		<module>../screens/com.netxforge.netxstudio.help</module>
 		<module>../screens/com.netxforge.netxstudio.models.export.ui</module>
 		<module>../screens/com.netxforge.netxstudio.models.import.ui</module>
