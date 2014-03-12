@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+   <extension
+         point="org.eclipse.ui.views">
+      <view
+            class="com.netxforge.base.cdo.ui.internal.CDOUIEExtensionFactory:com.netxforge.base.cdo.ui.CDOStorageView"
+            icon="icons/view16/blue_DB_Connect_E.png"
+            id="com.netxforge.base.cdo.ui.view"
+            name="Store"
+            restorable="true">
+      </view>
+   </extension>
+
+</plugin>
