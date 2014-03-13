@@ -144,6 +144,8 @@ import com.netxforge.netxstudio.screens.LabelTextTableColumnFilter;
 import com.netxforge.netxstudio.screens.ScreenDialog;
 import com.netxforge.netxstudio.screens.ch9.ObjectExpressions;
 import com.netxforge.netxstudio.screens.dialog.ToleranceFilterDialog;
+import com.netxforge.netxstudio.screens.editing.CDOEditingService;
+import com.netxforge.netxstudio.screens.editing.filter.CDOSearchFilter;
 import com.netxforge.netxstudio.screens.editing.tables.CDOElementComparer;
 import com.netxforge.netxstudio.screens.editing.util.CDOMementoUtil;
 import com.netxforge.netxstudio.screens.f1.support.ReportWizard;
@@ -159,14 +161,12 @@ import com.netxforge.netxstudio.screens.showins.ChartInput;
 import com.netxforge.netxstudio.screens.xtext.embedded.EmbeddedLineExpression;
 import com.netxforge.netxstudio.services.RFSService;
 import com.netxforge.netxstudio.services.Service;
-import com.netxforge.screens.editing.base.EMFEditingService;
 import com.netxforge.screens.editing.base.IDataServiceInjection;
 import com.netxforge.screens.editing.base.ScreenUtil;
 import com.netxforge.screens.editing.base.WizardUtil;
 import com.netxforge.screens.editing.base.actions.BaseSelectionListenerAction;
 import com.netxforge.screens.editing.base.actions.SeparatorAction;
 import com.netxforge.screens.editing.base.actions.TableViewerWithState;
-import com.netxforge.screens.editing.base.filter.SearchFilter;
 import com.netxforge.screens.editing.base.tables.CopyFeatureCommand.FeatureInitializer;
 import com.netxforge.screens.editing.base.tables.CopyFeaturesActionHandler;
 import com.netxforge.screens.editing.base.tables.FocusBlockOwnerDrawHighlighterForMultiselection;
@@ -203,9 +203,6 @@ public class SmartResources extends AbstractPeriodScreen implements
 
 	@Inject
 	private TableHelper tableHelper;
-
-	@Inject
-	private SearchFilter searchFilter;
 
 	@Inject
 	private EmbeddedLineExpression expressionComponent;
@@ -432,7 +429,7 @@ public class SmartResources extends AbstractPeriodScreen implements
 		// Bug having virtual with hashlookup etc...
 		// resourcesTableViewer.setUseHashlookup(true);
 		// resourcesTableViewer.setComparer(new CDOElementComparer());
-		resourcesTableViewer.addFilter(searchFilter);
+		resourcesTableViewer.addFilter(new CDOSearchFilter());
 		resourcesTable.setLinesVisible(true);
 		resourcesTable.setHeaderVisible(true);
 		toolkit.paintBordersFor(resourcesTable);
@@ -994,7 +991,7 @@ public class SmartResources extends AbstractPeriodScreen implements
 
 			cmbViewerSubSelector
 					.setLabelProvider(new AdapterFactoryLabelProvider(
-							EMFEditingService.getAdapterFactory()));
+							CDOEditingService.getAdapterFactory()));
 
 			if (!readOnly) {
 				hypLnkAddTolerance = toolkit.createImageHyperlink(
@@ -1834,7 +1831,7 @@ public class SmartResources extends AbstractPeriodScreen implements
 		ObservableListContentProvider listContentProvider = new ObservableListContentProvider();
 		cmbViewerOperator.setContentProvider(listContentProvider);
 		cmbViewerOperator.setLabelProvider(new AdapterFactoryLabelProvider(
-				EMFEditingService.getAdapterFactory()));
+				CDOEditingService.getAdapterFactory()));
 
 		// IEMFListProperty operatorResourceProperties =
 		// EMFProperties.resource();
@@ -1908,7 +1905,7 @@ public class SmartResources extends AbstractPeriodScreen implements
 		cmbViewerNetwork.setContentProvider(networksListContentProvider);
 
 		cmbViewerNetwork.setLabelProvider(new AdapterFactoryLabelProvider(
-				EMFEditingService.getAdapterFactory()));
+				CDOEditingService.getAdapterFactory()));
 		cmbViewerNetwork.setInput(networksList);
 
 		if (cmbViewerNetwork.getCombo().getItemCount() > 0) {
@@ -1951,7 +1948,7 @@ public class SmartResources extends AbstractPeriodScreen implements
 		ObservableListContentProvider nodesListContentProvider = new ObservableListContentProvider();
 		cmbViewerNode.setContentProvider(nodesListContentProvider);
 		cmbViewerNode.setLabelProvider(new AdapterFactoryLabelProvider(
-				EMFEditingService.getAdapterFactory()));
+				CDOEditingService.getAdapterFactory()));
 		cmbViewerNode.setInput(computedNodesList);
 
 		// NODE SINGLE SELECTION OBSERVABLE.

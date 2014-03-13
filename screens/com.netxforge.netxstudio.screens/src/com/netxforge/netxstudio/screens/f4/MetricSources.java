@@ -76,12 +76,13 @@ import com.netxforge.netxstudio.scheduling.MetricSourceJob;
 import com.netxforge.netxstudio.scheduling.SchedulingFactory;
 import com.netxforge.netxstudio.scheduling.SchedulingPackage;
 import com.netxforge.netxstudio.screens.AbstractScreen;
+import com.netxforge.netxstudio.screens.editing.filter.CDOSearchFilter;
 import com.netxforge.netxstudio.screens.editing.tables.CDOElementComparer;
 import com.netxforge.netxstudio.screens.editing.util.CDOMementoUtil;
 import com.netxforge.screens.editing.base.IDataServiceInjection;
 import com.netxforge.screens.editing.base.ScreenUtil;
 import com.netxforge.screens.editing.base.actions.SeparatorAction;
-import com.netxforge.screens.editing.base.filter.SearchFilter;
+import com.netxforge.screens.editing.base.filter.ISearchFilter;
 import com.netxforge.screens.editing.base.util.MementoUtil;
 
 /**
@@ -384,8 +385,8 @@ public class MetricSources extends AbstractScreen implements
 			public void keyReleased(KeyEvent ke) {
 				ViewerFilter[] filters = metricSourceTableViewer.getFilters();
 				for (ViewerFilter viewerFilter : filters) {
-					if (viewerFilter instanceof SearchFilter) {
-						((SearchFilter) viewerFilter)
+					if (viewerFilter instanceof ISearchFilter) {
+						((ISearchFilter) viewerFilter)
 								.setSearchText(txtFilterText.getText());
 					}
 				}
@@ -427,7 +428,7 @@ public class MetricSources extends AbstractScreen implements
 				SWT.BORDER | SWT.FULL_SELECTION | SWT.MULTI | SWT.VIRTUAL);
 		metricSourceTableViewer.setUseHashlookup(true);
 		metricSourceTableViewer.setComparer(new CDOElementComparer());
-		metricSourceTableViewer.addFilter(new SearchFilter());
+		metricSourceTableViewer.addFilter(new CDOSearchFilter());
 
 		metricSourceTable = metricSourceTableViewer.getTable();
 		metricSourceTable.setLinesVisible(true);

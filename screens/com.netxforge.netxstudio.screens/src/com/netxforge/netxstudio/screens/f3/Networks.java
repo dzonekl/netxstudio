@@ -277,7 +277,7 @@ public class Networks extends AbstractScreen implements IDataServiceInjection {
 				| SWT.MULTI | widgetStyle);
 		// networkTreeViewer.setUseHashlookup(true);
 		// networkTreeViewer.setComparer(new CDOElementComparer());
-		networkTreeViewer.addFilter(new TreeSearchFilter(editingService));
+		networkTreeViewer.addFilter(new TreeSearchFilter());
 
 		// CB http://work.netxforge.com/issues/290
 		networkTreeViewer.setComparator(new NetworkViewerComparator());

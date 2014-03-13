@@ -29,10 +29,9 @@ import com.netxforge.netxstudio.screens.f2.Protocols;
 import com.netxforge.netxstudio.screens.f2.Units;
 import com.netxforge.netxstudio.screens.f2.smarts.SmartTolerances;
 import com.netxforge.netxstudio.screens.f4.Metrics;
-import com.netxforge.screens.editing.base.AbstractScreenSelector;
 import com.netxforge.screens.editing.base.ScreenUtil;
 
-public class LibraryScreenSelector extends AbstractScreenSelector {
+public class LibraryScreenSelector extends CDOScreenSelector {
 
 	public static final String ID = "com.netxforge.netxstudio.screens.selector.library"; //$NON-NLS-1$
 	private final FormToolkit toolkit = new FormToolkit(Display.getCurrent());

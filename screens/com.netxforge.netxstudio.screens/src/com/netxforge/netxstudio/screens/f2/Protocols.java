@@ -65,10 +65,11 @@ import com.netxforge.netxstudio.protocols.Protocol;
 import com.netxforge.netxstudio.protocols.ProtocolsFactory;
 import com.netxforge.netxstudio.protocols.ProtocolsPackage;
 import com.netxforge.netxstudio.screens.AbstractScreen;
+import com.netxforge.netxstudio.screens.editing.filter.CDOSearchFilter;
 import com.netxforge.netxstudio.screens.editing.tables.CDOElementComparer;
 import com.netxforge.screens.editing.base.IDataServiceInjection;
 import com.netxforge.screens.editing.base.ScreenUtil;
-import com.netxforge.screens.editing.base.filter.SearchFilter;
+import com.netxforge.screens.editing.base.filter.ISearchFilter;
 
 /**
  * @author Christophe Bouhier christophe.bouhier@netxforge.com
@@ -140,8 +141,8 @@ public class Protocols extends AbstractScreen implements IDataServiceInjection {
 				tableViewer.refresh();
 				ViewerFilter[] filters = tableViewer.getFilters();
 				for (ViewerFilter viewerFilter : filters) {
-					if (viewerFilter instanceof SearchFilter) {
-						((SearchFilter) viewerFilter)
+					if (viewerFilter instanceof ISearchFilter) {
+						((ISearchFilter) viewerFilter)
 								.setSearchText(txtFilterText.getText());
 					}
 				}
@@ -217,7 +218,7 @@ public class Protocols extends AbstractScreen implements IDataServiceInjection {
 		TableColumn tblclmnSpecification = tableViewerColumn_3.getColumn();
 		tblclmnSpecification.setWidth(100);
 		tblclmnSpecification.setText("Specification");
-		tableViewer.addFilter(new SearchFilter());
+		tableViewer.addFilter(new CDOSearchFilter());
 	}
 
 	/**

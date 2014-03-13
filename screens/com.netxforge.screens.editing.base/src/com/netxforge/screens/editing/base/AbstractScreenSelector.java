@@ -70,7 +70,7 @@ public abstract class AbstractScreenSelector extends AbstractScreensViewPart
 
 	@Inject
 	protected IScreenFormServiceProvider screenFormServiceProvider;
-
+	
 	/**
 	 * Single instance.
 	 */

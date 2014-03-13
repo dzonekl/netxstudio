@@ -67,10 +67,11 @@ import com.netxforge.netxstudio.geo.Country;
 import com.netxforge.netxstudio.geo.GeoFactory;
 import com.netxforge.netxstudio.geo.GeoPackage;
 import com.netxforge.netxstudio.screens.AbstractScreen;
+import com.netxforge.netxstudio.screens.editing.filter.CDOSearchFilter;
 import com.netxforge.netxstudio.screens.editing.tables.CDOElementComparer;
 import com.netxforge.screens.editing.base.IDataServiceInjection;
 import com.netxforge.screens.editing.base.ScreenUtil;
-import com.netxforge.screens.editing.base.filter.SearchFilter;
+import com.netxforge.screens.editing.base.filter.ISearchFilter;
 
 /**
  * @author Christophe Bouhier christophe.bouhier@netxforge.com
@@ -191,8 +192,8 @@ public class Countries extends AbstractScreen implements IDataServiceInjection {
 				tableViewer.refresh();
 				ViewerFilter[] filters = tableViewer.getFilters();
 				for (ViewerFilter viewerFilter : filters) {
-					if (viewerFilter instanceof SearchFilter) {
-						((SearchFilter) viewerFilter)
+					if (viewerFilter instanceof ISearchFilter) {
+						((ISearchFilter) viewerFilter)
 								.setSearchText(txtFilterText.getText());
 					}
 				}
@@ -251,7 +252,7 @@ public class Countries extends AbstractScreen implements IDataServiceInjection {
 		tblclmnShortname = tableViewerColumn_2.getColumn();
 		tblclmnShortname.setWidth(100);
 		tblclmnShortname.setText("Country Code");
-		tableViewer.addFilter(new SearchFilter());
+		tableViewer.addFilter(new CDOSearchFilter());
 	}
 
 

@@ -26,10 +26,9 @@ import com.netxforge.netxstudio.screens.f4.smarts.SmartMetricSources;
 import com.netxforge.netxstudio.screens.nf3.Retention;
 import com.netxforge.netxstudio.screens.nf4.Settings;
 import com.netxforge.netxstudio.screens.nf4.UsersAndRoles;
-import com.netxforge.screens.editing.base.AbstractScreenSelector;
 import com.netxforge.screens.editing.base.ScreenUtil;
 
-public class AdminScreenSelector extends AbstractScreenSelector {
+public class AdminScreenSelector extends CDOScreenSelector {
 
 	public static final String ID = "com.netxforge.netxstudio.screens.selector.admin"; //$NON-NLS-1$
 	private final FormToolkit toolkit = new FormToolkit(Display.getCurrent());

@@ -95,11 +95,12 @@ import com.netxforge.netxstudio.scheduling.RFSServiceReporterJob;
 import com.netxforge.netxstudio.scheduling.RetentionJob;
 import com.netxforge.netxstudio.scheduling.SchedulingPackage;
 import com.netxforge.netxstudio.screens.AbstractScreen;
+import com.netxforge.netxstudio.screens.editing.filter.CDOSearchFilter;
 import com.netxforge.netxstudio.screens.editing.tables.CDOElementComparer;
 import com.netxforge.netxstudio.screens.editing.util.CDOMementoUtil;
 import com.netxforge.screens.editing.base.IDataServiceInjection;
 import com.netxforge.screens.editing.base.ScreenUtil;
-import com.netxforge.screens.editing.base.filter.SearchFilter;
+import com.netxforge.screens.editing.base.filter.ISearchFilter;
 import com.netxforge.screens.editing.base.util.MementoUtil;
 
 /**
@@ -297,8 +298,8 @@ public class Jobs extends AbstractScreen implements IDataServiceInjection {
 			public void keyReleased(KeyEvent ke) {
 				ViewerFilter[] filters = jobsTableViewer.getFilters();
 				for (ViewerFilter viewerFilter : filters) {
-					if (viewerFilter instanceof SearchFilter) {
-						((SearchFilter) viewerFilter)
+					if (viewerFilter instanceof ISearchFilter) {
+						((ISearchFilter) viewerFilter)
 								.setSearchText(txtFilterText.getText());
 					}
 				}
@@ -309,7 +310,7 @@ public class Jobs extends AbstractScreen implements IDataServiceInjection {
 		jobsTableViewer = new TableViewer(frmScheduledJobs.getBody(),
 				SWT.BORDER | SWT.FULL_SELECTION);
 		jobsTableViewer.setComparer(new CDOElementComparer());
-		jobsTableViewer.addFilter(new SearchFilter());
+		jobsTableViewer.addFilter(new CDOSearchFilter());
 
 		jobsTable = jobsTableViewer.getTable();
 		jobsTable.setLinesVisible(true);

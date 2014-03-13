@@ -44,9 +44,9 @@ import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.ecore.util.EcoreUtil.Copier;
+import org.eclipse.emf.edit.domain.EditingDomain;
 import org.eclipse.emf.edit.provider.ComposedAdapterFactory;
 import org.eclipse.emf.edit.provider.ItemProviderAdapter;
-import org.eclipse.emf.edit.provider.ReflectiveItemProviderAdapterFactory;
 import org.eclipse.emf.spi.cdo.FSMUtil;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.dialogs.ProgressMonitorDialog;
@@ -124,6 +124,16 @@ public class CDOEditingService extends EMFEditingService implements
 	 */
 	public IDawnEditorSupport getDawnEditorSupport() {
 		return dawnEditorSupport;
+	}
+
+	@Override
+	public EditingDomain getEditingDomain() {
+		if (domain == null) {
+			BasicCommandStack commandStack = new BasicCommandStack();
+			domain = new ScreensAdapterFactoryEditingDomain(
+					getAdapterFactory(), commandStack);
+		}
+		return domain;
 	}
 
 	@Override
@@ -762,8 +772,14 @@ public class CDOEditingService extends EMFEditingService implements
 	 * @return
 	 */
 	public static AdapterFactory getAdapterFactory() {
+		
+		// FIXME Use the registry to obtain a model Adapter Factory. Remove the model dependencies.  
+//		Registry instance = ComposedAdapterFactory.Descriptor.Registry.INSTANCE;
+		
 		ComposedAdapterFactory emfEditAdapterFactory = (ComposedAdapterFactory) EMFEditingService
 				.getAdapterFactory();
+		
+		
 		emfEditAdapterFactory.addAdapterFactory(new EresourceAdapterFactory());
 		emfEditAdapterFactory
 				.addAdapterFactory(new GenericsItemProviderAdapterFactory());
@@ -783,8 +799,9 @@ public class CDOEditingService extends EMFEditingService implements
 				.addAdapterFactory(new SchedulingItemProviderAdapterFactory());
 		emfEditAdapterFactory
 				.addAdapterFactory(new NetxstudioItemProviderAdapterFactory());
-		emfEditAdapterFactory
-				.addAdapterFactory(new ReflectiveItemProviderAdapterFactory());
+		
+		
+		
 		return emfEditAdapterFactory;
 	}
 

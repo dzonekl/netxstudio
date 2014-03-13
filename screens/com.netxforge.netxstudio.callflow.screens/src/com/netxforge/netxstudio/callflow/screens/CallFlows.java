@@ -259,7 +259,7 @@ public class CallFlows extends AbstractScreen implements IDataServiceInjection {
 
 		toolkit.paintBordersFor(callFlowTree);
 
-		callFlowTreeViewer.addFilter(new TreeSearchFilter(editingService));
+		callFlowTreeViewer.addFilter(new TreeSearchFilter());
 
 		/**
 		 * Set a comparator to sort our columns, only sort the objects of type

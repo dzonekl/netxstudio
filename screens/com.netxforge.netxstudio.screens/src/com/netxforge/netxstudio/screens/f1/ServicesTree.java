@@ -283,8 +283,7 @@ public class ServicesTree extends AbstractScreen implements
 		tree.setSize(74, 81);
 		toolkit.paintBordersFor(tree);
 
-		serviceTreeViewer.addFilter(new TreeSearchFilter(this
-				.getEditingService()));
+		serviceTreeViewer.addFilter(new TreeSearchFilter());
 
 		cmpDetails = toolkit.createComposite(sashForm, SWT.NONE);
 		toolkit.paintBordersFor(cmpDetails);

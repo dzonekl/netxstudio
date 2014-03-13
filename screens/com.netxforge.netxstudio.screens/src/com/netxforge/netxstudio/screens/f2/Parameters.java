@@ -69,11 +69,12 @@ import com.netxforge.netxstudio.library.LibraryFactory;
 import com.netxforge.netxstudio.library.LibraryPackage;
 import com.netxforge.netxstudio.library.Parameter;
 import com.netxforge.netxstudio.screens.AbstractScreen;
+import com.netxforge.netxstudio.screens.editing.filter.CDOSearchFilter;
 import com.netxforge.netxstudio.screens.editing.tables.CDOElementComparer;
 import com.netxforge.netxstudio.screens.editing.util.CDOMementoUtil;
 import com.netxforge.screens.editing.base.IDataServiceInjection;
 import com.netxforge.screens.editing.base.ScreenUtil;
-import com.netxforge.screens.editing.base.filter.SearchFilter;
+import com.netxforge.screens.editing.base.filter.ISearchFilter;
 import com.netxforge.screens.editing.base.util.MementoUtil;
 
 /**
@@ -145,8 +146,8 @@ public class Parameters extends AbstractScreen implements IDataServiceInjection 
 				tableViewer.refresh();
 				ViewerFilter[] filters = tableViewer.getFilters();
 				for (ViewerFilter viewerFilter : filters) {
-					if (viewerFilter instanceof SearchFilter) {
-						((SearchFilter) viewerFilter)
+					if (viewerFilter instanceof ISearchFilter) {
+						((ISearchFilter) viewerFilter)
 								.setSearchText(txtFilterText.getText());
 					}
 				}
@@ -220,7 +221,7 @@ public class Parameters extends AbstractScreen implements IDataServiceInjection 
 		tblclmnValue.setWidth(100);
 		tblclmnValue.setText("Value");
 		tblclmnValue.setAlignment(SWT.RIGHT);
-		tableViewer.addFilter(new SearchFilter());
+		tableViewer.addFilter(new CDOSearchFilter());
 	}
 
 	/**

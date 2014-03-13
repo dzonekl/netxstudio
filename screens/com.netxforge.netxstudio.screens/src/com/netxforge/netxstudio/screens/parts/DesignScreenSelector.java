@@ -29,10 +29,9 @@ import com.netxforge.netxstudio.screens.f3.RoomsTree;
 import com.netxforge.netxstudio.screens.f3.SitesTree;
 import com.netxforge.netxstudio.screens.f3.SmartResources;
 import com.netxforge.netxstudio.screens.f3.WarehouseTree;
-import com.netxforge.screens.editing.base.AbstractScreenSelector;
 import com.netxforge.screens.editing.base.ScreenUtil;
 
-public class DesignScreenSelector extends AbstractScreenSelector {
+public class DesignScreenSelector extends CDOScreenSelector {
 
 	public static final String ID = "com.netxforge.netxstudio.screens.selector.design"; //$NON-NLS-1$
 	private final FormToolkit toolkit = new FormToolkit(Display.getCurrent());

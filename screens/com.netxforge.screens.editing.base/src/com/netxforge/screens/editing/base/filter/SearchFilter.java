@@ -14,7 +14,7 @@
  * 
  * Contributors: Christophe Bouhier - initial API and implementation and/or
  * initial documentation
- *******************************************************************************/ 
+ *******************************************************************************/
 package com.netxforge.screens.editing.base.filter;
 
 import java.util.regex.PatternSyntaxException;
@@ -32,10 +32,16 @@ import com.netxforge.screens.editing.base.EMFEditingService;
  * 
  * @author Christophe Bouhier
  */
-public class SearchFilter extends ViewerFilter {
+public class SearchFilter extends ViewerFilter implements ISearchFilter {
 
 	private String searchString;
 
+	// Lazy initialize
+	protected AdapterFactoryItemDelegator adapterFactoryItemDelegator;
+
+	/* (non-Javadoc)
+	 * @see com.netxforge.screens.editing.base.filter.ISearchFilter#setSearchText(java.lang.String)
+	 */
 	public void setSearchText(String s) {
 		// Search must be a substring of the existing value
 		this.searchString = ".*" + s + ".*"; //$NON-NLS-1$ //$NON-NLS-2$
@@ -52,11 +58,7 @@ public class SearchFilter extends ViewerFilter {
 
 		if (element instanceof EObject) {
 
-			String match = new AdapterFactoryItemDelegator(
-					EMFEditingService.getAdapterFactory()).getText(element);
-
-			System.out.println("String for element=" + element + " text="
-					+ match);
+			String match = getMatch(element);
 			try {
 				result = match.matches(searchString);
 				if (result) {
@@ -69,5 +71,24 @@ public class SearchFilter extends ViewerFilter {
 		}
 
 		return result;
+	}
+
+	/**
+	 * @param element
+	 * @return
+	 */
+	protected String getMatch(Object element) {
+		if (adapterFactoryItemDelegator == null) {
+			adapterFactoryItemDelegator = new AdapterFactoryItemDelegator(
+					EMFEditingService.getAdapterFactory());
+		}
+		return adapterFactoryItemDelegator.getText(element);
+	}
+
+	/* (non-Javadoc)
+	 * @see com.netxforge.screens.editing.base.filter.ISearchFilter#getSearchString()
+	 */
+	public String getSearchString() {
+		return searchString;
 	}
 }

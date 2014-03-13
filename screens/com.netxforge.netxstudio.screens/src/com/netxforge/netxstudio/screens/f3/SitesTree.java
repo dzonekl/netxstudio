@@ -60,19 +60,19 @@ import org.eclipse.ui.forms.widgets.ImageHyperlink;
 import org.eclipse.wb.swt.ResourceManager;
 
 import com.google.common.collect.Lists;
-import com.google.inject.Inject;
 import com.netxforge.netxstudio.geo.Country;
 import com.netxforge.netxstudio.geo.GeoFactory;
 import com.netxforge.netxstudio.geo.GeoPackage;
 import com.netxforge.netxstudio.geo.Site;
 import com.netxforge.netxstudio.screens.AbstractScreen;
+import com.netxforge.netxstudio.screens.editing.filter.CDOSearchFilter;
 import com.netxforge.netxstudio.screens.editing.tables.CDOElementComparer;
 import com.netxforge.netxstudio.screens.f3.support.SiteTreeFactory;
 import com.netxforge.netxstudio.screens.f3.support.SiteTreeStructureAdvisor;
 import com.netxforge.screens.editing.base.IDataServiceInjection;
 import com.netxforge.screens.editing.base.ScreenUtil;
 import com.netxforge.screens.editing.base.actions.BaseSelectionListenerAction;
-import com.netxforge.screens.editing.base.filter.SearchFilter;
+import com.netxforge.screens.editing.base.filter.ISearchFilter;
 
 public class SitesTree extends AbstractScreen implements IDataServiceInjection {
 
@@ -84,9 +84,6 @@ public class SitesTree extends AbstractScreen implements IDataServiceInjection {
 	private Form frmSites;
 	private TreeViewer sitesTreeViewer;
 	private ObservableListTreeContentProvider listTreeContentProvider;
-
-	@Inject
-	private SearchFilter searchFilter;
 
 	/**
 	 * Create the composite.
@@ -180,8 +177,8 @@ public class SitesTree extends AbstractScreen implements IDataServiceInjection {
 				sitesTreeViewer.refresh();
 				ViewerFilter[] filters = sitesTreeViewer.getFilters();
 				for (ViewerFilter viewerFilter : filters) {
-					if (viewerFilter instanceof SearchFilter) {
-						((SearchFilter) viewerFilter)
+					if (viewerFilter instanceof ISearchFilter) {
+						((ISearchFilter) viewerFilter)
 								.setSearchText(txtFilterText.getText());
 					}
 				}
@@ -274,7 +271,7 @@ public class SitesTree extends AbstractScreen implements IDataServiceInjection {
 		trclmnNr.setWidth(100);
 		trclmnNr.setText("Nr");
 
-		sitesTreeViewer.addFilter(searchFilter);
+		sitesTreeViewer.addFilter(new CDOSearchFilter());
 	}
 
 	/**

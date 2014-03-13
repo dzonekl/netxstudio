@@ -65,9 +65,10 @@ import com.netxforge.netxstudio.geo.GeoFactory;
 import com.netxforge.netxstudio.geo.GeoPackage;
 import com.netxforge.netxstudio.geo.Site;
 import com.netxforge.netxstudio.screens.AbstractScreen;
+import com.netxforge.netxstudio.screens.editing.filter.CDOSearchFilter;
 import com.netxforge.screens.editing.base.IDataServiceInjection;
 import com.netxforge.screens.editing.base.ScreenUtil;
-import com.netxforge.screens.editing.base.filter.SearchFilter;
+import com.netxforge.screens.editing.base.filter.ISearchFilter;
 
 /**
  * @author Christophe Bouhier christophe.bouhier@netxforge.com
@@ -194,8 +195,8 @@ public class SitesTable extends AbstractScreen implements IDataServiceInjection 
 				tableViewer.refresh();
 				ViewerFilter[] filters = tableViewer.getFilters();
 				for (ViewerFilter viewerFilter : filters) {
-					if (viewerFilter instanceof SearchFilter) {
-						((SearchFilter) viewerFilter)
+					if (viewerFilter instanceof ISearchFilter) {
+						((ISearchFilter) viewerFilter)
 								.setSearchText(txtFilterText.getText());
 					}
 				}
@@ -270,7 +271,7 @@ public class SitesTable extends AbstractScreen implements IDataServiceInjection 
 		tblclmnNr = tableViewerColumn_4.getColumn();
 		tblclmnNr.setWidth(51);
 		tblclmnNr.setText("Nr");
-		tableViewer.addFilter(new SearchFilter());
+		tableViewer.addFilter(new CDOSearchFilter());
 	}
 
 	public EMFDataBindingContext initDataBindings_() {

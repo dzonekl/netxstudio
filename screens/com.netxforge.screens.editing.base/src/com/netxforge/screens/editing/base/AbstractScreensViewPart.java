@@ -67,12 +67,11 @@ import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.XMLMemento;
 import org.eclipse.ui.part.ViewPart;
 import org.eclipse.ui.views.properties.IPropertySheetPage;
+import org.eclipse.ui.views.properties.IPropertySourceProvider;
 
 import com.google.common.collect.Lists;
+import com.netxforge.screens.editing.base.actions.IActionHandler;
 import com.netxforge.screens.editing.base.actions.handlers.ActionHandlerDescriptor;
-import com.netxforge.screens.editing.base.actions.handlers.CreationActionsHandler;
-import com.netxforge.screens.editing.base.actions.handlers.ObjectEditingActionsHandler;
-import com.netxforge.screens.editing.base.actions.handlers.UIActionsHandler;
 import com.netxforge.screens.editing.base.internal.BaseEditingActivator;
 import com.netxforge.screens.editing.base.util.MementoUtil;
 
@@ -172,7 +171,7 @@ public abstract class AbstractScreensViewPart extends ViewPart implements
 
 	public void dispose() {
 		this.getSite().getPage().removePartListener(this);
-//		this.getEditingService().disposeData();
+		// this.getEditingService().disposeData();
 		this.getEditingService().deactivate(this);
 		super.dispose();
 	}
@@ -247,16 +246,29 @@ public abstract class AbstractScreensViewPart extends ViewPart implements
 		// selection
 		// provider of the active part. which is this. We can also add
 		// dynamic action handlers.
-		actionHandlerDescriptor = new ActionHandlerDescriptor();
-		actionHandlerDescriptor.addHandler(new ObjectEditingActionsHandler(
-				getEditingService()));
-		actionHandlerDescriptor.addHandler(new CreationActionsHandler());
-		actionHandlerDescriptor.addHandler(new UIActionsHandler());
-		actionHandlerDescriptor.initActions(site.getActionBars());
-		// hookPageSelection();
 
+		IActionHandler[] handlers = getActionHandlers();
+
+		actionHandlerDescriptor = new ActionHandlerDescriptor();
+		setHandlers(handlers);
+		// hookPageSelection();
+		actionHandlerDescriptor.initActions(site.getActionBars());
 		this.getEditingService().getEditingDomain().getCommandStack()
 				.addCommandStackListener(cmdStackListener);
+	}
+
+	private void setHandlers(IActionHandler[] handlers) {
+		for (IActionHandler h : handlers) {
+			actionHandlerDescriptor.addHandler(h);
+		}
+	}
+
+	protected IActionHandler[] getActionHandlers() {
+		IActionHandler[] handlers = new IActionHandler[]{};
+//		handlers[0] = new ObjectEditingActionsHandler(getEditingService());
+//		handlers[1] = new CreationActionsHandler();
+//		handlers[2] = new UIActionsHandler();
+		return handlers;
 	}
 
 	public ActionHandlerDescriptor getActionHandlerDescriptor() {
@@ -420,7 +432,8 @@ public abstract class AbstractScreensViewPart extends ViewPart implements
 	public Object getAdapter(@SuppressWarnings("rawtypes") Class adapter) {
 
 		if (adapter.equals(IPropertySheetPage.class)) {
-			return getPropertySheetPage();
+			return getPropertySheetPage(new AdapterFactoryContentProvider(
+					EMFEditingService.getAdapterFactory()));
 		}
 
 		return super.getAdapter(adapter);
@@ -433,7 +446,7 @@ public abstract class AbstractScreensViewPart extends ViewPart implements
 	 * 
 	 * @generated
 	 */
-	public IPropertySheetPage getPropertySheetPage() {
+	public IPropertySheetPage getPropertySheetPage(IPropertySourceProvider propertySourceProvider) {
 		if (propertySheetPage == null) {
 			propertySheetPage = new ExtendedPropertySheetPage(
 					(AdapterFactoryEditingDomain) this.getEditingDomain()) {
@@ -466,8 +479,7 @@ public abstract class AbstractScreensViewPart extends ViewPart implements
 				}
 			};
 			propertySheetPage
-					.setPropertySourceProvider(new AdapterFactoryContentProvider(
-							EMFEditingService.getAdapterFactory()));
+					.setPropertySourceProvider(propertySourceProvider);
 		}
 
 		return propertySheetPage;
@@ -594,7 +606,8 @@ public abstract class AbstractScreensViewPart extends ViewPart implements
 		}
 	}
 
-	protected void setStatusLineManager(Collection<? extends Object> screenObjects) {
+	protected void setStatusLineManager(
+			Collection<? extends Object> screenObjects) {
 		String message = "";
 		switch (screenObjects.size()) {
 		case 0: {
@@ -609,20 +622,11 @@ public abstract class AbstractScreensViewPart extends ViewPart implements
 				EObject eo = (EObject) next;
 				// Do EObject have a unique ID?
 			}
-			// CDOID cdoID = ((CDOObject) next).cdoID();
 			String text = new AdapterFactoryItemDelegator(
 					EMFEditingService.getAdapterFactory()).getText(next);
 
 			message = "Screen object: " + text;
 			// message = "Screen object: " + text + " OID:" + cdoID;
-
-			// An object could be in proxy state, append the version if not.
-			// (Otherwise the cdo revision will be null;
-			// if (next.cdoState() != CDOState.PROXY) {
-			// CDORevision cdoRevision = next.cdoRevision();
-			// int version = cdoRevision.getVersion();
-			// message += " version: " + version;
-			// }
 
 			break;
 		}
@@ -655,7 +659,7 @@ public abstract class AbstractScreensViewPart extends ViewPart implements
 
 	}
 
-	private void setStatusLineManager(String message) {
+	protected void setStatusLineManager(String message) {
 
 		IStatusLineManager statusLineManager = this.getViewSite()
 				.getActionBars().getStatusLineManager();

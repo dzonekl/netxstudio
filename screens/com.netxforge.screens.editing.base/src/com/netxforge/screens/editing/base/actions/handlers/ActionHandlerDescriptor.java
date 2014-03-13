@@ -51,33 +51,6 @@ public class ActionHandlerDescriptor implements IActionHandler {
 
 	boolean enableEditActions = false;
 
-//	private IScreen screen;
-
-	// Not used.
-	//
-	// EStructuralFeature[] permittedChildCreationFeatures = null;
-	//
-	// public EStructuralFeature[] getPermittedChildCreationFeatures() {
-	// return permittedChildCreationFeatures;
-	// }
-	//
-	// public void setPermittedChildCreationFeatures(
-	// EStructuralFeature[] permittedChildCreationFeatures) {
-	// this.permittedChildCreationFeatures = permittedChildCreationFeatures;
-	// }
-	//
-	// public EStructuralFeature[] getPermittedChildrenCreationFeatures() {
-	// return permittedChildrenCreationFeatures;
-	// }
-	//
-	// public void setPermittedChildrenCreationFeatures(
-	// EStructuralFeature[] permittedChildrenCreationFeatures) {
-	// this.permittedChildrenCreationFeatures =
-	// permittedChildrenCreationFeatures;
-	// }
-	//
-	// EStructuralFeature[] permittedChildrenCreationFeatures = null;
-
 	IMenuManager menuManager;
 
 	List<IActionHandler> handlers = Lists.newArrayList();

@@ -175,7 +175,7 @@ public class DisconnectedResourcesComponent {
 
 		resourcesTreeViewer.setUseHashlookup(true);
 		resourcesTreeViewer.setComparer(new CDOElementComparer());
-		resourcesTreeViewer.addFilter(new TreeSearchFilter(editingService));
+		resourcesTreeViewer.addFilter(new TreeSearchFilter());
 		resourcesTreeViewer.addFilter(new ViewerFilter() {
 
 			@Override

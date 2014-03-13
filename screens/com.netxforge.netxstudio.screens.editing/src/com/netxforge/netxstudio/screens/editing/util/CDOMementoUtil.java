@@ -82,7 +82,7 @@ public class CDOMementoUtil {
 	 * @param viewer
 	 * @param key
 	 */
-	public void retrieveStructuredViewerColumns(IMemento memento,
+	public static void retrieveStructuredViewerColumns(IMemento memento,
 			StructuredViewer viewer, String key) {
 
 		int[] columnWidths = MementoUtil.retrieveIntArray(memento, key);

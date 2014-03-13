@@ -60,19 +60,19 @@ import org.eclipse.ui.forms.widgets.ImageHyperlink;
 import org.eclipse.wb.swt.ResourceManager;
 
 import com.google.common.collect.Lists;
-import com.google.inject.Inject;
 import com.netxforge.netxstudio.geo.GeoFactory;
 import com.netxforge.netxstudio.geo.GeoPackage;
 import com.netxforge.netxstudio.geo.Room;
 import com.netxforge.netxstudio.geo.Site;
 import com.netxforge.netxstudio.screens.AbstractScreen;
+import com.netxforge.netxstudio.screens.editing.filter.CDOSearchFilter;
 import com.netxforge.netxstudio.screens.editing.tables.CDOElementComparer;
 import com.netxforge.netxstudio.screens.f3.support.RoomTreeFactory;
 import com.netxforge.netxstudio.screens.f3.support.RoomTreeStructureAdvisor;
 import com.netxforge.screens.editing.base.IDataServiceInjection;
 import com.netxforge.screens.editing.base.ScreenUtil;
 import com.netxforge.screens.editing.base.actions.BaseSelectionListenerAction;
-import com.netxforge.screens.editing.base.filter.SearchFilter;
+import com.netxforge.screens.editing.base.filter.ISearchFilter;
 
 public class RoomsTree extends AbstractScreen implements IDataServiceInjection {
 
@@ -84,9 +84,6 @@ public class RoomsTree extends AbstractScreen implements IDataServiceInjection {
 	private Form frmSites;
 	private TreeViewer roomsTreeViewer;
 	private ObservableListTreeContentProvider listTreeContentProvider;
-
-	@Inject
-	private SearchFilter searchFilter;
 
 	/**
 	 * Create the composite.
@@ -172,8 +169,8 @@ public class RoomsTree extends AbstractScreen implements IDataServiceInjection {
 			public void keyReleased(KeyEvent ke) {
 				ViewerFilter[] filters = roomsTreeViewer.getFilters();
 				for (ViewerFilter viewerFilter : filters) {
-					if (viewerFilter instanceof SearchFilter) {
-						((SearchFilter) viewerFilter)
+					if (viewerFilter instanceof ISearchFilter) {
+						((ISearchFilter) viewerFilter)
 								.setSearchText(txtFilterText.getText());
 					}
 				}
@@ -253,7 +250,7 @@ public class RoomsTree extends AbstractScreen implements IDataServiceInjection {
 		trclmnName.setWidth(129);
 		trclmnName.setText("Name");
 
-		roomsTreeViewer.addFilter(searchFilter);
+		roomsTreeViewer.addFilter(new CDOSearchFilter());
 	}
 
 	/**

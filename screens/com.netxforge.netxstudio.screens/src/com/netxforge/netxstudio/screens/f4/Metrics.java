@@ -61,7 +61,6 @@ import org.eclipse.wb.swt.ResourceManager;
 
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
-import com.google.inject.Inject;
 import com.netxforge.base.NonModelUtils;
 import com.netxforge.netxstudio.common.model.StudioUtils;
 import com.netxforge.netxstudio.generics.DateTimeRange;
@@ -72,6 +71,7 @@ import com.netxforge.netxstudio.metrics.Metric;
 import com.netxforge.netxstudio.metrics.MetricsFactory;
 import com.netxforge.netxstudio.metrics.MetricsPackage;
 import com.netxforge.netxstudio.screens.AbstractScreen;
+import com.netxforge.netxstudio.screens.editing.filter.CDOSearchFilter;
 import com.netxforge.netxstudio.screens.editing.tables.CDOElementComparer;
 import com.netxforge.netxstudio.screens.editing.util.CDOMementoUtil;
 import com.netxforge.netxstudio.screens.f4.support.MetricTreeFactory;
@@ -79,7 +79,7 @@ import com.netxforge.netxstudio.screens.f4.support.MetricTreeLabelProvider;
 import com.netxforge.netxstudio.screens.f4.support.MetricTreeStructureAdvisor;
 import com.netxforge.screens.editing.base.IDataServiceInjection;
 import com.netxforge.screens.editing.base.ScreenUtil;
-import com.netxforge.screens.editing.base.filter.SearchFilter;
+import com.netxforge.screens.editing.base.filter.ISearchFilter;
 import com.netxforge.screens.editing.base.util.MementoUtil;
 
 public class Metrics extends AbstractScreen implements IDataServiceInjection {
@@ -95,9 +95,6 @@ public class Metrics extends AbstractScreen implements IDataServiceInjection {
 	private Form frmMetrics;
 	private TreeViewer metricsTreeViewer;
 	private ObservableListTreeContentProvider listTreeContentProvider;
-
-	@Inject
-	private SearchFilter searchFilter;
 
 	/**
 	 * Create the composite.
@@ -178,8 +175,8 @@ public class Metrics extends AbstractScreen implements IDataServiceInjection {
 			public void keyReleased(KeyEvent ke) {
 				ViewerFilter[] filters = metricsTreeViewer.getFilters();
 				for (ViewerFilter viewerFilter : filters) {
-					if (viewerFilter instanceof SearchFilter) {
-						((SearchFilter) viewerFilter)
+					if (viewerFilter instanceof ISearchFilter) {
+						((ISearchFilter) viewerFilter)
 								.setSearchText(txtFilterText.getText());
 					}
 				}
@@ -260,7 +257,7 @@ public class Metrics extends AbstractScreen implements IDataServiceInjection {
 		trclmnUnit.setWidth(84);
 		trclmnUnit.setText("Unit");
 
-		metricsTreeViewer.addFilter(searchFilter);
+		metricsTreeViewer.addFilter(new CDOSearchFilter());
 	}
 
 	/**

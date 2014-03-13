@@ -1,4 +1,4 @@
-package com.netxforge.screens.editing.base.actions.handlers;
+package com.netxforge.netxstudio.screens.editing.actions.handlers;
 
 import org.eclipse.emf.edit.domain.IEditingDomainProvider;
 import org.eclipse.emf.edit.ui.action.CopyAction;
@@ -23,14 +23,15 @@ import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.actions.ActionFactory;
 
+import com.netxforge.netxstudio.screens.editing.actions.WarningDeleteAction;
 import com.netxforge.screens.editing.base.AbstractScreensViewPart;
 import com.netxforge.screens.editing.base.IEditingService;
 import com.netxforge.screens.editing.base.IScreen;
 import com.netxforge.screens.editing.base.IScreenProvider;
-import com.netxforge.screens.editing.base.actions.DeleteAction;
 import com.netxforge.screens.editing.base.actions.IActionHandler;
 import com.netxforge.screens.editing.base.actions.SelectAllAction;
 import com.netxforge.screens.editing.base.actions.SourceAwarePasteAction;
+import com.netxforge.screens.editing.base.actions.handlers.ActionHandlerDescriptor;
 
 /**
  * Views and editors, can register actions on the global action handlers. This
@@ -40,7 +41,7 @@ import com.netxforge.screens.editing.base.actions.SourceAwarePasteAction;
  * @author Christophe Bouhier
  * 
  */
-public class ObjectEditingActionsHandler implements IActionHandler {
+public class WarningObjectEditingActionHandler implements IActionHandler {
 
 	/**
 	 * This style bit indicates that the "additions" separator should come after
@@ -57,7 +58,7 @@ public class ObjectEditingActionsHandler implements IActionHandler {
 	 * This is the action used to implement delete, this is the real delete
 	 * action.
 	 */
-	protected DeleteAction deleteAction;
+	protected WarningDeleteAction deleteAction;
 
 	/**
 	 * This is the action used to implement cut.
@@ -89,12 +90,9 @@ public class ObjectEditingActionsHandler implements IActionHandler {
 	 */
 	private SelectAllAction selectAllAction;
 
-	/**
-	 * Expose to extending classes. 
-	 */
-	protected IEditingService editingService;
+	private IEditingService editingService;
 
-	public ObjectEditingActionsHandler(IEditingService editingService) {
+	public WarningObjectEditingActionHandler(IEditingService editingService) {
 		this.style = ADDITIONS_LAST_STYLE;
 		this.editingService = editingService;
 	}
@@ -164,8 +162,9 @@ public class ObjectEditingActionsHandler implements IActionHandler {
 	 * @see #deleteAction
 	 * @since 2.6
 	 */
-	protected DeleteAction createDeleteAction() {
-		return new DeleteAction();
+	protected WarningDeleteAction createDeleteAction() {
+		return new WarningDeleteAction(removeAllReferencesOnDelete(),
+				editingService);
 	}
 
 	/**
@@ -249,7 +248,7 @@ public class ObjectEditingActionsHandler implements IActionHandler {
 	 * 
 	 * @param part
 	 */
-	protected void activate() {
+	private void activate() {
 
 		activePart.addPropertyListener(this);
 
@@ -263,7 +262,7 @@ public class ObjectEditingActionsHandler implements IActionHandler {
 		ISelectionProvider selectionProvider = activePart instanceof ISelectionProvider ? (ISelectionProvider) activePart
 				: activePart.getSite().getSelectionProvider();
 
-		// providerInfo(selectionProvider);
+		providerInfo(selectionProvider);
 
 		if (selectionProvider != null) {
 			selectionProvider.addSelectionChangedListener(deleteAction);
@@ -401,7 +400,7 @@ public class ObjectEditingActionsHandler implements IActionHandler {
 		IMenuManager menuManager = descriptor.getMenuManager();
 		enableMarkers(menuManager);
 
-		if (descriptor.enableEditActions) {
+		if (descriptor.isEnableEditActions()) {
 			enableEditingActions(menuManager);
 		}
 

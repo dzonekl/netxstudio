@@ -58,18 +58,18 @@ import org.eclipse.ui.forms.widgets.ImageHyperlink;
 import org.eclipse.wb.swt.ResourceManager;
 
 import com.google.common.collect.Lists;
-import com.google.inject.Inject;
 import com.netxforge.netxstudio.library.LibraryPackage;
 import com.netxforge.netxstudio.operators.OperatorsFactory;
 import com.netxforge.netxstudio.operators.OperatorsPackage;
 import com.netxforge.netxstudio.operators.Warehouse;
 import com.netxforge.netxstudio.screens.AbstractScreen;
+import com.netxforge.netxstudio.screens.editing.filter.CDOSearchFilter;
 import com.netxforge.netxstudio.screens.editing.tables.CDOElementComparer;
 import com.netxforge.netxstudio.screens.f3.support.WarehouseTreeFactory;
 import com.netxforge.netxstudio.screens.f3.support.WarehouseTreeStructureAdvisor;
 import com.netxforge.screens.editing.base.IDataServiceInjection;
 import com.netxforge.screens.editing.base.ScreenUtil;
-import com.netxforge.screens.editing.base.filter.SearchFilter;
+import com.netxforge.screens.editing.base.filter.ISearchFilter;
 
 public class WarehouseTree extends AbstractScreen implements
 		IDataServiceInjection {
@@ -82,9 +82,6 @@ public class WarehouseTree extends AbstractScreen implements
 	private Form frmWarehouseTree;
 	private TreeViewer warehouseTreeViewer;
 	private ObservableListTreeContentProvider listTreeContentProvider;
-
-	@Inject
-	private SearchFilter searchFilter;
 
 	/**
 	 * Create the composite.
@@ -173,8 +170,8 @@ public class WarehouseTree extends AbstractScreen implements
 			public void keyReleased(KeyEvent ke) {
 				ViewerFilter[] filters = warehouseTreeViewer.getFilters();
 				for (ViewerFilter viewerFilter : filters) {
-					if (viewerFilter instanceof SearchFilter) {
-						((SearchFilter) viewerFilter)
+					if (viewerFilter instanceof ISearchFilter) {
+						((ISearchFilter) viewerFilter)
 								.setSearchText(txtFilterText.getText());
 					}
 				}
@@ -241,7 +238,7 @@ public class WarehouseTree extends AbstractScreen implements
 		trclmnName.setWidth(129);
 		trclmnName.setText("Item name");
 
-		warehouseTreeViewer.addFilter(searchFilter);
+		warehouseTreeViewer.addFilter(new CDOSearchFilter());
 	}
 
 	/**

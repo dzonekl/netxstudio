@@ -65,10 +65,11 @@ import com.netxforge.netxstudio.library.LibraryFactory;
 import com.netxforge.netxstudio.library.LibraryPackage;
 import com.netxforge.netxstudio.library.Vendor;
 import com.netxforge.netxstudio.screens.AbstractScreen;
+import com.netxforge.netxstudio.screens.editing.filter.CDOSearchFilter;
 import com.netxforge.netxstudio.screens.f2.support.ToleranceObservableMapLabelProvider;
 import com.netxforge.screens.editing.base.IDataServiceInjection;
 import com.netxforge.screens.editing.base.ScreenUtil;
-import com.netxforge.screens.editing.base.filter.SearchFilter;
+import com.netxforge.screens.editing.base.filter.ISearchFilter;
 
 /**
  * @author Christophe Bouhier christophe.bouhier@netxforge.com
@@ -194,8 +195,8 @@ public class Vendors extends AbstractScreen implements IDataServiceInjection {
 				tableViewer.refresh();
 				ViewerFilter[] filters = tableViewer.getFilters();
 				for (ViewerFilter viewerFilter : filters) {
-					if (viewerFilter instanceof SearchFilter) {
-						((SearchFilter) viewerFilter)
+					if (viewerFilter instanceof ISearchFilter) {
+						((ISearchFilter) viewerFilter)
 								.setSearchText(txtFilterText.getText());
 					}
 				}
@@ -258,7 +259,7 @@ public class Vendors extends AbstractScreen implements IDataServiceInjection {
 		tblclmnWebsite = tableViewerColumn_1.getColumn();
 		tblclmnWebsite.setWidth(169);
 		tblclmnWebsite.setText("Website");
-		tableViewer.addFilter(new SearchFilter());
+		tableViewer.addFilter(new CDOSearchFilter());
 	}
 
 	public EMFDataBindingContext initDataBindings_() {

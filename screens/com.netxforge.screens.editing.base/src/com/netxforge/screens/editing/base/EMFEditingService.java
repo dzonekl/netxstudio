@@ -53,7 +53,7 @@ import com.netxforge.base.data.IBaseData;
  */
 public class EMFEditingService implements IEditingService {
 
-	private AdapterFactoryEditingDomain domain = null;
+	protected AdapterFactoryEditingDomain domain = null;
 
 	private IBaseData data;
 

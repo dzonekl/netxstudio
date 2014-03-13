@@ -258,8 +258,7 @@ public class MonitoringTree extends AbstractPeriodScreen implements
 
 		toolkit.paintBordersFor(tree);
 
-		monitoringTreeViewer.addFilter(new TreeSearchFilter(this
-				.getEditingService()));
+		monitoringTreeViewer.addFilter(new TreeSearchFilter());
 	}
 
 	private final List<IAction> actions = Lists.newArrayList();

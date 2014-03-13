@@ -15,8 +15,10 @@ Bundle-ActivationPolicy: lazy
 Eclipse-BuddyPolicy: registered
 Export-Package: com.netxforge.netxstudio.screens.editing,
  com.netxforge.netxstudio.screens.editing.actions,
+ com.netxforge.netxstudio.screens.editing.actions.handlers,
  com.netxforge.netxstudio.screens.editing.commands,
  com.netxforge.netxstudio.screens.editing.extenders,
+ com.netxforge.netxstudio.screens.editing.filter,
  com.netxforge.netxstudio.screens.editing.tables,
  com.netxforge.netxstudio.screens.editing.util
 Import-Package: com.netxforge.netxstudio,

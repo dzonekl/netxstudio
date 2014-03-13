@@ -68,9 +68,10 @@ import com.netxforge.netxstudio.library.NetXResource;
 import com.netxforge.netxstudio.library.NodeType;
 import com.netxforge.netxstudio.operators.Node;
 import com.netxforge.netxstudio.screens.LabelTextTableColumnFilter;
+import com.netxforge.netxstudio.screens.editing.filter.CDOSearchFilter;
 import com.netxforge.netxstudio.screens.editing.tables.CDOElementComparer;
 import com.netxforge.screens.editing.base.IScreenFormService;
-import com.netxforge.screens.editing.base.filter.SearchFilter;
+import com.netxforge.screens.editing.base.filter.ISearchFilter;
 
 /**
  * A UI Component for NetXResource objects.
@@ -85,8 +86,6 @@ public class LazyResourcesComponent {
 	private Text txtFilterText;
 	private TableViewer resourcesTableViewer;
 
-	@Inject
-	private SearchFilter searchFilter;
 	private IScreenFormService screenService;
 	private Composite resourcesComposite;
 
@@ -135,8 +134,8 @@ public class LazyResourcesComponent {
 			public void keyReleased(KeyEvent ke) {
 				ViewerFilter[] filters = resourcesTableViewer.getFilters();
 				for (ViewerFilter viewerFilter : filters) {
-					if (viewerFilter instanceof SearchFilter) {
-						((SearchFilter) viewerFilter)
+					if (viewerFilter instanceof ISearchFilter) {
+						((ISearchFilter) viewerFilter)
 								.setSearchText(txtFilterText.getText());
 					}
 				}
@@ -156,7 +155,7 @@ public class LazyResourcesComponent {
 		table = resourcesTableViewer.getTable();
 		resourcesTableViewer.setUseHashlookup(true);
 		resourcesTableViewer.setComparer(new CDOElementComparer());
-		resourcesTableViewer.addFilter(searchFilter);
+		resourcesTableViewer.addFilter(new CDOSearchFilter());
 		table.setLinesVisible(true);
 		table.setHeaderVisible(true);
 		table.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 3, 4));

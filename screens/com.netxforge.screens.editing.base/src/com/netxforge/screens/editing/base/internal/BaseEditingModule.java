@@ -18,17 +18,10 @@
  *******************************************************************************/
 package com.netxforge.screens.editing.base.internal;
 
-import static org.ops4j.peaberry.Peaberry.service;
-import static org.ops4j.peaberry.util.TypeLiterals.export;
-
 import com.google.inject.AbstractModule;
 import com.google.inject.Scopes;
-import com.netxforge.screens.editing.base.EMFEditingServiceProvider;
-import com.netxforge.screens.editing.base.IEditingServiceProvider;
 import com.netxforge.screens.editing.base.IScreenFactory;
-import com.netxforge.screens.editing.base.IScreenFormServiceProvider;
 import com.netxforge.screens.editing.base.ScreenFactory;
-import com.netxforge.screens.editing.base.ScreenFormServiceProvider;
 import com.netxforge.screens.editing.base.actions.clipboard.ClipboardService;
 import com.netxforge.screens.editing.base.tables.TableHelper;
 import com.netxforge.screens.editing.base.util.ValidationService;

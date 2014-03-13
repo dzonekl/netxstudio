@@ -23,12 +23,10 @@ import static org.ops4j.peaberry.util.TypeLiterals.export;
 
 import com.google.inject.AbstractModule;
 import com.google.inject.Scopes;
-import com.google.inject.Singleton;
 import com.netxforge.netxstudio.data.ICDODataService;
 import com.netxforge.netxstudio.data.cdo.IClientCDODataProvider;
 import com.netxforge.netxstudio.screens.editing.CDOEditingServiceProvider;
 import com.netxforge.netxstudio.screens.editing.CDOScreenFormServiceProvider;
-import com.netxforge.netxstudio.screens.editing.util.CDOMementoUtil;
 import com.netxforge.screens.editing.base.IEditingServiceProvider;
 import com.netxforge.screens.editing.base.IScreenFactory;
 import com.netxforge.screens.editing.base.IScreenFormServiceProvider;
@@ -56,7 +54,6 @@ public class EditingModule extends AbstractModule {
 
 		// Binding util.
 		this.bind(TableHelper.class);
-		this.bind(CDOMementoUtil.class).in(Singleton.class);
 		this.bind(ValidationService.class);
 
 		// ///////////////////////////////

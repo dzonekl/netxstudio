@@ -241,7 +241,7 @@ public class NodeTypes extends AbstractScreen implements IDataServiceInjection {
 				| SWT.VIRTUAL | widgetStyle);
 		nodeTypeTreeViewer.setUseHashlookup(true);
 		nodeTypeTreeViewer.setComparer(new CDOElementComparer());
-		nodeTypeTreeViewer.addFilter(new TreeSearchFilter(editingService));
+		nodeTypeTreeViewer.addFilter(new TreeSearchFilter());
 		nodeTypeTreeViewer.setComparator(new NetworkViewerComparator());
 
 		nodeTypeTreeViewer

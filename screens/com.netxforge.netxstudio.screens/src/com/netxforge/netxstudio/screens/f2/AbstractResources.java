@@ -14,7 +14,7 @@
  * 
  * Contributors: Christophe Bouhier - initial API and implementation and/or
  * initial documentation
- *******************************************************************************/ 
+ *******************************************************************************/
 package com.netxforge.netxstudio.screens.f2;
 
 import java.text.DecimalFormat;
@@ -67,7 +67,6 @@ import org.eclipse.wb.swt.TableViewerColumnSorter;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
-import com.google.inject.Inject;
 import com.netxforge.netxstudio.common.model.StudioUtils;
 import com.netxforge.netxstudio.generics.Value;
 import com.netxforge.netxstudio.library.Component;
@@ -79,14 +78,15 @@ import com.netxforge.netxstudio.library.NodeType;
 import com.netxforge.netxstudio.operators.Node;
 import com.netxforge.netxstudio.screens.AbstractScreen;
 import com.netxforge.netxstudio.screens.LabelTextTableColumnFilter;
+import com.netxforge.netxstudio.screens.editing.filter.CDOSearchFilter;
 import com.netxforge.netxstudio.screens.editing.tables.CDOElementComparer;
 import com.netxforge.screens.editing.base.IDataServiceInjection;
 import com.netxforge.screens.editing.base.ScreenUtil;
-import com.netxforge.screens.editing.base.filter.SearchFilter;
+import com.netxforge.screens.editing.base.filter.ISearchFilter;
 
 /**
  * See this for filtering. http://www.eclipsezone.com/eclipse/forums/t63214.html
- *  
+ * 
  * @author Christophe Bouhier
  * 
  */
@@ -99,10 +99,6 @@ public abstract class AbstractResources extends AbstractScreen implements
 
 	protected TableViewer resourcesTableViewer;
 	private Form frmResources;
-	// private Resource resourcesResource;
-
-	@Inject
-	private SearchFilter searchFilter;
 
 	protected List<Resource> resourcesList;
 
@@ -150,8 +146,8 @@ public abstract class AbstractResources extends AbstractScreen implements
 			public void keyReleased(KeyEvent ke) {
 				ViewerFilter[] filters = resourcesTableViewer.getFilters();
 				for (ViewerFilter viewerFilter : filters) {
-					if (viewerFilter instanceof SearchFilter) {
-						((SearchFilter) viewerFilter)
+					if (viewerFilter instanceof ISearchFilter) {
+						((ISearchFilter) viewerFilter)
 								.setSearchText(txtFilterText.getText());
 					}
 				}
@@ -170,7 +166,7 @@ public abstract class AbstractResources extends AbstractScreen implements
 		table = resourcesTableViewer.getTable();
 		resourcesTableViewer.setUseHashlookup(true);
 		resourcesTableViewer.setComparer(new CDOElementComparer());
-		resourcesTableViewer.addFilter(searchFilter);
+		resourcesTableViewer.addFilter(new CDOSearchFilter());
 		table.setLinesVisible(true);
 		table.setHeaderVisible(true);
 		table.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 3, 4));
@@ -546,16 +542,16 @@ public abstract class AbstractResources extends AbstractScreen implements
 						return resource.getLongName();
 					}
 					break;
-//				case 6:
-//					Value v = modelUtils.mostRecentCapacityValue(resource);
-//					if (v != null) {
-//						DecimalFormat numberFormatter = new DecimalFormat(
-//								"###,###,##0.00");
-//						numberFormatter.setDecimalSeparatorAlwaysShown(true);
-//						return numberFormatter.format(v.getValue());
-//					} else {
-//						return "<not set>";
-//					}
+				// case 6:
+				// Value v = modelUtils.mostRecentCapacityValue(resource);
+				// if (v != null) {
+				// DecimalFormat numberFormatter = new DecimalFormat(
+				// "###,###,##0.00");
+				// numberFormatter.setDecimalSeparatorAlwaysShown(true);
+				// return numberFormatter.format(v.getValue());
+				// } else {
+				// return "<not set>";
+				// }
 				case 6:
 					if (resource.getUnitRef() != null) {
 						return resource.getUnitRef().getCode();
@@ -598,10 +594,11 @@ public abstract class AbstractResources extends AbstractScreen implements
 
 	@Override
 	public IAction[] getActions() {
-		
-		// lazy init the aciton list. 
+
+		// lazy init the aciton list.
 		if (actionList.isEmpty()) {
-			String actionText = ScreenUtil.isReadOnlyOperation(this.getOperation()) ? "View..." : "Edit...";
+			String actionText = ScreenUtil.isReadOnlyOperation(this
+					.getOperation()) ? "View..." : "Edit...";
 			actionList.add(new EditResourceAction(actionText));
 		}
 

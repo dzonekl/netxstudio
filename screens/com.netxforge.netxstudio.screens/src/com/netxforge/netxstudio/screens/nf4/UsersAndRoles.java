@@ -41,15 +41,15 @@ import org.eclipse.ui.forms.widgets.ImageHyperlink;
 import org.eclipse.wb.swt.ResourceManager;
 
 import com.google.common.collect.Lists;
-import com.google.inject.Inject;
 import com.netxforge.netxstudio.generics.GenericsFactory;
 import com.netxforge.netxstudio.generics.GenericsPackage;
 import com.netxforge.netxstudio.generics.GenericsPackage.Literals;
 import com.netxforge.netxstudio.screens.AbstractScreen;
+import com.netxforge.netxstudio.screens.editing.filter.CDOSearchFilter;
 import com.netxforge.netxstudio.screens.editing.tables.CDOElementComparer;
 import com.netxforge.screens.editing.base.IDataServiceInjection;
 import com.netxforge.screens.editing.base.ScreenUtil;
-import com.netxforge.screens.editing.base.filter.SearchFilter;
+import com.netxforge.screens.editing.base.filter.ISearchFilter;
 
 public class UsersAndRoles extends AbstractScreen implements
 		IDataServiceInjection {
@@ -65,9 +65,6 @@ public class UsersAndRoles extends AbstractScreen implements
 
 	private TableViewer tableViewer;
 	private Form frmUsersAndRoles;
-
-	@Inject
-	private SearchFilter searchFilter;
 
 	public UsersAndRoles(Composite parent, int style) {
 		super(parent, style);
@@ -111,8 +108,8 @@ public class UsersAndRoles extends AbstractScreen implements
 			public void keyReleased(KeyEvent ke) {
 				ViewerFilter[] filters = tableViewer.getFilters();
 				for (ViewerFilter viewerFilter : filters) {
-					if (viewerFilter instanceof SearchFilter) {
-						((SearchFilter) viewerFilter)
+					if (viewerFilter instanceof ISearchFilter) {
+						((ISearchFilter) viewerFilter)
 								.setSearchText(txtTableFilter.getText());
 					}
 				}
@@ -189,7 +186,7 @@ public class UsersAndRoles extends AbstractScreen implements
 		tblclmnEmail.setWidth(100);
 		tblclmnEmail.setText("Email");
 
-		tableViewer.addFilter(searchFilter);
+		tableViewer.addFilter(new CDOSearchFilter());
 	}
 
 	class HistoryAction extends Action {

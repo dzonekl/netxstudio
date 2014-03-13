@@ -67,12 +67,13 @@ import com.google.common.collect.Lists;
 import com.netxforge.netxstudio.library.LibraryFactory;
 import com.netxforge.netxstudio.library.Tolerance;
 import com.netxforge.netxstudio.screens.AbstractScreen;
+import com.netxforge.netxstudio.screens.editing.filter.CDOSearchFilter;
 import com.netxforge.netxstudio.screens.editing.tables.CDOElementComparer;
 import com.netxforge.netxstudio.screens.editing.util.CDOMementoUtil;
 import com.netxforge.netxstudio.screens.f2.support.ToleranceObservableMapLabelProvider;
 import com.netxforge.screens.editing.base.IDataServiceInjection;
 import com.netxforge.screens.editing.base.ScreenUtil;
-import com.netxforge.screens.editing.base.filter.SearchFilter;
+import com.netxforge.screens.editing.base.filter.ISearchFilter;
 import com.netxforge.screens.editing.base.util.MementoUtil;
 
 /**
@@ -146,8 +147,8 @@ public class Tolerances extends AbstractScreen implements IDataServiceInjection 
 				toleranceTblViewer.refresh();
 				ViewerFilter[] filters = toleranceTblViewer.getFilters();
 				for (ViewerFilter viewerFilter : filters) {
-					if (viewerFilter instanceof SearchFilter) {
-						((SearchFilter) viewerFilter)
+					if (viewerFilter instanceof ISearchFilter) {
+						((ISearchFilter) viewerFilter)
 								.setSearchText(txtFilterText.getText());
 					}
 				}
@@ -209,7 +210,7 @@ public class Tolerances extends AbstractScreen implements IDataServiceInjection 
 		table.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 3, 1));
 		toolkit.paintBordersFor(table);
 
-		toleranceTblViewer.addFilter(new SearchFilter());
+		toleranceTblViewer.addFilter(new CDOSearchFilter());
 	}
 
 	/**
