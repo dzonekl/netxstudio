@@ -1493,7 +1493,7 @@ public abstract class AbstractMetricValuesImporter implements IImporterHelper,
 				// provided patterns. Note that the first occurence will return
 				// the date. We don't not allow multiple DATE/TIME combinations
 				// here.
-				if (currentImporter instanceof XLSMetricValuesImporter) {
+				if (currentImporter instanceof HSSFMetricValuesImporter) {
 
 					for (ValueKindType vkt : tsColumns.keySet()) {
 

@@ -38,11 +38,11 @@ import com.netxforge.netxstudio.metrics.MappingXLS;
  * @author Martin Taal
  * @author Christophe Bouhier
  */
-public class XLSMetricValuesImporter extends AbstractMetricValuesImporter {
+public class HSSFMetricValuesImporter extends AbstractMetricValuesImporter {
 
 	private HSSFSheet currentSheet;
 
-	public XLSMetricValuesImporter(IComponentLocator locator) {
+	public HSSFMetricValuesImporter(IComponentLocator locator) {
 		super(locator);
 	}
 

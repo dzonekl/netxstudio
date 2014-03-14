@@ -22,7 +22,7 @@ import com.google.inject.Provider;
 import com.netxforge.netxstudio.data.index.IComponentLocator;
 
 public class XLSMetricValuesImporterProvider implements
-		Provider<XLSMetricValuesImporter>, IXLSMetricValuesImporterProvider {
+		Provider<HSSFMetricValuesImporter>, IXLSMetricValuesImporterProvider {
 
 	private IComponentLocator locator;
 
@@ -38,7 +38,7 @@ public class XLSMetricValuesImporterProvider implements
 	 * com.netxforge.netxstudio.data.importer.IXLSMetricValuesImporterProvider
 	 * #get()
 	 */
-	public XLSMetricValuesImporter get() {
-		return new XLSMetricValuesImporter(locator);
+	public HSSFMetricValuesImporter get() {
+		return new HSSFMetricValuesImporter(locator);
 	}
 }

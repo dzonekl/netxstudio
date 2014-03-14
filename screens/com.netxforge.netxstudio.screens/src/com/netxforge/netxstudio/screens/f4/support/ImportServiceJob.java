@@ -28,7 +28,7 @@ import com.netxforge.netxstudio.data.importer.AbstractMetricValuesImporter;
 import com.netxforge.netxstudio.data.importer.CSVMetricValuesImporter;
 import com.netxforge.netxstudio.data.importer.DefaultImporterHelper;
 import com.netxforge.netxstudio.data.importer.RDBMSMetricValuesImporter;
-import com.netxforge.netxstudio.data.importer.XLSMetricValuesImporter;
+import com.netxforge.netxstudio.data.importer.HSSFMetricValuesImporter;
 import com.netxforge.netxstudio.data.job.IRunMonitor;
 import com.netxforge.netxstudio.metrics.MappingCSV;
 import com.netxforge.netxstudio.metrics.MappingRDBMS;
@@ -82,7 +82,7 @@ public class ImportServiceJob implements IJobChangeListener {
 			final MetricSource metricSource = getMetricSource();
 			final AbstractMetricValuesImporter metricsImporter;
 			if (metricSource.getMetricMapping() instanceof MappingXLS) {
-				metricsImporter = ScreensActivator.getInstance().getInjector().getInstance(XLSMetricValuesImporter.class);
+				metricsImporter = ScreensActivator.getInstance().getInjector().getInstance(HSSFMetricValuesImporter.class);
 			} else if (metricSource.getMetricMapping() instanceof MappingCSV) {
 				metricsImporter =  ScreensActivator.getInstance().getInjector().getInstance(CSVMetricValuesImporter.class);
 			} else if (metricSource.getMetricMapping() instanceof MappingRDBMS) {

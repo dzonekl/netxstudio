@@ -33,7 +33,7 @@ import com.netxforge.netxstudio.data.importer.AbstractMetricValuesImporter;
 import com.netxforge.netxstudio.data.importer.CSVMetricValuesImporter;
 import com.netxforge.netxstudio.data.importer.IImporterHelper;
 import com.netxforge.netxstudio.data.importer.RDBMSMetricValuesImporter;
-import com.netxforge.netxstudio.data.importer.XLSMetricValuesImporter;
+import com.netxforge.netxstudio.data.importer.HSSFMetricValuesImporter;
 import com.netxforge.netxstudio.data.job.IRunMonitor;
 import com.netxforge.netxstudio.metrics.MappingCSV;
 import com.netxforge.netxstudio.metrics.MappingRDBMS;
@@ -100,7 +100,7 @@ public class MetricSourceImportService implements NetxForgeService {
 
 			if (metricSource.getMetricMapping() instanceof MappingXLS) {
 				importer = MetricsActivator.getInstance().getInjector()
-						.getInstance(XLSMetricValuesImporter.class);
+						.getInstance(HSSFMetricValuesImporter.class);
 			} else if (metricSource.getMetricMapping() instanceof MappingCSV) {
 				importer = MetricsActivator.getInstance().getInjector()
 						.getInstance(CSVMetricValuesImporter.class);
