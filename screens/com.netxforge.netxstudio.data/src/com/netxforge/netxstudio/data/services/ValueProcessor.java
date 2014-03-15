@@ -43,17 +43,13 @@ import com.netxforge.netxstudio.data.internal.DataActivator;
 import com.netxforge.netxstudio.generics.DateTimeRange;
 import com.netxforge.netxstudio.generics.GenericsFactory;
 import com.netxforge.netxstudio.generics.Value;
-import com.netxforge.netxstudio.library.BaseExpressionResult;
-import com.netxforge.netxstudio.library.BaseResource;
 import com.netxforge.netxstudio.library.ExpressionResult;
 import com.netxforge.netxstudio.library.NetXResource;
-import com.netxforge.netxstudio.library.RangeKind;
 import com.netxforge.netxstudio.library.Tolerance;
 import com.netxforge.netxstudio.metrics.KindHintType;
 import com.netxforge.netxstudio.metrics.MetricValueRange;
 import com.netxforge.netxstudio.operators.Marker;
 import com.netxforge.netxstudio.operators.ResourceMonitor;
-import com.netxforge.netxstudio.services.DerivedResource;
 import com.netxforge.netxstudio.services.ServiceMonitor;
 
 /**
@@ -81,60 +77,6 @@ public class ValueProcessor {
 	 */
 	public static final int INDIFFERENT_VALUES_IN_INTERVAL_MODE = 200;
 
-	/**
-	 * Process a Service Profile calculation result.
-	 * 
-	 * @param currentContext
-	 * @param expressionResults
-	 * @param start
-	 * @param end
-	 */
-	public void processServiceProfileResult(List<Object> currentContext,
-			List<BaseExpressionResult> expressionResults, Date start, Date end) {
-		for (final BaseExpressionResult baseExpressionResult : expressionResults) {
-
-			if (baseExpressionResult instanceof ExpressionResult) {
-				ExpressionResult expressionResult = (ExpressionResult) baseExpressionResult;
-
-				if (DataActivator.DEBUG) {
-					DataActivator.TRACE
-							.trace(DataActivator.TRACE_RESULT_EXPRESSION_OPTION,
-									"writing expression result: resource="
-											+ expressionResult
-													.getTargetResource()
-													.getShortName()
-											+ " target="
-											+ expressionResult.getTargetRange()
-													.getName()
-											+ " values="
-											+ expressionResult
-													.getTargetValues().size());
-				}
-
-				// FIXME: We could want to write to a resource, where the node
-				// doesn't match the context.
-				final BaseResource baseResource = expressionResult
-						.getTargetResource();
-
-				// Process a DerivedResource
-
-				if (baseResource instanceof DerivedResource) {
-					DerivedResource resource = (DerivedResource) baseResource;
-					if (expressionResult.getTargetRange().getValue() == RangeKind.DERIVED_VALUE) {
-
-						// TODO Decide, what to do with the existing values.
-						addToValues(resource.getValues(),
-								expressionResult.getTargetValues(),
-								expressionResult.getTargetIntervalHint());
-					} else {
-						throw new IllegalStateException("Range kind "
-								+ expressionResult.getTargetRange()
-								+ " not supported");
-					}
-				}
-			}
-		}
-	}
 
 	/**
 	 * Remove {@link Value} objects and potential references to them. Currently
@@ -615,7 +557,7 @@ public class ValueProcessor {
 						int duplicates = sortedValues.size() - 1;
 						if (DataActivator.DEBUG) {
 							DataActivator.TRACE.trace(
-									DataActivator.TRACE_RESULT_VALUE_OPTION,
+									DataActivator.TRACE_RESULT_VALUE_DUPLICATE_OPTION,
 									"-- found duplicates values:"
 											+ duplicates
 											+ " ("
@@ -625,7 +567,7 @@ public class ValueProcessor {
 											+ NonModelUtils.dateAndTime(value
 													.getTimeStamp()));
 							DataActivator.TRACE.trace(
-									DataActivator.TRACE_RESULT_VALUE_OPTION,
+									DataActivator.TRACE_RESULT_VALUE_DUPLICATE_OPTION,
 									"-- cleaning duplicates");
 
 						}

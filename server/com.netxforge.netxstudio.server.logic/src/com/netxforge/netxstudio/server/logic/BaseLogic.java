@@ -60,7 +60,10 @@ public abstract class BaseLogic {
 	private IRunMonitor jobMonitor;
 
 	private List<Failure> failures = new ArrayList<Failure>();
-
+	
+	/**
+	 * The duration of this logic. 
+	 */
 	protected long durationThisInstance = 0;
 
 	/** The number of times we have completed the run */
@@ -156,10 +159,6 @@ public abstract class BaseLogic {
 		} else {
 			jobMonitor.setFinished(JobRunState.FINISHED_WITH_ERROR, null);
 		}
-
-		durationThisInstance = System.currentTimeMillis() - startTime;
-		reportStats();
-
 	}
 
 	/**
@@ -170,11 +169,13 @@ public abstract class BaseLogic {
 		// Will close any open transaction.
 		getData().commitTransactionThenClose();
 		getData().closeSession();
+		reportStats();
 	}
 
 	protected void reportStats() {
 		// report the duration;
 		if (LogicActivator.DEBUG) {
+			durationThisInstance = System.currentTimeMillis() - startTime;
 			LogicActivator.TRACE.trace(LogicActivator.TRACE_LOGIC_OPTION,
 					"Done executing logic: " + this.getClass().getName());
 			LogicActivator.TRACE.trace(LogicActivator.TRACE_LOGIC_OPTION,

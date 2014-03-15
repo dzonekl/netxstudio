@@ -60,8 +60,12 @@ public class DataActivator implements BundleActivator, DebugOptionsListener {
 	public static String TRACE_DATA_DETAILS_OPTION = "/trace.data.details";
 
 	// Tracing for various types of result processing.
-
 	public static final String TRACE_RESULT_VALUE_OPTION = "/trace.result.value";
+
+	// Tracing for located duplicate timestamp Value objects in a range and
+	// cleaning of it.
+	public static final String TRACE_RESULT_VALUE_DUPLICATE_OPTION = "/trace.result.value.duplicate";
+
 	public static final String TRACE_RESULT_EXPRESSION_OPTION = "/trace.result.expression";
 	public static final String TRACE_RESULT_TOL_OPTION = "/trace.result.tolerance";
 
@@ -87,7 +91,7 @@ public class DataActivator implements BundleActivator, DebugOptionsListener {
 
 	@Inject
 	Export<ICDODataService> dataService;
-	
+
 	@Inject
 	Export<IClientCDODataProvider> clientDPProvider;
 

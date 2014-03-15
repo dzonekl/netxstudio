@@ -190,7 +190,6 @@ public class NonModelUtils {
 		return new ObjectEAttributeComparator<T, O>(attrib);
 	}
 
-
 	/**
 	 * Compare two values
 	 */
@@ -216,8 +215,6 @@ public class NonModelUtils {
 	public DoubleComparator doubleCompare() {
 		return new DoubleComparator();
 	}
-
-	
 
 	public static FileLastModifiedComparator fileLastModifiedComparator() {
 		return new FileLastModifiedComparator();
@@ -488,7 +485,7 @@ public class NonModelUtils {
 			return false;
 		}
 	}
-	
+
 	public static ExtensionFilePredicate extensionFile(String... extension) {
 		return new ExtensionFilePredicate(extension);
 	}
@@ -497,8 +494,6 @@ public class NonModelUtils {
 			String... extensions) {
 		return new ExtensionFilePredicate(negate, extensions);
 	}
-
-	
 
 	public static Collection<String> splitLines(String Expression) {
 		final String[] splitByNewLine = Expression.split("\n");
@@ -640,10 +635,20 @@ public class NonModelUtils {
 	 *            UTC
 	 * @return
 	 */
-	public static String timeDuration(long l) {
+	public static String timeDurationFromUTC(long l) {
 		long delta = System.currentTimeMillis() - l;
-		String result = (delta > 1000 ? (delta / 1000 + "." + delta % 1000 + " (sec) : ")
-				: delta + " (ms) ");
+		return timeDuration(delta);
+	}
+
+	/**
+	 * The duration formated as a String for the given milliseconds.
+	 * 
+	 * @param l
+	 * @return
+	 */
+	public static String timeDuration(long l) {
+		String result = (l > 1000 ? (l / 1000 + "." + l % 1000 + " (sec) : ")
+				: l + " (ms) ");
 		return result;
 	}
 
@@ -714,18 +719,17 @@ public class NonModelUtils {
 		}
 		// In mili seconds
 		if (delta > ONE_MILLION) {
-			sb.append(FORMAT_DOUBLE_NO_FRACTION.format(delta / ONE_MILLION)
-					+ ":::");
+			sb.append(FORMAT_DOUBLE_NO_FRACTION.format(delta / ONE_MILLION));
 			// granularity--;
 		} else {
-			sb.append("000:::");
+			sb.append("000");
 		}
 		// even less
-		if (delta > ONE_THOUSAND) {
-			sb.append(FORMAT_DOUBLE_NO_FRACTION.format(delta / ONE_THOUSAND));
-			// granularity--;
-		}
-		sb.append(" (min:sec::ms:::psec)");
+//		if (delta > ONE_THOUSAND) {
+//			sb.append(FORMAT_DOUBLE_NO_FRACTION.format(delta / ONE_THOUSAND));
+//			// granularity--;
+//		}
+		sb.append(" (min:sec::ms)");
 		return sb.toString();
 	}
 
@@ -1487,8 +1491,6 @@ public class NonModelUtils {
 
 	}
 
-	
-
 	public static void cdoDumpFeature(StringBuilder sb,
 			EStructuralFeature feature, Object value) {
 		addNewLine(sb);
@@ -1514,9 +1516,6 @@ public class NonModelUtils {
 		return value;
 	}
 
-	
-
-	
 	/**
 	 * Transform a list of resources to a list of URI for the resource.
 	 * 
@@ -1531,8 +1530,6 @@ public class NonModelUtils {
 		};
 		return Lists.transform(resources, resourceToURI);
 	}
-
-	
 
 	public static List<Double> transformBigDecimalToDouble(
 			List<BigDecimal> values) {

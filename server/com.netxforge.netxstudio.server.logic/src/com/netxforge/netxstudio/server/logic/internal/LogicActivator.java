@@ -56,6 +56,7 @@ public class LogicActivator implements BundleActivator, DebugOptionsListener {
 
 	private static BundleContext context;
 	private static final String PLUGIN_ID = "com.netxforge.netxstudio.server.logic";
+	
 	private static LogicActivator INSTANCE;
 
 	// fields to cache the debug flags
@@ -63,25 +64,26 @@ public class LogicActivator implements BundleActivator, DebugOptionsListener {
 	public static DebugTrace TRACE = null;
 
 	// Tracing options for monitoring logic
-	public static String TRACE_LOGIC_OPTION = "/trace.logic";
-	public static String TRACE_LOGIC_DETAILS_OPTION = "/trace.logic.details";
+	public static final String TRACE_LOGIC_OPTION = "/trace.logic";
+	public static final String TRACE_LOGIC_DETAILS_OPTION = "/trace.logic.details";
 
 	// Tracing options for reporting logic.
-	public static String TRACE_REPORT_OPTION = "/trace.report";
-	public static String TRACE_REPORT_DETAILS_OPTION = "/trace.report.details";
+	public static final String TRACE_REPORT_OPTION = "/trace.report";
+	public static final String TRACE_REPORT_DETAILS_OPTION = "/trace.report.details";
 
 	// Tracing options for subscriber profile logic.
-	public static String TRACE_PROFILE_OPTION = "/trace.profile";
-	public static String TRACE_PROFILE_DETAILS_OPTION = "/trace.profile.details";
+	public static final String TRACE_PROFILE_OPTION = "/trace.profile";
+	public static final String TRACE_PROFILE_DETAILS_OPTION = "/trace.profile.details";
 
 	// Tracing options for value retention logic.
-	public static String TRACE_RETENTION_OPTION = "/trace.retention";
-	public static String TRACE_RETENTION_DETAILS_OPTION = "/trace.retention.details";
+	public static final String TRACE_RETENTION_OPTION = "/trace.retention";
+	public static final String TRACE_RETENTION_DETAILS_OPTION = "/trace.retention.details";
 
-	// Tracing options for value expression logic.
+	// Tracing options for expression logic.
 	public static String TRACE_EXPRESSION_OPTION = "/trace.expression";
-	public static String TRACE_EXPRESSION_DETAILS_OPTION = "/trace.expression.details";
-
+	public static final String TRACE_EXPRESSION_DETAILS_OPTION = "/trace.expression.details";
+	public static final String TRACE_EXPRESSION_PERF_OPTION = "/trace.expression.perf";
+	
 	public void optionsChanged(DebugOptions options) {
 		DEBUG = options.getBooleanOption(PLUGIN_ID + "/debug", false);
 		TRACE = options.newDebugTrace(PLUGIN_ID);

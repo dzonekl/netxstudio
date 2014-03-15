@@ -42,7 +42,7 @@ public abstract class BaseExpressionEngine extends BaseEngine {
 	private IExpressionEngine expressionEngine;
 
 	/**
-	 * Track the time we are running expressions.
+	 * Track the time we are running expressions in nano seconds.
 	 */
 	private long expressionDurationThisInstance = 0;
 
@@ -67,49 +67,65 @@ public abstract class BaseExpressionEngine extends BaseEngine {
 				return;
 			}
 			expressionEngine.setExpression(expression);
-			
-			
-			// Instrumentate the duration of an expression execution. 
-			long nanoTime = System.nanoTime();
 
-			if (LogicActivator.DEBUG) {
-				LogicActivator.TRACE.trace(
-						LogicActivator.TRACE_EXPRESSION_DETAILS_OPTION,
-						" - (1) Executing expression: " + expression.getName());
+			{
+				// Instrument the duration of an expression execution.
+				long nanoTime = System.nanoTime();
+
+				if (LogicActivator.DEBUG) {
+					LogicActivator.TRACE.trace(
+							LogicActivator.TRACE_EXPRESSION_DETAILS_OPTION,
+							" - (1) Executing expression: "
+									+ expression.getName());
+				}
+				expressionEngine.run();
+
+				long elapsed = System.nanoTime() - nanoTime;
+
+				if (LogicActivator.DEBUG) {
+					LogicActivator.TRACE.trace(
+							LogicActivator.TRACE_EXPRESSION_PERF_OPTION,
+							"ED:"
+									+ NonModelUtils
+											.timeDurationNanoElapsed(elapsed));
+				}
+				this.expressionDurationThisInstance += elapsed;
 			}
-			expressionEngine.run();
-
-			long elapsed = System.nanoTime() - nanoTime;
-
-			if (LogicActivator.DEBUG) {
-				LogicActivator.TRACE.trace(
-						LogicActivator.TRACE_EXPRESSION_DETAILS_OPTION,
-						"- (2) Expression duration: "
-								+ NonModelUtils
-										.timeDurationNanoElapsed(elapsed));
-			}
 			
-			this.expressionDurationThisInstance += elapsed;
-
+			// stop here will be logged
 			if (expressionEngine.errorOccurred()) {
-				// stop here will be logged
 				throw new IllegalStateException(expressionEngine.getThrowable());
 			}
-			final List<BaseExpressionResult> result = expressionEngine
-					.getExpressionResult();
 
-			if (result.isEmpty() && this.getJobMonitor() != null) {
-				throw new IllegalStateException(this.getEngineContextInfo()
-						+ " expression returns no results for expression "
-						+ expression.getName());
-			} else {
-				final List<Object> currentContext = expressionEngine
-						.getContext();
-				// Move to DTR.
-				// processResult(currentContext, result, this.getStart(),
-				// this.getEnd());
-				processResult(currentContext, result, this.getPeriod());
+			{
+				// Instrument the duration of an result execution.
+				long nanoTime = System.nanoTime();
 
+				final List<BaseExpressionResult> result = expressionEngine
+						.getExpressionResult();
+
+				if (result.isEmpty() && this.getJobMonitor() != null) {
+					throw new IllegalStateException(this.getEngineContextInfo()
+							+ " expression returns no results for expression "
+							+ expression.getName());
+				} else {
+					final List<Object> currentContext = expressionEngine
+							.getContext();
+					// Move to DTR.
+					// processResult(currentContext, result, this.getStart(),
+					// this.getEnd());
+					processResult(currentContext, result, this.getPeriod());
+					
+					long elapsed = System.nanoTime() - nanoTime;
+					
+					if (LogicActivator.DEBUG) {
+						LogicActivator.TRACE
+								.trace(LogicActivator.TRACE_EXPRESSION_PERF_OPTION,
+										"RD:"
+												+ NonModelUtils
+														.timeDurationNanoElapsed(elapsed));
+					}
+				}
 			}
 		} catch (final Throwable t) {
 
