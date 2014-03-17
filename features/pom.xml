@@ -15,6 +15,7 @@
 	</parent>
 	<modules>
 		<module>com.netxforge.base.feature</module>
+		<module>com.netxforge.editing.base.feature</module>
 		<module>com.netxforge.netxscript.feature</module>
 		<module>com.netxforge.netxscript.ui.feature</module>
 		<module>com.netxforge.netxstudio.client.product.feature</module>
