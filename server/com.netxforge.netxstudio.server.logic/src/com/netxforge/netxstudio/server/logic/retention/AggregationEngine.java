@@ -296,7 +296,7 @@ public class AggregationEngine extends BaseComponentEngine {
 		// Note: For retention expressions, the order for which the expression
 		// result is processed,
 		// is relevant, as data is deleted after a while.
-
+		
 		resultProcessor.processMonitoringResult(currentContext,
 				expressionResults, period);
 

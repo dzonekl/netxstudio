@@ -26,7 +26,6 @@ import org.eclipse.core.databinding.observable.map.IObservableMap;
 import org.eclipse.core.databinding.observable.masterdetail.IObservableFactory;
 import org.eclipse.core.databinding.observable.set.IObservableSet;
 import org.eclipse.core.databinding.observable.value.IObservableValue;
-import org.eclipse.emf.cdo.eresource.CDOResource;
 import org.eclipse.emf.common.command.Command;
 import org.eclipse.emf.common.command.CompoundCommand;
 import org.eclipse.emf.common.ui.URIEditorInput;
@@ -87,7 +86,6 @@ import com.netxforge.netxstudio.library.ReferenceNetwork;
 import com.netxforge.netxstudio.protocols.Message;
 import com.netxforge.netxstudio.protocols.ProtocolsFactory;
 import com.netxforge.netxstudio.protocols.ProtocolsPackage;
-import com.netxforge.netxstudio.screens.editing.util.CDOMementoUtil;
 import com.netxforge.netxstudio.services.ServiceFlow;
 import com.netxforge.netxstudio.services.ServiceFlowDirection;
 import com.netxforge.netxstudio.services.ServiceFlowRelationship;
@@ -97,7 +95,6 @@ import com.netxforge.screens.editing.base.IDataServiceInjection;
 import com.netxforge.screens.editing.base.ScreenUtil;
 import com.netxforge.screens.editing.base.actions.BaseSelectionListenerAction;
 import com.netxforge.screens.editing.base.filter.TreeSearchFilter;
-import com.netxforge.screens.editing.base.util.MementoUtil;
 
 public class CallFlows extends AbstractScreen implements IDataServiceInjection {
 
@@ -855,10 +852,13 @@ public class CallFlows extends AbstractScreen implements IDataServiceInjection {
 	public void saveState(IMemento memento) {
 
 		// sash state vertical.
-		CDOMementoUtil.rememberStructuredViewerSelection(memento,
-				callFlowTreeViewer, MEM_KEY_CALLFLOWS_SELECTION_TREE);
-		MementoUtil.rememberStructuredViewerColumns(memento,
-				callFlowTreeViewer, MEM_KEY_CALLFLOWS_COLUMNS_TREE);
+		
+		// CB We need an alternative for memento for regular EMF Objects.  
+		
+//		CDOMementoUtil.rememberStructuredViewerSelection(memento,
+//				callFlowTreeViewer, MEM_KEY_CALLFLOWS_SELECTION_TREE);
+//		MementoUtil.rememberStructuredViewerColumns(memento,
+//				callFlowTreeViewer, MEM_KEY_CALLFLOWS_COLUMNS_TREE);
 	}
 
 	/*
@@ -871,11 +871,11 @@ public class CallFlows extends AbstractScreen implements IDataServiceInjection {
 	@Override
 	public void restoreState(IMemento memento) {
 
-		CDOMementoUtil.retrieveStructuredViewerSelection(memento,
-				callFlowTreeViewer, MEM_KEY_CALLFLOWS_SELECTION_TREE,
-				((CDOResource) cdoResourceCallFlows).cdoView());
-		MementoUtil.retrieveStructuredViewerColumns(memento,
-				callFlowTreeViewer, MEM_KEY_CALLFLOWS_COLUMNS_TREE);
+//		CDOMementoUtil.retrieveStructuredViewerSelection(memento,
+//				callFlowTreeViewer, MEM_KEY_CALLFLOWS_SELECTION_TREE,
+//				((CDOResource) cdoResourceCallFlows).cdoView());
+//		MementoUtil.retrieveStructuredViewerColumns(memento,
+//				callFlowTreeViewer, MEM_KEY_CALLFLOWS_COLUMNS_TREE);
 	}
 
 }

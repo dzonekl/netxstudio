@@ -65,7 +65,6 @@ import com.netxforge.netxstudio.callflow.screens.AbstractScreen;
 import com.netxforge.netxstudio.protocols.Protocol;
 import com.netxforge.netxstudio.protocols.ProtocolsFactory;
 import com.netxforge.netxstudio.protocols.ProtocolsPackage;
-import com.netxforge.netxstudio.screens.editing.tables.CDOElementComparer;
 import com.netxforge.screens.editing.base.IDataServiceInjection;
 import com.netxforge.screens.editing.base.ScreenUtil;
 import com.netxforge.screens.editing.base.filter.SearchFilter;
@@ -191,7 +190,6 @@ public class Protocols extends AbstractScreen implements IDataServiceInjection {
 
 		tableViewer = new TableViewer(frmProtocols.getBody(), SWT.BORDER
 				| SWT.FULL_SELECTION | widgetStyle);
-		tableViewer.setComparer(new CDOElementComparer());
 		table = tableViewer.getTable();
 		table.setLinesVisible(true);
 		table.setHeaderVisible(true);

@@ -69,7 +69,6 @@ import com.netxforge.netxstudio.library.Function;
 import com.netxforge.netxstudio.library.LibraryFactory;
 import com.netxforge.netxstudio.library.LibraryPackage;
 import com.netxforge.netxstudio.library.NodeType;
-import com.netxforge.netxstudio.screens.editing.tables.CDOElementComparer;
 import com.netxforge.screens.editing.base.IDataServiceInjection;
 import com.netxforge.screens.editing.base.ScreenUtil;
 import com.netxforge.screens.editing.base.filter.TreeSearchFilter;
@@ -212,7 +211,7 @@ public class NodeTypes extends AbstractScreen implements IDataServiceInjection {
 		nodeTypeTreeViewer = new TreeViewer(composite, SWT.BORDER | SWT.MULTI
 				| SWT.VIRTUAL | widgetStyle);
 		nodeTypeTreeViewer.setUseHashlookup(true);
-		nodeTypeTreeViewer.setComparer(new CDOElementComparer());
+//		nodeTypeTreeViewer.setComparer(new CDOElementComparer());
 		nodeTypeTreeViewer.addFilter(new TreeSearchFilter());
 
 		nodeTypeTreeViewer

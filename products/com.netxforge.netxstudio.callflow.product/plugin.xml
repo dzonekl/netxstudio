@@ -77,15 +77,4 @@
       </config>
    </extension>
 -->  
-   <extension
-         point="org.eclipse.ui.splashHandlers">
-      <splashHandler
-            class="com.netxforge.netxstudio.callflow.product.internal.ProductEExtensionFactory:com.netxforge.netxstudio.callflow.product.splashHandlers.InteractiveSplashHandler"
-            id="com.netxforge.netxstudio.callflow.product.splashHandlers.interactive">
-      </splashHandler>
-      <splashHandlerProductBinding
-            productId="com.netxforge.netxstudio.callflow.product.netxstudio"
-            splashId="com.netxforge.netxstudio.callflow.product.splashHandlers.interactive">
-      </splashHandlerProductBinding>
-   </extension>
 </plugin>
