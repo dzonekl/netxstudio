@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.0"?>
+
+<!--
+ Copyright (c) 2014 NetXForge
+ 
+ This program is free software: you can redistribute it and/or modify
+ it under the terms of the GNU Lesser General Public License as published by
+ the Free Software Foundation, either version 3 of the License, or
+ (at your option) any later version.
+ 
+ This program is distributed in the hope that it will be useful,
+ but WITHOUT ANY WARRANTY; without even the implied warranty of
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ GNU General Public License for more details.
+ You should have received a copy of the GNU Lesser General Public License
+ along with this program.  If not, see <http://www.gnu.org/licenses/>
+ 
+ Contributors:
+ Christophe Bouhier - initial API and implementation and/or initial documentation
+-->
+
+<plugin>
+
+   <extension point="org.eclipse.emf.ecore.generated_package">
+      <!-- @generated netxstudio -->
+      <package
+            uri="http://www.netxforge.com/06032012/scheduling"
+            class="com.netxforge.netxstudio.scheduling.SchedulingPackage"/>
+   </extension>
+
+   <extension point="org.eclipse.emf.ecore.extension_parser">
+      <!-- @generated netxstudio -->
+      <parser
+            type="scheduling"
+            class="com.netxforge.netxstudio.scheduling.util.SchedulingResourceFactoryImpl"/>
+   </extension>
+
+   <extension point="org.eclipse.emf.ecore.generated_package">
+      <!-- @generated netxstudio -->
+      <package
+            uri="http://www.netxforge.com/06032012/generics"
+            class="com.netxforge.netxstudio.generics.GenericsPackage"/>
+   </extension>
+
+   <extension point="org.eclipse.emf.ecore.extension_parser">
+      <!-- @generated netxstudio -->
+      <parser
+            type="generics"
+            class="com.netxforge.netxstudio.generics.util.GenericsResourceFactoryImpl"/>
+   </extension>
+
+   <extension point="org.eclipse.emf.ecore.generated_package">
+      <!-- @generated netxstudio -->
+      <package
+            uri="http://www.netxforge.com/06032012/services"
+            class="com.netxforge.netxstudio.services.ServicesPackage"/>
+   </extension>
+
+   <extension point="org.eclipse.emf.ecore.extension_parser">
+      <!-- @generated netxstudio -->
+      <parser
+            type="services"
+            class="com.netxforge.netxstudio.services.util.ServicesResourceFactoryImpl"/>
+   </extension>
+
+   <extension point="org.eclipse.emf.ecore.generated_package">
+      <!-- @generated netxstudio -->
+      <package
+            uri="http://www.netxforge.com/06032012/library"
+            class="com.netxforge.netxstudio.library.LibraryPackage"/>
+   </extension>
+
+   <extension point="org.eclipse.emf.ecore.extension_parser">
+      <!-- @generated netxstudio -->
+      <parser
+            type="library"
+            class="com.netxforge.netxstudio.library.util.LibraryResourceFactoryImpl"/>
+   </extension>
+
+   <extension point="org.eclipse.emf.ecore.generated_package">
+      <!-- @generated netxstudio -->
+      <package
+            uri="http://www.netxforge.com/06032012/operators"
+            class="com.netxforge.netxstudio.operators.OperatorsPackage"/>
+   </extension>
+
+   <extension point="org.eclipse.emf.ecore.extension_parser">
+      <!-- @generated netxstudio -->
+      <parser
+            type="operators"
+            class="com.netxforge.netxstudio.operators.util.OperatorsResourceFactoryImpl"/>
+   </extension>
+
+   <extension point="org.eclipse.emf.ecore.generated_package">
+      <!-- @generated netxstudio -->
+      <package
+            uri="http://www.netxforge.com/06032012/metrics"
+            class="com.netxforge.netxstudio.metrics.MetricsPackage"/>
+   </extension>
+
+   <extension point="org.eclipse.emf.ecore.extension_parser">
+      <!-- @generated netxstudio -->
+      <parser
+            type="metrics"
+            class="com.netxforge.netxstudio.metrics.util.MetricsResourceFactoryImpl"/>
+   </extension>
+
+   <extension point="org.eclipse.emf.ecore.generated_package">
+      <!-- @generated netxstudio -->
+      <package
+            uri="http://www.netxforge.com/06032012/protocols"
+            class="com.netxforge.netxstudio.protocols.ProtocolsPackage"/>
+   </extension>
+
+   <extension point="org.eclipse.emf.ecore.extension_parser">
+      <!-- @generated netxstudio -->
+      <parser
+            type="protocols"
+            class="com.netxforge.netxstudio.protocols.util.ProtocolsResourceFactoryImpl"/>
+   </extension>
+
+   <extension point="org.eclipse.emf.ecore.generated_package">
+      <!-- @generated netxstudio -->
+      <package
+            uri="http://www.netxforge.com/06032012/geo"
+            class="com.netxforge.netxstudio.geo.GeoPackage"/>
+   </extension>
+
+   <extension point="org.eclipse.emf.ecore.extension_parser">
+      <!-- @generated netxstudio -->
+      <parser
+            type="geo"
+            class="com.netxforge.netxstudio.geo.util.GeoResourceFactoryImpl"/>
+   </extension>
+
+   <extension point="org.eclipse.emf.ecore.generated_package">
+      <!-- @generated netxstudio -->
+      <package
+            uri="http://www.netxforge.com/06032012/netxstudio"
+            class="com.netxforge.netxstudio.NetxstudioPackage"/>
+   </extension>
+
+   <extension point="org.eclipse.emf.ecore.extension_parser">
+      <!-- @generated netxstudio -->
+      <parser
+            type="netxstudio"
+            class="com.netxforge.netxstudio.util.NetxstudioResourceFactoryImpl"/>
+   </extension>
+
+</plugin>
