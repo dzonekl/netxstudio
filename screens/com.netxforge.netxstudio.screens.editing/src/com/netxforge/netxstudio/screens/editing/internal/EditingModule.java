@@ -32,8 +32,6 @@ import com.netxforge.screens.editing.base.IScreenFactory;
 import com.netxforge.screens.editing.base.IScreenFormServiceProvider;
 import com.netxforge.screens.editing.base.ScreenFactory;
 import com.netxforge.screens.editing.base.actions.clipboard.ClipboardService;
-import com.netxforge.screens.editing.base.tables.TableHelper;
-import com.netxforge.screens.editing.base.util.ValidationService;
 
 /**
  * @author Christophe Bouhier christophe.bouhier@netxforge.com
@@ -51,10 +49,6 @@ public class EditingModule extends AbstractModule {
 
 		// ///////////////////////////////
 		// INTERNAL SERVICES
-
-		// Binding util.
-		this.bind(TableHelper.class);
-		this.bind(ValidationService.class);
 
 		// ///////////////////////////////
 		// EXPORT SERVICES

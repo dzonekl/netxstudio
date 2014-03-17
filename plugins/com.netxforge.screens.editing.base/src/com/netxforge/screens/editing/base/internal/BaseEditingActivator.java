@@ -64,11 +64,9 @@ public class BaseEditingActivator extends AbstractUIPlugin implements
 		TRACE = options.newDebugTrace(PLUGIN_ID);
 	}
 	
-	// TODO REACTIVATE later for binding of IBaseData. 
-
 //	@Inject
 //	Export<IEditingServiceProvider> editingServiceProvider;
-
+//
 //	@Inject
 //	Export<IScreenFormServiceProvider> screenFormServiceProvider;
 	

@@ -25,11 +25,14 @@ import java.util.Hashtable;
 import org.eclipse.osgi.service.debug.DebugOptions;
 import org.eclipse.osgi.service.debug.DebugOptionsListener;
 import org.eclipse.osgi.service.debug.DebugTrace;
+import org.ops4j.peaberry.Export;
 import org.osgi.framework.BundleActivator;
 import org.osgi.framework.BundleContext;
 
 import com.google.inject.Guice;
+import com.google.inject.Inject;
 import com.google.inject.Injector;
+import com.netxforge.base.data.IDataProvider;
 
 /**
  * 
@@ -49,17 +52,10 @@ public class BaseActivator implements BundleActivator, DebugOptionsListener {
 
 	private Injector injector;
 
-//	public static String TRACE_COMMON_UTILS_OPTION = "/trace.common.utils";
-
 	public static String TRACE_COMMON_PROPS_OPTION = "/trace.common.properties";
 
-	// Monitoring.
-//	public static String TRACE_COMMON_MONITORING_OPTION = "/trace.common.monitoring";
-
-	// Charts.
-//	public static String TRACE_COMMON_CHART_OPTION = "/trace.common.chart";
-
-//	public static String TRACE_COMMON_MONITORING_DETAILS_OPTION = "/trace.common.monitoring.details";
+	@Inject
+	Export<IDataProvider> dataProvider;
 
 	public Injector getInjector() {
 		return injector;

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <feature
-      id="com.netxforge.netxstudio.screens.editing.feature"
-      label="Screens Editing Feature"
+      id="com.netxforge.screens.editing.base.feature"
+      label="Base Editing Feature"
       version="1.0.0.qualifier"
       provider-name="NetXForge">
 
@@ -17,12 +17,8 @@
       [Enter License Description here.]
    </license>
 
-   <includes
-         id="com.netxforge.screens.editing.base.feature"
-         version="0.0.0"/>
-
    <plugin
-         id="com.netxforge.netxstudio.screens.editing"
+         id="com.netxforge.editing.base"
          download-size="0"
          install-size="0"
          version="0.0.0"

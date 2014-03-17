@@ -29,19 +29,18 @@ import org.eclipse.jface.viewers.ViewerCell;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.wb.swt.ResourceManager;
 
-import com.netxforge.netxstudio.common.model.MonitoringStateModel;
-import com.netxforge.netxstudio.common.model.NodeTypeSummary;
+//import com.netxforge.netxstudio.common.model.MonitoringStateModel;
+//import com.netxforge.netxstudio.common.model.NodeTypeSummary;
 import com.netxforge.netxstudio.library.Equipment;
 import com.netxforge.netxstudio.library.Function;
 import com.netxforge.netxstudio.library.NetXResource;
 import com.netxforge.netxstudio.library.NodeType;
 
 public class NodeTypeTreeLabelProvider extends StyledCellLabelProvider {
-	
-	/** Our state Model **/
-	private MonitoringStateModel stateModel;
 
-	
+	// /** Our state Model **/
+	// private MonitoringStateModel stateModel;
+
 	private IMapChangeListener mapChangeListener = new IMapChangeListener() {
 		public void handleMapChange(MapChangeEvent event) {
 			Set<?> affectedElements = event.diff.getChangedKeys();
@@ -74,14 +73,16 @@ public class NodeTypeTreeLabelProvider extends StyledCellLabelProvider {
 
 			NodeType nt = (NodeType) element;
 
-			NodeTypeSummary tt = (NodeTypeSummary) stateModel.summary(nt);
-			tt.compute(null);
-			
+			// NodeTypeSummary tt = (NodeTypeSummary) stateModel.summary(nt);
+			// tt.compute(null);
+
 			StyledString styledString = new StyledString(
 					nt.getName() != null ? nt.getName() : "?", null);
-			String decoration = " (" + tt.getFunctionCountAsString() + " Functions)"
-					+ " (" + tt.getEquipmentCountAsString() + " Equipments)";
-			styledString.append(decoration, StyledString.COUNTER_STYLER);
+			// String decoration = " (" + tt.getFunctionCountAsString() +
+			// " Functions)"
+			// + " (" + tt.getEquipmentCountAsString() + " Equipments)";
+			// styledString.append(decoration, StyledString.COUNTER_STYLER);
+
 			cell.setText(styledString.getString());
 			Image img = ResourceManager.getPluginImage(
 					"com.netxforge.netxstudio.models.edit",
@@ -95,7 +96,8 @@ public class NodeTypeTreeLabelProvider extends StyledCellLabelProvider {
 
 			StyledString styledString = new StyledString(
 					fc.getName() != null ? fc.getName() : "?", null);
-			String decoration = " (" + fc.getResourceRefs().size() + " Resources)";
+			String decoration = " (" + fc.getResourceRefs().size()
+					+ " Resources)";
 			styledString.append(decoration, StyledString.COUNTER_STYLER);
 			cell.setText(styledString.getString());
 			Image img = ResourceManager.getPluginImage(
@@ -110,7 +112,8 @@ public class NodeTypeTreeLabelProvider extends StyledCellLabelProvider {
 			StyledString styledString = new StyledString(
 					eq.getEquipmentCode() != null ? eq.getEquipmentCode() : "?",
 					null);
-			String decoration = " (" + eq.getResourceRefs().size() + " Resources)";
+			String decoration = " (" + eq.getResourceRefs().size()
+					+ " Resources)";
 			styledString.append(decoration, StyledString.COUNTER_STYLER);
 			cell.setText(styledString.getString());
 			Image img = ResourceManager.getPluginImage(
@@ -124,10 +127,10 @@ public class NodeTypeTreeLabelProvider extends StyledCellLabelProvider {
 
 			NetXResource eq = (NetXResource) element;
 			StyledString styledString = new StyledString(
-					eq.getShortName() != null ? eq.getShortName() : "?",
-					null);
-//			String decoration = " (" + eq.getResources().size() + " Resources)";
-//			styledString.append(decoration, StyledString.COUNTER_STYLER);
+					eq.getShortName() != null ? eq.getShortName() : "?", null);
+			// String decoration = " (" + eq.getResources().size() +
+			// " Resources)";
+			// styledString.append(decoration, StyledString.COUNTER_STYLER);
 			cell.setText(styledString.getString());
 			Image img = ResourceManager.getPluginImage(
 					"com.netxforge.netxstudio.models.edit",

@@ -18,7 +18,12 @@
  *******************************************************************************/
 package com.netxforge.base.internal;
 
+import static org.ops4j.peaberry.Peaberry.service;
+import static org.ops4j.peaberry.util.TypeLiterals.export;
+
 import com.google.inject.Singleton;
+import com.netxforge.base.data.DataProvider;
+import com.netxforge.base.data.IDataProvider;
 import com.netxforge.base.properties.PropertiesUtil;
 import com.netxforge.base.security.JCAServiceModule;
 
@@ -40,14 +45,13 @@ public class BaseModule extends JCAServiceModule {
 		// ///////////////////////////////
 		// EXPORT SERVICES
 
-		// Bind our model Utilities for export
-		// http://code.google.com/p/peaberry/issues/detail?id=70
+		bind(export(IDataProvider.class)).toProvider(
+				service(DataProvider.class).export());
 
 		// ///////////////////////////////
 		// IMPORT SERVICES
 		// (Copy to modules in other OSGI bundles to import the service).
 
-		// CB TODO Migrate to what?
 		this.bind(PropertiesUtil.class).in(Singleton.class);
 
 	}

@@ -9,7 +9,8 @@ Require-Bundle: org.eclipse.core.runtime,
  com.google.inject;bundle-version="2.0.0";visibility:=reexport,
  com.google.guava;bundle-version="12.0.0";visibility:=reexport,
  org.ops4j.peaberry;bundle-version="1.1.1";visibility:=reexport,
- javax.inject;bundle-version="1.0.0";visibility:=reexport
+ javax.inject;bundle-version="1.0.0";visibility:=reexport,
+ org.eclipse.emf.ecore;bundle-version="2.9.1";visibility:=reexport
 Bundle-RequiredExecutionEnvironment: J2SE-1.5
 Bundle-ActivationPolicy: lazy
 Export-Package: com.netxforge.base,
