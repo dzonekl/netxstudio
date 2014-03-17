@@ -24,7 +24,6 @@ import org.eclipse.emf.ecore.util.Switch;
 
 import com.netxforge.netxstudio.delta16042013.generics.Base;
 import com.netxforge.netxstudio.delta16042013.generics.Rule;
-import com.netxforge.netxstudio.delta16042013.metrics.*;
 import com.netxforge.netxstudio.delta16042013.metrics.Addon;
 import com.netxforge.netxstudio.delta16042013.metrics.Metric;
 import com.netxforge.netxstudio.delta16042013.metrics.MetricAggregationRule;

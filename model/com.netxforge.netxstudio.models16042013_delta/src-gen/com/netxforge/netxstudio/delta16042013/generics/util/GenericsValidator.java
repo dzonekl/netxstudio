@@ -18,7 +18,6 @@
  */
 package com.netxforge.netxstudio.delta16042013.generics.util;
 
-import com.netxforge.netxstudio.delta16042013.generics.*;
 import java.util.Map;
 
 import org.eclipse.emf.common.util.DiagnosticChain;

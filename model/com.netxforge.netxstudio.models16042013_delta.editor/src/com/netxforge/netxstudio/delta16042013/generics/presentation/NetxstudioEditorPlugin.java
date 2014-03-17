@@ -19,9 +19,7 @@
 package com.netxforge.netxstudio.delta16042013.generics.presentation;
 
 import org.eclipse.emf.common.EMFPlugin;
-
 import org.eclipse.emf.common.ui.EclipseUIPlugin;
-
 import org.eclipse.emf.common.util.ResourceLocator;
 
 /**

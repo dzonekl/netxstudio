@@ -18,7 +18,6 @@
  */
 package com.netxforge.netxstudio.delta16042013.generics.impl;
 
-import com.netxforge.netxstudio.delta16042013.generics.*;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EDataType;
 import org.eclipse.emf.ecore.EObject;

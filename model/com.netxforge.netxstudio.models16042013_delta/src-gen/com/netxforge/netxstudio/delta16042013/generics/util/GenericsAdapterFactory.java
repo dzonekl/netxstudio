@@ -18,7 +18,6 @@
  */
 package com.netxforge.netxstudio.delta16042013.generics.util;
 
-import com.netxforge.netxstudio.delta16042013.generics.*;
 import org.eclipse.emf.common.notify.Adapter;
 import org.eclipse.emf.common.notify.Notifier;
 import org.eclipse.emf.common.notify.impl.AdapterFactoryImpl;
