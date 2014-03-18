@@ -47,7 +47,27 @@ import com.netxforge.netxstudio.metrics.MetricsPackage;
  */
 public class CDOQueryService {
 
+	private static final String ORDER_BY_VAL_TIME_STAMP0_ASC = " order by val.timeStamp0 ASC;";
+
 	private static final String DB_NAME = "TM";
+
+	private static final String SELECT_MVR_NON_CAMEL = "select val.cdo_id"
+			+ " from " + DB_NAME
+			+ ".metrics_metricvaluerange_metricvalues_list as val_list join "
+			+ DB_NAME + ".generics_value as val"
+			+ " on val_list.cdo_value = val.cdo_id"
+			+ " where val_list.cdo_source = :mvr_cdoid";
+
+	private static final String SELECT_MVR_CAMEL = "select val.cdo_id"
+			+ " from " + DB_NAME
+			+ ".metrics_MetricValueRange_metricValues_list as val_list join "
+			+ DB_NAME + ".generics_Value as val"
+			+ " on val_list.cdo_value = val.cdo_id"
+			+ " where val_list.cdo_source = :mvr_cdoid";
+
+	private static final String VALUE_PERIOD = " and val.timeStamp0 >= :dateFrom and val.timeStamp0 < :dateTo";
+
+	private static final String VALUE_TS = " and val.timeStamp0 = :date";
 
 	/**
 	 * SQL Databases need the statements to be in a certain style.
@@ -124,7 +144,7 @@ public class CDOQueryService {
 			if (period != null) {
 				sb.append(" and val.timeStamp0 >= :dateFrom and val.timeStamp0 < :dateTo");
 			} else if (date != null) {
-				sb.append(" and val.timeStamp0 = :date");
+				sb.append(VALUE_TS);
 			}
 
 			sb.append(" order by val.timeStamp0 DESC;");
@@ -236,7 +256,7 @@ public class CDOQueryService {
 			if (period != null) {
 				sb.append(" and val.timeStamp0 >= :dateFrom and val.timeStamp0 < :dateTo");
 			} else if (date != null) {
-				sb.append(" and val.timeStamp0 = :date");
+				sb.append(VALUE_TS);
 			}
 
 			sb.append(" order by val.timeStamp0 DESC;");
@@ -284,17 +304,17 @@ public class CDOQueryService {
 
 	public static List<Value> mvrValues(CDOView view, MetricValueRange mvr,
 			String dialect) {
-		return mvrValues(view, mvr, dialect, null, null, STYLE.NON_CAMEL_CASE);
+		return mvrValues(view, mvr, dialect, null, null, STYLE.CAMEL_CASE);
 	}
 
 	public static List<Value> mvrValues(CDOView view, MetricValueRange mvr,
 			String dialect, XMLGregorianCalendar date) {
-		return mvrValues(view, mvr, dialect, null, date, STYLE.NON_CAMEL_CASE);
+		return mvrValues(view, mvr, dialect, null, date, STYLE.CAMEL_CASE);
 	}
 
 	public static List<Value> mvrValues(CDOView view, MetricValueRange mvr,
 			String dialect, DateTimeRange period) {
-		return mvrValues(view, mvr, dialect, period, null, STYLE.NON_CAMEL_CASE);
+		return mvrValues(view, mvr, dialect, period, null, STYLE.CAMEL_CASE);
 	}
 
 	public static List<Value> mvrValues(CDOView view, MetricValueRange mvr,
@@ -303,35 +323,14 @@ public class CDOQueryService {
 
 		List<Value> result = null; // Might become assigned.
 
-		String queryString = null;
+		String queryString = "";
 		if (dialect.equals(CDOQueryUtil.QUERY_MYSQL)) {
 
-			StringBuffer sb = new StringBuffer();
-
-			if (style == STYLE.NON_CAMEL_CASE) {
-				baseQueryMVR_Albert(sb); 
-			} else {
-				sb.append("select val.cdo_id"
-						+ " from "
-						+ DB_NAME
-						+ ".metrics_MetricValueRange as mvr"
-						+ " join "
-						+ DB_NAME
-						+ ".metrics_MetricValueRange_metricValues_list as val_list"
-						+ " on val_list.cdo_source = mvr.cdo_id" + " join "
-						+ DB_NAME + ".generics_Value as val"
-						+ " on val_list.cdo_value = val.cdo_id"
-						+ " where mvr.cdo_id = :mvr_cdoid");
-			}
-			// period or date is optional.
-			if (period != null) {
-				sb.append(" and val.timeStamp0 >= :dateFrom and val.timeStamp0 < :dateTo");
-			} else if (date != null) {
-				sb.append(" and val.timeStamp0 = :date");
-			}
-
-			sb.append(" order by val.timeStamp0 ASC;");
-			queryString = sb.toString();
+			queryString = queryString.concat(style == STYLE.NON_CAMEL_CASE ? SELECT_MVR_NON_CAMEL
+					: SELECT_MVR_CAMEL);
+			queryString = queryString.concat(period != null ? VALUE_PERIOD : "");
+			queryString = queryString.concat(date != null ? VALUE_TS : "");
+			queryString = queryString.concat(ORDER_BY_VAL_TIME_STAMP0_ASC);
 
 		} else if (dialect.equals(CDOQueryUtil.QUERY_OCL)) {
 			// Syntax for OCL?
@@ -365,34 +364,6 @@ public class CDOQueryService {
 			}
 		}
 		return result;
-	}
-
-	/**
-	 * @param sb
-	 */
-	public static void baseQueryMVR(StringBuffer sb) {
-		sb.append("select val.cdo_id" + " from " + DB_NAME
-				+ ".metrics_metricvaluerange as mvr" + " join " + DB_NAME
-				+ ".metrics_metricvaluerange_metricvalues_list as val_list"
-				+ " on val_list.cdo_source = mvr.cdo_id" + " join " + DB_NAME
-				+ ".generics_value as val"
-				+ " on val_list.cdo_value = val.cdo_id"
-				+ " where mvr.cdo_id = :mvr_cdoid");
-	}
-
-	/**
-	 * Simplefied version. 
-	 * 
-	 * @param sb
-	 */
-	public static void baseQueryMVR_Albert(StringBuffer sb) {
-		sb.append("select val.cdo_id"
-				+ " from "
-				+ DB_NAME
-				+ ".metrics_metricvaluerange_metricvalues_list as val_list join "
-				+ DB_NAME + ".generics_value as val"
-				+ " on val_list.cdo_value = val.cdo_id"
-				+ " where val_list.cdo_source = :mvr_cdoid");
 	}
 
 	/**
@@ -451,7 +422,7 @@ public class CDOQueryService {
 			if (period != null) {
 				sb.append(" and val.timeStamp0 >= :dateFrom and val.timeStamp0 < :dateTo");
 			} else if (date != null) {
-				sb.append(" and val.timeStamp0 = :date");
+				sb.append(VALUE_TS);
 			}
 
 			// order by not supported in join.
