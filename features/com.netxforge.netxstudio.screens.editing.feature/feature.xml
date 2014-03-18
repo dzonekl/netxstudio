@@ -18,7 +18,7 @@
    </license>
 
    <includes
-         id="com.netxforge.screens.editing.base.feature"
+         id="com.netxforge.editing.base.feature"
          version="0.0.0"/>
 
    <plugin
