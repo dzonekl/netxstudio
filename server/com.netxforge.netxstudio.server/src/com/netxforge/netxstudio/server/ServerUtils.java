@@ -91,7 +91,6 @@ public class ServerUtils implements IServerUtils {
 	static {
 		OMPlatform.INSTANCE.addLogHandler(PrintLogHandler.CONSOLE);
 		OMPlatform.INSTANCE.addTraceHandler(PrintTraceHandler.CONSOLE);
-		OMPlatform.INSTANCE.setDebugging(ServerActivator.DEBUG);
 	}
 
 	@Inject
@@ -237,11 +236,16 @@ public class ServerUtils implements IServerUtils {
 	 * .emf.cdo.server.IRepository)
 	 */
 	public synchronized void initializeServer(IRepository repository) {
+		
+		
 		if (initServerDone) {
 			return;
 		}
 		isInitializing = true;
-
+		
+		// Set based on setting of NetXStudio server debugging. 
+		OMPlatform.INSTANCE.setDebugging(true);
+		
 		// TODO, Find out the DB schema name and table name to create queries.
 		
 		IStore store = repository.getStore();

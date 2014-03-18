@@ -18,7 +18,7 @@ Require-Bundle: org.eclipse.ui,
  org.eclipse.nebula.widgets.datechooser;bundle-version="1.0.0";visibility:=reexport,
  org.eclipse.nebula.widgets.formattedtext;bundle-version="1.0.0";visibility:=reexport,
  org.eclipse.nebula.widgets.grid;bundle-version="1.0.0";visibility:=reexport,
- com.netxforge.base;bundle-version="1.0.0"
+ com.netxforge.base;bundle-version="1.0.0";visibility:=reexport
 Bundle-RequiredExecutionEnvironment: J2SE-1.5
 Bundle-ActivationPolicy: lazy
 Eclipse-BuddyPolicy: registered

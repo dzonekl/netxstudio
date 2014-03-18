@@ -26,12 +26,16 @@ import java.util.List;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.emf.common.command.BasicCommandStack;
 import org.eclipse.emf.common.command.CommandStackListener;
+import org.eclipse.emf.common.notify.AdapterFactory;
 import org.eclipse.emf.common.ui.viewer.IViewerProvider;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.edit.domain.AdapterFactoryEditingDomain;
 import org.eclipse.emf.edit.domain.EditingDomain;
 import org.eclipse.emf.edit.domain.IEditingDomainProvider;
 import org.eclipse.emf.edit.provider.AdapterFactoryItemDelegator;
+import org.eclipse.emf.edit.provider.ComposedAdapterFactory;
+import org.eclipse.emf.edit.provider.ReflectiveItemProviderAdapterFactory;
+import org.eclipse.emf.edit.provider.resource.ResourceItemProviderAdapterFactory;
 import org.eclipse.emf.edit.ui.provider.AdapterFactoryContentProvider;
 import org.eclipse.emf.edit.ui.provider.UnwrappingSelectionProvider;
 import org.eclipse.emf.edit.ui.view.ExtendedPropertySheetPage;
@@ -264,10 +268,10 @@ public abstract class AbstractScreensViewPart extends ViewPart implements
 	}
 
 	protected IActionHandler[] getActionHandlers() {
-		IActionHandler[] handlers = new IActionHandler[]{};
-//		handlers[0] = new ObjectEditingActionsHandler(getEditingService());
-//		handlers[1] = new CreationActionsHandler();
-//		handlers[2] = new UIActionsHandler();
+		IActionHandler[] handlers = new IActionHandler[] {};
+		// handlers[0] = new ObjectEditingActionsHandler(getEditingService());
+		// handlers[1] = new CreationActionsHandler();
+		// handlers[2] = new UIActionsHandler();
 		return handlers;
 	}
 
@@ -433,11 +437,29 @@ public abstract class AbstractScreensViewPart extends ViewPart implements
 
 		if (adapter.equals(IPropertySheetPage.class)) {
 			return getPropertySheetPage(new AdapterFactoryContentProvider(
-					EMFEditingService.getAdapterFactory()));
+					getAdapterFactory()));
 		}
-
 		return super.getAdapter(adapter);
+	}
 
+	// The declared EMF edit adapter factory.
+	static ComposedAdapterFactory emfEditAdapterFactory;
+
+	/**
+	 * @return
+	 */
+	public static AdapterFactory getAdapterFactory() {
+		if (emfEditAdapterFactory == null) {
+
+			emfEditAdapterFactory = new ComposedAdapterFactory(
+					ComposedAdapterFactory.Descriptor.Registry.INSTANCE);
+
+			emfEditAdapterFactory
+					.addAdapterFactory(new ResourceItemProviderAdapterFactory());
+			emfEditAdapterFactory
+					.addAdapterFactory(new ReflectiveItemProviderAdapterFactory());
+		}
+		return emfEditAdapterFactory;
 	}
 
 	/**
@@ -446,7 +468,8 @@ public abstract class AbstractScreensViewPart extends ViewPart implements
 	 * 
 	 * @generated
 	 */
-	public IPropertySheetPage getPropertySheetPage(IPropertySourceProvider propertySourceProvider) {
+	public IPropertySheetPage getPropertySheetPage(
+			IPropertySourceProvider propertySourceProvider) {
 		if (propertySheetPage == null) {
 			propertySheetPage = new ExtendedPropertySheetPage(
 					(AdapterFactoryEditingDomain) this.getEditingDomain()) {
@@ -478,8 +501,7 @@ public abstract class AbstractScreensViewPart extends ViewPart implements
 					// actionBars);
 				}
 			};
-			propertySheetPage
-					.setPropertySourceProvider(propertySourceProvider);
+			propertySheetPage.setPropertySourceProvider(propertySourceProvider);
 		}
 
 		return propertySheetPage;
@@ -623,7 +645,7 @@ public abstract class AbstractScreensViewPart extends ViewPart implements
 				// Do EObject have a unique ID?
 			}
 			String text = new AdapterFactoryItemDelegator(
-					EMFEditingService.getAdapterFactory()).getText(next);
+					getAdapterFactory()).getText(next);
 
 			message = "Screen object: " + text;
 			// message = "Screen object: " + text + " OID:" + cdoID;

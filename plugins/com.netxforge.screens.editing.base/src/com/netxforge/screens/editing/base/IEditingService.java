@@ -36,6 +36,7 @@ import com.netxforge.base.data.IBaseData;
  */
 public interface IEditingService extends IComponentLifecycle {
 	
+	
 	/**
 	 * Get the editing domain for this service.
 	 * 

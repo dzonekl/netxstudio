@@ -29,6 +29,7 @@ import org.eclipse.swt.widgets.Display;
 
 import com.google.inject.Inject;
 import com.netxforge.base.NonModelUtils;
+import com.netxforge.editing.base.impl.ScreenFormService;
 import com.netxforge.netxstudio.common.model.StudioUtils;
 import com.netxforge.netxstudio.data.ICDODataService;
 import com.netxforge.netxstudio.data.fixtures.IFixtures;
@@ -40,7 +41,6 @@ import com.netxforge.screens.editing.base.IDataServiceInjection;
 import com.netxforge.screens.editing.base.IEditingService;
 import com.netxforge.screens.editing.base.IScreen;
 import com.netxforge.screens.editing.base.IScreenFactory;
-import com.netxforge.screens.editing.base.ScreenFormService;
 import com.netxforge.screens.editing.base.ScreenUtil;
 
 /**

@@ -49,7 +49,7 @@ public class BaseEditingActivator extends AbstractUIPlugin implements
 	public static boolean DEBUG = false;
 	public static DebugTrace TRACE = null;
 
-	// Tracing options for monitoring logic
+	// Tracing options for editing
 	public static String TRACE_EDITING_OPTION = "/trace.editing";
 	public static String TRACE_EDITING_DETAILS_OPTION = "/trace.editing.details";
 	public static String TRACE_EDITING_LOADING_OPTION = "/trace.editing.loading";
@@ -63,12 +63,6 @@ public class BaseEditingActivator extends AbstractUIPlugin implements
 		DEBUG = options.getBooleanOption(PLUGIN_ID + "/debug", false);
 		TRACE = options.newDebugTrace(PLUGIN_ID);
 	}
-	
-//	@Inject
-//	Export<IEditingServiceProvider> editingServiceProvider;
-//
-//	@Inject
-//	Export<IScreenFormServiceProvider> screenFormServiceProvider;
 	
 	/*
 	 * (non-Javadoc)

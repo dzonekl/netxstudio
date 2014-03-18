@@ -309,17 +309,7 @@ public class CDOQueryService {
 			StringBuffer sb = new StringBuffer();
 
 			if (style == STYLE.NON_CAMEL_CASE) {
-				sb.append("select val.cdo_id"
-						+ " from "
-						+ DB_NAME
-						+ ".metrics_metricvaluerange as mvr"
-						+ " join "
-						+ DB_NAME
-						+ ".metrics_metricvaluerange_metricvalues_list as val_list"
-						+ " on val_list.cdo_source = mvr.cdo_id" + " join "
-						+ DB_NAME + ".generics_value as val"
-						+ " on val_list.cdo_value = val.cdo_id"
-						+ " where mvr.cdo_id = :mvr_cdoid");
+				baseQueryMVR_Albert(sb); 
 			} else {
 				sb.append("select val.cdo_id"
 						+ " from "
@@ -375,6 +365,34 @@ public class CDOQueryService {
 			}
 		}
 		return result;
+	}
+
+	/**
+	 * @param sb
+	 */
+	public static void baseQueryMVR(StringBuffer sb) {
+		sb.append("select val.cdo_id" + " from " + DB_NAME
+				+ ".metrics_metricvaluerange as mvr" + " join " + DB_NAME
+				+ ".metrics_metricvaluerange_metricvalues_list as val_list"
+				+ " on val_list.cdo_source = mvr.cdo_id" + " join " + DB_NAME
+				+ ".generics_value as val"
+				+ " on val_list.cdo_value = val.cdo_id"
+				+ " where mvr.cdo_id = :mvr_cdoid");
+	}
+
+	/**
+	 * Simplefied version. 
+	 * 
+	 * @param sb
+	 */
+	public static void baseQueryMVR_Albert(StringBuffer sb) {
+		sb.append("select val.cdo_id"
+				+ " from "
+				+ DB_NAME
+				+ ".metrics_metricvaluerange_metricvalues_list as val_list join "
+				+ DB_NAME + ".generics_value as val"
+				+ " on val_list.cdo_value = val.cdo_id"
+				+ " where val_list.cdo_source = :mvr_cdoid");
 	}
 
 	/**

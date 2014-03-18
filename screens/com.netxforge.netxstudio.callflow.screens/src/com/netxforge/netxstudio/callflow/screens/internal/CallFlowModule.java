@@ -14,16 +14,20 @@
  * 
  * Contributors: Christophe Bouhier - initial API and implementation and/or
  * initial documentation
- *******************************************************************************/ 
+ *******************************************************************************/
 package com.netxforge.netxstudio.callflow.screens.internal;
-
-import static org.ops4j.peaberry.Peaberry.service;
 
 import com.google.inject.AbstractModule;
 import com.google.inject.name.Names;
+import com.netxforge.base.data.DataProvider;
+import com.netxforge.base.data.IDataProvider;
 import com.netxforge.base.di.IInjectorProxy;
+import com.netxforge.editing.base.impl.EMFEditingServiceProvider;
+import com.netxforge.editing.base.impl.ScreenFormServiceProvider;
 import com.netxforge.screens.editing.base.IEditingServiceProvider;
+import com.netxforge.screens.editing.base.IScreenFactory;
 import com.netxforge.screens.editing.base.IScreenFormServiceProvider;
+import com.netxforge.screens.editing.base.ScreenFactory;
 
 public class CallFlowModule extends AbstractModule {
 
@@ -32,13 +36,19 @@ public class CallFlowModule extends AbstractModule {
 		this.bind(IInjectorProxy.class).annotatedWith(Names.named("Screens"))
 				.to(ScreensInjectorProxy.class);
 
-		// {@link EditingModule}
-		bind(IEditingServiceProvider.class).toProvider(
-				service(IEditingServiceProvider.class).single());
+		// {@link BaseEditingModule}
+		bind(IEditingServiceProvider.class).to(EMFEditingServiceProvider.class);
 
-		// {@link EditingModule}
-		bind(IScreenFormServiceProvider.class).toProvider(
-				service(IScreenFormServiceProvider.class).single());
+		// {@link BaseEditingModule}
+		bind(IScreenFormServiceProvider.class).to(
+				ScreenFormServiceProvider.class);
+
+		// {@link BaseEditingModule}
+		bind(IScreenFactory.class).to(ScreenFactory.class);
+
+		// {@link BaseModule}
+		bind(IDataProvider.class).to(DataProvider.class);
+
 	}
 
 }

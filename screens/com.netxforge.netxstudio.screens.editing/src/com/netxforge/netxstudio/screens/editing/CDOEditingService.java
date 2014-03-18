@@ -61,6 +61,7 @@ import com.google.inject.Inject;
 import com.netxforge.base.cdo.CDO;
 import com.netxforge.base.cdo.ICDOData;
 import com.netxforge.base.data.IBaseData;
+import com.netxforge.editing.base.impl.EMFEditingService;
 import com.netxforge.netxstudio.common.model.StudioUtils;
 import com.netxforge.netxstudio.generics.GenericsPackage;
 import com.netxforge.netxstudio.generics.Person;
@@ -82,7 +83,7 @@ import com.netxforge.netxstudio.screens.editing.dawn.IDawnEditor;
 import com.netxforge.netxstudio.screens.editing.dawn.IDawnEditorSupport;
 import com.netxforge.netxstudio.screens.editing.internal.EditingActivator;
 import com.netxforge.netxstudio.services.provider.ServicesItemProviderAdapterFactory;
-import com.netxforge.screens.editing.base.EMFEditingService;
+import com.netxforge.screens.editing.base.AbstractScreensViewPart;
 import com.netxforge.screens.editing.base.IScreen;
 import com.netxforge.screens.editing.base.IScreenProvider;
 
@@ -772,14 +773,15 @@ public class CDOEditingService extends EMFEditingService implements
 	 * @return
 	 */
 	public static AdapterFactory getAdapterFactory() {
-		
-		// FIXME Use the registry to obtain a model Adapter Factory. Remove the model dependencies.  
-//		Registry instance = ComposedAdapterFactory.Descriptor.Registry.INSTANCE;
-		
-		ComposedAdapterFactory emfEditAdapterFactory = (ComposedAdapterFactory) EMFEditingService
+
+		// FIXME Use the registry to obtain a model Adapter Factory. Remove the
+		// model dependencies.
+		// Registry instance =
+		// ComposedAdapterFactory.Descriptor.Registry.INSTANCE;
+
+		ComposedAdapterFactory emfEditAdapterFactory = (ComposedAdapterFactory) AbstractScreensViewPart
 				.getAdapterFactory();
-		
-		
+
 		emfEditAdapterFactory.addAdapterFactory(new EresourceAdapterFactory());
 		emfEditAdapterFactory
 				.addAdapterFactory(new GenericsItemProviderAdapterFactory());
@@ -799,9 +801,6 @@ public class CDOEditingService extends EMFEditingService implements
 				.addAdapterFactory(new SchedulingItemProviderAdapterFactory());
 		emfEditAdapterFactory
 				.addAdapterFactory(new NetxstudioItemProviderAdapterFactory());
-		
-		
-		
 		return emfEditAdapterFactory;
 	}
 

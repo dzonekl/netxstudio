@@ -24,7 +24,7 @@ import org.eclipse.emf.edit.provider.AdapterFactoryItemDelegator;
 import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.jface.viewers.ViewerFilter;
 
-import com.netxforge.screens.editing.base.EMFEditingService;
+import com.netxforge.screens.editing.base.AbstractScreensViewPart;
 
 /**
  * The matching text, will be from the ItemProvider of the EObject. FIXME Make
@@ -80,7 +80,7 @@ public class SearchFilter extends ViewerFilter implements ISearchFilter {
 	protected String getMatch(Object element) {
 		if (adapterFactoryItemDelegator == null) {
 			adapterFactoryItemDelegator = new AdapterFactoryItemDelegator(
-					EMFEditingService.getAdapterFactory());
+					AbstractScreensViewPart.getAdapterFactory());
 		}
 		return adapterFactoryItemDelegator.getText(element);
 	}

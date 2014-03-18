@@ -105,10 +105,6 @@
          id="com.netxforge.client.callflow.screens.feature"
          version="0.0.0"/>
 
-   <includes
-         id="com.netxforge.screens.editing.base.feature"
-         version="0.0.0"/>
-
    <requires>
       <import plugin="org.eclipse.ui"/>
       <import plugin="org.eclipse.core.runtime"/>

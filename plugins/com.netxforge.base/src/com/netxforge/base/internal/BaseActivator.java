@@ -61,7 +61,7 @@ public class BaseActivator implements BundleActivator, DebugOptionsListener {
 		return injector;
 	}
 
-	static BundleContext getContext() {
+	public static BundleContext getContext() {
 		return context;
 	}
 
