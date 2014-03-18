@@ -16,7 +16,8 @@
 	<modules>
 		<module>com.netxforge.base</module>
 		<module>com.netxforge.base.cdo</module>
-		<module>com.netxforge.screens.editing.base</module>
+		<module>com.netxforge.editing.base</module>
+		<module>com.netxforge.editing.base.impl</module>
 		<module>../server/com.netxforge.netxstudio.server.logic</module>
 		<module>../server/com.netxforge.netxstudio.server.job</module>
 		<module>../server/com.netxforge.netxstudio.server.metrics</module>
