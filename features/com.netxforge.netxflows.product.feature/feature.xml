@@ -102,11 +102,11 @@
          version="0.0.0"/>
 
    <includes
-         id="com.netxforge.client.callflow.screens.feature"
+         id="com.netxforge.netxstudio.models.edit.feature"
          version="0.0.0"/>
 
    <includes
-         id="com.netxforge.netxstudio.models.edit.feature"
+         id="com.netxforge.netxflows.screens.feature"
          version="0.0.0"/>
 
    <requires>

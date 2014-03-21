@@ -122,6 +122,9 @@
 		../../libs.eclipse
 		</module>
 		<module>
+			../../products/com.netxforge.releng.products.netxflows
+		</module>
+		<module>
 			../../products/com.netxforge.releng.products.netxserver
 		</module>
 		<module>
