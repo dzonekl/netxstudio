@@ -31,6 +31,7 @@ import org.eclipse.swt.SWT;
 
 import com.netxforge.netxstudio.library.LibraryPackage;
 import com.netxforge.netxstudio.library.ReferenceRelationship;
+import com.netxforge.netxstudio.protocols.Message;
 import com.netxforge.netxstudio.services.ServiceFlow;
 import com.netxforge.netxstudio.services.ServiceFlowDirection;
 import com.netxforge.netxstudio.services.ServiceFlowRelationship;
@@ -60,25 +61,38 @@ public class ServiceFlowRelationshipEditPart extends AbstractConnectionEditPart 
 		connection.setLineStyle(SWT.LINE_DASH);
 		connection.setLineCap(SWT.CAP_ROUND);
 
-		if (this.getServiceFlowRelationship()
-				.eIsSet(ServicesPackage.Literals.SERVICE_FLOW_RELATIONSHIP__REFERENCE_RELATIONSHIP)) {
-			ReferenceRelationship rr = this.getServiceFlowRelationship()
-					.getReferenceRelationship();
+		ServiceFlowRelationship serviceFlowRelationship = this
+				.getServiceFlowRelationship();
+		String name = "";
+		if (serviceFlowRelationship
+				.eIsSet(ServicesPackage.Literals.SERVICE_FLOW_RELATIONSHIP__MESSAGE)) {
+			Message message = serviceFlowRelationship.getMessage();
+			name = message.getName();
+		} else {
 
-			// Set a target decoration (Arrow), as we are organized by targets.
-			connection.setTargetDecoration(new PolygonDecoration());
+			if (serviceFlowRelationship
+					.eIsSet(ServicesPackage.Literals.SERVICE_FLOW_RELATIONSHIP__REFERENCE_RELATIONSHIP)) {
+				ReferenceRelationship rr = this.getServiceFlowRelationship()
+						.getReferenceRelationship();
 
-			if (rr.eIsSet(LibraryPackage.Literals.REFERENCE_RELATIONSHIP__PROTOCOL_REF)) {
-				String name = rr.getProtocolRef().getName();
-				Label label = new Label(name);
-				label.setOpaque(true);
-				label.setBackgroundColor(ColorConstants.tooltipBackground);
-				label.setBorder(new LineBorder());
-				// Add the label to the connection, with the Locator as a
-				// constraint.
-				connection.add(label, new MidpointLocator(connection, 1));
+				// Set a target decoration (Arrow), as we are organized by
+				// targets.
+				connection.setTargetDecoration(new PolygonDecoration());
+
+				if (rr.eIsSet(LibraryPackage.Literals.REFERENCE_RELATIONSHIP__PROTOCOL_REF)) {
+					name = rr.getProtocolRef().getName();
+				}
+
 			}
 		}
+		Label label = new Label(name);
+		label.setOpaque(true);
+		label.setBackgroundColor(ColorConstants.tooltipBackground);
+		label.setBorder(new LineBorder());
+		// Add the label to the connection, with the Locator as a
+		// constraint.
+		connection.add(label, new MidpointLocator(connection, 1));
+
 		return connection;
 	}
 
