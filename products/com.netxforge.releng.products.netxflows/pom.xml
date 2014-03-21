@@ -6,10 +6,10 @@
 	<version>1.0.0-SNAPSHOT</version>
 	<packaging>eclipse-repository</packaging>
 	<parent>
-		<groupId>com.netxforge.netxstudio</groupId>
-		<artifactId>com.netxforge.releng</artifactId>
+		<groupId>com.netxforge.netxflows</groupId>
+		<artifactId>com.netxforge.releng.netxflows</artifactId>
 		<version>0.0.1-SNAPSHOT</version>
-		<relativePath>../../releng.tycho/com.netxforge.releng</relativePath>
+		<relativePath>../../releng.tycho/com.netxforge.releng.netxflows</relativePath>
 	</parent>
 	<build>
 		<plugins>
