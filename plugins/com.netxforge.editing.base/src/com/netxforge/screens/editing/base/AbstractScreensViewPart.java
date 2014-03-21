@@ -257,7 +257,7 @@ public abstract class AbstractScreensViewPart extends ViewPart implements
 		setHandlers(handlers);
 		// hookPageSelection();
 		actionHandlerDescriptor.initActions(site.getActionBars());
-		this.getEditingService().getEditingDomain().getCommandStack()
+		getEditingDomain().getCommandStack()
 				.addCommandStackListener(cmdStackListener);
 	}
 

@@ -89,25 +89,11 @@ public class RefNetworks extends AbstractScreen implements
 	 */
 	@Override
 	public void injectData() {
-		// get the CDOResource for the reference network.
-		Resource cdoResourceReferenceNetworks = editingService
-				.getData(LibraryPackage.Literals.REFERENCE_NETWORK);
 
-		// For now hard code to a single entry.
-		if (cdoResourceReferenceNetworks.getContents().size() > 0) {
-			refNet = (ReferenceNetwork) cdoResourceReferenceNetworks
-					.getContents().get(0);
-		} else {
-			refNet = LibraryFactory.eINSTANCE.createReferenceNetwork();
-			refNet.setName("generated_ref_network");
-			refNet.setDescription("generated_ref_network");
-			cdoResourceReferenceNetworks.getContents().add(refNet);
-			// cdoResourceReferenceNetworks.h
-		}
+		refNet = initReferenceNetwork();
 
 		buildUI();
 		this.initDataBindings_();
-
 	}
 
 	private void buildUI() {
@@ -182,8 +168,8 @@ public class RefNetworks extends AbstractScreen implements
 				true));
 		trclmnB.setText("B");
 
-		tableViewerProtocol = new TableViewerColumn(
-				relationshipsTableViewer, SWT.NONE);
+		tableViewerProtocol = new TableViewerColumn(relationshipsTableViewer,
+				SWT.NONE);
 
 		TableColumn trclmnProtocol = tableViewerProtocol.getColumn();
 		treeColumnLayout.setColumnData(trclmnProtocol, new ColumnPixelData(150,
@@ -227,12 +213,12 @@ public class RefNetworks extends AbstractScreen implements
 			observeMaps.add(EMFEditProperties.value(
 					editingService.getEditingDomain(), bName)
 					.observeDetail(set));
-			
 
-			observeMaps.add(EMFEditProperties.value(
-					editingService.getEditingDomain(),
-					LibraryPackage.Literals.REFERENCE_RELATIONSHIP__PROTOCOL_REF)
-					.observeDetail(set));
+			observeMaps
+					.add(EMFEditProperties
+							.value(editingService.getEditingDomain(),
+									LibraryPackage.Literals.REFERENCE_RELATIONSHIP__PROTOCOL_REF)
+							.observeDetail(set));
 
 			IObservableMap[] map = new IObservableMap[observeMaps.size()];
 			observeMaps.toArray(map);
@@ -259,13 +245,11 @@ public class RefNetworks extends AbstractScreen implements
 			tableViewerColumnName.setEditingSupport(txtCellEditingSupportName);
 		}
 
-		// Get the data to observe and set as input to our combo.
-		Resource cdoResNodeType = editingService
-				.getData(LibraryPackage.Literals.NODE_TYPE);
-
-		IEMFListProperty nodeTypesProperties = EMFEditProperties.resource(editingService
-				.getEditingDomain());
-		IObservableList nodeTypesObservableList = nodeTypesProperties.observe(cdoResNodeType);
+		IEMFListProperty nodeTypesProperties = EMFEditProperties.list(
+				editingService.getEditingDomain(),
+				LibraryPackage.Literals.REFERENCE_NETWORK__NODE_TYPES);
+		IObservableList nodeTypesObservableList = nodeTypesProperties
+				.observe(refNet);
 
 		// Column A, NODE TYPE selector
 		{
@@ -301,8 +285,8 @@ public class RefNetworks extends AbstractScreen implements
 		Resource cdoResProtocols = editingService
 				.getData(ProtocolsPackage.Literals.PROTOCOL);
 
-		IEMFListProperty protocolsPropertyList = EMFEditProperties.resource(editingService
-				.getEditingDomain());
+		IEMFListProperty protocolsPropertyList = EMFEditProperties
+				.resource(editingService.getEditingDomain());
 		{
 
 			FeaturePath protocolPath = FeaturePath
@@ -312,9 +296,11 @@ public class RefNetworks extends AbstractScreen implements
 					relationshipsTableViewer, context, relationshipTable,
 					editingService.getEditingDomain(), protocolPath);
 
-			tableViewerProtocol.setEditingSupport(cmbCellEditingSupportProtocol);
+			tableViewerProtocol
+					.setEditingSupport(cmbCellEditingSupportProtocol);
 
-			cmbCellEditingSupportProtocol.setInput(protocolsPropertyList.observe(cdoResProtocols));
+			cmbCellEditingSupportProtocol.setInput(protocolsPropertyList
+					.observe(cdoResProtocols));
 		}
 
 		return context;
@@ -400,14 +386,16 @@ public class RefNetworks extends AbstractScreen implements
 		}
 	}
 
-	/* (non-Javadoc)
-	 * @see com.netxforge.netxstudio.callflow.screens.AbstractScreenImpl#getScreenName()
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * com.netxforge.netxstudio.callflow.screens.AbstractScreenImpl#getScreenName
+	 * ()
 	 */
 	@Override
 	public String getScreenName() {
 		return "Reference Interfaces";
 	}
-	
-	
-	
+
 }

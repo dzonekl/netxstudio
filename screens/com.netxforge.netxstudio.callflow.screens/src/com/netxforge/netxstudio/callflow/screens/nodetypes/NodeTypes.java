@@ -69,6 +69,7 @@ import com.netxforge.netxstudio.library.Function;
 import com.netxforge.netxstudio.library.LibraryFactory;
 import com.netxforge.netxstudio.library.LibraryPackage;
 import com.netxforge.netxstudio.library.NodeType;
+import com.netxforge.netxstudio.library.ReferenceNetwork;
 import com.netxforge.screens.editing.base.IDataServiceInjection;
 import com.netxforge.screens.editing.base.ScreenUtil;
 import com.netxforge.screens.editing.base.filter.TreeSearchFilter;
@@ -88,6 +89,8 @@ public class NodeTypes extends AbstractScreen implements IDataServiceInjection {
 	private TreeViewer nodeTypeTreeViewer;
 	private Composite cmpDetails;
 	private SashForm sashForm;
+
+	private ReferenceNetwork refNet;
 
 	/**
 	 * Create the composite.
@@ -116,6 +119,9 @@ public class NodeTypes extends AbstractScreen implements IDataServiceInjection {
 	public void injectData() {
 		nodeTypeResource = editingService
 				.getData(LibraryPackage.Literals.NODE_TYPE);
+
+		refNet = initReferenceNetwork();
+
 		buildUI();
 		initDataBindings_();
 	}
@@ -133,14 +139,14 @@ public class NodeTypes extends AbstractScreen implements IDataServiceInjection {
 		frmNodeTypes = toolkit.createForm(this);
 		frmNodeTypes.setSeparatorVisible(true);
 
-//		frmCallFlows.getToolBarManager().add(new EditCallFlowsAction("Visual Editor"));
+		// frmCallFlows.getToolBarManager().add(new
+		// EditCallFlowsAction("Visual Editor"));
 		frmNodeTypes.getToolBarManager().update(true);
 		frmNodeTypes.setToolBarVerticalAlignment(SWT.TOP);
 
-		
 		toolkit.decorateFormHeading(frmNodeTypes);
 		toolkit.paintBordersFor(frmNodeTypes);
-		
+
 		frmNodeTypes.setText(actionText + "Network Element Types");
 		frmNodeTypes.getBody().setLayout(new FillLayout(SWT.HORIZONTAL));
 
@@ -148,7 +154,7 @@ public class NodeTypes extends AbstractScreen implements IDataServiceInjection {
 		sashForm.setOrientation(SWT.HORIZONTAL);
 		toolkit.adapt(sashForm);
 		toolkit.paintBordersFor(sashForm);
-		
+
 		Composite composite = toolkit.createComposite(sashForm, SWT.NONE);
 		toolkit.paintBordersFor(composite);
 		composite.setLayout(new GridLayout(3, false));
@@ -190,8 +196,11 @@ public class NodeTypes extends AbstractScreen implements IDataServiceInjection {
 				NodeType newNodeType = LibraryFactory.eINSTANCE
 						.createNodeType();
 				newNodeType.setName("<new NE Type>");
+
+				// Use the default reference network. We don't have an option to
+				// add one here.
 				Command add = new AddCommand(editingService.getEditingDomain(),
-						nodeTypeResource.getContents(), newNodeType);
+						refNet.getNodeTypes(), newNodeType);
 
 				editingService.getEditingDomain().getCommandStack()
 						.execute(add);
@@ -211,7 +220,7 @@ public class NodeTypes extends AbstractScreen implements IDataServiceInjection {
 		nodeTypeTreeViewer = new TreeViewer(composite, SWT.BORDER | SWT.MULTI
 				| SWT.VIRTUAL | widgetStyle);
 		nodeTypeTreeViewer.setUseHashlookup(true);
-//		nodeTypeTreeViewer.setComparer(new CDOElementComparer());
+		// nodeTypeTreeViewer.setComparer(new CDOElementComparer());
 		nodeTypeTreeViewer.addFilter(new TreeSearchFilter());
 
 		nodeTypeTreeViewer
@@ -250,47 +259,49 @@ public class NodeTypes extends AbstractScreen implements IDataServiceInjection {
 
 	}
 
-//	class HistoryAction extends Action {
-//
-//		public HistoryAction(String text) {
-//			super(text);
-//		}
-//
-//		@Override
-//		public void run() {
-//			ISelection s = nodeTypeTreeViewer.getSelection();
-//			if (s instanceof IStructuredSelection) {
-//				Object object = ((IStructuredSelection) s).getFirstElement();
-//				if (object instanceof NodeType) {
-//					NodeTypeHistory nodeTypeHistoryScreen = new NodeTypeHistory(
-//							screenService.getScreenContainer(), SWT.NONE);
-//					nodeTypeHistoryScreen.setScreenService(screenService);
-//					nodeTypeHistoryScreen
-//							.setOperation(ScreenUtil.OPERATION_READ_ONLY);
-//					nodeTypeHistoryScreen.injectData(null, object);
-//					screenService.setActiveScreen(nodeTypeHistoryScreen);
-//				}
-//			}
-//		}
-//	}
+	// class HistoryAction extends Action {
+	//
+	// public HistoryAction(String text) {
+	// super(text);
+	// }
+	//
+	// @Override
+	// public void run() {
+	// ISelection s = nodeTypeTreeViewer.getSelection();
+	// if (s instanceof IStructuredSelection) {
+	// Object object = ((IStructuredSelection) s).getFirstElement();
+	// if (object instanceof NodeType) {
+	// NodeTypeHistory nodeTypeHistoryScreen = new NodeTypeHistory(
+	// screenService.getScreenContainer(), SWT.NONE);
+	// nodeTypeHistoryScreen.setScreenService(screenService);
+	// nodeTypeHistoryScreen
+	// .setOperation(ScreenUtil.OPERATION_READ_ONLY);
+	// nodeTypeHistoryScreen.injectData(null, object);
+	// screenService.setActiveScreen(nodeTypeHistoryScreen);
+	// }
+	// }
+	// }
+	// }
 
 	private final List<IAction> actions = Lists.newArrayList();
 
 	@Override
 	public IAction[] getActions() {
 		if (actions.isEmpty()) {
-//			actions.add(new NodeTypeExportHTMLAction("Export to HTML", SWT.PUSH));
-//			actions.add(new NodeTypeExportXLSAction("Export to XLS", SWT.PUSH));
-//			actions.add(new HistoryAction("History..."));
+			// actions.add(new NodeTypeExportHTMLAction("Export to HTML",
+			// SWT.PUSH));
+			// actions.add(new NodeTypeExportXLSAction("Export to XLS",
+			// SWT.PUSH));
+			// actions.add(new HistoryAction("History..."));
 		}
 		return actions.toArray(new IAction[actions.size()]);
 	}
 
-//	public void disposeData() {
-//		if (editingService != null) {
-//			editingService.disposeData(nodeTypeResource);
-//		}
-//	}
+	// public void disposeData() {
+	// if (editingService != null) {
+	// editingService.disposeData(nodeTypeResource);
+	// }
+	// }
 
 	public EMFDataBindingContext initDataBindings_() {
 
@@ -361,7 +372,10 @@ public class NodeTypes extends AbstractScreen implements IDataServiceInjection {
 
 			// Important to return null if no children, otherwise child
 			// observables won;t be created.
-			if (element instanceof NodeType) {
+			if (element instanceof ReferenceNetwork) {
+				ReferenceNetwork refNet = (ReferenceNetwork) element;
+				return !refNet.getNodeTypes().isEmpty() ? Boolean.TRUE : null;
+			} else if (element instanceof NodeType) {
 				NodeType nt = (NodeType) element;
 				if (nt.getFunctions().size() > 0
 						|| nt.getEquipments().size() > 0) {
@@ -410,8 +424,7 @@ public class NodeTypes extends AbstractScreen implements IDataServiceInjection {
 			screen.injectData(null, o);
 			this.currentDetails = screen;
 			sashForm.layout(true, true);
-		}
-		if (o instanceof Equipment) {
+		} else if (o instanceof Equipment) {
 
 			NewEditEquipment screen = null;
 			screen = new NewEditEquipment(this.cmpDetails, SWT.NONE,
@@ -423,8 +436,7 @@ public class NodeTypes extends AbstractScreen implements IDataServiceInjection {
 			this.currentDetails = screen;
 			sashForm.layout(true, true);
 
-		}
-		if (o instanceof NodeType) {
+		} else if (o instanceof NodeType) {
 			NewEditNodeType nnt = new NewEditNodeType(this.cmpDetails,
 					SWT.NONE, editingService);
 			nnt.setOperation(getOperation());
@@ -444,14 +456,14 @@ public class NodeTypes extends AbstractScreen implements IDataServiceInjection {
 	 */
 	public Viewer getViewer() {
 
-//		if (currentDetails != null) {
-//			if (currentDetails instanceof IScreen) {
-//				Viewer v = ((IScreen) currentDetails).getViewer();
-//				if (v != null) {
-//					return v;
-//				}
-//			}
-//		}
+		// if (currentDetails != null) {
+		// if (currentDetails instanceof IScreen) {
+		// Viewer v = ((IScreen) currentDetails).getViewer();
+		// if (v != null) {
+		// return v;
+		// }
+		// }
+		// }
 		return nodeTypeTreeViewer;
 	}
 

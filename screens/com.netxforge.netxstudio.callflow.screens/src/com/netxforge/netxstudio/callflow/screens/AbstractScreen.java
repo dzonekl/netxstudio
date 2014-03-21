@@ -17,9 +17,15 @@
  *******************************************************************************/
 package com.netxforge.netxstudio.callflow.screens;
 
+import org.eclipse.emf.ecore.resource.Resource;
+import org.eclipse.emf.edit.command.AddCommand;
+import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.swt.widgets.Composite;
 
 import com.netxforge.netxstudio.callflow.screens.internal.CallFlowsActivator;
+import com.netxforge.netxstudio.library.LibraryFactory;
+import com.netxforge.netxstudio.library.LibraryPackage;
+import com.netxforge.netxstudio.library.ReferenceNetwork;
 import com.netxforge.screens.editing.base.AbstractScreenImpl;
 
 /**
@@ -35,4 +41,36 @@ public abstract class AbstractScreen extends AbstractScreenImpl {
 		injectMembers(CallFlowsActivator.getDefault().getInjector());
 	}
 	
+	/**
+	 * 
+	 */
+	public ReferenceNetwork initReferenceNetwork() {
+		Resource networksResources = editingService
+				.getData(LibraryPackage.Literals.REFERENCE_NETWORK);
+		
+		boolean showCreationOfNetwork = false;
+		ReferenceNetwork refNet = null;
+		
+		// For now hard code to a single entry.
+		if (networksResources.getContents().size() == 1) {
+			refNet = (ReferenceNetwork) networksResources
+					.getContents().get(0);
+		} else {
+			refNet = LibraryFactory.eINSTANCE.createReferenceNetwork();
+			refNet.setName("Architecture1");
+			refNet.setDescription("My first reference architecture");
+			
+			AddCommand add = new AddCommand(editingService.getEditingDomain(),
+					networksResources.getContents(), refNet);
+			editingService.getEditingDomain().getCommandStack().execute(add);
+			showCreationOfNetwork = true;
+		}
+		
+		if (showCreationOfNetwork) {
+			MessageDialog
+					.openInformation(this.getShell(), "Model initialized",
+							"A new reference network has been created, see NE Types for information on: ");
+		}
+		return refNet;
+	}
 }

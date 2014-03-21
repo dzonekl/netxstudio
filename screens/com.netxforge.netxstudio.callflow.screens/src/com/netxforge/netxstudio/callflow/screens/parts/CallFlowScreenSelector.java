@@ -22,12 +22,15 @@ import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.forms.widgets.FormToolkit;
 
 import com.netxforge.netxstudio.callflow.screens.CallFlows;
-import com.netxforge.netxstudio.callflow.screens.connectivity.Connectivity;
 import com.netxforge.netxstudio.callflow.screens.nodetypes.NodeTypes;
 import com.netxforge.netxstudio.callflow.screens.protocols.Protocols;
 import com.netxforge.netxstudio.callflow.screens.referenceNetwork.RefNetworks;
 import com.netxforge.screens.editing.base.AbstractScreenSelector;
 import com.netxforge.screens.editing.base.ScreenUtil;
+import com.netxforge.screens.editing.base.actions.IActionHandler;
+import com.netxforge.screens.editing.base.actions.handlers.CreationActionsHandler;
+import com.netxforge.screens.editing.base.actions.handlers.ObjectEditingActionsHandler;
+import com.netxforge.screens.editing.base.actions.handlers.UIActionsHandler;
 
 public class CallFlowScreenSelector extends AbstractScreenSelector {
 
@@ -58,18 +61,19 @@ public class CallFlowScreenSelector extends AbstractScreenSelector {
 		result = screenFormService.addScreenSelector("Call Flows",
 				"icons/full/obj16/Service_H.png", CallFlows.class, 1,
 				ScreenUtil.OPERATION_EDIT);
+
+		result = screenFormService.addScreenSelector(result, "Reference",
+				"icons/full/obj16/Network_H.png", RefNetworks.class,
+				ScreenUtil.OPERATION_EDIT);
 		
 		result = screenFormService.addScreenSelector(result, "NE Types",
 				"icons/full/obj16/Node_H.png", NodeTypes.class,
 				ScreenUtil.OPERATION_EDIT);
 		
-		result = screenFormService.addScreenSelector(result, "Reference",
-				"icons/full/obj16/Network_H.png", RefNetworks.class,
-				ScreenUtil.OPERATION_EDIT);
-		
-		result = screenFormService.addScreenSelector(result, "Connectivity",
-				"icons/full/obj16/FunctionRelationship_H.png", Connectivity.class,
-				ScreenUtil.OPERATION_EDIT);
+		// What is connectivity for?
+//		result = screenFormService.addScreenSelector(result, "Connectivity",
+//				"icons/full/obj16/FunctionRelationship_H.png", Connectivity.class,
+//				ScreenUtil.OPERATION_EDIT);
 
 		result = screenFormService.addScreenSelector(result, "Protocols",
 				"icons/full/obj16/Protocol_H.png", Protocols.class,
@@ -82,6 +86,15 @@ public class CallFlowScreenSelector extends AbstractScreenSelector {
 		super.dispose();
 	}
 
+	@Override
+	protected IActionHandler[] getActionHandlers() {
+		IActionHandler[] handlers = new IActionHandler[3];
+		handlers[0] = new ObjectEditingActionsHandler(getEditingService());
+		handlers[1] = new CreationActionsHandler();
+		handlers[2] = new UIActionsHandler();
+		return handlers;
+	}
+	
 	/*
 	 * (non-Javadoc)
 	 * 

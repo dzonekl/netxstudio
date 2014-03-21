@@ -199,8 +199,8 @@ public class EMFEditingService implements IEditingService {
 	}
 
 	public void setDirty() {
-		throw new UnsupportedOperationException("TODO Implement");
-
+		// Do Nothing here. 
+//		throw new UnsupportedOperationException("TODO Implement");
 	}
 
 	public Resource getData(int feature) {

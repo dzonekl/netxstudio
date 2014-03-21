@@ -23,7 +23,9 @@
 
    <splash
       location="com.netxforge.netxstudio.client.product"
-      handlerType="interactive" />
+      startupProgressRect="15,150,445,10"
+      startupMessageRect="18,170,445,20"
+      startupForegroundColor="CCCCCC" />
    <launcher name="callflow">
       <macosx icon="/com.netxforge.netxstudio.client.product/icons/netxstudio.icns"/>
       <solaris/>
@@ -47,7 +49,7 @@
    <features>
       <feature id="com.netxforge.netxstudio.client.callflow.product.feature" version="1.0.0.qualifier"/>
       <feature id="com.netxforge.netxstudio.screens.app.feature" version="1.0.0.qualifier"/>
-      <feature id="com.netxforge.screens.editing.base.feature" version="1.0.0.qualifier"/>
+      <feature id="com.netxforge.editing.base.feature" version="1.0.0.qualifier"/>
    </features>
 
    <configurations>

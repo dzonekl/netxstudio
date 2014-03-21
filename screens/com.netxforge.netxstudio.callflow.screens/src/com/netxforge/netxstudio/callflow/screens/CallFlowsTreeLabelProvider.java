@@ -180,19 +180,20 @@ public class CallFlowsTreeLabelProvider extends StyledCellLabelProvider {
 	private void updateColumn6(ViewerCell cell, Object element) {
 		if (element instanceof ServiceFlowRelationship) {
 			ServiceFlowRelationship sfRel = (ServiceFlowRelationship) element;
-			if (sfRel.eIsSet(ServicesPackage.Literals.SERVICE_FLOW_RELATIONSHIP__PROTOCOL)) {
-					Protocol protocol = sfRel.getProtocol();
+			if (sfRel
+					.eIsSet(ServicesPackage.Literals.SERVICE_FLOW_RELATIONSHIP__PROTOCOL)) {
+				Protocol protocol = sfRel.getProtocol();
 
-					// Set the name of the Node Type.
-					StyledString styledString = new StyledString(
-							protocol.getName(), null);
-					cell.setText(styledString.getString());
-					// Image img = ResourceManager.getPluginImage(
-					// "com.netxforge.netxstudio.models.edit",
-					// "icons/full/obj16/Company_H.png");
-					// cell.setImage(img);
-					cell.setStyleRanges(styledString.getStyleRanges());
-				
+				// Set the name of the Node Type.
+				StyledString styledString = new StyledString(
+						protocol.getName(), null);
+				cell.setText(styledString.getString());
+				// Image img = ResourceManager.getPluginImage(
+				// "com.netxforge.netxstudio.models.edit",
+				// "icons/full/obj16/Company_H.png");
+				// cell.setImage(img);
+				cell.setStyleRanges(styledString.getStyleRanges());
+
 			} else {
 				cell.setText("-");
 			}
@@ -286,10 +287,11 @@ public class CallFlowsTreeLabelProvider extends StyledCellLabelProvider {
 				buf.append(nt2 != null ? nt2.getName() : " ?");
 				buf.append(")");
 
-				String typedName  = referenceRelationship.getName();
+				String typedName = referenceRelationship.getName();
 				styledString
-						.append( typedName != null && typedName.length() > 0 ? referenceRelationship
-								.getName() + " :" + buf.toString() : buf.toString());
+						.append(typedName != null && typedName.length() > 0 ? referenceRelationship
+								.getName() + " :" + buf.toString()
+								: buf.toString());
 
 				// Image img = ResourceManager.getPluginImage(
 				// "com.netxforge.netxstudio.models.edit",
@@ -431,8 +433,8 @@ public class CallFlowsTreeLabelProvider extends StyledCellLabelProvider {
 	private void updateColumn0(ViewerCell cell, Object element) {
 		if (element instanceof ServiceFlow) {
 			ServiceFlow serviceFlow = (ServiceFlow) element;
-			StyledString styledString = new StyledString(serviceFlow.cdoID()
-					.toString(), null);
+			
+			StyledString styledString = new StyledString("TODO An ID", null);
 			cell.setText(styledString.getString());
 			// Image img = ResourceManager.getPluginImage(
 			// "com.netxforge.netxstudio.models.edit",
@@ -441,19 +443,11 @@ public class CallFlowsTreeLabelProvider extends StyledCellLabelProvider {
 			cell.setStyleRanges(styledString.getStyleRanges());
 		} else if (element instanceof ReferenceRelationship) {
 			ReferenceRelationship relationship = (ReferenceRelationship) element;
-
-			if (relationship.cdoID() != null) {
-				StyledString styledString = new StyledString(relationship
-						.cdoID().toString(), null);
-				cell.setText(styledString.getString());
-				// Image img = ResourceManager.getPluginImage(
-				// "com.netxforge.netxstudio.models.edit",
-				// "icons/full/obj16/Company_H.png");
-				// cell.setImage(img);
-				cell.setStyleRanges(styledString.getStyleRanges());
-			}
+			StyledString styledString = new StyledString("TODO An ID", null);
+			cell.setText(styledString.getString());
+			cell.setStyleRanges(styledString.getStyleRanges());
+			
 		}
-
 	}
 
 }

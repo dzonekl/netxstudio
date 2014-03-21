@@ -23,8 +23,8 @@ import java.util.Map.Entry;
 
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EClass;
-import org.eclipse.emf.ecore.EFactory;
 import org.eclipse.emf.ecore.resource.Resource;
+import org.eclipse.emf.ecore.resource.Resource.Factory;
 import org.eclipse.emf.ecore.resource.Resource.Factory.Registry;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 
@@ -38,18 +38,16 @@ public class Data implements IBaseData {
 	static String user_home_path = System.getProperty("user.home");
 
 	public Resource getResource(ResourceSet set, EClass clazz) {
-		
-		
-		// TODO Build a dynamic Map<EClass, Extension> to avoid lookup each time.  
-		EFactory eFactoryInstance = clazz.getEPackage().getEFactoryInstance();
-		extensionForFactory(eFactoryInstance);
 
-		String name = clazz.getName();
+		// TODO Build a dynamic Map<EClass, Extension> to avoid lookup each
+		// time.
+		String packageName = clazz.getEPackage().getName();
+		String extension = extensionForFactory(packageName);
 
-		URI uri = uriForEClassName(name);
-		if (hasResource(uri)) {
-			return getResource(uri);
-		} else {
+		URI uri = uriForEClassName(packageName, extension);
+		try{
+			return getResource(set, uri);
+		}catch(Exception e){
 			return createResource(set, uri);
 		}
 	}
@@ -68,6 +66,11 @@ public class Data implements IBaseData {
 
 	public boolean hasResource(URI resourceURI) {
 		throw new UnsupportedOperationException("TODO Implement");
+	}
+
+	private boolean hasResource(ResourceSet set, URI uri) {
+		Resource resource = set.getResource(uri, false);
+		return resource != null;
 	}
 
 	public boolean hasResource(String resourcePath) {
@@ -102,53 +105,52 @@ public class Data implements IBaseData {
 
 	/**
 	 * @param name
+	 * @param extension2
 	 * @return
 	 */
-	private URI uriForEClassName(String name) {
+	private URI uriForEClassName(String name, String extension) {
 		// Generate the URI, take the path from the properties.
 
 		String path = user_home_path;
-
-		// Add the extension to the file. As EMF framework will bind the
-		// extension
-		// of the class. Perhaps we can resolve the package/extension from the
-		// Class.
-
-		// BaseActivator.getContext();
-
-		String extension = ""; // TODO
-
-		URI uri = URI.createFileURI("file://" + path + "/" + name + "."
-				+ extension);
+		URI uri = URI.createFileURI(path + "/" + name + "." + extension);
 		return uri;
 	}
 
 	/**
 	 * Resolve the extension from the {@link Registry}
 	 * 
-	 * @param eFactoryInstance
+	 * @param packageName
 	 */
-	public String extensionForFactory(final EFactory eFactoryInstance) {
+	public String extensionForFactory(final String packageName) {
 		Registry instance = Resource.Factory.Registry.INSTANCE;
 
 		Map<String, Object> extensionToFactoryMap = instance
 				.getExtensionToFactoryMap();
 		for (Entry<String, Object> entry : extensionToFactoryMap.entrySet()) {
 			Object value = entry.getValue();
-			if(value instanceof EFactory){
-				if ( value == eFactoryInstance) {
+			if (value instanceof Resource.Factory) {
+				if (packageNameMatchesFactory((Factory) value, packageName)) {
 					return entry.getKey();
 				}
-			}else if(value instanceof Resource.Factory.Descriptor){
-				value = ((Resource.Factory.Descriptor)value).createFactory();
-				if ( value == eFactoryInstance) {
+			} else if (value instanceof Resource.Factory.Descriptor) {
+				Resource.Factory factory = ((Resource.Factory.Descriptor) value)
+						.createFactory();
+				if (packageNameMatchesFactory(factory, packageName)) {
 					return entry.getKey();
 				}
 			}
 		}
 		throw new IllegalStateException(
-				"Expected to find an extension for factoryL "
-						+ eFactoryInstance);
+				"Expected to find an extension for factory:" + packageName);
+	}
+
+	private boolean packageNameMatchesFactory(Resource.Factory factory,
+			String packageName) {
+		// Hack, use the name of the factory which will be the same as
+		// the package name.
+		String simpleName = factory.getClass().getSimpleName();
+		simpleName = simpleName.toLowerCase();
+		return simpleName.startsWith(packageName);
 	}
 
 	/**

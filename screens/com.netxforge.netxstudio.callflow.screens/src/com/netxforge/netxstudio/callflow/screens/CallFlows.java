@@ -80,7 +80,6 @@ import org.eclipse.wb.swt.ResourceManager;
 import com.google.common.collect.Lists;
 import com.netxforge.netxstudio.callflow.screens.referenceNetwork.ComboBoxCellEditingSupport;
 import com.netxforge.netxstudio.callflow.screens.referenceNetwork.TextCellEditingSupport;
-import com.netxforge.netxstudio.library.LibraryFactory;
 import com.netxforge.netxstudio.library.LibraryPackage;
 import com.netxforge.netxstudio.library.ReferenceNetwork;
 import com.netxforge.netxstudio.protocols.Message;
@@ -106,7 +105,7 @@ public class CallFlows extends AbstractScreen implements IDataServiceInjection {
 	private Form frmCallFlows;
 	private ReferenceNetwork refNet;
 	private TreeViewer callFlowTreeViewer;
-	private Resource cdoResourceCallFlows;
+	private Resource servicesResource;
 	private TreeViewerColumn treeViewerColumnLink;
 	private Tree callFlowTree;
 	private TreeViewerColumn treeViewerColumnProtocol;
@@ -147,28 +146,14 @@ public class CallFlows extends AbstractScreen implements IDataServiceInjection {
 	@Override
 	public void injectData() {
 
-		cdoResourceCallFlows = editingService
+		servicesResource = editingService
 				.getData(ServicesPackage.Literals.SERVICE_FLOW);
-
-		// get the CDOResource for the reference network.
-		Resource cdoResourceReferenceNetworks = editingService
-				.getData(LibraryPackage.Literals.REFERENCE_NETWORK);
-
-		// For now hard code to a single entry.
-		if (cdoResourceReferenceNetworks.getContents().size() == 1) {
-			refNet = (ReferenceNetwork) cdoResourceReferenceNetworks
-					.getContents().get(0);
-		} else {
-			refNet = LibraryFactory.eINSTANCE.createReferenceNetwork();
-			refNet.setName("generated_ref_network");
-			refNet.setDescription("generated_ref_network");
-			// cdoResourceReferenceNetworks.h
-		}
-
+		refNet = initReferenceNetwork();
+		
 		buildUI();
-		this.initDataBindings_();
-
+		initDataBindings_();
 	}
+
 
 	private void buildUI() {
 		setLayout(new FillLayout(SWT.HORIZONTAL));
@@ -451,7 +436,7 @@ public class CallFlows extends AbstractScreen implements IDataServiceInjection {
 
 		IEMFListProperty callFlowsListProperty = EMFProperties.resource();
 		callFlowTreeViewer.setInput(callFlowsListProperty
-				.observe(cdoResourceCallFlows));
+				.observe(servicesResource));
 
 		{
 			FeaturePath namePath = FeaturePath
@@ -681,7 +666,7 @@ public class CallFlows extends AbstractScreen implements IDataServiceInjection {
 				ServiceFlow sf = (ServiceFlow) firstElement;
 
 				ServiceFlowFilterDialog serviceFlowFilterDialog = new ServiceFlowFilterDialog(
-						CallFlows.this.getShell(), cdoResourceCallFlows);
+						CallFlows.this.getShell(), servicesResource);
 				int open = serviceFlowFilterDialog.open();
 				if (open == Window.OK) {
 
@@ -756,7 +741,8 @@ public class CallFlows extends AbstractScreen implements IDataServiceInjection {
 				return;
 			}
 
-			String uriFragment = refNet.cdoResource().getURIFragment(refNet);
+			Resource eResource = refNet.eResource();
+			String uriFragment = eResource.getURIFragment(refNet);
 
 			uriEditorInput = new URIEditorInput(URI.createURI(uriFragment),
 					uriFragment);
@@ -792,7 +778,7 @@ public class CallFlows extends AbstractScreen implements IDataServiceInjection {
 					.createServiceFlow();
 			createServiceFlow.setName("new*");
 			Command add = new AddCommand(editingService.getEditingDomain(),
-					cdoResourceCallFlows.getContents(), createServiceFlow);
+					servicesResource.getContents(), createServiceFlow);
 			editingService.getEditingDomain().getCommandStack().execute(add);
 		}
 	}
