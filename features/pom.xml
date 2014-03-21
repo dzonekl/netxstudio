@@ -32,6 +32,7 @@
 		<module>com.netxforge.netxstudio.models.13042011.edit.feature</module>
 		<module>com.netxforge.netxstudio.models.06032012.feature</module>
 		<module>com.netxforge.netxstudio.models.06032012.edit.feature</module>
+		<module>com.netxforge.models.06032012.emf.feature</module>
 		<module>com.netxforge.netxstudio.models.edit.feature</module>
 		<module>com.netxforge.netxstudio.models.export.feature</module>
 		<module>com.netxforge.netxstudio.models.export.ui.feature</module>
