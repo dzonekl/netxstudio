@@ -21,22 +21,27 @@ package com.netxforge.netxstudio.callflow.screens.protocols;
 import java.util.List;
 
 import org.eclipse.core.databinding.DataBindingContext;
+import org.eclipse.core.databinding.observable.IObservable;
 import org.eclipse.core.databinding.observable.list.IObservableList;
 import org.eclipse.core.databinding.observable.map.IObservableMap;
+import org.eclipse.core.databinding.observable.masterdetail.IObservableFactory;
 import org.eclipse.emf.databinding.EMFDataBindingContext;
 import org.eclipse.emf.databinding.EMFObservables;
 import org.eclipse.emf.databinding.IEMFListProperty;
 import org.eclipse.emf.databinding.edit.EMFEditProperties;
+import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.resource.Resource;
+import org.eclipse.emf.edit.domain.EditingDomain;
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.action.IAction;
-import org.eclipse.jface.databinding.viewers.ObservableListContentProvider;
+import org.eclipse.jface.databinding.viewers.ObservableListTreeContentProvider;
 import org.eclipse.jface.databinding.viewers.ObservableMapLabelProvider;
+import org.eclipse.jface.databinding.viewers.TreeStructureAdvisor;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;
-import org.eclipse.jface.viewers.TableViewer;
-import org.eclipse.jface.viewers.TableViewerColumn;
+import org.eclipse.jface.viewers.TreeViewer;
+import org.eclipse.jface.viewers.TreeViewerColumn;
 import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.jface.viewers.ViewerFilter;
 import org.eclipse.swt.SWT;
@@ -50,9 +55,9 @@ import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Label;
-import org.eclipse.swt.widgets.Table;
-import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.swt.widgets.Text;
+import org.eclipse.swt.widgets.Tree;
+import org.eclipse.swt.widgets.TreeColumn;
 import org.eclipse.ui.forms.events.HyperlinkEvent;
 import org.eclipse.ui.forms.events.IHyperlinkListener;
 import org.eclipse.ui.forms.widgets.Form;
@@ -62,6 +67,8 @@ import org.eclipse.wb.swt.ResourceManager;
 
 import com.google.common.collect.Lists;
 import com.netxforge.netxstudio.callflow.screens.AbstractScreen;
+import com.netxforge.netxstudio.protocols.Message;
+import com.netxforge.netxstudio.protocols.Procedure;
 import com.netxforge.netxstudio.protocols.Protocol;
 import com.netxforge.netxstudio.protocols.ProtocolsFactory;
 import com.netxforge.netxstudio.protocols.ProtocolsPackage;
@@ -77,13 +84,14 @@ public class Protocols extends AbstractScreen implements IDataServiceInjection {
 
 	private final FormToolkit toolkit = new FormToolkit(Display.getCurrent());
 	private Text txtFilterText;
-	private Table table;
 
-	private TableViewer tableViewer;
+	private Tree tree;
+
+	private TreeViewer treeViewer;
+
 	@SuppressWarnings("unused")
 	private DataBindingContext bindingContext;
 	private Form frmProtocols;
-	private ObservableListContentProvider listContentProvider;
 	private Resource protocolResource;
 
 	/**
@@ -115,11 +123,10 @@ public class Protocols extends AbstractScreen implements IDataServiceInjection {
 
 		frmProtocols = toolkit.createForm(this);
 		frmProtocols.setSeparatorVisible(true);
-		
-		
+
 		toolkit.decorateFormHeading(frmProtocols);
 		toolkit.paintBordersFor(frmProtocols);
-		
+
 		frmProtocols.setText(actionText + "Protocols");
 		frmProtocols.getBody().setLayout(new GridLayout(3, false));
 
@@ -140,8 +147,8 @@ public class Protocols extends AbstractScreen implements IDataServiceInjection {
 
 		txtFilterText.addKeyListener(new KeyAdapter() {
 			public void keyReleased(KeyEvent ke) {
-				tableViewer.refresh();
-				ViewerFilter[] filters = tableViewer.getFilters();
+				treeViewer.refresh();
+				ViewerFilter[] filters = treeViewer.getFilters();
 				for (ViewerFilter viewerFilter : filters) {
 					if (viewerFilter instanceof SearchFilter) {
 						((SearchFilter) viewerFilter)
@@ -188,38 +195,38 @@ public class Protocols extends AbstractScreen implements IDataServiceInjection {
 
 		// new Label(frmProtocols.getBody(), SWT.NONE);
 
-		tableViewer = new TableViewer(frmProtocols.getBody(), SWT.BORDER
+		treeViewer = new TreeViewer(frmProtocols.getBody(), SWT.BORDER
 				| SWT.FULL_SELECTION | widgetStyle);
-		table = tableViewer.getTable();
-		table.setLinesVisible(true);
-		table.setHeaderVisible(true);
-		table.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 3, 1));
-		toolkit.paintBordersFor(table);
+		tree = treeViewer.getTree();
+		tree.setLinesVisible(true);
+		tree.setHeaderVisible(true);
+		tree.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 3, 1));
+		toolkit.paintBordersFor(tree);
 
-		TableViewerColumn tableViewerColumn = new TableViewerColumn(
-				tableViewer, SWT.NONE);
-		TableColumn tblclmnName = tableViewerColumn.getColumn();
+		TreeViewerColumn tableViewerColumn = new TreeViewerColumn(treeViewer,
+				SWT.NONE);
+		TreeColumn tblclmnName = tableViewerColumn.getColumn();
 		tblclmnName.setWidth(111);
 		tblclmnName.setText("Name");
 
-		TableViewerColumn tableViewerColumn_1 = new TableViewerColumn(
-				tableViewer, SWT.NONE);
-		TableColumn tblclmnDescription = tableViewerColumn_1.getColumn();
+		TreeViewerColumn tableViewerColumn_1 = new TreeViewerColumn(treeViewer,
+				SWT.NONE);
+		TreeColumn tblclmnDescription = tableViewerColumn_1.getColumn();
 		tblclmnDescription.setWidth(214);
 		tblclmnDescription.setText("Description");
 
-		TableViewerColumn tableViewerColumn_2 = new TableViewerColumn(
-				tableViewer, SWT.NONE);
-		TableColumn tblclmnOSI = tableViewerColumn_2.getColumn();
+		TreeViewerColumn tableViewerColumn_2 = new TreeViewerColumn(treeViewer,
+				SWT.NONE);
+		TreeColumn tblclmnOSI = tableViewerColumn_2.getColumn();
 		tblclmnOSI.setWidth(250);
 		tblclmnOSI.setText("OSI");
 
-		TableViewerColumn tableViewerColumn_3 = new TableViewerColumn(
-				tableViewer, SWT.NONE);
-		TableColumn tblclmnSpecification = tableViewerColumn_3.getColumn();
+		TreeViewerColumn tableViewerColumn_3 = new TreeViewerColumn(treeViewer,
+				SWT.NONE);
+		TreeColumn tblclmnSpecification = tableViewerColumn_3.getColumn();
 		tblclmnSpecification.setWidth(100);
 		tblclmnSpecification.setText("Specification");
-		tableViewer.addFilter(new SearchFilter());
+		treeViewer.addFilter(new SearchFilter());
 	}
 
 	/**
@@ -238,25 +245,27 @@ public class Protocols extends AbstractScreen implements IDataServiceInjection {
 		public void run() {
 			super.run();
 			if (screenService != null) {
-				ISelection selection = getTableViewerWidget().getSelection();
+				ISelection selection = treeViewer.getSelection();
 				if (selection instanceof IStructuredSelection) {
 					Object o = ((IStructuredSelection) selection)
 							.getFirstElement();
-					if (o != null) {
+					if (o instanceof Protocol) {
 						NewEditProtocol protocolScreen = new NewEditProtocol(
 								screenService.getScreenContainer(), SWT.NONE);
 						protocolScreen.setOperation(getOperation());
 						protocolScreen.setScreenService(screenService);
 						protocolScreen.injectData(protocolResource, o);
 						screenService.setActiveScreen(protocolScreen);
+					} else if (o instanceof Procedure) {
+
+					} else if (o instanceof Message) {
+						
+						
+						
 					}
 				}
 			}
 		}
-	}
-
-	public TableViewer getTableViewerWidget() {
-		return tableViewer;
 	}
 
 	/*
@@ -273,8 +282,13 @@ public class Protocols extends AbstractScreen implements IDataServiceInjection {
 
 	public EMFDataBindingContext initDataBindings_() {
 
-		listContentProvider = new ObservableListContentProvider();
-		tableViewer.setContentProvider(listContentProvider);
+		// Bind a tree viewer to call flows and reference interfaces in the call
+		// flow.
+		ObservableListTreeContentProvider listContentProvider = new ObservableListTreeContentProvider(
+				new ProtocolsTreeFactoryImpl(editingService.getEditingDomain()),
+				new ProtocolsTreeStructureAdvisorImpl());
+
+		treeViewer.setContentProvider(listContentProvider);
 		IObservableMap[] observeMaps = EMFObservables.observeMaps(
 				listContentProvider.getKnownElements(),
 				new EStructuralFeature[] {
@@ -282,14 +296,14 @@ public class Protocols extends AbstractScreen implements IDataServiceInjection {
 						ProtocolsPackage.Literals.PROTOCOL__DESCRIPTION,
 						ProtocolsPackage.Literals.PROTOCOL__OSI,
 						ProtocolsPackage.Literals.PROTOCOL__SPECIFICATION });
-		tableViewer
+		treeViewer
 				.setLabelProvider(new ObservableMapLabelProvider(observeMaps));
 		IEMFListProperty l = EMFEditProperties.resource(editingService
 				.getEditingDomain());
 		IObservableList protocolObservableList = l.observe(protocolResource);
 
 		// obm.addObservable(toleranceObservableList);
-		tableViewer.setInput(protocolObservableList);
+		treeViewer.setInput(protocolObservableList);
 
 		EMFDataBindingContext bindingContext = new EMFDataBindingContext();
 		return bindingContext;
@@ -301,7 +315,7 @@ public class Protocols extends AbstractScreen implements IDataServiceInjection {
 	 * @see org.eclipse.emf.common.ui.viewer.IViewerProvider#getViewer()
 	 */
 	public Viewer getViewer() {
-		return this.getTableViewerWidget();
+		return treeViewer;
 	}
 
 	/*
@@ -333,6 +347,61 @@ public class Protocols extends AbstractScreen implements IDataServiceInjection {
 	@Override
 	public String getScreenName() {
 		return "Protocols";
+	}
+
+	class ProtocolsTreeFactoryImpl implements IObservableFactory {
+
+		EditingDomain domain;
+
+		private IEMFListProperty protocolObservableProperty = EMFEditProperties
+				.list(domain, ProtocolsPackage.Literals.PROTOCOL__PROCEDURES);
+
+		private IEMFListProperty procedureObservableProperty = EMFEditProperties
+				.list(domain, ProtocolsPackage.Literals.PROCEDURE__MESSAGES);
+
+		ProtocolsTreeFactoryImpl(EditingDomain domain) {
+			this.domain = domain;
+		}
+
+		public IObservable createObservable(final Object target) {
+
+			IObservable ol = null;
+			if (target instanceof IObservableList) {
+				ol = (IObservable) target;
+			} else if (target instanceof Protocol) {
+				ol = protocolObservableProperty.observe(target);
+			} else if (target instanceof Procedure) {
+				ol = procedureObservableProperty.observe(target);
+			}
+			return ol;
+		}
+	}
+
+	class ProtocolsTreeStructureAdvisorImpl extends TreeStructureAdvisor {
+		@Override
+		public Object getParent(Object element) {
+
+			if (element instanceof EObject) {
+				EObject eo = (EObject) element;
+				if (eo.eContainer() != null) {
+					return eo.eContainer();
+				}
+			}
+			return null;
+		}
+
+		@Override
+		public Boolean hasChildren(Object element) {
+			if (element instanceof Protocol) {
+				return ((Protocol) element).getProcedures().size() > 0 ? Boolean.TRUE
+						: null;
+			} else if (element instanceof Procedure) {
+				return ((Procedure) element).getMessages().size() > 0 ? Boolean.TRUE
+						: null;
+			}
+
+			return false;
+		}
 	}
 
 }

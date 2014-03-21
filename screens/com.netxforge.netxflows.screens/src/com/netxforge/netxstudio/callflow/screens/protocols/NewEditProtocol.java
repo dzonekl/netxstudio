@@ -11,7 +11,6 @@ import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.edit.command.AddCommand;
 import org.eclipse.jface.databinding.swt.SWTObservables;
 import org.eclipse.jface.databinding.viewers.ViewerProperties;
-import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.viewers.ArrayContentProvider;
 import org.eclipse.jface.viewers.ComboViewer;
 import org.eclipse.jface.viewers.LabelProvider;
@@ -247,20 +246,6 @@ public class NewEditProtocol extends AbstractScreen implements
 
 			editingService.getEditingDomain().getCommandStack().execute(c);
 		} else if (ScreenUtil.isEditOperation(getOperation())) {
-			// If edit, we have been operating on a copy of the object, so we
-			// have to replace. However if our original object is invalid, this
-			// will
-			// cause invalidity, so the action will not occure in case the
-			// original is
-			// invalid, and we should cancel the action and warn the user.
-			if (protocol.cdoInvalid()) {
-				MessageDialog
-						.openWarning(Display.getDefault().getActiveShell(),
-								"Conflict",
-								"There is a conflict with another user. Your changes can't be saved.");
-				return;
-			}
-			System.out.println(protocol.cdoID() + "" + protocol.cdoState());
 
 		}
 		// After our edit, we shall be dirty

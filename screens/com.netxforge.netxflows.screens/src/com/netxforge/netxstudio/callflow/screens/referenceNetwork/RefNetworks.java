@@ -320,7 +320,7 @@ public class RefNetworks extends AbstractScreen implements
 				return;
 			}
 
-			String uriFragment = refNet.cdoResource().getURIFragment(refNet);
+			String uriFragment = refNet.eResource().getURIFragment(refNet);
 
 			uriEditorInput = new URIEditorInput(URI.createURI(uriFragment),
 					uriFragment);
