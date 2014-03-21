@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <feature
-      id="com.netxforge.netxstudio.client.callflow.product.feature"
-      label="Call Flow Client Product Feature"
+      id="com.netxforge.netxflows.product.feature"
+      label="NetXFlows Product Feature"
       version="1.0.0.qualifier"
       provider-name="NetXForge">
 
@@ -116,7 +116,7 @@
    </requires>
 
    <plugin
-         id="com.netxforge.netxstudio.callflow.product"
+         id="com.netxforge.netxflows.product"
          download-size="0"
          install-size="0"
          version="0.0.0"
