@@ -110,7 +110,7 @@
 		../../products/netxflows
 		</module>
 		<module>
-		../../features
+		../../features/netxflows
 		</module>
 		<module>
 		../../3rdPartyFeatures
