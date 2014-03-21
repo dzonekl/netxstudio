@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd"
+	xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>plugins</groupId>
+	<artifactId>plugins</artifactId>
+	<version>0.0.1-SNAPSHOT</version>
+	<packaging>pom</packaging>
+	<parent>
+		<groupId>com.netxforge.netxstudio</groupId>
+		<artifactId>com.netxforge.releng</artifactId>
+		<version>0.0.1-SNAPSHOT</version>
+		<relativePath>../releng.tycho/com.netxforge.releng</relativePath>
+	</parent>
+	<modules>
+		<module>com.netxforge.base</module>
+		<module>com.netxforge.base.cdo</module>
+		<module>com.netxforge.editing.base</module>
+		<module>com.netxforge.editing.base.impl</module>
+		<module>../server/com.netxforge.netxstudio.server.logic</module>
+		<module>../server/com.netxforge.netxstudio.server.job</module>
+		<module>../server/com.netxforge.netxstudio.server.metrics</module>
+		<module>../server/com.netxforge.netxstudio.server.jsp</module>
+		<module>../server/com.netxforge.netxstudio.server</module>
+		<module>../server/com.netxforge.netxstudio.log4j</module>
+		<module>../model/com.netxforge.netxscript</module>
+		<module>../model/com.netxforge.netxstudio.models</module>
+		<module>../model/com.netxforge.netxstudio.models.edit</module>
+		<module>../model/com.netxforge.netxstudio.models.export</module>
+		<module>../model/com.netxforge.netxstudio.models.import</module>
+		<module>../model/com.netxforge.netxstudio.models.13042011</module>
+		<module>../model/com.netxforge.netxstudio.models.13042011.edit</module>
+		<module>../model/com.netxforge.models.06032012.emf</module>
+		<module>../model/com.netxforge.models.06032012.emf.edit</module>
+		<module>../model/com.netxforge.netxstudio.models.06032012</module>
+		<module>../model/com.netxforge.netxstudio.models.06032012.edit</module>
+		<module>../model/com.netxforge.netxstudio.models16042013_delta</module>
+		<module>../model/com.netxforge.netxstudio.data.import</module>
+		<module>../model/com.netxforge.netxstudio.data.fixtures</module>
+		<module>../model/com.netxforge.netxstudio.webservice</module>
+		<module>../screens/com.netxforge.netxflows.screens</module>
+		<module>../screens/com.netxforge.netxscript.ui</module>
+		<module>../screens/com.netxforge.netxstudio.common</module>
+		<module>../screens/com.netxforge.netxstudio.console</module>
+		<module>../screens/com.netxforge.netxstudio.data</module>
+		<module>../screens/com.netxforge.netxstudio.data.ui</module>
+		<module>../screens/com.netxforge.netxstudio.help</module>
+		<module>../screens/com.netxforge.netxstudio.models.export.ui</module>
+		<module>../screens/com.netxforge.netxstudio.models.import.ui</module>
+		<module>../screens/com.netxforge.netxstudio.screens</module>
+		<module>../screens/com.netxforge.netxstudio.screens.app</module>
+		<module>../screens/com.netxforge.netxstudio.screens.activities</module>
+		<module>../screens/com.netxforge.netxstudio.screens.ide</module>
+		<module>../screens/com.netxforge.netxstudio.screens.editing</module>
+		<module>../screens/com.netxforge.netxstudio.screens.xtext</module>
+		<module>../products/com.netxforge.netxflows.product</module>
+		<module>../products/com.netxforge.netxstudio.client.product</module>
+		<module>../products/com.netxforge.netxstudio.server.db.mysql.product</module>
+	</modules>
+</project>
