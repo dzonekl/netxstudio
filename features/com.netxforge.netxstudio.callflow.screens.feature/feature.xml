@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <feature
-      id="com.netxforge.client.callflow.screens.feature"
+      id="com.netxforge.netxflows.screens.feature"
       label="Call Flow Screen Feature"
       version="1.0.0.qualifier"
       provider-name="NetXForge">
