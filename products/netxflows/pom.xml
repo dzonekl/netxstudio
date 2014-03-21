@@ -11,33 +11,21 @@
 		<groupId>com.netxforge.netxstudio</groupId>
 		<artifactId>com.netxforge.releng</artifactId>
 		<version>0.0.1-SNAPSHOT</version>
-		<relativePath>../releng.tycho/com.netxforge.releng</relativePath>
+		<relativePath>../../releng.tycho/com.netxforge.releng</relativePath>
 	</parent>
 	<modules>
-		<module>com.netxforge.base</module>
-		<module>com.netxforge.base.cdo</module>
-		<module>com.netxforge.editing.base</module>
-		<module>com.netxforge.editing.base.impl</module>
-		<module>../server/com.netxforge.netxstudio.log4j</module>
-		<module>../model/com.netxforge.netxscript</module>
-		<module>../model/com.netxforge.netxstudio.models</module>
-		<module>../model/com.netxforge.netxstudio.models.edit</module>
-		<module>../model/com.netxforge.netxstudio.models.export</module>
-		<module>../model/com.netxforge.netxstudio.models.import</module>
-		<module>../model/com.netxforge.models.06032012.emf</module>
-		<module>../model/com.netxforge.models.06032012.emf.edit</module>
-		<module>../model/com.netxforge.netxstudio.data.import</module>
-		<module>../model/com.netxforge.netxstudio.data.fixtures</module>
-		<module>../model/com.netxforge.netxstudio.webservice</module>
-		<module>../screens/com.netxforge.netxflows.screens</module>
-		<module>../screens/com.netxforge.netxscript.ui</module>
-		<module>../screens/com.netxforge.netxstudio.models.export.ui</module>
-		<module>../screens/com.netxforge.netxstudio.models.import.ui</module>
-		<module>../screens/com.netxforge.netxstudio.screens.app</module>
-		<module>../screens/com.netxforge.netxstudio.screens.activities</module>
-		<module>../screens/com.netxforge.netxstudio.screens.ide</module>
-		<module>../screens/com.netxforge.netxstudio.screens.editing</module>
-		<module>../screens/com.netxforge.netxstudio.screens.xtext</module>
-		<module>../products/com.netxforge.netxflows.product</module>
+		<module>../../plugins/com.netxforge.base</module>
+		<module>../../plugins/com.netxforge.base.cdo</module>
+		<module>../../plugins/com.netxforge.editing.base</module>
+		<module>../../plugins/com.netxforge.editing.base.impl</module>
+		<module>../../model/com.netxforge.netxstudio.models</module>
+		<module>../../model/com.netxforge.netxstudio.models.edit</module>
+		<module>../../model/com.netxforge.models.06032012.emf</module>
+		<module>../../model/com.netxforge.models.06032012.emf.edit</module>
+		<module>../../screens/com.netxforge.netxflows.screens</module>
+		<module>../../screens/com.netxforge.netxstudio.screens.app</module>
+		<module>../../screens/com.netxforge.netxstudio.screens.activities</module>
+		<module>../../screens/com.netxforge.netxstudio.screens.ide</module>
+		<module>../../products/com.netxforge.netxflows.product</module>
 	</modules>
 </project>

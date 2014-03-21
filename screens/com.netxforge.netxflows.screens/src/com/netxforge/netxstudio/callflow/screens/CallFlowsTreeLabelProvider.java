@@ -17,11 +17,15 @@
  *******************************************************************************/
 package com.netxforge.netxstudio.callflow.screens;
 
+import java.util.List;
 import java.util.Set;
 
 import org.eclipse.core.databinding.observable.map.IMapChangeListener;
 import org.eclipse.core.databinding.observable.map.IObservableMap;
 import org.eclipse.core.databinding.observable.map.MapChangeEvent;
+import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.EStructuralFeature;
+import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.jface.resource.ColorRegistry;
 import org.eclipse.jface.resource.JFaceResources;
 import org.eclipse.jface.viewers.LabelProviderChangedEvent;
@@ -433,8 +437,8 @@ public class CallFlowsTreeLabelProvider extends StyledCellLabelProvider {
 	private void updateColumn0(ViewerCell cell, Object element) {
 		if (element instanceof ServiceFlow) {
 			ServiceFlow serviceFlow = (ServiceFlow) element;
-			
-			StyledString styledString = new StyledString("TODO An ID", null);
+			StyledString styledString = new StyledString(indexFor(null,
+					serviceFlow), null);
 			cell.setText(styledString.getString());
 			// Image img = ResourceManager.getPluginImage(
 			// "com.netxforge.netxstudio.models.edit",
@@ -443,11 +447,32 @@ public class CallFlowsTreeLabelProvider extends StyledCellLabelProvider {
 			cell.setStyleRanges(styledString.getStyleRanges());
 		} else if (element instanceof ReferenceRelationship) {
 			ReferenceRelationship relationship = (ReferenceRelationship) element;
-			StyledString styledString = new StyledString("TODO An ID", null);
+			StyledString styledString = new StyledString(
+					indexFor(
+							LibraryPackage.Literals.REFERENCE_NETWORK__REF_RELATIONSHIPS,
+							relationship), null);
 			cell.setText(styledString.getString());
 			cell.setStyleRanges(styledString.getStyleRanges());
-			
+
 		}
+	}
+
+	private String indexFor(EStructuralFeature feature, EObject childObject) {
+		if (childObject.eContainer() != null) {
+			EObject eContainer = childObject.eContainer();
+			Object value = eContainer.eGet(feature);
+			if (value instanceof List<?>) {
+				List<?> list = (List<?>) value;
+				int indexOf = list.indexOf(childObject);
+				return new Integer(indexOf).toString();
+			}
+		} else if (childObject.eResource() != null) {
+			Resource eResource = childObject.eResource();
+			return new Integer((eResource).getContents().indexOf(childObject))
+					.toString();
+		}
+		throw new IllegalArgumentException("Can't resolve feature " + feature
+				+ " for child object" + childObject);
 	}
 
 }

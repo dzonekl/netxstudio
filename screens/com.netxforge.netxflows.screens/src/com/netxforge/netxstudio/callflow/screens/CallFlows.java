@@ -174,10 +174,9 @@ public class CallFlows extends AbstractScreen implements IDataServiceInjection {
 
 //		frmCallFlows.getToolBarManager().add(
 //				new EditCallFlowsAction("Visual Editor"));
-//		frmCallFlows.getToolBarManager().add(new NewCallFlowAction(""));
-//
-//		frmCallFlows.getToolBarManager().update(true);
-//		frmCallFlows.setToolBarVerticalAlignment(SWT.TOP);
+		frmCallFlows.getToolBarManager().add(new NewCallFlowAction(""));
+		frmCallFlows.getToolBarManager().update(true);
+		frmCallFlows.setToolBarVerticalAlignment(SWT.TOP);
 
 		toolkit.decorateFormHeading(frmCallFlows);
 		toolkit.paintBordersFor(frmCallFlows);
