@@ -35,6 +35,7 @@
 		<module>../model/com.netxforge.netxstudio.data.import</module>
 		<module>../model/com.netxforge.netxstudio.data.fixtures</module>
 		<module>../model/com.netxforge.netxstudio.webservice</module>
+		<module>../screens/com.netxforge.netxflows.screens</module>
 		<module>../screens/com.netxforge.netxscript.ui</module>
 		<module>../screens/com.netxforge.netxstudio.common</module>
 		<module>../screens/com.netxforge.netxstudio.console</module>
