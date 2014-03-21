@@ -7,10 +7,10 @@
          point="org.eclipse.core.runtime.products">
       <product
             application="com.netxforge.netxstudio.ui.application"
-            name="CallFlow">
+            name="CallFlows">
          <property
                name="appName"
-               value="CallFlow">
+               value="CallFlows">
          </property>
          <property
                name="windowImages"
