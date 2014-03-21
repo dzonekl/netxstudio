@@ -107,7 +107,7 @@
 	</build>
 	<modules>
 		<module>
-		../../product/netxflows
+		../../products/netxflows
 		</module>
 		<module>
 		../../features
