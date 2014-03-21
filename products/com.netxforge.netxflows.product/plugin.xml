@@ -18,7 +18,7 @@
          </property>
          <property
                name="aboutImage"
-               value="platform:/plugin/com.netxforge.netxstudio.client.product/icons/Logo about 250-330.png">
+               value="icons/Logo about 250-330.png">
          </property>
          <property
                name="aboutText"

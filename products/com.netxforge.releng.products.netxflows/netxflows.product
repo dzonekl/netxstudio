@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?pde version="3.5"?>
 
-<product name="CallFlow" uid="com.netxforge.netxstudio" id="com.netxforge.netxstudio.callflow.product.netxstudio" application="com.netxforge.netxstudio.ui.application" version="1.0.0" useFeatures="true" includeLaunchers="true">
+<product name="CallFlows" uid="com.netxforge.netxstudio" id="com.netxforge.netxflows.product.netxstudio" application="com.netxforge.netxstudio.ui.application" version="1.0.0" useFeatures="true" includeLaunchers="true">
 
    <aboutInfo>
-      <image path="/com.netxforge.netxstudio.client.product/icons/Logo about 250-330.png"/>
+      <image path="/com.netxforge.netxflows.product/icons/Logo about 250-330.png"/>
       <text>
          %aboutText
       </text>
@@ -47,14 +47,14 @@
    </plugins>
 
    <features>
-      <feature id="com.netxforge.netxstudio.client.callflow.product.feature" version="1.0.0.qualifier"/>
+      <feature id="com.netxforge.netxflows.product.feature" version="1.0.0.qualifier"/>
       <feature id="com.netxforge.netxstudio.screens.app.feature" version="1.0.0.qualifier"/>
       <feature id="com.netxforge.editing.base.feature" version="1.0.0.qualifier"/>
    </features>
 
    <configurations>
       <plugin id="com.netxforge.editing.base.impl" autoStart="true" startLevel="0" />
-      <plugin id="com.netxforge.netxstudio.callflow.product" autoStart="true" startLevel="1" />
+      <plugin id="com.netxforge.netxflows.product" autoStart="true" startLevel="1" />
    </configurations>
 
 </product>
