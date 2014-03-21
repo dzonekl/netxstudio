@@ -97,8 +97,10 @@ import com.netxforge.screens.editing.base.filter.TreeSearchFilter;
 
 public class CallFlows extends AbstractScreen implements IDataServiceInjection {
 
+	@SuppressWarnings("unused")
 	private static final String MEM_KEY_CALLFLOWS_SELECTION_TREE = "MEM_KEY_CALLFLWOS_SELECTION_TREE";
 
+	@SuppressWarnings("unused")
 	private static final String MEM_KEY_CALLFLOWS_COLUMNS_TREE = "MEM_KEY_CALLFLWOS_COLUMNS_TREE";
 
 	private final FormToolkit toolkit = new FormToolkit(Display.getCurrent());
@@ -170,15 +172,12 @@ public class CallFlows extends AbstractScreen implements IDataServiceInjection {
 
 		frmCallFlows.setText(this.getScreenName());
 
-		frmCallFlows.getToolBarManager().add(
-				new EditCallFlowsAction("Visual Editor"));
-		frmCallFlows.getToolBarManager().add(new NewCallFlowAction(""));
-
-		// frmCallFlows.getToolBarManager().add(
-		// new EditCallFlowsAction("Visual Editor"));
-
-		frmCallFlows.getToolBarManager().update(true);
-		frmCallFlows.setToolBarVerticalAlignment(SWT.TOP);
+//		frmCallFlows.getToolBarManager().add(
+//				new EditCallFlowsAction("Visual Editor"));
+//		frmCallFlows.getToolBarManager().add(new NewCallFlowAction(""));
+//
+//		frmCallFlows.getToolBarManager().update(true);
+//		frmCallFlows.setToolBarVerticalAlignment(SWT.TOP);
 
 		toolkit.decorateFormHeading(frmCallFlows);
 		toolkit.paintBordersFor(frmCallFlows);
