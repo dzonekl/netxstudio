@@ -36,7 +36,6 @@ import org.eclipse.emf.edit.domain.EditingDomain;
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.databinding.viewers.ObservableListTreeContentProvider;
-import org.eclipse.jface.databinding.viewers.ObservableMapLabelProvider;
 import org.eclipse.jface.databinding.viewers.TreeStructureAdvisor;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;
@@ -203,24 +202,35 @@ public class Protocols extends AbstractScreen implements IDataServiceInjection {
 		tree.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 3, 1));
 		toolkit.paintBordersFor(tree);
 
-		TreeViewerColumn tableViewerColumn = new TreeViewerColumn(treeViewer,
-				SWT.NONE);
-		TreeColumn tblclmnName = tableViewerColumn.getColumn();
-		tblclmnName.setWidth(111);
-		tblclmnName.setText("Name");
+		{
+			TreeViewerColumn tableViewerColumn = new TreeViewerColumn(
+					treeViewer, SWT.NONE);
+			TreeColumn tblclmnName = tableViewerColumn.getColumn();
+			tblclmnName.setWidth(50);
+			tblclmnName.setText("Index");
+		}
+		{
+			TreeViewerColumn tableViewerColumn = new TreeViewerColumn(
+					treeViewer, SWT.NONE);
+			TreeColumn tblclmnName = tableViewerColumn.getColumn();
+			tblclmnName.setWidth(111);
+			tblclmnName.setText("Name");
+		}
 
-		TreeViewerColumn tableViewerColumn_1 = new TreeViewerColumn(treeViewer,
-				SWT.NONE);
-		TreeColumn tblclmnDescription = tableViewerColumn_1.getColumn();
-		tblclmnDescription.setWidth(214);
-		tblclmnDescription.setText("Description");
-
-		TreeViewerColumn tableViewerColumn_2 = new TreeViewerColumn(treeViewer,
-				SWT.NONE);
-		TreeColumn tblclmnOSI = tableViewerColumn_2.getColumn();
-		tblclmnOSI.setWidth(250);
-		tblclmnOSI.setText("OSI");
-
+		{
+			TreeViewerColumn tableViewerColumn_1 = new TreeViewerColumn(
+					treeViewer, SWT.NONE);
+			TreeColumn tblclmnDescription = tableViewerColumn_1.getColumn();
+			tblclmnDescription.setWidth(214);
+			tblclmnDescription.setText("Description");
+		}
+		{
+			TreeViewerColumn tableViewerColumn_2 = new TreeViewerColumn(
+					treeViewer, SWT.NONE);
+			TreeColumn tblclmnOSI = tableViewerColumn_2.getColumn();
+			tblclmnOSI.setWidth(250);
+			tblclmnOSI.setText("OSI");
+		}
 		TreeViewerColumn tableViewerColumn_3 = new TreeViewerColumn(treeViewer,
 				SWT.NONE);
 		TreeColumn tblclmnSpecification = tableViewerColumn_3.getColumn();
@@ -259,9 +269,7 @@ public class Protocols extends AbstractScreen implements IDataServiceInjection {
 					} else if (o instanceof Procedure) {
 
 					} else if (o instanceof Message) {
-						
-						
-						
+
 					}
 				}
 			}
@@ -297,7 +305,7 @@ public class Protocols extends AbstractScreen implements IDataServiceInjection {
 						ProtocolsPackage.Literals.PROTOCOL__OSI,
 						ProtocolsPackage.Literals.PROTOCOL__SPECIFICATION });
 		treeViewer
-				.setLabelProvider(new ObservableMapLabelProvider(observeMaps));
+				.setLabelProvider(new ProtocolsTreeLabelProvider(observeMaps));
 		IEMFListProperty l = EMFEditProperties.resource(editingService
 				.getEditingDomain());
 		IObservableList protocolObservableList = l.observe(protocolResource);
