@@ -3,7 +3,8 @@
       id="com.netxforge.netxflows.product.feature"
       label="NetXFlows Product Feature"
       version="1.0.0.qualifier"
-      provider-name="NetXForge">
+      provider-name="NetXForge"
+      plugin="com.netxforge.branding">
 
    <description url="http://www.example.com/description">
       [Enter Feature Description here.]
