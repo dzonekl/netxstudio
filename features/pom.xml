@@ -18,8 +18,6 @@
 		<module>com.netxforge.editing.base.feature</module>
 		<module>com.netxforge.netxscript.feature</module>
 		<module>com.netxforge.netxscript.ui.feature</module>
-		<module>com.netxforge.netxflows.screens.feature</module>
-		<module>com.netxforge.netxflows.product.feature</module>
 		<module>com.netxforge.netxstudio.client.product.feature</module>
 		<module>com.netxforge.netxstudio.console.feature</module>
 		<module>com.netxforge.netxstudio.common.feature</module>
