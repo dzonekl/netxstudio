@@ -16,6 +16,7 @@
 	<modules>
 		<module>../../plugins/com.netxforge.base</module>
 		<module>../../plugins/com.netxforge.base.cdo</module>
+		<module>../../plugins/com.netxforge.branding</module>
 		<module>../../plugins/com.netxforge.editing.base</module>
 		<module>../../plugins/com.netxforge.editing.base.impl</module>
 		<module>../../model/com.netxforge.netxstudio.models</module>
