@@ -19,8 +19,7 @@
 package com.netxforge.netxstudio.operators.util;
 
 import org.eclipse.emf.common.util.URI;
-
-import org.eclipse.emf.ecore.xmi.impl.XMLResourceImpl;
+import org.eclipse.emf.ecore.xmi.impl.XMIResourceImpl;
 
 /**
  * <!-- begin-user-doc -->
@@ -29,7 +28,7 @@ import org.eclipse.emf.ecore.xmi.impl.XMLResourceImpl;
  * @see com.netxforge.netxstudio.operators.util.OperatorsResourceFactoryImpl
  * @generated
  */
-public class OperatorsResourceImpl extends XMLResourceImpl {
+public class OperatorsResourceImpl extends XMIResourceImpl {
 	/**
 	 * Creates an instance of the resource.
 	 * <!-- begin-user-doc -->

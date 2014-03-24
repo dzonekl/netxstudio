@@ -42,6 +42,7 @@ import com.netxforge.netxstudio.generics.Base;
  * The following features are supported:
  * <ul>
  *   <li>{@link com.netxforge.netxstudio.protocols.Message#getName <em>Name</em>}</li>
+ *   <li>{@link com.netxforge.netxstudio.protocols.Message#getDescription <em>Description</em>}</li>
  * </ul>
  * </p>
  *
@@ -77,5 +78,31 @@ public interface Message extends Base {
 	 * @generated
 	 */
 	void setName(String value);
+
+	/**
+	 * Returns the value of the '<em><b>Description</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Description</em>' attribute isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Description</em>' attribute.
+	 * @see #setDescription(String)
+	 * @see com.netxforge.netxstudio.protocols.ProtocolsPackage#getMessage_Description()
+	 * @model dataType="com.netxforge.netxstudio.generics.Description2000"
+	 * @generated
+	 */
+	String getDescription();
+
+	/**
+	 * Sets the value of the '{@link com.netxforge.netxstudio.protocols.Message#getDescription <em>Description</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Description</em>' attribute.
+	 * @see #getDescription()
+	 * @generated
+	 */
+	void setDescription(String value);
 
 } // Message

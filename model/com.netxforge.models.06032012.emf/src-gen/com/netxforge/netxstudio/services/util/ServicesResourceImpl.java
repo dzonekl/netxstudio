@@ -19,8 +19,7 @@
 package com.netxforge.netxstudio.services.util;
 
 import org.eclipse.emf.common.util.URI;
-
-import org.eclipse.emf.ecore.xmi.impl.XMLResourceImpl;
+import org.eclipse.emf.ecore.xmi.impl.XMIResourceImpl;
 
 /**
  * <!-- begin-user-doc -->
@@ -29,7 +28,7 @@ import org.eclipse.emf.ecore.xmi.impl.XMLResourceImpl;
  * @see com.netxforge.netxstudio.services.util.ServicesResourceFactoryImpl
  * @generated
  */
-public class ServicesResourceImpl extends XMLResourceImpl {
+public class ServicesResourceImpl extends XMIResourceImpl {
 	/**
 	 * Creates an instance of the resource.
 	 * <!-- begin-user-doc -->

@@ -25,9 +25,11 @@ import org.eclipse.core.databinding.observable.IObservable;
 import org.eclipse.core.databinding.observable.list.IObservableList;
 import org.eclipse.core.databinding.observable.map.IObservableMap;
 import org.eclipse.core.databinding.observable.masterdetail.IObservableFactory;
+import org.eclipse.core.databinding.observable.value.IObservableValue;
 import org.eclipse.emf.databinding.EMFDataBindingContext;
 import org.eclipse.emf.databinding.EMFObservables;
 import org.eclipse.emf.databinding.IEMFListProperty;
+import org.eclipse.emf.databinding.IEMFValueProperty;
 import org.eclipse.emf.databinding.edit.EMFEditProperties;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
@@ -66,6 +68,7 @@ import org.eclipse.wb.swt.ResourceManager;
 
 import com.google.common.collect.Lists;
 import com.netxforge.netxstudio.callflow.screens.AbstractScreen;
+import com.netxforge.netxstudio.callflow.screens.referenceNetwork.TextCellEditingSupport;
 import com.netxforge.netxstudio.protocols.Message;
 import com.netxforge.netxstudio.protocols.Procedure;
 import com.netxforge.netxstudio.protocols.Protocol;
@@ -92,6 +95,8 @@ public class Protocols extends AbstractScreen implements IDataServiceInjection {
 	private DataBindingContext bindingContext;
 	private Form frmProtocols;
 	private Resource protocolResource;
+	private TreeViewerColumn tvcName;
+	private TreeViewerColumn tvcDescription;
 
 	/**
 	 * Create the composite.
@@ -210,17 +215,15 @@ public class Protocols extends AbstractScreen implements IDataServiceInjection {
 			tblclmnName.setText("Index");
 		}
 		{
-			TreeViewerColumn tableViewerColumn = new TreeViewerColumn(
-					treeViewer, SWT.NONE);
-			TreeColumn tblclmnName = tableViewerColumn.getColumn();
+			tvcName = new TreeViewerColumn(treeViewer, SWT.NONE);
+			TreeColumn tblclmnName = tvcName.getColumn();
 			tblclmnName.setWidth(111);
 			tblclmnName.setText("Name");
 		}
 
 		{
-			TreeViewerColumn tableViewerColumn_1 = new TreeViewerColumn(
-					treeViewer, SWT.NONE);
-			TreeColumn tblclmnDescription = tableViewerColumn_1.getColumn();
+			tvcDescription = new TreeViewerColumn(treeViewer, SWT.NONE);
+			TreeColumn tblclmnDescription = tvcDescription.getColumn();
 			tblclmnDescription.setWidth(214);
 			tblclmnDescription.setText("Description");
 		}
@@ -303,7 +306,10 @@ public class Protocols extends AbstractScreen implements IDataServiceInjection {
 						ProtocolsPackage.Literals.PROTOCOL__NAME,
 						ProtocolsPackage.Literals.PROTOCOL__DESCRIPTION,
 						ProtocolsPackage.Literals.PROTOCOL__OSI,
-						ProtocolsPackage.Literals.PROTOCOL__SPECIFICATION });
+						ProtocolsPackage.Literals.PROTOCOL__SPECIFICATION,
+						ProtocolsPackage.Literals.PROCEDURE__NAME,
+						ProtocolsPackage.Literals.MESSAGE__NAME,
+						ProtocolsPackage.Literals.MESSAGE__DESCRIPTION });
 		treeViewer
 				.setLabelProvider(new ProtocolsTreeLabelProvider(observeMaps));
 		IEMFListProperty l = EMFEditProperties.resource(editingService
@@ -314,6 +320,81 @@ public class Protocols extends AbstractScreen implements IDataServiceInjection {
 		treeViewer.setInput(protocolObservableList);
 
 		EMFDataBindingContext bindingContext = new EMFDataBindingContext();
+
+		{
+
+			IObservableFactory nameObservableFactory = new IObservableFactory() {
+
+				IEMFValueProperty protocolNameProperty = EMFEditProperties
+						.value(editingService.getEditingDomain(),
+								ProtocolsPackage.Literals.PROTOCOL__NAME);
+
+				IEMFValueProperty procedureNameProperty = EMFEditProperties
+						.value(editingService.getEditingDomain(),
+								ProtocolsPackage.Literals.PROCEDURE__NAME);
+
+				IEMFValueProperty msgNameProperty = EMFEditProperties.value(
+						editingService.getEditingDomain(),
+						ProtocolsPackage.Literals.MESSAGE__NAME);
+
+				public IObservable createObservable(Object target) {
+					if (target instanceof IObservableValue) {
+						return (IObservable) target;
+					} else if (target instanceof Protocol) {
+						return protocolNameProperty.observe(target);
+					} else if (target instanceof Procedure) {
+						return procedureNameProperty.observe(target);
+					} else if (target instanceof Message) {
+						return msgNameProperty.observe(target);
+					}
+					return null;
+				}
+			};
+
+			final TextCellEditingSupport editingSupportName = new TextCellEditingSupport(
+					treeViewer, bindingContext, tree,
+					editingService.getEditingDomain(), nameObservableFactory);
+
+			tvcName.setEditingSupport(editingSupportName);
+		}
+
+		{
+
+			IObservableFactory nameObservableFactory = new IObservableFactory() {
+
+				IEMFValueProperty protocolNameProperty = EMFEditProperties
+						.value(editingService.getEditingDomain(),
+								ProtocolsPackage.Literals.PROTOCOL__DESCRIPTION);
+
+				IEMFValueProperty msgNameProperty = EMFEditProperties.value(
+						editingService.getEditingDomain(),
+						ProtocolsPackage.Literals.MESSAGE__DESCRIPTION);
+
+				public IObservable createObservable(Object target) {
+					if (target instanceof IObservableValue) {
+						return (IObservable) target;
+					} else if (target instanceof Protocol) {
+						return protocolNameProperty.observe(target);
+					} else if (target instanceof Message) {
+						return msgNameProperty.observe(target);
+					}
+					return null;
+				}
+			};
+
+			TextCellEditingSupport editingSupportDescription = new TextCellEditingSupport(
+					treeViewer, bindingContext, tree,
+					editingService.getEditingDomain(), nameObservableFactory) {
+
+				@Override
+				protected boolean canEdit(Object element) {
+					return !(element instanceof Procedure);
+				}
+			};
+
+			tvcDescription.setEditingSupport(editingSupportDescription);
+		}
+
 		return bindingContext;
 	}
 

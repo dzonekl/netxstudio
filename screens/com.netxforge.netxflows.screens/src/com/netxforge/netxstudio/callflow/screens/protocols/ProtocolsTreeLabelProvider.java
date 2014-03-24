@@ -35,6 +35,7 @@ import org.eclipse.jface.viewers.ViewerCell;
 import org.eclipse.swt.graphics.RGB;
 
 import com.netxforge.netxstudio.protocols.Message;
+import com.netxforge.netxstudio.protocols.OSIType;
 import com.netxforge.netxstudio.protocols.Procedure;
 import com.netxforge.netxstudio.protocols.Protocol;
 import com.netxforge.netxstudio.protocols.ProtocolsPackage;
@@ -114,10 +115,46 @@ public class ProtocolsTreeLabelProvider extends StyledCellLabelProvider {
 			updateColumn1(cell, element);
 		}
 			break;
-
+		case 2: {
+			updateColumn2(cell, element);
+		}
+			break;
+		case 3: {
+			updateColumn3(cell, element);
+		}
+			break;
+		case 4: {
+			updateColumn4(cell, element);
+		}
 		default: {
 			super.update(cell);
 		}
+		}
+	}
+
+	private void updateColumn0(ViewerCell cell, Object element) {
+		if (element instanceof Protocol) {
+			Protocol protocol = (Protocol) element;
+			StyledString styledString = new StyledString(indexFor(null,
+					protocol), null);
+			cell.setText(styledString.getString());
+			// Image img = ResourceManager.getPluginImage(
+			// "com.netxforge.netxstudio.models.edit",
+			// "icons/full/obj16/Company_H.png");
+			// cell.setImage(img);
+			cell.setStyleRanges(styledString.getStyleRanges());
+		} else if (element instanceof Procedure) {
+			Procedure proc = (Procedure) element;
+			StyledString styledString = new StyledString(indexFor(
+					ProtocolsPackage.Literals.PROTOCOL__PROCEDURES, proc), null);
+			cell.setText(styledString.getString());
+			cell.setStyleRanges(styledString.getStyleRanges());
+		} else if (element instanceof Message) {
+			Message msg = (Message) element;
+			StyledString styledString = new StyledString(indexFor(
+					ProtocolsPackage.Literals.PROCEDURE__MESSAGES, msg), null);
+			cell.setText(styledString.getString());
+			cell.setStyleRanges(styledString.getStyleRanges());
 		}
 	}
 
@@ -145,29 +182,69 @@ public class ProtocolsTreeLabelProvider extends StyledCellLabelProvider {
 		}
 	}
 
-	private void updateColumn0(ViewerCell cell, Object element) {
+	private void updateColumn2(ViewerCell cell, Object element) {
 		if (element instanceof Protocol) {
-			Protocol serviceFlow = (Protocol) element;
-			StyledString styledString = new StyledString(indexFor(null,
-					serviceFlow), null);
-			cell.setText(styledString.getString());
-			// Image img = ResourceManager.getPluginImage(
-			// "com.netxforge.netxstudio.models.edit",
-			// "icons/full/obj16/Company_H.png");
-			// cell.setImage(img);
-			cell.setStyleRanges(styledString.getStyleRanges());
-		} else if (element instanceof Procedure) {
-			Procedure proc = (Procedure) element;
-			StyledString styledString = new StyledString(indexFor(
-					ProtocolsPackage.Literals.PROTOCOL__PROCEDURES, proc), null);
-			cell.setText(styledString.getString());
-			cell.setStyleRanges(styledString.getStyleRanges());
+			Protocol protocol = (Protocol) element;
+
+			if (protocol
+					.eIsSet(ProtocolsPackage.Literals.PROTOCOL__DESCRIPTION)) {
+				StyledString styledString = new StyledString(
+						protocol.getDescription(), null);
+				cell.setText(styledString.getString());
+				// Image img = ResourceManager.getPluginImage(
+				// "com.netxforge.netxstudio.models.edit",
+				// "icons/full/obj16/Company_H.png");
+				// cell.setImage(img);
+				cell.setStyleRanges(styledString.getStyleRanges());
+			}
 		} else if (element instanceof Message) {
-			Message proc = (Message) element;
-			StyledString styledString = new StyledString(indexFor(
-					ProtocolsPackage.Literals.PROCEDURE__MESSAGES, proc), null);
-			cell.setText(styledString.getString());
-			cell.setStyleRanges(styledString.getStyleRanges());
+			Message msg = (Message) element;
+
+			if (msg.eIsSet(ProtocolsPackage.Literals.MESSAGE__DESCRIPTION)) {
+				StyledString styledString = new StyledString(
+						msg.getDescription());
+				cell.setStyleRanges(styledString.getStyleRanges());
+				cell.setText(styledString.getString());
+			}
+		}
+	}
+
+	private void updateColumn3(ViewerCell cell, Object element) {
+		if (element instanceof Protocol) {
+			Protocol protocol = (Protocol) element;
+
+			if (protocol.eIsSet(ProtocolsPackage.Literals.PROTOCOL__OSI)) {
+				OSIType osi = protocol.getOSI();
+
+				StyledString styledString = new StyledString(osi.getLiteral(),
+						null);
+				cell.setText(styledString.getString());
+				// Image img = ResourceManager.getPluginImage(
+				// "com.netxforge.netxstudio.models.edit",
+				// "icons/full/obj16/Company_H.png");
+				// cell.setImage(img);
+				cell.setStyleRanges(styledString.getStyleRanges());
+			}
+		}
+	}
+
+	private void updateColumn4(ViewerCell cell, Object element) {
+		if (element instanceof Protocol) {
+			Protocol protocol = (Protocol) element;
+
+			if (protocol
+					.eIsSet(ProtocolsPackage.Literals.PROTOCOL__SPECIFICATION)) {
+				String specification = protocol.getSpecification();
+
+				StyledString styledString = new StyledString(specification,
+						null);
+				cell.setText(styledString.getString());
+				// Image img = ResourceManager.getPluginImage(
+				// "com.netxforge.netxstudio.models.edit",
+				// "icons/full/obj16/Company_H.png");
+				// cell.setImage(img);
+				cell.setStyleRanges(styledString.getStyleRanges());
+			}
 		}
 	}
 

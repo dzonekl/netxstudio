@@ -1,3 +1,20 @@
+/*******************************************************************************
+ * Copyright (c) 24 mrt. 2014 NetXForge.
+ * 
+ * This program is free software: you can redistribute it and/or modify it under
+ * the terms of the GNU General Public License as published by the Free Software
+ * Foundation, either version 3 of the License, or (at your option) any later
+ * version.
+ * 
+ * This program is distributed in the hope that it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+ * FOR A PARTICULAR PURPOSE. See the GNU General Public License for more
+ * details. You should have received a copy of the GNU General Public License
+ * along with this program. If not, see <http://www.gnu.org/licenses/>
+ * 
+ * Contributors: Christophe Bouhier - initial API and implementation and/or
+ * initial documentation
+ *******************************************************************************/
 package com.netxforge.netxstudio.callflow.screens.referenceNetwork;
 
 import org.eclipse.core.databinding.DataBindingContext;
@@ -21,6 +38,7 @@ import org.eclipse.swt.widgets.Composite;
 
 import com.netxforge.netxstudio.library.NodeType;
 import com.netxforge.netxstudio.library.ReferenceRelationship;
+import com.netxforge.netxstudio.protocols.Message;
 import com.netxforge.netxstudio.protocols.Protocol;
 import com.netxforge.netxstudio.services.ServiceFlowDirection;
 
@@ -28,7 +46,7 @@ import com.netxforge.netxstudio.services.ServiceFlowDirection;
  * Binds a combobox cell editor to a feature.
  * 
  * 
- * @author Christophe
+ * @author Christophe Bouhier
  * 
  */
 public class ComboBoxCellEditingSupport extends ObservableValueEditingSupport {
@@ -72,7 +90,7 @@ public class ComboBoxCellEditingSupport extends ObservableValueEditingSupport {
 				} else if (element instanceof Protocol) {
 					return ((Protocol) element).getName();
 				} else if (element instanceof ReferenceRelationship) {
-					
+
 					ReferenceRelationship rel = (ReferenceRelationship) element;
 					NodeType nt1 = rel.getRefInterface1Ref();
 					NodeType nt2 = rel.getRefInterface2Ref();
@@ -83,7 +101,7 @@ public class ComboBoxCellEditingSupport extends ObservableValueEditingSupport {
 					buf.append(" <--> ");
 					buf.append(nt2 != null ? nt2.getName() : " ?");
 					buf.append(")");
-					
+
 					String name = rel.getName();
 					return name != null ? name : buf.toString();
 				} else if (element instanceof ServiceFlowDirection) {
@@ -95,6 +113,10 @@ public class ComboBoxCellEditingSupport extends ObservableValueEditingSupport {
 						return "<--";
 					}
 					}
+				} else if (element instanceof Message) {
+					Message m = (Message) element;
+					String name = m.getName();
+					return name;
 				}
 				return super.getText(element);
 			}
@@ -125,9 +147,10 @@ public class ComboBoxCellEditingSupport extends ObservableValueEditingSupport {
 	@Override
 	protected IObservableValue doCreateElementObservable(Object element,
 			ViewerCell cell) {
-		
-		System.out.println("ComboBoxCellEditing, create element observable called");
-		
+
+		System.out
+				.println("ComboBoxCellEditing, create element observable called");
+
 		// This will likely crash the cell editor, so do we have a NULL,
 		// observable?
 		return EMFEditProperties.value(editingDomain, path).observe(element);

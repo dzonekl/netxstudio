@@ -225,6 +225,15 @@ public class ProtocolsPackageImpl extends EPackageImpl implements ProtocolsPacka
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EAttribute getMessage_Description() {
+		return (EAttribute)messageEClass.getEStructuralFeatures().get(1);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public EClass getProcedure() {
 		return procedureEClass;
 	}
@@ -358,6 +367,7 @@ public class ProtocolsPackageImpl extends EPackageImpl implements ProtocolsPacka
 		// Create classes and their features
 		messageEClass = createEClass(MESSAGE);
 		createEAttribute(messageEClass, MESSAGE__NAME);
+		createEAttribute(messageEClass, MESSAGE__DESCRIPTION);
 
 		procedureEClass = createEClass(PROCEDURE);
 		createEReference(procedureEClass, PROCEDURE__MESSAGES);
@@ -417,6 +427,7 @@ public class ProtocolsPackageImpl extends EPackageImpl implements ProtocolsPacka
 		// Initialize classes, features, and operations; add parameters
 		initEClass(messageEClass, Message.class, "Message", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getMessage_Name(), theGenericsPackage.getName255(), "name", null, 0, 1, Message.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getMessage_Description(), theGenericsPackage.getDescription2000(), "description", null, 0, 1, Message.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(procedureEClass, Procedure.class, "Procedure", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getProcedure_Messages(), this.getMessage(), null, "messages", null, 0, -1, Procedure.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
@@ -449,6 +460,8 @@ public class ProtocolsPackageImpl extends EPackageImpl implements ProtocolsPacka
 		// Create annotations
 		// http://www.eclipse.org/emf/2002/Ecore
 		createEcoreAnnotations();
+		// http://www.eclipse.org/edapt
+		createEdaptAnnotations();
 		// http:///org/eclipse/emf/ecore/util/ExtendedMetaData
 		createExtendedMetaDataAnnotations();
 	}
@@ -468,6 +481,22 @@ public class ProtocolsPackageImpl extends EPackageImpl implements ProtocolsPacka
 			 "validationDelegates", "http://www.eclipse.org/emf/2002/Ecore/OCL",
 			 "settingDelegates", "http://www.eclipse.org/emf/2002/Ecore/OCL",
 			 "invocationDelegates", "http://www.eclipse.org/emf/2002/Ecore/OCL"
+		   });																											
+	}
+
+	/**
+	 * Initializes the annotations for <b>http://www.eclipse.org/edapt</b>.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	protected void createEdaptAnnotations() {
+		String source = "http://www.eclipse.org/edapt";				
+		addAnnotation
+		  (this, 
+		   source, 
+		   new String[] {
+			 "historyURI", "services.history"
 		   });																										
 	}
 
@@ -478,7 +507,7 @@ public class ProtocolsPackageImpl extends EPackageImpl implements ProtocolsPacka
 	 * @generated
 	 */
 	protected void createExtendedMetaDataAnnotations() {
-		String source = "http:///org/eclipse/emf/ecore/util/ExtendedMetaData";					
+		String source = "http:///org/eclipse/emf/ecore/util/ExtendedMetaData";						
 		addAnnotation
 		  (messageEClass, 
 		   source, 

@@ -139,27 +139,26 @@ public interface ServiceFlowRelationship extends Base {
 	void setProtocol(Protocol value);
 
 	/**
-	 * Returns the value of the '<em><b>Message</b></em>' containment reference.
+	 * Returns the value of the '<em><b>Message</b></em>' reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * <!-- begin-model-doc -->
 	 * The specific message for the protocol. 
 	 * 							
 	 * <!-- end-model-doc -->
-	 * @return the value of the '<em>Message</em>' containment reference.
+	 * @return the value of the '<em>Message</em>' reference.
 	 * @see #setMessage(Message)
 	 * @see com.netxforge.netxstudio.services.ServicesPackage#getServiceFlowRelationship_Message()
-	 * @model containment="true"
-	 *        extendedMetaData="kind='element' name='Message'"
+	 * @model extendedMetaData="kind='element' name='Message'"
 	 * @generated
 	 */
 	Message getMessage();
 
 	/**
-	 * Sets the value of the '{@link com.netxforge.netxstudio.services.ServiceFlowRelationship#getMessage <em>Message</em>}' containment reference.
+	 * Sets the value of the '{@link com.netxforge.netxstudio.services.ServiceFlowRelationship#getMessage <em>Message</em>}' reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @param value the new value of the '<em>Message</em>' containment reference.
+	 * @param value the new value of the '<em>Message</em>' reference.
 	 * @see #getMessage()
 	 * @generated
 	 */

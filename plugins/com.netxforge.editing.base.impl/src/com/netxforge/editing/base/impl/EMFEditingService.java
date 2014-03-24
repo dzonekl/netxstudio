@@ -29,6 +29,7 @@ import org.eclipse.emf.common.ui.viewer.IViewerProvider;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
+import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.edit.domain.AdapterFactoryEditingDomain;
 import org.eclipse.emf.edit.domain.EditingDomain;
 import org.eclipse.emf.edit.provider.AdapterFactoryItemDelegator;
@@ -118,7 +119,7 @@ public class EMFEditingService implements IEditingService {
 							// Save a copy of the objects of certain resources.
 
 						} catch (Exception exception) {
-							// exception.printStackTrace();
+							exception.printStackTrace();
 
 							// Various reasons why save would fail...
 							// At least warn the user.
@@ -170,7 +171,7 @@ public class EMFEditingService implements IEditingService {
 			((BasicCommandStack) getEditingDomain().getCommandStack())
 					.saveIsDone();
 		} catch (Exception exception) {
-			// exception.printStackTrace();
+			exception.printStackTrace();
 			// Hide here will be caught higher up.
 		}
 	}
@@ -199,8 +200,8 @@ public class EMFEditingService implements IEditingService {
 	}
 
 	public void setDirty() {
-		// Do Nothing here. 
-//		throw new UnsupportedOperationException("TODO Implement");
+		// Do Nothing here.
+		// throw new UnsupportedOperationException("TODO Implement");
 	}
 
 	public Resource getData(int feature) {
@@ -212,9 +213,13 @@ public class EMFEditingService implements IEditingService {
 	}
 
 	public Resource getData(EClass clazz) {
-		// Should we cache it?
-		Resource resource = this.data.getResource(this.getEditingDomain()
-				.getResourceSet(), clazz);
+		ResourceSet resourceSet = this.getEditingDomain().getResourceSet();
+		Resource resource = this.data.getResource(resourceSet, clazz);
+
+		for (Resource.Diagnostic d : resource.getErrors()) {
+			System.out.println(d);
+		}
+
 		return resource;
 	}
 

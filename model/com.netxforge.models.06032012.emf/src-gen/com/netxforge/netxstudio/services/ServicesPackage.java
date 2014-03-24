@@ -984,7 +984,7 @@ public interface ServicesPackage extends EPackage {
 	int SERVICE_FLOW_RELATIONSHIP__PROTOCOL = GenericsPackage.BASE_FEATURE_COUNT + 2;
 
 	/**
-	 * The feature id for the '<em><b>Message</b></em>' containment reference.
+	 * The feature id for the '<em><b>Message</b></em>' reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
@@ -1850,10 +1850,10 @@ public interface ServicesPackage extends EPackage {
 	EReference getServiceFlowRelationship_Protocol();
 
 	/**
-	 * Returns the meta object for the containment reference '{@link com.netxforge.netxstudio.services.ServiceFlowRelationship#getMessage <em>Message</em>}'.
+	 * Returns the meta object for the reference '{@link com.netxforge.netxstudio.services.ServiceFlowRelationship#getMessage <em>Message</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for the containment reference '<em>Message</em>'.
+	 * @return the meta object for the reference '<em>Message</em>'.
 	 * @see com.netxforge.netxstudio.services.ServiceFlowRelationship#getMessage()
 	 * @see #getServiceFlowRelationship()
 	 * @generated
@@ -2536,7 +2536,7 @@ public interface ServicesPackage extends EPackage {
 		EReference SERVICE_FLOW_RELATIONSHIP__PROTOCOL = eINSTANCE.getServiceFlowRelationship_Protocol();
 
 		/**
-		 * The meta object literal for the '<em><b>Message</b></em>' containment reference feature.
+		 * The meta object literal for the '<em><b>Message</b></em>' reference feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
 		 * @generated

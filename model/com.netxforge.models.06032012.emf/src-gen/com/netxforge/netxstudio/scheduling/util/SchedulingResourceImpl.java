@@ -19,8 +19,7 @@
 package com.netxforge.netxstudio.scheduling.util;
 
 import org.eclipse.emf.common.util.URI;
-
-import org.eclipse.emf.ecore.xmi.impl.XMLResourceImpl;
+import org.eclipse.emf.ecore.xmi.impl.XMIResourceImpl;
 
 /**
  * <!-- begin-user-doc -->
@@ -29,7 +28,7 @@ import org.eclipse.emf.ecore.xmi.impl.XMLResourceImpl;
  * @see com.netxforge.netxstudio.scheduling.util.SchedulingResourceFactoryImpl
  * @generated
  */
-public class SchedulingResourceImpl extends XMLResourceImpl {
+public class SchedulingResourceImpl extends XMIResourceImpl {
 	/**
 	 * Creates an instance of the resource.
 	 * <!-- begin-user-doc -->

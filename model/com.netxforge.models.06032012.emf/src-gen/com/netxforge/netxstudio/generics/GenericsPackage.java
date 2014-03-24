@@ -39,6 +39,7 @@ import org.eclipse.emf.ecore.EReference;
  * <!-- end-user-doc -->
  * @see com.netxforge.netxstudio.generics.GenericsFactory
  * @model kind="package"
+ *        annotation="http://www.eclipse.org/edapt historyURI='services.history'"
  * @generated
  */
 public interface GenericsPackage extends EPackage {

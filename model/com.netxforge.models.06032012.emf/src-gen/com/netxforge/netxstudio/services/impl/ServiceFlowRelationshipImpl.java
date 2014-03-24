@@ -19,23 +19,16 @@
 package com.netxforge.netxstudio.services.impl;
 
 import com.netxforge.netxstudio.generics.impl.BaseImpl;
-
 import com.netxforge.netxstudio.library.ReferenceRelationship;
-
 import com.netxforge.netxstudio.protocols.Message;
 import com.netxforge.netxstudio.protocols.Protocol;
-
 import com.netxforge.netxstudio.services.ServiceFlow;
 import com.netxforge.netxstudio.services.ServiceFlowDirection;
 import com.netxforge.netxstudio.services.ServiceFlowRelationship;
 import com.netxforge.netxstudio.services.ServicesPackage;
-
 import org.eclipse.emf.common.notify.Notification;
-import org.eclipse.emf.common.notify.NotificationChain;
-
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.InternalEObject;
-
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 
 /**
@@ -87,7 +80,7 @@ public class ServiceFlowRelationshipImpl extends BaseImpl implements ServiceFlow
 	protected Protocol protocol;
 
 	/**
-	 * The cached value of the '{@link #getMessage() <em>Message</em>}' containment reference.
+	 * The cached value of the '{@link #getMessage() <em>Message</em>}' reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @see #getMessage()
@@ -264,6 +257,14 @@ public class ServiceFlowRelationshipImpl extends BaseImpl implements ServiceFlow
 	 * @generated
 	 */
 	public Message getMessage() {
+		if (message != null && message.eIsProxy()) {
+			InternalEObject oldMessage = (InternalEObject)message;
+			message = (Message)eResolveProxy(oldMessage);
+			if (message != oldMessage) {
+				if (eNotificationRequired())
+					eNotify(new ENotificationImpl(this, Notification.RESOLVE, ServicesPackage.SERVICE_FLOW_RELATIONSHIP__MESSAGE, oldMessage, message));
+			}
+		}
 		return message;
 	}
 
@@ -272,14 +273,8 @@ public class ServiceFlowRelationshipImpl extends BaseImpl implements ServiceFlow
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public NotificationChain basicSetMessage(Message newMessage, NotificationChain msgs) {
-		Message oldMessage = message;
-		message = newMessage;
-		if (eNotificationRequired()) {
-			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, ServicesPackage.SERVICE_FLOW_RELATIONSHIP__MESSAGE, oldMessage, newMessage);
-			if (msgs == null) msgs = notification; else msgs.add(notification);
-		}
-		return msgs;
+	public Message basicGetMessage() {
+		return message;
 	}
 
 	/**
@@ -288,17 +283,10 @@ public class ServiceFlowRelationshipImpl extends BaseImpl implements ServiceFlow
 	 * @generated
 	 */
 	public void setMessage(Message newMessage) {
-		if (newMessage != message) {
-			NotificationChain msgs = null;
-			if (message != null)
-				msgs = ((InternalEObject)message).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - ServicesPackage.SERVICE_FLOW_RELATIONSHIP__MESSAGE, null, msgs);
-			if (newMessage != null)
-				msgs = ((InternalEObject)newMessage).eInverseAdd(this, EOPPOSITE_FEATURE_BASE - ServicesPackage.SERVICE_FLOW_RELATIONSHIP__MESSAGE, null, msgs);
-			msgs = basicSetMessage(newMessage, msgs);
-			if (msgs != null) msgs.dispatch();
-		}
-		else if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, ServicesPackage.SERVICE_FLOW_RELATIONSHIP__MESSAGE, newMessage, newMessage));
+		Message oldMessage = message;
+		message = newMessage;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, ServicesPackage.SERVICE_FLOW_RELATIONSHIP__MESSAGE, oldMessage, message));
 	}
 
 	/**
@@ -353,20 +341,6 @@ public class ServiceFlowRelationshipImpl extends BaseImpl implements ServiceFlow
 	 * @generated
 	 */
 	@Override
-	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
-		switch (featureID) {
-			case ServicesPackage.SERVICE_FLOW_RELATIONSHIP__MESSAGE:
-				return basicSetMessage(null, msgs);
-		}
-		return super.eInverseRemove(otherEnd, featureID, msgs);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
 			case ServicesPackage.SERVICE_FLOW_RELATIONSHIP__REFERENCE_RELATIONSHIP:
@@ -379,7 +353,8 @@ public class ServiceFlowRelationshipImpl extends BaseImpl implements ServiceFlow
 				if (resolve) return getProtocol();
 				return basicGetProtocol();
 			case ServicesPackage.SERVICE_FLOW_RELATIONSHIP__MESSAGE:
-				return getMessage();
+				if (resolve) return getMessage();
+				return basicGetMessage();
 			case ServicesPackage.SERVICE_FLOW_RELATIONSHIP__DIRECTION:
 				return getDirection();
 		}

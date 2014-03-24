@@ -25,24 +25,25 @@ import org.eclipse.core.databinding.observable.list.IObservableList;
 import org.eclipse.core.databinding.observable.map.IObservableMap;
 import org.eclipse.core.databinding.observable.masterdetail.IObservableFactory;
 import org.eclipse.core.databinding.observable.set.IObservableSet;
-import org.eclipse.core.databinding.observable.value.IObservableValue;
 import org.eclipse.emf.common.command.Command;
 import org.eclipse.emf.common.command.CompoundCommand;
 import org.eclipse.emf.common.ui.URIEditorInput;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.databinding.EMFDataBindingContext;
-import org.eclipse.emf.databinding.EMFProperties;
 import org.eclipse.emf.databinding.FeaturePath;
 import org.eclipse.emf.databinding.IEMFListProperty;
 import org.eclipse.emf.databinding.edit.EMFEditProperties;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
+import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.edit.command.AddCommand;
 import org.eclipse.emf.edit.domain.EditingDomain;
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.action.IAction;
+import org.eclipse.jface.databinding.viewers.IViewerObservableValue;
 import org.eclipse.jface.databinding.viewers.ObservableListTreeContentProvider;
 import org.eclipse.jface.databinding.viewers.TreeStructureAdvisor;
+import org.eclipse.jface.databinding.viewers.ViewersObservables;
 import org.eclipse.jface.layout.TreeColumnLayout;
 import org.eclipse.jface.viewers.CellEditor;
 import org.eclipse.jface.viewers.ColumnPixelData;
@@ -51,7 +52,6 @@ import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.jface.viewers.TreeViewerColumn;
 import org.eclipse.jface.viewers.Viewer;
-import org.eclipse.jface.viewers.ViewerCell;
 import org.eclipse.jface.viewers.ViewerComparator;
 import org.eclipse.jface.viewers.ViewerFilter;
 import org.eclipse.jface.window.Window;
@@ -82,8 +82,8 @@ import com.netxforge.netxstudio.callflow.screens.referenceNetwork.ComboBoxCellEd
 import com.netxforge.netxstudio.callflow.screens.referenceNetwork.TextCellEditingSupport;
 import com.netxforge.netxstudio.library.LibraryPackage;
 import com.netxforge.netxstudio.library.ReferenceNetwork;
-import com.netxforge.netxstudio.protocols.Message;
-import com.netxforge.netxstudio.protocols.ProtocolsFactory;
+import com.netxforge.netxstudio.protocols.Procedure;
+import com.netxforge.netxstudio.protocols.Protocol;
 import com.netxforge.netxstudio.protocols.ProtocolsPackage;
 import com.netxforge.netxstudio.services.ServiceFlow;
 import com.netxforge.netxstudio.services.ServiceFlowDirection;
@@ -148,14 +148,17 @@ public class CallFlows extends AbstractScreen implements IDataServiceInjection {
 	@Override
 	public void injectData() {
 
+		editingService.getData(ProtocolsPackage.Literals.PROTOCOL);
 		servicesResource = editingService
 				.getData(ServicesPackage.Literals.SERVICE_FLOW);
+
+		EcoreUtil.resolveAll(servicesResource);
+
 		refNet = initReferenceNetwork();
-		
+
 		buildUI();
 		initDataBindings_();
 	}
-
 
 	private void buildUI() {
 		setLayout(new FillLayout(SWT.HORIZONTAL));
@@ -172,8 +175,8 @@ public class CallFlows extends AbstractScreen implements IDataServiceInjection {
 
 		frmCallFlows.setText(this.getScreenName());
 
-//		frmCallFlows.getToolBarManager().add(
-//				new EditCallFlowsAction("Visual Editor"));
+		// frmCallFlows.getToolBarManager().add(
+		// new EditCallFlowsAction("Visual Editor"));
 		frmCallFlows.getToolBarManager().add(new NewCallFlowAction(""));
 		frmCallFlows.getToolBarManager().update(true);
 		frmCallFlows.setToolBarVerticalAlignment(SWT.TOP);
@@ -288,8 +291,8 @@ public class CallFlows extends AbstractScreen implements IDataServiceInjection {
 						return eq1.getName().compareTo(eq2.getName());
 					}
 				}
-				return 0; // Do not compare other types. 
-//				return super.compare(viewer, e1, e2);
+				return 0; // Do not compare other types.
+				// return super.compare(viewer, e1, e2);
 			}
 
 			/*
@@ -432,7 +435,8 @@ public class CallFlows extends AbstractScreen implements IDataServiceInjection {
 					map));
 		}
 
-		IEMFListProperty callFlowsListProperty = EMFProperties.resource();
+		IEMFListProperty callFlowsListProperty = EMFEditProperties
+				.resource(editingService.getEditingDomain());
 		callFlowTreeViewer.setInput(callFlowsListProperty
 				.observe(servicesResource));
 
@@ -525,7 +529,7 @@ public class CallFlows extends AbstractScreen implements IDataServiceInjection {
 		// The protocol column
 		{
 
-			Resource cdoResProtocols = editingService
+			Resource protocolResource = editingService
 					.getData(ProtocolsPackage.Literals.PROTOCOL);
 
 			IEMFListProperty protocolsPropertyList = EMFEditProperties
@@ -534,58 +538,104 @@ public class CallFlows extends AbstractScreen implements IDataServiceInjection {
 			FeaturePath protocolPath = FeaturePath
 					.fromList(ServicesPackage.Literals.SERVICE_FLOW_RELATIONSHIP__PROTOCOL);
 
-			ComboBoxCellEditingSupport cmbCellEditingSupportProtocol = new ComboBoxCellEditingSupport(
+			final ComboBoxCellEditingSupport cmbCellEditingSupportProtocol = new ComboBoxCellEditingSupport(
 					callFlowTreeViewer, context, callFlowTree,
 					editingService.getEditingDomain(), protocolPath);
 
 			treeViewerColumnProtocol
 					.setEditingSupport(cmbCellEditingSupportProtocol);
 			cmbCellEditingSupportProtocol.setInput(protocolsPropertyList
-					.observe(cdoResProtocols));
+					.observe(protocolResource));
+
+		}
+
+		{
+
+			final IViewerObservableValue observeSingleSelection = ViewersObservables
+					.observeSingleSelection(callFlowTreeViewer);
+
+			// Compute from an observable.
+			ComputedList computedList = new ComputedList() {
+
+				@SuppressWarnings("rawtypes")
+				@Override
+				protected List calculate() {
+
+					List<Object> result = Lists.newArrayList();
+
+					Object value = observeSingleSelection.getValue();
+					if (value instanceof ServiceFlowRelationship) {
+						ServiceFlowRelationship rel = (ServiceFlowRelationship) value;
+						Protocol protocol = rel.getProtocol();
+						if (protocol != null) {
+							for (Procedure p : protocol.getProcedures()) {
+								// get all the messages and put in our
+								// observable.
+								result.addAll(p.getMessages());
+							}
+						}
+					}
+
+					return result;
+				}
+			};
+
+			FeaturePath msgPath = FeaturePath
+					.fromList(ServicesPackage.Literals.SERVICE_FLOW_RELATIONSHIP__MESSAGE);
+
+			ComboBoxCellEditingSupport cmbCellEditingSupportMessage = new ComboBoxCellEditingSupport(
+					callFlowTreeViewer, context, callFlowTree,
+					editingService.getEditingDomain(), msgPath);
+
+			treeViewerColumnMessage
+					.setEditingSupport(cmbCellEditingSupportMessage);
+			cmbCellEditingSupportMessage.setInput(computedList);
 		}
 
 		// The message column.
-		{
-			FeaturePath messagePath = FeaturePath
-					.fromList(
-							ServicesPackage.Literals.SERVICE_FLOW_RELATIONSHIP__MESSAGE,
-							ProtocolsPackage.Literals.MESSAGE__NAME);
-
-			TextCellEditingSupport txtCellEditingMessage = new TextCellEditingSupport(
-					callFlowTreeViewer, context, callFlowTree,
-					editingService.getEditingDomain(), messagePath) {
-
-				/*
-				 * (non-Javadoc)
-				 * 
-				 * @see
-				 * com.netxforge.netxstudio.callflow.screens.referenceNetwork
-				 * .TextCellEditingSupport
-				 * #doCreateElementObservable(java.lang.Object,
-				 * org.eclipse.jface.viewers.ViewerCell)
-				 */
-				@Override
-				protected IObservableValue doCreateElementObservable(
-						Object element, ViewerCell cell) {
-					// make sure we have a message object for this service flow
-					// relationship.
-					if (element instanceof ServiceFlowRelationship) {
-						if (!((ServiceFlowRelationship) element)
-								.eIsSet(ServicesPackage.Literals.SERVICE_FLOW_RELATIONSHIP__MESSAGE)) {
-							Message createMessage = ProtocolsFactory.eINSTANCE
-									.createMessage();
-							createMessage.setName("new*");
-							((ServiceFlowRelationship) element)
-									.setMessage(createMessage);
-						}
-					}
-					return super.doCreateElementObservable(element, cell);
-				}
-
-			};
-
-			treeViewerColumnMessage.setEditingSupport(txtCellEditingMessage);
-		}
+		// {
+		// FeaturePath messagePath = FeaturePath
+		// .fromList(
+		// ServicesPackage.Literals.SERVICE_FLOW_RELATIONSHIP__MESSAGE,
+		// ProtocolsPackage.Literals.MESSAGE__NAME);
+		//
+		// TextCellEditingSupport txtCellEditingMessage = new
+		// TextCellEditingSupport(
+		// callFlowTreeViewer, context, callFlowTree,
+		// editingService.getEditingDomain(), messagePath) {
+		//
+		// /*
+		// * (non-Javadoc)
+		// *
+		// * @see
+		// * com.netxforge.netxstudio.callflow.screens.referenceNetwork
+		// * .TextCellEditingSupport
+		// * #doCreateElementObservable(java.lang.Object,
+		// * org.eclipse.jface.viewers.ViewerCell)
+		// */
+		// @Override
+		// protected IObservableValue doCreateElementObservable(
+		// Object element, ViewerCell cell) {
+		// // make sure we have a message object for this service flow
+		// // relationship.
+		// if (element instanceof ServiceFlowRelationship) {
+		// if (!((ServiceFlowRelationship) element)
+		// .eIsSet(ServicesPackage.Literals.SERVICE_FLOW_RELATIONSHIP__MESSAGE))
+		// {
+		// Message createMessage = ProtocolsFactory.eINSTANCE
+		// .createMessage();
+		// createMessage.setName("new*");
+		// ((ServiceFlowRelationship) element)
+		// .setMessage(createMessage);
+		// }
+		// }
+		// return super.doCreateElementObservable(element, cell);
+		// }
+		//
+		// };
+		//
+		// treeViewerColumnMessage.setEditingSupport(txtCellEditingMessage);
+		// }
 
 		return context;
 	}
@@ -786,14 +836,13 @@ public class CallFlows extends AbstractScreen implements IDataServiceInjection {
 	@Override
 	public ShowInContext getShowIn(ISelection selection) {
 
-
 		// create a chart show in.
 		ShowInContext showInContext = new ShowInContext(new String("input"),
 				callFlowTreeViewer.getSelection());
 
 		return showInContext;
 	}
-	
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -836,13 +885,13 @@ public class CallFlows extends AbstractScreen implements IDataServiceInjection {
 	public void saveState(IMemento memento) {
 
 		// sash state vertical.
-		
-		// CB We need an alternative for memento for regular EMF Objects.  
-		
-//		CDOMementoUtil.rememberStructuredViewerSelection(memento,
-//				callFlowTreeViewer, MEM_KEY_CALLFLOWS_SELECTION_TREE);
-//		MementoUtil.rememberStructuredViewerColumns(memento,
-//				callFlowTreeViewer, MEM_KEY_CALLFLOWS_COLUMNS_TREE);
+
+		// CB We need an alternative for memento for regular EMF Objects.
+
+		// CDOMementoUtil.rememberStructuredViewerSelection(memento,
+		// callFlowTreeViewer, MEM_KEY_CALLFLOWS_SELECTION_TREE);
+		// MementoUtil.rememberStructuredViewerColumns(memento,
+		// callFlowTreeViewer, MEM_KEY_CALLFLOWS_COLUMNS_TREE);
 	}
 
 	/*
@@ -855,11 +904,11 @@ public class CallFlows extends AbstractScreen implements IDataServiceInjection {
 	@Override
 	public void restoreState(IMemento memento) {
 
-//		CDOMementoUtil.retrieveStructuredViewerSelection(memento,
-//				callFlowTreeViewer, MEM_KEY_CALLFLOWS_SELECTION_TREE,
-//				((CDOResource) cdoResourceCallFlows).cdoView());
-//		MementoUtil.retrieveStructuredViewerColumns(memento,
-//				callFlowTreeViewer, MEM_KEY_CALLFLOWS_COLUMNS_TREE);
+		// CDOMementoUtil.retrieveStructuredViewerSelection(memento,
+		// callFlowTreeViewer, MEM_KEY_CALLFLOWS_SELECTION_TREE,
+		// ((CDOResource) cdoResourceCallFlows).cdoView());
+		// MementoUtil.retrieveStructuredViewerColumns(memento,
+		// callFlowTreeViewer, MEM_KEY_CALLFLOWS_COLUMNS_TREE);
 	}
 
 }

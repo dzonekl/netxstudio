@@ -68,11 +68,6 @@ public class Data implements IBaseData {
 		throw new UnsupportedOperationException("TODO Implement");
 	}
 
-	private boolean hasResource(ResourceSet set, URI uri) {
-		Resource resource = set.getResource(uri, false);
-		return resource != null;
-	}
-
 	public boolean hasResource(String resourcePath) {
 		throw new UnsupportedOperationException("TODO Implement");
 	}
@@ -115,7 +110,7 @@ public class Data implements IBaseData {
 		URI uri = URI.createFileURI(path + "/" + name + "." + extension);
 		return uri;
 	}
-
+	
 	/**
 	 * Resolve the extension from the {@link Registry}
 	 * 

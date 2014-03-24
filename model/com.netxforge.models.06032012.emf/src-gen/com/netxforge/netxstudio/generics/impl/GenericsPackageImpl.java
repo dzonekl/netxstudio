@@ -1296,10 +1296,28 @@ public class GenericsPackageImpl extends EPackageImpl implements GenericsPackage
 		createResource(eNS_URI);
 
 		// Create annotations
+		// http://www.eclipse.org/edapt
+		createEdaptAnnotations();
 		// http:///org/eclipse/emf/ecore/util/ExtendedMetaData
 		createExtendedMetaDataAnnotations();
 		// teneo.jpa
 		createTeneoAnnotations();
+	}
+
+	/**
+	 * Initializes the annotations for <b>http://www.eclipse.org/edapt</b>.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	protected void createEdaptAnnotations() {
+		String source = "http://www.eclipse.org/edapt";		
+		addAnnotation
+		  (this, 
+		   source, 
+		   new String[] {
+			 "historyURI", "services.history"
+		   });																																																																																																																																							
 	}
 
 	/**
@@ -1309,7 +1327,7 @@ public class GenericsPackageImpl extends EPackageImpl implements GenericsPackage
 	 * @generated
 	 */
 	protected void createExtendedMetaDataAnnotations() {
-		String source = "http:///org/eclipse/emf/ecore/util/ExtendedMetaData";		
+		String source = "http:///org/eclipse/emf/ecore/util/ExtendedMetaData";			
 		addAnnotation
 		  (actionTypeEEnum, 
 		   source, 
@@ -1832,7 +1850,7 @@ public class GenericsPackageImpl extends EPackageImpl implements GenericsPackage
 	 * @generated
 	 */
 	protected void createTeneoAnnotations() {
-		String source = "teneo.jpa";				
+		String source = "teneo.jpa";					
 		addAnnotation
 		  (baseEClass, 
 		   source, 

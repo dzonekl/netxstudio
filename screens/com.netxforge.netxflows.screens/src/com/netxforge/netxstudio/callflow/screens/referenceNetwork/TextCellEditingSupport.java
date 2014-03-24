@@ -1,6 +1,8 @@
 package com.netxforge.netxstudio.callflow.screens.referenceNetwork;
 
 import org.eclipse.core.databinding.DataBindingContext;
+import org.eclipse.core.databinding.observable.IObservable;
+import org.eclipse.core.databinding.observable.masterdetail.IObservableFactory;
 import org.eclipse.core.databinding.observable.value.IObservableValue;
 import org.eclipse.emf.databinding.FeaturePath;
 import org.eclipse.emf.databinding.edit.EMFEditProperties;
@@ -35,6 +37,18 @@ public class TextCellEditingSupport extends ObservableValueEditingSupport {
 
 	private FeaturePath path;
 
+	private IObservableFactory factory;
+
+	public TextCellEditingSupport(ColumnViewer viewer, DataBindingContext dbc,
+			Composite control, EditingDomain domain, IObservableFactory factory) {
+		super(viewer, dbc);
+
+		this.editingDomain = domain;
+		this.factory = factory;
+
+		cellEditor = new TextCellEditor(control, SWT.NONE);
+	}
+
 	public TextCellEditingSupport(ColumnViewer viewer, DataBindingContext dbc,
 			Composite control, EditingDomain domain, FeaturePath path) {
 		super(viewer, dbc);
@@ -56,14 +70,32 @@ public class TextCellEditingSupport extends ObservableValueEditingSupport {
 	@Override
 	protected IObservableValue doCreateElementObservable(Object element,
 			ViewerCell cell) {
-		return EMFEditProperties.value(editingDomain, path).observe(element);
+
+		if (factory != null) {
+			// We only deal with single-value observables.
+			IObservable obs = factory.createObservable(element);
+			if (obs instanceof IObservableValue) {
+				return (IObservableValue) obs;
+			}
+		}
+
+		// fall back to the path...
+		if (path != null) {
+			return EMFEditProperties.value(editingDomain, path)
+					.observe(element);
+		}
+
+		return null; // No support!
 
 	}
+	
 
 	@Override
 	protected CellEditor getCellEditor(Object element) {
 
-		if (element instanceof EObject) {
+		if (factory != null) {
+			return cellEditor;
+		} else if (element instanceof EObject) {
 			EObject targetObject = (EObject) element;
 			if (path.getFeaturePath().length > 0) {
 				// the first feature should be of the element class.

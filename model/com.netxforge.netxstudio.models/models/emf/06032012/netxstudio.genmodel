@@ -8,7 +8,7 @@
     complianceLevel="7.0" copyrightFields="false" usedGenPackages="../../../../org.eclipse.emf.ecore/model/Ecore.genmodel#//ecore"
     operationReflection="true" importOrganizing="true">
   <foreignModel>../../xsd/06032012/netxstudio.xsd</foreignModel>
-  <genPackages prefix="Scheduling" basePackage="com.netxforge.netxstudio" resource="XML"
+  <genPackages prefix="Scheduling" basePackage="com.netxforge.netxstudio" resource="XMI"
       disposableProviderFactory="true" ecorePackage="scheduling.ecore#/">
     <genEnums typeSafeEnumCompatible="false" ecoreEnum="scheduling.ecore#//JobRunState">
       <genEnumLiterals ecoreEnumLiteral="scheduling.ecore#//JobRunState/Running"/>
@@ -81,7 +81,7 @@
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute scheduling.ecore#//WorkFlowRun/state"/>
     </genClasses>
   </genPackages>
-  <genPackages prefix="Generics" basePackage="com.netxforge.netxstudio" resource="XML"
+  <genPackages prefix="Generics" basePackage="com.netxforge.netxstudio" resource="XMI"
       disposableProviderFactory="true" ecorePackage="generics.ecore#/">
     <genEnums typeSafeEnumCompatible="false" ecoreEnum="generics.ecore#//ActionType">
       <genEnumLiterals ecoreEnumLiteral="generics.ecore#//ActionType/UPDATE"/>
@@ -186,7 +186,7 @@
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute generics.ecore#//Value/value"/>
     </genClasses>
   </genPackages>
-  <genPackages prefix="Services" basePackage="com.netxforge.netxstudio" resource="XML"
+  <genPackages prefix="Services" basePackage="com.netxforge.netxstudio" resource="XMI"
       disposableProviderFactory="true" ecorePackage="services.ecore#/">
     <genEnums typeSafeEnumCompatible="false" ecoreEnum="services.ecore#//ResourceOriginType">
       <genEnumLiterals ecoreEnumLiteral="services.ecore#//ResourceOriginType/InBound"/>
@@ -284,7 +284,7 @@
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute services.ecore#//ServiceUser/name"/>
     </genClasses>
   </genPackages>
-  <genPackages prefix="Library" basePackage="com.netxforge.netxstudio" resource="XML"
+  <genPackages prefix="Library" basePackage="com.netxforge.netxstudio" resource="XMI"
       disposableProviderFactory="true" ecorePackage="library.ecore#/">
     <genEnums typeSafeEnumCompatible="false" ecoreEnum="library.ecore#//LevelKind">
       <genEnumLiterals ecoreEnumLiteral="library.ecore#//LevelKind/RED"/>
@@ -465,7 +465,7 @@
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference library.ecore#//Vendor/products"/>
     </genClasses>
   </genPackages>
-  <genPackages prefix="Operators" basePackage="com.netxforge.netxstudio" resource="XML"
+  <genPackages prefix="Operators" basePackage="com.netxforge.netxstudio" resource="XMI"
       disposableProviderFactory="true" ecorePackage="operators.ecore#/">
     <genEnums typeSafeEnumCompatible="false" ecoreEnum="operators.ecore#//MarkerKind">
       <genEnumLiterals ecoreEnumLiteral="operators.ecore#//MarkerKind/value"/>
@@ -553,7 +553,7 @@
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute operators.ecore#//Warehouse/name"/>
     </genClasses>
   </genPackages>
-  <genPackages prefix="Metrics" basePackage="com.netxforge.netxstudio" resource="XML"
+  <genPackages prefix="Metrics" basePackage="com.netxforge.netxstudio" resource="XMI"
       disposableProviderFactory="true" ecorePackage="metrics.ecore#/">
     <genEnums typeSafeEnumCompatible="false" ecoreEnum="metrics.ecore#//DatabaseTypeType">
       <genEnumLiterals ecoreEnumLiteral="metrics.ecore#//DatabaseTypeType/Oracle"/>
@@ -674,7 +674,7 @@
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute metrics.ecore#//ValueDataKind/valueKind"/>
     </genClasses>
   </genPackages>
-  <genPackages prefix="Protocols" basePackage="com.netxforge.netxstudio" resource="XML"
+  <genPackages prefix="Protocols" basePackage="com.netxforge.netxstudio" resource="XMI"
       disposableProviderFactory="true" ecorePackage="protocols.ecore#/">
     <genEnums typeSafeEnumCompatible="false" ecoreEnum="protocols.ecore#//OSIType">
       <genEnumLiterals ecoreEnumLiteral="protocols.ecore#//OSIType/Application"/>
@@ -688,6 +688,7 @@
     <genDataTypes ecoreDataType="protocols.ecore#//OSITypeObject"/>
     <genClasses ecoreClass="protocols.ecore#//Message">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute protocols.ecore#//Message/name"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute protocols.ecore#//Message/description"/>
     </genClasses>
     <genClasses ecoreClass="protocols.ecore#//Procedure">
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference protocols.ecore#//Procedure/messages"/>
@@ -702,7 +703,7 @@
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute protocols.ecore#//Protocol/specification"/>
     </genClasses>
   </genPackages>
-  <genPackages prefix="Geo" basePackage="com.netxforge.netxstudio" resource="XML"
+  <genPackages prefix="Geo" basePackage="com.netxforge.netxstudio" resource="XMI"
       disposableProviderFactory="true" ecorePackage="geo.ecore#/">
     <genClasses ecoreClass="geo.ecore#//Country">
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference geo.ecore#//Country/sites"/>
@@ -727,7 +728,7 @@
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute geo.ecore#//Site/sreet"/>
     </genClasses>
   </genPackages>
-  <genPackages prefix="Netxstudio" basePackage="com.netxforge" resource="XML" disposableProviderFactory="true"
+  <genPackages prefix="Netxstudio" basePackage="com.netxforge" resource="XMI" disposableProviderFactory="true"
       ecorePackage="netxstudio.ecore#/">
     <genClasses ecoreClass="netxstudio.ecore#//Netxstudio">
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference netxstudio.ecore#//Netxstudio/operators"/>

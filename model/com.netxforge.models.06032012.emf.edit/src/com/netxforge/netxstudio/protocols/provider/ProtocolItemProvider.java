@@ -89,15 +89,19 @@ public class ProtocolItemProvider extends BaseItemProvider implements
 	 * @generated
 	 */
 	protected void addBodyRefPropertyDescriptor(Object object) {
-		itemPropertyDescriptors.add(createItemPropertyDescriptor(
-				((ComposeableAdapterFactory) adapterFactory)
-						.getRootAdapterFactory(),
-				getResourceLocator(),
-				getString("_UI_Protocol_bodyRef_feature"),
-				getString("_UI_PropertyDescriptor_description",
-						"_UI_Protocol_bodyRef_feature", "_UI_Protocol_type"),
-				ProtocolsPackage.Literals.PROTOCOL__BODY_REF, true, false,
-				true, null, null, null));
+		itemPropertyDescriptors.add
+			(createItemPropertyDescriptor
+				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+				 getResourceLocator(),
+				 getString("_UI_Protocol_bodyRef_feature"),
+				 getString("_UI_PropertyDescriptor_description", "_UI_Protocol_bodyRef_feature", "_UI_Protocol_type"),
+				 ProtocolsPackage.Literals.PROTOCOL__BODY_REF,
+				 true,
+				 false,
+				 true,
+				 null,
+				 null,
+				 null));
 	}
 
 	/**
@@ -107,54 +111,63 @@ public class ProtocolItemProvider extends BaseItemProvider implements
 	 * @generated
 	 */
 	protected void addDescriptionPropertyDescriptor(Object object) {
-		itemPropertyDescriptors
-				.add(createItemPropertyDescriptor(
-						((ComposeableAdapterFactory) adapterFactory)
-								.getRootAdapterFactory(),
-						getResourceLocator(),
-						getString("_UI_Protocol_description_feature"),
-						getString("_UI_PropertyDescriptor_description",
-								"_UI_Protocol_description_feature",
-								"_UI_Protocol_type"),
-						ProtocolsPackage.Literals.PROTOCOL__DESCRIPTION, true,
-						false, false,
-						ItemPropertyDescriptor.GENERIC_VALUE_IMAGE, null, null));
+		itemPropertyDescriptors.add
+			(createItemPropertyDescriptor
+				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+				 getResourceLocator(),
+				 getString("_UI_Protocol_description_feature"),
+				 getString("_UI_PropertyDescriptor_description", "_UI_Protocol_description_feature", "_UI_Protocol_type"),
+				 ProtocolsPackage.Literals.PROTOCOL__DESCRIPTION,
+				 true,
+				 false,
+				 false,
+				 ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
+				 null,
+				 null));
 	}
 
 	/**
-	 * This adds a property descriptor for the Name feature. <!-- begin-user-doc
+	 * This adds a property descriptor for the Name feature.
+	 * <!-- begin-user-doc
 	 * --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	protected void addNamePropertyDescriptor(Object object) {
-		itemPropertyDescriptors.add(createItemPropertyDescriptor(
-				((ComposeableAdapterFactory) adapterFactory)
-						.getRootAdapterFactory(),
-				getResourceLocator(),
-				getString("_UI_Protocol_name_feature"),
-				getString("_UI_PropertyDescriptor_description",
-						"_UI_Protocol_name_feature", "_UI_Protocol_type"),
-				ProtocolsPackage.Literals.PROTOCOL__NAME, true, false, false,
-				ItemPropertyDescriptor.GENERIC_VALUE_IMAGE, null, null));
+		itemPropertyDescriptors.add
+			(createItemPropertyDescriptor
+				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+				 getResourceLocator(),
+				 getString("_UI_Protocol_name_feature"),
+				 getString("_UI_PropertyDescriptor_description", "_UI_Protocol_name_feature", "_UI_Protocol_type"),
+				 ProtocolsPackage.Literals.PROTOCOL__NAME,
+				 true,
+				 false,
+				 false,
+				 ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
+				 null,
+				 null));
 	}
 
 	/**
-	 * This adds a property descriptor for the OSI feature. <!-- begin-user-doc
+	 * This adds a property descriptor for the OSI feature.
+	 * <!-- begin-user-doc
 	 * --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	protected void addOSIPropertyDescriptor(Object object) {
-		itemPropertyDescriptors.add(createItemPropertyDescriptor(
-				((ComposeableAdapterFactory) adapterFactory)
-						.getRootAdapterFactory(),
-				getResourceLocator(),
-				getString("_UI_Protocol_oSI_feature"),
-				getString("_UI_PropertyDescriptor_description",
-						"_UI_Protocol_oSI_feature", "_UI_Protocol_type"),
-				ProtocolsPackage.Literals.PROTOCOL__OSI, true, false, false,
-				ItemPropertyDescriptor.GENERIC_VALUE_IMAGE, null, null));
+		itemPropertyDescriptors.add
+			(createItemPropertyDescriptor
+				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+				 getResourceLocator(),
+				 getString("_UI_Protocol_oSI_feature"),
+				 getString("_UI_PropertyDescriptor_description", "_UI_Protocol_oSI_feature", "_UI_Protocol_type"),
+				 ProtocolsPackage.Literals.PROTOCOL__OSI,
+				 true,
+				 false,
+				 false,
+				 ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
+				 null,
+				 null));
 	}
 
 	/**
@@ -164,26 +177,26 @@ public class ProtocolItemProvider extends BaseItemProvider implements
 	 * @generated
 	 */
 	protected void addSpecificationPropertyDescriptor(Object object) {
-		itemPropertyDescriptors.add(createItemPropertyDescriptor(
-				((ComposeableAdapterFactory) adapterFactory)
-						.getRootAdapterFactory(),
-				getResourceLocator(),
-				getString("_UI_Protocol_specification_feature"),
-				getString("_UI_PropertyDescriptor_description",
-						"_UI_Protocol_specification_feature",
-						"_UI_Protocol_type"),
-				ProtocolsPackage.Literals.PROTOCOL__SPECIFICATION, true, false,
-				false, ItemPropertyDescriptor.GENERIC_VALUE_IMAGE, null, null));
+		itemPropertyDescriptors.add
+			(createItemPropertyDescriptor
+				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+				 getResourceLocator(),
+				 getString("_UI_Protocol_specification_feature"),
+				 getString("_UI_PropertyDescriptor_description", "_UI_Protocol_specification_feature", "_UI_Protocol_type"),
+				 ProtocolsPackage.Literals.PROTOCOL__SPECIFICATION,
+				 true,
+				 false,
+				 false,
+				 ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
+				 null,
+				 null));
 	}
 
 	/**
-	 * This specifies how to implement {@link #getChildren} and is used to
-	 * deduce an appropriate feature for an
-	 * {@link org.eclipse.emf.edit.command.AddCommand},
-	 * {@link org.eclipse.emf.edit.command.RemoveCommand} or
-	 * {@link org.eclipse.emf.edit.command.MoveCommand} in
-	 * {@link #createCommand}. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * This specifies how to implement {@link #getChildren} and is used to deduce an appropriate feature for an
+	 * {@link org.eclipse.emf.edit.command.AddCommand}, {@link org.eclipse.emf.edit.command.RemoveCommand} or
+	 * {@link org.eclipse.emf.edit.command.MoveCommand} in {@link #createCommand}.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
@@ -191,56 +204,52 @@ public class ProtocolItemProvider extends BaseItemProvider implements
 			Object object) {
 		if (childrenFeatures == null) {
 			super.getChildrenFeatures(object);
-			childrenFeatures
-					.add(ProtocolsPackage.Literals.PROTOCOL__PROCEDURES);
+			childrenFeatures.add(ProtocolsPackage.Literals.PROTOCOL__PROCEDURES);
 		}
 		return childrenFeatures;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	@Override
 	protected EStructuralFeature getChildFeature(Object object, Object child) {
-		// Check the type of the specified child object and return the proper
-		// feature to use for
+		// Check the type of the specified child object and return the proper feature to use for
 		// adding (see {@link AddCommand}) it as a child.
 
 		return super.getChildFeature(object, child);
 	}
 
 	/**
-	 * This returns Protocol.gif. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * This returns Protocol.gif.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
 	public Object getImage(Object object) {
-		return overlayImage(object,
-				getResourceLocator().getImage("full/obj16/Protocol"));
+		return overlayImage(object, getResourceLocator().getImage("full/obj16/Protocol"));
 	}
 
 	/**
-	 * This returns the label text for the adapted class. <!-- begin-user-doc
+	 * This returns the label text for the adapted class.
+	 * <!-- begin-user-doc
 	 * --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	@Override
 	public String getText(Object object) {
-		String label = ((Protocol) object).getName();
-		return label == null || label.length() == 0 ? getString("_UI_Protocol_type")
-				: getString("_UI_Protocol_type") + " " + label;
+		String label = ((Protocol)object).getName();
+		return label == null || label.length() == 0 ?
+			getString("_UI_Protocol_type") :
+			getString("_UI_Protocol_type") + " " + label;
 	}
 
 	/**
-	 * This handles model notifications by calling {@link #updateChildren} to
-	 * update any cached children and by creating a viewer notification, which
-	 * it passes to {@link #fireNotifyChanged}. <!-- begin-user-doc --> <!--
+	 * This handles model notifications by calling {@link #updateChildren} to update any cached
+	 * children and by creating a viewer notification, which it passes to {@link #fireNotifyChanged}.
+	 * <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	@Override
@@ -248,17 +257,15 @@ public class ProtocolItemProvider extends BaseItemProvider implements
 		updateChildren(notification);
 
 		switch (notification.getFeatureID(Protocol.class)) {
-		case ProtocolsPackage.PROTOCOL__DESCRIPTION:
-		case ProtocolsPackage.PROTOCOL__NAME:
-		case ProtocolsPackage.PROTOCOL__OSI:
-		case ProtocolsPackage.PROTOCOL__SPECIFICATION:
-			fireNotifyChanged(new ViewerNotification(notification,
-					notification.getNotifier(), false, true));
-			return;
-		case ProtocolsPackage.PROTOCOL__PROCEDURES:
-			fireNotifyChanged(new ViewerNotification(notification,
-					notification.getNotifier(), true, false));
-			return;
+			case ProtocolsPackage.PROTOCOL__DESCRIPTION:
+			case ProtocolsPackage.PROTOCOL__NAME:
+			case ProtocolsPackage.PROTOCOL__OSI:
+			case ProtocolsPackage.PROTOCOL__SPECIFICATION:
+				fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), false, true));
+				return;
+			case ProtocolsPackage.PROTOCOL__PROCEDURES:
+				fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), true, false));
+				return;
 		}
 		super.notifyChanged(notification);
 	}

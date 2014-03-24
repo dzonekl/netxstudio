@@ -46,6 +46,7 @@ import org.eclipse.emf.ecore.EReference;
  * @see com.netxforge.netxstudio.protocols.ProtocolsFactory
  * @model kind="package"
  *        annotation="http://www.eclipse.org/emf/2002/Ecore validationDelegates='http://www.eclipse.org/emf/2002/Ecore/OCL' settingDelegates='http://www.eclipse.org/emf/2002/Ecore/OCL' invocationDelegates='http://www.eclipse.org/emf/2002/Ecore/OCL'"
+ *        annotation="http://www.eclipse.org/edapt historyURI='services.history'"
  * @generated
  */
 public interface ProtocolsPackage extends EPackage {
@@ -110,13 +111,22 @@ public interface ProtocolsPackage extends EPackage {
 	int MESSAGE__NAME = GenericsPackage.BASE_FEATURE_COUNT + 0;
 
 	/**
+	 * The feature id for the '<em><b>Description</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int MESSAGE__DESCRIPTION = GenericsPackage.BASE_FEATURE_COUNT + 1;
+
+	/**
 	 * The number of structural features of the '<em>Message</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int MESSAGE_FEATURE_COUNT = GenericsPackage.BASE_FEATURE_COUNT + 1;
+	int MESSAGE_FEATURE_COUNT = GenericsPackage.BASE_FEATURE_COUNT + 2;
 
 	/**
 	 * The number of operations of the '<em>Message</em>' class.
@@ -316,6 +326,17 @@ public interface ProtocolsPackage extends EPackage {
 	EAttribute getMessage_Name();
 
 	/**
+	 * Returns the meta object for the attribute '{@link com.netxforge.netxstudio.protocols.Message#getDescription <em>Description</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Description</em>'.
+	 * @see com.netxforge.netxstudio.protocols.Message#getDescription()
+	 * @see #getMessage()
+	 * @generated
+	 */
+	EAttribute getMessage_Description();
+
+	/**
 	 * Returns the meta object for class '{@link com.netxforge.netxstudio.protocols.Procedure <em>Procedure</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -485,6 +506,14 @@ public interface ProtocolsPackage extends EPackage {
 		 * @generated
 		 */
 		EAttribute MESSAGE__NAME = eINSTANCE.getMessage_Name();
+
+		/**
+		 * The meta object literal for the '<em><b>Description</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute MESSAGE__DESCRIPTION = eINSTANCE.getMessage_Description();
 
 		/**
 		 * The meta object literal for the '{@link com.netxforge.netxstudio.protocols.impl.ProcedureImpl <em>Procedure</em>}' class.

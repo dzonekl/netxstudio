@@ -39,6 +39,7 @@ import com.netxforge.netxstudio.library.NodeType;
 import com.netxforge.netxstudio.library.ReferenceRelationship;
 import com.netxforge.netxstudio.protocols.Message;
 import com.netxforge.netxstudio.protocols.Protocol;
+import com.netxforge.netxstudio.protocols.ProtocolsPackage;
 import com.netxforge.netxstudio.services.ServiceFlow;
 import com.netxforge.netxstudio.services.ServiceFlowDirection;
 import com.netxforge.netxstudio.services.ServiceFlowRelationship;
@@ -210,15 +211,20 @@ public class CallFlowsTreeLabelProvider extends StyledCellLabelProvider {
 			if (rel.eIsSet(ServicesPackage.Literals.SERVICE_FLOW_RELATIONSHIP__MESSAGE)) {
 				Message msg = rel.getMessage();
 
-				// Set the name of the Node Type.
-				StyledString styledString = new StyledString(msg.getName(),
-						null);
-				cell.setText(styledString.getString());
-				// Image img = ResourceManager.getPluginImage(
-				// "com.netxforge.netxstudio.models.edit",
-				// "icons/full/obj16/Company_H.png");
-				// cell.setImage(img);
-				cell.setStyleRanges(styledString.getStyleRanges());
+				if (msg.eIsSet(ProtocolsPackage.Literals.MESSAGE__NAME)) {
+
+					// Set the name of the Node Type.
+					StyledString styledString = new StyledString(
+							(String) msg
+									.eGet(ProtocolsPackage.Literals.MESSAGE__NAME),
+							null);
+					cell.setText(styledString.getString());
+					// Image img = ResourceManager.getPluginImage(
+					// "com.netxforge.netxstudio.models.edit",
+					// "icons/full/obj16/Company_H.png");
+					// cell.setImage(img);
+					cell.setStyleRanges(styledString.getStyleRanges());
+				}
 
 			} else {
 				cell.setText("-");

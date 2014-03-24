@@ -60,7 +60,12 @@ public class ServiceFlowRelationshipEditPart extends AbstractConnectionEditPart 
 		PolylineConnection connection = new PolylineConnection();
 		connection.setLineStyle(SWT.LINE_DASH);
 		connection.setLineCap(SWT.CAP_ROUND);
+		
 
+		// Set a target decoration (Arrow), as we are organized by
+		// targets.
+		connection.setTargetDecoration(new PolygonDecoration());
+		
 		ServiceFlowRelationship serviceFlowRelationship = this
 				.getServiceFlowRelationship();
 		String name = "";
@@ -74,11 +79,6 @@ public class ServiceFlowRelationshipEditPart extends AbstractConnectionEditPart 
 					.eIsSet(ServicesPackage.Literals.SERVICE_FLOW_RELATIONSHIP__REFERENCE_RELATIONSHIP)) {
 				ReferenceRelationship rr = this.getServiceFlowRelationship()
 						.getReferenceRelationship();
-
-				// Set a target decoration (Arrow), as we are organized by
-				// targets.
-				connection.setTargetDecoration(new PolygonDecoration());
-
 				if (rr.eIsSet(LibraryPackage.Literals.REFERENCE_RELATIONSHIP__PROTOCOL_REF)) {
 					name = rr.getProtocolRef().getName();
 				}
