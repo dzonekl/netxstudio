@@ -28,7 +28,8 @@ import com.netxforge.netxstudio.services.ServiceFlowRelationship;
 import com.netxforge.netxstudio.services.ServicesPackage;
 
 /**
- * A model from a {@link NodeType Node type} to a {@link Component}
+ * A model from a {@link NodeType Node type} to a
+ * {@link ServiceFlowRelationship}
  * 
  * @author Christophe Bouhier
  */
@@ -84,8 +85,8 @@ public class NodeTypeToServiceRelationships {
 					+ rr.getRefInterface1Ref().getName()
 					+ (sfr.getDirection() == ServiceFlowDirection.RIGHTTOLEFT ? "<--"
 							: "-->") + rr.getRefInterface2Ref().getName() + ")");
-		}else{
-			if( sfr.eIsSet(ServicesPackage.Literals.SERVICE_FLOW_RELATIONSHIP__SERVICE_FLOW)){
+		} else {
+			if (sfr.eIsSet(ServicesPackage.Literals.SERVICE_FLOW_RELATIONSHIP__SERVICE_FLOW)) {
 				ServiceFlow serviceFlow = sfr.getServiceFlow();
 				sb.append(" Service flow: " + serviceFlow.getName());
 			}

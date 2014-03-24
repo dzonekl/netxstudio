@@ -52,6 +52,15 @@ public class NodeTypeEditPart extends AbstractLibraryEditPart {
 	private static final int NODETYPE_HEIGHT = 600;
 	Label nameLabel = new Label();
 
+	private final List<ServiceFlowRelationship> modelTargetConnections = Lists
+			.newArrayList();
+
+	private List<ServiceFlowRelationship> modelSourceConnections;
+
+	final Map<String, CallFlowConnectionAnchor> sourceConnectionAnchors = new HashMap<String, CallFlowConnectionAnchor>();
+
+	final Map<String, CallFlowConnectionAnchor> targetConnectionAnchors = new HashMap<String, CallFlowConnectionAnchor>();
+
 	public NodeTypeEditPart(NodeTypeToServiceRelationships nt) {
 		super.setModel(nt);
 		this.populateTransientModel();
@@ -93,7 +102,7 @@ public class NodeTypeEditPart extends AbstractLibraryEditPart {
 			// We want a nodetype which represents the length.
 			nodeTypeCalledFigure.setSize(4, NODETYPE_HEIGHT);
 			nodeTypeCalledFigure.setLineWidth(1);
-			nodeTypeCalledFigure.setBackgroundColor(ColorConstants.darkGreen);
+			nodeTypeCalledFigure.setBackgroundColor(ColorConstants.blue);
 
 			delegationBounds.add(nodeTypeCalledFigure, new RelativeLocator(
 					delegationBounds, 0.5, 0.5));
@@ -113,8 +122,6 @@ public class NodeTypeEditPart extends AbstractLibraryEditPart {
 		}
 		return super.figure;
 	}
-
-	Map<String, CallFlowConnectionAnchor> sourceConnectionAnchors = new HashMap<String, CallFlowConnectionAnchor>();
 
 	protected void updateSourceConnectionAnchors(IFigure nodeTypeFigure) {
 
@@ -151,20 +158,30 @@ public class NodeTypeEditPart extends AbstractLibraryEditPart {
 
 				NodeType target = this.getTarget(sfr);
 				if (target != null) {
-					String targetSymbol = target.getName();
+
+					// Can't use the name, use the object hashcode.
+					String targetSymbol = symbolFromTarget(target, sfr);
 					System.out
 							.println("ANCHOR => Adding Source anchor with symbol: "
 									+ targetSymbol
 									+ " anchor: "
 									+ callFlowConnectionAnchor);
-					setRightConnectionAnchor(targetSymbol,
+					setSourceConnectionAnchor(targetSymbol,
 							callFlowConnectionAnchor);
 				}
 			}
 		}
 	}
 
-	Map<String, CallFlowConnectionAnchor> targetConnectionAnchors = new HashMap<String, CallFlowConnectionAnchor>();
+	/**
+	 * @param target
+	 * @return
+	 */
+	public String symbolFromTarget(NodeType target, ServiceFlowRelationship sfr) {
+		String hashcode = new Integer(sfr.hashCode()).toString();
+		String targetSymbol = target.getName() + "_" + hashcode;
+		return targetSymbol;
+	}
 
 	/**
 	 * Although we update all target (Also the previously requested ones, a
@@ -175,7 +192,7 @@ public class NodeTypeEditPart extends AbstractLibraryEditPart {
 	protected void addTargetConnectionAnchors(IFigure nodeTypeFigure,
 			ServiceFlowRelationship sfr, ConnectionAnchor sourceAnchor) {
 
-		System.out.println("ANCHOR => Add target Connection Anchors");
+		System.out.println("ANCHOR => Add target Connection Anchor");
 
 		// Reset our anchors when updating.
 		// targetConnectionAnchors.clear();
@@ -195,25 +212,37 @@ public class NodeTypeEditPart extends AbstractLibraryEditPart {
 
 			NodeType target = this.getSource(sfr);
 			if (target != null) {
-				String targetSymbol = target.getName();
+				
+				String targetSymbol = symbolFromTarget(target, sfr);
 				System.out
 						.println("ANCHOR => Adding Target anchor with symbol: "
 								+ targetSymbol + " anchor: "
 								+ callFlowConnectionAnchor);
-				setLeftConnectionAnchor(targetSymbol, callFlowConnectionAnchor);
+				setTargetConnectionAnchor(targetSymbol,
+						callFlowConnectionAnchor);
 			}
 			// }
 		}
 	}
 
-	public void setLeftConnectionAnchor(String targetSymbol,
+	public void setTargetConnectionAnchor(String targetSymbol,
 			CallFlowConnectionAnchor c) {
-		targetConnectionAnchors.put(targetSymbol, c);
+
+		if (targetConnectionAnchors.containsKey(targetSymbol)) {
+			System.out.println("Duplicate target Symbol!");
+		} else {
+			targetConnectionAnchors.put(targetSymbol, c);
+		}
 	}
 
-	public void setRightConnectionAnchor(String targetSymbol,
+	public void setSourceConnectionAnchor(String targetSymbol,
 			CallFlowConnectionAnchor c) {
-		sourceConnectionAnchors.put(targetSymbol, c);
+
+		if (sourceConnectionAnchors.containsKey(targetSymbol)) {
+			System.out.println("Duplicate Source Symbol!");
+		} else {
+			sourceConnectionAnchors.put(targetSymbol, c);
+		}
 	}
 
 	@Override
@@ -223,17 +252,18 @@ public class NodeTypeEditPart extends AbstractLibraryEditPart {
 		if (connection instanceof ServiceFlowRelationshipEditPart) {
 			ServiceFlowRelationship sfr = (ServiceFlowRelationship) connection
 					.getModel();
-			System.out.println("ANCHOR => Requesting source anchor for "
-					+ connection.toString() + " on "
-					+ this.getNodeType().getName());
 			// determine if the request is for left or right.
 			NodeType target = this.getTarget(sfr);
 			if (target != null) {
+				String symbol = symbolFromTarget(target, sfr);
+
+				System.out.println("ANCHOR => Requesting source anchor for "
+						+ connection.toString() + " on " + symbol);
+
 				CallFlowConnectionAnchor callFlowConnectionAnchor = sourceConnectionAnchors
-						.get(target.getName());
+						.get(symbol);
 				System.out.println("ANCHOR => Resolved anchor for target: "
-						+ target.getName() + " with: "
-						+ callFlowConnectionAnchor);
+						+ symbol + " with: " + callFlowConnectionAnchor);
 				return callFlowConnectionAnchor;
 			}
 		}
@@ -247,17 +277,24 @@ public class NodeTypeEditPart extends AbstractLibraryEditPart {
 		if (connection instanceof ServiceFlowRelationshipEditPart) {
 			ServiceFlowRelationship sfr = (ServiceFlowRelationship) connection
 					.getModel();
-			System.out.println("ANCHOR => Requesting target anchor for "
-					+ connection.toString() + " on "
-					+ this.getNodeType().getName());
+
 			// determine if the request is for left or right.
 			NodeType target = this.getSource(sfr);
 			if (target != null) {
+
+				String symbol = symbolFromTarget(target, sfr);
+				System.out.println("ANCHOR => Requesting target anchor for "
+						+ connection.toString() + " on " + symbol);
+
 				CallFlowConnectionAnchor callFlowConnectionAnchor = targetConnectionAnchors
-						.get(target.getName());
-				System.out.println("ANCHOR => Resolved anchor for target: "
-						+ target.getName() + " with: "
-						+ callFlowConnectionAnchor);
+						.get(symbol);
+
+				if (callFlowConnectionAnchor == null) {
+					System.out.println("Target anchor is null");
+				} else {
+					System.out.println("ANCHOR => Resolved anchor for target: "
+							+ symbol + " with: " + callFlowConnectionAnchor);
+				}
 				return callFlowConnectionAnchor;
 			} else {
 				System.err
@@ -294,16 +331,11 @@ public class NodeTypeEditPart extends AbstractLibraryEditPart {
 		// figure.revalidate();
 	}
 
-	List<ServiceFlowRelationship> modelSourceConnections;
-
 	private void populateTransientModel() {
 		NodeTypeToServiceRelationships model = (NodeTypeToServiceRelationships) getModel();
 		modelSourceConnections = model.getTarget();
 		updateSourceConnectionAnchors(this.getFigure());
 	}
-
-	private final List<ServiceFlowRelationship> modelTargetConnections = Lists
-			.newArrayList();
 
 	@Override
 	public boolean addNodeTypeToNodeTypeTargetConnection(

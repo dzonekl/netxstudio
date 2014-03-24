@@ -105,6 +105,7 @@ public class ImageSaveUtil {
 		return fileDialog.open();
 	}
 
+	@SuppressWarnings("deprecation")
 	private static void saveEditorContentsAsImage(IEditorPart editorPart,
 			GraphicalViewer viewer, String saveFilePath, int format) {
 		/*

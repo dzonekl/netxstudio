@@ -38,7 +38,10 @@ public class CallflowEditPartsFactory implements EditPartFactory {
 			return new CanvasModelEditPart((CanvasModel) model);
 		}
 		if (model instanceof ServiceFlowRelationship) {
-			System.out.println("FACTORY =>  edit part for model: " + model);
+			ServiceFlowRelationship sfr = (ServiceFlowRelationship) model;
+			System.out.println("FACTORY =>  ServiceFlowRel. "
+					+ sfr.getProtocol().getName() + ":"
+					+ sfr.getMessage().getName() + " from: " + sfr.getDirection());
 			return new ServiceFlowRelationshipEditPart(
 					(ServiceFlowRelationship) model);
 		}
