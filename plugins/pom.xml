@@ -36,7 +36,6 @@
 		<module>../model/com.netxforge.netxstudio.data.import</module>
 		<module>../model/com.netxforge.netxstudio.data.fixtures</module>
 		<module>../model/com.netxforge.netxstudio.webservice</module>
-		<module>../screens/com.netxforge.netxflows.screens</module>
 		<module>../screens/com.netxforge.netxscript.ui</module>
 		<module>../screens/com.netxforge.netxstudio.common</module>
 		<module>../screens/com.netxforge.netxstudio.console</module>
@@ -51,7 +50,6 @@
 		<module>../screens/com.netxforge.netxstudio.screens.ide</module>
 		<module>../screens/com.netxforge.netxstudio.screens.editing</module>
 		<module>../screens/com.netxforge.netxstudio.screens.xtext</module>
-		<module>../products/com.netxforge.netxflows.product</module>
 		<module>../products/com.netxforge.netxstudio.client.product</module>
 		<module>../products/com.netxforge.netxstudio.server.db.mysql.product</module>
 	</modules>

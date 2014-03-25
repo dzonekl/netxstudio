@@ -1,6 +1,29 @@
-
-
 Run tycho for our releng product: 
 --------------------------------
 
-mvn clean install -e -f releng.tycho/com.netxforge.releng/pom.xml 
+mvn clean install -e -f releng.tycho/com.netxforge.releng/pom.xml
+
+Warnings (Cached local builds): 
+-------------------------------
+
+Sometime build fails when trying to use locally build artifacts. 
+See: 
+https://bugs.eclipse.org/bugs/show_bug.cgi?id=355367
+ 
+ NetXStudio experienced it when some artifacts were removed from the build, but still
+ resolved locally. 
+ 
+ [WARNING] The following locally built units have been used to resolve project dependencies:
+[WARNING]   org.eclipse.ui.ide/3.9.0
+[WARNING]   com.netxforge.models.06032012.emf/1.0.0.201403240111
+
+For example the last plugin here was removed from the pom.xml for build, but still it is 
+included! Compilation fails with this plugin. (This generated EMF plugin is non-native CDO which is needed 
+for certain builds, as dependents use import and the same package name exists for various model implementations 
+it gets picked up!. We can't have that. 
+
+
+The workaround: 
+
+As a workaround, you can delete the file that contains the list of locally built artifacts: ~/.m2/repository/.meta/p2-local-metadata.properties
+
