@@ -17,5 +17,3 @@ Require-Bundle: org.eclipse.ui,
 Bundle-RequiredExecutionEnvironment: J2SE-1.5
 Bundle-ActivationPolicy: lazy
 Export-Package: com.netxforge.netxstudio.callflow.product
-Import-Package: com.netxforge.netxstudio,
- com.netxforge.netxstudio.generics

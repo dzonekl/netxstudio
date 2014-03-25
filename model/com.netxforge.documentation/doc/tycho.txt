@@ -27,3 +27,4 @@ The workaround:
 
 As a workaround, you can delete the file that contains the list of locally built artifacts: ~/.m2/repository/.meta/p2-local-metadata.properties
 
+http://wiki.eclipse.org/Tycho/Target_Platform#Locally_built_artifacts
