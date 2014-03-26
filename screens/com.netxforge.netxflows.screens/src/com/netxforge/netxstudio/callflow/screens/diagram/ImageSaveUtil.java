@@ -25,7 +25,7 @@ import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.gef.GraphicalViewer;
 import org.eclipse.gef.LayerConstants;
 import org.eclipse.gef.editparts.LayerManager;
-import org.eclipse.gef.editparts.ScalableRootEditPart;
+import org.eclipse.gef.editparts.ScalableFreeformRootEditPart;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.GC;
@@ -34,41 +34,40 @@ import org.eclipse.swt.graphics.ImageData;
 import org.eclipse.swt.graphics.ImageLoader;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.FileDialog;
-import org.eclipse.ui.IEditorPart;
+import org.eclipse.swt.widgets.Shell;
 
 /**
  * Save format should be any of ... SWT.IMAGE_BMP, SWT.IMAGE_JPEG, SWT.IMAGE_ICO
  */
 public class ImageSaveUtil {
-	public static boolean save(IEditorPart editorPart, GraphicalViewer viewer,
+	public static boolean save(Shell shell, GraphicalViewer viewer,
 			String saveFilePath, int format) {
-		Assert.isNotNull(editorPart,
-				"null editorPart passed to ImageSaveUtil::save");
+		Assert.isNotNull(shell, "null shell passed to ImageSaveUtil::save");
 		Assert.isNotNull(viewer, "null viewer passed to ImageSaveUtil::save");
 		Assert.isNotNull(saveFilePath,
 				"null saveFilePath passed to ImageSaveUtil::save");
 
 		if (format != SWT.IMAGE_BMP && format != SWT.IMAGE_JPEG
-				&& format != SWT.IMAGE_ICO)
+				&& format != SWT.IMAGE_ICO && format != SWT.IMAGE_GIF
+				&& format != SWT.IMAGE_PNG)
 			throw new IllegalArgumentException("Save format not supported");
 
 		try {
-			saveEditorContentsAsImage(editorPart, viewer, saveFilePath, format);
+			saveEditorContentsAsImage(shell, viewer, saveFilePath, format);
 		} catch (Exception ex) {
-			MessageDialog.openError(editorPart.getEditorSite().getShell(),
-					"Save Error", "Could not save editor contents");
+			MessageDialog.openError(shell, "Save Error",
+					"Could not save editor contents");
 			return false;
 		}
 
 		return true;
 	}
 
-	public static boolean save(IEditorPart editorPart, GraphicalViewer viewer) {
-		Assert.isNotNull(editorPart,
-				"null editorPart passed to ImageSaveUtil::save");
+	public static boolean save(Shell shell, GraphicalViewer viewer) {
+		Assert.isNotNull(shell, "null shell passed to ImageSaveUtil::save");
 		Assert.isNotNull(viewer, "null viewer passed to ImageSaveUtil::save");
 
-		String saveFilePath = getSaveFilePath(editorPart, viewer, -1);
+		String saveFilePath = getSaveFilePath(shell, viewer, -1);
 		if (saveFilePath == null)
 			return false;
 
@@ -84,16 +83,15 @@ public class ImageSaveUtil {
 		else if (saveFilePath.endsWith(".gif"))
 			format = SWT.IMAGE_PNG;
 
-		return save(editorPart, viewer, saveFilePath, format);
+		return save(shell, viewer, saveFilePath, format);
 	}
 
-	private static String getSaveFilePath(IEditorPart editorPart,
-			GraphicalViewer viewer, int format) {
-		FileDialog fileDialog = new FileDialog(editorPart.getEditorSite()
-				.getShell(), SWT.SAVE);
+	private static String getSaveFilePath(Shell shell, GraphicalViewer viewer,
+			int format) {
+		FileDialog fileDialog = new FileDialog(shell, SWT.SAVE);
 
 		String[] filterExtensions = new String[] { "*.jpeg", "*.bmp", "*.ico",
-				"*.png", "*.gif" , "*.png", "*.gif"};
+				"*.png", "*.gif", "*.png", "*.gif" };
 		if (format == SWT.IMAGE_BMP)
 			filterExtensions = new String[] { "*.bmp" };
 		else if (format == SWT.IMAGE_JPEG)
@@ -106,7 +104,7 @@ public class ImageSaveUtil {
 	}
 
 	@SuppressWarnings("deprecation")
-	private static void saveEditorContentsAsImage(IEditorPart editorPart,
+	private static void saveEditorContentsAsImage(Shell shell,
 			GraphicalViewer viewer, String saveFilePath, int format) {
 		/*
 		 * 1. First get the figure whose visuals we want to save as image. So we
@@ -119,7 +117,7 @@ public class ImageSaveUtil {
 		 * hosted on a FigureCanvas. Many layers exist for doing different
 		 * things
 		 */
-		ScalableRootEditPart rootEditPart = (ScalableRootEditPart) viewer
+		ScalableFreeformRootEditPart rootEditPart = (ScalableFreeformRootEditPart) viewer
 				.getEditPartRegistry().get(LayerManager.ID);
 		IFigure rootFigure = ((LayerManager) rootEditPart)
 				.getLayer(LayerConstants.PRINTABLE_LAYERS);// rootEditPart.getFigure();

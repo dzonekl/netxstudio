@@ -19,7 +19,6 @@ package com.netxforge.netxstudio.callflow.screens.callflows.model;
 
 import java.util.List;
 
-import com.netxforge.netxstudio.library.Component;
 import com.netxforge.netxstudio.library.NodeType;
 import com.netxforge.netxstudio.library.ReferenceRelationship;
 import com.netxforge.netxstudio.services.ServiceFlow;

@@ -7,7 +7,7 @@ Bundle-ClassPath: .
 Bundle-Activator: com.netxforge.scheduling.provider.NetxstudioEditPlugin$Implementation
 Bundle-Vendor: %providerName
 Bundle-Localization: plugin
-Bundle-RequiredExecutionEnvironment: JavaSE-1.7
+Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Export-Package: com.netxforge.netxstudio.generics.provider,
  com.netxforge.netxstudio.geo.provider,
  com.netxforge.netxstudio.library.provider,
