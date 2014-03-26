@@ -132,7 +132,7 @@ public class RefNetworks extends AbstractScreen implements
 		cmpCallFlows.setLayout(treeColumnLayout);
 
 		relationshipsTableViewer = new TableViewer(cmpCallFlows, SWT.BORDER
-				| SWT.MULTI);
+				| SWT.MULTI | SWT.FULL_SELECTION );
 		relationshipTable = relationshipsTableViewer.getTable();
 		relationshipTable.setHeaderVisible(true);
 		relationshipTable.setLinesVisible(true);

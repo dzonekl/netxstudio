@@ -217,8 +217,8 @@ public class NodeTypes extends AbstractScreen implements IDataServiceInjection {
 		toolkit.paintBordersFor(hypLnkNewNodeType);
 		hypLnkNewNodeType.setText("New");
 
-		nodeTypeTreeViewer = new TreeViewer(composite, SWT.BORDER | SWT.MULTI
-				| SWT.VIRTUAL | widgetStyle);
+		nodeTypeTreeViewer = new TreeViewer(composite, SWT.BORDER
+				| SWT.FULL_SELECTION | SWT.MULTI | SWT.VIRTUAL | widgetStyle);
 		nodeTypeTreeViewer.setUseHashlookup(true);
 		// nodeTypeTreeViewer.setComparer(new CDOElementComparer());
 		nodeTypeTreeViewer.addFilter(new TreeSearchFilter());

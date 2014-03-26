@@ -200,7 +200,7 @@ public class Protocols extends AbstractScreen implements IDataServiceInjection {
 		// new Label(frmProtocols.getBody(), SWT.NONE);
 
 		treeViewer = new TreeViewer(frmProtocols.getBody(), SWT.BORDER
-				| SWT.FULL_SELECTION | widgetStyle);
+				| SWT.FULL_SELECTION | SWT.MULTI | widgetStyle);
 		tree = treeViewer.getTree();
 		tree.setLinesVisible(true);
 		tree.setHeaderVisible(true);

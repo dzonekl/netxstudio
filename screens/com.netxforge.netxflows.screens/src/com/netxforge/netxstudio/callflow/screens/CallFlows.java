@@ -235,7 +235,7 @@ public class CallFlows extends AbstractScreen implements IDataServiceInjection {
 		cmpCallFlows.setLayout(treeColumnLayout);
 
 		callFlowTreeViewer = new TreeViewer(cmpCallFlows, SWT.BORDER
-				| SWT.MULTI);
+				| SWT.MULTI | SWT.FULL_SELECTION);
 		callFlowTree = callFlowTreeViewer.getTree();
 		callFlowTree.setHeaderVisible(true);
 		callFlowTree.setLinesVisible(true);
