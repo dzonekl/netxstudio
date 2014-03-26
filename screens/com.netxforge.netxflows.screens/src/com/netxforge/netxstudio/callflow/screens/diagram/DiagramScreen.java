@@ -21,16 +21,24 @@ import org.eclipse.draw2d.ColorConstants;
 import org.eclipse.emf.databinding.EMFDataBindingContext;
 import org.eclipse.gef.SnapToGrid;
 import org.eclipse.gef.editparts.ScalableFreeformRootEditPart;
+import org.eclipse.gef.ui.actions.ZoomInAction;
+import org.eclipse.gef.ui.actions.ZoomOutAction;
 import org.eclipse.gef.ui.parts.ScrollingGraphicalViewer;
+import org.eclipse.jface.action.IAction;
+import org.eclipse.jface.action.IToolBarManager;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.DisposeEvent;
 import org.eclipse.swt.events.DisposeListener;
+import org.eclipse.swt.events.SelectionAdapter;
+import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
+import org.eclipse.swt.widgets.Menu;
+import org.eclipse.swt.widgets.MenuItem;
 import org.eclipse.ui.forms.widgets.Form;
 import org.eclipse.ui.forms.widgets.FormToolkit;
 import org.eclipse.ui.part.ShowInContext;
@@ -62,18 +70,17 @@ public class DiagramScreen extends AbstractScreen implements
 		toolkit.adapt(this);
 		toolkit.paintBordersFor(this);
 	}
-	
-	
-	
-	
+
 	@Override
 	public boolean handleShowIn(ShowInContext context) {
 		ISelection selection = context.getSelection();
-		if(selection instanceof IStructuredSelection){
-			Object firstElement = ((IStructuredSelection) selection).getFirstElement();
-			if(firstElement instanceof ServiceFlow){
+		if (selection instanceof IStructuredSelection) {
+			Object firstElement = ((IStructuredSelection) selection)
+					.getFirstElement();
+			if (firstElement instanceof ServiceFlow) {
 				ServiceFlow sf = (ServiceFlow) firstElement;
-				graphicalViewer.setEditPartFactory(new CallflowEditPartsFactory());
+				graphicalViewer
+						.setEditPartFactory(new CallflowEditPartsFactory());
 				graphicalViewer.setContents(new CanvasModel(sf));
 				graphicalViewer.getRootEditPart().refresh();
 				return true;
@@ -81,7 +88,6 @@ public class DiagramScreen extends AbstractScreen implements
 		}
 		return true;
 	}
-
 
 	public void buildUI() {
 
@@ -98,23 +104,55 @@ public class DiagramScreen extends AbstractScreen implements
 		frmDiagram.setSeparatorVisible(true);
 
 		frmDiagram.setText(this.getScreenName());
-		frmDiagram.getToolBarManager().update(true);
+
 		frmDiagram.setToolBarVerticalAlignment(SWT.TOP);
 
 		toolkit.decorateFormHeading(frmDiagram);
 		toolkit.paintBordersFor(frmDiagram);
-
+		
+		
 		// Body of the form.
 		FillLayout fl = new FillLayout();
 		frmDiagram.getBody().setLayout(fl);
-		
+
 		ScalableFreeformRootEditPart rootEditPart = new ScalableFreeformRootEditPart();
+		
+		
+		IAction zoomIn = new ZoomInAction(
+				rootEditPart.getZoomManager());
+		IAction zoomOut = new ZoomOutAction(
+				rootEditPart.getZoomManager());
+		
+		IToolBarManager toolBarManager = this.getScreenForm().getToolBarManager();
+		toolBarManager.add(zoomIn);
+		toolBarManager.add(zoomOut);
+		this.getScreenForm().updateToolBar();
+		
+		
 		graphicalViewer = new ScrollingGraphicalViewer();
 		graphicalViewer.setProperty(SnapToGrid.PROPERTY_GRID_VISIBLE, true);
 		graphicalViewer.createControl(frmDiagram.getBody());
 		graphicalViewer.getControl().setBackground(
 				ColorConstants.listBackground);
 		graphicalViewer.setRootEditPart(rootEditPart);
+		
+		
+		Menu menu = new Menu(this.getShell(), SWT.POP_UP);
+		MenuItem item = new MenuItem(menu, SWT.PUSH);
+		item.setText("Export");
+		item.addSelectionListener(new SelectionAdapter() {
+
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+
+				ImageSaveUtil.save(DiagramScreen.this.getShell(),
+						graphicalViewer);
+			}
+
+		});
+
+		graphicalViewer.getControl().setMenu(menu);
+
 	}
 
 	public Form getScreenForm() {
