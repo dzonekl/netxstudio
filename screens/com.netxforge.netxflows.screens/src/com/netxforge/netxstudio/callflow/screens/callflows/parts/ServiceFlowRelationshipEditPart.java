@@ -90,6 +90,7 @@ public class ServiceFlowRelationshipEditPart extends AbstractConnectionEditPart 
 		label.setOpaque(true);
 		label.setBackgroundColor(ColorConstants.tooltipBackground);
 		label.setBorder(new LineBorder());
+		
 		// Add the label to the connection, with the Locator as a
 		// constraint.
 		connection.add(label, new MidpointLocator(connection, 0));
