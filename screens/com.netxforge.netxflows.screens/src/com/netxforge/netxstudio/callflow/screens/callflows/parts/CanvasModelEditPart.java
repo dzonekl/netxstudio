@@ -22,9 +22,9 @@ import java.util.List;
 import java.util.Map;
 
 import org.eclipse.draw2d.ConnectionLayer;
+import org.eclipse.draw2d.ConnectionRouter;
 import org.eclipse.draw2d.FreeformLayer;
 import org.eclipse.draw2d.IFigure;
-import org.eclipse.draw2d.ManhattanConnectionRouter;
 import org.eclipse.gef.LayerConstants;
 
 import com.google.common.collect.Lists;
@@ -77,7 +77,7 @@ public class CanvasModelEditPart extends AbstractLibraryEditPart {
 		ConnectionLayer connLayer = (ConnectionLayer) getLayer(LayerConstants.CONNECTION_LAYER);
 		// connLayer.setConnectionRouter(new
 		// ShortestPathConnectionRouter(layer));
-		connLayer.setConnectionRouter(new ManhattanConnectionRouter());
+		connLayer.setConnectionRouter(ConnectionRouter.NULL);
 
 		return layer;
 	}
@@ -138,8 +138,8 @@ public class CanvasModelEditPart extends AbstractLibraryEditPart {
 
 				if (nt1 != null && !nodeTypeToRelationships.containsKey(nt1)) {
 					sfrsNT1 = Lists.newArrayList();
-					NodeTypeToServiceRelationships nodeTypeToServiceRelationships = new NodeTypeToServiceRelationships(serviceFlow,
-							nt1, sfrsNT1);
+					NodeTypeToServiceRelationships nodeTypeToServiceRelationships = new NodeTypeToServiceRelationships(
+							serviceFlow, nt1, sfrsNT1);
 					nodeTypeToRelationships.put(nt1,
 							nodeTypeToServiceRelationships);
 				} else {
@@ -147,8 +147,8 @@ public class CanvasModelEditPart extends AbstractLibraryEditPart {
 				}
 				if (nt2 != null && !nodeTypeToRelationships.containsKey(nt2)) {
 					sfrsNT2 = Lists.newArrayList();
-					NodeTypeToServiceRelationships nodeTypeToServiceRelationships = new NodeTypeToServiceRelationships(serviceFlow,
-							nt2, sfrsNT2);
+					NodeTypeToServiceRelationships nodeTypeToServiceRelationships = new NodeTypeToServiceRelationships(
+							serviceFlow, nt2, sfrsNT2);
 					nodeTypeToRelationships.put(nt2,
 							nodeTypeToServiceRelationships);
 				} else {
@@ -165,9 +165,9 @@ public class CanvasModelEditPart extends AbstractLibraryEditPart {
 			// ServiceFlow.
 
 		}
-//		List<NodeTypeToServiceRelationships> asList = Lists
-//				.newArrayList(nodeTypeToRelationships.values());
-//		return Lists.newArrayList(Iterables.reverse(asList));
+		// List<NodeTypeToServiceRelationships> asList = Lists
+		// .newArrayList(nodeTypeToRelationships.values());
+		// return Lists.newArrayList(Iterables.reverse(asList));
 		return nodeTypeToRelationships.values();
 	}
 }

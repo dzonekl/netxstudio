@@ -41,8 +41,9 @@ public class CallFlowConnectionAnchor extends AbstractConnectionAnchor {
 	 * @see org.eclipse.draw2d.AbstractConnectionAnchor#ancestorMoved(IFigure)
 	 */
 	public void ancestorMoved(IFigure figure) {
-		if (figure instanceof ScalableFigure)
+		if (figure instanceof ScalableFigure) {
 			return;
+		}
 		super.ancestorMoved(figure);
 	}
 
@@ -53,8 +54,6 @@ public class CallFlowConnectionAnchor extends AbstractConnectionAnchor {
 		r.setBounds(getOwner().getBounds());
 		r.translate(-1, -1);
 		r.resize(1, 1);
-
-		getOwner().translateToAbsolute(r);
 
 		// Rectangle r = getOwner().getBounds();
 		int x, y;
@@ -78,8 +77,9 @@ public class CallFlowConnectionAnchor extends AbstractConnectionAnchor {
 
 	public Point getReferencePoint() {
 		Point reference = getLocation(null);
-		System.out.println("ANCHOR => Figure: " + this.getOwner()
-				+ "Reference: " + reference);
+		IFigure owner = this.getOwner();
+		System.out.println("ANCHOR => Figure: " + owner + "Reference: "
+				+ reference);
 		return reference;
 	}
 

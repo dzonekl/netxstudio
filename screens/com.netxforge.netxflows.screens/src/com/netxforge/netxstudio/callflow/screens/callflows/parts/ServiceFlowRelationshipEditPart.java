@@ -57,7 +57,8 @@ public class ServiceFlowRelationshipEditPart extends AbstractConnectionEditPart 
 	 */
 	@Override
 	protected IFigure createFigure() {
-		PolylineConnection connection = new PolylineConnection();
+		PolylineConnection connection = new PolylineConnection
+				();
 		connection.setLineStyle(SWT.LINE_DASH);
 		connection.setLineCap(SWT.CAP_ROUND);
 		
@@ -91,7 +92,7 @@ public class ServiceFlowRelationshipEditPart extends AbstractConnectionEditPart 
 		label.setBorder(new LineBorder());
 		// Add the label to the connection, with the Locator as a
 		// constraint.
-		connection.add(label, new MidpointLocator(connection, 1));
+//		connection.add(label, new MidpointLocator(connection, 1));
 
 		return connection;
 	}
