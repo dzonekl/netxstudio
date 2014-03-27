@@ -92,7 +92,7 @@ public class ServiceFlowRelationshipEditPart extends AbstractConnectionEditPart 
 		label.setBorder(new LineBorder());
 		// Add the label to the connection, with the Locator as a
 		// constraint.
-//		connection.add(label, new MidpointLocator(connection, 1));
+		connection.add(label, new MidpointLocator(connection, 0));
 
 		return connection;
 	}
