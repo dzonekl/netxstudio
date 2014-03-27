@@ -78,7 +78,7 @@ public class MonitoringTreeLabelProvider extends StyledCellLabelProvider {
 		for (int i = 0; i < attributeMaps.length; i++) {
 			attributeMaps[i].addMapChangeListener(mapChangeListener);
 		}
-
+		networkTreeLabelProvider = new NetworkTreeLabelProvider(attributeMaps);
 	}
 
 	@Override
