@@ -17,7 +17,7 @@
          </property>
          <property
                name="aboutImage"
-               value="platform:/plugin/com.netxforge.netxflows.product/icons/Logo about 250-330.png">
+               value="icons/Logo about 250-330.png">
          </property>
          <property
                name="aboutText"
@@ -79,7 +79,7 @@
    <extension
          point="org.eclipse.ui.splashHandlers">
       <splashHandler
-            class="com.netxforge.netxstudio.client.product.splashHandlers.InteractiveSplashHandler"
+            class="com.netxforge.netxstudio.client.product.internal.ProductEExtensionFactory:com.netxforge.netxstudio.client.product.splashHandlers.InteractiveSplashHandler"
             id="com.netxforge.netxstudio.client.product.splashHandlers.interactive">
       </splashHandler>
       <splashHandlerProductBinding
