@@ -609,7 +609,7 @@ public class MonitoringStateModel {
 		}
 
 		// Do some initial computation, note this will auto compute the
-		// adapted children. Non-adapted children will
+		// adapted children.
 		adapt.compute(monitor);
 
 		if (CommonActivator.DEBUG) {
@@ -662,10 +662,14 @@ public class MonitoringStateModel {
 	}
 
 	/**
+	 * For a given {@link ResourceMonitor} get the markers which are of time
+	 * {@link ToleranceMarker}.
+	 * 
 	 * @param rm
 	 * @return
 	 */
-	private List<Marker> toleranceMarkersForResourceMonitor(ResourceMonitor rm) {
+	public static List<Marker> toleranceMarkersForResourceMonitor(
+			ResourceMonitor rm) {
 		final List<Marker> toleranceMarkers = Lists.newArrayList(Iterables
 				.filter(rm.getMarkers(), StudioUtils.toleranceMarkers()));
 		return toleranceMarkers;
@@ -679,7 +683,7 @@ public class MonitoringStateModel {
 	 * @param markersForNodeList
 	 * @return
 	 */
-	public int[] ragForMarkers(List<Marker> markersForNodeList) {
+	public static int[] ragForMarkers(List<Marker> markersForNodeList) {
 
 		int red = 0, amber = 0, green = 0;
 		Marker[] markerForNodeArray = new Marker[markersForNodeList.size()];
@@ -740,7 +744,8 @@ public class MonitoringStateModel {
 	 * @param markers
 	 * @return
 	 */
-	public ToleranceMarker lastToleranceMarker(LevelKind lk, Marker... markers) {
+	public static ToleranceMarker lastToleranceMarker(LevelKind lk,
+			Marker... markers) {
 		ToleranceMarker tm = null;
 		List<Marker> markerList = Lists.newArrayList(markers);
 		markerList = StudioUtils.sortMarkersByTimeStamp(markerList);
@@ -755,7 +760,7 @@ public class MonitoringStateModel {
 		return tm;
 	}
 
-	public boolean isStartOrUp(ToleranceMarker tm) {
+	public static boolean isStartOrUp(ToleranceMarker tm) {
 		return tm.getDirection() == ToleranceMarkerDirectionKind.UP
 				|| tm.getDirection() == ToleranceMarkerDirectionKind.START;
 	}
@@ -806,7 +811,7 @@ public class MonitoringStateModel {
 	 * @param monitor
 	 * @return
 	 */
-	public List<Marker> toleranceMarkersForServiceMonitorsAndResource(
+	public static List<Marker> toleranceMarkersForServiceMonitorsAndResource(
 			List<ServiceMonitor> serviceMonitors, NetXResource netxRes,
 			IProgressMonitor monitor) {
 

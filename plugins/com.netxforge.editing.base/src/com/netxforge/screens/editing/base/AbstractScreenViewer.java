@@ -70,6 +70,8 @@ public abstract class AbstractScreenViewer extends AbstractScreensViewPart
 	 */
 	private int options = 0;
 
+	private SyncViewerAction syncViewerAction;
+
 	public static final int VIEWER_NO_SYNC_OPTION = 1 << 1;
 
 	/**
@@ -117,8 +119,7 @@ public abstract class AbstractScreenViewer extends AbstractScreensViewPart
 				.getPluginImageDescriptor(
 						"com.netxforge.netxstudio.screens.editing",
 						"/icons/full/elcl16/synced.gif");
-		final SyncViewerAction syncViewerAction = new SyncViewerAction("",
-				IAction.AS_CHECK_BOX);
+		syncViewerAction = new SyncViewerAction("", IAction.AS_CHECK_BOX);
 		syncViewerAction.setImageDescriptor(synchedDescriptor);
 		syncViewerAction
 				.setToolTipText("Toggle linking to selection from other viewers");
@@ -126,11 +127,31 @@ public abstract class AbstractScreenViewer extends AbstractScreensViewPart
 		getViewSite().getActionBars().getToolBarManager().add(syncViewerAction);
 	}
 
+	/**
+	 * Expose the toggling of the {@link SyncViewerAction}.
+	 * 
+	 * @param checked
+	 */
 	protected void toggleLinking(boolean checked) {
 		this.keepSynched = checked;
 		if (keepSynched) {
 			processSelection(lastSelection);
 		}
+	}
+
+	/**
+	 * Disable the {@link SyncViewerAction}.
+	 * 
+	 * @param enable
+	 */
+	protected void enableLinking(boolean enable) {
+		if (keepSynched && !enable) {
+
+			// Re-enable the action manually is required
+			keepSynched = false;
+			syncViewerAction.setChecked(false);
+		}
+		syncViewerAction.setEnabled(enable);
 	}
 
 	public abstract void initScreen(Composite parent);
@@ -246,5 +267,4 @@ public abstract class AbstractScreenViewer extends AbstractScreensViewPart
 	protected void processSelection(ISelection selection) {
 		// defaults to NOOP.
 	}
-
 }

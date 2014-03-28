@@ -64,5 +64,4 @@ public class DashboardViewer extends AbstractScreenViewer {
 		// clean our dashboard.
 		dashboardScreen.reset();
 	}
-
 }

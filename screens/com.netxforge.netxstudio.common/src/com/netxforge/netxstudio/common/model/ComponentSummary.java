@@ -86,8 +86,9 @@ public class ComponentSummary extends MonitoringAdapter {
 					this.getContextObjects());
 			if (componentSummary != null) {
 				resources += componentSummary.totalResources();
-//				System.out.println("adding" + componentSummary.totalResources()
-//						+ " for comp:" + modelUtils.printModelObject(c));
+				
+//				System.out.println("adding " + componentSummary.totalResources()
+//						+ " (resources) for comp:" + StudioUtils.printModelObject(c));
 
 				functions += componentSummary.totalFunctions();
 				equipments += componentSummary.totalEquipments();

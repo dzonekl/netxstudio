@@ -143,7 +143,6 @@ public class DataScreen extends AbstractScreen implements IDataScreenInjection,
 	}
 
 	public void reset() {
-		// dashboardComponent.reset();
 	}
 
 	protected void updateValues(EObject target) {
@@ -255,6 +254,7 @@ public class DataScreen extends AbstractScreen implements IDataScreenInjection,
 
 	public synchronized void clearInjectedObjects() {
 		objects = null;
+		cmpValues.clearData();
 	}
 
 }

@@ -182,7 +182,7 @@ public class MonitoringEngine extends BaseComponentEngine {
 
 			if (hasTolerances) {
 				
-				// Make sure we 
+				// Make sure we track exiting failures.  
 				int failBeforeTolerance = this.getFailures().size();
 
 				

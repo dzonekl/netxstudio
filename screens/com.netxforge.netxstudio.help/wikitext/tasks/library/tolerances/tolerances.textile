@@ -18,7 +18,10 @@ created, including the expression to calculate the tolerance value. A tolerance 
 When a monitoring job executes for a Service and subsequently a Network Element, the tolerance definitions will be used in the following way. 
 
 * For each Tolerance in the Function / Equipment execute the expression and write the result in 
-the tolerance range of each resource corresponding to the Tolerance level. 
+the tolerance range of each resource corresponding to the Tolerance level.  
+
+The Tolerance is evaluated against a Metric range. The range is either the default range (Which is the first Metric range
+in the resource) or can be explictly specified by setting the interval and kind [AVG/BH] after the TOLERANCE keyword.
 
 * For each resource compare each tolerance level against the actual utilization. Create a marker if the value is crossed. 
 

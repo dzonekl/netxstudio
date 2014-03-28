@@ -157,8 +157,8 @@ public class ToleranceProcessor {
 	 * @param end
 	 * @return
 	 */
-	private List<Value> narrowValueSet(ExpressionResult expressionResult,
-			DateTimeRange period) {
+	private List<Value> valuesForExpressionResult(
+			ExpressionResult expressionResult, DateTimeRange period) {
 
 		NetXResource resource = (NetXResource) expressionResult
 				.getTargetResource();
@@ -202,10 +202,10 @@ public class ToleranceProcessor {
 			}
 		}
 
-		if (targetMVR == null)
+		if (targetMVR == null) {
 			return null;
 
-		else {
+		} else {
 			// Prefetch all Value objects for this range.
 			targetMVR.cdoPrefetch(CDORevision.DEPTH_INFINITE);
 		}
@@ -215,26 +215,8 @@ public class ToleranceProcessor {
 					targetMVR, CDOQueryUtil.QUERY_MYSQL, period);
 
 		} else {
-
-			// DO NOT USE, SUSPECT TO DELETE MVR VALUES!!!!!!
-
-			// Date start = modelUtils.fromXMLDate(period.getBegin());
-			// Date end = modelUtils.fromXMLDate(period.getEnd());
-			// usageValues = targetMVR.getMetricValues();
-			//
-			// // Remove all values, not in the period.
-			// // Alternative with DB Query>
-			// final List<Value> toRemoveUsageValues = new ArrayList<Value>();
-			// for (final Value usageValue : usageValues) {
-			// final long timeMillis = usageValue.getTimeStamp()
-			// .toGregorianCalendar().getTimeInMillis();
-			// if (timeMillis < start.getTime() || timeMillis > end.getTime()) {
-			// toRemoveUsageValues.add(usageValue);
-			// }
-			// }
-			//
-			// usageValues.removeAll(toRemoveUsageValues);
-			// usageValues = modelUtils.sortValuesByTimeStamp(usageValues);
+			throw new UnsupportedOperationException(
+					"Alternative to use Queries for data retrieval not supported here");
 
 		}
 		return usageValues;
@@ -299,7 +281,8 @@ public class ToleranceProcessor {
 
 			final List<Marker> newMarkers = new ArrayList<Marker>();
 
-			List<Value> usageValues = narrowValueSet(expressionResult, period);
+			List<Value> usageValues = valuesForExpressionResult(
+					expressionResult, period);
 
 			if (DataActivator.DEBUG) {
 				DataActivator.TRACE.trace(
@@ -309,14 +292,18 @@ public class ToleranceProcessor {
 
 			if (usageValues.isEmpty()) {
 				if (DataActivator.DEBUG) {
-					DataActivator.TRACE.trace(
-							DataActivator.TRACE_RESULT_TOL_OPTION,
-							"Aborting tolerance, metric values is empty");
+					DataActivator.TRACE
+							.trace(DataActivator.TRACE_RESULT_TOL_OPTION,
+									"Aborting tolerance, no metric values to evaluate [1]");
+					DataActivator.TRACE
+							.trace(DataActivator.TRACE_RESULT_TOL_OPTION,
+									"[1] The target MVR is derived from the expression: TOLERANCE [Interval] [Kind] => Becomes MVR with Interval & Kind");
+
 				}
 				return newMarkers;
 			}
 
-			// Get the tolerance computation
+			// Get the tolerance computation.
 			final List<Value> toleranceValues = StudioUtils
 					.sortValuesByTimeStamp(expressionResult.getTargetValues());
 
@@ -357,12 +344,8 @@ public class ToleranceProcessor {
 
 				if (DataActivator.DEBUG) {
 					DataActivator.TRACE.trace(
-							DataActivator.TRACE_RESULT_TOL_OPTION,
-							"tolerance="
-									+ v.getValue()
-									+ " ,"
-									+ NonModelUtils.dateAndTime(new Date(
-											fromTime)));
+							DataActivator.TRACE_RESULT_TOL_OPTION, "tolerance="
+									+ v.getValue());
 					DataActivator.TRACE.trace(
 							DataActivator.TRACE_RESULT_TOL_OPTION, "from: "
 									+ new Date(fromTime) + " to: "

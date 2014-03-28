@@ -20,6 +20,7 @@ package com.netxforge.netxstudio.screens.parts;
 import java.util.List;
 
 import org.eclipse.jface.action.IAction;
+import org.eclipse.jface.util.PropertyChangeEvent;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.StructuredSelection;
@@ -30,10 +31,14 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Menu;
 import org.eclipse.swt.widgets.MenuItem;
 import org.eclipse.swt.widgets.Shell;
+import org.eclipse.ui.IViewSite;
 import org.eclipse.ui.IWorkbenchPart;
+import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.part.ShowInContext;
 
 import com.google.common.collect.Lists;
+import com.netxforge.netxstudio.screens.internal.ScreensActivator;
+import com.netxforge.netxstudio.screens.preferences.ScreenConstants;
 import com.netxforge.screens.editing.base.AbstractScreenViewer;
 import com.netxforge.screens.editing.base.IScreen;
 import com.netxforge.screens.editing.base.ScreenUtil;
@@ -134,4 +139,30 @@ public class DataScreenViewer extends AbstractScreenViewer {
 		return true;
 	}
 
+	/**
+	 * We are interested in {@link ScreenConstants#PREFERENCE_DYN_MONITORING} to
+	 * enable the sync.
+	 * 
+	 * @param event
+	 */
+	@Override
+	public void propertyChange(PropertyChangeEvent event) {
+		String property = event.getProperty();
+		if (property.equals(ScreenConstants.PREFERENCE_DYN_MONITORING)) {
+			boolean dynMonitoringState = ScreensActivator.getInstance()
+					.getPreferenceStore()
+					.getBoolean(ScreenConstants.PREFERENCE_DYN_MONITORING);
+			this.enableLinking(dynMonitoringState);
+			if(!dynMonitoringState){
+				dataScreen.clearInjectedObjects();
+			}
+		}
+	}
+
+	@Override
+	public void init(IViewSite site) throws PartInitException {
+		super.init(site);
+		ScreensActivator.getInstance().getPreferenceStore()
+				.addPropertyChangeListener(this);
+	}
 }

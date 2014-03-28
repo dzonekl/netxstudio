@@ -35,6 +35,9 @@ import com.netxforge.base.context.IComputationContext;
 import com.netxforge.netxstudio.common.internal.CommonActivator;
 import com.netxforge.netxstudio.generics.DateTimeRange;
 import com.netxforge.netxstudio.generics.GenericsFactory;
+import com.netxforge.netxstudio.metrics.MetricValueRange;
+import com.netxforge.netxstudio.operators.ToleranceMarker;
+import com.netxforge.netxstudio.operators.ToleranceMarkerDirectionKind;
 import com.netxforge.netxstudio.services.RFSService;
 import com.netxforge.netxstudio.services.Service;
 
@@ -62,10 +65,9 @@ public abstract class MonitoringAdapter extends AdapterImpl implements
 			.createDateTimeRange();
 
 	static {
-		// We need {@link ModelUtils} before we can set the global period.
-
 		Date beginTime = NonModelUtils.threeMonthsAgo();
-		beginTime = NonModelUtils.adjustToDayStart(beginTime);
+		beginTime = NonModelUtils.adjustToMonthStart(beginTime);
+		// beginTime = NonModelUtils.adjustToDayStart(beginTime);
 		PARAMETER_GLOBAL_PERIOD.setBegin(NonModelUtils.toXMLDate(beginTime));
 
 		Date endTime = NonModelUtils.todayAtDayEnd();
@@ -274,13 +276,21 @@ public abstract class MonitoringAdapter extends AdapterImpl implements
 	 * Get the monitoring period context. </p> When the
 	 * {@link #PARAMETER_USE_GLOBAL_PERIOD} is <code>true</code> (Default) we
 	 * return the default period as specified in
-	 * {@link #PARAMETER_GLOBAL_PERIOD} (Default 3 months from today). </p>
+	 * {@link #PARAMETER_GLOBAL_PERIOD} (Default 3 months from today). </p> We
+	 * also adjust the start of the period to the start of the month, which
+	 * should guarantee a {@link ToleranceMarker} with a
+	 * {@link ToleranceMarkerDirectionKind#START} needed to determine the
+	 * {@link RAG} of a {@link MetricValueRange}. </p>
 	 */
 	public DateTimeRange getPeriod() {
 		DateTimeRange periodInContext = contextProvider.periodInContext();
 		if ((periodInContext == null || StudioUtils
 				.periodUnset(periodInContext)) && PARAMETER_USE_GLOBAL_PERIOD) {
 			periodInContext = PARAMETER_GLOBAL_PERIOD;
+		} else {
+			Date adjustedStart = NonModelUtils.adjustToMonthStart(NonModelUtils
+					.fromXMLDate(periodInContext.getBegin()));
+			periodInContext.setBegin(NonModelUtils.toXMLDate(adjustedStart));
 		}
 		return periodInContext;
 	}

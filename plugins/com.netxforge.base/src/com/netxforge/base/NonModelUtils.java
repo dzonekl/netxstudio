@@ -725,10 +725,10 @@ public class NonModelUtils {
 			sb.append("000");
 		}
 		// even less
-//		if (delta > ONE_THOUSAND) {
-//			sb.append(FORMAT_DOUBLE_NO_FRACTION.format(delta / ONE_THOUSAND));
-//			// granularity--;
-//		}
+		// if (delta > ONE_THOUSAND) {
+		// sb.append(FORMAT_DOUBLE_NO_FRACTION.format(delta / ONE_THOUSAND));
+		// // granularity--;
+		// }
 		sb.append(" (min:sec::ms)");
 		return sb.toString();
 	}
@@ -1118,28 +1118,52 @@ public class NonModelUtils {
 	}
 
 	/**
-	 * Set the hour, minutes, seconds and milliseconds so the calendar
+	 * Set the hour, minutes, seconds and milliseconds so the {@link Calendar}
 	 * represents midnight, which is the start of the day.
 	 * 
 	 * @param cal
 	 */
 	public static void adjustToDayStart(Calendar cal) {
 		// When doing this, we push it forward one day, so if the day is 7 Jan
-		// at 11:50:27h,
-		// it will become 8 Jan at 00:00:00h, so we substract one day.
+		// at 11:50:27,
+		// it will become 7 Jan at 00:00:00h, so we substract one day.
 		cal.add(Calendar.DAY_OF_MONTH, -1);
 		cal.set(Calendar.HOUR_OF_DAY, 24);
 		cal.set(Calendar.MINUTE, 0);
 		cal.set(Calendar.SECOND, 0);
 		cal.set(Calendar.MILLISECOND, 0);
-
 	}
 
+	/**
+	 * Adjust a {@link Date} to the start of the day.
+	 * 
+	 * @param d
+	 * @return
+	 */
 	public static Date adjustToDayStart(Date d) {
 		final Calendar cal = Calendar.getInstance();
 		cal.setTime(d);
 		adjustToDayStart(cal);
 		d.setTime(cal.getTime().getTime());
+		return cal.getTime();
+	}
+
+	/**
+	 * Adjust a {@link Date} to the start of the month (and start of the day).
+	 * 
+	 * @param beginTime
+	 * @return
+	 */
+	public static void adjustToMonthStart(Calendar cal) {
+		cal.set(Calendar.DAY_OF_MONTH, 1);
+	}
+
+	public static Date adjustToMonthStart(Date date) {
+		final Calendar cal = Calendar.getInstance();
+		cal.setTime(date);
+		adjustToMonthStart(cal);
+		adjustToDayStart(cal);
+		date.setTime(cal.getTime().getTime());
 		return cal.getTime();
 	}
 

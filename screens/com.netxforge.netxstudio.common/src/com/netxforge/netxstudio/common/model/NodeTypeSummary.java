@@ -30,7 +30,6 @@ import com.netxforge.netxstudio.library.NetXResource;
 import com.netxforge.netxstudio.library.NodeType;
 import com.netxforge.netxstudio.operators.Marker;
 import com.netxforge.netxstudio.operators.Node;
-import com.netxforge.netxstudio.services.RFSService;
 
 /**
  * 
@@ -50,25 +49,11 @@ public class NodeTypeSummary extends MonitoringAdapter {
 
 		clearComputation();
 
-		RFSService rfsService = this.getRFSService();
-
 		// Safely case, checked by our factory.
 		final NodeType target = getNodeType();
 
-		// Get the corresponding node.
-		Node node = StudioUtils.nodeFor(target);
-
-		// In case there is a Service, we get the components with a matching
-		// node in the service and resource monitors, if not we get all underlying
-		// components.
-
-		List<Component> components = null;
-
-		if (rfsService != null && node != null) {
-			components = StudioUtils.componentsForMonitors(rfsService, node);
-		}else{
-			components = StudioUtils.componentsForNodeType(target);
-		}
+		final List<Component> components = StudioUtils
+				.childComponentsForNodeType(target);
 
 		if (!components.isEmpty()) {
 

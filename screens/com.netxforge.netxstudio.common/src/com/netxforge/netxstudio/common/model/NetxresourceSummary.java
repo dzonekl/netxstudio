@@ -23,10 +23,13 @@ import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.emf.ecore.EObject;
 
 import com.google.common.collect.Lists;
+import com.netxforge.base.NonModelUtils;
 import com.netxforge.netxstudio.generics.DateTimeRange;
 import com.netxforge.netxstudio.library.NetXResource;
 import com.netxforge.netxstudio.metrics.MetricsPackage;
 import com.netxforge.netxstudio.operators.Marker;
+import com.netxforge.netxstudio.operators.ToleranceMarker;
+import com.netxforge.netxstudio.operators.ToleranceMarkerDirectionKind;
 import com.netxforge.netxstudio.services.RFSService;
 
 /**
@@ -44,10 +47,9 @@ public class NetxresourceSummary extends MonitoringAdapter {
 
 	@Override
 	protected synchronized void computeForTarget(IProgressMonitor monitor) {
-			
-		
+
 		clearComputation();
-		
+
 		// Set the context objects.
 		final RFSService rfsServiceInContext = getRFSService();
 		if (rfsServiceInContext == null) {
@@ -60,55 +62,84 @@ public class NetxresourceSummary extends MonitoringAdapter {
 			// COMPUTATION STATE => NOT-COMPUTED
 			return;
 		}
-		
 
 		// Safely case, checked by our factory.
 		final NetXResource target = getTarget();
-		
-//		final SubMonitor subMonitor = SubMonitor.convert(monitor, 1);
-//		subMonitor.setTaskName("Computing summary for "
-//				+ modelUtils.printModelObject(target));
-		
+
+		// final SubMonitor subMonitor = SubMonitor.convert(monitor, 1);
+		// subMonitor.setTaskName("Computing summary for "
+		// + modelUtils.printModelObject(target));
+
 		// toleranceMarkersForServiceMonitorsAndResource = Compute the markers.
-		final List<Marker> unfilteredToleranceMarkers = stateModel
+		final List<Marker> unfilteredToleranceMarkers = MonitoringStateModel
 				.toleranceMarkersForServiceMonitorsAndResource(
 						rfsServiceInContext.getServiceMonitors(), target,
 						monitor);
-		
-		// Filter the markers.
+
+		// Filter the markers, always go back to the start marker.
 		toleranceMarkers.clear();
 		toleranceMarkers.addAll(StudioUtils.markersInsidePeriod(
 				unfilteredToleranceMarkers, periodInContext));
-		
-		// Monitoring is not on or yields no markers when no markers are returned. 
-		// We can't really determine the computation state, so we assume the computation is valid.  
-		
-		// Base RAG computation on the tolerance markers.
-		this.setRag(stateModel.ragForMarkers(toleranceMarkers));
-		
+
+		// As the period is adjusted to the start of the month, we should have a
+		// start marker for monitored
+		// resources.
+		if (!toleranceMarkers.isEmpty()) {
+			Marker marker = toleranceMarkers.get(0);
+			if (marker instanceof ToleranceMarker) {
+				ToleranceMarkerDirectionKind direction = ((ToleranceMarker) marker)
+						.getDirection();
+				if (direction == ToleranceMarkerDirectionKind.START) {
+					System.out
+							.println("GOOD: start marker found when evaluating resource: "
+									+ StudioUtils.printModelObject(this
+											.getTarget()));
+					// this is our desired situation.
+				} else {
+					System.out
+							.println("ERROR: The first marker when evaluating resource: "
+									+ StudioUtils.printModelObject(this
+											.getTarget())
+									+ " should be a start marker (Which it's not)");
+					System.out
+							.println("ERROR: The corresponding timestamp for the fist marker is: "
+									+ NonModelUtils.date(NonModelUtils
+											.fromXMLDate(marker.getValueRef()
+													.getTimeStamp())));
+				}
+			}
+
+			// Monitoring is not on or yields no markers when no markers are
+			// returned.
+			// We can't really determine the computation state, so we assume the
+			// computation is valid.
+
+			// Base RAG computation on the tolerance markers.
+			this.setRag(MonitoringStateModel.ragForMarkers(toleranceMarkers));
+		}
+
 		// COMPUTATION STATE => COMPUTED
 		computationState = ComputationState.COMPUTED;
-		
+
 		monitor.worked(1);
 	}
 
 	public NetXResource getTarget() {
-		return  (NetXResource) super.getTarget();
+		return (NetXResource) super.getTarget();
 	}
-
 
 	@Override
 	protected boolean isSameAdapterFor(EObject object) {
-		// We need notifications for MVR'. 
+		// We need notifications for MVR'.
 		return object.eClass() == MetricsPackage.Literals.METRIC_VALUE_RANGE;
 	}
 
 	@Override
 	protected boolean isNotFiltered(EObject object) {
-		// Only for MVR child objects. 
-  		return object.eClass() == MetricsPackage.Literals.METRIC_VALUE_RANGE;
+		// Only for MVR child objects.
+		return object.eClass() == MetricsPackage.Literals.METRIC_VALUE_RANGE;
 	}
-	
+
 	/**
 	 * Return the markers for this resource, in the last computation from a
 	 * context {@link RFSService}.

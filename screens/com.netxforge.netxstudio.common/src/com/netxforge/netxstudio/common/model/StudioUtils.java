@@ -398,13 +398,12 @@ public class StudioUtils {
 		private long to;
 
 		public MarkerWithinPeriodPredicate(final DateTimeRange dtr) {
-			from = dtr.getBegin().toGregorianCalendar().getTimeInMillis();
-			to = dtr.getEnd().toGregorianCalendar().getTimeInMillis();
+			this(dtr.getBegin().toGregorianCalendar().getTimeInMillis(), dtr
+					.getEnd().toGregorianCalendar().getTimeInMillis());
 		}
 
 		public MarkerWithinPeriodPredicate(Date from, Date to) {
-			this.from = from.getTime();
-			this.to = to.getTime();
+			this(from.getTime(), to.getTime());
 		}
 
 		public MarkerWithinPeriodPredicate(long from, long to) {
@@ -439,7 +438,7 @@ public class StudioUtils {
 	}
 
 	/**
-	 * All markers inside this range.
+	 * All markers inside this {@link DateTimeRange period}.
 	 * 
 	 * @param unfiltered
 	 * @param dtr
@@ -3070,7 +3069,8 @@ public class StudioUtils {
 	 * @param values
 	 * @return
 	 */
-	public static double[][] transformValueToDoubleTrendMatrix(List<Value> values) {
+	public static double[][] transformValueToDoubleTrendMatrix(
+			List<Value> values) {
 
 		double[][] data = new double[values.size()][2];
 
@@ -3453,7 +3453,6 @@ public class StudioUtils {
 
 	}
 
-
 	/**
 	 * All closure networks.
 	 * 
@@ -3544,6 +3543,13 @@ public class StudioUtils {
 		for (Component c : nodeType.getEquipments()) {
 			components.addAll(componentsForComponent(c));
 		}
+		return components;
+	}
+
+	public static List<Component> childComponentsForNodeType(NodeType nodeType) {
+		final List<Component> components = new ArrayList<Component>();
+		components.addAll(nodeType.getFunctions());
+		components.addAll(nodeType.getEquipments());
 		return components;
 	}
 

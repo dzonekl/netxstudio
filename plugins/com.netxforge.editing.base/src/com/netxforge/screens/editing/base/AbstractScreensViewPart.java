@@ -45,6 +45,8 @@ import org.eclipse.jface.action.IStatusLineManager;
 import org.eclipse.jface.action.IToolBarManager;
 import org.eclipse.jface.action.MenuManager;
 import org.eclipse.jface.action.Separator;
+import org.eclipse.jface.util.IPropertyChangeListener;
+import org.eclipse.jface.util.PropertyChangeEvent;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.ISelectionChangedListener;
 import org.eclipse.jface.viewers.ISelectionProvider;
@@ -90,7 +92,7 @@ import com.netxforge.screens.editing.base.util.MementoUtil;
 public abstract class AbstractScreensViewPart extends ViewPart implements
 		ISaveablePart2, IPartListener, IEditingDomainProvider,
 		ISelectionProvider, IMenuListener, IViewerProvider, IPropertyListener,
-		IScreenProvider {
+		IPropertyChangeListener, IScreenProvider {
 
 	/**
 	 * This keeps track of the selection of the view as a whole.
@@ -230,7 +232,12 @@ public abstract class AbstractScreensViewPart extends ViewPart implements
 			}
 		}
 
-		this.addPropertyListener(this);
+		addPropertyListener(this);
+		
+		
+		BaseEditingActivator.getDefault().getPreferenceStore()
+				.addPropertyChangeListener(this);
+
 		site.getPage().addPartListener(this);
 		// Set the current editor as selection provider.
 		site.setSelectionProvider(this);
@@ -257,8 +264,8 @@ public abstract class AbstractScreensViewPart extends ViewPart implements
 		setHandlers(handlers);
 		// hookPageSelection();
 		actionHandlerDescriptor.initActions(site.getActionBars());
-		getEditingDomain().getCommandStack()
-				.addCommandStackListener(cmdStackListener);
+		getEditingDomain().getCommandStack().addCommandStackListener(
+				cmdStackListener);
 	}
 
 	private void setHandlers(IActionHandler[] handlers) {
@@ -644,8 +651,8 @@ public abstract class AbstractScreensViewPart extends ViewPart implements
 				EObject eo = (EObject) next;
 				// Do EObject have a unique ID?
 			}
-			String text = new AdapterFactoryItemDelegator(
-					getAdapterFactory()).getText(next);
+			String text = new AdapterFactoryItemDelegator(getAdapterFactory())
+					.getText(next);
 
 			message = "Screen object: " + text;
 			// message = "Screen object: " + text + " OID:" + cdoID;
@@ -864,6 +871,13 @@ public abstract class AbstractScreensViewPart extends ViewPart implements
 	 */
 	public Viewer getViewer() {
 		return currentViewer;
+	}
+
+	/**
+	 * Clients can override to be notified of {@link PropertyChangeEvent}
+	 */
+	public void propertyChange(PropertyChangeEvent event) {
+		
 	}
 
 }
