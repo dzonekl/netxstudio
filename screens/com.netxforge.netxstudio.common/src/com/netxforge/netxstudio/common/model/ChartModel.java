@@ -589,7 +589,9 @@ public class ChartModel implements IChartModel {
 			// IChartResource.
 			if (chartResources.isEmpty()) {
 				this.chartPeriod = netxSummary.getPeriod();
-				intervalForPeriod(chartPeriod);
+
+				determineValueRange(summary.getTarget(), chartPeriod);
+
 			}
 
 			final ChartResource chartResource = new ChartResource(netxSummary);
@@ -606,17 +608,55 @@ public class ChartModel implements IChartModel {
 	}
 
 	/**
+	 * Set a suitable {@link MetricValueRange} selector based on the given
+	 * period. We extract the {@link #interval} and {@link KindHintType} of the
+	 * suitable range. When not optimized, we fall back to the first range.
+	 * 
+	 * @param target
+	 * @param chartPeriod
+	 */
+	private void determineValueRange(NetXResource target,
+			DateTimeRange chartPeriod) {
+
+		int interval = intervalForPeriod(chartPeriod);
+		KindHintType kh = KindHintType.BH;
+		
+		// Try an optimal for the given period.
+		MetricValueRange mvr = StudioUtils.valueRangeForIntervalAndKind(target,
+				kh, interval);
+
+		if (mvr == null) {
+			kh = KindHintType.AVG;
+			mvr = StudioUtils
+					.valueRangeForIntervalAndKind(target, kh, interval);
+			if (mvr == null) {
+				// Get the first range.
+				mvr = target.getMetricValueRanges().get(0);
+				if (mvr != null) {
+					interval = mvr.getIntervalHint();
+					kh = mvr.getKindHint();
+				}
+			}
+		}
+
+		this.kind = kh;
+		this.interval = interval;
+
+	}
+
+	/**
 	 * Set the default interval based on the period. If the period < 3 days =>
 	 * Show in hours. If the period < 1 month => Show in days. If the period < 6
 	 * months => Show in weeks.
 	 * 
 	 * @param chartPeriod
 	 */
-	private void intervalForPeriod(DateTimeRange chartPeriod) {
+	private int intervalForPeriod(DateTimeRange chartPeriod) {
 		int days = StudioUtils.daysInPeriod(chartPeriod);
+		int interval;
 		if (days < 3) {
 			// default do nothing.
-			return;
+			interval = NonModelUtils.MINUTES_IN_AN_HOUR;
 		} else if (days <= 31) {
 			interval = NonModelUtils.MINUTES_IN_A_DAY;
 		} else if (days <= 183) {
@@ -624,7 +664,7 @@ public class ChartModel implements IChartModel {
 		} else {
 			interval = NonModelUtils.MINUTES_IN_A_MONTH;
 		}
-
+		return interval;
 	}
 
 	/**

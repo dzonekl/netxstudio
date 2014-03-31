@@ -2204,14 +2204,6 @@ public class StudioUtils {
 		return null;
 	}
 
-	public Value oldestValue(List<Value> rawListOfValues) {
-		List<Value> values = sortValuesByTimeStamp(rawListOfValues);
-		if (values.size() > 0) {
-			return values.get(0);
-		}
-		return null;
-	}
-
 	/**
 	 * Iterate through the ranges, and find for this interval.
 	 * 
