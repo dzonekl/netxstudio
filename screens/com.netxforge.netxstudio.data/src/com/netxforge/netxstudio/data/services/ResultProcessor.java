@@ -24,6 +24,7 @@ import java.util.List;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import com.netxforge.base.NonModelUtils;
+import com.netxforge.base.context.ObjectContext;
 import com.netxforge.netxstudio.common.model.StudioUtils;
 import com.netxforge.netxstudio.data.internal.DataActivator;
 import com.netxforge.netxstudio.generics.DateTimeRange;
@@ -64,6 +65,7 @@ public class ResultProcessor {
 	 * @param start
 	 * @param end
 	 */
+	@SuppressWarnings("deprecation")
 	public void processServiceProfileResult(List<Object> currentContext,
 			List<BaseExpressionResult> expressionResults, Date start, Date end) {
 		for (final BaseExpressionResult baseExpressionResult : expressionResults) {
@@ -115,14 +117,43 @@ public class ResultProcessor {
 		return tolProcessor;
 	}
 
+	/**
+	 * Write an {@link ExpressionResult} for a give collection of
+	 * {@link ObjectContext} with a give {@link DateTimeRange period}.
+	 * 
+	 * The write mode is forced to
+	 * {@link ValueProcessor#INDIFFERENT_VALUES_IN_INTERVAL_MODE}.
+	 * 
+	 * 
+	 * @param currentContext
+	 * @param expressionResults
+	 * @param period
+	 */
 	public void processMonitoringResult(List<Object> currentContext,
 			List<BaseExpressionResult> expressionResults, DateTimeRange period) {
+		this.processMonitoringResult(currentContext, expressionResults, period,
+				ValueProcessor.INDIFFERENT_VALUES_IN_INTERVAL_MODE);
+	}
+
+	/**
+	 * Write an {@link ExpressionResult} for a give collection of
+	 * {@link ObjectContext} with a give {@link DateTimeRange period}.
+	 * 
+	 * @param currentContext
+	 * @param expressionResults
+	 * @param period
+	 * @param writeMode
+	 */
+	public void processMonitoringResult(List<Object> currentContext,
+			List<BaseExpressionResult> expressionResults, DateTimeRange period,
+			int writeMode) {
 		for (final BaseExpressionResult baseExpressionResult : expressionResults) {
 			if (baseExpressionResult instanceof ExpressionResult) {
 				ExpressionResult expressionResult = (ExpressionResult) baseExpressionResult;
 				// processMonitoringExpressionResult(start, end,
 				// expressionResult);
-				processMonitoringExpressionResult(period, expressionResult);
+				processMonitoringExpressionResult(period, expressionResult,
+						writeMode);
 			}
 		}
 	}
@@ -132,9 +163,11 @@ public class ResultProcessor {
 	 * 
 	 * @param period
 	 * @param expressionResult
+	 * @param writeMode
 	 */
+	@SuppressWarnings("deprecation")
 	private void processMonitoringExpressionResult(DateTimeRange period,
-			ExpressionResult expressionResult) {
+			ExpressionResult expressionResult, int writeMode) {
 
 		final Date start = NonModelUtils.fromXMLDate(period.getBegin());
 		final Date end = NonModelUtils.fromXMLDate(period.getEnd());
@@ -210,10 +243,12 @@ public class ResultProcessor {
 				break;
 			case RangeKind.METRIC_VALUE:
 
+				// Explictly set the write mode. 
 				valueProcessor.addToValueRange(resource,
 						expressionResult.getTargetIntervalHint(),
 						expressionResult.getTargetKindHint(),
-						expressionResult.getTargetValues(), start, end);
+						expressionResult.getTargetValues(), start, end,
+						writeMode);
 
 				break;
 			case RangeKind.TOLERANCE_VALUE: {

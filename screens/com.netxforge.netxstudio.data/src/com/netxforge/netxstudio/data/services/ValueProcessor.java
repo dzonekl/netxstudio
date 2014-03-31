@@ -77,7 +77,7 @@ public class ValueProcessor {
 	 */
 	public static final int INDIFFERENT_VALUES_IN_INTERVAL_MODE = 200;
 
-
+	
 	/**
 	 * Remove {@link Value} objects and potential references to them. Currently
 	 * only {@link Marker} objects reference the <code>Value</code> object, so
@@ -307,7 +307,6 @@ public class ValueProcessor {
 			Date start, Date end) {
 		addToValueRange(foundNetXResource, intervalHint, kindHintType,
 				newValues, start, end, INDIFFERENT_VALUES_IN_INTERVAL_MODE);
-
 	}
 
 	/**
@@ -401,6 +400,7 @@ public class ValueProcessor {
 	 * @param mvr
 	 * @param newValues
 	 * @param intervalHint
+	 * @deprecated 
 	 */
 	public void addToValues(EList<Value> values, List<Value> newValues,
 			int intervalHint) {

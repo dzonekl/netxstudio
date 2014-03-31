@@ -29,6 +29,7 @@ import com.google.inject.Inject;
 import com.netxforge.base.NonModelUtils;
 import com.netxforge.netxstudio.common.model.StudioUtils;
 import com.netxforge.netxstudio.data.services.ResultProcessor;
+import com.netxforge.netxstudio.data.services.ValueProcessor;
 import com.netxforge.netxstudio.delta16042013.metrics.MetricAggregationRule;
 import com.netxforge.netxstudio.generics.DateTimeRange;
 import com.netxforge.netxstudio.generics.GenericsFactory;
@@ -70,7 +71,7 @@ public class AggregationEngine extends BaseComponentEngine {
 
 	@Inject
 	private ResultProcessor resultProcessor;
-	
+
 	public void intitialize(boolean re_initialize) {
 		Resource resource = this.getDataProvider().getResource(
 				MetricsPackage.Literals.METRIC_SOURCE);
@@ -226,9 +227,8 @@ public class AggregationEngine extends BaseComponentEngine {
 			LogicActivator.TRACE.trace(
 					LogicActivator.TRACE_RETENTION_OPTION,
 					"data aggregation for : "
-							+ StudioUtils.printModelObject(
-									getComponent()) + " resource: "
-							+ netXResource.getExpressionName());
+							+ StudioUtils.printModelObject(getComponent())
+							+ " resource: " + netXResource.getExpressionName());
 		}
 		for (MetricRetentionRule rule : metricRulesSortedList) {
 			Expression expression = rule.getRetentionExpression();
@@ -296,9 +296,10 @@ public class AggregationEngine extends BaseComponentEngine {
 		// Note: For retention expressions, the order for which the expression
 		// result is processed,
 		// is relevant, as data is deleted after a while.
-		
+		// Also set the write mode explicitly.
 		resultProcessor.processMonitoringResult(currentContext,
-				expressionResults, period);
+				expressionResults, period,
+				ValueProcessor.SINGLE_VALUE_IN_INTERVAL_MODE);
 
 	}
 
