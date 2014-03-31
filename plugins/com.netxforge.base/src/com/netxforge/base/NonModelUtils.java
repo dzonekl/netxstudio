@@ -1237,7 +1237,15 @@ public class NonModelUtils {
 		cal.set(Calendar.SECOND, 00);
 		cal.set(Calendar.MILLISECOND, 000);
 	}
-
+	
+	
+	/**
+	 * A {@link Tuple} containing a string representation of the interval and 
+	 * a 
+	 * 
+	 * @param interval
+	 * @return
+	 */
 	public static Tuple interval(int interval) {
 
 		String label = "";

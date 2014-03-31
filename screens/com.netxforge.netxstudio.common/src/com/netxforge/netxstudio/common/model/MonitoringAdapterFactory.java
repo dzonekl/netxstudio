@@ -30,6 +30,7 @@ import com.netxforge.netxstudio.common.internal.CommonActivator;
 import com.netxforge.netxstudio.library.Component;
 import com.netxforge.netxstudio.library.NetXResource;
 import com.netxforge.netxstudio.library.NodeType;
+import com.netxforge.netxstudio.metrics.MetricValueRange;
 import com.netxforge.netxstudio.operators.Operator;
 import com.netxforge.netxstudio.services.RFSService;
 
@@ -59,6 +60,8 @@ public class MonitoringAdapterFactory extends CDOAdapterFactoryImpl {
 	private RFSServiceSummaryProvider rfsServiceProvider;
 	@Inject
 	private OperatorSummaryProvider operatorProvider;
+	@Inject
+	private MVRSummaryProvider mvrProvider;
 
 	/**
 	 * This keeps track of all the supported types checked by
@@ -92,8 +95,9 @@ public class MonitoringAdapterFactory extends CDOAdapterFactoryImpl {
 	public Adapter createAdapter(Notifier target) {
 
 		IMonitoringSummary monitor = null;
-
-		if (target instanceof NetXResource) {
+		if (target instanceof MetricValueRange) {
+			monitor = mvrProvider.get();
+		} else if (target instanceof NetXResource) {
 			monitor = netxresourceProvider.get();
 		} else if (target instanceof Component) {
 			monitor = componentProvider.get();

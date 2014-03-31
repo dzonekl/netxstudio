@@ -46,6 +46,7 @@ import com.netxforge.netxstudio.common.model.NodeTypeSummary;
 import com.netxforge.netxstudio.library.Component;
 import com.netxforge.netxstudio.library.NetXResource;
 import com.netxforge.netxstudio.library.NodeType;
+import com.netxforge.netxstudio.metrics.MetricValueRange;
 import com.netxforge.netxstudio.operators.Node;
 import com.netxforge.netxstudio.operators.Operator;
 import com.netxforge.netxstudio.operators.OperatorsPackage;
@@ -260,7 +261,9 @@ public class DashboardComponent implements MonitoringStateCallBack {
 
 	private ISummaryComponent summaryForSelection(Object o) {
 
-		if (o instanceof Component) {
+		if (o instanceof MetricValueRange) {
+			return new MVRSummaryComponent();
+		} else if (o instanceof Component) {
 			return new ComponentSummaryComponent();
 		} else if (o instanceof NetXResource) {
 			return new NetXResourceSummaryComponent();
@@ -384,11 +387,11 @@ public class DashboardComponent implements MonitoringStateCallBack {
 			}
 		}
 
-		if(summariesToRefresh.isEmpty()){
-			// Do not fire a refresh for not understood injections. 
-			
+		if (summariesToRefresh.isEmpty()) {
+			// Do not fire a refresh for not understood injections.
+
 		}
-		
+
 		if (refreshSummaryJob == null) {
 			refreshSummaryJob = new ScreenRefresher() {
 				@Override

@@ -20,15 +20,17 @@ package com.netxforge.netxstudio.common.model;
 import java.util.List;
 
 import org.eclipse.core.runtime.IProgressMonitor;
-import org.eclipse.core.runtime.SubMonitor;
 import org.eclipse.emf.ecore.EObject;
 
 import com.google.common.collect.Lists;
+import com.netxforge.base.NonModelUtils;
 import com.netxforge.netxstudio.generics.DateTimeRange;
 import com.netxforge.netxstudio.library.NetXResource;
 import com.netxforge.netxstudio.metrics.MetricValueRange;
 import com.netxforge.netxstudio.metrics.MetricsPackage;
 import com.netxforge.netxstudio.operators.Marker;
+import com.netxforge.netxstudio.operators.ToleranceMarker;
+import com.netxforge.netxstudio.operators.ToleranceMarkerDirectionKind;
 import com.netxforge.netxstudio.services.RFSService;
 
 /**
@@ -36,16 +38,13 @@ import com.netxforge.netxstudio.services.RFSService;
  * 
  * @author Christophe Bouhier
  */
-public class NetxresourceSummary extends MonitoringAdapter {
+public class MVRSummary extends MonitoringAdapter {
 
-	public NetxresourceSummary() {
+	public MVRSummary() {
 	}
 
 	/** Our tolerance markers **/
 	private List<Marker> toleranceMarkers = Lists.newArrayList();
-
-	/** count for our {@link NetXResource#getMetricValueRanges()} **/
-	private int mvrs;
 
 	@Override
 	protected synchronized void computeForTarget(IProgressMonitor monitor) {
@@ -66,53 +65,76 @@ public class NetxresourceSummary extends MonitoringAdapter {
 		}
 
 		// Safely case, checked by our factory.
-		final NetXResource target = getTarget();
+		final MetricValueRange target = getTarget();
 
-		// The count of computed MVR's. (Typically one Tolerance expression will
-		// compute one MVR).
-		int computedMVRs = 0;
+		// We retrieve markers for a resource instead of a range.
+		// this is wrong, the model should point to a range, not a resource.
+		// All markers will be returned here.
+		EObject eContainer = target.eContainer();
+		if (eContainer instanceof NetXResource) {
 
-		if (!target.getMetricValueRanges().isEmpty()) {
+			NetXResource resource = (NetXResource) eContainer;
 
-			final SubMonitor childMonitor = SubMonitor.convert(monitor, target
-					.getMetricValueRanges().size());
+			final List<Marker> unfilteredToleranceMarkers = MonitoringStateModel
+					.toleranceMarkersForServiceMonitorsAndResource(
+							rfsServiceInContext.getServiceMonitors(), resource,
+							monitor);
 
-			childMonitor.setTaskName("Computing summary for "
-					+ StudioUtils.printModelObject(target));
+			// Filter the markers, always go back to the start marker.
+			toleranceMarkers.clear();
+			toleranceMarkers.addAll(StudioUtils.markersInsidePeriod(
+					unfilteredToleranceMarkers, periodInContext));
 
-			for (MetricValueRange mvr : target.getMetricValueRanges()) {
-
-				mvrs++;
-
-				if (monitor != null && monitor.isCanceled()) {
-					System.out.println("Computation cancelled...");
-					break;
-				}
-				IMonitoringSummary childAdapter = adaptAndCompute(childMonitor,
-						mvr, this.getContextObjects());
-				// Guard for potentially non-adapted children.
-				if (childAdapter != null) {
-					if (childAdapter.isComputed()) {
-						computedMVRs++;
-						// Base our RAG status, on the child's status
-						this.incrementRag(childAdapter.rag());
+			// As the period is adjusted to the start of the month, we should
+			// have a
+			// start marker for monitored
+			// resources.
+			if (!toleranceMarkers.isEmpty()) {
+				Marker marker = toleranceMarkers.get(0);
+				if (marker instanceof ToleranceMarker) {
+					ToleranceMarkerDirectionKind direction = ((ToleranceMarker) marker)
+							.getDirection();
+					if (direction == ToleranceMarkerDirectionKind.START) {
+						System.out
+								.println("GOOD: start marker found when evaluating resource: "
+										+ StudioUtils.printModelObject(this
+												.getTarget()));
+						// this is our desired situation.
+					} else {
+						System.out
+								.println("ERROR: The first marker when evaluating resource: "
+										+ StudioUtils.printModelObject(this
+												.getTarget())
+										+ " should be a start marker (Which it's not)");
+						System.out
+								.println("ERROR: The corresponding timestamp for the fist marker is: "
+										+ NonModelUtils.date(NonModelUtils
+												.fromXMLDate(marker
+														.getValueRef()
+														.getTimeStamp())));
 					}
-				} else {
-					System.out.println("SHOULD NOT OCCUR: child not adapted! "
-							+ StudioUtils.printModelObject(mvr));
 				}
-				childMonitor.worked(1);
+
+				// Monitoring is not on or yields no markers when no markers are
+				// returned.
+				// We can't really determine the computation state, so we assume
+				// the
+				// computation is valid.
+
+				// Base RAG computation on the tolerance markers.
+				this.setRag(MonitoringStateModel
+						.ragForMarkers(toleranceMarkers));
 			}
-		}
 
-		if (computedMVRs == target.getMetricValueRanges().size()) {
+			// COMPUTATION STATE => COMPUTED
 			computationState = ComputationState.COMPUTED;
-		}
 
+		}
+		monitor.worked(1);
 	}
 
-	public NetXResource getTarget() {
-		return (NetXResource) super.getTarget();
+	public MetricValueRange getTarget() {
+		return (MetricValueRange) super.getTarget();
 	}
 
 	@Override
@@ -136,15 +158,6 @@ public class NetxresourceSummary extends MonitoringAdapter {
 	 */
 	public List<Marker> markers() {
 		return toleranceMarkers;
-	}
-
-/**
-	 * Get the count for {@link NetXResource#getMetricValueRanges() 
-	 * 
-	 * @return
-	 */
-	public int getMvrs() {
-		return mvrs;
 	}
 
 }
