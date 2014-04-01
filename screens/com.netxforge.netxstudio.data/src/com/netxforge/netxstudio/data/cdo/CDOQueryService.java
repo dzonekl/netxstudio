@@ -90,7 +90,7 @@ public class CDOQueryService {
 	public static List<Value> capacityValues(CDOView view,
 			NetXResource netXResource, String dialect, DateTimeRange period) {
 		return capacityValues(view, netXResource, dialect, period, null,
-				STYLE.NON_CAMEL_CASE);
+				STYLE.CAMEL_CASE);
 	}
 
 	/**
@@ -201,7 +201,7 @@ public class CDOQueryService {
 	public static List<Value> utilizationValues(CDOView view,
 			NetXResource netXResource, String dialect, DateTimeRange period) {
 		return utilizationValues(view, netXResource, dialect, period, null,
-				STYLE.NON_CAMEL_CASE);
+				STYLE.CAMEL_CASE);
 	}
 
 	/**
