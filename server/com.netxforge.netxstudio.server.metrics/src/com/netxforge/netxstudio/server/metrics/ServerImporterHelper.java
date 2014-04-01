@@ -147,7 +147,7 @@ public class ServerImporterHelper implements IImporterHelper {
 		// component.
 		CDOView cdoView = locatedComponent.cdoView();
 		final Resource cdoResourceForNetXResource = StudioUtils
-				.cdoResourceForNetXResource(locatedComponent,
+				.cdoResourceGetOrCreate(locatedComponent,
 						(CDOTransaction) cdoView);
 		if (MetricsActivator.DEBUG_IMPORT) {
 			MetricsActivator.TRACE.trace(
