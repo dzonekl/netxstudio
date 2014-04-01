@@ -27,6 +27,7 @@ import org.eclipse.core.databinding.observable.value.IObservableValue;
 import org.eclipse.core.databinding.validation.IValidator;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
+import org.eclipse.emf.cdo.eresource.CDOResource;
 import org.eclipse.emf.cdo.transaction.CDOTransaction;
 import org.eclipse.emf.common.command.Command;
 import org.eclipse.emf.common.command.CompoundCommand;
@@ -606,7 +607,7 @@ public class NewEditNode extends AbstractDetailsScreen implements
 														// cdoResourcePath);
 
 														final Resource cdoResourceForNetXResource = StudioUtils
-																.cdoResourceForNetXResource(
+																.cdoResourceGetOrCreate(
 																		node,
 																		(CDOTransaction) node
 																				.cdoView());
@@ -695,12 +696,37 @@ public class NewEditNode extends AbstractDetailsScreen implements
 		IObservableValue nameObservable = SWTObservables.observeDelayedValue(
 				400, SWTObservables.observeText(txtName, SWT.Modify));
 
+		// Changing the NodeID affects the underlying CDOResource for
+		// NetXResource objects.
+		// The format is /Node/NetXResource_[NodeID]
 		IEMFValueProperty nodeIDProperty = EMFEditProperties.value(
 				editingService.getEditingDomain(),
 				OperatorsPackage.Literals.NODE__NODE_ID);
+		IObservableValue observeNodeID = nodeIDProperty.observe(node);
 
-		context.bindValue(nameObservable, nodeIDProperty.observe(node), null,
-				null);
+		EMFUpdateValueStrategy nodeIDStrategy = new EMFUpdateValueStrategy() {
+
+			@Override
+			public IStatus validateBeforeSet(Object value) {
+				if (value instanceof String) {
+
+					// Find CDOResources with this NodeID.
+					CDOResource cdoResourceForNetXResources = StudioUtils
+							.cdoResourceGet(node);
+					if (cdoResourceForNetXResources != null) {
+						System.out.println("Original node is"
+								+ cdoResourceForNetXResources.getPath());
+						
+						
+						
+						
+					}
+				}
+				return super.validateBeforeSet(value);
+			}
+		};
+
+		context.bindValue(nameObservable, observeNodeID, nodeIDStrategy, null);
 
 		IObservableValue nodeTypeObservable = SWTObservables
 				.observeDelayedValue(400,

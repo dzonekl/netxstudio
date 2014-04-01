@@ -590,7 +590,7 @@ public abstract class AbstractImportWizard extends Wizard implements
 					Component componentRef = netXResource.getComponentRef();
 					Resource resource = null;
 					if (componentRef != null) {
-						resource = StudioUtils.cdoResourceForNetXResource(
+						resource = StudioUtils.cdoResourceGetOrCreate(
 								componentRef, transaction);
 
 					} else {

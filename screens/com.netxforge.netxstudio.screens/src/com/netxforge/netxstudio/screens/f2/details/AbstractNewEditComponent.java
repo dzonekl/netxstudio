@@ -683,7 +683,7 @@ public abstract class AbstractNewEditComponent extends AbstractDetailsScreen
 				resourceScreen.setOperation(ScreenUtil.OPERATION_NEW);
 				resourceScreen.setScreenService(screenService);
 
-				Resource cdoResourceForNetXResource = StudioUtils.cdoResourceForNetXResource(comp, (CDOTransaction) comp.cdoView());
+				Resource cdoResourceForNetXResource = StudioUtils.cdoResourceGetOrCreate(comp, (CDOTransaction) comp.cdoView());
 
 				resourceScreen.injectData(cdoResourceForNetXResource, comp,
 						LibraryFactory.eINSTANCE.createNetXResource());

@@ -64,6 +64,7 @@ import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.spi.cdo.FSMUtil;
+import org.eclipse.net4j.util.lifecycle.LifecycleUtil;
 
 import com.google.common.base.Function;
 import com.google.common.base.Joiner;
@@ -1201,8 +1202,70 @@ public class StudioUtils {
 		}
 	}
 
-	public static Resource cdoResourceForNetXResource(EObject targetObject,
+	/**
+	 * Retrieve a CDOResource for a target {@link CDOObject}.
+	 * 
+	 * 
+	 * @param targetObject
+	 * @return
+	 */
+	public static CDOResource cdoResourceGet(CDOObject targetObject) {
+
+		if (!LifecycleUtil.isActive(targetObject))
+			throw new IllegalStateException(" target object is not active"
+					+ targetObject);
+
+		if (targetObject.cdoView() instanceof CDOTransaction) {
+			CDOTransaction transaction = (CDOTransaction) targetObject
+					.cdoView();
+			final CDOResourceFolder folder = transaction
+					.getOrCreateResourceFolder("/Node_/");
+
+			String cdoCalculateResourceName = null;
+
+			try {
+				cdoCalculateResourceName = cdoResourceName(targetObject);
+			} catch (IllegalAccessException e) {
+				if (CommonActivator.DEBUG) {
+					CommonActivator.TRACE.trace(
+							CommonActivator.TRACE_COMMON_UTILS_OPTION,
+							"-- Can't resolve the Resource name for target object: "
+									+ targetObject);
+				}
+				return null;
+			}
+
+			if (CommonActivator.DEBUG) {
+				CommonActivator.TRACE.trace(
+						CommonActivator.TRACE_COMMON_UTILS_OPTION,
+						"-- looking for CDO resource with name:"
+								+ cdoCalculateResourceName);
+			}
+
+			// Iterate through the nodes to find the CDOResource with the target
+			// name.
+			if (folder != null) {
+				CDOResource cdoResource = cdoResourceFromFolder(folder,
+						cdoCalculateResourceName);
+				return cdoResource;
+			}
+		}
+		return null;
+
+	}
+
+	/**
+	 * 
+	 * @param targetObject
+	 * @param transaction
+	 * @return
+	 */
+	public static Resource cdoResourceGetOrCreate(EObject targetObject,
 			CDOTransaction transaction) {
+
+		if (!LifecycleUtil.isActive(targetObject))
+			throw new IllegalStateException(" target object is not active"
+					+ targetObject);
 
 		final CDOResourceFolder folder = transaction
 				.getOrCreateResourceFolder("/Node_/");
@@ -1230,37 +1293,23 @@ public class StudioUtils {
 
 		// Iterate through the nodes to find the CDOResource with the target
 		// name.
-		CDOResource emfNetxResource = null;
+		CDOResource cdoResource = null;
 		if (folder != null) {
-			for (CDOResourceNode n : folder.getNodes()) {
-
-				// http://work.netxforge.com/issues/325
-				// Ignore the case of the CDO Resource name.
-				if (n.getName().equalsIgnoreCase(cdoCalculateResourceName)
-						&& n instanceof CDOResource) {
-					emfNetxResource = (CDOResource) n;
-					if (CommonActivator.DEBUG) {
-						CommonActivator.TRACE.trace(
-								CommonActivator.TRACE_COMMON_UTILS_OPTION,
-								"-- found:"
-										+ emfNetxResource.getURI().toString());
-					}
-					break;
-				}
-			}
+			cdoResource = cdoResourceFromFolder(folder,
+					cdoCalculateResourceName);
 		}
 
-		if (emfNetxResource == null) {
-			emfNetxResource = folder.addResource(cdoCalculateResourceName);
+		if (cdoResource == null) {
+			cdoResource = folder.addResource(cdoCalculateResourceName);
 			if (CommonActivator.DEBUG) {
 				CommonActivator.TRACE.trace(
 						CommonActivator.TRACE_COMMON_UTILS_OPTION,
 						"-- created resource:"
-								+ emfNetxResource.getURI().toString());
+								+ cdoResource.getURI().toString());
 			}
 
 		}
-		return emfNetxResource;
+		return cdoResource;
 
 		// Set a prefetch policy so we can load a lot of objects in the
 		// first
@@ -1276,6 +1325,33 @@ public class StudioUtils {
 		// .setRevisionPrefetchingPolicy(
 		// CDOUtil.createRevisionPrefetchingPolicy(24));
 		// }
+	}
+
+	/**
+	 * @param folder
+	 * @param cdoCalculateResourceName
+	 * @param emfNetxResource
+	 * @return
+	 */
+	public static CDOResource cdoResourceFromFolder(
+			final CDOResourceFolder folder, String cdoCalculateResourceName) {
+		CDOResource cdoResource = null;
+		for (CDOResourceNode n : folder.getNodes()) {
+
+			// http://work.netxforge.com/issues/325
+			// Ignore the case of the CDO Resource name.
+			if (n.getName().equalsIgnoreCase(cdoCalculateResourceName)
+					&& n instanceof CDOResource) {
+				cdoResource = (CDOResource) n;
+				if (CommonActivator.DEBUG) {
+					CommonActivator.TRACE.trace(
+							CommonActivator.TRACE_COMMON_UTILS_OPTION,
+							"-- found:" + cdoResource.getURI().toString());
+				}
+				break;
+			}
+		}
+		return cdoResource;
 	}
 
 	/**
