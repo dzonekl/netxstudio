@@ -68,6 +68,15 @@ public class NetworkTreeLabelProvider extends StyledCellLabelProvider {
 																			// grey
 	}
 
+	public NetworkTreeLabelProvider(IObservableMap... attributeMaps) {
+		System.arraycopy(attributeMaps, 0,
+				this.attributeMaps = new IObservableMap[attributeMaps.length],
+				0, attributeMaps.length);
+		for (int i = 0; i < attributeMaps.length; i++) {
+			attributeMaps[i].addMapChangeListener(mapChangeListener);
+		}
+	}
+
 	private IMapChangeListener mapChangeListener = new IMapChangeListener() {
 		public void handleMapChange(MapChangeEvent event) {
 			Set<?> affectedElements = event.diff.getChangedKeys();
@@ -79,11 +88,15 @@ public class NetworkTreeLabelProvider extends StyledCellLabelProvider {
 			}
 		}
 	};
+	private IObservableMap[] attributeMaps;
 
-	public NetworkTreeLabelProvider(IObservableMap... attributeMaps) {
+	public void dispose() {
 		for (int i = 0; i < attributeMaps.length; i++) {
-			attributeMaps[i].addMapChangeListener(mapChangeListener);
+			attributeMaps[i].removeMapChangeListener(mapChangeListener);
 		}
+		super.dispose();
+		this.attributeMaps = null;
+		this.mapChangeListener = null;
 	}
 
 	@Override

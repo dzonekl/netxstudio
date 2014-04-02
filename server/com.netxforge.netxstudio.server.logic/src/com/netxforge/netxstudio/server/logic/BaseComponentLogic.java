@@ -40,7 +40,7 @@ import com.netxforge.netxstudio.server.logic.internal.LogicActivator;
  */
 public abstract class BaseComponentLogic extends BasePeriodLogic {
 
-	protected void doRun() {
+	protected void doRun() throws InterruptedException {
 
 		this.getData().getTransaction();
 
@@ -52,18 +52,25 @@ public abstract class BaseComponentLogic extends BasePeriodLogic {
 		this.getJobMonitor().setTotalWork(countComponents(nodeTypes));
 		this.getJobMonitor().setTask("Performing componet traversal");
 
-		for (final NodeType nodeType : nodeTypes) {
-			getJobMonitor().appendToLog(
-					"processing node (type) "
-							+ ((Node) nodeType.eContainer()).getNodeID() + " "
-							+ StudioUtils.periodToStringMore(this.getPeriod()));
+		try {
+			for (final NodeType nodeType : nodeTypes) {
+				getJobMonitor().appendToLog(
+						"processing node (type) "
+								+ ((Node) nodeType.eContainer()).getNodeID()
+								+ " "
+								+ StudioUtils.periodToStringMore(this
+										.getPeriod()));
 
-			getJobMonitor().setTask("Processing for nodeType");
-			processNode(nodeType);
+				getJobMonitor().setTask("Processing for nodeType");
+
+				processNode(nodeType);
+			}
+		} catch (InterruptedException e) {
+		} finally {
+
+			this.getJobMonitor().updateFailures(this.getFailures());
+			this.getData().commitTransaction();
 		}
-		this.getJobMonitor().updateFailures(this.getFailures());
-
-		this.getData().commitTransaction();
 	}
 
 	protected abstract List<NodeType> getNodeTypesToExecuteFor();
@@ -105,7 +112,14 @@ public abstract class BaseComponentLogic extends BasePeriodLogic {
 		}
 	}
 
-	protected abstract void processNode(NodeType nodeType);
+	/**
+	 * Clients must implement to process a {@link NodeType}
+	 * 
+	 * @param nodeType
+	 * @throws InterruptedException
+	 */
+	protected abstract void processNode(NodeType nodeType)
+			throws InterruptedException;
 
 	protected List<Component> getComponents(NodeType nodeType) {
 		final List<Component> result = new ArrayList<Component>();
@@ -150,5 +164,4 @@ public abstract class BaseComponentLogic extends BasePeriodLogic {
 			}
 		}
 	}
-
 }

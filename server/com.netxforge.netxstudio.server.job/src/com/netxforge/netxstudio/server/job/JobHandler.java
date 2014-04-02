@@ -54,6 +54,7 @@ import org.quartz.JobBuilder;
 import org.quartz.JobDataMap;
 import org.quartz.JobDetail;
 import org.quartz.JobExecutionContext;
+import org.quartz.JobKey;
 import org.quartz.Scheduler;
 import org.quartz.SchedulerException;
 import org.quartz.SimpleScheduleBuilder;
@@ -341,9 +342,12 @@ public class JobHandler {
 			sb.append(NonModelUtils.fixedLenthString("| "
 					+ job.getJobState().getName(), 15));
 			sb.append(NonModelUtils.fixedLenthString("| " + job.getRepeat(), 10));
-			sb.append(NonModelUtils.fixedLenthString("| " + job.getInterval(), 10));
-			sb.append(NonModelUtils.fixedLenthString("| " + job.getStartTime(), 30));
-			sb.append(NonModelUtils.fixedLenthString("| " + job.getEndTime(), 30));
+			sb.append(NonModelUtils.fixedLenthString("| " + job.getInterval(),
+					10));
+			sb.append(NonModelUtils.fixedLenthString("| " + job.getStartTime(),
+					30));
+			sb.append(NonModelUtils.fixedLenthString("| " + job.getEndTime(),
+					30));
 
 			JobRunContainer container = this.getContainer(
 					jobRunContainerResource, job);
@@ -418,6 +422,17 @@ public class JobHandler {
 		StringBuffer sb = new StringBuffer();
 		try {
 			if (scheduler != null && scheduler.isStarted()) {
+				
+				
+				// Interrupt running job. 
+				// Note: Needs support in a running logic. See AggregationLogic, 
+				// which supports this now. 
+				for (JobExecutionContext context : scheduler
+						.getCurrentlyExecutingJobs()) {
+					JobKey key = context.getJobDetail().getKey();
+					scheduler.interrupt(key);
+				}
+
 				scheduler.standby();
 				sb.append("Scheduler stopped (on standby)");
 			} else {

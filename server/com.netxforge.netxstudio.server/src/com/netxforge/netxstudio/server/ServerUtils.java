@@ -18,8 +18,6 @@
  *******************************************************************************/
 package com.netxforge.netxstudio.server;
 
-import java.util.Map;
-
 import org.eclipse.emf.cdo.common.commit.handler.AsyncCommitInfoHandler;
 import org.eclipse.emf.cdo.common.revision.CDORevisionCache;
 import org.eclipse.emf.cdo.common.revision.CDORevisionUtil;
@@ -37,8 +35,6 @@ import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EClassifier;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.net4j.connector.IConnector;
-import org.eclipse.net4j.db.IDBAdapter;
-import org.eclipse.net4j.db.ddl.IDBSchema;
 import org.eclipse.net4j.jvm.IJVMAcceptor;
 import org.eclipse.net4j.jvm.JVMUtil;
 import org.eclipse.net4j.signal.ISignalProtocol;
@@ -254,13 +250,14 @@ public class ServerUtils implements IServerUtils {
 		
 		IStore store = repository.getStore();
 		if (store instanceof IDBStore) {
+			@SuppressWarnings("unused")
 			IDBStore dbStore = (IDBStore) store;
-			IDBAdapter dbAdapter = dbStore.getDBAdapter();
-			Map<String, String> properties = dbStore.getProperties();
-			IDBSchema dbSchema = dbStore.getDBSchema();
-			String fullName = dbSchema.getFullName();
-			System.out.println("Our Schema name (To use in Queries)"
-					+ dbSchema.getName());
+//			IDBAdapter dbAdapter = dbStore.getDBAdapter();
+//			Map<String, String> properties = dbStore.getProperties();
+//			IDBSchema dbSchema = dbStore.getDBSchema();
+//			String fullName = dbSchema.getFullName();
+//			System.out.println("Our Schema name (To use in Queries)"
+//					+ dbSchema.getName());
 		}
 
 		// Increase the signal timeout.

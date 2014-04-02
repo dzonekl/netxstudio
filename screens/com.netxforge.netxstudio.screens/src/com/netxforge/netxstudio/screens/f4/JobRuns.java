@@ -496,10 +496,6 @@ public class JobRuns extends AbstractScreen implements IDataScreenInjection {
 					0,
 					this.attributeMaps = new IObservableMap[attributeMaps.length],
 					0, attributeMaps.length);
-			// for (int i = 0; i < attributeMaps.length; i++) {
-			// attributeMaps[i].addMapChangeListener(mapChangeListener);
-			// }
-
 		}
 
 		/*
@@ -866,7 +862,5 @@ public class JobRuns extends AbstractScreen implements IDataScreenInjection {
 			return new Status(IStatus.OK, PlatformUI.PLUGIN_ID, IStatus.OK, "",
 					null);
 		}
-
 	}
-
 }

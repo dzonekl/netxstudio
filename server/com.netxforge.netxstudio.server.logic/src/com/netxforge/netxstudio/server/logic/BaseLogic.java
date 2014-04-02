@@ -60,9 +60,9 @@ public abstract class BaseLogic {
 	private IRunMonitor jobMonitor;
 
 	private List<Failure> failures = new ArrayList<Failure>();
-	
+
 	/**
-	 * The duration of this logic. 
+	 * The duration of this logic.
 	 */
 	protected long durationThisInstance = 0;
 
@@ -121,6 +121,14 @@ public abstract class BaseLogic {
 			}
 
 			doRun();
+		} catch (InterruptedException ie) {
+			if (LogicActivator.DEBUG) {
+				LogicActivator.TRACE.trace(LogicActivator.TRACE_LOGIC_OPTION,
+						"Logic interrupted...");
+			}
+
+			jobMonitor.appendToLog("Job interrupted...");
+			jobMonitor.setFinished(JobRunState.FINISHED_SUCCESSFULLY, null);
 		} catch (final Throwable t) {
 
 			// The types of errors here are from the logic and delegation to the
@@ -216,7 +224,7 @@ public abstract class BaseLogic {
 	}
 
 	// Implementers should override.
-	protected void doRun() {
+	protected void doRun() throws InterruptedException {
 	}
 
 	protected abstract BaseEngine getEngine();
@@ -230,7 +238,8 @@ public abstract class BaseLogic {
 	}
 
 	/**
-	 * Lazy load our {@link ICDOData} from a {@link IServerDataProvider Provider}
+	 * Lazy load our {@link ICDOData} from a {@link IServerDataProvider
+	 * Provider}
 	 * 
 	 * @return
 	 */

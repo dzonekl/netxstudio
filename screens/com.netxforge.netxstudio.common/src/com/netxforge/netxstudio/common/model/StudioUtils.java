@@ -117,6 +117,7 @@ import com.netxforge.netxstudio.operators.OperatorsPackage;
 import com.netxforge.netxstudio.operators.Relationship;
 import com.netxforge.netxstudio.operators.ResourceMonitor;
 import com.netxforge.netxstudio.operators.ToleranceMarker;
+import com.netxforge.netxstudio.scheduling.ComponentWorkFlowRun;
 import com.netxforge.netxstudio.scheduling.Job;
 import com.netxforge.netxstudio.scheduling.JobRunContainer;
 import com.netxforge.netxstudio.scheduling.SchedulingPackage;
@@ -1987,6 +1988,24 @@ public class StudioUtils {
 			final CDOID containerJobId = ((CDOObject) containerJob).cdoID();
 			if (cdoId.equals(containerJobId)) {
 				return container;
+			}
+		}
+		return null;
+	}
+
+	/**
+	 * Get the parent {@link Job} for a given {@link ComponentWorkFlowRun}. Walk
+	 * up the hierarchy.
+	 * 
+	 * @param wfr
+	 * @return
+	 */
+	public static Job jobForWorkflowRun(ComponentWorkFlowRun wfr) {
+		if (wfr.eContainer() != null) {
+			EObject eContainer = wfr.eContainer();
+			if (eContainer instanceof JobRunContainer) {
+				JobRunContainer jrc = (JobRunContainer) eContainer;
+				return jrc.getJob();
 			}
 		}
 		return null;

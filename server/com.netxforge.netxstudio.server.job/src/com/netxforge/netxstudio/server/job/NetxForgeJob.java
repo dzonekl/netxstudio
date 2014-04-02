@@ -29,6 +29,7 @@ import org.eclipse.emf.ecore.resource.Resource;
 import org.quartz.JobDataMap;
 import org.quartz.JobExecutionContext;
 import org.quartz.JobExecutionException;
+import org.quartz.UnableToInterruptJobException;
 
 import com.google.common.collect.Lists;
 import com.google.inject.Inject;
@@ -50,7 +51,7 @@ import com.netxforge.netxstudio.server.job.internal.JobActivator;
  * 
  * @author Martin Taal
  */
-public class NetxForgeJob implements org.quartz.Job {
+public class NetxForgeJob implements org.quartz.InterruptableJob {
 
 	public static final String JOB_PARAMETER = "job";
 
@@ -80,6 +81,9 @@ public class NetxForgeJob implements org.quartz.Job {
 	private IRunMonitor runMonitor;
 
 	private ICDOData dataProvider;
+	
+	private boolean interruptRequested = false;
+	
 
 	@Inject
 	private IPropertiesProvider propsProvider;
@@ -289,6 +293,14 @@ public class NetxForgeJob implements org.quartz.Job {
 
 	public void setJob(Job job) {
 		this.job = job;
+	}
+
+	public void interrupt() throws UnableToInterruptJobException {
+		this.interruptRequested = true;
+	}
+
+	public boolean isInterruptRequested() {
+		return interruptRequested;
 	}
 
 }

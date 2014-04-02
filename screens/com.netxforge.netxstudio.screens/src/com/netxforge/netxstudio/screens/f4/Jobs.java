@@ -17,7 +17,7 @@
  *******************************************************************************/
 package com.netxforge.netxstudio.screens.f4;
 
-import java.util.Date;
+import java.util.Collection;
 import java.util.List;
 
 import org.eclipse.core.databinding.DataBindingContext;
@@ -45,16 +45,13 @@ import org.eclipse.jface.action.Action;
 import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.databinding.swt.SWTObservables;
 import org.eclipse.jface.databinding.viewers.ObservableListContentProvider;
-import org.eclipse.jface.databinding.viewers.ObservableMapLabelProvider;
 import org.eclipse.jface.databinding.viewers.ObservableValueEditingSupport;
 import org.eclipse.jface.resource.ImageDescriptor;
-import org.eclipse.jface.util.PropertyChangeEvent;
 import org.eclipse.jface.viewers.CellEditor;
 import org.eclipse.jface.viewers.ColumnViewer;
 import org.eclipse.jface.viewers.ComboBoxCellEditor;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;
-import org.eclipse.jface.viewers.LabelProviderChangedEvent;
 import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.jface.viewers.TableViewerColumn;
 import org.eclipse.jface.viewers.Viewer;
@@ -65,7 +62,6 @@ import org.eclipse.swt.events.DisposeEvent;
 import org.eclipse.swt.events.DisposeListener;
 import org.eclipse.swt.events.KeyAdapter;
 import org.eclipse.swt.events.KeyEvent;
-import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
@@ -83,16 +79,12 @@ import org.eclipse.wb.swt.SWTResourceManager;
 
 import com.google.common.collect.Lists;
 import com.google.inject.Inject;
-import com.netxforge.base.NonModelUtils;
+import com.netxforge.netxstudio.common.model.StudioUtils;
 import com.netxforge.netxstudio.data.actions.ServerRequest;
+import com.netxforge.netxstudio.scheduling.ComponentWorkFlowRun;
 import com.netxforge.netxstudio.scheduling.Job;
+import com.netxforge.netxstudio.scheduling.JobRunContainer;
 import com.netxforge.netxstudio.scheduling.JobState;
-import com.netxforge.netxstudio.scheduling.MetricSourceJob;
-import com.netxforge.netxstudio.scheduling.NodeReporterJob;
-import com.netxforge.netxstudio.scheduling.OperatorReporterJob;
-import com.netxforge.netxstudio.scheduling.RFSServiceMonitoringJob;
-import com.netxforge.netxstudio.scheduling.RFSServiceReporterJob;
-import com.netxforge.netxstudio.scheduling.RetentionJob;
 import com.netxforge.netxstudio.scheduling.SchedulingPackage;
 import com.netxforge.netxstudio.screens.AbstractScreen;
 import com.netxforge.netxstudio.screens.editing.filter.CDOSearchFilter;
@@ -334,7 +326,7 @@ public class Jobs extends AbstractScreen implements IDataServiceInjection {
 		tblViewerClmnState = new TableViewerColumn(jobsTableViewer, SWT.NONE);
 		TableColumn tblclmnState = tblViewerClmnState.getColumn();
 		tblclmnState.setWidth(76);
-		tblclmnState.setText("State");
+		tblclmnState.setText("Enabled");
 
 		TableViewerColumn tableViewerColumn_2 = new TableViewerColumn(
 				jobsTableViewer, SWT.NONE);
@@ -360,12 +352,22 @@ public class Jobs extends AbstractScreen implements IDataServiceInjection {
 		tblclmnInterval.setWidth(100);
 		tblclmnInterval.setText("Interval");
 
+		TableViewerColumn tableViewerColumn_7 = new TableViewerColumn(
+				jobsTableViewer, SWT.NONE);
+		TableColumn tblclmnUpdate = tableViewerColumn_7.getColumn();
+		tblclmnUpdate.setWidth(100);
+		tblclmnUpdate.setText("Update");
+
 		jobsTable.setFocus();
 	}
 
-
 	private final List<IAction> actions = Lists.newArrayList();
 	private CDOView cdoView;
+
+	/**
+	 * Set by CDO Invalidation
+	 */
+	private ComponentWorkFlowRun runningWFR;
 
 	@Override
 	public IAction[] getActions() {
@@ -511,7 +513,7 @@ public class Jobs extends AbstractScreen implements IDataServiceInjection {
 						SchedulingPackage.Literals.JOB__REPEAT,
 						SchedulingPackage.Literals.JOB__INTERVAL });
 		jobsTableViewer.setLabelProvider(new JobsObervableMapLabelProvider(
-				observeMaps));
+				this, observeMaps));
 
 		IEMFListProperty jobsProperties = EMFEditProperties
 				.resource(editingService.getEditingDomain());
@@ -523,111 +525,10 @@ public class Jobs extends AbstractScreen implements IDataServiceInjection {
 		return bindingContext;
 	}
 
-	class JobsObervableMapLabelProvider extends ObservableMapLabelProvider
-			implements org.eclipse.jface.util.IPropertyChangeListener {
-
-		public JobsObervableMapLabelProvider(IObservableMap[] attributeMaps) {
-			super(attributeMaps);
-
-		}
-
-		@Override
-		public Image getColumnImage(Object element, int columnIndex) {
-			return super.getColumnImage(element, columnIndex);
-		}
-
-		@Override
-		public String getColumnText(Object element, int columnIndex) {
-			if (element instanceof Job) {
-				Job j = (Job) element;
-				switch (columnIndex) {
-				case 0: {
-					if (j instanceof MetricSourceJob) {
-						return "Metric Import";
-						// + ((MetricSourceJob) j).getMetricSource()
-						// .getName();
-					}
-					if (j instanceof RFSServiceMonitoringJob) {
-						return "Monitoring";
-						// + ((RFSServiceJob) j).getRFSService()
-						// .getServiceName();
-					}
-					if (j instanceof RetentionJob) {
-						return "Data Retention";
-						// + ((RFSServiceRetentionJob) j).getRFSService()
-						// .getServiceName();
-					}
-					if (j instanceof RFSServiceReporterJob) {
-						return "Service Reporting";
-						// + ((ReporterJob) j).getRFSService()
-						// .getServiceName();
-					}
-					if (j instanceof OperatorReporterJob) {
-						return "Operator Reporting";
-						// + ((ReporterJob) j).getRFSService()
-						// .getServiceName();
-					}
-					if (j instanceof NodeReporterJob) {
-						return "Node Reporting";
-						// + ((ReporterJob) j).getRFSService()
-						// .getServiceName();
-					}
-
-				}
-				case 1: {
-					return j.getName();
-				}
-				case 2: {
-					JobState state = j.getJobState();
-					if (state == JobState.ACTIVE) {
-						return "Active";
-					} else {
-						return "Not Active";
-					}
-				}
-				// Scheduled start time Column, not the starttime (creation time
-				// of the job).
-				case 3:
-					TriggerAddon addon = (TriggerAddon) EcoreUtil.getAdapter(
-							j.eAdapters(), TriggerAddon.class);
-					if (addon != null) {
-						return addon.getTriggerTime();
-					}
-					return "";
-					// End Column
-				case 4:
-					if (j.getEndTime() != null) {
-						Date d = NonModelUtils.fromXMLDate(j.getEndTime());
-						return NonModelUtils.date(d) + " @ " + NonModelUtils.time(d);
-					}
-					break;
-				case 5:
-					return new Integer(j.getRepeat()).toString();
-				case 6:
-					if (j.getInterval() > 0) {
-						String fromSeconds = NonModelUtils.fromSeconds(j
-								.getInterval());
-						return fromSeconds;
-					}
-					break;
-				}
-			}
-			return super.getColumnText(element, columnIndex);
-		}
-
-		public void propertyChange(PropertyChangeEvent event) {
-			if (event.getSource() instanceof SchedulerStartStopAction) {
-				Object newValue = event.getNewValue();
-				// Guard for the object type?
-				this.fireLabelProviderChanged(new LabelProviderChangedEvent(
-						this, newValue));
-			}
-		}
-	}
-
 	public void injectData() {
 
 		jobsResource = editingService.getData(SchedulingPackage.Literals.JOB);
+
 		// We also need the transaction to resolve objects communicated by the
 		// scheduler.
 		if (jobsResource instanceof CDOResource) {
@@ -693,6 +594,40 @@ public class Jobs extends AbstractScreen implements IDataServiceInjection {
 		return "Jobs";
 	}
 
+	@Override
+	public void handleRefresh(Object... objects) {
+
+		for (Object o : objects) {
+			if (o instanceof Collection<?>) {
+				Collection<?> dirtyObjects = (Collection<?>) o;
+				for (Object dirty : dirtyObjects) {
+					handleRefresh(dirty);
+				}
+			}
+			if (o instanceof ComponentWorkFlowRun) {
+				// Set a state, current Workflowrun, in the label provider
+				// use this to map with the update request on the label
+				// provider.
+				setRunningWFR((ComponentWorkFlowRun) o);
+				Job runningJob = StudioUtils.jobForWorkflowRun(runningWFR);
+				if (runningJob != null) {
+					jobsTableViewer.update(runningJob, null);
+				}
+
+			}
+			if (o instanceof JobRunContainer) {
+
+			}
+		}
+
+	}
+
+	/* We handle refresh */
+	@Override
+	public boolean shouldHandleRefresh() {
+		return true;
+	}
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -726,6 +661,14 @@ public class Jobs extends AbstractScreen implements IDataServiceInjection {
 			MementoUtil.retrieveStructuredViewerColumns(memento,
 					jobsTableViewer, MEM_KEY_JOBS_COLUMNS_TABLE);
 		}
+	}
+
+	public synchronized ComponentWorkFlowRun getRunningWFR() {
+		return runningWFR;
+	}
+
+	public synchronized void setRunningWFR(ComponentWorkFlowRun runningWFR) {
+		this.runningWFR = runningWFR;
 	}
 
 }

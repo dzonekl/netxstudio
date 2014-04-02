@@ -72,6 +72,9 @@ public class RetentionLogic extends BaseComponentLogic {
 	private boolean re_initialize;
 
 	
+	/**
+	 * Override to support re-initialization. 
+	 */
 	protected void doRun() {
 		
 		re_initialize =  true;

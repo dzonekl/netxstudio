@@ -169,17 +169,59 @@ public class ResultProcessor {
 	private void processMonitoringExpressionResult(DateTimeRange period,
 			ExpressionResult expressionResult, int writeMode) {
 
-		final Date start = NonModelUtils.fromXMLDate(period.getBegin());
-		final Date end = NonModelUtils.fromXMLDate(period.getEnd());
+		// FIXME: We could want to write to a resource, where the node
+		// doesn't match the context. The original context Node is not known
+		// here.
+		final BaseResource baseResource = expressionResult.getTargetResource();
 
-		// Bail when we have no values in the result!
-		if (expressionResult.getTargetValues() == null
-				|| expressionResult.getTargetValues().isEmpty()) {
+		// Process a NetXResource
+		if (baseResource instanceof NetXResource) {
+
+			NetXResource resource = (NetXResource) baseResource;
+
+			final Node n = StudioUtils.nodeFor(resource.getComponentRef());
+
+			final Date start = NonModelUtils.fromXMLDate(period.getBegin());
+			final Date end = NonModelUtils.fromXMLDate(period.getEnd());
+
+			// Bail when we have no values in the result!
+			if (expressionResult.getTargetValues() == null
+					|| expressionResult.getTargetValues().isEmpty()) {
+
+				if (DataActivator.DEBUG) {
+					DataActivator.TRACE.trace(
+							DataActivator.TRACE_RESULT_EXPRESSION_OPTION,
+							"skip expression result: resource="
+									+ expressionResult.getTargetResource()
+											.getShortName()
+									+ " target="
+									+ expressionResult.getTargetRange()
+											.getName()
+									+ " interval="
+									+ expressionResult.getTargetIntervalHint()
+									+ " kind = "
+									+ expressionResult.getTargetKindHint()
+											.getName()
+									+ " values="
+									+ expressionResult.getTargetValues().size()
+									+ " from="
+									+ start
+									+ " to="
+									+ end
+									+ " node="
+									+ n.getNodeID()
+									+ " comp="
+									+ StudioUtils.componentName(resource
+											.getComponentRef()));
+				}
+				return;
+
+			}
 
 			if (DataActivator.DEBUG) {
 				DataActivator.TRACE.trace(
 						DataActivator.TRACE_RESULT_EXPRESSION_OPTION,
-						"skip expression result: resource="
+						"writing expression result: resource="
 								+ expressionResult.getTargetResource()
 										.getShortName()
 								+ " target="
@@ -188,48 +230,18 @@ public class ResultProcessor {
 								+ expressionResult.getTargetIntervalHint()
 								+ " kind = "
 								+ expressionResult.getTargetKindHint()
-										.getName() + " values="
+										.getName()
+								+ " values="
 								+ expressionResult.getTargetValues().size()
-								+ " from=" + start + " to=" + end);
-			}
-			return;
-
-		}
-
-		if (DataActivator.DEBUG) {
-			DataActivator.TRACE.trace(
-					DataActivator.TRACE_RESULT_EXPRESSION_OPTION,
-					"writing expression result: resource="
-							+ expressionResult.getTargetResource()
-									.getShortName() + " target="
-							+ expressionResult.getTargetRange().getName()
-							+ " interval="
-							+ expressionResult.getTargetIntervalHint()
-							+ " kind = "
-							+ expressionResult.getTargetKindHint().getName()
-							+ " values="
-							+ expressionResult.getTargetValues().size()
-							+ " from=" + start + " to=" + end);
-		}
-
-		// FIXME: We could want to write to a resource, where the node
-		// doesn't match the context. The original context Node is not known
-		// here.
-		final BaseResource baseResource = expressionResult.getTargetResource();
-
-		// Process a NetXResource
-		if (baseResource instanceof NetXResource) {
-			NetXResource resource = (NetXResource) baseResource;
-			final Node n = StudioUtils.nodeFor(resource.getComponentRef());
-
-			if (DataActivator.DEBUG) {
-				if (n != null) {
-					DataActivator.TRACE.trace(
-							DataActivator.TRACE_RESULT_EXPRESSION_OPTION,
-							"writing to resource "
-									+ resource.getExpressionName()
-									+ " in Node: " + n.getNodeID());
-				}
+								+ " from="
+								+ start
+								+ " to="
+								+ end
+								+ " node="
+								+ n.getNodeID()
+								+ " comp="
+								+ StudioUtils.componentName(resource
+										.getComponentRef()));
 			}
 
 			switch (expressionResult.getTargetRange().getValue()) {
@@ -243,7 +255,7 @@ public class ResultProcessor {
 				break;
 			case RangeKind.METRIC_VALUE:
 
-				// Explictly set the write mode. 
+				// Explictly set the write mode.
 				valueProcessor.addToValueRange(resource,
 						expressionResult.getTargetIntervalHint(),
 						expressionResult.getTargetKindHint(),
@@ -284,5 +296,4 @@ public class ResultProcessor {
 					"done processing monitoring result");
 		}
 	}
-
 }

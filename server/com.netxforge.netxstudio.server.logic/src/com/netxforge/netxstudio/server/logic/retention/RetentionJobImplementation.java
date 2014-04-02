@@ -27,13 +27,16 @@ import com.netxforge.netxstudio.scheduling.ComponentWorkFlowRun;
 import com.netxforge.netxstudio.scheduling.SchedulingFactory;
 import com.netxforge.netxstudio.scheduling.WorkFlowRun;
 import com.netxforge.netxstudio.server.job.JobImplementation;
+import com.netxforge.netxstudio.server.job.NetxForgeJob;
+import com.netxforge.netxstudio.server.logic.QuartzInterruptableLogic;
 import com.netxforge.netxstudio.server.logic.internal.LogicActivator;
 
 /**
  * Implements a job runner for retention logic. Although the logic, supports
  * setting a period, we set it dynamically. Initializes the logic to the default
  * period (2 years). The Add-on model can be configured to have finer control on
- * the aggregation period. See {@link MetricAggregationRule#setPeriod(int) period } setting
+ * the aggregation period. See {@link MetricAggregationRule#setPeriod(int)
+ * period } setting
  * 
  * @author Martin Taal
  * @author Christophe Bouhier
@@ -44,6 +47,11 @@ public class RetentionJobImplementation extends JobImplementation {
 
 	@Override
 	public void run() {
+
+		// An abstraciton so our logic can be notified of interruptions.
+		NetxForgeJob quartzJob = this.getNetxForgeJob();
+		QuartzInterruptableLogic quartzInterruptableLogic = new QuartzInterruptableLogic();
+		quartzInterruptableLogic.setQuartzInterruptableJob(quartzJob);
 
 		// FIXME We should really set the ID of the rules object, and let the
 		// logic
@@ -64,6 +72,7 @@ public class RetentionJobImplementation extends JobImplementation {
 					.getInstance(AggregationLogic.class);
 
 			aggregationLogic.setJobMonitor(getRunMonitor());
+			aggregationLogic.setInterruptable(quartzInterruptableLogic);
 			{
 				aggregationLogic.setRules(rules);
 				aggregationLogic.intializeLogic();
@@ -71,10 +80,16 @@ public class RetentionJobImplementation extends JobImplementation {
 				aggregationLogic.closeLogic();
 			}
 
-			this.getRunMonitor().setWorkDone(0); // Reset it's a hack, we need
-													// sub monitors for sub
-													// tasks!
+			// Check for interruption.
+			if (quartzJob.isInterruptRequested()) {
+				return;
+			}
 
+			// Reset it's a hack, we need sub monitors for sub tasks!
+
+			this.getRunMonitor().setWorkDone(0);
+			
+			
 			// Retention.
 			final RetentionLogic retentionLogic = LogicActivator.getInstance()
 					.getInjector().getInstance(RetentionLogic.class);

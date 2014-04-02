@@ -37,6 +37,8 @@ import com.netxforge.netxstudio.scheduling.Failure;
 import com.netxforge.netxstudio.server.logic.BaseComponentEngine;
 import com.netxforge.netxstudio.server.logic.BaseComponentLogic;
 import com.netxforge.netxstudio.server.logic.BaseExpressionEngine;
+import com.netxforge.netxstudio.server.logic.IInterruptableLogic;
+import com.netxforge.netxstudio.server.logic.QuartzInterruptableLogic;
 import com.netxforge.netxstudio.server.logic.internal.LogicActivator;
 import com.netxforge.netxstudio.services.RFSService;
 
@@ -46,7 +48,8 @@ import com.netxforge.netxstudio.services.RFSService;
  * @author Martin Taal
  * @author Christophe Bouhier
  */
-public class AggregationLogic extends BaseComponentLogic {
+public class AggregationLogic extends BaseComponentLogic implements
+		IInterruptableLogic {
 
 	/**
 	 * The number of years to consider in the aggregation and retention of
@@ -61,6 +64,8 @@ public class AggregationLogic extends BaseComponentLogic {
 
 	private MetricRetentionRules rules;
 
+	private QuartzInterruptableLogic interruptable;
+
 	public void setRules(MetricRetentionRules rules) {
 		this.rules = rules;
 	}
@@ -71,7 +76,7 @@ public class AggregationLogic extends BaseComponentLogic {
 
 	private boolean re_initialize;
 
-	protected void doRun() {
+	protected void doRun() throws InterruptedException {
 
 		re_initialize = true;
 
@@ -85,18 +90,23 @@ public class AggregationLogic extends BaseComponentLogic {
 		this.getJobMonitor().setTotalWork(countComponents(nodeTypes));
 		this.getJobMonitor().setTask("Performing Aggregation logic");
 
-		for (final NodeType nodeType : nodeTypes) {
+		try {
+			for (final NodeType nodeType : nodeTypes) {
 
-			getJobMonitor().appendToLog(
-					"processing node (type) "
-							+ ((Node) nodeType.eContainer()).getNodeID());
+				getJobMonitor().appendToLog(
+						"processing node (type) "
+								+ ((Node) nodeType.eContainer()).getNodeID());
 
-			getJobMonitor().setTask("Processing for nodeType");
-			processNode(nodeType);
+				getJobMonitor().setTask("Processing for nodeType");
+				processNode(nodeType);
+			}
+		} catch (InterruptedException ex) {
+			// Job interruption.
+			throw new InterruptedException();
+		} finally {
+			this.getJobMonitor().updateFailures(this.getFailures());
+			this.getData().commitTransaction();
 		}
-		this.getJobMonitor().updateFailures(this.getFailures());
-
-		this.getData().commitTransaction();
 	}
 
 	@Override
@@ -142,19 +152,25 @@ public class AggregationLogic extends BaseComponentLogic {
 	}
 
 	@Override
-	protected void processNode(NodeType nodeType) {
-		int cnt = 0;
+	protected void processNode(NodeType nodeType) throws InterruptedException {
+//		int cnt = 0;
 		for (final Component component : getComponents(nodeType)) {
+
+			if (shouldAbort()) {
+				throw new InterruptedException("Abort logic");
+			}
+
 			executeFor(component);
 			this.getJobMonitor().setTask("Aggregation");
 			this.getJobMonitor()
 					.setMsg(StudioUtils.printModelObject(component));
-			getJobMonitor().incrementProgress(0, (cnt++ % 10) == 0);
+//			getJobMonitor().incrementProgress(0, (cnt++ % 1) == 0);
 		}
 	}
 
 	protected void executeFor(Component component) {
-		this.getJobMonitor().incrementProgress(1, false);
+
+		getJobMonitor().incrementProgress(1, true);
 
 		final BaseComponentEngine engine = (BaseComponentEngine) getEngine();
 		engine.setJobMonitor(getJobMonitor());
@@ -223,4 +239,18 @@ public class AggregationLogic extends BaseComponentLogic {
 
 	}
 
+	public boolean shouldAbort() {
+		if (interruptable != null) {
+			return interruptable.shouldAbort();
+		}
+		return false;
+	}
+
+	public QuartzInterruptableLogic getInterruptable() {
+		return interruptable;
+	}
+
+	public void setInterruptable(QuartzInterruptableLogic interruptable) {
+		this.interruptable = interruptable;
+	}
 }
