@@ -25,6 +25,27 @@ Examples:
 
 library27092011_PS.xls
 
+Workspace per branch
+====================
+
+http://stackoverflow.com/questions/18556263/eclipse-git-branches-working-sets-and-target-platform-why-egit-sucks-in-this
+
+
+
+git clone repo br_dir 
+cd br_dir 
+git checkout br 
+cd repo 
+git remote add -t br_dir br_repo ../br_dir
+
+
+// Merging when done.
+ 
+git fetch br_repo 
+git checkout br
+git merge br_repo/br
+
+
 
 Clean up
 ========
