@@ -65,15 +65,18 @@ public class OperatorChildCreationExtender extends
 
 			if (target instanceof Node) {
 				Node node = (Node) target;
-				if (node != null && node.getOriginalNodeTypeRef() != null) {
-					NodeType ntRef = node.getOriginalNodeTypeRef();
+				if (node != null && node.getNodeType() != null
+						&& node.getOriginalNodeTypeRef() != null) {
+					NodeType ntOriginalRef = node.getOriginalNodeTypeRef();
+					NodeType nt = node.getNodeType();
+
 					newChildDescriptors
 							.addAll(functionDescriptorsForTargetNodeType(
-									editingDomain, ntRef));
+									editingDomain, ntOriginalRef, nt));
 
 					newChildDescriptors
 							.addAll(equimentDescriptorsForTargetNodeType(
-									editingDomain, ntRef));
+									editingDomain, ntOriginalRef, nt));
 				}
 			} else if (target instanceof Network) {
 
@@ -107,19 +110,6 @@ public class OperatorChildCreationExtender extends
 		return newChildDescriptors;
 	}
 
-	private Collection<? extends Object> functionDescriptorsForTargetFunction(
-			EditingDomain domain, Function f) {
-		Collection<Object> newChildDescriptors = Lists.newArrayList();
-		for (Function function : f.getFunctions()) {
-			Function eqCopy = (Function) EcoreUtil.copy(function);
-			augmentComponentWithLifeCycle(eqCopy);
-			newChildDescriptors.add(createChildParameter(
-					LibraryPackage.Literals.FUNCTION__FUNCTIONS, eqCopy));
-		}
-
-		return newChildDescriptors;
-	}
-
 	private Collection<Object> equimentDescriptorsForTargetEquipment(
 			EditingDomain domain, Equipment target) {
 		Collection<Object> newChildDescriptors = Lists.newArrayList();
@@ -140,28 +130,16 @@ public class OperatorChildCreationExtender extends
 
 	}
 
-	private Collection<? extends Object> functionDescriptorsForTargetNodeType(
-			EditingDomain domain, NodeType nodeType) {
-		Collection<Object> newChildDescriptors = Lists.newArrayList();
-		for (Function function : nodeType.getFunctions()) {
-			Function eqCopy = (Function) EcoreUtil.copy(function);
-			augmentComponentWithLifeCycle(eqCopy);
-			newChildDescriptors.add(createChildParameter(
-					LibraryPackage.Literals.NODE_TYPE__FUNCTIONS, eqCopy));
-		}
-
-		return newChildDescriptors;
-	}
-
+	// EQUIPMENTS
 	private Collection<Object> equimentDescriptorsForTargetNodeType(
-			EditingDomain domain, NodeType nodeType) {
+			EditingDomain domain, NodeType originalNodeType, NodeType nt) {
 		Collection<Object> newChildDescriptors = Lists.newArrayList();
-		for (Equipment eq : nodeType.getEquipments()) {
+		for (Equipment eq : originalNodeType.getEquipments()) {
 			Equipment eqCopy = (Equipment) EcoreUtil.copy(eq);
 			augmentComponentWithLifeCycle(eqCopy);
 			// Set the name as a sequence.
 			String newSequenceNumber = EditUtils.INSTANCE.nextSequenceNumber(
-					domain, nodeType,
+					domain, nt,
 					LibraryPackage.Literals.NODE_TYPE__EQUIPMENTS,
 					LibraryPackage.Literals.COMPONENT__NAME);
 			eqCopy.setName(newSequenceNumber);
@@ -173,6 +151,34 @@ public class OperatorChildCreationExtender extends
 
 	}
 
+	// FUNCTIONS
+
+	private Collection<? extends Object> functionDescriptorsForTargetNodeType(
+			EditingDomain domain, NodeType originalNodeType, NodeType nt) {
+		Collection<Object> newChildDescriptors = Lists.newArrayList();
+		for (Function function : originalNodeType.getFunctions()) {
+			Function eqCopy = (Function) EcoreUtil.copy(function);
+			augmentComponentWithLifeCycle(eqCopy);
+			newChildDescriptors.add(createChildParameter(
+					LibraryPackage.Literals.NODE_TYPE__FUNCTIONS, eqCopy));
+		}
+
+		return newChildDescriptors;
+	}
+
+	private Collection<? extends Object> functionDescriptorsForTargetFunction(
+			EditingDomain domain, Function f) {
+		Collection<Object> newChildDescriptors = Lists.newArrayList();
+		for (Function function : f.getFunctions()) {
+			Function eqCopy = (Function) EcoreUtil.copy(function);
+			augmentComponentWithLifeCycle(eqCopy);
+			newChildDescriptors.add(createChildParameter(
+					LibraryPackage.Literals.FUNCTION__FUNCTIONS, eqCopy));
+		}
+
+		return newChildDescriptors;
+	}
+
 	/**
 	 * Create and add a {@link Lifecycle} object to the {@link Component}
 	 * 
@@ -180,7 +186,8 @@ public class OperatorChildCreationExtender extends
 	 */
 	private void augmentComponentWithLifeCycle(Component c) {
 		Lifecycle newLC = GenericsFactory.eINSTANCE.createLifecycle();
-		newLC.setPlannedDate(NonModelUtils.toXMLDate(NonModelUtils.todayAndNow()));
+		newLC.setPlannedDate(NonModelUtils.toXMLDate(NonModelUtils
+				.todayAndNow()));
 		c.setLifecycle(newLC);
 	}
 

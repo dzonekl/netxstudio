@@ -105,7 +105,8 @@ public class EditUtils {
 					Object object = collection.get(collection.size() - 1);
 					final String lastIdentityInSequence = (String) ((EObject) object)
 							.eGet(identityFeature);
-					return lastIdentityInSequence + " 1";
+					
+					return lastIdentityInSequence != null ? lastIdentityInSequence + " 1" : "1";
 				}
 			}
 		}
