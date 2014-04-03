@@ -29,6 +29,7 @@ import com.netxforge.base.NonModelUtils;
 import com.netxforge.netxstudio.edit.EditUtils;
 import com.netxforge.netxstudio.generics.GenericsFactory;
 import com.netxforge.netxstudio.generics.Lifecycle;
+import com.netxforge.netxstudio.library.Component;
 import com.netxforge.netxstudio.library.Equipment;
 import com.netxforge.netxstudio.library.Function;
 import com.netxforge.netxstudio.library.LibraryPackage;
@@ -78,7 +79,8 @@ public class OperatorChildCreationExtender extends
 
 				Node n = OperatorsFactory.eINSTANCE.createNode();
 				Lifecycle newLC = GenericsFactory.eINSTANCE.createLifecycle();
-				newLC.setProposed(NonModelUtils.toXMLDate(NonModelUtils.todayAndNow()));
+				newLC.setProposed(NonModelUtils.toXMLDate(NonModelUtils
+						.todayAndNow()));
 				n.setLifecycle(newLC);
 
 				String newSequenceNumber = EditUtils.INSTANCE
@@ -97,7 +99,7 @@ public class OperatorChildCreationExtender extends
 			} else if (target instanceof Equipment) {
 				newChildDescriptors
 						.addAll(equimentDescriptorsForTargetEquipment(
-								editingDomain, (Equipment)target));
+								editingDomain, (Equipment) target));
 			}
 
 		}
@@ -110,6 +112,7 @@ public class OperatorChildCreationExtender extends
 		Collection<Object> newChildDescriptors = Lists.newArrayList();
 		for (Function function : f.getFunctions()) {
 			Function eqCopy = (Function) EcoreUtil.copy(function);
+			augmentComponentWithLifeCycle(eqCopy);
 			newChildDescriptors.add(createChildParameter(
 					LibraryPackage.Literals.FUNCTION__FUNCTIONS, eqCopy));
 		}
@@ -122,7 +125,7 @@ public class OperatorChildCreationExtender extends
 		Collection<Object> newChildDescriptors = Lists.newArrayList();
 		for (Equipment eq : target.getEquipments()) {
 			Equipment eqCopy = (Equipment) EcoreUtil.copy(eq);
-
+			augmentComponentWithLifeCycle(eqCopy);
 			// Set the name as a sequence.
 			String newSequenceNumber = EditUtils.INSTANCE.nextSequenceNumber(
 					domain, target,
@@ -142,6 +145,7 @@ public class OperatorChildCreationExtender extends
 		Collection<Object> newChildDescriptors = Lists.newArrayList();
 		for (Function function : nodeType.getFunctions()) {
 			Function eqCopy = (Function) EcoreUtil.copy(function);
+			augmentComponentWithLifeCycle(eqCopy);
 			newChildDescriptors.add(createChildParameter(
 					LibraryPackage.Literals.NODE_TYPE__FUNCTIONS, eqCopy));
 		}
@@ -154,7 +158,7 @@ public class OperatorChildCreationExtender extends
 		Collection<Object> newChildDescriptors = Lists.newArrayList();
 		for (Equipment eq : nodeType.getEquipments()) {
 			Equipment eqCopy = (Equipment) EcoreUtil.copy(eq);
-
+			augmentComponentWithLifeCycle(eqCopy);
 			// Set the name as a sequence.
 			String newSequenceNumber = EditUtils.INSTANCE.nextSequenceNumber(
 					domain, nodeType,
@@ -167,6 +171,17 @@ public class OperatorChildCreationExtender extends
 
 		return newChildDescriptors;
 
+	}
+
+	/**
+	 * Create and add a {@link Lifecycle} object to the {@link Component}
+	 * 
+	 * @param c
+	 */
+	private void augmentComponentWithLifeCycle(Component c) {
+		Lifecycle newLC = GenericsFactory.eINSTANCE.createLifecycle();
+		newLC.setPlannedDate(NonModelUtils.toXMLDate(NonModelUtils.todayAndNow()));
+		c.setLifecycle(newLC);
 	}
 
 }
