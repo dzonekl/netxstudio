@@ -48,7 +48,6 @@ import org.eclipse.jface.databinding.swt.SWTObservables;
 import org.eclipse.jface.databinding.viewers.ObservableListContentProvider;
 import org.eclipse.jface.databinding.viewers.ObservableMapLabelProvider;
 import org.eclipse.jface.dialogs.IDialogConstants;
-import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.TableViewer;
@@ -1155,12 +1154,13 @@ public abstract class AbstractNewEditComponent extends AbstractDetailsScreen
 			if (setCommand.canExecute()) {
 				editingService.getEditingDomain().getCommandStack()
 						.execute(setCommand);
-
-				MessageDialog.openInformation(
-						AbstractNewEditComponent.this.getShell(),
-						"Created lifecycle entry",
-						"Created a lifecycle entry for: \"" + comp.getName()
-								+ "\"\n Please save (File->Save)");
+				
+				// This is annoying. 
+//				MessageDialog.openInformation(
+//						AbstractNewEditComponent.this.getShell(),
+//						"Created lifecycle entry",
+//						"Created a lifecycle entry for: \"" + comp.getName()
+//								+ "\"\n Please save (File->Save)");
 			}
 		}
 
