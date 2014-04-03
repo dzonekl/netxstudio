@@ -75,6 +75,7 @@ import com.netxforge.netxstudio.generics.Lifecycle;
 import com.netxforge.netxstudio.geo.GeoPackage;
 import com.netxforge.netxstudio.geo.Location;
 import com.netxforge.netxstudio.library.Component;
+import com.netxforge.netxstudio.library.LibraryFactory;
 import com.netxforge.netxstudio.library.LibraryPackage;
 import com.netxforge.netxstudio.library.NodeType;
 import com.netxforge.netxstudio.operators.Node;
@@ -113,7 +114,7 @@ public class NewEditNode extends AbstractDetailsScreen implements
 	private DateChooserCombo dcOutOfService;
 	private ImageHyperlink roomRefHyperlink;
 
-	private ImageHyperlink nodeTypeHyperlink;
+	private ImageHyperlink nodeTypeRemoveHyperlink;
 	private Form parentForm;
 	private boolean readonly;
 	private int widgetStyle;
@@ -386,43 +387,46 @@ public class NewEditNode extends AbstractDetailsScreen implements
 				false, 1, 1));
 
 		if (!readonly) {
-			nodeTypeHyperlink = toolkit.createImageHyperlink(composite,
+			nodeTypeRemoveHyperlink = toolkit.createImageHyperlink(composite,
 					SWT.NONE);
-			nodeTypeHyperlink.addHyperlinkListener(new HyperlinkAdapter() {
-				public void linkActivated(HyperlinkEvent e) {
+			nodeTypeRemoveHyperlink
+					.addHyperlinkListener(new HyperlinkAdapter() {
+						public void linkActivated(HyperlinkEvent e) {
 
-					final CompoundCommand cp = new CompoundCommand();
-					final NodeType nt = node.getNodeType();
-					if (nt != null) {
-						final Command dc = WarningDeleteCommand.create(
-								editingService.getEditingDomain(), nt);
-						cp.append(dc);
-					}
-					if (node.eIsSet(OperatorsPackage.Literals.NODE__ORIGINAL_NODE_TYPE_REF)) {
-						final SetCommand sc = new SetCommand(
-								editingService.getEditingDomain(),
-								node,
-								OperatorsPackage.Literals.NODE__ORIGINAL_NODE_TYPE_REF,
-								null);
-						cp.append(sc);
-					}
+							final CompoundCommand cp = new CompoundCommand();
+							final NodeType nt = node.getNodeType();
+							if (nt != null) {
+								final Command dc = WarningDeleteCommand.create(
+										editingService.getEditingDomain(), nt);
+								cp.append(dc);
+							}
+							if (node.eIsSet(OperatorsPackage.Literals.NODE__ORIGINAL_NODE_TYPE_REF)) {
+								final SetCommand sc = new SetCommand(
+										editingService.getEditingDomain(),
+										node,
+										OperatorsPackage.Literals.NODE__ORIGINAL_NODE_TYPE_REF,
+										null);
+								cp.append(sc);
+							}
 
-					// We can't really do this, as our object will be dangling.
-					// Command c = new
-					// SetCommand(editingService.getEditingDomain(),
-					// node, OperatorsPackage.Literals.NODE__NODE_TYPE, null);
-					editingService.getEditingDomain().getCommandStack()
-							.execute(cp);
-				}
-			});
+							// We can't really do this, as our object will be
+							// dangling.
+							// Command c = new
+							// SetCommand(editingService.getEditingDomain(),
+							// node, OperatorsPackage.Literals.NODE__NODE_TYPE,
+							// null);
+							editingService.getEditingDomain().getCommandStack()
+									.execute(cp);
+						}
+					});
 			GridData gd_imageHyperlink_1 = new GridData(SWT.LEFT, SWT.CENTER,
 					false, false, 1, 1);
 			gd_imageHyperlink_1.widthHint = 18;
-			nodeTypeHyperlink.setLayoutData(gd_imageHyperlink_1);
-			nodeTypeHyperlink.setImage(ResourceManager.getPluginImage(
+			nodeTypeRemoveHyperlink.setLayoutData(gd_imageHyperlink_1);
+			nodeTypeRemoveHyperlink.setImage(ResourceManager.getPluginImage(
 					"org.eclipse.ui", "/icons/full/etool16/delete.gif"));
-			toolkit.paintBordersFor(nodeTypeHyperlink);
-			nodeTypeHyperlink.setText("");
+			toolkit.paintBordersFor(nodeTypeRemoveHyperlink);
+			nodeTypeRemoveHyperlink.setText("");
 
 			Button btnSelectNodeType = toolkit.createButton(composite,
 					"Select...", SWT.NONE);
@@ -469,13 +473,33 @@ public class NewEditNode extends AbstractDetailsScreen implements
 
 				private void handleSetOriginalNodeType(NodeType nt) {
 
+					CompoundCommand cc = new CompoundCommand();
+
+					// Create a node type, if we don't have any. This case happens when selecting 'Yes' when asked if the structured should be copied, 
+					// but no original type has been set earlier. (Or has been cleared before). 
+					if (!node.eIsSet(OperatorsPackage.Literals.NODE__NODE_TYPE)) {
+						
+						NodeType createNodeType = LibraryFactory.eINSTANCE.createNodeType();
+						createNodeType.setName(nt.getName());
+						
+						
+						Command setNodeTypeCommand = new SetCommand(
+								editingService.getEditingDomain(), node,
+								OperatorsPackage.Literals.NODE__NODE_TYPE,
+								createNodeType);
+						cc.append(setNodeTypeCommand);
+					}
+
 					Command setOriginalNodeTypeRef = new SetCommand(
 							editingService.getEditingDomain(),
 							node,
 							OperatorsPackage.Literals.NODE__ORIGINAL_NODE_TYPE_REF,
 							nt);
+
+					cc.append(setOriginalNodeTypeRef);
+
 					editingService.getEditingDomain().getCommandStack()
-							.execute(setOriginalNodeTypeRef);
+							.execute(cc);
 				}
 
 				private void handleNodeTypeCopy(NodeType nt) {
@@ -716,10 +740,7 @@ public class NewEditNode extends AbstractDetailsScreen implements
 					if (cdoResourceForNetXResources != null) {
 						System.out.println("Original node is"
 								+ cdoResourceForNetXResources.getPath());
-						
-						
-						
-						
+
 					}
 				}
 				return super.validateBeforeSet(value);
