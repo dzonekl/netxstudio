@@ -26,10 +26,6 @@
          version="0.0.0"/>
 
    <includes
-         id="org.eclipse.platform.artifacts.feature"
-         version="0.0.0"/>
-
-   <includes
          id="javax.artifacts.feature"
          version="0.0.0"/>
 
@@ -43,6 +39,10 @@
 
    <includes
          id="org.eclipse.emf.common"
+         version="0.0.0"/>
+
+   <includes
+         id="org.eclipse.platform.bare.artifacts.feature"
          version="0.0.0"/>
 
    <plugin

@@ -29,7 +29,10 @@
    </features>
 
    <configurations>
-      <plugin id="com.netxforge.netxstudio.bare.product" autoStart="false" startLevel="1" />
+      <plugin id="com.netxforge.netxstudio.bare.product" autoStart="true" startLevel="1" />
+       <plugin id="org.eclipse.core.runtime" autoStart="true" startLevel="2" />
+      <plugin id="org.eclipse.equinox.ds" autoStart="true" startLevel="3" />
+      <plugin id="org.eclipse.equinox.event" autoStart="true" startLevel="3" />
    </configurations>
 
 </product>
