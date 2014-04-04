@@ -32,7 +32,6 @@ import org.eclipse.swt.widgets.Menu;
 import org.eclipse.swt.widgets.MenuItem;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.IViewSite;
-import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.part.ShowInContext;
 
@@ -87,11 +86,6 @@ public class DataScreenViewer extends AbstractScreenViewer {
 			IStructuredSelection ss = (StructuredSelection) selection;
 			dataScreen.injectData(new Object[] { ss.getFirstElement() });
 		}
-	}
-
-	@Override
-	protected void customPartHook(IWorkbenchPart part, PART_EVENT event) {
-		super.customPartHook(part, event);
 	}
 
 	@Override
