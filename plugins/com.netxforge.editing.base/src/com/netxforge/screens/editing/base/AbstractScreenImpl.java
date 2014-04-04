@@ -40,8 +40,6 @@ import org.eclipse.swt.events.DisposeEvent;
 import org.eclipse.swt.events.DisposeListener;
 import org.eclipse.swt.events.FocusEvent;
 import org.eclipse.swt.events.FocusListener;
-import org.eclipse.swt.events.SelectionEvent;
-import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.graphics.Cursor;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
@@ -349,19 +347,7 @@ public abstract class AbstractScreenImpl extends Composite implements IScreen,
 		// do nothing.
 	}
 
-	SelectionListener widgetSWTSelectionProvider = new SelectionListener() {
-
-		public void widgetSelected(SelectionEvent e) {
-			System.out
-					.println("SWT widget selection changed, pass on to ViewPart");
-		}
-
-		public void widgetDefaultSelected(SelectionEvent e) {
-			System.out
-					.println("SWT widget selection changed, pass on to ViewPart");
-		}
-	};
-
+	
 	/**
 	 * Add a selection changed listener to the current selection provider. The
 	 * current selection provider will be the viewer which has focus for multi
@@ -370,10 +356,8 @@ public abstract class AbstractScreenImpl extends Composite implements IScreen,
 	public void addSelectionChangedListener(ISelectionChangedListener listener) {
 
 		if (currentFocusWidget instanceof Text) {
-			// SWT Text has no selection provider so return self.
+			// SWT Text has no selection mechanism for the text. 
 			// this.addSelectionChangedListener(listener);
-			((Text) currentFocusWidget)
-					.addSelectionListener(widgetSWTSelectionProvider);
 		} else {
 
 			ISelectionProvider currentSelectionProvider = this
@@ -392,8 +376,7 @@ public abstract class AbstractScreenImpl extends Composite implements IScreen,
 			ISelectionChangedListener listener) {
 		if (currentFocusWidget instanceof Text) {
 			// SWT Text has no selection provider so return self.
-			((Text) currentFocusWidget)
-					.removeSelectionListener(widgetSWTSelectionProvider);
+			// SWT Text selection is not supported by the Text Widget.  
 		} else {
 
 			ISelectionProvider currentSelectionProvider = this
