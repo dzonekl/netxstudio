@@ -25,6 +25,14 @@ Examples:
 
 library27092011_PS.xls
 
+
+Remove remote branch
+====================
+
+git push origin :newfeature
+
+
+
 Workspace per branch
 ====================
 
