@@ -20,6 +20,9 @@ package com.netxforge.netxstudio.server.logic.retention;
 
 import org.eclipse.emf.ecore.resource.Resource;
 
+import com.netxforge.netxstudio.common.context.FixedPeriodStrategy;
+import com.netxforge.netxstudio.common.context.IAggregationStrategy;
+import com.netxforge.netxstudio.common.context.LastValueNoCheckStrategy;
 import com.netxforge.netxstudio.delta16042013.metrics.MetricAggregationRule;
 import com.netxforge.netxstudio.metrics.MetricRetentionRules;
 import com.netxforge.netxstudio.metrics.MetricsPackage;
@@ -88,8 +91,7 @@ public class RetentionJobImplementation extends JobImplementation {
 			// Reset it's a hack, we need sub monitors for sub tasks!
 
 			this.getRunMonitor().setWorkDone(0);
-			
-			
+
 			// Retention.
 			final RetentionLogic retentionLogic = LogicActivator.getInstance()
 					.getInjector().getInstance(RetentionLogic.class);
@@ -122,4 +124,30 @@ public class RetentionJobImplementation extends JobImplementation {
 		return workFlowRun;
 	}
 
+	/**
+	 * An aggregation strategy which winds back a period and re-writes all
+	 * aggregation values for this period, checking all existing values for this
+	 * period.
+	 */
+	static final int FIXED_PERIOD_WRITE_ALL_AGGREGATION = 100;
+
+	/**
+	 * An aggregation strategy which looks for the latest aggregated value, find
+	 * the begin of the period for the target range for this last value.
+	 */
+	static final int LAST_VALUE_NOCHECK_AGGREGATION = 200;
+
+	private int aggregationStrategy = FIXED_PERIOD_WRITE_ALL_AGGREGATION;
+
+	private IAggregationStrategy getAggregationStrategy() {
+
+		switch (aggregationStrategy) {
+		case FIXED_PERIOD_WRITE_ALL_AGGREGATION: {
+			return new FixedPeriodStrategy();
+		}case LAST_VALUE_NOCHECK_AGGREGATION:{
+			return new LastValueNoCheckStrategy():
+		}
+		}
+
+	}
 }

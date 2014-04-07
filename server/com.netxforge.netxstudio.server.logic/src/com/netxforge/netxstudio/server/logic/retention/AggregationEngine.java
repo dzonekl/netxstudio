@@ -27,6 +27,9 @@ import org.eclipse.emf.ecore.resource.Resource;
 import com.google.common.collect.Ordering;
 import com.google.inject.Inject;
 import com.netxforge.base.NonModelUtils;
+import com.netxforge.netxstudio.common.context.FixedPeriodStrategy;
+import com.netxforge.netxstudio.common.context.IAggregationStrategy;
+import com.netxforge.netxstudio.common.context.LastValueNoCheckStrategy;
 import com.netxforge.netxstudio.common.model.StudioUtils;
 import com.netxforge.netxstudio.data.services.ResultProcessor;
 import com.netxforge.netxstudio.data.services.ValueProcessor;
@@ -71,6 +74,9 @@ public class AggregationEngine extends BaseComponentEngine {
 
 	@Inject
 	private ResultProcessor resultProcessor;
+
+	@Inject
+	private IAggregationStrategy strategy;
 
 	public void intitialize(boolean re_initialize) {
 		Resource resource = this.getDataProvider().getResource(
@@ -120,7 +126,9 @@ public class AggregationEngine extends BaseComponentEngine {
 			// Aggregate data using the defined expressions for each of
 			// the mr rules. Optional depending on the model.
 			// Bail aggregation when the resource has no values.
-			if (StudioUtils.resourceHasValues(netXResource)) {
+			if (StudioUtils.resourceHasValues(netXResource)) { // this will
+																// force DB
+																// roundtrips
 				List<MetricAggregationRule> customRuleSet = customRuleSetForNetXResource(netXResource);
 				if (customRuleSet != null && !customRuleSet.isEmpty()) {
 					applyCustomRuleSet(customRuleSet, netXResource);
@@ -193,18 +201,34 @@ public class AggregationEngine extends BaseComponentEngine {
 					Expression expression = globalRuleForInterval
 							.getRetentionExpression();
 
-					if (ar.eIsSet(com.netxforge.netxstudio.delta16042013.metrics.MetricsPackage.Literals.METRIC_AGGREGATION_RULE__PERIOD)) {
-						// The number of days from the current logic period.
-						// (Which is the current date/time).
-						int period = ar.getPeriod();
-						DateTimeRange customPeriod = GenericsFactory.eINSTANCE
-								.createDateTimeRange();
-						customPeriod.setEnd(getPeriod().getEnd());
-						customPeriod.setBegin(NonModelUtils
-								.toXMLDate(NonModelUtils.daysAgo(period)));
-						runExpression(netXResource, expression, customPeriod);
-					} else {
-						runExpression(netXResource, expression);
+					if (strategy instanceof LastValueNoCheckStrategy) {
+
+						// Setup a context.
+						Object[] context = new Object[4];
+						context[0] = getPeriod();
+						context[1] = StudioUtils.nodeFor(getComponent());
+						context[2] = netXResource;
+						context[3] = strategy;
+						runExpression(expression, netXResource.cdoView(),
+								context);
+
+					} else if (strategy instanceof FixedPeriodStrategy) {
+
+						if (ar.eIsSet(com.netxforge.netxstudio.delta16042013.metrics.MetricsPackage.Literals.METRIC_AGGREGATION_RULE__PERIOD)) {
+							// The number of days from the current logic
+							// period.
+							// (Which is the current date/time).
+							int period = ar.getPeriod();
+							DateTimeRange customPeriod = GenericsFactory.eINSTANCE
+									.createDateTimeRange();
+							customPeriod.setEnd(getPeriod().getEnd());
+							customPeriod.setBegin(NonModelUtils
+									.toXMLDate(NonModelUtils.daysAgo(period)));
+							runExpression(netXResource, expression,
+									customPeriod);
+						} else {
+							runExpression(netXResource, expression);
+						}
 					}
 					continue;
 				}
@@ -278,6 +302,30 @@ public class AggregationEngine extends BaseComponentEngine {
 			runForExpression(expression);
 
 			commitInbetween(netXResource.cdoView());
+		}
+	}
+
+	@SuppressWarnings("unchecked")
+	private void runExpression(Expression expression, CDOView view,
+			Object... context) {
+		if (expression != null) {
+
+			getExpressionEngine().getContext().clear();
+
+			for (Object o : context) {
+				getExpressionEngine().getContext().add(o);
+			}
+
+			// As the data is not committed in between,
+			// subsequent
+			// expressions will not be able
+			// get data until commit, so it needs to run n times
+			// (n
+			// = number of rules) before all aggregation is
+			// done.
+			runForExpression(expression);
+
+			commitInbetween(view);
 		}
 	}
 

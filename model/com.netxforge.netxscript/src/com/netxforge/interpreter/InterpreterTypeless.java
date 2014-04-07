@@ -79,6 +79,7 @@ import com.netxforge.netxscript.ValueRange;
 import com.netxforge.netxscript.VarOrArgumentCall;
 import com.netxforge.netxscript.Variable;
 import com.netxforge.netxscript.While;
+import com.netxforge.netxstudio.common.context.IAggregationStrategy;
 import com.netxforge.netxstudio.common.math.INativeFunctions2;
 import com.netxforge.netxstudio.common.model.IMonitoringSummary.RAG;
 import com.netxforge.netxstudio.common.model.RFSServiceSummary;
@@ -217,6 +218,20 @@ public class InterpreterTypeless implements IInterpreter, IExternalContextAware 
 			throw new java.lang.UnsupportedOperationException(
 					"Period context unset, it is always required");
 		}
+	}
+
+	/**
+	 * Get an {@link IAggregationStrategy} from the context; Clients should
+	 * prepare for <code>null</code>
+	 * 
+	 * @return
+	 */
+	private Object getContextualPeriodStrategy() {
+		IComputationContext periodStrategy = getContextFor(IAggregationStrategy.class);
+		if (periodStrategy != null) {
+			return periodStrategy.getContext();
+		}
+		return null;
 	}
 
 	private Component getContextualComponent() {
@@ -1487,6 +1502,12 @@ public class InterpreterTypeless implements IInterpreter, IExternalContextAware 
 									(NetXResource) resource, targetKind,
 									targetInterval);
 					if (mvr != null) {
+						
+						//  Query the source based on the target only!
+						// 
+						
+						
+						
 						v = CDOQueryService.mvrValues(resource.cdoView(), mvr,
 								CDOQueryUtil.QUERY_MYSQL, dtr);
 					} else {
