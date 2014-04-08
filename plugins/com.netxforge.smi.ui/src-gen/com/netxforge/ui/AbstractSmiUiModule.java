@@ -108,7 +108,7 @@ public abstract class AbstractSmiUiModule extends DefaultUiModule {
 		return com.netxforge.ui.quickfix.SmiQuickfixProvider.class;
 	}
 
-	// contributed by org.eclipse.xtext.ui.generator.contentAssist.ContentAssistFragment
+	// contributed by org.eclipse.xtext.ui.generator.contentAssist.JavaBasedContentAssistFragment
 	public Class<? extends org.eclipse.xtext.ui.editor.contentassist.IContentProposalProvider> bindIContentProposalProvider() {
 		return com.netxforge.ui.contentassist.SmiProposalProvider.class;
 	}
