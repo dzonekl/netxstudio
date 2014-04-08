@@ -74,10 +74,6 @@
          version="0.0.0"/>
 
    <includes
-         id="org.eclipse.jdt.artifacts.feature"
-         version="0.0.0"/>
-
-   <includes
          id="org.eclipse.ltk.artifacts.feature"
          version="0.0.0"/>
 
