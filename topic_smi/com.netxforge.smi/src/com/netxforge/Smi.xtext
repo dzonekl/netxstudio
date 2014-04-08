@@ -1,0 +1,233 @@
+/**
+ * 
+ * Xtext grammar for:  
+
+ * Structure of Management Information Version 2 (SMIv2)
+ * http://tools.ietf.org/html/rfc2578
+ * 
+ * ASN.1 Notation from: 
+ * 
+ * TODO: Refer to the specifications, not this tutorial. 
+ * http://www.obj-sys.com/asn1tutorial/node4.html
+ * 
+ * Author: Christophe Bouhier
+ * 2013
+ * 
+ * This grammar defines SMIv2 but is also capable to process SMIv2 Information Modules. 
+ * 
+ * Disclaimer
+ * 
+ */
+grammar com.netxforge.Smi with org.eclipse.xtext.common.Terminals hidden(SL_ASN1_COMMENT)
+
+generate smi "http://www.netxforge.com/Smi"
+
+Module:
+	id=MODULE_ID 'DEFINITIONS' '::=' 'BEGIN'
+	(assignments+=Assignment)*
+	'END';
+
+Assignment:
+	macros=Macro | types+=ValueAssignment | ObjectIdentifier;
+
+	// Section 3.1 
+// ...Within an information module, each macro invocation appears as:
+//
+//        <descriptor> <macro> <clauses> ::= <value>
+//
+// where <descriptor> corresponds to an ASN.1 identifier, <macro> names
+// the macro being invoked, and <clauses> and <value> depend on the
+// definition of the macro. 
+Macro:
+	descriptor=MacroDescriptor 'MACRO' '::='
+	'BEGIN'
+	'TYPE NOTATION' (typeNotations+=[ValueAssignment])+ // Reference one or more value assignment. 
+	'VALUE NOTATION' valueNotation=MacroValue // Define one Macro value. 
+	innerTypes+=ValueAssignment+ // Define 1 or more value assignment. 
+	'END';
+
+	// A Descriptor for the Macro. 
+MacroDescriptor:
+	MODULE_ID;
+
+	//  No description found for this :-( 
+MacroValue:
+	{MacroValue} 'value(' (type=MACRO_VALUE_TYPE)? ANY_OTHER ')';
+
+enum MACRO_VALUE_TYPE:
+	VALUE='VALUE' | Update='Update';
+
+	// An ASN.1 Value assignment. 
+ValueAssignment:
+	typeReference=MODULE_ID '::=' value=Or;
+
+	// Allow 'OR' on value types. 
+Or:
+	ValueType (({Or.left=current} '|') right=ValueType)*;
+	//Choice:
+
+// Notes: The name of the right handside value assignment is optional. 
+// TODO1 Comma separated, multiple ValueAssignments
+// Example: 
+// IndexTypes ::=
+//                  IndexType
+//                | IndexTypes "," IndexType
+ValueType:
+	(name=IA5STRING)? (type=[ValueAssignment] | simpleType=ASN1_TYPE);
+
+	// Simple and structured types. 
+ASN1_TYPE:
+	ASN1_SIMPLE | ASN1_CHOICE;
+
+	// -- the "base types" defined here are:
+// --   3 built-in ASN.1 types: INTEGER, OCTET STRING, OBJECT IDENTIFIER
+ASN1_SIMPLE:
+	{ASN1_SIMPLE} IA5STRING | ASN1_OCTET_STRING | ASN1_INTEGER ('(' constraint=ASN1_SUBTYPE ')')?;
+
+	// TODO1 Requries further definition. 	
+ASN1_OCTET_STRING returns ASN1_SIMPLE:
+	{ASN1_OCTET_STRING} 'OCTET STRING' 'TODO defintions.';
+
+ASN1_INTEGER returns ASN1_SIMPLE:
+	'INTEGER' '{'
+	(valuePairs+=ASN1_VALUEPAIR)+
+	'}';
+
+	// TODO1 further specify id, as enum entry in the vp
+ASN1_VALUEPAIR:
+	(ID)? '(' INT ')';
+
+	// http://www.obj-sys.com/asn1tutorial/node11.html
+ASN1_CHOICE:
+	'CHOICE' '{' choices+=ASN1_CHOICE_ENTRY (',' choices+=ASN1_CHOICE_ENTRY)* '}';
+
+	// TODO1 The reference to a ValueType is indented by 4 WS on the next line. 
+//  
+ASN1_CHOICE_ENTRY:
+	id=ASN1_ID valueType=[ValueType];
+
+	// Either a Range or a single value on size.
+ASN1_SUBTYPE:
+	'SIZE' range=ASN1_RANGE | value=INT;
+
+ASN1_RANGE:
+	{ASN1_RANGE} '(' (start=INT '..' end=INT) ')';
+
+	// ASN.1 
+// Type OBJECT IDENTIFIER names information objects (for example, abstract syntaxes or ASN.1 modules). 
+// The type notation requires the keywords OBJECT IDENTIFIER. 
+// The named information object is a node on an object identifier tree that is managed at the international level. 
+// ISO, CCITT, or any other organization is allowed a subtree which the organization defines. 
+
+// TODO1 is the id, same as the ASN1_ID? 
+ObjectIdentifier:
+	descriptor=ASN1_ID 'OBJECT IDENTIFIER' '::=' '{' oidValue=ObjectIdentifierValue '}';
+
+	// Secion 3.5 
+//For the SMIv2, each number in the list is referred to as a
+//   sub-identifier, there are at most 128 sub-identifiers in a value, and
+//   each sub-identifier has a maximum value of 2^32-1 (4294967295
+//   decimal).
+//
+
+// Notes: The feature 'subID' as a list of sub-identifiers which needs to be interpreted by a Value converter.
+// The reference to the descriptor is optional, as the sub ID's could provide an absolute sub ID path.
+// The sub ID path is a list of references, to ObjectIdentifier's position. 
+// An OBJECT IDENTIFIER value is an ordered list of non-negative
+// numbers.  For the SMIv2, each number in the list is referred to as a
+// sub-identifier, there are at most 128 sub-identifiers in a value, and
+// each sub-identifier has a maximum value of 2^32-1 (4294967295
+// decimal).
+
+// TODO1 Support for construct: { name name2(0) 3} ????
+// TODO2: Support for well-known types -> Requires a static construction of well-known types in the ScopeProvider 
+// for the reference to a 'Well-Known' ObjectIdentifier. 
+ObjectIdentifierValue:
+	(descriptorReference=[ObjectIdentifier|ASN1_ID])? subIds+=INT (subIds+=INT)*;
+
+	// Section 3.5 OBJECT IDENTIFIER values
+
+// Section 3.5
+//   All OBJECT IDENTIFIER values have at least two sub-identifiers, where
+//   the value of the first sub-identifier is one of the following well-
+//   known names:
+//
+//        Value   Name
+//          0     ccitt
+//          1     iso
+//          2     joint-iso-ccitt 
+enum WELL_KNOWN_NAMES:
+	ccitt='ccitt' | iso='iso' | joint_iso_ccitt='joint-iso-ccitt';
+
+	// Fragments.
+terminal fragment NUMERIC:
+	'0'..'9';
+
+terminal fragment ALPHA:
+	'a'..'z';
+
+terminal fragment ALPHA_CAP:
+	'A'..'Z';
+
+	// Section 3 
+// ...an ASN.1 module name begins with an upper-case letter
+// and continues with zero or more letters, digits, or hyphens, except
+// that a hyphen can not be the last character, nor can there be two
+// consecutive hyphens.
+
+// TODO1 !('--') doesn't work, need to break it down. 
+// TODO2 ending on non-Hyphen. 
+terminal MODULE_ID:
+	(ALPHA_CAP) (ALPHA | ALPHA_CAP | '-' | NUMERIC)* (ALPHA_CAP | ALPHA | NUMERIC);
+
+	// Section 3.1 
+// ...an ASN.1 identifier consists
+// of one or more letters or digits, and its initial character must be a
+// lower-case letter.  Note that hyphens are not allowed by this
+// specification (except for use by information modules converted from
+// SMIv1 which did allow hyphens).
+
+//   For all descriptors appearing in an information module, the
+//   descriptor shall be unique and mnemonic, and shall not exceed 64
+//   characters in length.  (However, descriptors longer than 32
+//   characters are not recommended.)  This promotes a common language for
+//   humans to use when discussing the information module and also
+//   facilitates simple table mappings for user-interfaces.
+//
+//   The set of descriptors defined in all "standard" information modules
+//   shall be unique.
+//
+//   Finally, by convention, if the descriptor refers to an object with a
+//   SYNTAX clause value of either Counter32 or Counter64, then the
+//   descriptor used for the object should denote plurality.
+
+// CB Except statement??? 
+// TODO1 Limit the size of the ID. 
+// TODO2 SYNTAX Clause in ? Identifier? 
+terminal ASN1_ID:
+	(ALPHA) (ALPHA | ALPHA_CAP | '-' | NUMERIC)*;
+
+	// Section 3.1.1 
+// character string is preceded and followed by the quote character
+//   ("), and consists of an arbitrary number (possibly zero) of:
+//
+//      - any 7-bit displayable ASCII characters except quote ("),
+//      - tab characters,
+//      - spaces, and
+//      - line terminator characters (\n or \r\n).
+//
+//   The value of a character string is interpreted as ASCII.
+
+// TODO, \", \' not needed? what about Hex values. 
+terminal IA5STRING:
+	'"' ('\\' ('b' | 't' | 'n' | 'f' | 'r' | 'u' | '"' | "'" | '\\') | !('\\' | '"'))* '"';
+
+	// Section 3.4 
+// ... ASN.1 comments commence with a pair of adjacent hyphens and end with
+// the next pair of adjacent hyphens or at the end of the line,
+// whichever occurs first.  Comments ended by a pair of hyphens have the
+// effect of a single space character.
+
+// TODO1 Comments ended by a pair of hyphens have the effect of a single space character.
+terminal SL_ASN1_COMMENT:
+	'--' !('\n' | '\r')* ('\r'? '\n')?;
