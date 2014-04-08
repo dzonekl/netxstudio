@@ -21,8 +21,8 @@ package com.netxforge.netxstudio.server.logic.retention;
 import org.eclipse.emf.ecore.resource.Resource;
 
 import com.netxforge.netxstudio.common.context.FixedPeriodStrategy;
-import com.netxforge.netxstudio.common.context.IAggregationStrategy;
-import com.netxforge.netxstudio.common.context.LastValueNoCheckStrategy;
+import com.netxforge.netxstudio.common.context.IPeriodStrategy;
+import com.netxforge.netxstudio.common.context.LatestTimestampForRangeStrategy;
 import com.netxforge.netxstudio.delta16042013.metrics.MetricAggregationRule;
 import com.netxforge.netxstudio.metrics.MetricRetentionRules;
 import com.netxforge.netxstudio.metrics.MetricsPackage;
@@ -51,7 +51,7 @@ public class RetentionJobImplementation extends JobImplementation {
 	@Override
 	public void run() {
 
-		// An abstraciton so our logic can be notified of interruptions.
+		// An abstraction so our logic can be notified of interruptions.
 		NetxForgeJob quartzJob = this.getNetxForgeJob();
 		QuartzInterruptableLogic quartzInterruptableLogic = new QuartzInterruptableLogic();
 		quartzInterruptableLogic.setQuartzInterruptableJob(quartzJob);
@@ -73,6 +73,8 @@ public class RetentionJobImplementation extends JobImplementation {
 			final AggregationLogic aggregationLogic = LogicActivator
 					.getInstance().getInjector()
 					.getInstance(AggregationLogic.class);
+			
+			aggregationLogic.setPeriodStrategy(this.getAggregationStrategy());
 
 			aggregationLogic.setJobMonitor(getRunMonitor());
 			aggregationLogic.setInterruptable(quartzInterruptableLogic);
@@ -137,17 +139,19 @@ public class RetentionJobImplementation extends JobImplementation {
 	 */
 	static final int LAST_VALUE_NOCHECK_AGGREGATION = 200;
 
-	private int aggregationStrategy = FIXED_PERIOD_WRITE_ALL_AGGREGATION;
+	private int aggregationStrategy = LAST_VALUE_NOCHECK_AGGREGATION;
 
-	private IAggregationStrategy getAggregationStrategy() {
+	private IPeriodStrategy getAggregationStrategy() {
 
 		switch (aggregationStrategy) {
 		case FIXED_PERIOD_WRITE_ALL_AGGREGATION: {
 			return new FixedPeriodStrategy();
-		}case LAST_VALUE_NOCHECK_AGGREGATION:{
-			return new LastValueNoCheckStrategy():
+		}
+		case LAST_VALUE_NOCHECK_AGGREGATION: {
+			return new LatestTimestampForRangeStrategy();
 		}
 		}
+		return null;
 
 	}
 }

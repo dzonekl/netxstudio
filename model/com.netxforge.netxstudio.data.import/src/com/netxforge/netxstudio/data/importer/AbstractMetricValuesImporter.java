@@ -214,7 +214,8 @@ public abstract class AbstractMetricValuesImporter implements IImporterHelper,
 		// Get the file pattern.
 		// Get the mapping information.
 		// When update the statistics.
-		addAndTruncate(getMetricSource(), getMetricSource().getStatistics(), mappingStatistic);
+		addAndTruncate(getMetricSource(), getMetricSource().getStatistics(),
+				mappingStatistic);
 
 		commitTransactionWithoutClosing();
 
@@ -223,7 +224,8 @@ public abstract class AbstractMetricValuesImporter implements IImporterHelper,
 					+ getMetricSource().getName());
 
 			if (ImportActivator.DEBUG) {
-				ImportActivator.TRACE.trace(ImportActivator.TRACE_IMPORT_OPTION,
+				ImportActivator.TRACE.trace(
+						ImportActivator.TRACE_IMPORT_OPTION,
 						"-- Processing metricsource "
 								+ getMetricSource().getName());
 			}
@@ -251,7 +253,8 @@ public abstract class AbstractMetricValuesImporter implements IImporterHelper,
 			final String fileOrDirectory = rootUrl + msLocation;
 
 			if (ImportActivator.DEBUG) {
-				ImportActivator.TRACE.trace(ImportActivator.TRACE_IMPORT_OPTION,
+				ImportActivator.TRACE.trace(
+						ImportActivator.TRACE_IMPORT_OPTION,
 						"-- Calculated import directory for "
 								+ getMetricSource().getName() + " ="
 								+ fileOrDirectory);
@@ -273,7 +276,8 @@ public abstract class AbstractMetricValuesImporter implements IImporterHelper,
 			}
 
 			if (ImportActivator.DEBUG) {
-				ImportActivator.TRACE.trace(ImportActivator.TRACE_IMPORT_OPTION,
+				ImportActivator.TRACE.trace(
+						ImportActivator.TRACE_IMPORT_OPTION,
 						"-- Looking for files with pattern" + filterPattern);
 			}
 
@@ -381,7 +385,8 @@ public abstract class AbstractMetricValuesImporter implements IImporterHelper,
 			}
 
 			if (ImportActivator.DEBUG) {
-				ImportActivator.TRACE.trace(ImportActivator.TRACE_IMPORT_OPTION,
+				ImportActivator.TRACE.trace(
+						ImportActivator.TRACE_IMPORT_OPTION,
 						"Succesfull processing import for metric source"
 								+ getMetricSource().getName());
 			}
@@ -395,7 +400,8 @@ public abstract class AbstractMetricValuesImporter implements IImporterHelper,
 			jobMonitor.setFinished(JobRunState.FINISHED_WITH_ERROR, t);
 
 			if (ImportActivator.DEBUG) {
-				ImportActivator.TRACE.trace(ImportActivator.TRACE_IMPORT_OPTION,
+				ImportActivator.TRACE.trace(
+						ImportActivator.TRACE_IMPORT_OPTION,
 						"Error Processing metricsource "
 								+ getMetricSource().getName(), t);
 			}
@@ -450,7 +456,8 @@ public abstract class AbstractMetricValuesImporter implements IImporterHelper,
 	 * @param mappingStatistic
 	 */
 	public void addAndTruncate(MetricSource container,
-			EList<MappingStatistic> statistics, final MappingStatistic mappingStatistic) {
+			EList<MappingStatistic> statistics,
+			final MappingStatistic mappingStatistic) {
 
 		// Lazy init maxStats var.
 		if (maxStats == -1) {
@@ -496,7 +503,7 @@ public abstract class AbstractMetricValuesImporter implements IImporterHelper,
 
 			for (int i = 0; i < statistics.size(); i++) {
 				try {
-					 MappingStatistic stat = statistics.get(i);
+					MappingStatistic stat = statistics.get(i);
 					if (CDOUtil.isStaleObject(stat)) {
 						CDOUtil.cleanStaleReference(
 								container,
@@ -510,7 +517,7 @@ public abstract class AbstractMetricValuesImporter implements IImporterHelper,
 							i);
 				}
 			}
-			
+
 			boolean retainAll = statistics.retainAll(subList);
 
 			if (retainAll) {
@@ -592,7 +599,8 @@ public abstract class AbstractMetricValuesImporter implements IImporterHelper,
 			fileFailedRecords = this.getFailedRecords().subList(
 					beforeFailedSize, afterFailedSize);
 			if (ImportActivator.DEBUG) {
-				ImportActivator.TRACE.trace(ImportActivator.TRACE_IMPORT_OPTION,
+				ImportActivator.TRACE.trace(
+						ImportActivator.TRACE_IMPORT_OPTION,
 						"-- # of failed records for file=" + file.getName()
 								+ " is =" + fileFailedRecords.size());
 			}
@@ -649,7 +657,8 @@ public abstract class AbstractMetricValuesImporter implements IImporterHelper,
 			return renamedFile;
 		} else {
 			if (ImportActivator.DEBUG) {
-				ImportActivator.TRACE.trace(ImportActivator.TRACE_IMPORT_OPTION,
+				ImportActivator.TRACE.trace(
+						ImportActivator.TRACE_IMPORT_OPTION,
 						"File: " + file.getAbsolutePath()
 								+ " rename for processing failed, abort");
 			}
@@ -670,7 +679,8 @@ public abstract class AbstractMetricValuesImporter implements IImporterHelper,
 			renameFile(file, new File(originalPath
 					+ StudioUtils.EXTENSION_DONE_WITH_FAILURES));
 		} else {
-			renameFile(file, new File(originalPath + StudioUtils.EXTENSION_DONE));
+			renameFile(file,
+					new File(originalPath + StudioUtils.EXTENSION_DONE));
 		}
 	}
 
@@ -690,10 +700,12 @@ public abstract class AbstractMetricValuesImporter implements IImporterHelper,
 		boolean renameTo = file.renameTo(newFile);
 		if (ImportActivator.DEBUG) {
 			if (renameTo) {
-				ImportActivator.TRACE.trace(ImportActivator.TRACE_IMPORT_OPTION,
+				ImportActivator.TRACE.trace(
+						ImportActivator.TRACE_IMPORT_OPTION,
 						"-- rename successed for file=" + file.getName());
 			} else {
-				ImportActivator.TRACE.trace(ImportActivator.TRACE_IMPORT_OPTION,
+				ImportActivator.TRACE.trace(
+						ImportActivator.TRACE_IMPORT_OPTION,
 						"-- rename failed for file= " + file.getName()
 								+ ", the file is likely still open");
 			}
@@ -803,8 +815,9 @@ public abstract class AbstractMetricValuesImporter implements IImporterHelper,
 			if (ImportActivator.DEBUG) {
 				BigDecimal percentil = new BigDecimal(rowNum).divide(
 						new BigDecimal(rowsToProcess), 5, RoundingMode.HALF_UP);
-				ImportActivator.TRACE.trace(ImportActivator.TRACE_IMPORT_OPTION,
-						"-- new row=" + rowNum + " (" + rowsToProcess + ")"
+				ImportActivator.TRACE.trace(
+						ImportActivator.TRACE_IMPORT_OPTION, "-- new row="
+								+ rowNum + " (" + rowsToProcess + ")"
 								+ percentil.movePointRight(2) + "%");
 			}
 
@@ -822,16 +835,16 @@ public abstract class AbstractMetricValuesImporter implements IImporterHelper,
 				populateIdentifierDescriptors(dataIdentifiers, rowNum);
 
 				// used a composed collection for processing.
-				List<IdentifierDescriptor> composedIdentifiers = Lists
+				List<IdentifierDescriptor> identifierDescriptors = Lists
 						.newArrayList(dataIdentifiers);
 
 				// Merge the descriptors from header and data when needed.
 				if (!headerIdentifiers.isEmpty()) {
-					composedIdentifiers.addAll(0, headerIdentifiers);
+					identifierDescriptors.addAll(0, headerIdentifiers);
 				}
 
 				// Validate the identifiers.
-				validateIdentifiers(composedIdentifiers);
+				validateIdentifiers(identifierDescriptors);
 
 				// Get the row timestamp
 				rowTimeStamp = tsProcessor.getTimeStampValue(rowNum, false);
@@ -850,14 +863,14 @@ public abstract class AbstractMetricValuesImporter implements IImporterHelper,
 				// metric reference.
 
 				final List<Component> componentsForID = getComponentLocator()
-						.locateComponents(tmpTransaction, composedIdentifiers);
+						.locateComponents(tmpTransaction, identifierDescriptors);
 
 				// If no result, skip this row we won't be able to do anything
 				// with the value here.
 				if (componentsForID.isEmpty()) {
 					// We should get the total count recorded though, so
 					// multiply by the number of metrics.
-					createNotMatchedMappingRecord(composedIdentifiers,
+					createNotMatchedMappingRecord(identifierDescriptors,
 							getFailedRecords());
 					continue;
 				}
@@ -883,7 +896,7 @@ public abstract class AbstractMetricValuesImporter implements IImporterHelper,
 						} else if (resultSize > 1) {
 							// report a double entry.
 							createMatchDuplicatesMappingRecord(
-									composedIdentifiers, failedRecords);
+									identifierDescriptors, failedRecords);
 							continue;
 						}
 					}
@@ -894,7 +907,9 @@ public abstract class AbstractMetricValuesImporter implements IImporterHelper,
 						// to be the identifiers last used for component
 						// lookup.
 						createMetricNotMatchedMappingRecord(
-								composedIdentifiers, getFailedRecords());
+								identifierDescriptors, getFailedRecords());
+
+						createComponentCandidate(identifierDescriptors, md);
 
 						continue;
 					}
@@ -941,8 +956,7 @@ public abstract class AbstractMetricValuesImporter implements IImporterHelper,
 			}
 		}
 		try {
-			tmpTransaction
-					.setCommitComment(ICDOData.SERVER_COMMIT_COMMENT);
+			tmpTransaction.setCommitComment(ICDOData.SERVER_COMMIT_COMMENT);
 			tmpTransaction.commit();
 		} catch (CommitException e) {
 		} finally {
@@ -950,6 +964,18 @@ public abstract class AbstractMetricValuesImporter implements IImporterHelper,
 		}
 		this.setImportMessage(new Integer(createdNetXResourcesCount).toString());
 		return totalRows;
+	}
+
+	/**
+	 * 
+	 * @param identifierDescriptors
+	 * @param md
+	 */
+	private void createComponentCandidate(
+			List<IdentifierDescriptor> identifierDescriptors,
+			MetricDescriptor md) {
+
+		// TODO IMPLEMENT Candidate Service.
 	}
 
 	private void setSubPeriodEstimate(PeriodEstimate pe) {
@@ -1585,8 +1611,8 @@ public abstract class AbstractMetricValuesImporter implements IImporterHelper,
 			} finally {
 				if (ImportActivator.DEBUG) {
 					ImportActivator.TRACE.trace(
-							ImportActivator.TRACE_IMPORT_DETAILS_OPTION, "TS is "
-									+ returnDate);
+							ImportActivator.TRACE_IMPORT_DETAILS_OPTION,
+							"TS is " + returnDate);
 				}
 			}
 			return returnDate;

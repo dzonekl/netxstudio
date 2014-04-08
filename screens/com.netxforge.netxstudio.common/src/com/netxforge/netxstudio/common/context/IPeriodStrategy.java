@@ -24,6 +24,6 @@ package com.netxforge.netxstudio.common.context;
  * @author Christophe Bouhier
  * 
  */
-public interface IAggregationStrategy {
+public interface IPeriodStrategy {
 
 }

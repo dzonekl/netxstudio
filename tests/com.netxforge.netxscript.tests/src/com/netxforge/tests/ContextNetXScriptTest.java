@@ -17,12 +17,14 @@ import org.eclipse.xtext.junit.AbstractXtextTests;
 
 import com.google.common.collect.Lists;
 import com.netxforge.NetxscriptStandaloneSetup;
+import com.netxforge.base.NonModelUtils;
+import com.netxforge.base.cdo.ICDOData;
+import com.netxforge.base.context.IComputationContext;
 import com.netxforge.interpreter.IInterpreter;
 import com.netxforge.interpreter.IInterpreterContextFactory;
 import com.netxforge.netxscript.Mod;
-import com.netxforge.netxstudio.common.context.IComputationContext;
-import com.netxforge.netxstudio.common.model.ModelUtils;
-import com.netxforge.netxstudio.data.IDataService;
+import com.netxforge.netxstudio.common.model.StudioUtils;
+import com.netxforge.netxstudio.data.ICDODataService;
 import com.netxforge.netxstudio.generics.DateTimeRange;
 import com.netxforge.netxstudio.generics.GenericsFactory;
 import com.netxforge.netxstudio.generics.Value;
@@ -62,10 +64,10 @@ import com.netxforge.scoping.IExternalContextAware;
  */
 public class ContextNetXScriptTest extends AbstractXtextTests {
 
-	IDataService dataService;
+	ICDODataService dataService;
 	IInterpreter interpreter;
 	IInterpreterContextFactory interpreterContextFactory;
-	ModelUtils modelUtils;
+	private ICDOData cdoData;
 
 	@Override
 	protected void setUp() throws Exception {
@@ -73,17 +75,17 @@ public class ContextNetXScriptTest extends AbstractXtextTests {
 		with(new NetxscriptStandaloneSetup());
 
 		// Inject whatever we need.
-		dataService = get(IDataService.class);
-		modelUtils = get(ModelUtils.class);
+		dataService = get(ICDODataService.class);
 		interpreter = get(IInterpreter.class);
 		interpreterContextFactory = get(IInterpreterContextFactory.class);
-		dataService.getProvider().openSession("admin", "admin");
+		cdoData = dataService.getCDOData();
+		cdoData.openSession("admin", "admin");
 	}
 
 	@Override
 	protected void tearDown() throws Exception {
 		super.tearDown();
-		dataService.getProvider().closeSession();
+		cdoData.closeSession();
 	}
 
 	/**
@@ -91,16 +93,16 @@ public class ContextNetXScriptTest extends AbstractXtextTests {
 	 */
 	public void testContext() throws Exception {
 
-		Node node = TestModel.INSTANCE.createModelData(dataService.getProvider(), modelUtils);
+		Node node = TestModel.INSTANCE.createModelData(cdoData);
 
 		// Set a period context.
 
 		final DateTimeRange timeRange = GenericsFactory.eINSTANCE
 				.createDateTimeRange();
 
-		final XMLGregorianCalendar t0 = modelUtils.toXMLDate(modelUtils
+		final XMLGregorianCalendar t0 = NonModelUtils.toXMLDate(NonModelUtils
 				.todayAndNow());
-		final XMLGregorianCalendar t1 = modelUtils.toXMLDate(modelUtils
+		final XMLGregorianCalendar t1 = NonModelUtils.toXMLDate(NonModelUtils
 				.lastWeek());
 
 		timeRange.setBegin(t1);
@@ -313,7 +315,7 @@ public class ContextNetXScriptTest extends AbstractXtextTests {
 			List<Component> cl = Lists.newArrayList();
 			cl.addAll(node.getNodeType().getEquipments());
 			cl.addAll(node.getNodeType().getFunctions());
-			List<NetXResource> allResources = modelUtils
+			List<NetXResource> allResources = StudioUtils
 					.resourcesWithExpressionName(cl, ".*", true); // All resources.
 			for (NetXResource r : allResources) {
 				contextList.clear();
@@ -352,7 +354,7 @@ public class ContextNetXScriptTest extends AbstractXtextTests {
 			List<Component> cl = Lists.newArrayList();
 			cl.addAll(node.getNodeType().getEquipments());
 			cl.addAll(node.getNodeType().getFunctions());
-			List<NetXResource> allResources = modelUtils
+			List<NetXResource> allResources = StudioUtils
 					.resourcesWithExpressionName(cl, ".*", true); // All resources.
 			for (NetXResource r : allResources) {
 				contextList.clear();
@@ -400,9 +402,9 @@ public class ContextNetXScriptTest extends AbstractXtextTests {
 
 					System.out.println("Value: " + v.getValue());
 					if (v.getTimeStamp() != null) {
-						Date d = modelUtils.fromXMLDate(v.getTimeStamp());
-						System.out.println(modelUtils.date(d) + ", "
-								+ modelUtils.time(d));
+						Date d = NonModelUtils.fromXMLDate(v.getTimeStamp());
+						System.out.println(NonModelUtils.date(d) + ", "
+								+ NonModelUtils.time(d));
 					} else {
 						System.out.println("No date in the result set");
 					}

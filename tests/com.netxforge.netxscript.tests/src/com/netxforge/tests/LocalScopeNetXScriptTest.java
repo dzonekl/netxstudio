@@ -1,11 +1,20 @@
 /*******************************************************************************
- * Copyright (c) 2010 itemis AG (http://www.itemis.eu) and others.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ * Copyright (c) 8 apr. 2014 NetXForge.
+ * 
+ * This program is free software: you can redistribute it and/or modify it under
+ * the terms of the GNU General Public License as published by the Free Software
+ * Foundation, either version 3 of the License, or (at your option) any later
+ * version.
+ * 
+ * This program is distributed in the hope that it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+ * FOR A PARTICULAR PURPOSE. See the GNU General Public License for more
+ * details. You should have received a copy of the GNU General Public License
+ * along with this program. If not, see <http://www.gnu.org/licenses/>
+ * 
+ * Contributors: Christophe Bouhier - initial API and implementation and/or
+ * initial documentation
  *******************************************************************************/
-
 package com.netxforge.tests;
 
 import org.eclipse.emf.ecore.resource.Resource;
@@ -16,17 +25,14 @@ import org.eclipse.xtext.scoping.IScopeProvider;
 
 import com.netxforge.netxscript.Mod;
 import com.netxforge.netxscript.NetxscriptPackage;
-import com.netxforge.netxstudio.data.IDataService;
+import com.netxforge.netxstudio.data.ICDODataService;
 
 /**
- * FIXME, Should target test repository.
- * 
  * @author Christophe Bouhier
- * 
  */
 public class LocalScopeNetXScriptTest extends AbstractNetXScriptTest {
 
-	IDataService dataService;
+	ICDODataService dataService;
 	IResourceDescription.Manager resourceDescriptionManager;
 
 	Resource targetResource;
@@ -36,14 +42,14 @@ public class LocalScopeNetXScriptTest extends AbstractNetXScriptTest {
 		super.setUp();
 
 		// Inject whatever we need.
-		dataService = get(IDataService.class);
-		dataService.getProvider().openSession("admin", "admin");
+		dataService = get(ICDODataService.class);
+		dataService.getCDOData().openSession("admin", "admin");
 	}
 
 	@Override
 	protected void tearDown() throws Exception {
 		super.tearDown();
-		dataService.getProvider().closeSession();
+		dataService.getCDOData().closeSession();
 	}
 
 	/**
@@ -63,10 +69,10 @@ public class LocalScopeNetXScriptTest extends AbstractNetXScriptTest {
 
 		final IScope scope = scopeProvider.getScope(model,
 				NetxscriptPackage.Literals.RESOURCE_REF__RESOURCE);
-		
-		for(IEObjectDescription ieod : scope.getAllElements()){
+
+		for (IEObjectDescription ieod : scope.getAllElements()) {
 			System.out.println(ieod.getQualifiedName());
 		}
-		
+
 	}
 }

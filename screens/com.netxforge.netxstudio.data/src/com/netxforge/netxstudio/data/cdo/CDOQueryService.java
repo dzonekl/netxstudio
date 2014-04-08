@@ -49,6 +49,8 @@ public class CDOQueryService {
 
 	private static final String ORDER_BY_VAL_TIME_STAMP0_ASC = " order by val.timeStamp0 ASC;";
 
+	private static final String ORDER_BY_VAL_TIME_STAMP0_DSC = " order by val.timeStamp0 DESC";
+
 	private static final String DB_NAME = "TM";
 
 	private static final String SELECT_MVR_NON_CAMEL = "select val.cdo_id"
@@ -64,6 +66,24 @@ public class CDOQueryService {
 			+ DB_NAME + ".generics_Value as val"
 			+ " on val_list.cdo_value = val.cdo_id"
 			+ " where val_list.cdo_source = :mvr_cdoid";
+
+	private static final String SELECT_MAXTS0_NON_CAMEL = "select max(timeStamp0)"
+			+ " from "
+			+ DB_NAME
+			+ ".metrics_metricvaluerange_metricvalues_list as val_list join "
+			+ DB_NAME
+			+ ".generics_value as val"
+			+ " on val_list.cdo_value = val.cdo_id"
+			+ " where val_list.cdo_source = :mvr_cdoid";
+
+	private static final String SELECT_MAXTS0_CAMEL = "select max(timeStamp0)"
+			+ " from " + DB_NAME
+			+ ".metrics_MetricValueRange_metricValues_list as val_list join "
+			+ DB_NAME + ".generics_Value as val"
+			+ " on val_list.cdo_value = val.cdo_id"
+			+ " where val_list.cdo_source = :mvr_cdoid";
+
+	private static final String LIMIT_ONE = " limit 1;";
 
 	private static final String VALUE_PERIOD = " and val.timeStamp0 >= :dateFrom and val.timeStamp0 < :dateTo";
 
@@ -302,6 +322,128 @@ public class CDOQueryService {
 		return result;
 	}
 
+	/**
+	 * Default Query style is: {@link STYLE#NON_CAMEL_CASE}.
+	 * 
+	 * @param cdoView
+	 * @param mvr
+	 * @param dialect
+	 * @return
+	 * @see #mvrMaxTimestamp0(CDOView, MetricValueRange, String, STYLE)
+	 * 
+	 */
+	public static Object mvrMaxTimestamp0(CDOView view, MetricValueRange mvr,
+			String dialect) {
+		return mvrMaxTimestamp0(view, mvr, dialect, STYLE.NON_CAMEL_CASE);
+	}
+
+	/**
+	 * Creates a query which looks like this:
+	 * 
+	 * @param view
+	 * @param mvr
+	 * @param dialect
+	 * @param style
+	 * @return
+	 */
+	public static Object mvrMaxTimestamp0(CDOView view, MetricValueRange mvr,
+			String dialect, STYLE style) {
+
+		List<? extends Object> result = null; // Might become assigned.
+
+		String queryString = "";
+		if (dialect.equals(CDOQueryUtil.QUERY_MYSQL)) {
+
+			queryString = queryString
+					.concat(style == STYLE.NON_CAMEL_CASE ? SELECT_MAXTS0_NON_CAMEL
+							: SELECT_MAXTS0_CAMEL);
+
+		} else if (dialect.equals(CDOQueryUtil.QUERY_OCL)) {
+			throw new UnsupportedOperationException("OCL not supported");
+		}
+
+		if (queryString != null) {
+
+			CDOQuery cdoQuery = null;
+
+			if (dialect.equals(CDOQueryUtil.QUERY_MYSQL)) {
+				cdoQuery = view.createQuery(dialect, queryString);
+				String cdoLongIDAsString = CDO.cdoLongIDAsString(mvr);
+				cdoQuery.setParameter("mvr_cdoid", cdoLongIDAsString);
+			}
+			if (cdoQuery != null) {
+				result = cdoQuery.getResult(XMLGregorianCalendar.class);
+				for(Object r : result){
+					System.out.println(r);
+				}
+			}
+		}
+		return result;
+	}
+
+	/**
+	 * Default Query style is: {@link STYLE#NON_CAMEL_CASE}.
+	 * 
+	 * @param cdoView
+	 * @param mvr
+	 * @param dialect
+	 * @return
+	 * @See {@link #mvrValueLastFirstLimitOne(CDOView, MetricValueRange, String, STYLE)}
+	 * 
+	 */
+	public static List<Value> mvrValueLastFirstLimitOne(CDOView cdoView,
+			MetricValueRange mvr, String dialect) {
+		return mvrValueLastFirstLimitOne(cdoView, mvr, dialect,
+				STYLE.NON_CAMEL_CASE);
+	}
+
+	/**
+	 * Creates a query which looks like this:
+	 * 
+	 * @param view
+	 * @param mvr
+	 * @param dialect
+	 * @param style
+	 * @return
+	 */
+	public static List<Value> mvrValueLastFirstLimitOne(CDOView view,
+			MetricValueRange mvr, String dialect, STYLE style) {
+
+		List<Value> result = null; // Might become assigned.
+
+		String queryString = "";
+		if (dialect.equals(CDOQueryUtil.QUERY_MYSQL)) {
+
+			queryString = queryString
+					.concat(style == STYLE.NON_CAMEL_CASE ? SELECT_MVR_NON_CAMEL
+							: SELECT_MVR_CAMEL);
+			queryString = queryString.concat(ORDER_BY_VAL_TIME_STAMP0_DSC);
+			queryString = queryString.concat(LIMIT_ONE);
+
+		} else if (dialect.equals(CDOQueryUtil.QUERY_OCL)) {
+			throw new UnsupportedOperationException("OCL not supported");
+		}
+
+		if (queryString != null) {
+
+			CDOQuery cdoQuery = null;
+
+			if (dialect.equals(CDOQueryUtil.QUERY_MYSQL)) {
+				cdoQuery = view.createQuery(dialect, queryString);
+				String cdoLongIDAsString = CDO.cdoLongIDAsString(mvr);
+				cdoQuery.setParameter("mvr_cdoid", cdoLongIDAsString);
+			}
+			if (cdoQuery != null) {
+				result = cdoQuery.getResult(Value.class);
+				for(Object o : result){
+					System.out.println(o);
+				}
+				
+			}
+		}
+		return result;
+	}
+
 	public static List<Value> mvrValues(CDOView view, MetricValueRange mvr,
 			String dialect) {
 		return mvrValues(view, mvr, dialect, null, null, STYLE.CAMEL_CASE);
@@ -326,9 +468,11 @@ public class CDOQueryService {
 		String queryString = "";
 		if (dialect.equals(CDOQueryUtil.QUERY_MYSQL)) {
 
-			queryString = queryString.concat(style == STYLE.NON_CAMEL_CASE ? SELECT_MVR_NON_CAMEL
-					: SELECT_MVR_CAMEL);
-			queryString = queryString.concat(period != null ? VALUE_PERIOD : "");
+			queryString = queryString
+					.concat(style == STYLE.NON_CAMEL_CASE ? SELECT_MVR_NON_CAMEL
+							: SELECT_MVR_CAMEL);
+			queryString = queryString
+					.concat(period != null ? VALUE_PERIOD : "");
 			queryString = queryString.concat(date != null ? VALUE_TS : "");
 			queryString = queryString.concat(ORDER_BY_VAL_TIME_STAMP0_ASC);
 

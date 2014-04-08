@@ -12,8 +12,7 @@ import org.eclipse.xtext.junit.AbstractXtextTests;
 
 import com.netxforge.NetxscriptStandaloneSetup;
 import com.netxforge.netxscript.Mod;
-import com.netxforge.netxstudio.common.model.ModelUtils;
-import com.netxforge.netxstudio.data.IDataService;
+import com.netxforge.netxstudio.data.ICDODataService;
 import com.netxforge.netxstudio.operators.Node;
 
 /**
@@ -45,8 +44,7 @@ import com.netxforge.netxstudio.operators.Node;
  */
 public class ContextSyntaxNetXScriptTest extends AbstractXtextTests {
 
-	IDataService dataService;
-	ModelUtils modelUtils;
+	ICDODataService dataService;
 
 	@Override
 	protected void setUp() throws Exception {
@@ -54,15 +52,14 @@ public class ContextSyntaxNetXScriptTest extends AbstractXtextTests {
 		with(new NetxscriptStandaloneSetup());
 
 		// Inject whatever we need.
-		dataService = get(IDataService.class);
-		modelUtils = get(ModelUtils.class);
-		dataService.getProvider().openSession("admin", "admin");
+		dataService = get(ICDODataService.class);
+		dataService.getCDOData().openSession("admin", "admin");
 	}
 
 	@Override
 	protected void tearDown() throws Exception {
 		super.tearDown();
-		dataService.getProvider().closeSession();
+		dataService.getCDOData().closeSession();
 	}
 
 	/**
@@ -71,8 +68,8 @@ public class ContextSyntaxNetXScriptTest extends AbstractXtextTests {
 	@SuppressWarnings("unused")
 	public void testContext() throws Exception {
 
-		Node node = TestModel.INSTANCE.createModelData(
-				dataService.getProvider(), modelUtils);
+		Node node = TestModel.INSTANCE
+				.createModelData(dataService.getCDOData());
 
 		// Resource context expressions.
 		{

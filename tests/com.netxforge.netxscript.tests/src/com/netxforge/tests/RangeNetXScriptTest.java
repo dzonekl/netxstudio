@@ -1,31 +1,40 @@
 /*******************************************************************************
- * Copyright (c) 2010 itemis AG (http://www.itemis.eu) and others.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
- *******************************************************************************/
-
+ * Copyright (c) 8 apr. 2014 NetXForge.
+ * 
+ * This program is free software: you can redistribute it and/or modify it under
+ * the terms of the GNU General Public License as published by the Free Software
+ * Foundation, either version 3 of the License, or (at your option) any later
+ * version.
+ * 
+ * This program is distributed in the hope that it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+ * FOR A PARTICULAR PURPOSE. See the GNU General Public License for more
+ * details. You should have received a copy of the GNU General Public License
+ * along with this program. If not, see <http://www.gnu.org/licenses/>
+ * 
+ * Contributors: Christophe Bouhier - initial API and implementation and/or
+ * initial documentation
+ *******************************************************************************/ 
 package com.netxforge.tests;
 
 import java.math.BigDecimal;
 import java.util.Map;
 
 import com.google.common.collect.ImmutableList;
-import com.netxforge.netxstudio.data.IDataService;
+import com.netxforge.netxstudio.data.ICDODataService;
 
 public class RangeNetXScriptTest extends AbstractNetXScriptTest {
 
-	IDataService dataService;
+	ICDODataService dataService;
 
 	@Override
 	protected void setUp() throws Exception {
 		super.setUp();
 		// Inject whatever we need.
-		dataService = get(IDataService.class);
+		dataService = get(ICDODataService.class);
 		// As we have no global scoping in these tests,
 		// CDO connection is not required.
-		 dataService.getProvider().openSession("admin", "admin");
+		 dataService.getCDOData().openSession("admin", "admin");
 	}
 
 	@Override

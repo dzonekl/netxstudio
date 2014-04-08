@@ -645,10 +645,23 @@ public class StudioUtils {
 	 */
 
 	public static DateTimeRange period(Value v, int targetInterval) {
+		return period(v.getTimeStamp(), targetInterval);
+	}
+
+	/**
+	 * Return the period for the given {@link XMLGregorianCalendar time stamp}
+	 * for a given interval. The interval is is 
+	 * 
+	 * @param timeStamp
+	 * @param targetInterval
+	 * @return
+	 */
+	public static DateTimeRange period(XMLGregorianCalendar timeStamp,
+			int targetInterval) {
 
 		final int[] fields = NonModelUtils
 				.fieldsForTargetIntervalLowerOrder(targetInterval);
-		Calendar cal = v.getTimeStamp().toGregorianCalendar();
+		Calendar cal = timeStamp.toGregorianCalendar();
 
 		NonModelUtils.adjustToFieldStart(cal, fields);
 		Date start = cal.getTime();
@@ -3732,7 +3745,7 @@ public class StudioUtils {
 
 				});
 
-		// We still have many results, look for a component in the leaft.
+		// We still have many results, look for a component in the left.
 		if (Iterables.size(filter) > 1) {
 			{
 				Iterable<Component> narrowFilter = Iterables.filter(unfiltered,

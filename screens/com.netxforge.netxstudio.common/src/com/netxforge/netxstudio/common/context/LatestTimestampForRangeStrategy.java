@@ -18,6 +18,6 @@
 package com.netxforge.netxstudio.common.context;
 
 
-public class LastValueNoCheckStrategy implements IAggregationStrategy {
+public class LatestTimestampForRangeStrategy implements IPeriodStrategy {
 
 }

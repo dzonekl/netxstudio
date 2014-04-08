@@ -18,6 +18,6 @@
 package com.netxforge.netxstudio.common.context;
 
 
-public class FixedPeriodStrategy implements IAggregationStrategy {
+public class FixedPeriodStrategy implements IPeriodStrategy {
 
 }
