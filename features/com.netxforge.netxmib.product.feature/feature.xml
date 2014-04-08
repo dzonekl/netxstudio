@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<feature
+      id="com.netxforge.netxmib.product.feature"
+      label="NetXMib Product Feature"
+      version="1.0.0.qualifier"
+      provider-name="NetXForge">
+
+   <description url="http://www.example.com/description">
+      [Enter Feature Description here.]
+   </description>
+
+   <copyright url="http://www.example.com/copyright">
+      [Enter Copyright Description here.]
+   </copyright>
+
+   <license url="http://www.example.com/license">
+      [Enter License Description here.]
+   </license>
+
+   <url>
+      <discovery label="NetXForge External Dependencies" url="http://p2.netxforge.com/site.p2"/>
+   </url>
+
+   <includes
+         id="com.google.artifacts.feature"
+         version="0.0.0"/>
+
+   <includes
+         id="javax.artifacts.feature"
+         version="0.0.0"/>
+
+   <includes
+         id="org.eclipse.emf.ecore"
+         version="0.0.0"/>
+
+   <includes
+         id="org.apache.artifacts.feature"
+         version="0.0.0"/>
+
+   <includes
+         id="org.eclipse.emf.common"
+         version="0.0.0"/>
+
+   <includes
+         id="org.eclipse.xtext.artifacts.feature"
+         version="0.0.0"/>
+
+   <includes
+         id="org.eclipse.xtext.ui.artifacts.feature"
+         version="0.0.0"/>
+
+   <includes
+         id="org.eclipse.platform.artifacts.feature"
+         version="0.0.0"/>
+
+   <includes
+         id="org.eclipse.emf.edit.ui"
+         version="0.0.0"/>
+
+   <includes
+         id="org.eclipse.emf.edit"
+         version="0.0.0"/>
+
+   <includes
+         id="org.eclipse.emf.common"
+         version="0.0.0"/>
+
+   <includes
+         id="org.eclipse.emf.common.ui"
+         version="0.0.0"/>
+
+   <includes
+         id="org.peaberry.artifacts.feature"
+         version="0.0.0"/>
+
+   <includes
+         id="org.eclipse.jdt.artifacts.feature"
+         version="0.0.0"/>
+
+   <includes
+         id="org.eclipse.ltk.artifacts.feature"
+         version="0.0.0"/>
+
+   <plugin
+         id="com.netxforge.netxmib.product"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+</feature>

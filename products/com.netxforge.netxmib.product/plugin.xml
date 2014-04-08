@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+
+   <extension
+         id="product"
+         point="org.eclipse.core.runtime.products">
+      <product
+            application="com.netxforge.netxstudio.ui.application"
+            name="NetXMib">
+         <property
+               name="appName"
+               value="NetXMib">
+         </property>
+      </product>
+   </extension>
+   <extension
+         point="org.eclipse.ui.perspectives">
+      <perspective
+            class="com.netxforge.netxmib.product.MibPerspectiveFactory"
+            id="com.netxforge.netxmib.product.midediting"
+            name="name">
+      </perspective>
+   </extension>
+
+</plugin>

@@ -1,7 +1,4 @@
 /**
- * <copyright>
- * </copyright>
- *
  */
 package com.netxforge.smi.impl;
 
@@ -34,7 +31,7 @@ public class SmiFactoryImpl extends EFactoryImpl implements SmiFactory
   {
     try
     {
-      SmiFactory theSmiFactory = (SmiFactory)EPackage.Registry.INSTANCE.getEFactory("http://www.netxforge.com/Smi"); 
+      SmiFactory theSmiFactory = (SmiFactory)EPackage.Registry.INSTANCE.getEFactory(SmiPackage.eNS_URI);
       if (theSmiFactory != null)
       {
         return theSmiFactory;

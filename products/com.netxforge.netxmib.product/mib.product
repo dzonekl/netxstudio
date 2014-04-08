@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?pde version="3.5"?>
+
+<product name="NetXMib" uid="com.netxforge.netxmib" id="com.netxforge.netxmib.product.product" application="com.netxforge.netxstudio.ui.application" useFeatures="true" includeLaunchers="true">
+
+   <configIni use="default">
+   </configIni>
+
+   <launcherArgs>
+      <vmArgsMac>-XstartOnFirstThread -Dorg.eclipse.swt.internal.carbon.smallFonts</vmArgsMac>
+   </launcherArgs>
+
+   <launcher>
+      <solaris/>
+      <win useIco="false">
+         <bmp/>
+      </win>
+   </launcher>
+
+   <vm>
+   </vm>
+
+   <plugins>
+   </plugins>
+
+   <features>
+      <feature id="com.netxforge.netxmib.product.feature" version="1.0.0.qualifier"/>
+      <feature id="com.netxforge.netxstudio.screens.app.feature" version="1.0.0.qualifier"/>
+      <feature id="com.netxforge.smi.feature" version="1.0.0.qualifier"/>
+      <feature id="com.netxforge.netxstudio.console.feature" version="1.0.0.qualifier"/>
+      <feature id="com.netxforge.netxstudio.screens.ide.feature" version="1.0.0.qualifier"/>
+   </features>
+
+   <configurations>
+      <plugin id="com.netxforge.netxmib.product" autoStart="true" startLevel="1" />
+      <plugin id="org.eclipse.core.runtime" autoStart="true" startLevel="2" />
+      <plugin id="org.eclipse.equinox.ds" autoStart="true" startLevel="3" />
+      <plugin id="org.eclipse.equinox.event" autoStart="true" startLevel="3" />
+   </configurations>
+
+</product>
