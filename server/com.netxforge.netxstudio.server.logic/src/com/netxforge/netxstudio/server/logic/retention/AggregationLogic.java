@@ -26,6 +26,7 @@ import org.eclipse.emf.cdo.common.id.CDOID;
 import org.eclipse.emf.ecore.resource.Resource;
 
 import com.netxforge.base.NonModelUtils;
+import com.netxforge.netxstudio.common.context.IPeriodStrategy;
 import com.netxforge.netxstudio.common.model.StudioUtils;
 import com.netxforge.netxstudio.library.Component;
 import com.netxforge.netxstudio.library.NodeType;
@@ -75,6 +76,8 @@ public class AggregationLogic extends BaseComponentLogic implements
 	private Resource operatorResources;
 
 	private boolean re_initialize;
+
+	private IPeriodStrategy periodStrategy;
 
 	protected void doRun() throws InterruptedException {
 
@@ -141,6 +144,7 @@ public class AggregationLogic extends BaseComponentLogic implements
 			engine.setDataProvider(this.getData());
 			if (engine instanceof AggregationEngine) {
 				((AggregationEngine) engine).setRetentionRules(rules);
+				((AggregationEngine) engine).setPeriodStrategy(periodStrategy);
 				((AggregationEngine) engine).intitialize(re_initialize);
 			}
 		}
@@ -153,7 +157,7 @@ public class AggregationLogic extends BaseComponentLogic implements
 
 	@Override
 	protected void processNode(NodeType nodeType) throws InterruptedException {
-//		int cnt = 0;
+		// int cnt = 0;
 		for (final Component component : getComponents(nodeType)) {
 
 			if (shouldAbort()) {
@@ -164,7 +168,7 @@ public class AggregationLogic extends BaseComponentLogic implements
 			this.getJobMonitor().setTask("Aggregation");
 			this.getJobMonitor()
 					.setMsg(StudioUtils.printModelObject(component));
-//			getJobMonitor().incrementProgress(0, (cnt++ % 1) == 0);
+			// getJobMonitor().incrementProgress(0, (cnt++ % 1) == 0);
 		}
 	}
 
@@ -252,5 +256,10 @@ public class AggregationLogic extends BaseComponentLogic implements
 
 	public void setInterruptable(QuartzInterruptableLogic interruptable) {
 		this.interruptable = interruptable;
+	}
+
+	public void setPeriodStrategy(IPeriodStrategy periodStrategy) {
+		this.periodStrategy = periodStrategy;
+
 	}
 }

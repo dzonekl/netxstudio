@@ -17,7 +17,7 @@ import org.eclipse.xtext.scoping.IScopeProvider;
 
 import com.netxforge.netxscript.Mod;
 import com.netxforge.netxscript.NetxscriptPackage;
-import com.netxforge.netxstudio.data.IDataService;
+import com.netxforge.netxstudio.data.ICDODataService;
 
 /**
  * FIXME, Should target test repository.
@@ -27,7 +27,7 @@ import com.netxforge.netxstudio.data.IDataService;
  */
 public class GlobalScopeProviderNetXScriptTest extends AbstractNetXScriptTest {
 
-	IDataService dataService;
+	ICDODataService dataService;
 	IResourceDescription.Manager resourceDescriptionManager;
 
 	Resource targetResource;
@@ -37,14 +37,14 @@ public class GlobalScopeProviderNetXScriptTest extends AbstractNetXScriptTest {
 		super.setUp();
 
 		// Inject whatever we need.
-		dataService = get(IDataService.class);
-		dataService.getProvider().openSession("admin", "admin");
+		dataService = get(ICDODataService.class);
+		dataService.getCDOData().openSession("admin", "admin");
 	}
 
 	@Override
 	protected void tearDown() throws Exception {
 		super.tearDown();
-		dataService.getProvider().closeSession();
+		dataService.getCDOData().closeSession();
 	}
 
 	/**
@@ -64,10 +64,10 @@ public class GlobalScopeProviderNetXScriptTest extends AbstractNetXScriptTest {
 
 		final IScope scope = scopeProvider.getScope(model,
 				NetxscriptPackage.Literals.RESOURCE_REF__RESOURCE);
-			
-		for (IEObjectDescription ieo: scope.getAllElements()) {
+
+		for (IEObjectDescription ieo : scope.getAllElements()) {
 			System.out.println(ieo);
-		} 
+		}
 	}
 
 	/**

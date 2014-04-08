@@ -79,7 +79,8 @@ import com.netxforge.netxscript.ValueRange;
 import com.netxforge.netxscript.VarOrArgumentCall;
 import com.netxforge.netxscript.Variable;
 import com.netxforge.netxscript.While;
-import com.netxforge.netxstudio.common.context.IAggregationStrategy;
+import com.netxforge.netxstudio.common.context.IPeriodStrategy;
+import com.netxforge.netxstudio.common.context.LatestTimestampForRangeStrategy;
 import com.netxforge.netxstudio.common.math.INativeFunctions2;
 import com.netxforge.netxstudio.common.model.IMonitoringSummary.RAG;
 import com.netxforge.netxstudio.common.model.RFSServiceSummary;
@@ -192,6 +193,8 @@ public class InterpreterTypeless implements IInterpreter, IExternalContextAware 
 	 */
 	private int targetRangeInterval = -1;
 
+	private KindHintType targetRangeKind;
+
 	/**
 	 * Clear the interpreter if it's re-used.
 	 */
@@ -221,13 +224,13 @@ public class InterpreterTypeless implements IInterpreter, IExternalContextAware 
 	}
 
 	/**
-	 * Get an {@link IAggregationStrategy} from the context; Clients should
-	 * prepare for <code>null</code>
+	 * Get an {@link IPeriodStrategy} from the context; Clients should prepare
+	 * for <code>null</code>
 	 * 
 	 * @return
 	 */
 	private Object getContextualPeriodStrategy() {
-		IComputationContext periodStrategy = getContextFor(IAggregationStrategy.class);
+		IComputationContext periodStrategy = getContextFor(IPeriodStrategy.class);
 		if (periodStrategy != null) {
 			return periodStrategy.getContext();
 		}
@@ -318,7 +321,16 @@ public class InterpreterTypeless implements IInterpreter, IExternalContextAware 
 	 */
 	private void generateContextIndex() {
 		for (IComputationContext context : contextList) {
-			contextIndex.put(context.getContext().getClass(), context);
+
+			Object contextObject = context.getContext();
+
+			// We should really move this to the IComputationContext.
+			if (contextObject instanceof IPeriodStrategy) {
+				contextIndex.put(IPeriodStrategy.class, context);
+			} else {
+				contextIndex.put(contextObject.getClass(), context);
+			}
+
 		}
 	}
 
@@ -637,6 +649,7 @@ public class InterpreterTypeless implements IInterpreter, IExternalContextAware 
 				}
 
 				targetRangeInterval = extractInterval(targetRangeReference);
+				targetRangeKind = extractKindHint(targetRangeReference);
 
 				Object varEval = dispatcher.invoke(refa.getExpression(),
 						ImmutableMap.copyOf(localVarsAndArguments));
@@ -1485,7 +1498,7 @@ public class InterpreterTypeless implements IInterpreter, IExternalContextAware 
 	protected List<?> internalEvaluate(RangeRef rangeRef,
 			ImmutableMap<String, Object> params) {
 
-		DateTimeRange dtr = this.getContextualPeriod();
+		DateTimeRange contextPeriod = this.getContextualPeriod();
 		BaseResource resource = (BaseResource) params.get("resource");
 		KindHintType targetKind = extractKindHint(rangeRef);
 		int targetInterval = extractInterval(rangeRef);
@@ -1493,23 +1506,58 @@ public class InterpreterTypeless implements IInterpreter, IExternalContextAware 
 		List<Value> v = null; // Will be populated with the ranges.
 
 		if (resource instanceof NetXResource) {
+			NetXResource netXResource = (NetXResource) resource;
 			switch (rangeRef.getValuerange().getValue()) {
 			case ValueRange.METRIC_VALUE: {
 
 				if (USE_QUERIES) {
 					MetricValueRange mvr = StudioUtils
-							.valueRangeForIntervalAndKind(
-									(NetXResource) resource, targetKind,
-									targetInterval);
+							.valueRangeForIntervalAndKind(netXResource,
+									targetKind, targetInterval);
 					if (mvr != null) {
-						
-						//  Query the source based on the target only!
-						// 
-						
-						
-						
-						v = CDOQueryService.mvrValues(resource.cdoView(), mvr,
-								CDOQueryUtil.QUERY_MYSQL, dtr);
+
+						Object contextualPeriodStrategy = getContextualPeriodStrategy();
+
+						/**
+						 * Reduce the values from the range based on the range
+						 * on which the values will be assigned. The algorithm
+						 * extracts the last written value from the assignment
+						 * range, winds back to the start of the period and sets
+						 * the period start for this value.
+						 */
+						if (contextualPeriodStrategy instanceof LatestTimestampForRangeStrategy) {
+
+							final MetricValueRange assignmentMVR = StudioUtils
+									.valueRangeForIntervalAndKind(netXResource,
+											targetRangeKind,
+											targetRangeInterval);
+
+							List<Value> values = CDOQueryService.mvrValueLastFirstLimitOne(
+									resource.cdoView(), assignmentMVR,
+									CDOQueryUtil.QUERY_MYSQL);
+
+							if (values.size() == 1) {
+
+								DateTimeRange optimizedPeriod = StudioUtils
+										.period(values.get(0).getTimeStamp(),
+												targetRangeInterval);
+								optimizedPeriod.setEnd(contextPeriod.getEnd());
+
+								v = CDOQueryService.mvrValues(
+										resource.cdoView(), mvr,
+										CDOQueryUtil.QUERY_MYSQL,
+										optimizedPeriod);
+							} else {
+
+							}
+
+						} else {
+
+							// Query the source based for a fiven period
+							v = CDOQueryService.mvrValues(resource.cdoView(),
+									mvr, CDOQueryUtil.QUERY_MYSQL,
+									contextPeriod);
+						}
 					} else {
 						v = Lists.newArrayList();
 					}
@@ -1517,18 +1565,20 @@ public class InterpreterTypeless implements IInterpreter, IExternalContextAware 
 
 					v = StudioUtils.valuesForIntervalKindAndPeriod(
 							(NetXResource) resource, targetInterval,
-							targetKind, dtr);
+							targetKind, contextPeriod);
 				}
 			}
 				break;
 			case ValueRange.CAP_VALUE: {
 				v = StudioUtils.valuesInsideRange(
-						((NetXResource) resource).getCapacityValues(), dtr);
+						((NetXResource) resource).getCapacityValues(),
+						contextPeriod);
 			}
 				break;
 			case ValueRange.UTILIZATION_VALUE: {
 				v = StudioUtils.valuesInsideRange(
-						((NetXResource) resource).getUtilizationValues(), dtr);
+						((NetXResource) resource).getUtilizationValues(),
+						contextPeriod);
 			}
 				break;
 			}
@@ -1537,7 +1587,7 @@ public class InterpreterTypeless implements IInterpreter, IExternalContextAware 
 			switch (rangeRef.getValuerange().getValue()) {
 			case ValueRange.DERIVED_VALUE: {
 				v = ((DerivedResource) resource).getValues();
-				v = StudioUtils.valuesInsideRange(v, dtr);
+				v = StudioUtils.valuesInsideRange(v, contextPeriod);
 			}
 			}
 		}

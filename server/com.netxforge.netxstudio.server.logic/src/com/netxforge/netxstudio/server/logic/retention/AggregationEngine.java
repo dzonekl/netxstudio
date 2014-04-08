@@ -28,8 +28,8 @@ import com.google.common.collect.Ordering;
 import com.google.inject.Inject;
 import com.netxforge.base.NonModelUtils;
 import com.netxforge.netxstudio.common.context.FixedPeriodStrategy;
-import com.netxforge.netxstudio.common.context.IAggregationStrategy;
-import com.netxforge.netxstudio.common.context.LastValueNoCheckStrategy;
+import com.netxforge.netxstudio.common.context.IPeriodStrategy;
+import com.netxforge.netxstudio.common.context.LatestTimestampForRangeStrategy;
 import com.netxforge.netxstudio.common.model.StudioUtils;
 import com.netxforge.netxstudio.data.services.ResultProcessor;
 import com.netxforge.netxstudio.data.services.ValueProcessor;
@@ -75,8 +75,7 @@ public class AggregationEngine extends BaseComponentEngine {
 	@Inject
 	private ResultProcessor resultProcessor;
 
-	@Inject
-	private IAggregationStrategy strategy;
+	private IPeriodStrategy periodStrategy;
 
 	public void intitialize(boolean re_initialize) {
 		Resource resource = this.getDataProvider().getResource(
@@ -201,18 +200,19 @@ public class AggregationEngine extends BaseComponentEngine {
 					Expression expression = globalRuleForInterval
 							.getRetentionExpression();
 
-					if (strategy instanceof LastValueNoCheckStrategy) {
+					if (periodStrategy instanceof LatestTimestampForRangeStrategy) {
 
 						// Setup a context.
 						Object[] context = new Object[4];
 						context[0] = getPeriod();
 						context[1] = StudioUtils.nodeFor(getComponent());
 						context[2] = netXResource;
-						context[3] = strategy;
+						context[3] = periodStrategy;
 						runExpression(expression, netXResource.cdoView(),
 								context);
 
-					} else if (strategy instanceof FixedPeriodStrategy) {
+					} else if (periodStrategy == null
+							|| periodStrategy instanceof FixedPeriodStrategy) {
 
 						if (ar.eIsSet(com.netxforge.netxstudio.delta16042013.metrics.MetricsPackage.Literals.METRIC_AGGREGATION_RULE__PERIOD)) {
 							// The number of days from the current logic
@@ -305,24 +305,23 @@ public class AggregationEngine extends BaseComponentEngine {
 		}
 	}
 
-	@SuppressWarnings("unchecked")
+	/**
+	 * Run an {@link Expression} with a given context.
+	 * 
+	 * @param expression
+	 * @param view
+	 * @param context
+	 */
 	private void runExpression(Expression expression, CDOView view,
 			Object... context) {
 		if (expression != null) {
-
+			
 			getExpressionEngine().getContext().clear();
-
+			
 			for (Object o : context) {
 				getExpressionEngine().getContext().add(o);
 			}
 
-			// As the data is not committed in between,
-			// subsequent
-			// expressions will not be able
-			// get data until commit, so it needs to run n times
-			// (n
-			// = number of rules) before all aggregation is
-			// done.
 			runForExpression(expression);
 
 			commitInbetween(view);
@@ -385,6 +384,11 @@ public class AggregationEngine extends BaseComponentEngine {
 				transaction.rollback();
 			}
 		}
+	}
+
+	public void setPeriodStrategy(IPeriodStrategy periodStrategy) {
+		this.periodStrategy = periodStrategy;
+
 	}
 
 }

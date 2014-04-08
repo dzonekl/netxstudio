@@ -112,7 +112,8 @@ public class ExpressionEngine implements IExpressionEngine {
 
 			final List<IComputationContext> contextList = new ArrayList<IComputationContext>();
 			for (final Object o : context) {
-				contextList.add(xInterpreterContextFactory.createContext(o));
+				IComputationContext compContext = xInterpreterContextFactory.createContext(o);
+				contextList.add(compContext);
 			}
 			final IComputationContext[] contextArray = new IComputationContext[contextList
 					.size()];

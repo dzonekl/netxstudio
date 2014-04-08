@@ -19,7 +19,7 @@ import org.eclipse.xtext.scoping.IScopeProvider;
 
 import com.netxforge.netxscript.Mod;
 import com.netxforge.netxscript.NetxscriptPackage;
-import com.netxforge.netxstudio.data.IDataService;
+import com.netxforge.netxstudio.data.ICDODataService;
 import com.netxforge.netxstudio.library.Function;
 import com.netxforge.netxstudio.library.Library;
 import com.netxforge.netxstudio.library.LibraryFactory;
@@ -27,14 +27,12 @@ import com.netxforge.netxstudio.library.LibraryPackage;
 import com.netxforge.netxstudio.library.NodeType;
 
 /**
- * FIXME, Should target test repository.
- * 
  * @author Christophe Bouhier
  * 
  */
 public class ScopingNetXScriptTest extends AbstractNetXScriptTest {
 
-	IDataService dataService;
+	ICDODataService dataService;
 	IGlobalScopeProvider globalScopeProvider;
 	IResourceDescription.Manager resourceDescriptionManager;
 
@@ -43,23 +41,20 @@ public class ScopingNetXScriptTest extends AbstractNetXScriptTest {
 	@Override
 	protected void setUp() throws Exception {
 		super.setUp();
-		
+
 		// Inject whatever we need.
-		dataService = get(IDataService.class);
+		dataService = get(ICDODataService.class);
 		resourceDescriptionManager = get(IResourceDescription.Manager.class);
 		globalScopeProvider = get(IGlobalScopeProvider.class);
 
-		dataService.getProvider().openSession("admin", "admin");
+		dataService.getCDOData().openSession("admin", "admin");
 	}
-	
+
 	@Override
 	protected void tearDown() throws Exception {
 		super.tearDown();
-		dataService.getProvider().closeSession();
+		dataService.getCDOData().closeSession();
 	}
-
-
-
 
 	/**
 	 * Visual inspection, all object descriptions from the current resource. the
@@ -72,8 +67,8 @@ public class ScopingNetXScriptTest extends AbstractNetXScriptTest {
 		final Resource resource = this
 				.getResourceFromString("mod test\ndef main(){var a = 0;}");
 
-		final IQualifiedNameConverter converter = this.getInjector().getInstance(
-				IQualifiedNameConverter.class);
+		final IQualifiedNameConverter converter = this.getInjector()
+				.getInstance(IQualifiedNameConverter.class);
 
 		final IResourceDescription description = resourceDescriptionManager
 				.getResourceDescription(resource);
@@ -87,8 +82,8 @@ public class ScopingNetXScriptTest extends AbstractNetXScriptTest {
 
 		final IScopeProvider scopeProvider = this.getInjector().getInstance(
 				IScopeProvider.class);
-		final IQualifiedNameConverter converter = this.getInjector().getInstance(
-				IQualifiedNameConverter.class);
+		final IQualifiedNameConverter converter = this.getInjector()
+				.getInstance(IQualifiedNameConverter.class);
 
 		final Mod model = this.getMod("def main(){var a = 0;}");
 
@@ -110,7 +105,7 @@ public class ScopingNetXScriptTest extends AbstractNetXScriptTest {
 	public void testCDOScope() throws Exception {
 
 		// Add some objects, which are referable from our xtext model.
-		final Resource res = dataService.getProvider().getResource(
+		final Resource res = dataService.getCDOData().getResource(
 				LibraryPackage.Literals.LIBRARY);
 		final Library lib = (Library) res.getContents().get(0);
 
@@ -125,8 +120,8 @@ public class ScopingNetXScriptTest extends AbstractNetXScriptTest {
 		// Now invoke the scope provider to find the added reference.
 		final IScopeProvider scopeProvider = this.getInjector().getInstance(
 				IScopeProvider.class);
-		final IQualifiedNameConverter converter = this.getInjector().getInstance(
-				IQualifiedNameConverter.class);
+		final IQualifiedNameConverter converter = this.getInjector()
+				.getInstance(IQualifiedNameConverter.class);
 
 		final Mod model = this.getMod("def main(){var a = 0;}");
 
