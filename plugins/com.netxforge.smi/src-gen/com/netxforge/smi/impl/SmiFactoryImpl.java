@@ -2,16 +2,33 @@
  */
 package com.netxforge.smi.impl;
 
-import com.netxforge.smi.*;
-
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EDataType;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
-
 import org.eclipse.emf.ecore.impl.EFactoryImpl;
-
 import org.eclipse.emf.ecore.plugin.EcorePlugin;
+
+import com.netxforge.smi.ASN1_CHOICE;
+import com.netxforge.smi.ASN1_CHOICE_ENTRY;
+import com.netxforge.smi.ASN1_OCTET_STRING;
+import com.netxforge.smi.ASN1_RANGE;
+import com.netxforge.smi.ASN1_SIMPLE;
+import com.netxforge.smi.ASN1_SUBTYPE;
+import com.netxforge.smi.ASN1_TYPE;
+import com.netxforge.smi.Assignment;
+import com.netxforge.smi.MACRO_VALUE_TYPE;
+import com.netxforge.smi.Macro;
+import com.netxforge.smi.MacroValue;
+import com.netxforge.smi.Module;
+import com.netxforge.smi.ObjectIdentifier;
+import com.netxforge.smi.ObjectIdentifierValue;
+import com.netxforge.smi.Or;
+import com.netxforge.smi.SmiFactory;
+import com.netxforge.smi.SmiPackage;
+import com.netxforge.smi.ValueAssignment;
+import com.netxforge.smi.ValueType;
+import com.netxforge.smi.WELL_KNOWN_NAMES;
 
 /**
  * <!-- begin-user-doc -->

@@ -1,7 +1,12 @@
 package com.netxforge.serializer;
 
+import org.eclipse.emf.ecore.EObject;
+import org.eclipse.xtext.serializer.acceptor.SequenceFeeder;
+import org.eclipse.xtext.serializer.sequencer.AbstractDelegatingSemanticSequencer;
+import org.eclipse.xtext.serializer.sequencer.ISemanticNodeProvider.INodesForEObjectProvider;
+import org.eclipse.xtext.serializer.sequencer.ITransientValueService.ValueTransient;
+
 import com.google.inject.Inject;
-import com.google.inject.Provider;
 import com.netxforge.services.SmiGrammarAccess;
 import com.netxforge.smi.ASN1_CHOICE;
 import com.netxforge.smi.ASN1_CHOICE_ENTRY;
@@ -19,17 +24,6 @@ import com.netxforge.smi.Or;
 import com.netxforge.smi.SmiPackage;
 import com.netxforge.smi.ValueAssignment;
 import com.netxforge.smi.ValueType;
-import org.eclipse.emf.ecore.EObject;
-import org.eclipse.xtext.serializer.acceptor.ISemanticSequenceAcceptor;
-import org.eclipse.xtext.serializer.acceptor.SequenceFeeder;
-import org.eclipse.xtext.serializer.diagnostic.ISemanticSequencerDiagnosticProvider;
-import org.eclipse.xtext.serializer.diagnostic.ISerializationDiagnostic.Acceptor;
-import org.eclipse.xtext.serializer.sequencer.AbstractDelegatingSemanticSequencer;
-import org.eclipse.xtext.serializer.sequencer.GenericSequencer;
-import org.eclipse.xtext.serializer.sequencer.ISemanticNodeProvider.INodesForEObjectProvider;
-import org.eclipse.xtext.serializer.sequencer.ISemanticSequencer;
-import org.eclipse.xtext.serializer.sequencer.ITransientValueService;
-import org.eclipse.xtext.serializer.sequencer.ITransientValueService.ValueTransient;
 
 @SuppressWarnings("all")
 public class SmiSemanticSequencer extends AbstractDelegatingSemanticSequencer {

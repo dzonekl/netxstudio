@@ -1,8 +1,7 @@
 package com.netxforge.serializer;
 
-import com.google.inject.Inject;
-import com.netxforge.services.SmiGrammarAccess;
 import java.util.List;
+
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.xtext.IGrammarAccess;
 import org.eclipse.xtext.RuleCall;
@@ -10,6 +9,9 @@ import org.eclipse.xtext.nodemodel.INode;
 import org.eclipse.xtext.serializer.analysis.GrammarAlias.AbstractElementAlias;
 import org.eclipse.xtext.serializer.analysis.ISyntacticSequencerPDAProvider.ISynTransition;
 import org.eclipse.xtext.serializer.sequencer.AbstractSyntacticSequencer;
+
+import com.google.inject.Inject;
+import com.netxforge.services.SmiGrammarAccess;
 
 @SuppressWarnings("all")
 public class SmiSyntacticSequencer extends AbstractSyntacticSequencer {

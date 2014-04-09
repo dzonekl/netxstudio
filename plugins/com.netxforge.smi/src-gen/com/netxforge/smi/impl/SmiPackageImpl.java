@@ -2,6 +2,13 @@
  */
 package com.netxforge.smi.impl;
 
+import org.eclipse.emf.ecore.EAttribute;
+import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.EEnum;
+import org.eclipse.emf.ecore.EPackage;
+import org.eclipse.emf.ecore.EReference;
+import org.eclipse.emf.ecore.impl.EPackageImpl;
+
 import com.netxforge.smi.Assignment;
 import com.netxforge.smi.Macro;
 import com.netxforge.smi.MacroValue;
@@ -13,14 +20,6 @@ import com.netxforge.smi.SmiFactory;
 import com.netxforge.smi.SmiPackage;
 import com.netxforge.smi.ValueAssignment;
 import com.netxforge.smi.ValueType;
-
-import org.eclipse.emf.ecore.EAttribute;
-import org.eclipse.emf.ecore.EClass;
-import org.eclipse.emf.ecore.EEnum;
-import org.eclipse.emf.ecore.EPackage;
-import org.eclipse.emf.ecore.EReference;
-
-import org.eclipse.emf.ecore.impl.EPackageImpl;
 
 /**
  * <!-- begin-user-doc -->

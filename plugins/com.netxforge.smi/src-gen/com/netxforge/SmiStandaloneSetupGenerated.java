@@ -4,8 +4,8 @@
 package com.netxforge;
 
 import org.eclipse.emf.ecore.EPackage;
-import org.eclipse.xtext.ISetup;
 import org.eclipse.emf.ecore.resource.Resource;
+import org.eclipse.xtext.ISetup;
 
 import com.google.inject.Guice;
 import com.google.inject.Injector;
@@ -38,6 +38,7 @@ public class SmiStandaloneSetupGenerated implements ISetup {
 		Resource.Factory.Registry.INSTANCE.getExtensionToFactoryMap().put("mib", resourceFactory);
 		org.eclipse.xtext.resource.IResourceServiceProvider.Registry.INSTANCE.getExtensionToFactoryMap().put("mib", serviceProvider);
 		
+
 
 
 	}

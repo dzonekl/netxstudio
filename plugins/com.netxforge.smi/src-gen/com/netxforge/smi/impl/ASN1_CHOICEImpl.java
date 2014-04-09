@@ -2,21 +2,18 @@
  */
 package com.netxforge.smi.impl;
 
-import com.netxforge.smi.ASN1_CHOICE;
-import com.netxforge.smi.ASN1_CHOICE_ENTRY;
-import com.netxforge.smi.SmiPackage;
-
 import java.util.Collection;
 
 import org.eclipse.emf.common.notify.NotificationChain;
-
 import org.eclipse.emf.common.util.EList;
-
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.InternalEObject;
-
 import org.eclipse.emf.ecore.util.EObjectContainmentEList;
 import org.eclipse.emf.ecore.util.InternalEList;
+
+import com.netxforge.smi.ASN1_CHOICE;
+import com.netxforge.smi.ASN1_CHOICE_ENTRY;
+import com.netxforge.smi.SmiPackage;
 
 /**
  * <!-- begin-user-doc -->

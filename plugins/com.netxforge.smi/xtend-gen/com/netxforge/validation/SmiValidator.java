@@ -3,7 +3,7 @@
  */
 package com.netxforge.validation;
 
-import com.netxforge.validation.AbstractSmiValidator;
+import com.netxforge.validation.AbstractSmiJavaValidator;
 
 /**
  * Custom validation rules.
@@ -11,5 +11,5 @@ import com.netxforge.validation.AbstractSmiValidator;
  * see http://www.eclipse.org/Xtext/documentation.html#validation
  */
 @SuppressWarnings("all")
-public class SmiValidator extends AbstractSmiValidator {
+public class SmiValidator extends AbstractSmiJavaValidator {
 }

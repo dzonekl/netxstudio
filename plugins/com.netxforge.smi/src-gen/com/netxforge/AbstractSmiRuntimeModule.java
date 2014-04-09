@@ -94,9 +94,9 @@ public abstract class AbstractSmiRuntimeModule extends DefaultRuntimeModule {
 		return org.eclipse.xtext.parser.antlr.AntlrTokenDefProvider.class;
 	}
 
-	// contributed by org.eclipse.xtext.generator.validation.ValidatorFragment
-	@org.eclipse.xtext.service.SingletonBinding(eager=true)	public Class<? extends com.netxforge.validation.SmiValidator> bindSmiValidator() {
-		return com.netxforge.validation.SmiValidator.class;
+	// contributed by org.eclipse.xtext.generator.validation.JavaValidatorFragment
+	@org.eclipse.xtext.service.SingletonBinding(eager=true)	public Class<? extends com.netxforge.validation.SmiJavaValidator> bindSmiJavaValidator() {
+		return com.netxforge.validation.SmiJavaValidator.class;
 	}
 
 	// contributed by org.eclipse.xtext.generator.scoping.AbstractScopingFragment

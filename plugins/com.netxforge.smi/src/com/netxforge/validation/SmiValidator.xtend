@@ -10,7 +10,7 @@ package com.netxforge.validation
  *
  * see http://www.eclipse.org/Xtext/documentation.html#validation
  */
-class SmiValidator extends AbstractSmiValidator {
+class SmiValidator extends AbstractSmiJavaValidator {
 
 //  public static val INVALID_NAME = 'invalidName'
 

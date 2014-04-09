@@ -3,9 +3,9 @@
 */
 package com.netxforge.parser.antlr;
 
-import com.google.inject.Inject;
-
 import org.eclipse.xtext.parser.antlr.XtextTokenStream;
+
+import com.google.inject.Inject;
 import com.netxforge.services.SmiGrammarAccess;
 
 public class SmiParser extends org.eclipse.xtext.parser.antlr.AbstractAntlrParser {

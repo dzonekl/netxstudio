@@ -2,27 +2,23 @@
  */
 package com.netxforge.smi.impl;
 
-import com.netxforge.smi.Macro;
-import com.netxforge.smi.MacroValue;
-import com.netxforge.smi.SmiPackage;
-import com.netxforge.smi.ValueAssignment;
-
 import java.util.Collection;
 
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
-
 import org.eclipse.emf.common.util.EList;
-
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.InternalEObject;
-
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.impl.MinimalEObjectImpl;
-
 import org.eclipse.emf.ecore.util.EObjectContainmentEList;
 import org.eclipse.emf.ecore.util.EObjectResolvingEList;
 import org.eclipse.emf.ecore.util.InternalEList;
+
+import com.netxforge.smi.Macro;
+import com.netxforge.smi.MacroValue;
+import com.netxforge.smi.SmiPackage;
+import com.netxforge.smi.ValueAssignment;
 
 /**
  * <!-- begin-user-doc -->
