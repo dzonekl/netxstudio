@@ -394,7 +394,7 @@ public class CDOQueryService {
 	public static List<Value> mvrValueLastFirstLimitOne(CDOView cdoView,
 			MetricValueRange mvr, String dialect) {
 		return mvrValueLastFirstLimitOne(cdoView, mvr, dialect,
-				STYLE.NON_CAMEL_CASE);
+				STYLE.CAMEL_CASE);
 	}
 
 	/**
