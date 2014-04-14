@@ -63,7 +63,7 @@ public class ScreensWorkbenchAdvisor extends WorkbenchAdvisor {
 	public void initialize(IWorkbenchConfigurer configurer) {
 		super.initialize(configurer);
 		configurer.setSaveAndRestore(true);
-		this.configPluginPreferences();
+//		this.configPluginPreferences();
 	}
 
 	public String getInitialWindowPerspectiveId() {

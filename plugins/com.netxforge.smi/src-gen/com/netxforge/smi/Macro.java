@@ -3,6 +3,7 @@
 package com.netxforge.smi;
 
 import org.eclipse.emf.common.util.EList;
+
 import org.eclipse.emf.ecore.EObject;
 
 /**
@@ -13,7 +14,7 @@ import org.eclipse.emf.ecore.EObject;
  * <p>
  * The following features are supported:
  * <ul>
- *   <li>{@link com.netxforge.smi.Macro#getDescriptor <em>Descriptor</em>}</li>
+ *   <li>{@link com.netxforge.smi.Macro#getName <em>Name</em>}</li>
  *   <li>{@link com.netxforge.smi.Macro#getTypeNotations <em>Type Notations</em>}</li>
  *   <li>{@link com.netxforge.smi.Macro#getValueNotation <em>Value Notation</em>}</li>
  *   <li>{@link com.netxforge.smi.Macro#getInnerTypes <em>Inner Types</em>}</li>
@@ -27,46 +28,46 @@ import org.eclipse.emf.ecore.EObject;
 public interface Macro extends EObject
 {
   /**
-   * Returns the value of the '<em><b>Descriptor</b></em>' attribute.
+   * Returns the value of the '<em><b>Name</b></em>' attribute.
    * <!-- begin-user-doc -->
    * <p>
-   * If the meaning of the '<em>Descriptor</em>' attribute isn't clear,
+   * If the meaning of the '<em>Name</em>' attribute isn't clear,
    * there really should be more of a description here...
    * </p>
    * <!-- end-user-doc -->
-   * @return the value of the '<em>Descriptor</em>' attribute.
-   * @see #setDescriptor(String)
-   * @see com.netxforge.smi.SmiPackage#getMacro_Descriptor()
+   * @return the value of the '<em>Name</em>' attribute.
+   * @see #setName(String)
+   * @see com.netxforge.smi.SmiPackage#getMacro_Name()
    * @model
    * @generated
    */
-  String getDescriptor();
+  String getName();
 
   /**
-   * Sets the value of the '{@link com.netxforge.smi.Macro#getDescriptor <em>Descriptor</em>}' attribute.
+   * Sets the value of the '{@link com.netxforge.smi.Macro#getName <em>Name</em>}' attribute.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @param value the new value of the '<em>Descriptor</em>' attribute.
-   * @see #getDescriptor()
+   * @param value the new value of the '<em>Name</em>' attribute.
+   * @see #getName()
    * @generated
    */
-  void setDescriptor(String value);
+  void setName(String value);
 
   /**
-   * Returns the value of the '<em><b>Type Notations</b></em>' reference list.
-   * The list contents are of type {@link com.netxforge.smi.ValueAssignment}.
+   * Returns the value of the '<em><b>Type Notations</b></em>' containment reference list.
+   * The list contents are of type {@link com.netxforge.smi.TypeAssignment}.
    * <!-- begin-user-doc -->
    * <p>
-   * If the meaning of the '<em>Type Notations</em>' reference list isn't clear,
+   * If the meaning of the '<em>Type Notations</em>' containment reference list isn't clear,
    * there really should be more of a description here...
    * </p>
    * <!-- end-user-doc -->
-   * @return the value of the '<em>Type Notations</em>' reference list.
+   * @return the value of the '<em>Type Notations</em>' containment reference list.
    * @see com.netxforge.smi.SmiPackage#getMacro_TypeNotations()
-   * @model
+   * @model containment="true"
    * @generated
    */
-  EList<ValueAssignment> getTypeNotations();
+  EList<TypeAssignment> getTypeNotations();
 
   /**
    * Returns the value of the '<em><b>Value Notation</b></em>' containment reference.
@@ -96,7 +97,7 @@ public interface Macro extends EObject
 
   /**
    * Returns the value of the '<em><b>Inner Types</b></em>' containment reference list.
-   * The list contents are of type {@link com.netxforge.smi.ValueAssignment}.
+   * The list contents are of type {@link com.netxforge.smi.TypeDefinition}.
    * <!-- begin-user-doc -->
    * <p>
    * If the meaning of the '<em>Inner Types</em>' containment reference list isn't clear,
@@ -108,6 +109,6 @@ public interface Macro extends EObject
    * @model containment="true"
    * @generated
    */
-  EList<ValueAssignment> getInnerTypes();
+  EList<TypeDefinition> getInnerTypes();
 
 } // Macro

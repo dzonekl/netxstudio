@@ -2,11 +2,12 @@
  */
 package com.netxforge.smi.impl;
 
-import org.eclipse.emf.ecore.EClass;
-import org.eclipse.emf.ecore.impl.MinimalEObjectImpl;
-
 import com.netxforge.smi.ASN1_TYPE;
 import com.netxforge.smi.SmiPackage;
+
+import org.eclipse.emf.ecore.EClass;
+
+import org.eclipse.emf.ecore.impl.MinimalEObjectImpl;
 
 /**
  * <!-- begin-user-doc -->

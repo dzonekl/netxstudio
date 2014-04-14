@@ -9,11 +9,11 @@ import org.eclipse.xtext.resource.IResourceServiceProvider;
 import org.eclipse.xtext.scoping.IGlobalScopeProvider;
 
 import com.google.inject.Scopes;
+import com.netxforge.base.IPrettyLog;
 import com.netxforge.engine.ExpressionEngine;
 import com.netxforge.engine.IExpressionEngine;
 import com.netxforge.interpreter.IInterpreter;
 import com.netxforge.interpreter.IInterpreterContextFactory;
-import com.netxforge.interpreter.IPrettyLog;
 import com.netxforge.interpreter.InterpreterContextFactory;
 import com.netxforge.interpreter.InterpreterTypeless;
 import com.netxforge.interpreter.PrettyLog;

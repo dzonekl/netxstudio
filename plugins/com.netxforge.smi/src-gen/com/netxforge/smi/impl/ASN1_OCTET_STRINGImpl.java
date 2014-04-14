@@ -2,10 +2,10 @@
  */
 package com.netxforge.smi.impl;
 
-import org.eclipse.emf.ecore.EClass;
-
 import com.netxforge.smi.ASN1_OCTET_STRING;
 import com.netxforge.smi.SmiPackage;
+
+import org.eclipse.emf.ecore.EClass;
 
 /**
  * <!-- begin-user-doc -->

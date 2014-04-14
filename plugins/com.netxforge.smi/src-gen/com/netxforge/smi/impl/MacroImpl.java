@@ -2,23 +2,27 @@
  */
 package com.netxforge.smi.impl;
 
+import com.netxforge.smi.Macro;
+import com.netxforge.smi.MacroValue;
+import com.netxforge.smi.SmiPackage;
+import com.netxforge.smi.TypeAssignment;
+import com.netxforge.smi.TypeDefinition;
+
 import java.util.Collection;
 
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
+
 import org.eclipse.emf.common.util.EList;
+
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.InternalEObject;
+
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.impl.MinimalEObjectImpl;
-import org.eclipse.emf.ecore.util.EObjectContainmentEList;
-import org.eclipse.emf.ecore.util.EObjectResolvingEList;
-import org.eclipse.emf.ecore.util.InternalEList;
 
-import com.netxforge.smi.Macro;
-import com.netxforge.smi.MacroValue;
-import com.netxforge.smi.SmiPackage;
-import com.netxforge.smi.ValueAssignment;
+import org.eclipse.emf.ecore.util.EObjectContainmentEList;
+import org.eclipse.emf.ecore.util.InternalEList;
 
 /**
  * <!-- begin-user-doc -->
@@ -27,7 +31,7 @@ import com.netxforge.smi.ValueAssignment;
  * <p>
  * The following features are implemented:
  * <ul>
- *   <li>{@link com.netxforge.smi.impl.MacroImpl#getDescriptor <em>Descriptor</em>}</li>
+ *   <li>{@link com.netxforge.smi.impl.MacroImpl#getName <em>Name</em>}</li>
  *   <li>{@link com.netxforge.smi.impl.MacroImpl#getTypeNotations <em>Type Notations</em>}</li>
  *   <li>{@link com.netxforge.smi.impl.MacroImpl#getValueNotation <em>Value Notation</em>}</li>
  *   <li>{@link com.netxforge.smi.impl.MacroImpl#getInnerTypes <em>Inner Types</em>}</li>
@@ -39,34 +43,34 @@ import com.netxforge.smi.ValueAssignment;
 public class MacroImpl extends MinimalEObjectImpl.Container implements Macro
 {
   /**
-   * The default value of the '{@link #getDescriptor() <em>Descriptor</em>}' attribute.
+   * The default value of the '{@link #getName() <em>Name</em>}' attribute.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @see #getDescriptor()
+   * @see #getName()
    * @generated
    * @ordered
    */
-  protected static final String DESCRIPTOR_EDEFAULT = null;
+  protected static final String NAME_EDEFAULT = null;
 
   /**
-   * The cached value of the '{@link #getDescriptor() <em>Descriptor</em>}' attribute.
+   * The cached value of the '{@link #getName() <em>Name</em>}' attribute.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @see #getDescriptor()
+   * @see #getName()
    * @generated
    * @ordered
    */
-  protected String descriptor = DESCRIPTOR_EDEFAULT;
+  protected String name = NAME_EDEFAULT;
 
   /**
-   * The cached value of the '{@link #getTypeNotations() <em>Type Notations</em>}' reference list.
+   * The cached value of the '{@link #getTypeNotations() <em>Type Notations</em>}' containment reference list.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @see #getTypeNotations()
    * @generated
    * @ordered
    */
-  protected EList<ValueAssignment> typeNotations;
+  protected EList<TypeAssignment> typeNotations;
 
   /**
    * The cached value of the '{@link #getValueNotation() <em>Value Notation</em>}' containment reference.
@@ -86,7 +90,7 @@ public class MacroImpl extends MinimalEObjectImpl.Container implements Macro
    * @generated
    * @ordered
    */
-  protected EList<ValueAssignment> innerTypes;
+  protected EList<TypeDefinition> innerTypes;
 
   /**
    * <!-- begin-user-doc -->
@@ -114,9 +118,9 @@ public class MacroImpl extends MinimalEObjectImpl.Container implements Macro
    * <!-- end-user-doc -->
    * @generated
    */
-  public String getDescriptor()
+  public String getName()
   {
-    return descriptor;
+    return name;
   }
 
   /**
@@ -124,12 +128,12 @@ public class MacroImpl extends MinimalEObjectImpl.Container implements Macro
    * <!-- end-user-doc -->
    * @generated
    */
-  public void setDescriptor(String newDescriptor)
+  public void setName(String newName)
   {
-    String oldDescriptor = descriptor;
-    descriptor = newDescriptor;
+    String oldName = name;
+    name = newName;
     if (eNotificationRequired())
-      eNotify(new ENotificationImpl(this, Notification.SET, SmiPackage.MACRO__DESCRIPTOR, oldDescriptor, descriptor));
+      eNotify(new ENotificationImpl(this, Notification.SET, SmiPackage.MACRO__NAME, oldName, name));
   }
 
   /**
@@ -137,11 +141,11 @@ public class MacroImpl extends MinimalEObjectImpl.Container implements Macro
    * <!-- end-user-doc -->
    * @generated
    */
-  public EList<ValueAssignment> getTypeNotations()
+  public EList<TypeAssignment> getTypeNotations()
   {
     if (typeNotations == null)
     {
-      typeNotations = new EObjectResolvingEList<ValueAssignment>(ValueAssignment.class, this, SmiPackage.MACRO__TYPE_NOTATIONS);
+      typeNotations = new EObjectContainmentEList<TypeAssignment>(TypeAssignment.class, this, SmiPackage.MACRO__TYPE_NOTATIONS);
     }
     return typeNotations;
   }
@@ -199,11 +203,11 @@ public class MacroImpl extends MinimalEObjectImpl.Container implements Macro
    * <!-- end-user-doc -->
    * @generated
    */
-  public EList<ValueAssignment> getInnerTypes()
+  public EList<TypeDefinition> getInnerTypes()
   {
     if (innerTypes == null)
     {
-      innerTypes = new EObjectContainmentEList<ValueAssignment>(ValueAssignment.class, this, SmiPackage.MACRO__INNER_TYPES);
+      innerTypes = new EObjectContainmentEList<TypeDefinition>(TypeDefinition.class, this, SmiPackage.MACRO__INNER_TYPES);
     }
     return innerTypes;
   }
@@ -218,6 +222,8 @@ public class MacroImpl extends MinimalEObjectImpl.Container implements Macro
   {
     switch (featureID)
     {
+      case SmiPackage.MACRO__TYPE_NOTATIONS:
+        return ((InternalEList<?>)getTypeNotations()).basicRemove(otherEnd, msgs);
       case SmiPackage.MACRO__VALUE_NOTATION:
         return basicSetValueNotation(null, msgs);
       case SmiPackage.MACRO__INNER_TYPES:
@@ -236,8 +242,8 @@ public class MacroImpl extends MinimalEObjectImpl.Container implements Macro
   {
     switch (featureID)
     {
-      case SmiPackage.MACRO__DESCRIPTOR:
-        return getDescriptor();
+      case SmiPackage.MACRO__NAME:
+        return getName();
       case SmiPackage.MACRO__TYPE_NOTATIONS:
         return getTypeNotations();
       case SmiPackage.MACRO__VALUE_NOTATION:
@@ -259,19 +265,19 @@ public class MacroImpl extends MinimalEObjectImpl.Container implements Macro
   {
     switch (featureID)
     {
-      case SmiPackage.MACRO__DESCRIPTOR:
-        setDescriptor((String)newValue);
+      case SmiPackage.MACRO__NAME:
+        setName((String)newValue);
         return;
       case SmiPackage.MACRO__TYPE_NOTATIONS:
         getTypeNotations().clear();
-        getTypeNotations().addAll((Collection<? extends ValueAssignment>)newValue);
+        getTypeNotations().addAll((Collection<? extends TypeAssignment>)newValue);
         return;
       case SmiPackage.MACRO__VALUE_NOTATION:
         setValueNotation((MacroValue)newValue);
         return;
       case SmiPackage.MACRO__INNER_TYPES:
         getInnerTypes().clear();
-        getInnerTypes().addAll((Collection<? extends ValueAssignment>)newValue);
+        getInnerTypes().addAll((Collection<? extends TypeDefinition>)newValue);
         return;
     }
     super.eSet(featureID, newValue);
@@ -287,8 +293,8 @@ public class MacroImpl extends MinimalEObjectImpl.Container implements Macro
   {
     switch (featureID)
     {
-      case SmiPackage.MACRO__DESCRIPTOR:
-        setDescriptor(DESCRIPTOR_EDEFAULT);
+      case SmiPackage.MACRO__NAME:
+        setName(NAME_EDEFAULT);
         return;
       case SmiPackage.MACRO__TYPE_NOTATIONS:
         getTypeNotations().clear();
@@ -313,8 +319,8 @@ public class MacroImpl extends MinimalEObjectImpl.Container implements Macro
   {
     switch (featureID)
     {
-      case SmiPackage.MACRO__DESCRIPTOR:
-        return DESCRIPTOR_EDEFAULT == null ? descriptor != null : !DESCRIPTOR_EDEFAULT.equals(descriptor);
+      case SmiPackage.MACRO__NAME:
+        return NAME_EDEFAULT == null ? name != null : !NAME_EDEFAULT.equals(name);
       case SmiPackage.MACRO__TYPE_NOTATIONS:
         return typeNotations != null && !typeNotations.isEmpty();
       case SmiPackage.MACRO__VALUE_NOTATION:
@@ -336,8 +342,8 @@ public class MacroImpl extends MinimalEObjectImpl.Container implements Macro
     if (eIsProxy()) return super.toString();
 
     StringBuffer result = new StringBuffer(super.toString());
-    result.append(" (descriptor: ");
-    result.append(descriptor);
+    result.append(" (name: ");
+    result.append(name);
     result.append(')');
     return result.toString();
   }

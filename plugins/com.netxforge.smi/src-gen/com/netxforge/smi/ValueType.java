@@ -2,6 +2,7 @@
  */
 package com.netxforge.smi;
 
+import org.eclipse.emf.ecore.EObject;
 
 /**
  * <!-- begin-user-doc -->
@@ -12,8 +13,11 @@ package com.netxforge.smi;
  * The following features are supported:
  * <ul>
  *   <li>{@link com.netxforge.smi.ValueType#getName <em>Name</em>}</li>
+ *   <li>{@link com.netxforge.smi.ValueType#getParam <em>Param</em>}</li>
  *   <li>{@link com.netxforge.smi.ValueType#getType <em>Type</em>}</li>
  *   <li>{@link com.netxforge.smi.ValueType#getSimpleType <em>Simple Type</em>}</li>
+ *   <li>{@link com.netxforge.smi.ValueType#getMacroValue <em>Macro Value</em>}</li>
+ *   <li>{@link com.netxforge.smi.ValueType#getOi <em>Oi</em>}</li>
  * </ul>
  * </p>
  *
@@ -21,7 +25,7 @@ package com.netxforge.smi;
  * @model
  * @generated
  */
-public interface ValueType extends Or
+public interface ValueType extends EObject
 {
   /**
    * Returns the value of the '<em><b>Name</b></em>' attribute.
@@ -50,30 +54,56 @@ public interface ValueType extends Or
   void setName(String value);
 
   /**
-   * Returns the value of the '<em><b>Type</b></em>' reference.
+   * Returns the value of the '<em><b>Param</b></em>' containment reference.
    * <!-- begin-user-doc -->
    * <p>
-   * If the meaning of the '<em>Type</em>' reference isn't clear,
+   * If the meaning of the '<em>Param</em>' containment reference isn't clear,
    * there really should be more of a description here...
    * </p>
    * <!-- end-user-doc -->
-   * @return the value of the '<em>Type</em>' reference.
-   * @see #setType(ValueAssignment)
-   * @see com.netxforge.smi.SmiPackage#getValueType_Type()
-   * @model
+   * @return the value of the '<em>Param</em>' containment reference.
+   * @see #setParam(ParamAssignment)
+   * @see com.netxforge.smi.SmiPackage#getValueType_Param()
+   * @model containment="true"
    * @generated
    */
-  ValueAssignment getType();
+  ParamAssignment getParam();
 
   /**
-   * Sets the value of the '{@link com.netxforge.smi.ValueType#getType <em>Type</em>}' reference.
+   * Sets the value of the '{@link com.netxforge.smi.ValueType#getParam <em>Param</em>}' containment reference.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @param value the new value of the '<em>Type</em>' reference.
+   * @param value the new value of the '<em>Param</em>' containment reference.
+   * @see #getParam()
+   * @generated
+   */
+  void setParam(ParamAssignment value);
+
+  /**
+   * Returns the value of the '<em><b>Type</b></em>' containment reference.
+   * <!-- begin-user-doc -->
+   * <p>
+   * If the meaning of the '<em>Type</em>' containment reference isn't clear,
+   * there really should be more of a description here...
+   * </p>
+   * <!-- end-user-doc -->
+   * @return the value of the '<em>Type</em>' containment reference.
+   * @see #setType(TypeReferenceExt)
+   * @see com.netxforge.smi.SmiPackage#getValueType_Type()
+   * @model containment="true"
+   * @generated
+   */
+  TypeReferenceExt getType();
+
+  /**
+   * Sets the value of the '{@link com.netxforge.smi.ValueType#getType <em>Type</em>}' containment reference.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @param value the new value of the '<em>Type</em>' containment reference.
    * @see #getType()
    * @generated
    */
-  void setType(ValueAssignment value);
+  void setType(TypeReferenceExt value);
 
   /**
    * Returns the value of the '<em><b>Simple Type</b></em>' containment reference.
@@ -100,5 +130,57 @@ public interface ValueType extends Or
    * @generated
    */
   void setSimpleType(ASN1_TYPE value);
+
+  /**
+   * Returns the value of the '<em><b>Macro Value</b></em>' containment reference.
+   * <!-- begin-user-doc -->
+   * <p>
+   * If the meaning of the '<em>Macro Value</em>' containment reference isn't clear,
+   * there really should be more of a description here...
+   * </p>
+   * <!-- end-user-doc -->
+   * @return the value of the '<em>Macro Value</em>' containment reference.
+   * @see #setMacroValue(MacroValue)
+   * @see com.netxforge.smi.SmiPackage#getValueType_MacroValue()
+   * @model containment="true"
+   * @generated
+   */
+  MacroValue getMacroValue();
+
+  /**
+   * Sets the value of the '{@link com.netxforge.smi.ValueType#getMacroValue <em>Macro Value</em>}' containment reference.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @param value the new value of the '<em>Macro Value</em>' containment reference.
+   * @see #getMacroValue()
+   * @generated
+   */
+  void setMacroValue(MacroValue value);
+
+  /**
+   * Returns the value of the '<em><b>Oi</b></em>' attribute.
+   * <!-- begin-user-doc -->
+   * <p>
+   * If the meaning of the '<em>Oi</em>' attribute isn't clear,
+   * there really should be more of a description here...
+   * </p>
+   * <!-- end-user-doc -->
+   * @return the value of the '<em>Oi</em>' attribute.
+   * @see #setOi(String)
+   * @see com.netxforge.smi.SmiPackage#getValueType_Oi()
+   * @model
+   * @generated
+   */
+  String getOi();
+
+  /**
+   * Sets the value of the '{@link com.netxforge.smi.ValueType#getOi <em>Oi</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @param value the new value of the '<em>Oi</em>' attribute.
+   * @see #getOi()
+   * @generated
+   */
+  void setOi(String value);
 
 } // ValueType

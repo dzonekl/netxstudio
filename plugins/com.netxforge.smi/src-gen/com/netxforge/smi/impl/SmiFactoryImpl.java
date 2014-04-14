@@ -2,33 +2,16 @@
  */
 package com.netxforge.smi.impl;
 
+import com.netxforge.smi.*;
+
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EDataType;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
-import org.eclipse.emf.ecore.impl.EFactoryImpl;
-import org.eclipse.emf.ecore.plugin.EcorePlugin;
 
-import com.netxforge.smi.ASN1_CHOICE;
-import com.netxforge.smi.ASN1_CHOICE_ENTRY;
-import com.netxforge.smi.ASN1_OCTET_STRING;
-import com.netxforge.smi.ASN1_RANGE;
-import com.netxforge.smi.ASN1_SIMPLE;
-import com.netxforge.smi.ASN1_SUBTYPE;
-import com.netxforge.smi.ASN1_TYPE;
-import com.netxforge.smi.Assignment;
-import com.netxforge.smi.MACRO_VALUE_TYPE;
-import com.netxforge.smi.Macro;
-import com.netxforge.smi.MacroValue;
-import com.netxforge.smi.Module;
-import com.netxforge.smi.ObjectIdentifier;
-import com.netxforge.smi.ObjectIdentifierValue;
-import com.netxforge.smi.Or;
-import com.netxforge.smi.SmiFactory;
-import com.netxforge.smi.SmiPackage;
-import com.netxforge.smi.ValueAssignment;
-import com.netxforge.smi.ValueType;
-import com.netxforge.smi.WELL_KNOWN_NAMES;
+import org.eclipse.emf.ecore.impl.EFactoryImpl;
+
+import org.eclipse.emf.ecore.plugin.EcorePlugin;
 
 /**
  * <!-- begin-user-doc -->
@@ -84,19 +67,28 @@ public class SmiFactoryImpl extends EFactoryImpl implements SmiFactory
     {
       case SmiPackage.MODULE: return createModule();
       case SmiPackage.ASSIGNMENT: return createAssignment();
-      case SmiPackage.MACRO: return createMacro();
-      case SmiPackage.MACRO_VALUE: return createMacroValue();
-      case SmiPackage.VALUE_ASSIGNMENT: return createValueAssignment();
-      case SmiPackage.OR: return createOr();
-      case SmiPackage.VALUE_TYPE: return createValueType();
-      case SmiPackage.ASN1_TYPE: return createASN1_TYPE();
-      case SmiPackage.ASN1_SIMPLE: return createASN1_SIMPLE();
-      case SmiPackage.ASN1_CHOICE: return createASN1_CHOICE();
-      case SmiPackage.ASN1_CHOICE_ENTRY: return createASN1_CHOICE_ENTRY();
-      case SmiPackage.ASN1_SUBTYPE: return createASN1_SUBTYPE();
-      case SmiPackage.ASN1_RANGE: return createASN1_RANGE();
       case SmiPackage.OBJECT_IDENTIFIER: return createObjectIdentifier();
       case SmiPackage.OBJECT_IDENTIFIER_VALUE: return createObjectIdentifierValue();
+      case SmiPackage.TYPE_DEFINITION: return createTypeDefinition();
+      case SmiPackage.MACRO: return createMacro();
+      case SmiPackage.TYPE_ASSIGNMENT: return createTypeAssignment();
+      case SmiPackage.PARAM_ASSIGNMENT: return createParamAssignment();
+      case SmiPackage.TYPE_NOTATION: return createTypeNotation();
+      case SmiPackage.TYPE_REFERENCE_EXT: return createTypeReferenceExt();
+      case SmiPackage.TYPE_REFERENCE: return createTypeReference();
+      case SmiPackage.SCOPE: return createScope();
+      case SmiPackage.VALUE: return createValue();
+      case SmiPackage.VALUE_TYPE: return createValueType();
+      case SmiPackage.MACRO_VALUE: return createMacroValue();
+      case SmiPackage.MACRO_VALUE_TYPE: return createMACRO_VALUE_TYPE();
+      case SmiPackage.UPDATE_TYPE: return createUpdateType();
+      case SmiPackage.MACRO_VALUE_CAP: return createMACRO_VALUE_CAP();
+      case SmiPackage.ASN1_TYPE: return createASN1_TYPE();
+      case SmiPackage.ASN1_SIMPLE: return createASN1_SIMPLE();
+      case SmiPackage.ASN1_SUBTYPE: return createASN1_SUBTYPE();
+      case SmiPackage.ASN1_RANGE: return createASN1_RANGE();
+      case SmiPackage.ASN1_CHOICE: return createASN1_CHOICE();
+      case SmiPackage.ASN1_CHOICE_ENTRY: return createASN1_CHOICE_ENTRY();
       case SmiPackage.ASN1_OCTET_STRING: return createASN1_OCTET_STRING();
       default:
         throw new IllegalArgumentException("The class '" + eClass.getName() + "' is not a valid classifier");
@@ -113,10 +105,8 @@ public class SmiFactoryImpl extends EFactoryImpl implements SmiFactory
   {
     switch (eDataType.getClassifierID())
     {
-      case SmiPackage.MACRO_VALUE_TYPE:
-        return createMACRO_VALUE_TYPEFromString(eDataType, initialValue);
-      case SmiPackage.WELL_KNOWN_NAMES:
-        return createWELL_KNOWN_NAMESFromString(eDataType, initialValue);
+      case SmiPackage.VALUE_CAP_LITERALS:
+        return createVALUE_CAP_LITERALSFromString(eDataType, initialValue);
       default:
         throw new IllegalArgumentException("The datatype '" + eDataType.getName() + "' is not a valid classifier");
     }
@@ -132,10 +122,8 @@ public class SmiFactoryImpl extends EFactoryImpl implements SmiFactory
   {
     switch (eDataType.getClassifierID())
     {
-      case SmiPackage.MACRO_VALUE_TYPE:
-        return convertMACRO_VALUE_TYPEToString(eDataType, instanceValue);
-      case SmiPackage.WELL_KNOWN_NAMES:
-        return convertWELL_KNOWN_NAMESToString(eDataType, instanceValue);
+      case SmiPackage.VALUE_CAP_LITERALS:
+        return convertVALUE_CAP_LITERALSToString(eDataType, instanceValue);
       default:
         throw new IllegalArgumentException("The datatype '" + eDataType.getName() + "' is not a valid classifier");
     }
@@ -168,10 +156,131 @@ public class SmiFactoryImpl extends EFactoryImpl implements SmiFactory
    * <!-- end-user-doc -->
    * @generated
    */
+  public ObjectIdentifier createObjectIdentifier()
+  {
+    ObjectIdentifierImpl objectIdentifier = new ObjectIdentifierImpl();
+    return objectIdentifier;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public ObjectIdentifierValue createObjectIdentifierValue()
+  {
+    ObjectIdentifierValueImpl objectIdentifierValue = new ObjectIdentifierValueImpl();
+    return objectIdentifierValue;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public TypeDefinition createTypeDefinition()
+  {
+    TypeDefinitionImpl typeDefinition = new TypeDefinitionImpl();
+    return typeDefinition;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
   public Macro createMacro()
   {
     MacroImpl macro = new MacroImpl();
     return macro;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public TypeAssignment createTypeAssignment()
+  {
+    TypeAssignmentImpl typeAssignment = new TypeAssignmentImpl();
+    return typeAssignment;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public ParamAssignment createParamAssignment()
+  {
+    ParamAssignmentImpl paramAssignment = new ParamAssignmentImpl();
+    return paramAssignment;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public TypeNotation createTypeNotation()
+  {
+    TypeNotationImpl typeNotation = new TypeNotationImpl();
+    return typeNotation;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public TypeReferenceExt createTypeReferenceExt()
+  {
+    TypeReferenceExtImpl typeReferenceExt = new TypeReferenceExtImpl();
+    return typeReferenceExt;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public TypeReference createTypeReference()
+  {
+    TypeReferenceImpl typeReference = new TypeReferenceImpl();
+    return typeReference;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public Scope createScope()
+  {
+    ScopeImpl scope = new ScopeImpl();
+    return scope;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public Value createValue()
+  {
+    ValueImpl value = new ValueImpl();
+    return value;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public ValueType createValueType()
+  {
+    ValueTypeImpl valueType = new ValueTypeImpl();
+    return valueType;
   }
 
   /**
@@ -190,10 +299,10 @@ public class SmiFactoryImpl extends EFactoryImpl implements SmiFactory
    * <!-- end-user-doc -->
    * @generated
    */
-  public ValueAssignment createValueAssignment()
+  public MACRO_VALUE_TYPE createMACRO_VALUE_TYPE()
   {
-    ValueAssignmentImpl valueAssignment = new ValueAssignmentImpl();
-    return valueAssignment;
+    MACRO_VALUE_TYPEImpl macrO_VALUE_TYPE = new MACRO_VALUE_TYPEImpl();
+    return macrO_VALUE_TYPE;
   }
 
   /**
@@ -201,10 +310,10 @@ public class SmiFactoryImpl extends EFactoryImpl implements SmiFactory
    * <!-- end-user-doc -->
    * @generated
    */
-  public Or createOr()
+  public UpdateType createUpdateType()
   {
-    OrImpl or = new OrImpl();
-    return or;
+    UpdateTypeImpl updateType = new UpdateTypeImpl();
+    return updateType;
   }
 
   /**
@@ -212,10 +321,10 @@ public class SmiFactoryImpl extends EFactoryImpl implements SmiFactory
    * <!-- end-user-doc -->
    * @generated
    */
-  public ValueType createValueType()
+  public MACRO_VALUE_CAP createMACRO_VALUE_CAP()
   {
-    ValueTypeImpl valueType = new ValueTypeImpl();
-    return valueType;
+    MACRO_VALUE_CAPImpl macrO_VALUE_CAP = new MACRO_VALUE_CAPImpl();
+    return macrO_VALUE_CAP;
   }
 
   /**
@@ -245,28 +354,6 @@ public class SmiFactoryImpl extends EFactoryImpl implements SmiFactory
    * <!-- end-user-doc -->
    * @generated
    */
-  public ASN1_CHOICE createASN1_CHOICE()
-  {
-    ASN1_CHOICEImpl asn1_CHOICE = new ASN1_CHOICEImpl();
-    return asn1_CHOICE;
-  }
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  public ASN1_CHOICE_ENTRY createASN1_CHOICE_ENTRY()
-  {
-    ASN1_CHOICE_ENTRYImpl asn1_CHOICE_ENTRY = new ASN1_CHOICE_ENTRYImpl();
-    return asn1_CHOICE_ENTRY;
-  }
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
   public ASN1_SUBTYPE createASN1_SUBTYPE()
   {
     ASN1_SUBTYPEImpl asn1_SUBTYPE = new ASN1_SUBTYPEImpl();
@@ -289,10 +376,10 @@ public class SmiFactoryImpl extends EFactoryImpl implements SmiFactory
    * <!-- end-user-doc -->
    * @generated
    */
-  public ObjectIdentifier createObjectIdentifier()
+  public ASN1_CHOICE createASN1_CHOICE()
   {
-    ObjectIdentifierImpl objectIdentifier = new ObjectIdentifierImpl();
-    return objectIdentifier;
+    ASN1_CHOICEImpl asn1_CHOICE = new ASN1_CHOICEImpl();
+    return asn1_CHOICE;
   }
 
   /**
@@ -300,10 +387,10 @@ public class SmiFactoryImpl extends EFactoryImpl implements SmiFactory
    * <!-- end-user-doc -->
    * @generated
    */
-  public ObjectIdentifierValue createObjectIdentifierValue()
+  public ASN1_CHOICE_ENTRY createASN1_CHOICE_ENTRY()
   {
-    ObjectIdentifierValueImpl objectIdentifierValue = new ObjectIdentifierValueImpl();
-    return objectIdentifierValue;
+    ASN1_CHOICE_ENTRYImpl asn1_CHOICE_ENTRY = new ASN1_CHOICE_ENTRYImpl();
+    return asn1_CHOICE_ENTRY;
   }
 
   /**
@@ -322,9 +409,9 @@ public class SmiFactoryImpl extends EFactoryImpl implements SmiFactory
    * <!-- end-user-doc -->
    * @generated
    */
-  public MACRO_VALUE_TYPE createMACRO_VALUE_TYPEFromString(EDataType eDataType, String initialValue)
+  public VALUE_CAP_LITERALS createVALUE_CAP_LITERALSFromString(EDataType eDataType, String initialValue)
   {
-    MACRO_VALUE_TYPE result = MACRO_VALUE_TYPE.get(initialValue);
+    VALUE_CAP_LITERALS result = VALUE_CAP_LITERALS.get(initialValue);
     if (result == null) throw new IllegalArgumentException("The value '" + initialValue + "' is not a valid enumerator of '" + eDataType.getName() + "'");
     return result;
   }
@@ -334,29 +421,7 @@ public class SmiFactoryImpl extends EFactoryImpl implements SmiFactory
    * <!-- end-user-doc -->
    * @generated
    */
-  public String convertMACRO_VALUE_TYPEToString(EDataType eDataType, Object instanceValue)
-  {
-    return instanceValue == null ? null : instanceValue.toString();
-  }
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  public WELL_KNOWN_NAMES createWELL_KNOWN_NAMESFromString(EDataType eDataType, String initialValue)
-  {
-    WELL_KNOWN_NAMES result = WELL_KNOWN_NAMES.get(initialValue);
-    if (result == null) throw new IllegalArgumentException("The value '" + initialValue + "' is not a valid enumerator of '" + eDataType.getName() + "'");
-    return result;
-  }
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  public String convertWELL_KNOWN_NAMESToString(EDataType eDataType, Object instanceValue)
+  public String convertVALUE_CAP_LITERALSToString(EDataType eDataType, Object instanceValue)
   {
     return instanceValue == null ? null : instanceValue.toString();
   }

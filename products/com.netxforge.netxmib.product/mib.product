@@ -29,6 +29,9 @@
       <feature id="com.netxforge.smi.feature" version="1.0.0.qualifier"/>
       <feature id="com.netxforge.netxstudio.console.feature" version="1.0.0.qualifier"/>
       <feature id="com.netxforge.netxstudio.screens.ide.feature" version="1.0.0.qualifier"/>
+      <feature id="org.snmp4j.artifacts.feature" version="1.0.0.qualifier"/>
+      <feature id="org.eclipse.ltk.artifacts.feature" version="1.0.0.qualifier"/>
+      <feature id="com.netxforge.base.feature" version="1.0.0.qualifier"/>
    </features>
 
    <configurations>

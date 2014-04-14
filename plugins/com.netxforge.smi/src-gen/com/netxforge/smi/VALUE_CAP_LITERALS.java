@@ -10,123 +10,97 @@ import org.eclipse.emf.common.util.Enumerator;
 
 /**
  * <!-- begin-user-doc -->
- * A representation of the literals of the enumeration '<em><b>WELL KNOWN NAMES</b></em>',
+ * A representation of the literals of the enumeration '<em><b>VALUE CAP LITERALS</b></em>',
  * and utility methods for working with them.
  * <!-- end-user-doc -->
- * @see com.netxforge.smi.SmiPackage#getWELL_KNOWN_NAMES()
+ * @see com.netxforge.smi.SmiPackage#getVALUE_CAP_LITERALS()
  * @model
  * @generated
  */
-public enum WELL_KNOWN_NAMES implements Enumerator
+public enum VALUE_CAP_LITERALS implements Enumerator
 {
   /**
-   * The '<em><b>Ccitt</b></em>' literal object.
+   * The '<em><b>Oi Literal</b></em>' literal object.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @see #CCITT_VALUE
+   * @see #OI_LITERAL_VALUE
    * @generated
    * @ordered
    */
-  CCITT(0, "ccitt", "ccitt"),
+  OI_LITERAL(0, "oiLiteral", "OBJECT IDENTIFIER"),
 
   /**
-   * The '<em><b>Iso</b></em>' literal object.
+   * The '<em><b>Ia5 String Literal</b></em>' literal object.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @see #ISO_VALUE
+   * @see #IA5_STRING_LITERAL_VALUE
    * @generated
    * @ordered
    */
-  ISO(1, "iso", "iso"),
+  IA5_STRING_LITERAL(1, "ia5StringLiteral", "IA5String");
 
   /**
-   * The '<em><b>Joint iso ccitt</b></em>' literal object.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @see #JOINT_ISO_CCITT_VALUE
-   * @generated
-   * @ordered
-   */
-  JOINT_ISO_CCITT(2, "joint_iso_ccitt", "joint-iso-ccitt");
-
-  /**
-   * The '<em><b>Ccitt</b></em>' literal value.
+   * The '<em><b>Oi Literal</b></em>' literal value.
    * <!-- begin-user-doc -->
    * <p>
-   * If the meaning of '<em><b>Ccitt</b></em>' literal object isn't clear,
+   * If the meaning of '<em><b>Oi Literal</b></em>' literal object isn't clear,
    * there really should be more of a description here...
    * </p>
    * <!-- end-user-doc -->
-   * @see #CCITT
-   * @model name="ccitt"
+   * @see #OI_LITERAL
+   * @model name="oiLiteral" literal="OBJECT IDENTIFIER"
    * @generated
    * @ordered
    */
-  public static final int CCITT_VALUE = 0;
+  public static final int OI_LITERAL_VALUE = 0;
 
   /**
-   * The '<em><b>Iso</b></em>' literal value.
+   * The '<em><b>Ia5 String Literal</b></em>' literal value.
    * <!-- begin-user-doc -->
    * <p>
-   * If the meaning of '<em><b>Iso</b></em>' literal object isn't clear,
+   * If the meaning of '<em><b>Ia5 String Literal</b></em>' literal object isn't clear,
    * there really should be more of a description here...
    * </p>
    * <!-- end-user-doc -->
-   * @see #ISO
-   * @model name="iso"
+   * @see #IA5_STRING_LITERAL
+   * @model name="ia5StringLiteral" literal="IA5String"
    * @generated
    * @ordered
    */
-  public static final int ISO_VALUE = 1;
+  public static final int IA5_STRING_LITERAL_VALUE = 1;
 
   /**
-   * The '<em><b>Joint iso ccitt</b></em>' literal value.
-   * <!-- begin-user-doc -->
-   * <p>
-   * If the meaning of '<em><b>Joint iso ccitt</b></em>' literal object isn't clear,
-   * there really should be more of a description here...
-   * </p>
-   * <!-- end-user-doc -->
-   * @see #JOINT_ISO_CCITT
-   * @model name="joint_iso_ccitt" literal="joint-iso-ccitt"
-   * @generated
-   * @ordered
-   */
-  public static final int JOINT_ISO_CCITT_VALUE = 2;
-
-  /**
-   * An array of all the '<em><b>WELL KNOWN NAMES</b></em>' enumerators.
+   * An array of all the '<em><b>VALUE CAP LITERALS</b></em>' enumerators.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
    */
-  private static final WELL_KNOWN_NAMES[] VALUES_ARRAY =
-    new WELL_KNOWN_NAMES[]
+  private static final VALUE_CAP_LITERALS[] VALUES_ARRAY =
+    new VALUE_CAP_LITERALS[]
     {
-      CCITT,
-      ISO,
-      JOINT_ISO_CCITT,
+      OI_LITERAL,
+      IA5_STRING_LITERAL,
     };
 
   /**
-   * A public read-only list of all the '<em><b>WELL KNOWN NAMES</b></em>' enumerators.
+   * A public read-only list of all the '<em><b>VALUE CAP LITERALS</b></em>' enumerators.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
    */
-  public static final List<WELL_KNOWN_NAMES> VALUES = Collections.unmodifiableList(Arrays.asList(VALUES_ARRAY));
+  public static final List<VALUE_CAP_LITERALS> VALUES = Collections.unmodifiableList(Arrays.asList(VALUES_ARRAY));
 
   /**
-   * Returns the '<em><b>WELL KNOWN NAMES</b></em>' literal with the specified literal value.
+   * Returns the '<em><b>VALUE CAP LITERALS</b></em>' literal with the specified literal value.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
    */
-  public static WELL_KNOWN_NAMES get(String literal)
+  public static VALUE_CAP_LITERALS get(String literal)
   {
     for (int i = 0; i < VALUES_ARRAY.length; ++i)
     {
-      WELL_KNOWN_NAMES result = VALUES_ARRAY[i];
+      VALUE_CAP_LITERALS result = VALUES_ARRAY[i];
       if (result.toString().equals(literal))
       {
         return result;
@@ -136,16 +110,16 @@ public enum WELL_KNOWN_NAMES implements Enumerator
   }
 
   /**
-   * Returns the '<em><b>WELL KNOWN NAMES</b></em>' literal with the specified name.
+   * Returns the '<em><b>VALUE CAP LITERALS</b></em>' literal with the specified name.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
    */
-  public static WELL_KNOWN_NAMES getByName(String name)
+  public static VALUE_CAP_LITERALS getByName(String name)
   {
     for (int i = 0; i < VALUES_ARRAY.length; ++i)
     {
-      WELL_KNOWN_NAMES result = VALUES_ARRAY[i];
+      VALUE_CAP_LITERALS result = VALUES_ARRAY[i];
       if (result.getName().equals(name))
       {
         return result;
@@ -155,18 +129,17 @@ public enum WELL_KNOWN_NAMES implements Enumerator
   }
 
   /**
-   * Returns the '<em><b>WELL KNOWN NAMES</b></em>' literal with the specified integer value.
+   * Returns the '<em><b>VALUE CAP LITERALS</b></em>' literal with the specified integer value.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
    */
-  public static WELL_KNOWN_NAMES get(int value)
+  public static VALUE_CAP_LITERALS get(int value)
   {
     switch (value)
     {
-      case CCITT_VALUE: return CCITT;
-      case ISO_VALUE: return ISO;
-      case JOINT_ISO_CCITT_VALUE: return JOINT_ISO_CCITT;
+      case OI_LITERAL_VALUE: return OI_LITERAL;
+      case IA5_STRING_LITERAL_VALUE: return IA5_STRING_LITERAL;
     }
     return null;
   }
@@ -198,7 +171,7 @@ public enum WELL_KNOWN_NAMES implements Enumerator
    * <!-- end-user-doc -->
    * @generated
    */
-  private WELL_KNOWN_NAMES(int value, String name, String literal)
+  private VALUE_CAP_LITERALS(int value, String name, String literal)
   {
     this.value = value;
     this.name = name;
@@ -247,4 +220,4 @@ public enum WELL_KNOWN_NAMES implements Enumerator
     return literal;
   }
   
-} //WELL_KNOWN_NAMES
+} //VALUE_CAP_LITERALS

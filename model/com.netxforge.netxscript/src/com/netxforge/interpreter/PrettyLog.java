@@ -31,6 +31,7 @@ import java.util.List;
 
 import org.apache.log4j.Logger;
 
+import com.netxforge.base.IPrettyLog;
 import com.netxforge.base.NonModelUtils;
 import com.netxforge.internal.RuntimeActivator;
 import com.netxforge.netxstudio.generics.Value;

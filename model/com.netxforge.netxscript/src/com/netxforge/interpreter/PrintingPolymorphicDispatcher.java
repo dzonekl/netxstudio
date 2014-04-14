@@ -26,6 +26,7 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.xtext.util.PolymorphicDispatcher;
 
 import com.google.common.base.Predicate;
+import com.netxforge.base.IPrettyLog;
 import com.netxforge.internal.RuntimeActivator;
 
 /**

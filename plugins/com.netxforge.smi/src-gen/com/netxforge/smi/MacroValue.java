@@ -23,29 +23,26 @@ import org.eclipse.emf.ecore.EObject;
 public interface MacroValue extends EObject
 {
   /**
-   * Returns the value of the '<em><b>Type</b></em>' attribute.
-   * The literals are from the enumeration {@link com.netxforge.smi.MACRO_VALUE_TYPE}.
+   * Returns the value of the '<em><b>Type</b></em>' containment reference.
    * <!-- begin-user-doc -->
    * <p>
-   * If the meaning of the '<em>Type</em>' attribute isn't clear,
+   * If the meaning of the '<em>Type</em>' containment reference isn't clear,
    * there really should be more of a description here...
    * </p>
    * <!-- end-user-doc -->
-   * @return the value of the '<em>Type</em>' attribute.
-   * @see com.netxforge.smi.MACRO_VALUE_TYPE
+   * @return the value of the '<em>Type</em>' containment reference.
    * @see #setType(MACRO_VALUE_TYPE)
    * @see com.netxforge.smi.SmiPackage#getMacroValue_Type()
-   * @model
+   * @model containment="true"
    * @generated
    */
   MACRO_VALUE_TYPE getType();
 
   /**
-   * Sets the value of the '{@link com.netxforge.smi.MacroValue#getType <em>Type</em>}' attribute.
+   * Sets the value of the '{@link com.netxforge.smi.MacroValue#getType <em>Type</em>}' containment reference.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @param value the new value of the '<em>Type</em>' attribute.
-   * @see com.netxforge.smi.MACRO_VALUE_TYPE
+   * @param value the new value of the '<em>Type</em>' containment reference.
    * @see #getType()
    * @generated
    */

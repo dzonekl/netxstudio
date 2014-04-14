@@ -2,14 +2,18 @@
  */
 package com.netxforge.smi.impl;
 
-import org.eclipse.emf.common.notify.Notification;
-import org.eclipse.emf.ecore.EClass;
-import org.eclipse.emf.ecore.impl.ENotificationImpl;
-import org.eclipse.emf.ecore.impl.MinimalEObjectImpl;
-
 import com.netxforge.smi.MACRO_VALUE_TYPE;
 import com.netxforge.smi.MacroValue;
 import com.netxforge.smi.SmiPackage;
+
+import org.eclipse.emf.common.notify.Notification;
+import org.eclipse.emf.common.notify.NotificationChain;
+
+import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.InternalEObject;
+
+import org.eclipse.emf.ecore.impl.ENotificationImpl;
+import org.eclipse.emf.ecore.impl.MinimalEObjectImpl;
 
 /**
  * <!-- begin-user-doc -->
@@ -27,24 +31,14 @@ import com.netxforge.smi.SmiPackage;
 public class MacroValueImpl extends MinimalEObjectImpl.Container implements MacroValue
 {
   /**
-   * The default value of the '{@link #getType() <em>Type</em>}' attribute.
+   * The cached value of the '{@link #getType() <em>Type</em>}' containment reference.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @see #getType()
    * @generated
    * @ordered
    */
-  protected static final MACRO_VALUE_TYPE TYPE_EDEFAULT = MACRO_VALUE_TYPE.VALUE;
-
-  /**
-   * The cached value of the '{@link #getType() <em>Type</em>}' attribute.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @see #getType()
-   * @generated
-   * @ordered
-   */
-  protected MACRO_VALUE_TYPE type = TYPE_EDEFAULT;
+  protected MACRO_VALUE_TYPE type;
 
   /**
    * <!-- begin-user-doc -->
@@ -82,12 +76,53 @@ public class MacroValueImpl extends MinimalEObjectImpl.Container implements Macr
    * <!-- end-user-doc -->
    * @generated
    */
-  public void setType(MACRO_VALUE_TYPE newType)
+  public NotificationChain basicSetType(MACRO_VALUE_TYPE newType, NotificationChain msgs)
   {
     MACRO_VALUE_TYPE oldType = type;
-    type = newType == null ? TYPE_EDEFAULT : newType;
+    type = newType;
     if (eNotificationRequired())
-      eNotify(new ENotificationImpl(this, Notification.SET, SmiPackage.MACRO_VALUE__TYPE, oldType, type));
+    {
+      ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, SmiPackage.MACRO_VALUE__TYPE, oldType, newType);
+      if (msgs == null) msgs = notification; else msgs.add(notification);
+    }
+    return msgs;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public void setType(MACRO_VALUE_TYPE newType)
+  {
+    if (newType != type)
+    {
+      NotificationChain msgs = null;
+      if (type != null)
+        msgs = ((InternalEObject)type).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - SmiPackage.MACRO_VALUE__TYPE, null, msgs);
+      if (newType != null)
+        msgs = ((InternalEObject)newType).eInverseAdd(this, EOPPOSITE_FEATURE_BASE - SmiPackage.MACRO_VALUE__TYPE, null, msgs);
+      msgs = basicSetType(newType, msgs);
+      if (msgs != null) msgs.dispatch();
+    }
+    else if (eNotificationRequired())
+      eNotify(new ENotificationImpl(this, Notification.SET, SmiPackage.MACRO_VALUE__TYPE, newType, newType));
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  @Override
+  public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs)
+  {
+    switch (featureID)
+    {
+      case SmiPackage.MACRO_VALUE__TYPE:
+        return basicSetType(null, msgs);
+    }
+    return super.eInverseRemove(otherEnd, featureID, msgs);
   }
 
   /**
@@ -134,7 +169,7 @@ public class MacroValueImpl extends MinimalEObjectImpl.Container implements Macr
     switch (featureID)
     {
       case SmiPackage.MACRO_VALUE__TYPE:
-        setType(TYPE_EDEFAULT);
+        setType((MACRO_VALUE_TYPE)null);
         return;
     }
     super.eUnset(featureID);
@@ -151,26 +186,9 @@ public class MacroValueImpl extends MinimalEObjectImpl.Container implements Macr
     switch (featureID)
     {
       case SmiPackage.MACRO_VALUE__TYPE:
-        return type != TYPE_EDEFAULT;
+        return type != null;
     }
     return super.eIsSet(featureID);
-  }
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  @Override
-  public String toString()
-  {
-    if (eIsProxy()) return super.toString();
-
-    StringBuffer result = new StringBuffer(super.toString());
-    result.append(" (type: ");
-    result.append(type);
-    result.append(')');
-    return result.toString();
   }
 
 } //MacroValueImpl

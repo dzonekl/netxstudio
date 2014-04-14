@@ -2,222 +2,77 @@
  */
 package com.netxforge.smi;
 
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
-
-import org.eclipse.emf.common.util.Enumerator;
+import org.eclipse.emf.ecore.EObject;
 
 /**
  * <!-- begin-user-doc -->
- * A representation of the literals of the enumeration '<em><b>MACRO VALUE TYPE</b></em>',
- * and utility methods for working with them.
+ * A representation of the model object '<em><b>MACRO VALUE TYPE</b></em>'.
  * <!-- end-user-doc -->
+ *
+ * <p>
+ * The following features are supported:
+ * <ul>
+ *   <li>{@link com.netxforge.smi.MACRO_VALUE_TYPE#getValLiteral <em>Val Literal</em>}</li>
+ *   <li>{@link com.netxforge.smi.MACRO_VALUE_TYPE#getUpdate <em>Update</em>}</li>
+ * </ul>
+ * </p>
+ *
  * @see com.netxforge.smi.SmiPackage#getMACRO_VALUE_TYPE()
  * @model
  * @generated
  */
-public enum MACRO_VALUE_TYPE implements Enumerator
+public interface MACRO_VALUE_TYPE extends EObject
 {
   /**
-   * The '<em><b>VALUE</b></em>' literal object.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @see #VALUE_VALUE
-   * @generated
-   * @ordered
-   */
-  VALUE(0, "VALUE", "VALUE"),
-
-  /**
-   * The '<em><b>Update</b></em>' literal object.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @see #UPDATE_VALUE
-   * @generated
-   * @ordered
-   */
-  UPDATE(1, "Update", "Update");
-
-  /**
-   * The '<em><b>VALUE</b></em>' literal value.
+   * Returns the value of the '<em><b>Val Literal</b></em>' containment reference.
    * <!-- begin-user-doc -->
    * <p>
-   * If the meaning of '<em><b>VALUE</b></em>' literal object isn't clear,
+   * If the meaning of the '<em>Val Literal</em>' containment reference isn't clear,
    * there really should be more of a description here...
    * </p>
    * <!-- end-user-doc -->
-   * @see #VALUE
-   * @model
+   * @return the value of the '<em>Val Literal</em>' containment reference.
+   * @see #setValLiteral(MACRO_VALUE_CAP)
+   * @see com.netxforge.smi.SmiPackage#getMACRO_VALUE_TYPE_ValLiteral()
+   * @model containment="true"
    * @generated
-   * @ordered
    */
-  public static final int VALUE_VALUE = 0;
+  MACRO_VALUE_CAP getValLiteral();
 
   /**
-   * The '<em><b>Update</b></em>' literal value.
+   * Sets the value of the '{@link com.netxforge.smi.MACRO_VALUE_TYPE#getValLiteral <em>Val Literal</em>}' containment reference.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @param value the new value of the '<em>Val Literal</em>' containment reference.
+   * @see #getValLiteral()
+   * @generated
+   */
+  void setValLiteral(MACRO_VALUE_CAP value);
+
+  /**
+   * Returns the value of the '<em><b>Update</b></em>' containment reference.
    * <!-- begin-user-doc -->
    * <p>
-   * If the meaning of '<em><b>Update</b></em>' literal object isn't clear,
+   * If the meaning of the '<em>Update</em>' containment reference isn't clear,
    * there really should be more of a description here...
    * </p>
    * <!-- end-user-doc -->
-   * @see #UPDATE
-   * @model name="Update"
+   * @return the value of the '<em>Update</em>' containment reference.
+   * @see #setUpdate(UpdateType)
+   * @see com.netxforge.smi.SmiPackage#getMACRO_VALUE_TYPE_Update()
+   * @model containment="true"
    * @generated
-   * @ordered
    */
-  public static final int UPDATE_VALUE = 1;
+  UpdateType getUpdate();
 
   /**
-   * An array of all the '<em><b>MACRO VALUE TYPE</b></em>' enumerators.
+   * Sets the value of the '{@link com.netxforge.smi.MACRO_VALUE_TYPE#getUpdate <em>Update</em>}' containment reference.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
+   * @param value the new value of the '<em>Update</em>' containment reference.
+   * @see #getUpdate()
    * @generated
    */
-  private static final MACRO_VALUE_TYPE[] VALUES_ARRAY =
-    new MACRO_VALUE_TYPE[]
-    {
-      VALUE,
-      UPDATE,
-    };
+  void setUpdate(UpdateType value);
 
-  /**
-   * A public read-only list of all the '<em><b>MACRO VALUE TYPE</b></em>' enumerators.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  public static final List<MACRO_VALUE_TYPE> VALUES = Collections.unmodifiableList(Arrays.asList(VALUES_ARRAY));
-
-  /**
-   * Returns the '<em><b>MACRO VALUE TYPE</b></em>' literal with the specified literal value.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  public static MACRO_VALUE_TYPE get(String literal)
-  {
-    for (int i = 0; i < VALUES_ARRAY.length; ++i)
-    {
-      MACRO_VALUE_TYPE result = VALUES_ARRAY[i];
-      if (result.toString().equals(literal))
-      {
-        return result;
-      }
-    }
-    return null;
-  }
-
-  /**
-   * Returns the '<em><b>MACRO VALUE TYPE</b></em>' literal with the specified name.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  public static MACRO_VALUE_TYPE getByName(String name)
-  {
-    for (int i = 0; i < VALUES_ARRAY.length; ++i)
-    {
-      MACRO_VALUE_TYPE result = VALUES_ARRAY[i];
-      if (result.getName().equals(name))
-      {
-        return result;
-      }
-    }
-    return null;
-  }
-
-  /**
-   * Returns the '<em><b>MACRO VALUE TYPE</b></em>' literal with the specified integer value.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  public static MACRO_VALUE_TYPE get(int value)
-  {
-    switch (value)
-    {
-      case VALUE_VALUE: return VALUE;
-      case UPDATE_VALUE: return UPDATE;
-    }
-    return null;
-  }
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  private final int value;
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  private final String name;
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  private final String literal;
-
-  /**
-   * Only this class can construct instances.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  private MACRO_VALUE_TYPE(int value, String name, String literal)
-  {
-    this.value = value;
-    this.name = name;
-    this.literal = literal;
-  }
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  public int getValue()
-  {
-    return value;
-  }
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  public String getName()
-  {
-    return name;
-  }
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  public String getLiteral()
-  {
-    return literal;
-  }
-
-  /**
-   * Returns the literal value of the enumerator, which is its string representation.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  @Override
-  public String toString()
-  {
-    return literal;
-  }
-  
-} //MACRO_VALUE_TYPE
+} // MACRO_VALUE_TYPE

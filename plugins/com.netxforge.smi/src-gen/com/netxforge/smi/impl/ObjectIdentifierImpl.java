@@ -2,15 +2,18 @@
  */
 package com.netxforge.smi.impl;
 
-import org.eclipse.emf.common.notify.Notification;
-import org.eclipse.emf.common.notify.NotificationChain;
-import org.eclipse.emf.ecore.EClass;
-import org.eclipse.emf.ecore.InternalEObject;
-import org.eclipse.emf.ecore.impl.ENotificationImpl;
-
 import com.netxforge.smi.ObjectIdentifier;
 import com.netxforge.smi.ObjectIdentifierValue;
 import com.netxforge.smi.SmiPackage;
+
+import org.eclipse.emf.common.notify.Notification;
+import org.eclipse.emf.common.notify.NotificationChain;
+
+import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.InternalEObject;
+
+import org.eclipse.emf.ecore.impl.ENotificationImpl;
+import org.eclipse.emf.ecore.impl.MinimalEObjectImpl;
 
 /**
  * <!-- begin-user-doc -->
@@ -19,34 +22,34 @@ import com.netxforge.smi.SmiPackage;
  * <p>
  * The following features are implemented:
  * <ul>
- *   <li>{@link com.netxforge.smi.impl.ObjectIdentifierImpl#getDescriptor <em>Descriptor</em>}</li>
+ *   <li>{@link com.netxforge.smi.impl.ObjectIdentifierImpl#getName <em>Name</em>}</li>
  *   <li>{@link com.netxforge.smi.impl.ObjectIdentifierImpl#getOidValue <em>Oid Value</em>}</li>
  * </ul>
  * </p>
  *
  * @generated
  */
-public class ObjectIdentifierImpl extends AssignmentImpl implements ObjectIdentifier
+public class ObjectIdentifierImpl extends MinimalEObjectImpl.Container implements ObjectIdentifier
 {
   /**
-   * The default value of the '{@link #getDescriptor() <em>Descriptor</em>}' attribute.
+   * The default value of the '{@link #getName() <em>Name</em>}' attribute.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @see #getDescriptor()
+   * @see #getName()
    * @generated
    * @ordered
    */
-  protected static final String DESCRIPTOR_EDEFAULT = null;
+  protected static final String NAME_EDEFAULT = null;
 
   /**
-   * The cached value of the '{@link #getDescriptor() <em>Descriptor</em>}' attribute.
+   * The cached value of the '{@link #getName() <em>Name</em>}' attribute.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @see #getDescriptor()
+   * @see #getName()
    * @generated
    * @ordered
    */
-  protected String descriptor = DESCRIPTOR_EDEFAULT;
+  protected String name = NAME_EDEFAULT;
 
   /**
    * The cached value of the '{@link #getOidValue() <em>Oid Value</em>}' containment reference.
@@ -84,9 +87,9 @@ public class ObjectIdentifierImpl extends AssignmentImpl implements ObjectIdenti
    * <!-- end-user-doc -->
    * @generated
    */
-  public String getDescriptor()
+  public String getName()
   {
-    return descriptor;
+    return name;
   }
 
   /**
@@ -94,12 +97,12 @@ public class ObjectIdentifierImpl extends AssignmentImpl implements ObjectIdenti
    * <!-- end-user-doc -->
    * @generated
    */
-  public void setDescriptor(String newDescriptor)
+  public void setName(String newName)
   {
-    String oldDescriptor = descriptor;
-    descriptor = newDescriptor;
+    String oldName = name;
+    name = newName;
     if (eNotificationRequired())
-      eNotify(new ENotificationImpl(this, Notification.SET, SmiPackage.OBJECT_IDENTIFIER__DESCRIPTOR, oldDescriptor, descriptor));
+      eNotify(new ENotificationImpl(this, Notification.SET, SmiPackage.OBJECT_IDENTIFIER__NAME, oldName, name));
   }
 
   /**
@@ -176,8 +179,8 @@ public class ObjectIdentifierImpl extends AssignmentImpl implements ObjectIdenti
   {
     switch (featureID)
     {
-      case SmiPackage.OBJECT_IDENTIFIER__DESCRIPTOR:
-        return getDescriptor();
+      case SmiPackage.OBJECT_IDENTIFIER__NAME:
+        return getName();
       case SmiPackage.OBJECT_IDENTIFIER__OID_VALUE:
         return getOidValue();
     }
@@ -194,8 +197,8 @@ public class ObjectIdentifierImpl extends AssignmentImpl implements ObjectIdenti
   {
     switch (featureID)
     {
-      case SmiPackage.OBJECT_IDENTIFIER__DESCRIPTOR:
-        setDescriptor((String)newValue);
+      case SmiPackage.OBJECT_IDENTIFIER__NAME:
+        setName((String)newValue);
         return;
       case SmiPackage.OBJECT_IDENTIFIER__OID_VALUE:
         setOidValue((ObjectIdentifierValue)newValue);
@@ -214,8 +217,8 @@ public class ObjectIdentifierImpl extends AssignmentImpl implements ObjectIdenti
   {
     switch (featureID)
     {
-      case SmiPackage.OBJECT_IDENTIFIER__DESCRIPTOR:
-        setDescriptor(DESCRIPTOR_EDEFAULT);
+      case SmiPackage.OBJECT_IDENTIFIER__NAME:
+        setName(NAME_EDEFAULT);
         return;
       case SmiPackage.OBJECT_IDENTIFIER__OID_VALUE:
         setOidValue((ObjectIdentifierValue)null);
@@ -234,8 +237,8 @@ public class ObjectIdentifierImpl extends AssignmentImpl implements ObjectIdenti
   {
     switch (featureID)
     {
-      case SmiPackage.OBJECT_IDENTIFIER__DESCRIPTOR:
-        return DESCRIPTOR_EDEFAULT == null ? descriptor != null : !DESCRIPTOR_EDEFAULT.equals(descriptor);
+      case SmiPackage.OBJECT_IDENTIFIER__NAME:
+        return NAME_EDEFAULT == null ? name != null : !NAME_EDEFAULT.equals(name);
       case SmiPackage.OBJECT_IDENTIFIER__OID_VALUE:
         return oidValue != null;
     }
@@ -253,8 +256,8 @@ public class ObjectIdentifierImpl extends AssignmentImpl implements ObjectIdenti
     if (eIsProxy()) return super.toString();
 
     StringBuffer result = new StringBuffer(super.toString());
-    result.append(" (descriptor: ");
-    result.append(descriptor);
+    result.append(" (name: ");
+    result.append(name);
     result.append(')');
     return result.toString();
   }

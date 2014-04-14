@@ -51,6 +51,7 @@ import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import com.netxforge.base.NonModelUtils;
 import com.netxforge.base.context.IComputationContext;
+import com.netxforge.base.context.IExternalContextAware;
 import com.netxforge.internal.RuntimeActivator;
 import com.netxforge.netxscript.NetxscriptPackage;
 import com.netxforge.netxstudio.library.Component;

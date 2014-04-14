@@ -2,22 +2,20 @@
  */
 package com.netxforge.smi.impl;
 
-import java.util.Collection;
+import com.netxforge.smi.Assignment;
+import com.netxforge.smi.Macro;
+import com.netxforge.smi.ObjectIdentifier;
+import com.netxforge.smi.SmiPackage;
+import com.netxforge.smi.TypeDefinition;
 
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
-import org.eclipse.emf.common.util.EList;
+
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.InternalEObject;
+
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.impl.MinimalEObjectImpl;
-import org.eclipse.emf.ecore.util.EObjectContainmentEList;
-import org.eclipse.emf.ecore.util.InternalEList;
-
-import com.netxforge.smi.Assignment;
-import com.netxforge.smi.Macro;
-import com.netxforge.smi.SmiPackage;
-import com.netxforge.smi.ValueAssignment;
 
 /**
  * <!-- begin-user-doc -->
@@ -26,8 +24,9 @@ import com.netxforge.smi.ValueAssignment;
  * <p>
  * The following features are implemented:
  * <ul>
- *   <li>{@link com.netxforge.smi.impl.AssignmentImpl#getMacros <em>Macros</em>}</li>
- *   <li>{@link com.netxforge.smi.impl.AssignmentImpl#getTypes <em>Types</em>}</li>
+ *   <li>{@link com.netxforge.smi.impl.AssignmentImpl#getIdentifier <em>Identifier</em>}</li>
+ *   <li>{@link com.netxforge.smi.impl.AssignmentImpl#getType <em>Type</em>}</li>
+ *   <li>{@link com.netxforge.smi.impl.AssignmentImpl#getMacro <em>Macro</em>}</li>
  * </ul>
  * </p>
  *
@@ -36,24 +35,34 @@ import com.netxforge.smi.ValueAssignment;
 public class AssignmentImpl extends MinimalEObjectImpl.Container implements Assignment
 {
   /**
-   * The cached value of the '{@link #getMacros() <em>Macros</em>}' containment reference.
+   * The cached value of the '{@link #getIdentifier() <em>Identifier</em>}' containment reference.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @see #getMacros()
+   * @see #getIdentifier()
    * @generated
    * @ordered
    */
-  protected Macro macros;
+  protected ObjectIdentifier identifier;
 
   /**
-   * The cached value of the '{@link #getTypes() <em>Types</em>}' containment reference list.
+   * The cached value of the '{@link #getType() <em>Type</em>}' containment reference.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @see #getTypes()
+   * @see #getType()
    * @generated
    * @ordered
    */
-  protected EList<ValueAssignment> types;
+  protected TypeDefinition type;
+
+  /**
+   * The cached value of the '{@link #getMacro() <em>Macro</em>}' containment reference.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see #getMacro()
+   * @generated
+   * @ordered
+   */
+  protected Macro macro;
 
   /**
    * <!-- begin-user-doc -->
@@ -81,9 +90,9 @@ public class AssignmentImpl extends MinimalEObjectImpl.Container implements Assi
    * <!-- end-user-doc -->
    * @generated
    */
-  public Macro getMacros()
+  public ObjectIdentifier getIdentifier()
   {
-    return macros;
+    return identifier;
   }
 
   /**
@@ -91,13 +100,13 @@ public class AssignmentImpl extends MinimalEObjectImpl.Container implements Assi
    * <!-- end-user-doc -->
    * @generated
    */
-  public NotificationChain basicSetMacros(Macro newMacros, NotificationChain msgs)
+  public NotificationChain basicSetIdentifier(ObjectIdentifier newIdentifier, NotificationChain msgs)
   {
-    Macro oldMacros = macros;
-    macros = newMacros;
+    ObjectIdentifier oldIdentifier = identifier;
+    identifier = newIdentifier;
     if (eNotificationRequired())
     {
-      ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, SmiPackage.ASSIGNMENT__MACROS, oldMacros, newMacros);
+      ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, SmiPackage.ASSIGNMENT__IDENTIFIER, oldIdentifier, newIdentifier);
       if (msgs == null) msgs = notification; else msgs.add(notification);
     }
     return msgs;
@@ -108,20 +117,20 @@ public class AssignmentImpl extends MinimalEObjectImpl.Container implements Assi
    * <!-- end-user-doc -->
    * @generated
    */
-  public void setMacros(Macro newMacros)
+  public void setIdentifier(ObjectIdentifier newIdentifier)
   {
-    if (newMacros != macros)
+    if (newIdentifier != identifier)
     {
       NotificationChain msgs = null;
-      if (macros != null)
-        msgs = ((InternalEObject)macros).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - SmiPackage.ASSIGNMENT__MACROS, null, msgs);
-      if (newMacros != null)
-        msgs = ((InternalEObject)newMacros).eInverseAdd(this, EOPPOSITE_FEATURE_BASE - SmiPackage.ASSIGNMENT__MACROS, null, msgs);
-      msgs = basicSetMacros(newMacros, msgs);
+      if (identifier != null)
+        msgs = ((InternalEObject)identifier).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - SmiPackage.ASSIGNMENT__IDENTIFIER, null, msgs);
+      if (newIdentifier != null)
+        msgs = ((InternalEObject)newIdentifier).eInverseAdd(this, EOPPOSITE_FEATURE_BASE - SmiPackage.ASSIGNMENT__IDENTIFIER, null, msgs);
+      msgs = basicSetIdentifier(newIdentifier, msgs);
       if (msgs != null) msgs.dispatch();
     }
     else if (eNotificationRequired())
-      eNotify(new ENotificationImpl(this, Notification.SET, SmiPackage.ASSIGNMENT__MACROS, newMacros, newMacros));
+      eNotify(new ENotificationImpl(this, Notification.SET, SmiPackage.ASSIGNMENT__IDENTIFIER, newIdentifier, newIdentifier));
   }
 
   /**
@@ -129,13 +138,95 @@ public class AssignmentImpl extends MinimalEObjectImpl.Container implements Assi
    * <!-- end-user-doc -->
    * @generated
    */
-  public EList<ValueAssignment> getTypes()
+  public TypeDefinition getType()
   {
-    if (types == null)
+    return type;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public NotificationChain basicSetType(TypeDefinition newType, NotificationChain msgs)
+  {
+    TypeDefinition oldType = type;
+    type = newType;
+    if (eNotificationRequired())
     {
-      types = new EObjectContainmentEList<ValueAssignment>(ValueAssignment.class, this, SmiPackage.ASSIGNMENT__TYPES);
+      ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, SmiPackage.ASSIGNMENT__TYPE, oldType, newType);
+      if (msgs == null) msgs = notification; else msgs.add(notification);
     }
-    return types;
+    return msgs;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public void setType(TypeDefinition newType)
+  {
+    if (newType != type)
+    {
+      NotificationChain msgs = null;
+      if (type != null)
+        msgs = ((InternalEObject)type).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - SmiPackage.ASSIGNMENT__TYPE, null, msgs);
+      if (newType != null)
+        msgs = ((InternalEObject)newType).eInverseAdd(this, EOPPOSITE_FEATURE_BASE - SmiPackage.ASSIGNMENT__TYPE, null, msgs);
+      msgs = basicSetType(newType, msgs);
+      if (msgs != null) msgs.dispatch();
+    }
+    else if (eNotificationRequired())
+      eNotify(new ENotificationImpl(this, Notification.SET, SmiPackage.ASSIGNMENT__TYPE, newType, newType));
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public Macro getMacro()
+  {
+    return macro;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public NotificationChain basicSetMacro(Macro newMacro, NotificationChain msgs)
+  {
+    Macro oldMacro = macro;
+    macro = newMacro;
+    if (eNotificationRequired())
+    {
+      ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, SmiPackage.ASSIGNMENT__MACRO, oldMacro, newMacro);
+      if (msgs == null) msgs = notification; else msgs.add(notification);
+    }
+    return msgs;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public void setMacro(Macro newMacro)
+  {
+    if (newMacro != macro)
+    {
+      NotificationChain msgs = null;
+      if (macro != null)
+        msgs = ((InternalEObject)macro).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - SmiPackage.ASSIGNMENT__MACRO, null, msgs);
+      if (newMacro != null)
+        msgs = ((InternalEObject)newMacro).eInverseAdd(this, EOPPOSITE_FEATURE_BASE - SmiPackage.ASSIGNMENT__MACRO, null, msgs);
+      msgs = basicSetMacro(newMacro, msgs);
+      if (msgs != null) msgs.dispatch();
+    }
+    else if (eNotificationRequired())
+      eNotify(new ENotificationImpl(this, Notification.SET, SmiPackage.ASSIGNMENT__MACRO, newMacro, newMacro));
   }
 
   /**
@@ -148,10 +239,12 @@ public class AssignmentImpl extends MinimalEObjectImpl.Container implements Assi
   {
     switch (featureID)
     {
-      case SmiPackage.ASSIGNMENT__MACROS:
-        return basicSetMacros(null, msgs);
-      case SmiPackage.ASSIGNMENT__TYPES:
-        return ((InternalEList<?>)getTypes()).basicRemove(otherEnd, msgs);
+      case SmiPackage.ASSIGNMENT__IDENTIFIER:
+        return basicSetIdentifier(null, msgs);
+      case SmiPackage.ASSIGNMENT__TYPE:
+        return basicSetType(null, msgs);
+      case SmiPackage.ASSIGNMENT__MACRO:
+        return basicSetMacro(null, msgs);
     }
     return super.eInverseRemove(otherEnd, featureID, msgs);
   }
@@ -166,10 +259,12 @@ public class AssignmentImpl extends MinimalEObjectImpl.Container implements Assi
   {
     switch (featureID)
     {
-      case SmiPackage.ASSIGNMENT__MACROS:
-        return getMacros();
-      case SmiPackage.ASSIGNMENT__TYPES:
-        return getTypes();
+      case SmiPackage.ASSIGNMENT__IDENTIFIER:
+        return getIdentifier();
+      case SmiPackage.ASSIGNMENT__TYPE:
+        return getType();
+      case SmiPackage.ASSIGNMENT__MACRO:
+        return getMacro();
     }
     return super.eGet(featureID, resolve, coreType);
   }
@@ -179,18 +274,19 @@ public class AssignmentImpl extends MinimalEObjectImpl.Container implements Assi
    * <!-- end-user-doc -->
    * @generated
    */
-  @SuppressWarnings("unchecked")
   @Override
   public void eSet(int featureID, Object newValue)
   {
     switch (featureID)
     {
-      case SmiPackage.ASSIGNMENT__MACROS:
-        setMacros((Macro)newValue);
+      case SmiPackage.ASSIGNMENT__IDENTIFIER:
+        setIdentifier((ObjectIdentifier)newValue);
         return;
-      case SmiPackage.ASSIGNMENT__TYPES:
-        getTypes().clear();
-        getTypes().addAll((Collection<? extends ValueAssignment>)newValue);
+      case SmiPackage.ASSIGNMENT__TYPE:
+        setType((TypeDefinition)newValue);
+        return;
+      case SmiPackage.ASSIGNMENT__MACRO:
+        setMacro((Macro)newValue);
         return;
     }
     super.eSet(featureID, newValue);
@@ -206,11 +302,14 @@ public class AssignmentImpl extends MinimalEObjectImpl.Container implements Assi
   {
     switch (featureID)
     {
-      case SmiPackage.ASSIGNMENT__MACROS:
-        setMacros((Macro)null);
+      case SmiPackage.ASSIGNMENT__IDENTIFIER:
+        setIdentifier((ObjectIdentifier)null);
         return;
-      case SmiPackage.ASSIGNMENT__TYPES:
-        getTypes().clear();
+      case SmiPackage.ASSIGNMENT__TYPE:
+        setType((TypeDefinition)null);
+        return;
+      case SmiPackage.ASSIGNMENT__MACRO:
+        setMacro((Macro)null);
         return;
     }
     super.eUnset(featureID);
@@ -226,10 +325,12 @@ public class AssignmentImpl extends MinimalEObjectImpl.Container implements Assi
   {
     switch (featureID)
     {
-      case SmiPackage.ASSIGNMENT__MACROS:
-        return macros != null;
-      case SmiPackage.ASSIGNMENT__TYPES:
-        return types != null && !types.isEmpty();
+      case SmiPackage.ASSIGNMENT__IDENTIFIER:
+        return identifier != null;
+      case SmiPackage.ASSIGNMENT__TYPE:
+        return type != null;
+      case SmiPackage.ASSIGNMENT__MACRO:
+        return macro != null;
     }
     return super.eIsSet(featureID);
   }

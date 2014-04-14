@@ -36,6 +36,7 @@ import org.eclipse.xtext.util.StringInputStream;
 
 import com.google.inject.Inject;
 import com.netxforge.base.context.IComputationContext;
+import com.netxforge.base.context.IExternalContextAware;
 import com.netxforge.internal.RuntimeActivator;
 import com.netxforge.interpreter.IInterpreter;
 import com.netxforge.interpreter.IInterpreterContextFactory;
@@ -49,7 +50,6 @@ import com.netxforge.netxstudio.library.Expression;
 import com.netxforge.netxstudio.library.ExpressionResult;
 import com.netxforge.netxstudio.operators.Node;
 import com.netxforge.netxstudio.services.Service;
-import com.netxforge.scoping.IExternalContextAware;
 
 /**
  * Runs an expression and collects the results in a list of

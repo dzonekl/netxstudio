@@ -2,6 +2,7 @@
  */
 package com.netxforge.smi;
 
+import org.eclipse.emf.ecore.EObject;
 
 /**
  * <!-- begin-user-doc -->
@@ -11,7 +12,7 @@ package com.netxforge.smi;
  * <p>
  * The following features are supported:
  * <ul>
- *   <li>{@link com.netxforge.smi.ObjectIdentifier#getDescriptor <em>Descriptor</em>}</li>
+ *   <li>{@link com.netxforge.smi.ObjectIdentifier#getName <em>Name</em>}</li>
  *   <li>{@link com.netxforge.smi.ObjectIdentifier#getOidValue <em>Oid Value</em>}</li>
  * </ul>
  * </p>
@@ -20,33 +21,33 @@ package com.netxforge.smi;
  * @model
  * @generated
  */
-public interface ObjectIdentifier extends Assignment
+public interface ObjectIdentifier extends EObject
 {
   /**
-   * Returns the value of the '<em><b>Descriptor</b></em>' attribute.
+   * Returns the value of the '<em><b>Name</b></em>' attribute.
    * <!-- begin-user-doc -->
    * <p>
-   * If the meaning of the '<em>Descriptor</em>' attribute isn't clear,
+   * If the meaning of the '<em>Name</em>' attribute isn't clear,
    * there really should be more of a description here...
    * </p>
    * <!-- end-user-doc -->
-   * @return the value of the '<em>Descriptor</em>' attribute.
-   * @see #setDescriptor(String)
-   * @see com.netxforge.smi.SmiPackage#getObjectIdentifier_Descriptor()
+   * @return the value of the '<em>Name</em>' attribute.
+   * @see #setName(String)
+   * @see com.netxforge.smi.SmiPackage#getObjectIdentifier_Name()
    * @model
    * @generated
    */
-  String getDescriptor();
+  String getName();
 
   /**
-   * Sets the value of the '{@link com.netxforge.smi.ObjectIdentifier#getDescriptor <em>Descriptor</em>}' attribute.
+   * Sets the value of the '{@link com.netxforge.smi.ObjectIdentifier#getName <em>Name</em>}' attribute.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @param value the new value of the '<em>Descriptor</em>' attribute.
-   * @see #getDescriptor()
+   * @param value the new value of the '<em>Name</em>' attribute.
+   * @see #getName()
    * @generated
    */
-  void setDescriptor(String value);
+  void setName(String value);
 
   /**
    * Returns the value of the '<em><b>Oid Value</b></em>' containment reference.

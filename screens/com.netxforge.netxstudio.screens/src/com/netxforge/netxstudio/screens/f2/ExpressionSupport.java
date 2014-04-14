@@ -31,6 +31,7 @@ import com.google.inject.Inject;
 import com.google.inject.Injector;
 import com.google.inject.name.Named;
 import com.netxforge.base.context.IComputationContext;
+import com.netxforge.base.context.IExternalContextAware;
 import com.netxforge.base.di.IInjectorProxy;
 import com.netxforge.interpreter.IInterpreter;
 import com.netxforge.interpreter.IInterpreterContextFactory;
@@ -42,7 +43,6 @@ import com.netxforge.netxstudio.library.Component;
 import com.netxforge.netxstudio.library.Expression;
 import com.netxforge.netxstudio.library.NetXResource;
 import com.netxforge.netxstudio.operators.Node;
-import com.netxforge.scoping.IExternalContextAware;
 
 /**
  * Helper, which can build a context.

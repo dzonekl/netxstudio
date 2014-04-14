@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 28 dec. 2012 NetXForge.
+ * Copyright (c) 10 apr. 2014 NetXForge.
  * 
  * This program is free software: you can redistribute it and/or modify it under
  * the terms of the GNU General Public License as published by the Free Software
@@ -15,28 +15,10 @@
  * Contributors: Christophe Bouhier - initial API and implementation and/or
  * initial documentation
  *******************************************************************************/ 
-package com.netxforge.scoping;
+package com.netxforge.base;
 
-import com.netxforge.base.context.IComputationContext;
+public interface IPrettyLog {
 
- 
-/**
- * Clients should implement to be informed about various {@link IComputationContext} objects 
- * which can influence the clients behaviour.   
- * 
- * @author Christophe Bouhier
- */
-public interface IExternalContextAware {
+	public abstract void log(String header, Object... o);
 
-	/**
-	 * Sets the external context. 
-	 * @param context
-	 */
-	public void setExternalContext(IComputationContext... context);
-	
-	/**
-	 * Clear the external context	 
-	 */
-	public void clearExternalContext();
-	
 }

@@ -1,5 +1,7 @@
 package com.netxforge.netxstudio.server.test.snmp;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Vector;
 
 import junit.framework.TestCase;
@@ -26,6 +28,8 @@ import org.snmp4j.transport.DefaultUdpTransportMapping;
 /**
  * SNMP has many config options for Network Destination, Transport, Security,
  * MIB OID's etc...
+ * 
+ * {@linkplain http://www.manageengine.com/network-monitoring/what-is-snmp.html}
  * 
  * @author Christophe Bouhier
  * 
@@ -56,44 +60,52 @@ public class SnmpTest extends TestCase {
 
 		// creating PDU
 		PDU pdu = new PDU();
-		// pdu.add(new VariableBinding(new OID(
-		// new int[] { 1, 3, 6, 1, 2, 1, 1, 1 })));
-
-		pdu.add(new VariableBinding(new OID(new int[] { 1, 3, 6 })));
-
 		pdu.add(new VariableBinding(new OID(
-				new int[] { 1, 3, 6, 1, 2, 1, 1, 2 })));
+				new int[] { 1, 3, 6, 1, 2, 1, 2,1 })));
 
 		pdu.setType(PDU.GETNEXT);
 
 		WaitsUntilDone waitsUntilDone = new WaitsUntilDone();
+		snmp.send(pdu, target, null, waitsUntilDone);
 
-		while (!waitsUntilDone.isDone()) {
-			snmp.send(pdu, target, null, waitsUntilDone);
-			if(waitsUntilDone.getNext() != null){
-				pdu.clear();
-				pdu.add(new VariableBinding(waitsUntilDone.getNext()));
+		while (true) {
+			if (waitsUntilDone.hasResponse()) {
+				for (Variable v : waitsUntilDone.getResult()) {
+					System.out.println("Value: " + v);
+				}
+				waitsUntilDone.reset();
+				if (waitsUntilDone.getNext() != null) {
+					OID next = waitsUntilDone.getNext();
+					System.out.println("Next OID: " + next);
+					pdu.clear();
+					pdu.add(new VariableBinding(next));
+					snmp.send(pdu, target, null, waitsUntilDone);
+				}else{
+					break;
+				}
 			}
-		}
 
+		}
 	}
 
 	class WaitsUntilDone implements ResponseListener {
 
-		boolean done = false;
+		boolean responseReceived = false;
 
 		OID next = null;
+
+		private List<Variable> result = new ArrayList<Variable>();
 
 		public OID getNext() {
 			return next;
 		}
 
-		public boolean isDone() {
-			return done;
+		public void reset() {
+			responseReceived = false;
 		}
 
-		public void setDone(boolean done) {
-			this.done = done;
+		public boolean hasResponse() {
+			return responseReceived;
 		}
 
 		public void onResponse(ResponseEvent event) {
@@ -107,19 +119,25 @@ public class SnmpTest extends TestCase {
 			PDU response = event.getResponse();
 			Vector<? extends VariableBinding> variableBindings = response
 					.getVariableBindings();
+			result.clear();
 			for (VariableBinding vbs : variableBindings) {
 				Variable variable = vbs.getVariable();
 				if (variable instanceof OID) {
 					next = (OID) variable;
+				} else {
+					this.addResult(variable);
 				}
-				System.out.println(vbs);
-
 			}
-			if (next == null) {
-				setDone(true);
-			}
+			responseReceived = true;
 		}
 
+		public synchronized List<Variable> getResult() {
+			return result;
+		}
+
+		public synchronized void addResult(Variable result) {
+			this.result.add(result);
+		}
 	}
 
 }

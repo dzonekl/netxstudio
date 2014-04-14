@@ -20,8 +20,10 @@ import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.inject.Inject;
+import com.netxforge.base.IPrettyLog;
 import com.netxforge.base.NonModelUtils;
 import com.netxforge.base.context.IComputationContext;
+import com.netxforge.base.context.IExternalContextAware;
 import com.netxforge.internal.RuntimeActivator;
 import com.netxforge.netxscript.AbstractFunction;
 import com.netxforge.netxscript.AbstractVarOrArgument;
@@ -117,7 +119,6 @@ import com.netxforge.netxstudio.services.Service;
 import com.netxforge.netxstudio.services.ServiceUser;
 import com.netxforge.netxstudio.services.impl.RFSServiceImpl;
 import com.netxforge.netxstudio.services.impl.ServiceUserImpl;
-import com.netxforge.scoping.IExternalContextAware;
 
 /**
  * An interpreter for instances of EClasses of the {@link NetxscriptPackage}.

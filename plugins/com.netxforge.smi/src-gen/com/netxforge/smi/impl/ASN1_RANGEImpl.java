@@ -2,13 +2,15 @@
  */
 package com.netxforge.smi.impl;
 
-import org.eclipse.emf.common.notify.Notification;
-import org.eclipse.emf.ecore.EClass;
-import org.eclipse.emf.ecore.impl.ENotificationImpl;
-import org.eclipse.emf.ecore.impl.MinimalEObjectImpl;
-
 import com.netxforge.smi.ASN1_RANGE;
 import com.netxforge.smi.SmiPackage;
+
+import org.eclipse.emf.common.notify.Notification;
+
+import org.eclipse.emf.ecore.EClass;
+
+import org.eclipse.emf.ecore.impl.ENotificationImpl;
+import org.eclipse.emf.ecore.impl.MinimalEObjectImpl;
 
 /**
  * <!-- begin-user-doc -->
@@ -17,6 +19,7 @@ import com.netxforge.smi.SmiPackage;
  * <p>
  * The following features are implemented:
  * <ul>
+ *   <li>{@link com.netxforge.smi.impl.ASN1_RANGEImpl#getValue <em>Value</em>}</li>
  *   <li>{@link com.netxforge.smi.impl.ASN1_RANGEImpl#getStart <em>Start</em>}</li>
  *   <li>{@link com.netxforge.smi.impl.ASN1_RANGEImpl#getEnd <em>End</em>}</li>
  * </ul>
@@ -26,6 +29,26 @@ import com.netxforge.smi.SmiPackage;
  */
 public class ASN1_RANGEImpl extends MinimalEObjectImpl.Container implements ASN1_RANGE
 {
+  /**
+   * The default value of the '{@link #getValue() <em>Value</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see #getValue()
+   * @generated
+   * @ordered
+   */
+  protected static final int VALUE_EDEFAULT = 0;
+
+  /**
+   * The cached value of the '{@link #getValue() <em>Value</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see #getValue()
+   * @generated
+   * @ordered
+   */
+  protected int value = VALUE_EDEFAULT;
+
   /**
    * The default value of the '{@link #getStart() <em>Start</em>}' attribute.
    * <!-- begin-user-doc -->
@@ -92,6 +115,29 @@ public class ASN1_RANGEImpl extends MinimalEObjectImpl.Container implements ASN1
    * <!-- end-user-doc -->
    * @generated
    */
+  public int getValue()
+  {
+    return value;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public void setValue(int newValue)
+  {
+    int oldValue = value;
+    value = newValue;
+    if (eNotificationRequired())
+      eNotify(new ENotificationImpl(this, Notification.SET, SmiPackage.ASN1_RANGE__VALUE, oldValue, value));
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
   public int getStart()
   {
     return start;
@@ -143,6 +189,8 @@ public class ASN1_RANGEImpl extends MinimalEObjectImpl.Container implements ASN1
   {
     switch (featureID)
     {
+      case SmiPackage.ASN1_RANGE__VALUE:
+        return getValue();
       case SmiPackage.ASN1_RANGE__START:
         return getStart();
       case SmiPackage.ASN1_RANGE__END:
@@ -161,6 +209,9 @@ public class ASN1_RANGEImpl extends MinimalEObjectImpl.Container implements ASN1
   {
     switch (featureID)
     {
+      case SmiPackage.ASN1_RANGE__VALUE:
+        setValue((Integer)newValue);
+        return;
       case SmiPackage.ASN1_RANGE__START:
         setStart((Integer)newValue);
         return;
@@ -181,6 +232,9 @@ public class ASN1_RANGEImpl extends MinimalEObjectImpl.Container implements ASN1
   {
     switch (featureID)
     {
+      case SmiPackage.ASN1_RANGE__VALUE:
+        setValue(VALUE_EDEFAULT);
+        return;
       case SmiPackage.ASN1_RANGE__START:
         setStart(START_EDEFAULT);
         return;
@@ -201,6 +255,8 @@ public class ASN1_RANGEImpl extends MinimalEObjectImpl.Container implements ASN1
   {
     switch (featureID)
     {
+      case SmiPackage.ASN1_RANGE__VALUE:
+        return value != VALUE_EDEFAULT;
       case SmiPackage.ASN1_RANGE__START:
         return start != START_EDEFAULT;
       case SmiPackage.ASN1_RANGE__END:
@@ -220,7 +276,9 @@ public class ASN1_RANGEImpl extends MinimalEObjectImpl.Container implements ASN1
     if (eIsProxy()) return super.toString();
 
     StringBuffer result = new StringBuffer(super.toString());
-    result.append(" (start: ");
+    result.append(" (value: ");
+    result.append(value);
+    result.append(", start: ");
     result.append(start);
     result.append(", end: ");
     result.append(end);

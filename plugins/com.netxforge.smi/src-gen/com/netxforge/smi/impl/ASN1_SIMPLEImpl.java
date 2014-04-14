@@ -2,19 +2,23 @@
  */
 package com.netxforge.smi.impl;
 
+import com.netxforge.smi.ASN1_SIMPLE;
+import com.netxforge.smi.SmiPackage;
+
 import java.util.Collection;
 
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
-import org.eclipse.emf.common.util.EList;
-import org.eclipse.emf.ecore.EClass;
-import org.eclipse.emf.ecore.InternalEObject;
-import org.eclipse.emf.ecore.impl.ENotificationImpl;
-import org.eclipse.emf.ecore.util.EDataTypeEList;
 
-import com.netxforge.smi.ASN1_SIMPLE;
-import com.netxforge.smi.ASN1_SUBTYPE;
-import com.netxforge.smi.SmiPackage;
+import org.eclipse.emf.common.util.EList;
+
+import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.InternalEObject;
+
+import org.eclipse.emf.ecore.impl.ENotificationImpl;
+
+import org.eclipse.emf.ecore.util.EDataTypeEList;
 
 /**
  * <!-- begin-user-doc -->
@@ -40,7 +44,7 @@ public class ASN1_SIMPLEImpl extends ASN1_TYPEImpl implements ASN1_SIMPLE
    * @generated
    * @ordered
    */
-  protected ASN1_SUBTYPE constraint;
+  protected EObject constraint;
 
   /**
    * The cached value of the '{@link #getValuePairs() <em>Value Pairs</em>}' attribute list.
@@ -78,7 +82,7 @@ public class ASN1_SIMPLEImpl extends ASN1_TYPEImpl implements ASN1_SIMPLE
    * <!-- end-user-doc -->
    * @generated
    */
-  public ASN1_SUBTYPE getConstraint()
+  public EObject getConstraint()
   {
     return constraint;
   }
@@ -88,9 +92,9 @@ public class ASN1_SIMPLEImpl extends ASN1_TYPEImpl implements ASN1_SIMPLE
    * <!-- end-user-doc -->
    * @generated
    */
-  public NotificationChain basicSetConstraint(ASN1_SUBTYPE newConstraint, NotificationChain msgs)
+  public NotificationChain basicSetConstraint(EObject newConstraint, NotificationChain msgs)
   {
-    ASN1_SUBTYPE oldConstraint = constraint;
+    EObject oldConstraint = constraint;
     constraint = newConstraint;
     if (eNotificationRequired())
     {
@@ -105,7 +109,7 @@ public class ASN1_SIMPLEImpl extends ASN1_TYPEImpl implements ASN1_SIMPLE
    * <!-- end-user-doc -->
    * @generated
    */
-  public void setConstraint(ASN1_SUBTYPE newConstraint)
+  public void setConstraint(EObject newConstraint)
   {
     if (newConstraint != constraint)
     {
@@ -181,7 +185,7 @@ public class ASN1_SIMPLEImpl extends ASN1_TYPEImpl implements ASN1_SIMPLE
     switch (featureID)
     {
       case SmiPackage.ASN1_SIMPLE__CONSTRAINT:
-        setConstraint((ASN1_SUBTYPE)newValue);
+        setConstraint((EObject)newValue);
         return;
       case SmiPackage.ASN1_SIMPLE__VALUE_PAIRS:
         getValuePairs().clear();
@@ -202,7 +206,7 @@ public class ASN1_SIMPLEImpl extends ASN1_TYPEImpl implements ASN1_SIMPLE
     switch (featureID)
     {
       case SmiPackage.ASN1_SIMPLE__CONSTRAINT:
-        setConstraint((ASN1_SUBTYPE)null);
+        setConstraint((EObject)null);
         return;
       case SmiPackage.ASN1_SIMPLE__VALUE_PAIRS:
         getValuePairs().clear();

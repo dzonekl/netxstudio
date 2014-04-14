@@ -41,6 +41,33 @@ public interface SmiFactory extends EFactory
   Assignment createAssignment();
 
   /**
+   * Returns a new object of class '<em>Object Identifier</em>'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return a new object of class '<em>Object Identifier</em>'.
+   * @generated
+   */
+  ObjectIdentifier createObjectIdentifier();
+
+  /**
+   * Returns a new object of class '<em>Object Identifier Value</em>'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return a new object of class '<em>Object Identifier Value</em>'.
+   * @generated
+   */
+  ObjectIdentifierValue createObjectIdentifierValue();
+
+  /**
+   * Returns a new object of class '<em>Type Definition</em>'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return a new object of class '<em>Type Definition</em>'.
+   * @generated
+   */
+  TypeDefinition createTypeDefinition();
+
+  /**
    * Returns a new object of class '<em>Macro</em>'.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -48,6 +75,78 @@ public interface SmiFactory extends EFactory
    * @generated
    */
   Macro createMacro();
+
+  /**
+   * Returns a new object of class '<em>Type Assignment</em>'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return a new object of class '<em>Type Assignment</em>'.
+   * @generated
+   */
+  TypeAssignment createTypeAssignment();
+
+  /**
+   * Returns a new object of class '<em>Param Assignment</em>'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return a new object of class '<em>Param Assignment</em>'.
+   * @generated
+   */
+  ParamAssignment createParamAssignment();
+
+  /**
+   * Returns a new object of class '<em>Type Notation</em>'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return a new object of class '<em>Type Notation</em>'.
+   * @generated
+   */
+  TypeNotation createTypeNotation();
+
+  /**
+   * Returns a new object of class '<em>Type Reference Ext</em>'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return a new object of class '<em>Type Reference Ext</em>'.
+   * @generated
+   */
+  TypeReferenceExt createTypeReferenceExt();
+
+  /**
+   * Returns a new object of class '<em>Type Reference</em>'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return a new object of class '<em>Type Reference</em>'.
+   * @generated
+   */
+  TypeReference createTypeReference();
+
+  /**
+   * Returns a new object of class '<em>Scope</em>'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return a new object of class '<em>Scope</em>'.
+   * @generated
+   */
+  Scope createScope();
+
+  /**
+   * Returns a new object of class '<em>Value</em>'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return a new object of class '<em>Value</em>'.
+   * @generated
+   */
+  Value createValue();
+
+  /**
+   * Returns a new object of class '<em>Value Type</em>'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return a new object of class '<em>Value Type</em>'.
+   * @generated
+   */
+  ValueType createValueType();
 
   /**
    * Returns a new object of class '<em>Macro Value</em>'.
@@ -59,31 +158,31 @@ public interface SmiFactory extends EFactory
   MacroValue createMacroValue();
 
   /**
-   * Returns a new object of class '<em>Value Assignment</em>'.
+   * Returns a new object of class '<em>MACRO VALUE TYPE</em>'.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @return a new object of class '<em>Value Assignment</em>'.
+   * @return a new object of class '<em>MACRO VALUE TYPE</em>'.
    * @generated
    */
-  ValueAssignment createValueAssignment();
+  MACRO_VALUE_TYPE createMACRO_VALUE_TYPE();
 
   /**
-   * Returns a new object of class '<em>Or</em>'.
+   * Returns a new object of class '<em>Update Type</em>'.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @return a new object of class '<em>Or</em>'.
+   * @return a new object of class '<em>Update Type</em>'.
    * @generated
    */
-  Or createOr();
+  UpdateType createUpdateType();
 
   /**
-   * Returns a new object of class '<em>Value Type</em>'.
+   * Returns a new object of class '<em>MACRO VALUE CAP</em>'.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @return a new object of class '<em>Value Type</em>'.
+   * @return a new object of class '<em>MACRO VALUE CAP</em>'.
    * @generated
    */
-  ValueType createValueType();
+  MACRO_VALUE_CAP createMACRO_VALUE_CAP();
 
   /**
    * Returns a new object of class '<em>ASN1 TYPE</em>'.
@@ -104,24 +203,6 @@ public interface SmiFactory extends EFactory
   ASN1_SIMPLE createASN1_SIMPLE();
 
   /**
-   * Returns a new object of class '<em>ASN1 CHOICE</em>'.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @return a new object of class '<em>ASN1 CHOICE</em>'.
-   * @generated
-   */
-  ASN1_CHOICE createASN1_CHOICE();
-
-  /**
-   * Returns a new object of class '<em>ASN1 CHOICE ENTRY</em>'.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @return a new object of class '<em>ASN1 CHOICE ENTRY</em>'.
-   * @generated
-   */
-  ASN1_CHOICE_ENTRY createASN1_CHOICE_ENTRY();
-
-  /**
    * Returns a new object of class '<em>ASN1 SUBTYPE</em>'.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -140,22 +221,22 @@ public interface SmiFactory extends EFactory
   ASN1_RANGE createASN1_RANGE();
 
   /**
-   * Returns a new object of class '<em>Object Identifier</em>'.
+   * Returns a new object of class '<em>ASN1 CHOICE</em>'.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @return a new object of class '<em>Object Identifier</em>'.
+   * @return a new object of class '<em>ASN1 CHOICE</em>'.
    * @generated
    */
-  ObjectIdentifier createObjectIdentifier();
+  ASN1_CHOICE createASN1_CHOICE();
 
   /**
-   * Returns a new object of class '<em>Object Identifier Value</em>'.
+   * Returns a new object of class '<em>ASN1 CHOICE ENTRY</em>'.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @return a new object of class '<em>Object Identifier Value</em>'.
+   * @return a new object of class '<em>ASN1 CHOICE ENTRY</em>'.
    * @generated
    */
-  ObjectIdentifierValue createObjectIdentifierValue();
+  ASN1_CHOICE_ENTRY createASN1_CHOICE_ENTRY();
 
   /**
    * Returns a new object of class '<em>ASN1 OCTET STRING</em>'.

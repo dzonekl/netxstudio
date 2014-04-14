@@ -2,7 +2,6 @@
  */
 package com.netxforge.smi;
 
-import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EObject;
 
 /**
@@ -13,8 +12,9 @@ import org.eclipse.emf.ecore.EObject;
  * <p>
  * The following features are supported:
  * <ul>
- *   <li>{@link com.netxforge.smi.Assignment#getMacros <em>Macros</em>}</li>
- *   <li>{@link com.netxforge.smi.Assignment#getTypes <em>Types</em>}</li>
+ *   <li>{@link com.netxforge.smi.Assignment#getIdentifier <em>Identifier</em>}</li>
+ *   <li>{@link com.netxforge.smi.Assignment#getType <em>Type</em>}</li>
+ *   <li>{@link com.netxforge.smi.Assignment#getMacro <em>Macro</em>}</li>
  * </ul>
  * </p>
  *
@@ -25,45 +25,81 @@ import org.eclipse.emf.ecore.EObject;
 public interface Assignment extends EObject
 {
   /**
-   * Returns the value of the '<em><b>Macros</b></em>' containment reference.
+   * Returns the value of the '<em><b>Identifier</b></em>' containment reference.
    * <!-- begin-user-doc -->
    * <p>
-   * If the meaning of the '<em>Macros</em>' containment reference isn't clear,
+   * If the meaning of the '<em>Identifier</em>' containment reference isn't clear,
    * there really should be more of a description here...
    * </p>
    * <!-- end-user-doc -->
-   * @return the value of the '<em>Macros</em>' containment reference.
-   * @see #setMacros(Macro)
-   * @see com.netxforge.smi.SmiPackage#getAssignment_Macros()
+   * @return the value of the '<em>Identifier</em>' containment reference.
+   * @see #setIdentifier(ObjectIdentifier)
+   * @see com.netxforge.smi.SmiPackage#getAssignment_Identifier()
    * @model containment="true"
    * @generated
    */
-  Macro getMacros();
+  ObjectIdentifier getIdentifier();
 
   /**
-   * Sets the value of the '{@link com.netxforge.smi.Assignment#getMacros <em>Macros</em>}' containment reference.
+   * Sets the value of the '{@link com.netxforge.smi.Assignment#getIdentifier <em>Identifier</em>}' containment reference.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @param value the new value of the '<em>Macros</em>' containment reference.
-   * @see #getMacros()
+   * @param value the new value of the '<em>Identifier</em>' containment reference.
+   * @see #getIdentifier()
    * @generated
    */
-  void setMacros(Macro value);
+  void setIdentifier(ObjectIdentifier value);
 
   /**
-   * Returns the value of the '<em><b>Types</b></em>' containment reference list.
-   * The list contents are of type {@link com.netxforge.smi.ValueAssignment}.
+   * Returns the value of the '<em><b>Type</b></em>' containment reference.
    * <!-- begin-user-doc -->
    * <p>
-   * If the meaning of the '<em>Types</em>' containment reference list isn't clear,
+   * If the meaning of the '<em>Type</em>' containment reference isn't clear,
    * there really should be more of a description here...
    * </p>
    * <!-- end-user-doc -->
-   * @return the value of the '<em>Types</em>' containment reference list.
-   * @see com.netxforge.smi.SmiPackage#getAssignment_Types()
+   * @return the value of the '<em>Type</em>' containment reference.
+   * @see #setType(TypeDefinition)
+   * @see com.netxforge.smi.SmiPackage#getAssignment_Type()
    * @model containment="true"
    * @generated
    */
-  EList<ValueAssignment> getTypes();
+  TypeDefinition getType();
+
+  /**
+   * Sets the value of the '{@link com.netxforge.smi.Assignment#getType <em>Type</em>}' containment reference.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @param value the new value of the '<em>Type</em>' containment reference.
+   * @see #getType()
+   * @generated
+   */
+  void setType(TypeDefinition value);
+
+  /**
+   * Returns the value of the '<em><b>Macro</b></em>' containment reference.
+   * <!-- begin-user-doc -->
+   * <p>
+   * If the meaning of the '<em>Macro</em>' containment reference isn't clear,
+   * there really should be more of a description here...
+   * </p>
+   * <!-- end-user-doc -->
+   * @return the value of the '<em>Macro</em>' containment reference.
+   * @see #setMacro(Macro)
+   * @see com.netxforge.smi.SmiPackage#getAssignment_Macro()
+   * @model containment="true"
+   * @generated
+   */
+  Macro getMacro();
+
+  /**
+   * Sets the value of the '{@link com.netxforge.smi.Assignment#getMacro <em>Macro</em>}' containment reference.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @param value the new value of the '<em>Macro</em>' containment reference.
+   * @see #getMacro()
+   * @generated
+   */
+  void setMacro(Macro value);
 
 } // Assignment

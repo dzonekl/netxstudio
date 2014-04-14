@@ -3,9 +3,9 @@
 */
 package com.netxforge.parser.antlr;
 
-import org.eclipse.xtext.parser.antlr.XtextTokenStream;
-
 import com.google.inject.Inject;
+
+import org.eclipse.xtext.parser.antlr.XtextTokenStream;
 import com.netxforge.services.SmiGrammarAccess;
 
 public class SmiParser extends org.eclipse.xtext.parser.antlr.AbstractAntlrParser {
@@ -15,7 +15,7 @@ public class SmiParser extends org.eclipse.xtext.parser.antlr.AbstractAntlrParse
 	
 	@Override
 	protected void setInitialHiddenTokens(XtextTokenStream tokenStream) {
-		tokenStream.setInitialHiddenTokens("RULE_SL_ASN1_COMMENT");
+		tokenStream.setInitialHiddenTokens("RULE_WS", "RULE_SL_ASN1_COMMENT");
 	}
 	
 	@Override

@@ -2,69 +2,71 @@
  */
 package com.netxforge.smi.impl;
 
+import com.netxforge.smi.Scope;
+import com.netxforge.smi.SmiPackage;
+import com.netxforge.smi.TypeDefinition;
+
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
+
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.InternalEObject;
+
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.impl.MinimalEObjectImpl;
 
-import com.netxforge.smi.Or;
-import com.netxforge.smi.SmiPackage;
-import com.netxforge.smi.ValueAssignment;
-
 /**
  * <!-- begin-user-doc -->
- * An implementation of the model object '<em><b>Value Assignment</b></em>'.
+ * An implementation of the model object '<em><b>Type Definition</b></em>'.
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
  * <ul>
- *   <li>{@link com.netxforge.smi.impl.ValueAssignmentImpl#getTypeReference <em>Type Reference</em>}</li>
- *   <li>{@link com.netxforge.smi.impl.ValueAssignmentImpl#getValue <em>Value</em>}</li>
+ *   <li>{@link com.netxforge.smi.impl.TypeDefinitionImpl#getName <em>Name</em>}</li>
+ *   <li>{@link com.netxforge.smi.impl.TypeDefinitionImpl#getScope <em>Scope</em>}</li>
  * </ul>
  * </p>
  *
  * @generated
  */
-public class ValueAssignmentImpl extends MinimalEObjectImpl.Container implements ValueAssignment
+public class TypeDefinitionImpl extends MinimalEObjectImpl.Container implements TypeDefinition
 {
   /**
-   * The default value of the '{@link #getTypeReference() <em>Type Reference</em>}' attribute.
+   * The default value of the '{@link #getName() <em>Name</em>}' attribute.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @see #getTypeReference()
+   * @see #getName()
    * @generated
    * @ordered
    */
-  protected static final String TYPE_REFERENCE_EDEFAULT = null;
+  protected static final String NAME_EDEFAULT = null;
 
   /**
-   * The cached value of the '{@link #getTypeReference() <em>Type Reference</em>}' attribute.
+   * The cached value of the '{@link #getName() <em>Name</em>}' attribute.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @see #getTypeReference()
+   * @see #getName()
    * @generated
    * @ordered
    */
-  protected String typeReference = TYPE_REFERENCE_EDEFAULT;
+  protected String name = NAME_EDEFAULT;
 
   /**
-   * The cached value of the '{@link #getValue() <em>Value</em>}' containment reference.
+   * The cached value of the '{@link #getScope() <em>Scope</em>}' containment reference.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @see #getValue()
+   * @see #getScope()
    * @generated
    * @ordered
    */
-  protected Or value;
+  protected Scope scope;
 
   /**
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
    */
-  protected ValueAssignmentImpl()
+  protected TypeDefinitionImpl()
   {
     super();
   }
@@ -77,7 +79,7 @@ public class ValueAssignmentImpl extends MinimalEObjectImpl.Container implements
   @Override
   protected EClass eStaticClass()
   {
-    return SmiPackage.Literals.VALUE_ASSIGNMENT;
+    return SmiPackage.Literals.TYPE_DEFINITION;
   }
 
   /**
@@ -85,9 +87,9 @@ public class ValueAssignmentImpl extends MinimalEObjectImpl.Container implements
    * <!-- end-user-doc -->
    * @generated
    */
-  public String getTypeReference()
+  public String getName()
   {
-    return typeReference;
+    return name;
   }
 
   /**
@@ -95,12 +97,12 @@ public class ValueAssignmentImpl extends MinimalEObjectImpl.Container implements
    * <!-- end-user-doc -->
    * @generated
    */
-  public void setTypeReference(String newTypeReference)
+  public void setName(String newName)
   {
-    String oldTypeReference = typeReference;
-    typeReference = newTypeReference;
+    String oldName = name;
+    name = newName;
     if (eNotificationRequired())
-      eNotify(new ENotificationImpl(this, Notification.SET, SmiPackage.VALUE_ASSIGNMENT__TYPE_REFERENCE, oldTypeReference, typeReference));
+      eNotify(new ENotificationImpl(this, Notification.SET, SmiPackage.TYPE_DEFINITION__NAME, oldName, name));
   }
 
   /**
@@ -108,9 +110,9 @@ public class ValueAssignmentImpl extends MinimalEObjectImpl.Container implements
    * <!-- end-user-doc -->
    * @generated
    */
-  public Or getValue()
+  public Scope getScope()
   {
-    return value;
+    return scope;
   }
 
   /**
@@ -118,13 +120,13 @@ public class ValueAssignmentImpl extends MinimalEObjectImpl.Container implements
    * <!-- end-user-doc -->
    * @generated
    */
-  public NotificationChain basicSetValue(Or newValue, NotificationChain msgs)
+  public NotificationChain basicSetScope(Scope newScope, NotificationChain msgs)
   {
-    Or oldValue = value;
-    value = newValue;
+    Scope oldScope = scope;
+    scope = newScope;
     if (eNotificationRequired())
     {
-      ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, SmiPackage.VALUE_ASSIGNMENT__VALUE, oldValue, newValue);
+      ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, SmiPackage.TYPE_DEFINITION__SCOPE, oldScope, newScope);
       if (msgs == null) msgs = notification; else msgs.add(notification);
     }
     return msgs;
@@ -135,20 +137,20 @@ public class ValueAssignmentImpl extends MinimalEObjectImpl.Container implements
    * <!-- end-user-doc -->
    * @generated
    */
-  public void setValue(Or newValue)
+  public void setScope(Scope newScope)
   {
-    if (newValue != value)
+    if (newScope != scope)
     {
       NotificationChain msgs = null;
-      if (value != null)
-        msgs = ((InternalEObject)value).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - SmiPackage.VALUE_ASSIGNMENT__VALUE, null, msgs);
-      if (newValue != null)
-        msgs = ((InternalEObject)newValue).eInverseAdd(this, EOPPOSITE_FEATURE_BASE - SmiPackage.VALUE_ASSIGNMENT__VALUE, null, msgs);
-      msgs = basicSetValue(newValue, msgs);
+      if (scope != null)
+        msgs = ((InternalEObject)scope).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - SmiPackage.TYPE_DEFINITION__SCOPE, null, msgs);
+      if (newScope != null)
+        msgs = ((InternalEObject)newScope).eInverseAdd(this, EOPPOSITE_FEATURE_BASE - SmiPackage.TYPE_DEFINITION__SCOPE, null, msgs);
+      msgs = basicSetScope(newScope, msgs);
       if (msgs != null) msgs.dispatch();
     }
     else if (eNotificationRequired())
-      eNotify(new ENotificationImpl(this, Notification.SET, SmiPackage.VALUE_ASSIGNMENT__VALUE, newValue, newValue));
+      eNotify(new ENotificationImpl(this, Notification.SET, SmiPackage.TYPE_DEFINITION__SCOPE, newScope, newScope));
   }
 
   /**
@@ -161,8 +163,8 @@ public class ValueAssignmentImpl extends MinimalEObjectImpl.Container implements
   {
     switch (featureID)
     {
-      case SmiPackage.VALUE_ASSIGNMENT__VALUE:
-        return basicSetValue(null, msgs);
+      case SmiPackage.TYPE_DEFINITION__SCOPE:
+        return basicSetScope(null, msgs);
     }
     return super.eInverseRemove(otherEnd, featureID, msgs);
   }
@@ -177,10 +179,10 @@ public class ValueAssignmentImpl extends MinimalEObjectImpl.Container implements
   {
     switch (featureID)
     {
-      case SmiPackage.VALUE_ASSIGNMENT__TYPE_REFERENCE:
-        return getTypeReference();
-      case SmiPackage.VALUE_ASSIGNMENT__VALUE:
-        return getValue();
+      case SmiPackage.TYPE_DEFINITION__NAME:
+        return getName();
+      case SmiPackage.TYPE_DEFINITION__SCOPE:
+        return getScope();
     }
     return super.eGet(featureID, resolve, coreType);
   }
@@ -195,11 +197,11 @@ public class ValueAssignmentImpl extends MinimalEObjectImpl.Container implements
   {
     switch (featureID)
     {
-      case SmiPackage.VALUE_ASSIGNMENT__TYPE_REFERENCE:
-        setTypeReference((String)newValue);
+      case SmiPackage.TYPE_DEFINITION__NAME:
+        setName((String)newValue);
         return;
-      case SmiPackage.VALUE_ASSIGNMENT__VALUE:
-        setValue((Or)newValue);
+      case SmiPackage.TYPE_DEFINITION__SCOPE:
+        setScope((Scope)newValue);
         return;
     }
     super.eSet(featureID, newValue);
@@ -215,11 +217,11 @@ public class ValueAssignmentImpl extends MinimalEObjectImpl.Container implements
   {
     switch (featureID)
     {
-      case SmiPackage.VALUE_ASSIGNMENT__TYPE_REFERENCE:
-        setTypeReference(TYPE_REFERENCE_EDEFAULT);
+      case SmiPackage.TYPE_DEFINITION__NAME:
+        setName(NAME_EDEFAULT);
         return;
-      case SmiPackage.VALUE_ASSIGNMENT__VALUE:
-        setValue((Or)null);
+      case SmiPackage.TYPE_DEFINITION__SCOPE:
+        setScope((Scope)null);
         return;
     }
     super.eUnset(featureID);
@@ -235,10 +237,10 @@ public class ValueAssignmentImpl extends MinimalEObjectImpl.Container implements
   {
     switch (featureID)
     {
-      case SmiPackage.VALUE_ASSIGNMENT__TYPE_REFERENCE:
-        return TYPE_REFERENCE_EDEFAULT == null ? typeReference != null : !TYPE_REFERENCE_EDEFAULT.equals(typeReference);
-      case SmiPackage.VALUE_ASSIGNMENT__VALUE:
-        return value != null;
+      case SmiPackage.TYPE_DEFINITION__NAME:
+        return NAME_EDEFAULT == null ? name != null : !NAME_EDEFAULT.equals(name);
+      case SmiPackage.TYPE_DEFINITION__SCOPE:
+        return scope != null;
     }
     return super.eIsSet(featureID);
   }
@@ -254,10 +256,10 @@ public class ValueAssignmentImpl extends MinimalEObjectImpl.Container implements
     if (eIsProxy()) return super.toString();
 
     StringBuffer result = new StringBuffer(super.toString());
-    result.append(" (typeReference: ");
-    result.append(typeReference);
+    result.append(" (name: ");
+    result.append(name);
     result.append(')');
     return result.toString();
   }
 
-} //ValueAssignmentImpl
+} //TypeDefinitionImpl
