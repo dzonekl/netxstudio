@@ -12,7 +12,6 @@ import org.eclipse.emf.ecore.EObject;
  * <p>
  * The following features are supported:
  * <ul>
- *   <li>{@link com.netxforge.smi.ValueType#getName <em>Name</em>}</li>
  *   <li>{@link com.netxforge.smi.ValueType#getParam <em>Param</em>}</li>
  *   <li>{@link com.netxforge.smi.ValueType#getType <em>Type</em>}</li>
  *   <li>{@link com.netxforge.smi.ValueType#getSimpleType <em>Simple Type</em>}</li>
@@ -27,32 +26,6 @@ import org.eclipse.emf.ecore.EObject;
  */
 public interface ValueType extends EObject
 {
-  /**
-   * Returns the value of the '<em><b>Name</b></em>' attribute.
-   * <!-- begin-user-doc -->
-   * <p>
-   * If the meaning of the '<em>Name</em>' attribute isn't clear,
-   * there really should be more of a description here...
-   * </p>
-   * <!-- end-user-doc -->
-   * @return the value of the '<em>Name</em>' attribute.
-   * @see #setName(String)
-   * @see com.netxforge.smi.SmiPackage#getValueType_Name()
-   * @model
-   * @generated
-   */
-  String getName();
-
-  /**
-   * Sets the value of the '{@link com.netxforge.smi.ValueType#getName <em>Name</em>}' attribute.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @param value the new value of the '<em>Name</em>' attribute.
-   * @see #getName()
-   * @generated
-   */
-  void setName(String value);
-
   /**
    * Returns the value of the '<em><b>Param</b></em>' containment reference.
    * <!-- begin-user-doc -->
@@ -140,12 +113,12 @@ public interface ValueType extends EObject
    * </p>
    * <!-- end-user-doc -->
    * @return the value of the '<em>Macro Value</em>' containment reference.
-   * @see #setMacroValue(MacroValue)
+   * @see #setMacroValue(Value)
    * @see com.netxforge.smi.SmiPackage#getValueType_MacroValue()
    * @model containment="true"
    * @generated
    */
-  MacroValue getMacroValue();
+  Value getMacroValue();
 
   /**
    * Sets the value of the '{@link com.netxforge.smi.ValueType#getMacroValue <em>Macro Value</em>}' containment reference.
@@ -155,7 +128,7 @@ public interface ValueType extends EObject
    * @see #getMacroValue()
    * @generated
    */
-  void setMacroValue(MacroValue value);
+  void setMacroValue(Value value);
 
   /**
    * Returns the value of the '<em><b>Oi</b></em>' attribute.

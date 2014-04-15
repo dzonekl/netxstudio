@@ -3,10 +3,10 @@
 package com.netxforge.smi.impl;
 
 import com.netxforge.smi.Macro;
-import com.netxforge.smi.MacroValue;
 import com.netxforge.smi.SmiPackage;
 import com.netxforge.smi.TypeAssignment;
 import com.netxforge.smi.TypeDefinition;
+import com.netxforge.smi.Value;
 
 import java.util.Collection;
 
@@ -80,7 +80,7 @@ public class MacroImpl extends MinimalEObjectImpl.Container implements Macro
    * @generated
    * @ordered
    */
-  protected MacroValue valueNotation;
+  protected Value valueNotation;
 
   /**
    * The cached value of the '{@link #getInnerTypes() <em>Inner Types</em>}' containment reference list.
@@ -155,7 +155,7 @@ public class MacroImpl extends MinimalEObjectImpl.Container implements Macro
    * <!-- end-user-doc -->
    * @generated
    */
-  public MacroValue getValueNotation()
+  public Value getValueNotation()
   {
     return valueNotation;
   }
@@ -165,9 +165,9 @@ public class MacroImpl extends MinimalEObjectImpl.Container implements Macro
    * <!-- end-user-doc -->
    * @generated
    */
-  public NotificationChain basicSetValueNotation(MacroValue newValueNotation, NotificationChain msgs)
+  public NotificationChain basicSetValueNotation(Value newValueNotation, NotificationChain msgs)
   {
-    MacroValue oldValueNotation = valueNotation;
+    Value oldValueNotation = valueNotation;
     valueNotation = newValueNotation;
     if (eNotificationRequired())
     {
@@ -182,7 +182,7 @@ public class MacroImpl extends MinimalEObjectImpl.Container implements Macro
    * <!-- end-user-doc -->
    * @generated
    */
-  public void setValueNotation(MacroValue newValueNotation)
+  public void setValueNotation(Value newValueNotation)
   {
     if (newValueNotation != valueNotation)
     {
@@ -273,7 +273,7 @@ public class MacroImpl extends MinimalEObjectImpl.Container implements Macro
         getTypeNotations().addAll((Collection<? extends TypeAssignment>)newValue);
         return;
       case SmiPackage.MACRO__VALUE_NOTATION:
-        setValueNotation((MacroValue)newValue);
+        setValueNotation((Value)newValue);
         return;
       case SmiPackage.MACRO__INNER_TYPES:
         getInnerTypes().clear();
@@ -300,7 +300,7 @@ public class MacroImpl extends MinimalEObjectImpl.Container implements Macro
         getTypeNotations().clear();
         return;
       case SmiPackage.MACRO__VALUE_NOTATION:
-        setValueNotation((MacroValue)null);
+        setValueNotation((Value)null);
         return;
       case SmiPackage.MACRO__INNER_TYPES:
         getInnerTypes().clear();

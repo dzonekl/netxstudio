@@ -14,6 +14,7 @@ import org.eclipse.emf.ecore.EObject;
  * <p>
  * The following features are supported:
  * <ul>
+ *   <li>{@link com.netxforge.smi.ObjectIdentifierValue#getRoot <em>Root</em>}</li>
  *   <li>{@link com.netxforge.smi.ObjectIdentifierValue#getDescriptorReference <em>Descriptor Reference</em>}</li>
  *   <li>{@link com.netxforge.smi.ObjectIdentifierValue#getSubIds <em>Sub Ids</em>}</li>
  * </ul>
@@ -25,6 +26,32 @@ import org.eclipse.emf.ecore.EObject;
  */
 public interface ObjectIdentifierValue extends EObject
 {
+  /**
+   * Returns the value of the '<em><b>Root</b></em>' attribute.
+   * <!-- begin-user-doc -->
+   * <p>
+   * If the meaning of the '<em>Root</em>' attribute isn't clear,
+   * there really should be more of a description here...
+   * </p>
+   * <!-- end-user-doc -->
+   * @return the value of the '<em>Root</em>' attribute.
+   * @see #setRoot(String)
+   * @see com.netxforge.smi.SmiPackage#getObjectIdentifierValue_Root()
+   * @model
+   * @generated
+   */
+  String getRoot();
+
+  /**
+   * Sets the value of the '{@link com.netxforge.smi.ObjectIdentifierValue#getRoot <em>Root</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @param value the new value of the '<em>Root</em>' attribute.
+   * @see #getRoot()
+   * @generated
+   */
+  void setRoot(String value);
+
   /**
    * Returns the value of the '<em><b>Descriptor Reference</b></em>' reference.
    * <!-- begin-user-doc -->

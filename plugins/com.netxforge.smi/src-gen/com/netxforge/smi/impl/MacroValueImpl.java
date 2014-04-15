@@ -13,7 +13,6 @@ import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.InternalEObject;
 
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
-import org.eclipse.emf.ecore.impl.MinimalEObjectImpl;
 
 /**
  * <!-- begin-user-doc -->
@@ -28,7 +27,7 @@ import org.eclipse.emf.ecore.impl.MinimalEObjectImpl;
  *
  * @generated
  */
-public class MacroValueImpl extends MinimalEObjectImpl.Container implements MacroValue
+public class MacroValueImpl extends ValueImpl implements MacroValue
 {
   /**
    * The cached value of the '{@link #getType() <em>Type</em>}' containment reference.

@@ -2,7 +2,6 @@
  */
 package com.netxforge.smi;
 
-import org.eclipse.emf.ecore.EObject;
 
 /**
  * <!-- begin-user-doc -->
@@ -20,7 +19,7 @@ import org.eclipse.emf.ecore.EObject;
  * @model
  * @generated
  */
-public interface MacroValue extends EObject
+public interface MacroValue extends Value
 {
   /**
    * Returns the value of the '<em><b>Type</b></em>' containment reference.

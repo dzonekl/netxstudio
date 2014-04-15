@@ -2,9 +2,11 @@
  */
 package com.netxforge.smi.impl;
 
-import com.netxforge.smi.Assignment;
+import com.netxforge.smi.Macro;
 import com.netxforge.smi.Module;
+import com.netxforge.smi.ObjectIdentifier;
 import com.netxforge.smi.SmiPackage;
+import com.netxforge.smi.TypeDefinition;
 
 import java.util.Collection;
 
@@ -29,8 +31,10 @@ import org.eclipse.emf.ecore.util.InternalEList;
  * <p>
  * The following features are implemented:
  * <ul>
- *   <li>{@link com.netxforge.smi.impl.ModuleImpl#getId <em>Id</em>}</li>
- *   <li>{@link com.netxforge.smi.impl.ModuleImpl#getAssignments <em>Assignments</em>}</li>
+ *   <li>{@link com.netxforge.smi.impl.ModuleImpl#getName <em>Name</em>}</li>
+ *   <li>{@link com.netxforge.smi.impl.ModuleImpl#getIdentifiers <em>Identifiers</em>}</li>
+ *   <li>{@link com.netxforge.smi.impl.ModuleImpl#getTypes <em>Types</em>}</li>
+ *   <li>{@link com.netxforge.smi.impl.ModuleImpl#getMacros <em>Macros</em>}</li>
  * </ul>
  * </p>
  *
@@ -39,34 +43,54 @@ import org.eclipse.emf.ecore.util.InternalEList;
 public class ModuleImpl extends MinimalEObjectImpl.Container implements Module
 {
   /**
-   * The default value of the '{@link #getId() <em>Id</em>}' attribute.
+   * The default value of the '{@link #getName() <em>Name</em>}' attribute.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @see #getId()
+   * @see #getName()
    * @generated
    * @ordered
    */
-  protected static final String ID_EDEFAULT = null;
+  protected static final String NAME_EDEFAULT = null;
 
   /**
-   * The cached value of the '{@link #getId() <em>Id</em>}' attribute.
+   * The cached value of the '{@link #getName() <em>Name</em>}' attribute.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @see #getId()
+   * @see #getName()
    * @generated
    * @ordered
    */
-  protected String id = ID_EDEFAULT;
+  protected String name = NAME_EDEFAULT;
 
   /**
-   * The cached value of the '{@link #getAssignments() <em>Assignments</em>}' containment reference list.
+   * The cached value of the '{@link #getIdentifiers() <em>Identifiers</em>}' containment reference list.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @see #getAssignments()
+   * @see #getIdentifiers()
    * @generated
    * @ordered
    */
-  protected EList<Assignment> assignments;
+  protected EList<ObjectIdentifier> identifiers;
+
+  /**
+   * The cached value of the '{@link #getTypes() <em>Types</em>}' containment reference list.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see #getTypes()
+   * @generated
+   * @ordered
+   */
+  protected EList<TypeDefinition> types;
+
+  /**
+   * The cached value of the '{@link #getMacros() <em>Macros</em>}' containment reference list.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see #getMacros()
+   * @generated
+   * @ordered
+   */
+  protected EList<Macro> macros;
 
   /**
    * <!-- begin-user-doc -->
@@ -94,9 +118,9 @@ public class ModuleImpl extends MinimalEObjectImpl.Container implements Module
    * <!-- end-user-doc -->
    * @generated
    */
-  public String getId()
+  public String getName()
   {
-    return id;
+    return name;
   }
 
   /**
@@ -104,12 +128,12 @@ public class ModuleImpl extends MinimalEObjectImpl.Container implements Module
    * <!-- end-user-doc -->
    * @generated
    */
-  public void setId(String newId)
+  public void setName(String newName)
   {
-    String oldId = id;
-    id = newId;
+    String oldName = name;
+    name = newName;
     if (eNotificationRequired())
-      eNotify(new ENotificationImpl(this, Notification.SET, SmiPackage.MODULE__ID, oldId, id));
+      eNotify(new ENotificationImpl(this, Notification.SET, SmiPackage.MODULE__NAME, oldName, name));
   }
 
   /**
@@ -117,13 +141,41 @@ public class ModuleImpl extends MinimalEObjectImpl.Container implements Module
    * <!-- end-user-doc -->
    * @generated
    */
-  public EList<Assignment> getAssignments()
+  public EList<ObjectIdentifier> getIdentifiers()
   {
-    if (assignments == null)
+    if (identifiers == null)
     {
-      assignments = new EObjectContainmentEList<Assignment>(Assignment.class, this, SmiPackage.MODULE__ASSIGNMENTS);
+      identifiers = new EObjectContainmentEList<ObjectIdentifier>(ObjectIdentifier.class, this, SmiPackage.MODULE__IDENTIFIERS);
     }
-    return assignments;
+    return identifiers;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public EList<TypeDefinition> getTypes()
+  {
+    if (types == null)
+    {
+      types = new EObjectContainmentEList<TypeDefinition>(TypeDefinition.class, this, SmiPackage.MODULE__TYPES);
+    }
+    return types;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public EList<Macro> getMacros()
+  {
+    if (macros == null)
+    {
+      macros = new EObjectContainmentEList<Macro>(Macro.class, this, SmiPackage.MODULE__MACROS);
+    }
+    return macros;
   }
 
   /**
@@ -136,8 +188,12 @@ public class ModuleImpl extends MinimalEObjectImpl.Container implements Module
   {
     switch (featureID)
     {
-      case SmiPackage.MODULE__ASSIGNMENTS:
-        return ((InternalEList<?>)getAssignments()).basicRemove(otherEnd, msgs);
+      case SmiPackage.MODULE__IDENTIFIERS:
+        return ((InternalEList<?>)getIdentifiers()).basicRemove(otherEnd, msgs);
+      case SmiPackage.MODULE__TYPES:
+        return ((InternalEList<?>)getTypes()).basicRemove(otherEnd, msgs);
+      case SmiPackage.MODULE__MACROS:
+        return ((InternalEList<?>)getMacros()).basicRemove(otherEnd, msgs);
     }
     return super.eInverseRemove(otherEnd, featureID, msgs);
   }
@@ -152,10 +208,14 @@ public class ModuleImpl extends MinimalEObjectImpl.Container implements Module
   {
     switch (featureID)
     {
-      case SmiPackage.MODULE__ID:
-        return getId();
-      case SmiPackage.MODULE__ASSIGNMENTS:
-        return getAssignments();
+      case SmiPackage.MODULE__NAME:
+        return getName();
+      case SmiPackage.MODULE__IDENTIFIERS:
+        return getIdentifiers();
+      case SmiPackage.MODULE__TYPES:
+        return getTypes();
+      case SmiPackage.MODULE__MACROS:
+        return getMacros();
     }
     return super.eGet(featureID, resolve, coreType);
   }
@@ -171,12 +231,20 @@ public class ModuleImpl extends MinimalEObjectImpl.Container implements Module
   {
     switch (featureID)
     {
-      case SmiPackage.MODULE__ID:
-        setId((String)newValue);
+      case SmiPackage.MODULE__NAME:
+        setName((String)newValue);
         return;
-      case SmiPackage.MODULE__ASSIGNMENTS:
-        getAssignments().clear();
-        getAssignments().addAll((Collection<? extends Assignment>)newValue);
+      case SmiPackage.MODULE__IDENTIFIERS:
+        getIdentifiers().clear();
+        getIdentifiers().addAll((Collection<? extends ObjectIdentifier>)newValue);
+        return;
+      case SmiPackage.MODULE__TYPES:
+        getTypes().clear();
+        getTypes().addAll((Collection<? extends TypeDefinition>)newValue);
+        return;
+      case SmiPackage.MODULE__MACROS:
+        getMacros().clear();
+        getMacros().addAll((Collection<? extends Macro>)newValue);
         return;
     }
     super.eSet(featureID, newValue);
@@ -192,11 +260,17 @@ public class ModuleImpl extends MinimalEObjectImpl.Container implements Module
   {
     switch (featureID)
     {
-      case SmiPackage.MODULE__ID:
-        setId(ID_EDEFAULT);
+      case SmiPackage.MODULE__NAME:
+        setName(NAME_EDEFAULT);
         return;
-      case SmiPackage.MODULE__ASSIGNMENTS:
-        getAssignments().clear();
+      case SmiPackage.MODULE__IDENTIFIERS:
+        getIdentifiers().clear();
+        return;
+      case SmiPackage.MODULE__TYPES:
+        getTypes().clear();
+        return;
+      case SmiPackage.MODULE__MACROS:
+        getMacros().clear();
         return;
     }
     super.eUnset(featureID);
@@ -212,10 +286,14 @@ public class ModuleImpl extends MinimalEObjectImpl.Container implements Module
   {
     switch (featureID)
     {
-      case SmiPackage.MODULE__ID:
-        return ID_EDEFAULT == null ? id != null : !ID_EDEFAULT.equals(id);
-      case SmiPackage.MODULE__ASSIGNMENTS:
-        return assignments != null && !assignments.isEmpty();
+      case SmiPackage.MODULE__NAME:
+        return NAME_EDEFAULT == null ? name != null : !NAME_EDEFAULT.equals(name);
+      case SmiPackage.MODULE__IDENTIFIERS:
+        return identifiers != null && !identifiers.isEmpty();
+      case SmiPackage.MODULE__TYPES:
+        return types != null && !types.isEmpty();
+      case SmiPackage.MODULE__MACROS:
+        return macros != null && !macros.isEmpty();
     }
     return super.eIsSet(featureID);
   }
@@ -231,8 +309,8 @@ public class ModuleImpl extends MinimalEObjectImpl.Container implements Module
     if (eIsProxy()) return super.toString();
 
     StringBuffer result = new StringBuffer(super.toString());
-    result.append(" (id: ");
-    result.append(id);
+    result.append(" (name: ");
+    result.append(name);
     result.append(')');
     return result.toString();
   }

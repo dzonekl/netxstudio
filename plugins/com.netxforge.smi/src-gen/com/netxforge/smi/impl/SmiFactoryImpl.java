@@ -5,7 +5,6 @@ package com.netxforge.smi.impl;
 import com.netxforge.smi.*;
 
 import org.eclipse.emf.ecore.EClass;
-import org.eclipse.emf.ecore.EDataType;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
 
@@ -66,7 +65,6 @@ public class SmiFactoryImpl extends EFactoryImpl implements SmiFactory
     switch (eClass.getClassifierID())
     {
       case SmiPackage.MODULE: return createModule();
-      case SmiPackage.ASSIGNMENT: return createAssignment();
       case SmiPackage.OBJECT_IDENTIFIER: return createObjectIdentifier();
       case SmiPackage.OBJECT_IDENTIFIER_VALUE: return createObjectIdentifierValue();
       case SmiPackage.TYPE_DEFINITION: return createTypeDefinition();
@@ -79,53 +77,18 @@ public class SmiFactoryImpl extends EFactoryImpl implements SmiFactory
       case SmiPackage.SCOPE: return createScope();
       case SmiPackage.VALUE: return createValue();
       case SmiPackage.VALUE_TYPE: return createValueType();
-      case SmiPackage.MACRO_VALUE: return createMacroValue();
       case SmiPackage.MACRO_VALUE_TYPE: return createMACRO_VALUE_TYPE();
       case SmiPackage.UPDATE_TYPE: return createUpdateType();
-      case SmiPackage.MACRO_VALUE_CAP: return createMACRO_VALUE_CAP();
       case SmiPackage.ASN1_TYPE: return createASN1_TYPE();
       case SmiPackage.ASN1_SIMPLE: return createASN1_SIMPLE();
       case SmiPackage.ASN1_SUBTYPE: return createASN1_SUBTYPE();
       case SmiPackage.ASN1_RANGE: return createASN1_RANGE();
       case SmiPackage.ASN1_CHOICE: return createASN1_CHOICE();
       case SmiPackage.ASN1_CHOICE_ENTRY: return createASN1_CHOICE_ENTRY();
+      case SmiPackage.MACRO_VALUE: return createMacroValue();
       case SmiPackage.ASN1_OCTET_STRING: return createASN1_OCTET_STRING();
       default:
         throw new IllegalArgumentException("The class '" + eClass.getName() + "' is not a valid classifier");
-    }
-  }
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  @Override
-  public Object createFromString(EDataType eDataType, String initialValue)
-  {
-    switch (eDataType.getClassifierID())
-    {
-      case SmiPackage.VALUE_CAP_LITERALS:
-        return createVALUE_CAP_LITERALSFromString(eDataType, initialValue);
-      default:
-        throw new IllegalArgumentException("The datatype '" + eDataType.getName() + "' is not a valid classifier");
-    }
-  }
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  @Override
-  public String convertToString(EDataType eDataType, Object instanceValue)
-  {
-    switch (eDataType.getClassifierID())
-    {
-      case SmiPackage.VALUE_CAP_LITERALS:
-        return convertVALUE_CAP_LITERALSToString(eDataType, instanceValue);
-      default:
-        throw new IllegalArgumentException("The datatype '" + eDataType.getName() + "' is not a valid classifier");
     }
   }
 
@@ -138,17 +101,6 @@ public class SmiFactoryImpl extends EFactoryImpl implements SmiFactory
   {
     ModuleImpl module = new ModuleImpl();
     return module;
-  }
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  public Assignment createAssignment()
-  {
-    AssignmentImpl assignment = new AssignmentImpl();
-    return assignment;
   }
 
   /**
@@ -288,17 +240,6 @@ public class SmiFactoryImpl extends EFactoryImpl implements SmiFactory
    * <!-- end-user-doc -->
    * @generated
    */
-  public MacroValue createMacroValue()
-  {
-    MacroValueImpl macroValue = new MacroValueImpl();
-    return macroValue;
-  }
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
   public MACRO_VALUE_TYPE createMACRO_VALUE_TYPE()
   {
     MACRO_VALUE_TYPEImpl macrO_VALUE_TYPE = new MACRO_VALUE_TYPEImpl();
@@ -314,17 +255,6 @@ public class SmiFactoryImpl extends EFactoryImpl implements SmiFactory
   {
     UpdateTypeImpl updateType = new UpdateTypeImpl();
     return updateType;
-  }
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  public MACRO_VALUE_CAP createMACRO_VALUE_CAP()
-  {
-    MACRO_VALUE_CAPImpl macrO_VALUE_CAP = new MACRO_VALUE_CAPImpl();
-    return macrO_VALUE_CAP;
   }
 
   /**
@@ -398,32 +328,21 @@ public class SmiFactoryImpl extends EFactoryImpl implements SmiFactory
    * <!-- end-user-doc -->
    * @generated
    */
+  public MacroValue createMacroValue()
+  {
+    MacroValueImpl macroValue = new MacroValueImpl();
+    return macroValue;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
   public ASN1_OCTET_STRING createASN1_OCTET_STRING()
   {
     ASN1_OCTET_STRINGImpl asn1_OCTET_STRING = new ASN1_OCTET_STRINGImpl();
     return asn1_OCTET_STRING;
-  }
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  public VALUE_CAP_LITERALS createVALUE_CAP_LITERALSFromString(EDataType eDataType, String initialValue)
-  {
-    VALUE_CAP_LITERALS result = VALUE_CAP_LITERALS.get(initialValue);
-    if (result == null) throw new IllegalArgumentException("The value '" + initialValue + "' is not a valid enumerator of '" + eDataType.getName() + "'");
-    return result;
-  }
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  public String convertVALUE_CAP_LITERALSToString(EDataType eDataType, Object instanceValue)
-  {
-    return instanceValue == null ? null : instanceValue.toString();
   }
 
   /**

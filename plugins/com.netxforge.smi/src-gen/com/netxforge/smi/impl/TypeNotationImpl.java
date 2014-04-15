@@ -2,9 +2,9 @@
  */
 package com.netxforge.smi.impl;
 
-import com.netxforge.smi.MacroValue;
 import com.netxforge.smi.SmiPackage;
 import com.netxforge.smi.TypeNotation;
+import com.netxforge.smi.Value;
 
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
@@ -38,7 +38,7 @@ public class TypeNotationImpl extends MinimalEObjectImpl.Container implements Ty
    * @generated
    * @ordered
    */
-  protected MacroValue value;
+  protected Value value;
 
   /**
    * <!-- begin-user-doc -->
@@ -66,7 +66,7 @@ public class TypeNotationImpl extends MinimalEObjectImpl.Container implements Ty
    * <!-- end-user-doc -->
    * @generated
    */
-  public MacroValue getValue()
+  public Value getValue()
   {
     return value;
   }
@@ -76,9 +76,9 @@ public class TypeNotationImpl extends MinimalEObjectImpl.Container implements Ty
    * <!-- end-user-doc -->
    * @generated
    */
-  public NotificationChain basicSetValue(MacroValue newValue, NotificationChain msgs)
+  public NotificationChain basicSetValue(Value newValue, NotificationChain msgs)
   {
-    MacroValue oldValue = value;
+    Value oldValue = value;
     value = newValue;
     if (eNotificationRequired())
     {
@@ -93,7 +93,7 @@ public class TypeNotationImpl extends MinimalEObjectImpl.Container implements Ty
    * <!-- end-user-doc -->
    * @generated
    */
-  public void setValue(MacroValue newValue)
+  public void setValue(Value newValue)
   {
     if (newValue != value)
     {
@@ -152,7 +152,7 @@ public class TypeNotationImpl extends MinimalEObjectImpl.Container implements Ty
     switch (featureID)
     {
       case SmiPackage.TYPE_NOTATION__VALUE:
-        setValue((MacroValue)newValue);
+        setValue((Value)newValue);
         return;
     }
     super.eSet(featureID, newValue);
@@ -169,7 +169,7 @@ public class TypeNotationImpl extends MinimalEObjectImpl.Container implements Ty
     switch (featureID)
     {
       case SmiPackage.TYPE_NOTATION__VALUE:
-        setValue((MacroValue)null);
+        setValue((Value)null);
         return;
     }
     super.eUnset(featureID);

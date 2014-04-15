@@ -2,12 +2,11 @@
  */
 package com.netxforge.smi.impl;
 
-import com.netxforge.smi.MacroValue;
 import com.netxforge.smi.SmiPackage;
 import com.netxforge.smi.TypeDefinition;
 import com.netxforge.smi.TypeNotation;
 import com.netxforge.smi.TypeReference;
-import com.netxforge.smi.TypeReferenceExt;
+import com.netxforge.smi.Value;
 
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
@@ -25,7 +24,6 @@ import org.eclipse.emf.ecore.impl.ENotificationImpl;
  * The following features are implemented:
  * <ul>
  *   <li>{@link com.netxforge.smi.impl.TypeReferenceImpl#getValue <em>Value</em>}</li>
- *   <li>{@link com.netxforge.smi.impl.TypeReferenceImpl#getRight <em>Right</em>}</li>
  *   <li>{@link com.netxforge.smi.impl.TypeReferenceImpl#getType <em>Type</em>}</li>
  * </ul>
  * </p>
@@ -42,17 +40,7 @@ public class TypeReferenceImpl extends TypeAssignmentImpl implements TypeReferen
    * @generated
    * @ordered
    */
-  protected MacroValue value;
-
-  /**
-   * The cached value of the '{@link #getRight() <em>Right</em>}' containment reference.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @see #getRight()
-   * @generated
-   * @ordered
-   */
-  protected TypeReference right;
+  protected Value value;
 
   /**
    * The cached value of the '{@link #getType() <em>Type</em>}' reference.
@@ -90,7 +78,7 @@ public class TypeReferenceImpl extends TypeAssignmentImpl implements TypeReferen
    * <!-- end-user-doc -->
    * @generated
    */
-  public MacroValue getValue()
+  public Value getValue()
   {
     return value;
   }
@@ -100,9 +88,9 @@ public class TypeReferenceImpl extends TypeAssignmentImpl implements TypeReferen
    * <!-- end-user-doc -->
    * @generated
    */
-  public NotificationChain basicSetValue(MacroValue newValue, NotificationChain msgs)
+  public NotificationChain basicSetValue(Value newValue, NotificationChain msgs)
   {
-    MacroValue oldValue = value;
+    Value oldValue = value;
     value = newValue;
     if (eNotificationRequired())
     {
@@ -117,7 +105,7 @@ public class TypeReferenceImpl extends TypeAssignmentImpl implements TypeReferen
    * <!-- end-user-doc -->
    * @generated
    */
-  public void setValue(MacroValue newValue)
+  public void setValue(Value newValue)
   {
     if (newValue != value)
     {
@@ -131,54 +119,6 @@ public class TypeReferenceImpl extends TypeAssignmentImpl implements TypeReferen
     }
     else if (eNotificationRequired())
       eNotify(new ENotificationImpl(this, Notification.SET, SmiPackage.TYPE_REFERENCE__VALUE, newValue, newValue));
-  }
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  public TypeReference getRight()
-  {
-    return right;
-  }
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  public NotificationChain basicSetRight(TypeReference newRight, NotificationChain msgs)
-  {
-    TypeReference oldRight = right;
-    right = newRight;
-    if (eNotificationRequired())
-    {
-      ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, SmiPackage.TYPE_REFERENCE__RIGHT, oldRight, newRight);
-      if (msgs == null) msgs = notification; else msgs.add(notification);
-    }
-    return msgs;
-  }
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  public void setRight(TypeReference newRight)
-  {
-    if (newRight != right)
-    {
-      NotificationChain msgs = null;
-      if (right != null)
-        msgs = ((InternalEObject)right).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - SmiPackage.TYPE_REFERENCE__RIGHT, null, msgs);
-      if (newRight != null)
-        msgs = ((InternalEObject)newRight).eInverseAdd(this, EOPPOSITE_FEATURE_BASE - SmiPackage.TYPE_REFERENCE__RIGHT, null, msgs);
-      msgs = basicSetRight(newRight, msgs);
-      if (msgs != null) msgs.dispatch();
-    }
-    else if (eNotificationRequired())
-      eNotify(new ENotificationImpl(this, Notification.SET, SmiPackage.TYPE_REFERENCE__RIGHT, newRight, newRight));
   }
 
   /**
@@ -236,8 +176,6 @@ public class TypeReferenceImpl extends TypeAssignmentImpl implements TypeReferen
     {
       case SmiPackage.TYPE_REFERENCE__VALUE:
         return basicSetValue(null, msgs);
-      case SmiPackage.TYPE_REFERENCE__RIGHT:
-        return basicSetRight(null, msgs);
     }
     return super.eInverseRemove(otherEnd, featureID, msgs);
   }
@@ -254,8 +192,6 @@ public class TypeReferenceImpl extends TypeAssignmentImpl implements TypeReferen
     {
       case SmiPackage.TYPE_REFERENCE__VALUE:
         return getValue();
-      case SmiPackage.TYPE_REFERENCE__RIGHT:
-        return getRight();
       case SmiPackage.TYPE_REFERENCE__TYPE:
         if (resolve) return getType();
         return basicGetType();
@@ -274,10 +210,7 @@ public class TypeReferenceImpl extends TypeAssignmentImpl implements TypeReferen
     switch (featureID)
     {
       case SmiPackage.TYPE_REFERENCE__VALUE:
-        setValue((MacroValue)newValue);
-        return;
-      case SmiPackage.TYPE_REFERENCE__RIGHT:
-        setRight((TypeReference)newValue);
+        setValue((Value)newValue);
         return;
       case SmiPackage.TYPE_REFERENCE__TYPE:
         setType((TypeDefinition)newValue);
@@ -297,10 +230,7 @@ public class TypeReferenceImpl extends TypeAssignmentImpl implements TypeReferen
     switch (featureID)
     {
       case SmiPackage.TYPE_REFERENCE__VALUE:
-        setValue((MacroValue)null);
-        return;
-      case SmiPackage.TYPE_REFERENCE__RIGHT:
-        setRight((TypeReference)null);
+        setValue((Value)null);
         return;
       case SmiPackage.TYPE_REFERENCE__TYPE:
         setType((TypeDefinition)null);
@@ -321,8 +251,6 @@ public class TypeReferenceImpl extends TypeAssignmentImpl implements TypeReferen
     {
       case SmiPackage.TYPE_REFERENCE__VALUE:
         return value != null;
-      case SmiPackage.TYPE_REFERENCE__RIGHT:
-        return right != null;
       case SmiPackage.TYPE_REFERENCE__TYPE:
         return type != null;
     }
@@ -345,13 +273,6 @@ public class TypeReferenceImpl extends TypeAssignmentImpl implements TypeReferen
         default: return -1;
       }
     }
-    if (baseClass == TypeReferenceExt.class)
-    {
-      switch (derivedFeatureID)
-      {
-        default: return -1;
-      }
-    }
     return super.eBaseStructuralFeatureID(derivedFeatureID, baseClass);
   }
 
@@ -368,13 +289,6 @@ public class TypeReferenceImpl extends TypeAssignmentImpl implements TypeReferen
       switch (baseFeatureID)
       {
         case SmiPackage.TYPE_NOTATION__VALUE: return SmiPackage.TYPE_REFERENCE__VALUE;
-        default: return -1;
-      }
-    }
-    if (baseClass == TypeReferenceExt.class)
-    {
-      switch (baseFeatureID)
-      {
         default: return -1;
       }
     }

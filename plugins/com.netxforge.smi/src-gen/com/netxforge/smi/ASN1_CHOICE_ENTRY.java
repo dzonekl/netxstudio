@@ -58,12 +58,12 @@ public interface ASN1_CHOICE_ENTRY extends EObject
    * </p>
    * <!-- end-user-doc -->
    * @return the value of the '<em>Value Type</em>' reference.
-   * @see #setValueType(ValueType)
+   * @see #setValueType(Value)
    * @see com.netxforge.smi.SmiPackage#getASN1_CHOICE_ENTRY_ValueType()
    * @model
    * @generated
    */
-  ValueType getValueType();
+  Value getValueType();
 
   /**
    * Sets the value of the '{@link com.netxforge.smi.ASN1_CHOICE_ENTRY#getValueType <em>Value Type</em>}' reference.
@@ -73,6 +73,6 @@ public interface ASN1_CHOICE_ENTRY extends EObject
    * @see #getValueType()
    * @generated
    */
-  void setValueType(ValueType value);
+  void setValueType(Value value);
 
 } // ASN1_CHOICE_ENTRY

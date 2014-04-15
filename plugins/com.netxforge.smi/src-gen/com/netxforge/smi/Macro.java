@@ -78,12 +78,12 @@ public interface Macro extends EObject
    * </p>
    * <!-- end-user-doc -->
    * @return the value of the '<em>Value Notation</em>' containment reference.
-   * @see #setValueNotation(MacroValue)
+   * @see #setValueNotation(Value)
    * @see com.netxforge.smi.SmiPackage#getMacro_ValueNotation()
    * @model containment="true"
    * @generated
    */
-  MacroValue getValueNotation();
+  Value getValueNotation();
 
   /**
    * Sets the value of the '{@link com.netxforge.smi.Macro#getValueNotation <em>Value Notation</em>}' containment reference.
@@ -93,7 +93,7 @@ public interface Macro extends EObject
    * @see #getValueNotation()
    * @generated
    */
-  void setValueNotation(MacroValue value);
+  void setValueNotation(Value value);
 
   /**
    * Returns the value of the '<em><b>Inner Types</b></em>' containment reference list.

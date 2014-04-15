@@ -3,10 +3,10 @@
 package com.netxforge.smi.impl;
 
 import com.netxforge.smi.ASN1_TYPE;
-import com.netxforge.smi.MacroValue;
 import com.netxforge.smi.ParamAssignment;
 import com.netxforge.smi.SmiPackage;
 import com.netxforge.smi.TypeReferenceExt;
+import com.netxforge.smi.Value;
 import com.netxforge.smi.ValueType;
 
 import org.eclipse.emf.common.notify.Notification;
@@ -25,7 +25,6 @@ import org.eclipse.emf.ecore.impl.MinimalEObjectImpl;
  * <p>
  * The following features are implemented:
  * <ul>
- *   <li>{@link com.netxforge.smi.impl.ValueTypeImpl#getName <em>Name</em>}</li>
  *   <li>{@link com.netxforge.smi.impl.ValueTypeImpl#getParam <em>Param</em>}</li>
  *   <li>{@link com.netxforge.smi.impl.ValueTypeImpl#getType <em>Type</em>}</li>
  *   <li>{@link com.netxforge.smi.impl.ValueTypeImpl#getSimpleType <em>Simple Type</em>}</li>
@@ -38,26 +37,6 @@ import org.eclipse.emf.ecore.impl.MinimalEObjectImpl;
  */
 public class ValueTypeImpl extends MinimalEObjectImpl.Container implements ValueType
 {
-  /**
-   * The default value of the '{@link #getName() <em>Name</em>}' attribute.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @see #getName()
-   * @generated
-   * @ordered
-   */
-  protected static final String NAME_EDEFAULT = null;
-
-  /**
-   * The cached value of the '{@link #getName() <em>Name</em>}' attribute.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @see #getName()
-   * @generated
-   * @ordered
-   */
-  protected String name = NAME_EDEFAULT;
-
   /**
    * The cached value of the '{@link #getParam() <em>Param</em>}' containment reference.
    * <!-- begin-user-doc -->
@@ -96,7 +75,7 @@ public class ValueTypeImpl extends MinimalEObjectImpl.Container implements Value
    * @generated
    * @ordered
    */
-  protected MacroValue macroValue;
+  protected Value macroValue;
 
   /**
    * The default value of the '{@link #getOi() <em>Oi</em>}' attribute.
@@ -137,29 +116,6 @@ public class ValueTypeImpl extends MinimalEObjectImpl.Container implements Value
   protected EClass eStaticClass()
   {
     return SmiPackage.Literals.VALUE_TYPE;
-  }
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  public String getName()
-  {
-    return name;
-  }
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  public void setName(String newName)
-  {
-    String oldName = name;
-    name = newName;
-    if (eNotificationRequired())
-      eNotify(new ENotificationImpl(this, Notification.SET, SmiPackage.VALUE_TYPE__NAME, oldName, name));
   }
 
   /**
@@ -311,7 +267,7 @@ public class ValueTypeImpl extends MinimalEObjectImpl.Container implements Value
    * <!-- end-user-doc -->
    * @generated
    */
-  public MacroValue getMacroValue()
+  public Value getMacroValue()
   {
     return macroValue;
   }
@@ -321,9 +277,9 @@ public class ValueTypeImpl extends MinimalEObjectImpl.Container implements Value
    * <!-- end-user-doc -->
    * @generated
    */
-  public NotificationChain basicSetMacroValue(MacroValue newMacroValue, NotificationChain msgs)
+  public NotificationChain basicSetMacroValue(Value newMacroValue, NotificationChain msgs)
   {
-    MacroValue oldMacroValue = macroValue;
+    Value oldMacroValue = macroValue;
     macroValue = newMacroValue;
     if (eNotificationRequired())
     {
@@ -338,7 +294,7 @@ public class ValueTypeImpl extends MinimalEObjectImpl.Container implements Value
    * <!-- end-user-doc -->
    * @generated
    */
-  public void setMacroValue(MacroValue newMacroValue)
+  public void setMacroValue(Value newMacroValue)
   {
     if (newMacroValue != macroValue)
     {
@@ -409,8 +365,6 @@ public class ValueTypeImpl extends MinimalEObjectImpl.Container implements Value
   {
     switch (featureID)
     {
-      case SmiPackage.VALUE_TYPE__NAME:
-        return getName();
       case SmiPackage.VALUE_TYPE__PARAM:
         return getParam();
       case SmiPackage.VALUE_TYPE__TYPE:
@@ -435,9 +389,6 @@ public class ValueTypeImpl extends MinimalEObjectImpl.Container implements Value
   {
     switch (featureID)
     {
-      case SmiPackage.VALUE_TYPE__NAME:
-        setName((String)newValue);
-        return;
       case SmiPackage.VALUE_TYPE__PARAM:
         setParam((ParamAssignment)newValue);
         return;
@@ -448,7 +399,7 @@ public class ValueTypeImpl extends MinimalEObjectImpl.Container implements Value
         setSimpleType((ASN1_TYPE)newValue);
         return;
       case SmiPackage.VALUE_TYPE__MACRO_VALUE:
-        setMacroValue((MacroValue)newValue);
+        setMacroValue((Value)newValue);
         return;
       case SmiPackage.VALUE_TYPE__OI:
         setOi((String)newValue);
@@ -467,9 +418,6 @@ public class ValueTypeImpl extends MinimalEObjectImpl.Container implements Value
   {
     switch (featureID)
     {
-      case SmiPackage.VALUE_TYPE__NAME:
-        setName(NAME_EDEFAULT);
-        return;
       case SmiPackage.VALUE_TYPE__PARAM:
         setParam((ParamAssignment)null);
         return;
@@ -480,7 +428,7 @@ public class ValueTypeImpl extends MinimalEObjectImpl.Container implements Value
         setSimpleType((ASN1_TYPE)null);
         return;
       case SmiPackage.VALUE_TYPE__MACRO_VALUE:
-        setMacroValue((MacroValue)null);
+        setMacroValue((Value)null);
         return;
       case SmiPackage.VALUE_TYPE__OI:
         setOi(OI_EDEFAULT);
@@ -499,8 +447,6 @@ public class ValueTypeImpl extends MinimalEObjectImpl.Container implements Value
   {
     switch (featureID)
     {
-      case SmiPackage.VALUE_TYPE__NAME:
-        return NAME_EDEFAULT == null ? name != null : !NAME_EDEFAULT.equals(name);
       case SmiPackage.VALUE_TYPE__PARAM:
         return param != null;
       case SmiPackage.VALUE_TYPE__TYPE:
@@ -526,9 +472,7 @@ public class ValueTypeImpl extends MinimalEObjectImpl.Container implements Value
     if (eIsProxy()) return super.toString();
 
     StringBuffer result = new StringBuffer(super.toString());
-    result.append(" (name: ");
-    result.append(name);
-    result.append(", oi: ");
+    result.append(" (oi: ");
     result.append(oi);
     result.append(')');
     return result.toString();

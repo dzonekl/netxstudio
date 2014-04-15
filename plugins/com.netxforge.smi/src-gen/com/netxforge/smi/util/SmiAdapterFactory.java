@@ -80,11 +80,6 @@ public class SmiAdapterFactory extends AdapterFactoryImpl
         return createModuleAdapter();
       }
       @Override
-      public Adapter caseAssignment(Assignment object)
-      {
-        return createAssignmentAdapter();
-      }
-      @Override
       public Adapter caseObjectIdentifier(ObjectIdentifier object)
       {
         return createObjectIdentifierAdapter();
@@ -145,11 +140,6 @@ public class SmiAdapterFactory extends AdapterFactoryImpl
         return createValueTypeAdapter();
       }
       @Override
-      public Adapter caseMacroValue(MacroValue object)
-      {
-        return createMacroValueAdapter();
-      }
-      @Override
       public Adapter caseMACRO_VALUE_TYPE(MACRO_VALUE_TYPE object)
       {
         return createMACRO_VALUE_TYPEAdapter();
@@ -158,11 +148,6 @@ public class SmiAdapterFactory extends AdapterFactoryImpl
       public Adapter caseUpdateType(UpdateType object)
       {
         return createUpdateTypeAdapter();
-      }
-      @Override
-      public Adapter caseMACRO_VALUE_CAP(MACRO_VALUE_CAP object)
-      {
-        return createMACRO_VALUE_CAPAdapter();
       }
       @Override
       public Adapter caseASN1_TYPE(ASN1_TYPE object)
@@ -193,6 +178,11 @@ public class SmiAdapterFactory extends AdapterFactoryImpl
       public Adapter caseASN1_CHOICE_ENTRY(ASN1_CHOICE_ENTRY object)
       {
         return createASN1_CHOICE_ENTRYAdapter();
+      }
+      @Override
+      public Adapter caseMacroValue(MacroValue object)
+      {
+        return createMacroValueAdapter();
       }
       @Override
       public Adapter caseASN1_OCTET_STRING(ASN1_OCTET_STRING object)
@@ -232,21 +222,6 @@ public class SmiAdapterFactory extends AdapterFactoryImpl
    * @generated
    */
   public Adapter createModuleAdapter()
-  {
-    return null;
-  }
-
-  /**
-   * Creates a new adapter for an object of class '{@link com.netxforge.smi.Assignment <em>Assignment</em>}'.
-   * <!-- begin-user-doc -->
-   * This default implementation returns null so that we can easily ignore cases;
-   * it's useful to ignore a case when inheritance will catch all the cases anyway.
-   * <!-- end-user-doc -->
-   * @return the new adapter.
-   * @see com.netxforge.smi.Assignment
-   * @generated
-   */
-  public Adapter createAssignmentAdapter()
   {
     return null;
   }
@@ -432,21 +407,6 @@ public class SmiAdapterFactory extends AdapterFactoryImpl
   }
 
   /**
-   * Creates a new adapter for an object of class '{@link com.netxforge.smi.MacroValue <em>Macro Value</em>}'.
-   * <!-- begin-user-doc -->
-   * This default implementation returns null so that we can easily ignore cases;
-   * it's useful to ignore a case when inheritance will catch all the cases anyway.
-   * <!-- end-user-doc -->
-   * @return the new adapter.
-   * @see com.netxforge.smi.MacroValue
-   * @generated
-   */
-  public Adapter createMacroValueAdapter()
-  {
-    return null;
-  }
-
-  /**
    * Creates a new adapter for an object of class '{@link com.netxforge.smi.MACRO_VALUE_TYPE <em>MACRO VALUE TYPE</em>}'.
    * <!-- begin-user-doc -->
    * This default implementation returns null so that we can easily ignore cases;
@@ -472,21 +432,6 @@ public class SmiAdapterFactory extends AdapterFactoryImpl
    * @generated
    */
   public Adapter createUpdateTypeAdapter()
-  {
-    return null;
-  }
-
-  /**
-   * Creates a new adapter for an object of class '{@link com.netxforge.smi.MACRO_VALUE_CAP <em>MACRO VALUE CAP</em>}'.
-   * <!-- begin-user-doc -->
-   * This default implementation returns null so that we can easily ignore cases;
-   * it's useful to ignore a case when inheritance will catch all the cases anyway.
-   * <!-- end-user-doc -->
-   * @return the new adapter.
-   * @see com.netxforge.smi.MACRO_VALUE_CAP
-   * @generated
-   */
-  public Adapter createMACRO_VALUE_CAPAdapter()
   {
     return null;
   }
@@ -577,6 +522,21 @@ public class SmiAdapterFactory extends AdapterFactoryImpl
    * @generated
    */
   public Adapter createASN1_CHOICE_ENTRYAdapter()
+  {
+    return null;
+  }
+
+  /**
+   * Creates a new adapter for an object of class '{@link com.netxforge.smi.MacroValue <em>Macro Value</em>}'.
+   * <!-- begin-user-doc -->
+   * This default implementation returns null so that we can easily ignore cases;
+   * it's useful to ignore a case when inheritance will catch all the cases anyway.
+   * <!-- end-user-doc -->
+   * @return the new adapter.
+   * @see com.netxforge.smi.MacroValue
+   * @generated
+   */
+  public Adapter createMacroValueAdapter()
   {
     return null;
   }

@@ -4,7 +4,7 @@ package com.netxforge.smi.impl;
 
 import com.netxforge.smi.ASN1_CHOICE_ENTRY;
 import com.netxforge.smi.SmiPackage;
-import com.netxforge.smi.ValueType;
+import com.netxforge.smi.Value;
 
 import org.eclipse.emf.common.notify.Notification;
 
@@ -58,7 +58,7 @@ public class ASN1_CHOICE_ENTRYImpl extends MinimalEObjectImpl.Container implemen
    * @generated
    * @ordered
    */
-  protected ValueType valueType;
+  protected Value valueType;
 
   /**
    * <!-- begin-user-doc -->
@@ -109,12 +109,12 @@ public class ASN1_CHOICE_ENTRYImpl extends MinimalEObjectImpl.Container implemen
    * <!-- end-user-doc -->
    * @generated
    */
-  public ValueType getValueType()
+  public Value getValueType()
   {
     if (valueType != null && valueType.eIsProxy())
     {
       InternalEObject oldValueType = (InternalEObject)valueType;
-      valueType = (ValueType)eResolveProxy(oldValueType);
+      valueType = (Value)eResolveProxy(oldValueType);
       if (valueType != oldValueType)
       {
         if (eNotificationRequired())
@@ -129,7 +129,7 @@ public class ASN1_CHOICE_ENTRYImpl extends MinimalEObjectImpl.Container implemen
    * <!-- end-user-doc -->
    * @generated
    */
-  public ValueType basicGetValueType()
+  public Value basicGetValueType()
   {
     return valueType;
   }
@@ -139,9 +139,9 @@ public class ASN1_CHOICE_ENTRYImpl extends MinimalEObjectImpl.Container implemen
    * <!-- end-user-doc -->
    * @generated
    */
-  public void setValueType(ValueType newValueType)
+  public void setValueType(Value newValueType)
   {
-    ValueType oldValueType = valueType;
+    Value oldValueType = valueType;
     valueType = newValueType;
     if (eNotificationRequired())
       eNotify(new ENotificationImpl(this, Notification.SET, SmiPackage.ASN1_CHOICE_ENTRY__VALUE_TYPE, oldValueType, valueType));
@@ -180,7 +180,7 @@ public class ASN1_CHOICE_ENTRYImpl extends MinimalEObjectImpl.Container implemen
         setId((String)newValue);
         return;
       case SmiPackage.ASN1_CHOICE_ENTRY__VALUE_TYPE:
-        setValueType((ValueType)newValue);
+        setValueType((Value)newValue);
         return;
     }
     super.eSet(featureID, newValue);
@@ -200,7 +200,7 @@ public class ASN1_CHOICE_ENTRYImpl extends MinimalEObjectImpl.Container implemen
         setId(ID_EDEFAULT);
         return;
       case SmiPackage.ASN1_CHOICE_ENTRY__VALUE_TYPE:
-        setValueType((ValueType)null);
+        setValueType((Value)null);
         return;
     }
     super.eUnset(featureID);

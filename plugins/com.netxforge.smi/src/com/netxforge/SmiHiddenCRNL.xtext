@@ -24,16 +24,15 @@ import "http://www.eclipse.org/emf/2002/Ecore" as ecore
 generate smi "http://www.netxforge.com/Smi"
 
 Module:
-	name=MODULE_ID 'DEFINITIONS' '::=' 'BEGIN' CRNL
+	name=MODULE_ID 'DEFINITIONS' '::=' 'BEGIN'
 	(identifiers+=ObjectIdentifier |
 	types+=TypeDefinition |
 	macros+=Macro)+
-	| {Module} CRNL*
 	'END';
 
 	// Object Identifier
-ObjectIdentifier hidden(WS, SL_ASN1_COMMENT):
-	CRNL name=ASN1_ID 'OBJECT IDENTIFIER' '::=' '{' oidValue=ObjectIdentifierValue '}';
+ObjectIdentifier:
+	name=ASN1_ID 'OBJECT IDENTIFIER' '::=' '{' oidValue=ObjectIdentifierValue '}';
 
 ObjectIdentifierValue:
 	(root=ASN1_ID
@@ -41,14 +40,14 @@ ObjectIdentifierValue:
 
 	// An ASN.1 Value assignment. 
 TypeDefinition:
-	CRNL name=(MODULE_ID) '::=' scope=Scope;
+	name=(MODULE_ID) '::=' scope=Scope;
 
 	// Macro
-Macro :
-	CRNL name=MODULE_ID 'MACRO' '::='
-	CRNL 'BEGIN'
-	CRNL 'TYPE NOTATION' '::=' typeNotations+=TypeAssignment+ // Reference one or more type assignment. 
-	CRNL 'VALUE NOTATION' '::=' valueNotation=MacroValue // Define one Macro value. 
+Macro:
+	name=MODULE_ID 'MACRO' '::='
+	'BEGIN'
+	'TYPE NOTATION' '::=' typeNotations+=TypeAssignment+ // Reference one or more type assignment. 
+	(=> 'VALUE NOTATION' '::=' valueNotation=MacroValue) // Define one Macro value. 
 	innerTypes+=TypeDefinition+ // Define 1 or more type definitions
 	'END';
 
@@ -69,8 +68,10 @@ TypeReference:
 	type=[TypeDefinition|MODULE_ID];
 
 Scope:
-	values+=Value+ CRNL;
+	scope=Value;
 
+	// TODO, no closing symbol like '{', determine based on indentation. 
+// A Value can not be determined for the next type definition. 
 Value:
 	valueTypes+=ValueType ('|' valueTypes+=ValueType)*;
 
@@ -91,10 +92,10 @@ UpdateType:
 MACRO_VALUE_CAP:
 	'VALUE OBJECT IDENTIFIER' | 'IA5String';
 
-	//enum VALUE_CAP_LITERALS:
+//enum VALUE_CAP_LITERALS:
 //	oiLiteral='OBJECT IDENTIFIER' | ia5StringLiteral='IA5String';
 
-// Simple and structured types. 
+	// Simple and structured types. 
 ASN1_TYPE:
 	ASN1_SIMPLE | ASN1_CHOICE;
 
@@ -166,17 +167,13 @@ terminal INT returns ecore::EInt:
 // effect of a single space character.
 
 // TODO1 Comments ended by a pair of hyphens have the effect of a single space character.
-
 terminal SL_ASN1_COMMENT:
 	'--' !('\n' | '\r')* ('\r'? '\n')?;
 
-terminal CRNL:
-	('\r' | '\n')+;
-
+	//terminal CRNL:
+//	('\r' | '\n')+;
 terminal WS:
-	(' ' | '\t')+;
-
-
+	(' ' | '\t' | '\r' | '\n')+;
 
 terminal ANY_OTHER:
 	.;

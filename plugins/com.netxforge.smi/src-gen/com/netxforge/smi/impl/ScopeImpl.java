@@ -6,14 +6,19 @@ import com.netxforge.smi.Scope;
 import com.netxforge.smi.SmiPackage;
 import com.netxforge.smi.Value;
 
-import org.eclipse.emf.common.notify.Notification;
+import java.util.Collection;
+
 import org.eclipse.emf.common.notify.NotificationChain;
+
+import org.eclipse.emf.common.util.EList;
 
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.InternalEObject;
 
-import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.impl.MinimalEObjectImpl;
+
+import org.eclipse.emf.ecore.util.EObjectContainmentEList;
+import org.eclipse.emf.ecore.util.InternalEList;
 
 /**
  * <!-- begin-user-doc -->
@@ -22,7 +27,7 @@ import org.eclipse.emf.ecore.impl.MinimalEObjectImpl;
  * <p>
  * The following features are implemented:
  * <ul>
- *   <li>{@link com.netxforge.smi.impl.ScopeImpl#getScope <em>Scope</em>}</li>
+ *   <li>{@link com.netxforge.smi.impl.ScopeImpl#getValues <em>Values</em>}</li>
  * </ul>
  * </p>
  *
@@ -31,14 +36,14 @@ import org.eclipse.emf.ecore.impl.MinimalEObjectImpl;
 public class ScopeImpl extends MinimalEObjectImpl.Container implements Scope
 {
   /**
-   * The cached value of the '{@link #getScope() <em>Scope</em>}' containment reference.
+   * The cached value of the '{@link #getValues() <em>Values</em>}' containment reference list.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @see #getScope()
+   * @see #getValues()
    * @generated
    * @ordered
    */
-  protected Value scope;
+  protected EList<Value> values;
 
   /**
    * <!-- begin-user-doc -->
@@ -66,47 +71,13 @@ public class ScopeImpl extends MinimalEObjectImpl.Container implements Scope
    * <!-- end-user-doc -->
    * @generated
    */
-  public Value getScope()
+  public EList<Value> getValues()
   {
-    return scope;
-  }
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  public NotificationChain basicSetScope(Value newScope, NotificationChain msgs)
-  {
-    Value oldScope = scope;
-    scope = newScope;
-    if (eNotificationRequired())
+    if (values == null)
     {
-      ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, SmiPackage.SCOPE__SCOPE, oldScope, newScope);
-      if (msgs == null) msgs = notification; else msgs.add(notification);
+      values = new EObjectContainmentEList<Value>(Value.class, this, SmiPackage.SCOPE__VALUES);
     }
-    return msgs;
-  }
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  public void setScope(Value newScope)
-  {
-    if (newScope != scope)
-    {
-      NotificationChain msgs = null;
-      if (scope != null)
-        msgs = ((InternalEObject)scope).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - SmiPackage.SCOPE__SCOPE, null, msgs);
-      if (newScope != null)
-        msgs = ((InternalEObject)newScope).eInverseAdd(this, EOPPOSITE_FEATURE_BASE - SmiPackage.SCOPE__SCOPE, null, msgs);
-      msgs = basicSetScope(newScope, msgs);
-      if (msgs != null) msgs.dispatch();
-    }
-    else if (eNotificationRequired())
-      eNotify(new ENotificationImpl(this, Notification.SET, SmiPackage.SCOPE__SCOPE, newScope, newScope));
+    return values;
   }
 
   /**
@@ -119,8 +90,8 @@ public class ScopeImpl extends MinimalEObjectImpl.Container implements Scope
   {
     switch (featureID)
     {
-      case SmiPackage.SCOPE__SCOPE:
-        return basicSetScope(null, msgs);
+      case SmiPackage.SCOPE__VALUES:
+        return ((InternalEList<?>)getValues()).basicRemove(otherEnd, msgs);
     }
     return super.eInverseRemove(otherEnd, featureID, msgs);
   }
@@ -135,8 +106,8 @@ public class ScopeImpl extends MinimalEObjectImpl.Container implements Scope
   {
     switch (featureID)
     {
-      case SmiPackage.SCOPE__SCOPE:
-        return getScope();
+      case SmiPackage.SCOPE__VALUES:
+        return getValues();
     }
     return super.eGet(featureID, resolve, coreType);
   }
@@ -146,13 +117,15 @@ public class ScopeImpl extends MinimalEObjectImpl.Container implements Scope
    * <!-- end-user-doc -->
    * @generated
    */
+  @SuppressWarnings("unchecked")
   @Override
   public void eSet(int featureID, Object newValue)
   {
     switch (featureID)
     {
-      case SmiPackage.SCOPE__SCOPE:
-        setScope((Value)newValue);
+      case SmiPackage.SCOPE__VALUES:
+        getValues().clear();
+        getValues().addAll((Collection<? extends Value>)newValue);
         return;
     }
     super.eSet(featureID, newValue);
@@ -168,8 +141,8 @@ public class ScopeImpl extends MinimalEObjectImpl.Container implements Scope
   {
     switch (featureID)
     {
-      case SmiPackage.SCOPE__SCOPE:
-        setScope((Value)null);
+      case SmiPackage.SCOPE__VALUES:
+        getValues().clear();
         return;
     }
     super.eUnset(featureID);
@@ -185,8 +158,8 @@ public class ScopeImpl extends MinimalEObjectImpl.Container implements Scope
   {
     switch (featureID)
     {
-      case SmiPackage.SCOPE__SCOPE:
-        return scope != null;
+      case SmiPackage.SCOPE__VALUES:
+        return values != null && !values.isEmpty();
     }
     return super.eIsSet(featureID);
   }

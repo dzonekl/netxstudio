@@ -19,32 +19,32 @@ public class SmiSyntacticSequencer extends AbstractSyntacticSequencer {
 
 	protected SmiGrammarAccess grammarAccess;
 	protected AbstractElementAlias match_ASN1_SIMPLE_EmptyKeyword_0_1_or_IA5STRINGTerminalRuleCall_1_1;
-	protected AbstractElementAlias match_ObjectIdentifierValue_ASN1_IDTerminalRuleCall_0_1_q;
+	protected AbstractElementAlias match_Module_CRNLTerminalRuleCall_1_1_a;
 	
 	@Inject
 	protected void init(IGrammarAccess access) {
 		grammarAccess = (SmiGrammarAccess) access;
 		match_ASN1_SIMPLE_EmptyKeyword_0_1_or_IA5STRINGTerminalRuleCall_1_1 = new AlternativeAlias(false, false, new TokenAlias(false, false, grammarAccess.getASN1_SIMPLEAccess().getEmptyKeyword_0_1()), new TokenAlias(false, false, grammarAccess.getASN1_SIMPLEAccess().getIA5STRINGTerminalRuleCall_1_1()));
-		match_ObjectIdentifierValue_ASN1_IDTerminalRuleCall_0_1_q = new TokenAlias(false, true, grammarAccess.getObjectIdentifierValueAccess().getASN1_IDTerminalRuleCall_0_1());
+		match_Module_CRNLTerminalRuleCall_1_1_a = new TokenAlias(true, true, grammarAccess.getModuleAccess().getCRNLTerminalRuleCall_1_1());
 	}
 	
 	@Override
 	protected String getUnassignedRuleCallToken(EObject semanticObject, RuleCall ruleCall, INode node) {
-		if(ruleCall.getRule() == grammarAccess.getASN1_IDRule())
-			return getASN1_IDToken(semanticObject, ruleCall, node);
+		if(ruleCall.getRule() == grammarAccess.getCRNLRule())
+			return getCRNLToken(semanticObject, ruleCall, node);
 		else if(ruleCall.getRule() == grammarAccess.getIA5STRINGRule())
 			return getIA5STRINGToken(semanticObject, ruleCall, node);
 		return "";
 	}
 	
 	/**
-	 * terminal ASN1_ID:
-	 * 	(ALPHA) (ALPHA | ALPHA_CAP | '-' | NUMERIC)*;
+	 * terminal CRNL:
+	 * 	('\r' | '\n')+;
 	 */
-	protected String getASN1_IDToken(EObject semanticObject, RuleCall ruleCall, INode node) {
+	protected String getCRNLToken(EObject semanticObject, RuleCall ruleCall, INode node) {
 		if (node != null)
 			return getTokenText(node);
-		return "";
+		return "\r";
 	}
 	
 	/**
@@ -66,8 +66,8 @@ public class SmiSyntacticSequencer extends AbstractSyntacticSequencer {
 			List<INode> syntaxNodes = getNodesFor(transitionNodes, syntax);
 			if(match_ASN1_SIMPLE_EmptyKeyword_0_1_or_IA5STRINGTerminalRuleCall_1_1.equals(syntax))
 				emit_ASN1_SIMPLE_EmptyKeyword_0_1_or_IA5STRINGTerminalRuleCall_1_1(semanticObject, getLastNavigableState(), syntaxNodes);
-			else if(match_ObjectIdentifierValue_ASN1_IDTerminalRuleCall_0_1_q.equals(syntax))
-				emit_ObjectIdentifierValue_ASN1_IDTerminalRuleCall_0_1_q(semanticObject, getLastNavigableState(), syntaxNodes);
+			else if(match_Module_CRNLTerminalRuleCall_1_1_a.equals(syntax))
+				emit_Module_CRNLTerminalRuleCall_1_1_a(semanticObject, getLastNavigableState(), syntaxNodes);
 			else acceptNodes(getLastNavigableState(), syntaxNodes);
 		}
 	}
@@ -82,9 +82,9 @@ public class SmiSyntacticSequencer extends AbstractSyntacticSequencer {
 	
 	/**
 	 * Syntax:
-	 *     ASN1_ID?
+	 *     CRNL*
 	 */
-	protected void emit_ObjectIdentifierValue_ASN1_IDTerminalRuleCall_0_1_q(EObject semanticObject, ISynNavigable transition, List<INode> nodes) {
+	protected void emit_Module_CRNLTerminalRuleCall_1_1_a(EObject semanticObject, ISynNavigable transition, List<INode> nodes) {
 		acceptNodes(transition, nodes);
 	}
 	

@@ -31,12 +31,12 @@ public interface TypeNotation extends EObject
    * </p>
    * <!-- end-user-doc -->
    * @return the value of the '<em>Value</em>' containment reference.
-   * @see #setValue(MacroValue)
+   * @see #setValue(Value)
    * @see com.netxforge.smi.SmiPackage#getTypeNotation_Value()
    * @model containment="true"
    * @generated
    */
-  MacroValue getValue();
+  Value getValue();
 
   /**
    * Sets the value of the '{@link com.netxforge.smi.TypeNotation#getValue <em>Value</em>}' containment reference.
@@ -46,6 +46,6 @@ public interface TypeNotation extends EObject
    * @see #getValue()
    * @generated
    */
-  void setValue(MacroValue value);
+  void setValue(Value value);
 
 } // TypeNotation

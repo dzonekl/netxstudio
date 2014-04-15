@@ -79,13 +79,6 @@ public class SmiSwitch<T> extends Switch<T>
         if (result == null) result = defaultCase(theEObject);
         return result;
       }
-      case SmiPackage.ASSIGNMENT:
-      {
-        Assignment assignment = (Assignment)theEObject;
-        T result = caseAssignment(assignment);
-        if (result == null) result = defaultCase(theEObject);
-        return result;
-      }
       case SmiPackage.OBJECT_IDENTIFIER:
       {
         ObjectIdentifier objectIdentifier = (ObjectIdentifier)theEObject;
@@ -149,7 +142,6 @@ public class SmiSwitch<T> extends Switch<T>
         T result = caseTypeReference(typeReference);
         if (result == null) result = caseTypeAssignment(typeReference);
         if (result == null) result = caseTypeNotation(typeReference);
-        if (result == null) result = caseTypeReferenceExt(typeReference);
         if (result == null) result = defaultCase(theEObject);
         return result;
       }
@@ -174,13 +166,6 @@ public class SmiSwitch<T> extends Switch<T>
         if (result == null) result = defaultCase(theEObject);
         return result;
       }
-      case SmiPackage.MACRO_VALUE:
-      {
-        MacroValue macroValue = (MacroValue)theEObject;
-        T result = caseMacroValue(macroValue);
-        if (result == null) result = defaultCase(theEObject);
-        return result;
-      }
       case SmiPackage.MACRO_VALUE_TYPE:
       {
         MACRO_VALUE_TYPE macrO_VALUE_TYPE = (MACRO_VALUE_TYPE)theEObject;
@@ -192,13 +177,6 @@ public class SmiSwitch<T> extends Switch<T>
       {
         UpdateType updateType = (UpdateType)theEObject;
         T result = caseUpdateType(updateType);
-        if (result == null) result = defaultCase(theEObject);
-        return result;
-      }
-      case SmiPackage.MACRO_VALUE_CAP:
-      {
-        MACRO_VALUE_CAP macrO_VALUE_CAP = (MACRO_VALUE_CAP)theEObject;
-        T result = caseMACRO_VALUE_CAP(macrO_VALUE_CAP);
         if (result == null) result = defaultCase(theEObject);
         return result;
       }
@@ -246,6 +224,14 @@ public class SmiSwitch<T> extends Switch<T>
         if (result == null) result = defaultCase(theEObject);
         return result;
       }
+      case SmiPackage.MACRO_VALUE:
+      {
+        MacroValue macroValue = (MacroValue)theEObject;
+        T result = caseMacroValue(macroValue);
+        if (result == null) result = caseValue(macroValue);
+        if (result == null) result = defaultCase(theEObject);
+        return result;
+      }
       case SmiPackage.ASN1_OCTET_STRING:
       {
         ASN1_OCTET_STRING asn1_OCTET_STRING = (ASN1_OCTET_STRING)theEObject;
@@ -271,22 +257,6 @@ public class SmiSwitch<T> extends Switch<T>
    * @generated
    */
   public T caseModule(Module object)
-  {
-    return null;
-  }
-
-  /**
-   * Returns the result of interpreting the object as an instance of '<em>Assignment</em>'.
-   * <!-- begin-user-doc -->
-   * This implementation returns null;
-   * returning a non-null result will terminate the switch.
-   * <!-- end-user-doc -->
-   * @param object the target of the switch.
-   * @return the result of interpreting the object as an instance of '<em>Assignment</em>'.
-   * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
-   * @generated
-   */
-  public T caseAssignment(Assignment object)
   {
     return null;
   }
@@ -484,22 +454,6 @@ public class SmiSwitch<T> extends Switch<T>
   }
 
   /**
-   * Returns the result of interpreting the object as an instance of '<em>Macro Value</em>'.
-   * <!-- begin-user-doc -->
-   * This implementation returns null;
-   * returning a non-null result will terminate the switch.
-   * <!-- end-user-doc -->
-   * @param object the target of the switch.
-   * @return the result of interpreting the object as an instance of '<em>Macro Value</em>'.
-   * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
-   * @generated
-   */
-  public T caseMacroValue(MacroValue object)
-  {
-    return null;
-  }
-
-  /**
    * Returns the result of interpreting the object as an instance of '<em>MACRO VALUE TYPE</em>'.
    * <!-- begin-user-doc -->
    * This implementation returns null;
@@ -527,22 +481,6 @@ public class SmiSwitch<T> extends Switch<T>
    * @generated
    */
   public T caseUpdateType(UpdateType object)
-  {
-    return null;
-  }
-
-  /**
-   * Returns the result of interpreting the object as an instance of '<em>MACRO VALUE CAP</em>'.
-   * <!-- begin-user-doc -->
-   * This implementation returns null;
-   * returning a non-null result will terminate the switch.
-   * <!-- end-user-doc -->
-   * @param object the target of the switch.
-   * @return the result of interpreting the object as an instance of '<em>MACRO VALUE CAP</em>'.
-   * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
-   * @generated
-   */
-  public T caseMACRO_VALUE_CAP(MACRO_VALUE_CAP object)
   {
     return null;
   }
@@ -639,6 +577,22 @@ public class SmiSwitch<T> extends Switch<T>
    * @generated
    */
   public T caseASN1_CHOICE_ENTRY(ASN1_CHOICE_ENTRY object)
+  {
+    return null;
+  }
+
+  /**
+   * Returns the result of interpreting the object as an instance of '<em>Macro Value</em>'.
+   * <!-- begin-user-doc -->
+   * This implementation returns null;
+   * returning a non-null result will terminate the switch.
+   * <!-- end-user-doc -->
+   * @param object the target of the switch.
+   * @return the result of interpreting the object as an instance of '<em>Macro Value</em>'.
+   * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+   * @generated
+   */
+  public T caseMacroValue(MacroValue object)
   {
     return null;
   }

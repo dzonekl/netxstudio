@@ -32,15 +32,6 @@ public interface SmiFactory extends EFactory
   Module createModule();
 
   /**
-   * Returns a new object of class '<em>Assignment</em>'.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @return a new object of class '<em>Assignment</em>'.
-   * @generated
-   */
-  Assignment createAssignment();
-
-  /**
    * Returns a new object of class '<em>Object Identifier</em>'.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -149,15 +140,6 @@ public interface SmiFactory extends EFactory
   ValueType createValueType();
 
   /**
-   * Returns a new object of class '<em>Macro Value</em>'.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @return a new object of class '<em>Macro Value</em>'.
-   * @generated
-   */
-  MacroValue createMacroValue();
-
-  /**
    * Returns a new object of class '<em>MACRO VALUE TYPE</em>'.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -174,15 +156,6 @@ public interface SmiFactory extends EFactory
    * @generated
    */
   UpdateType createUpdateType();
-
-  /**
-   * Returns a new object of class '<em>MACRO VALUE CAP</em>'.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @return a new object of class '<em>MACRO VALUE CAP</em>'.
-   * @generated
-   */
-  MACRO_VALUE_CAP createMACRO_VALUE_CAP();
 
   /**
    * Returns a new object of class '<em>ASN1 TYPE</em>'.
@@ -237,6 +210,15 @@ public interface SmiFactory extends EFactory
    * @generated
    */
   ASN1_CHOICE_ENTRY createASN1_CHOICE_ENTRY();
+
+  /**
+   * Returns a new object of class '<em>Macro Value</em>'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return a new object of class '<em>Macro Value</em>'.
+   * @generated
+   */
+  MacroValue createMacroValue();
 
   /**
    * Returns a new object of class '<em>ASN1 OCTET STRING</em>'.

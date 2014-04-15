@@ -27,6 +27,7 @@ import org.eclipse.emf.ecore.util.EDataTypeEList;
  * <p>
  * The following features are implemented:
  * <ul>
+ *   <li>{@link com.netxforge.smi.impl.ObjectIdentifierValueImpl#getRoot <em>Root</em>}</li>
  *   <li>{@link com.netxforge.smi.impl.ObjectIdentifierValueImpl#getDescriptorReference <em>Descriptor Reference</em>}</li>
  *   <li>{@link com.netxforge.smi.impl.ObjectIdentifierValueImpl#getSubIds <em>Sub Ids</em>}</li>
  * </ul>
@@ -36,6 +37,26 @@ import org.eclipse.emf.ecore.util.EDataTypeEList;
  */
 public class ObjectIdentifierValueImpl extends MinimalEObjectImpl.Container implements ObjectIdentifierValue
 {
+  /**
+   * The default value of the '{@link #getRoot() <em>Root</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see #getRoot()
+   * @generated
+   * @ordered
+   */
+  protected static final String ROOT_EDEFAULT = null;
+
+  /**
+   * The cached value of the '{@link #getRoot() <em>Root</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see #getRoot()
+   * @generated
+   * @ordered
+   */
+  protected String root = ROOT_EDEFAULT;
+
   /**
    * The cached value of the '{@link #getDescriptorReference() <em>Descriptor Reference</em>}' reference.
    * <!-- begin-user-doc -->
@@ -75,6 +96,29 @@ public class ObjectIdentifierValueImpl extends MinimalEObjectImpl.Container impl
   protected EClass eStaticClass()
   {
     return SmiPackage.Literals.OBJECT_IDENTIFIER_VALUE;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public String getRoot()
+  {
+    return root;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public void setRoot(String newRoot)
+  {
+    String oldRoot = root;
+    root = newRoot;
+    if (eNotificationRequired())
+      eNotify(new ENotificationImpl(this, Notification.SET, SmiPackage.OBJECT_IDENTIFIER_VALUE__ROOT, oldRoot, root));
   }
 
   /**
@@ -144,6 +188,8 @@ public class ObjectIdentifierValueImpl extends MinimalEObjectImpl.Container impl
   {
     switch (featureID)
     {
+      case SmiPackage.OBJECT_IDENTIFIER_VALUE__ROOT:
+        return getRoot();
       case SmiPackage.OBJECT_IDENTIFIER_VALUE__DESCRIPTOR_REFERENCE:
         if (resolve) return getDescriptorReference();
         return basicGetDescriptorReference();
@@ -164,6 +210,9 @@ public class ObjectIdentifierValueImpl extends MinimalEObjectImpl.Container impl
   {
     switch (featureID)
     {
+      case SmiPackage.OBJECT_IDENTIFIER_VALUE__ROOT:
+        setRoot((String)newValue);
+        return;
       case SmiPackage.OBJECT_IDENTIFIER_VALUE__DESCRIPTOR_REFERENCE:
         setDescriptorReference((ObjectIdentifier)newValue);
         return;
@@ -185,6 +234,9 @@ public class ObjectIdentifierValueImpl extends MinimalEObjectImpl.Container impl
   {
     switch (featureID)
     {
+      case SmiPackage.OBJECT_IDENTIFIER_VALUE__ROOT:
+        setRoot(ROOT_EDEFAULT);
+        return;
       case SmiPackage.OBJECT_IDENTIFIER_VALUE__DESCRIPTOR_REFERENCE:
         setDescriptorReference((ObjectIdentifier)null);
         return;
@@ -205,6 +257,8 @@ public class ObjectIdentifierValueImpl extends MinimalEObjectImpl.Container impl
   {
     switch (featureID)
     {
+      case SmiPackage.OBJECT_IDENTIFIER_VALUE__ROOT:
+        return ROOT_EDEFAULT == null ? root != null : !ROOT_EDEFAULT.equals(root);
       case SmiPackage.OBJECT_IDENTIFIER_VALUE__DESCRIPTOR_REFERENCE:
         return descriptorReference != null;
       case SmiPackage.OBJECT_IDENTIFIER_VALUE__SUB_IDS:
@@ -224,7 +278,9 @@ public class ObjectIdentifierValueImpl extends MinimalEObjectImpl.Container impl
     if (eIsProxy()) return super.toString();
 
     StringBuffer result = new StringBuffer(super.toString());
-    result.append(" (subIds: ");
+    result.append(" (root: ");
+    result.append(root);
+    result.append(", subIds: ");
     result.append(subIds);
     result.append(')');
     return result.toString();
