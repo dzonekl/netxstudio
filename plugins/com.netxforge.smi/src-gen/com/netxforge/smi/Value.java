@@ -4,8 +4,6 @@ package com.netxforge.smi;
 
 import org.eclipse.emf.common.util.EList;
 
-import org.eclipse.emf.ecore.EObject;
-
 /**
  * <!-- begin-user-doc -->
  * A representation of the model object '<em><b>Value</b></em>'.
@@ -22,7 +20,7 @@ import org.eclipse.emf.ecore.EObject;
  * @model
  * @generated
  */
-public interface Value extends EObject
+public interface Value extends TypeAssignment
 {
   /**
    * Returns the value of the '<em><b>Value Types</b></em>' containment reference list.

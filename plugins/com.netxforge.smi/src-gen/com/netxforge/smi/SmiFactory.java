@@ -95,33 +95,6 @@ public interface SmiFactory extends EFactory
   TypeNotation createTypeNotation();
 
   /**
-   * Returns a new object of class '<em>Type Reference Ext</em>'.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @return a new object of class '<em>Type Reference Ext</em>'.
-   * @generated
-   */
-  TypeReferenceExt createTypeReferenceExt();
-
-  /**
-   * Returns a new object of class '<em>Type Reference</em>'.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @return a new object of class '<em>Type Reference</em>'.
-   * @generated
-   */
-  TypeReference createTypeReference();
-
-  /**
-   * Returns a new object of class '<em>Scope</em>'.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @return a new object of class '<em>Scope</em>'.
-   * @generated
-   */
-  Scope createScope();
-
-  /**
    * Returns a new object of class '<em>Value</em>'.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -174,15 +147,6 @@ public interface SmiFactory extends EFactory
    * @generated
    */
   ASN1_SIMPLE createASN1_SIMPLE();
-
-  /**
-   * Returns a new object of class '<em>ASN1 SUBTYPE</em>'.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @return a new object of class '<em>ASN1 SUBTYPE</em>'.
-   * @generated
-   */
-  ASN1_SUBTYPE createASN1_SUBTYPE();
 
   /**
    * Returns a new object of class '<em>ASN1 RANGE</em>'.

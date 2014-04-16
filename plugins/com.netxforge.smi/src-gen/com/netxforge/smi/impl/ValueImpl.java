@@ -15,8 +15,6 @@ import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.InternalEObject;
 
-import org.eclipse.emf.ecore.impl.MinimalEObjectImpl;
-
 import org.eclipse.emf.ecore.util.EObjectContainmentEList;
 import org.eclipse.emf.ecore.util.InternalEList;
 
@@ -33,7 +31,7 @@ import org.eclipse.emf.ecore.util.InternalEList;
  *
  * @generated
  */
-public class ValueImpl extends MinimalEObjectImpl.Container implements Value
+public class ValueImpl extends TypeAssignmentImpl implements Value
 {
   /**
    * The cached value of the '{@link #getValueTypes() <em>Value Types</em>}' containment reference list.

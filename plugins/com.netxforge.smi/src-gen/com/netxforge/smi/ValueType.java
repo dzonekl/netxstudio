@@ -13,7 +13,7 @@ import org.eclipse.emf.ecore.EObject;
  * The following features are supported:
  * <ul>
  *   <li>{@link com.netxforge.smi.ValueType#getParam <em>Param</em>}</li>
- *   <li>{@link com.netxforge.smi.ValueType#getType <em>Type</em>}</li>
+ *   <li>{@link com.netxforge.smi.ValueType#getTypes <em>Types</em>}</li>
  *   <li>{@link com.netxforge.smi.ValueType#getSimpleType <em>Simple Type</em>}</li>
  *   <li>{@link com.netxforge.smi.ValueType#getMacroValue <em>Macro Value</em>}</li>
  *   <li>{@link com.netxforge.smi.ValueType#getOi <em>Oi</em>}</li>
@@ -53,30 +53,30 @@ public interface ValueType extends EObject
   void setParam(ParamAssignment value);
 
   /**
-   * Returns the value of the '<em><b>Type</b></em>' containment reference.
+   * Returns the value of the '<em><b>Types</b></em>' containment reference.
    * <!-- begin-user-doc -->
    * <p>
-   * If the meaning of the '<em>Type</em>' containment reference isn't clear,
+   * If the meaning of the '<em>Types</em>' containment reference isn't clear,
    * there really should be more of a description here...
    * </p>
    * <!-- end-user-doc -->
-   * @return the value of the '<em>Type</em>' containment reference.
-   * @see #setType(TypeReferenceExt)
-   * @see com.netxforge.smi.SmiPackage#getValueType_Type()
+   * @return the value of the '<em>Types</em>' containment reference.
+   * @see #setTypes(TypeAssignment)
+   * @see com.netxforge.smi.SmiPackage#getValueType_Types()
    * @model containment="true"
    * @generated
    */
-  TypeReferenceExt getType();
+  TypeAssignment getTypes();
 
   /**
-   * Sets the value of the '{@link com.netxforge.smi.ValueType#getType <em>Type</em>}' containment reference.
+   * Sets the value of the '{@link com.netxforge.smi.ValueType#getTypes <em>Types</em>}' containment reference.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @param value the new value of the '<em>Type</em>' containment reference.
-   * @see #getType()
+   * @param value the new value of the '<em>Types</em>' containment reference.
+   * @see #getTypes()
    * @generated
    */
-  void setType(TypeReferenceExt value);
+  void setTypes(TypeAssignment value);
 
   /**
    * Returns the value of the '<em><b>Simple Type</b></em>' containment reference.

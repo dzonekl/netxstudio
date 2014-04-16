@@ -115,21 +115,6 @@ public class SmiAdapterFactory extends AdapterFactoryImpl
         return createTypeNotationAdapter();
       }
       @Override
-      public Adapter caseTypeReferenceExt(TypeReferenceExt object)
-      {
-        return createTypeReferenceExtAdapter();
-      }
-      @Override
-      public Adapter caseTypeReference(TypeReference object)
-      {
-        return createTypeReferenceAdapter();
-      }
-      @Override
-      public Adapter caseScope(Scope object)
-      {
-        return createScopeAdapter();
-      }
-      @Override
       public Adapter caseValue(Value object)
       {
         return createValueAdapter();
@@ -158,11 +143,6 @@ public class SmiAdapterFactory extends AdapterFactoryImpl
       public Adapter caseASN1_SIMPLE(ASN1_SIMPLE object)
       {
         return createASN1_SIMPLEAdapter();
-      }
-      @Override
-      public Adapter caseASN1_SUBTYPE(ASN1_SUBTYPE object)
-      {
-        return createASN1_SUBTYPEAdapter();
       }
       @Override
       public Adapter caseASN1_RANGE(ASN1_RANGE object)
@@ -332,51 +312,6 @@ public class SmiAdapterFactory extends AdapterFactoryImpl
   }
 
   /**
-   * Creates a new adapter for an object of class '{@link com.netxforge.smi.TypeReferenceExt <em>Type Reference Ext</em>}'.
-   * <!-- begin-user-doc -->
-   * This default implementation returns null so that we can easily ignore cases;
-   * it's useful to ignore a case when inheritance will catch all the cases anyway.
-   * <!-- end-user-doc -->
-   * @return the new adapter.
-   * @see com.netxforge.smi.TypeReferenceExt
-   * @generated
-   */
-  public Adapter createTypeReferenceExtAdapter()
-  {
-    return null;
-  }
-
-  /**
-   * Creates a new adapter for an object of class '{@link com.netxforge.smi.TypeReference <em>Type Reference</em>}'.
-   * <!-- begin-user-doc -->
-   * This default implementation returns null so that we can easily ignore cases;
-   * it's useful to ignore a case when inheritance will catch all the cases anyway.
-   * <!-- end-user-doc -->
-   * @return the new adapter.
-   * @see com.netxforge.smi.TypeReference
-   * @generated
-   */
-  public Adapter createTypeReferenceAdapter()
-  {
-    return null;
-  }
-
-  /**
-   * Creates a new adapter for an object of class '{@link com.netxforge.smi.Scope <em>Scope</em>}'.
-   * <!-- begin-user-doc -->
-   * This default implementation returns null so that we can easily ignore cases;
-   * it's useful to ignore a case when inheritance will catch all the cases anyway.
-   * <!-- end-user-doc -->
-   * @return the new adapter.
-   * @see com.netxforge.smi.Scope
-   * @generated
-   */
-  public Adapter createScopeAdapter()
-  {
-    return null;
-  }
-
-  /**
    * Creates a new adapter for an object of class '{@link com.netxforge.smi.Value <em>Value</em>}'.
    * <!-- begin-user-doc -->
    * This default implementation returns null so that we can easily ignore cases;
@@ -462,21 +397,6 @@ public class SmiAdapterFactory extends AdapterFactoryImpl
    * @generated
    */
   public Adapter createASN1_SIMPLEAdapter()
-  {
-    return null;
-  }
-
-  /**
-   * Creates a new adapter for an object of class '{@link com.netxforge.smi.ASN1_SUBTYPE <em>ASN1 SUBTYPE</em>}'.
-   * <!-- begin-user-doc -->
-   * This default implementation returns null so that we can easily ignore cases;
-   * it's useful to ignore a case when inheritance will catch all the cases anyway.
-   * <!-- end-user-doc -->
-   * @return the new adapter.
-   * @see com.netxforge.smi.ASN1_SUBTYPE
-   * @generated
-   */
-  public Adapter createASN1_SUBTYPEAdapter()
   {
     return null;
   }

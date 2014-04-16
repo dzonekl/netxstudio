@@ -2,18 +2,25 @@
  */
 package com.netxforge.smi.impl;
 
-import com.netxforge.smi.Scope;
 import com.netxforge.smi.SmiPackage;
 import com.netxforge.smi.TypeDefinition;
+import com.netxforge.smi.Value;
+
+import java.util.Collection;
 
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
+
+import org.eclipse.emf.common.util.EList;
 
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.InternalEObject;
 
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.impl.MinimalEObjectImpl;
+
+import org.eclipse.emf.ecore.util.EObjectContainmentEList;
+import org.eclipse.emf.ecore.util.InternalEList;
 
 /**
  * <!-- begin-user-doc -->
@@ -23,7 +30,7 @@ import org.eclipse.emf.ecore.impl.MinimalEObjectImpl;
  * The following features are implemented:
  * <ul>
  *   <li>{@link com.netxforge.smi.impl.TypeDefinitionImpl#getName <em>Name</em>}</li>
- *   <li>{@link com.netxforge.smi.impl.TypeDefinitionImpl#getScope <em>Scope</em>}</li>
+ *   <li>{@link com.netxforge.smi.impl.TypeDefinitionImpl#getValues <em>Values</em>}</li>
  * </ul>
  * </p>
  *
@@ -52,14 +59,14 @@ public class TypeDefinitionImpl extends MinimalEObjectImpl.Container implements 
   protected String name = NAME_EDEFAULT;
 
   /**
-   * The cached value of the '{@link #getScope() <em>Scope</em>}' containment reference.
+   * The cached value of the '{@link #getValues() <em>Values</em>}' containment reference list.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @see #getScope()
+   * @see #getValues()
    * @generated
    * @ordered
    */
-  protected Scope scope;
+  protected EList<Value> values;
 
   /**
    * <!-- begin-user-doc -->
@@ -110,47 +117,13 @@ public class TypeDefinitionImpl extends MinimalEObjectImpl.Container implements 
    * <!-- end-user-doc -->
    * @generated
    */
-  public Scope getScope()
+  public EList<Value> getValues()
   {
-    return scope;
-  }
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  public NotificationChain basicSetScope(Scope newScope, NotificationChain msgs)
-  {
-    Scope oldScope = scope;
-    scope = newScope;
-    if (eNotificationRequired())
+    if (values == null)
     {
-      ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, SmiPackage.TYPE_DEFINITION__SCOPE, oldScope, newScope);
-      if (msgs == null) msgs = notification; else msgs.add(notification);
+      values = new EObjectContainmentEList<Value>(Value.class, this, SmiPackage.TYPE_DEFINITION__VALUES);
     }
-    return msgs;
-  }
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  public void setScope(Scope newScope)
-  {
-    if (newScope != scope)
-    {
-      NotificationChain msgs = null;
-      if (scope != null)
-        msgs = ((InternalEObject)scope).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - SmiPackage.TYPE_DEFINITION__SCOPE, null, msgs);
-      if (newScope != null)
-        msgs = ((InternalEObject)newScope).eInverseAdd(this, EOPPOSITE_FEATURE_BASE - SmiPackage.TYPE_DEFINITION__SCOPE, null, msgs);
-      msgs = basicSetScope(newScope, msgs);
-      if (msgs != null) msgs.dispatch();
-    }
-    else if (eNotificationRequired())
-      eNotify(new ENotificationImpl(this, Notification.SET, SmiPackage.TYPE_DEFINITION__SCOPE, newScope, newScope));
+    return values;
   }
 
   /**
@@ -163,8 +136,8 @@ public class TypeDefinitionImpl extends MinimalEObjectImpl.Container implements 
   {
     switch (featureID)
     {
-      case SmiPackage.TYPE_DEFINITION__SCOPE:
-        return basicSetScope(null, msgs);
+      case SmiPackage.TYPE_DEFINITION__VALUES:
+        return ((InternalEList<?>)getValues()).basicRemove(otherEnd, msgs);
     }
     return super.eInverseRemove(otherEnd, featureID, msgs);
   }
@@ -181,8 +154,8 @@ public class TypeDefinitionImpl extends MinimalEObjectImpl.Container implements 
     {
       case SmiPackage.TYPE_DEFINITION__NAME:
         return getName();
-      case SmiPackage.TYPE_DEFINITION__SCOPE:
-        return getScope();
+      case SmiPackage.TYPE_DEFINITION__VALUES:
+        return getValues();
     }
     return super.eGet(featureID, resolve, coreType);
   }
@@ -192,6 +165,7 @@ public class TypeDefinitionImpl extends MinimalEObjectImpl.Container implements 
    * <!-- end-user-doc -->
    * @generated
    */
+  @SuppressWarnings("unchecked")
   @Override
   public void eSet(int featureID, Object newValue)
   {
@@ -200,8 +174,9 @@ public class TypeDefinitionImpl extends MinimalEObjectImpl.Container implements 
       case SmiPackage.TYPE_DEFINITION__NAME:
         setName((String)newValue);
         return;
-      case SmiPackage.TYPE_DEFINITION__SCOPE:
-        setScope((Scope)newValue);
+      case SmiPackage.TYPE_DEFINITION__VALUES:
+        getValues().clear();
+        getValues().addAll((Collection<? extends Value>)newValue);
         return;
     }
     super.eSet(featureID, newValue);
@@ -220,8 +195,8 @@ public class TypeDefinitionImpl extends MinimalEObjectImpl.Container implements 
       case SmiPackage.TYPE_DEFINITION__NAME:
         setName(NAME_EDEFAULT);
         return;
-      case SmiPackage.TYPE_DEFINITION__SCOPE:
-        setScope((Scope)null);
+      case SmiPackage.TYPE_DEFINITION__VALUES:
+        getValues().clear();
         return;
     }
     super.eUnset(featureID);
@@ -239,8 +214,8 @@ public class TypeDefinitionImpl extends MinimalEObjectImpl.Container implements 
     {
       case SmiPackage.TYPE_DEFINITION__NAME:
         return NAME_EDEFAULT == null ? name != null : !NAME_EDEFAULT.equals(name);
-      case SmiPackage.TYPE_DEFINITION__SCOPE:
-        return scope != null;
+      case SmiPackage.TYPE_DEFINITION__VALUES:
+        return values != null && !values.isEmpty();
     }
     return super.eIsSet(featureID);
   }

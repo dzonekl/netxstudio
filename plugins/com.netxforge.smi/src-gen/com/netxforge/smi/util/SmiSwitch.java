@@ -111,6 +111,7 @@ public class SmiSwitch<T> extends Switch<T>
       {
         TypeAssignment typeAssignment = (TypeAssignment)theEObject;
         T result = caseTypeAssignment(typeAssignment);
+        if (result == null) result = caseTypeNotation(typeAssignment);
         if (result == null) result = defaultCase(theEObject);
         return result;
       }
@@ -119,6 +120,7 @@ public class SmiSwitch<T> extends Switch<T>
         ParamAssignment paramAssignment = (ParamAssignment)theEObject;
         T result = caseParamAssignment(paramAssignment);
         if (result == null) result = caseTypeAssignment(paramAssignment);
+        if (result == null) result = caseTypeNotation(paramAssignment);
         if (result == null) result = defaultCase(theEObject);
         return result;
       }
@@ -129,33 +131,12 @@ public class SmiSwitch<T> extends Switch<T>
         if (result == null) result = defaultCase(theEObject);
         return result;
       }
-      case SmiPackage.TYPE_REFERENCE_EXT:
-      {
-        TypeReferenceExt typeReferenceExt = (TypeReferenceExt)theEObject;
-        T result = caseTypeReferenceExt(typeReferenceExt);
-        if (result == null) result = defaultCase(theEObject);
-        return result;
-      }
-      case SmiPackage.TYPE_REFERENCE:
-      {
-        TypeReference typeReference = (TypeReference)theEObject;
-        T result = caseTypeReference(typeReference);
-        if (result == null) result = caseTypeAssignment(typeReference);
-        if (result == null) result = caseTypeNotation(typeReference);
-        if (result == null) result = defaultCase(theEObject);
-        return result;
-      }
-      case SmiPackage.SCOPE:
-      {
-        Scope scope = (Scope)theEObject;
-        T result = caseScope(scope);
-        if (result == null) result = defaultCase(theEObject);
-        return result;
-      }
       case SmiPackage.VALUE:
       {
         Value value = (Value)theEObject;
         T result = caseValue(value);
+        if (result == null) result = caseTypeAssignment(value);
+        if (result == null) result = caseTypeNotation(value);
         if (result == null) result = defaultCase(theEObject);
         return result;
       }
@@ -195,13 +176,6 @@ public class SmiSwitch<T> extends Switch<T>
         if (result == null) result = defaultCase(theEObject);
         return result;
       }
-      case SmiPackage.ASN1_SUBTYPE:
-      {
-        ASN1_SUBTYPE asn1_SUBTYPE = (ASN1_SUBTYPE)theEObject;
-        T result = caseASN1_SUBTYPE(asn1_SUBTYPE);
-        if (result == null) result = defaultCase(theEObject);
-        return result;
-      }
       case SmiPackage.ASN1_RANGE:
       {
         ASN1_RANGE asn1_RANGE = (ASN1_RANGE)theEObject;
@@ -229,6 +203,8 @@ public class SmiSwitch<T> extends Switch<T>
         MacroValue macroValue = (MacroValue)theEObject;
         T result = caseMacroValue(macroValue);
         if (result == null) result = caseValue(macroValue);
+        if (result == null) result = caseTypeAssignment(macroValue);
+        if (result == null) result = caseTypeNotation(macroValue);
         if (result == null) result = defaultCase(theEObject);
         return result;
       }
@@ -374,54 +350,6 @@ public class SmiSwitch<T> extends Switch<T>
   }
 
   /**
-   * Returns the result of interpreting the object as an instance of '<em>Type Reference Ext</em>'.
-   * <!-- begin-user-doc -->
-   * This implementation returns null;
-   * returning a non-null result will terminate the switch.
-   * <!-- end-user-doc -->
-   * @param object the target of the switch.
-   * @return the result of interpreting the object as an instance of '<em>Type Reference Ext</em>'.
-   * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
-   * @generated
-   */
-  public T caseTypeReferenceExt(TypeReferenceExt object)
-  {
-    return null;
-  }
-
-  /**
-   * Returns the result of interpreting the object as an instance of '<em>Type Reference</em>'.
-   * <!-- begin-user-doc -->
-   * This implementation returns null;
-   * returning a non-null result will terminate the switch.
-   * <!-- end-user-doc -->
-   * @param object the target of the switch.
-   * @return the result of interpreting the object as an instance of '<em>Type Reference</em>'.
-   * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
-   * @generated
-   */
-  public T caseTypeReference(TypeReference object)
-  {
-    return null;
-  }
-
-  /**
-   * Returns the result of interpreting the object as an instance of '<em>Scope</em>'.
-   * <!-- begin-user-doc -->
-   * This implementation returns null;
-   * returning a non-null result will terminate the switch.
-   * <!-- end-user-doc -->
-   * @param object the target of the switch.
-   * @return the result of interpreting the object as an instance of '<em>Scope</em>'.
-   * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
-   * @generated
-   */
-  public T caseScope(Scope object)
-  {
-    return null;
-  }
-
-  /**
    * Returns the result of interpreting the object as an instance of '<em>Value</em>'.
    * <!-- begin-user-doc -->
    * This implementation returns null;
@@ -513,22 +441,6 @@ public class SmiSwitch<T> extends Switch<T>
    * @generated
    */
   public T caseASN1_SIMPLE(ASN1_SIMPLE object)
-  {
-    return null;
-  }
-
-  /**
-   * Returns the result of interpreting the object as an instance of '<em>ASN1 SUBTYPE</em>'.
-   * <!-- begin-user-doc -->
-   * This implementation returns null;
-   * returning a non-null result will terminate the switch.
-   * <!-- end-user-doc -->
-   * @param object the target of the switch.
-   * @return the result of interpreting the object as an instance of '<em>ASN1 SUBTYPE</em>'.
-   * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
-   * @generated
-   */
-  public T caseASN1_SUBTYPE(ASN1_SUBTYPE object)
   {
     return null;
   }

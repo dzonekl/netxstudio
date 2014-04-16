@@ -1,21 +1,33 @@
 /**
  * 
  * Xtext grammar for:  
-
+ *
  * Structure of Management Information Version 2 (SMIv2)
  * http://tools.ietf.org/html/rfc2578
  * 
  * ASN.1 Notation from: 
  * 
- * TODO: Refer to the specifications, not this tutorial. 
- * http://www.obj-sys.com/asn1tutorial/node4.html
- * 
  * Author: Christophe Bouhier
  * 2013
  * 
- * This grammar defines SMIv2 but is also capable to process SMIv2 Information Modules. 
+ * This grammar defines SMIv2 but is also capable to process SMIv2 Information Modules.
+ *  
  * 
  * Disclaimer
+ * 
+ * Design
+ * ------
+ * ASN1 has grammar constraints for where type, value assignments, Macro's etc... should start (On a new line) 
+ * There for we do not hide the CR/LF tokens when lexing. As new line occurences elsewhere in the grammar are
+ * included in various rules. lile befor a 'BEGIN' keyword. Although this doesn't improve the readability it allows 
+ * very detailed control on each rule. 
+ * 
+ * Version History
+ * ---------------
+ * 1.0 Initial version 
+ * - Support for Macro's 
+ * - Support for Object Identifiers
+ * 
  * 
  */
 grammar com.netxforge.Smi hidden(WS, SL_ASN1_COMMENT)
@@ -24,62 +36,64 @@ import "http://www.eclipse.org/emf/2002/Ecore" as ecore
 generate smi "http://www.netxforge.com/Smi"
 
 Module:
-	name=MODULE_ID 'DEFINITIONS' '::=' 'BEGIN' CRNL
+	name=MODULE_ID 'DEFINITIONS' '::=' 'BEGIN' NEWLINE
 	(identifiers+=ObjectIdentifier |
 	types+=TypeDefinition |
 	macros+=Macro)+
-	| {Module} CRNL*
-	'END';
+	NEWLINE 'END' NEWLINE*;
 
-	// Object Identifier
+	// An ASN.1 Object Identifier
 ObjectIdentifier hidden(WS, SL_ASN1_COMMENT):
-	CRNL name=ASN1_ID 'OBJECT IDENTIFIER' '::=' '{' oidValue=ObjectIdentifierValue '}';
+	NEWLINE+ name=ASN1_ID 'OBJECT IDENTIFIER' '::=' '{' oidValue=ObjectIdentifierValue '}';
 
+	// The value of the Object identifier	
 ObjectIdentifierValue:
 	(root=ASN1_ID
 	| => descriptorReference=[ObjectIdentifier|ASN1_ID])? subIds+=INT (subIds+=INT)*;
 
 	// An ASN.1 Value assignment. 
 TypeDefinition:
-	CRNL name=(MODULE_ID) '::=' scope=Scope;
+	NEWLINE+ name=(MODULE_ID) '::=' values+=Value+;
 
-	// Macro
-Macro :
-	CRNL name=MODULE_ID 'MACRO' '::='
-	CRNL 'BEGIN'
-	CRNL 'TYPE NOTATION' '::=' typeNotations+=TypeAssignment+ // Reference one or more type assignment. 
-	CRNL 'VALUE NOTATION' '::=' valueNotation=MacroValue // Define one Macro value. 
+//Scope:
+//	name='::=' values+=Value+;
+
+	// An ASN.1 Macro structure
+Macro:
+	NEWLINE+ name=MODULE_ID 'MACRO' '::='
+	NEWLINE 'BEGIN'
+	NEWLINE+ 'TYPE NOTATION' '::=' typeNotations+=TypeAssignment+ // Reference one or more type assignment. 
+	NEWLINE+ 'VALUE NOTATION' '::=' NEWLINE? valueNotation=MacroValue // Define one Macro value. 
 	innerTypes+=TypeDefinition+ // Define 1 or more type definitions
-	'END';
+	NEWLINE+ 'END';
 
-	// An ASN.1 Macro Type Notation
+	// An ASN.1 Macro Type Notation, it's slightly different then  a type definition. 
 TypeAssignment:
-	(ParamAssignment | TypeReference);
+	NEWLINE+ (ParamAssignment | TypeReference | MacroValue);
 
+	// An ASN.1 Parameter assignment
 ParamAssignment:
 	param=PARAMETER right=TypeNotation;
 
 TypeNotation:
 	TypeReference | value=MacroValue;
 
-TypeReferenceExt:
+	// Types can be referred once or twice. The right side is named a child reference. 
+TypeReferenceExt returns TypeAssignment:
 	parentRef=TypeReference (=> childRef=TypeReference)?;
 
-TypeReference:
+TypeReference returns TypeAssignment:
 	type=[TypeDefinition|MODULE_ID];
 
-Scope:
-	values+=Value+ CRNL;
-
 Value:
-	valueTypes+=ValueType ('|' valueTypes+=ValueType)*;
+	NEWLINE? valueTypes+=ValueType (NEWLINE? '|' valueTypes+=ValueType)*;
 
 ValueType:
-	(param=ParamAssignment | type=TypeReferenceExt | simpleType=ASN1_TYPE | macroValue=MacroValue |
+	(param=ParamAssignment | types=TypeReferenceExt | simpleType=ASN1_TYPE | macroValue=MacroValue |
 	oi='OBJECT IDENTIFIER');
 
 MacroValue returns Value:
-	{MacroValue} 'value' '(' type=MACRO_VALUE_TYPE ')';
+	{MacroValue} 'value' '(' valueType=MACRO_VALUE_TYPE ')';
 
 MACRO_VALUE_TYPE:
 	update=UpdateType | literal=MACRO_VALUE_CAP;
@@ -100,17 +114,17 @@ ASN1_TYPE:
 
 	// -- the "base types" defined here are:
 // --   3 built-in ASN.1 types: INTEGER, OCTET STRING, OBJECT IDENTIFIER
-ASN1_SIMPLE:
+ASN1_SIMPLE returns ASN1_TYPE:
 	{ASN1_SIMPLE} 'empty' | {ASN1_SIMPLE} IA5STRING | ASN1_OCTET_STRING constraint=ASN1_SUBTYPE? | ASN1_INTEGER
 	constraint=ASN1_RANGE?;
 
 ASN1_OCTET_STRING returns ASN1_SIMPLE:
-	{ASN1_OCTET_STRING} 'OCTET STRING';
+	{ASN1_OCTET_STRING} name='OCTET STRING';
 
 ASN1_INTEGER returns ASN1_SIMPLE:
-	'INTEGER' '{' (valuePairs+=ASN1_VALUEPAIR)+ '}';
+	name='INTEGER' '{' (valuePairs+=ASN1_VALUEPAIR)+ '}';
 
-ASN1_SUBTYPE:
+ASN1_SUBTYPE returns ASN1_SIMPLE:
 	'(' 'SIZE' '(' ranges+=ASN1_RANGE
 	('|' ranges+=ASN1_RANGE)* ')' ')';
 
@@ -126,7 +140,7 @@ ASN1_VALUEPAIR:
 	//Choice:
 // http://www.obj-sys.com/asn1tutorial/node11.html
 ASN1_CHOICE:
-	'CHOICE' '{' choices+=ASN1_CHOICE_ENTRY (',' choices+=ASN1_CHOICE_ENTRY)* '}';
+	 'CHOICE' '{' choices+=ASN1_CHOICE_ENTRY (',' choices+=ASN1_CHOICE_ENTRY)* '}';
 
 	// TODO1 The reference to a ValueType is indented by 4 WS on the next line. 
 //  
@@ -166,17 +180,14 @@ terminal INT returns ecore::EInt:
 // effect of a single space character.
 
 // TODO1 Comments ended by a pair of hyphens have the effect of a single space character.
-
 terminal SL_ASN1_COMMENT:
-	'--' !('\n' | '\r')* ('\r'? '\n')?;
-
-terminal CRNL:
-	('\r' | '\n')+;
+	'--' !('\n' | '\r')*;
 
 terminal WS:
 	(' ' | '\t')+;
 
-
+terminal NEWLINE:
+	'\r'? | '\n';
 
 terminal ANY_OTHER:
 	.;

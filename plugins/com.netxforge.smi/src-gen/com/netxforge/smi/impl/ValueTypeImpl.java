@@ -5,7 +5,7 @@ package com.netxforge.smi.impl;
 import com.netxforge.smi.ASN1_TYPE;
 import com.netxforge.smi.ParamAssignment;
 import com.netxforge.smi.SmiPackage;
-import com.netxforge.smi.TypeReferenceExt;
+import com.netxforge.smi.TypeAssignment;
 import com.netxforge.smi.Value;
 import com.netxforge.smi.ValueType;
 
@@ -26,7 +26,7 @@ import org.eclipse.emf.ecore.impl.MinimalEObjectImpl;
  * The following features are implemented:
  * <ul>
  *   <li>{@link com.netxforge.smi.impl.ValueTypeImpl#getParam <em>Param</em>}</li>
- *   <li>{@link com.netxforge.smi.impl.ValueTypeImpl#getType <em>Type</em>}</li>
+ *   <li>{@link com.netxforge.smi.impl.ValueTypeImpl#getTypes <em>Types</em>}</li>
  *   <li>{@link com.netxforge.smi.impl.ValueTypeImpl#getSimpleType <em>Simple Type</em>}</li>
  *   <li>{@link com.netxforge.smi.impl.ValueTypeImpl#getMacroValue <em>Macro Value</em>}</li>
  *   <li>{@link com.netxforge.smi.impl.ValueTypeImpl#getOi <em>Oi</em>}</li>
@@ -48,14 +48,14 @@ public class ValueTypeImpl extends MinimalEObjectImpl.Container implements Value
   protected ParamAssignment param;
 
   /**
-   * The cached value of the '{@link #getType() <em>Type</em>}' containment reference.
+   * The cached value of the '{@link #getTypes() <em>Types</em>}' containment reference.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @see #getType()
+   * @see #getTypes()
    * @generated
    * @ordered
    */
-  protected TypeReferenceExt type;
+  protected TypeAssignment types;
 
   /**
    * The cached value of the '{@link #getSimpleType() <em>Simple Type</em>}' containment reference.
@@ -171,9 +171,9 @@ public class ValueTypeImpl extends MinimalEObjectImpl.Container implements Value
    * <!-- end-user-doc -->
    * @generated
    */
-  public TypeReferenceExt getType()
+  public TypeAssignment getTypes()
   {
-    return type;
+    return types;
   }
 
   /**
@@ -181,13 +181,13 @@ public class ValueTypeImpl extends MinimalEObjectImpl.Container implements Value
    * <!-- end-user-doc -->
    * @generated
    */
-  public NotificationChain basicSetType(TypeReferenceExt newType, NotificationChain msgs)
+  public NotificationChain basicSetTypes(TypeAssignment newTypes, NotificationChain msgs)
   {
-    TypeReferenceExt oldType = type;
-    type = newType;
+    TypeAssignment oldTypes = types;
+    types = newTypes;
     if (eNotificationRequired())
     {
-      ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, SmiPackage.VALUE_TYPE__TYPE, oldType, newType);
+      ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, SmiPackage.VALUE_TYPE__TYPES, oldTypes, newTypes);
       if (msgs == null) msgs = notification; else msgs.add(notification);
     }
     return msgs;
@@ -198,20 +198,20 @@ public class ValueTypeImpl extends MinimalEObjectImpl.Container implements Value
    * <!-- end-user-doc -->
    * @generated
    */
-  public void setType(TypeReferenceExt newType)
+  public void setTypes(TypeAssignment newTypes)
   {
-    if (newType != type)
+    if (newTypes != types)
     {
       NotificationChain msgs = null;
-      if (type != null)
-        msgs = ((InternalEObject)type).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - SmiPackage.VALUE_TYPE__TYPE, null, msgs);
-      if (newType != null)
-        msgs = ((InternalEObject)newType).eInverseAdd(this, EOPPOSITE_FEATURE_BASE - SmiPackage.VALUE_TYPE__TYPE, null, msgs);
-      msgs = basicSetType(newType, msgs);
+      if (types != null)
+        msgs = ((InternalEObject)types).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - SmiPackage.VALUE_TYPE__TYPES, null, msgs);
+      if (newTypes != null)
+        msgs = ((InternalEObject)newTypes).eInverseAdd(this, EOPPOSITE_FEATURE_BASE - SmiPackage.VALUE_TYPE__TYPES, null, msgs);
+      msgs = basicSetTypes(newTypes, msgs);
       if (msgs != null) msgs.dispatch();
     }
     else if (eNotificationRequired())
-      eNotify(new ENotificationImpl(this, Notification.SET, SmiPackage.VALUE_TYPE__TYPE, newType, newType));
+      eNotify(new ENotificationImpl(this, Notification.SET, SmiPackage.VALUE_TYPE__TYPES, newTypes, newTypes));
   }
 
   /**
@@ -345,8 +345,8 @@ public class ValueTypeImpl extends MinimalEObjectImpl.Container implements Value
     {
       case SmiPackage.VALUE_TYPE__PARAM:
         return basicSetParam(null, msgs);
-      case SmiPackage.VALUE_TYPE__TYPE:
-        return basicSetType(null, msgs);
+      case SmiPackage.VALUE_TYPE__TYPES:
+        return basicSetTypes(null, msgs);
       case SmiPackage.VALUE_TYPE__SIMPLE_TYPE:
         return basicSetSimpleType(null, msgs);
       case SmiPackage.VALUE_TYPE__MACRO_VALUE:
@@ -367,8 +367,8 @@ public class ValueTypeImpl extends MinimalEObjectImpl.Container implements Value
     {
       case SmiPackage.VALUE_TYPE__PARAM:
         return getParam();
-      case SmiPackage.VALUE_TYPE__TYPE:
-        return getType();
+      case SmiPackage.VALUE_TYPE__TYPES:
+        return getTypes();
       case SmiPackage.VALUE_TYPE__SIMPLE_TYPE:
         return getSimpleType();
       case SmiPackage.VALUE_TYPE__MACRO_VALUE:
@@ -392,8 +392,8 @@ public class ValueTypeImpl extends MinimalEObjectImpl.Container implements Value
       case SmiPackage.VALUE_TYPE__PARAM:
         setParam((ParamAssignment)newValue);
         return;
-      case SmiPackage.VALUE_TYPE__TYPE:
-        setType((TypeReferenceExt)newValue);
+      case SmiPackage.VALUE_TYPE__TYPES:
+        setTypes((TypeAssignment)newValue);
         return;
       case SmiPackage.VALUE_TYPE__SIMPLE_TYPE:
         setSimpleType((ASN1_TYPE)newValue);
@@ -421,8 +421,8 @@ public class ValueTypeImpl extends MinimalEObjectImpl.Container implements Value
       case SmiPackage.VALUE_TYPE__PARAM:
         setParam((ParamAssignment)null);
         return;
-      case SmiPackage.VALUE_TYPE__TYPE:
-        setType((TypeReferenceExt)null);
+      case SmiPackage.VALUE_TYPE__TYPES:
+        setTypes((TypeAssignment)null);
         return;
       case SmiPackage.VALUE_TYPE__SIMPLE_TYPE:
         setSimpleType((ASN1_TYPE)null);
@@ -449,8 +449,8 @@ public class ValueTypeImpl extends MinimalEObjectImpl.Container implements Value
     {
       case SmiPackage.VALUE_TYPE__PARAM:
         return param != null;
-      case SmiPackage.VALUE_TYPE__TYPE:
-        return type != null;
+      case SmiPackage.VALUE_TYPE__TYPES:
+        return types != null;
       case SmiPackage.VALUE_TYPE__SIMPLE_TYPE:
         return simpleType != null;
       case SmiPackage.VALUE_TYPE__MACRO_VALUE:

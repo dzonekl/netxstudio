@@ -11,7 +11,7 @@ package com.netxforge.smi;
  * <p>
  * The following features are supported:
  * <ul>
- *   <li>{@link com.netxforge.smi.MacroValue#getType <em>Type</em>}</li>
+ *   <li>{@link com.netxforge.smi.MacroValue#getValueType <em>Value Type</em>}</li>
  * </ul>
  * </p>
  *
@@ -22,29 +22,29 @@ package com.netxforge.smi;
 public interface MacroValue extends Value
 {
   /**
-   * Returns the value of the '<em><b>Type</b></em>' containment reference.
+   * Returns the value of the '<em><b>Value Type</b></em>' containment reference.
    * <!-- begin-user-doc -->
    * <p>
-   * If the meaning of the '<em>Type</em>' containment reference isn't clear,
+   * If the meaning of the '<em>Value Type</em>' containment reference isn't clear,
    * there really should be more of a description here...
    * </p>
    * <!-- end-user-doc -->
-   * @return the value of the '<em>Type</em>' containment reference.
-   * @see #setType(MACRO_VALUE_TYPE)
-   * @see com.netxforge.smi.SmiPackage#getMacroValue_Type()
+   * @return the value of the '<em>Value Type</em>' containment reference.
+   * @see #setValueType(MACRO_VALUE_TYPE)
+   * @see com.netxforge.smi.SmiPackage#getMacroValue_ValueType()
    * @model containment="true"
    * @generated
    */
-  MACRO_VALUE_TYPE getType();
+  MACRO_VALUE_TYPE getValueType();
 
   /**
-   * Sets the value of the '{@link com.netxforge.smi.MacroValue#getType <em>Type</em>}' containment reference.
+   * Sets the value of the '{@link com.netxforge.smi.MacroValue#getValueType <em>Value Type</em>}' containment reference.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @param value the new value of the '<em>Type</em>' containment reference.
-   * @see #getType()
+   * @param value the new value of the '<em>Value Type</em>' containment reference.
+   * @see #getValueType()
    * @generated
    */
-  void setType(MACRO_VALUE_TYPE value);
+  void setValueType(MACRO_VALUE_TYPE value);
 
 } // MacroValue

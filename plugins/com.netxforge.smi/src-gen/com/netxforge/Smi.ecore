@@ -23,8 +23,8 @@
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="TypeDefinition">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="scope" eType="#//Scope"
-        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="values" upperBound="-1"
+        eType="#//Value" containment="true"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Macro">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
@@ -35,7 +35,13 @@
     <eStructuralFeatures xsi:type="ecore:EReference" name="innerTypes" upperBound="-1"
         eType="#//TypeDefinition" containment="true"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="TypeAssignment"/>
+  <eClassifiers xsi:type="ecore:EClass" name="TypeAssignment" eSuperTypes="#//TypeNotation">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="parentRef" eType="#//TypeAssignment"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="childRef" eType="#//TypeAssignment"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="type" eType="#//TypeDefinition"/>
+  </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="ParamAssignment" eSuperTypes="#//TypeAssignment">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="param" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="right" eType="#//TypeNotation"
@@ -45,27 +51,14 @@
     <eStructuralFeatures xsi:type="ecore:EReference" name="value" eType="#//Value"
         containment="true"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="TypeReferenceExt">
-    <eStructuralFeatures xsi:type="ecore:EReference" name="parentRef" eType="#//TypeReference"
-        containment="true"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="childRef" eType="#//TypeReference"
-        containment="true"/>
-  </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="TypeReference" eSuperTypes="#//TypeAssignment #//TypeNotation">
-    <eStructuralFeatures xsi:type="ecore:EReference" name="type" eType="#//TypeDefinition"/>
-  </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="Scope">
-    <eStructuralFeatures xsi:type="ecore:EReference" name="values" upperBound="-1"
-        eType="#//Value" containment="true"/>
-  </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="Value">
+  <eClassifiers xsi:type="ecore:EClass" name="Value" eSuperTypes="#//TypeAssignment">
     <eStructuralFeatures xsi:type="ecore:EReference" name="valueTypes" upperBound="-1"
         eType="#//ValueType" containment="true"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="ValueType">
     <eStructuralFeatures xsi:type="ecore:EReference" name="param" eType="#//ParamAssignment"
         containment="true"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="type" eType="#//TypeReferenceExt"
+    <eStructuralFeatures xsi:type="ecore:EReference" name="types" eType="#//TypeAssignment"
         containment="true"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="simpleType" eType="#//ASN1_TYPE"
         containment="true"/>
@@ -85,10 +78,9 @@
   <eClassifiers xsi:type="ecore:EClass" name="ASN1_SIMPLE" eSuperTypes="#//ASN1_TYPE">
     <eStructuralFeatures xsi:type="ecore:EReference" name="constraint" eType="ecore:EClass http://www.eclipse.org/emf/2002/Ecore#//EObject"
         containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="valuePairs" unique="false"
         upperBound="-1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
-  </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="ASN1_SUBTYPE">
     <eStructuralFeatures xsi:type="ecore:EReference" name="ranges" upperBound="-1"
         eType="#//ASN1_RANGE" containment="true"/>
   </eClassifiers>
@@ -106,7 +98,7 @@
     <eStructuralFeatures xsi:type="ecore:EReference" name="valueType" eType="#//Value"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="MacroValue" eSuperTypes="#//Value">
-    <eStructuralFeatures xsi:type="ecore:EReference" name="type" eType="#//MACRO_VALUE_TYPE"
+    <eStructuralFeatures xsi:type="ecore:EReference" name="valueType" eType="#//MACRO_VALUE_TYPE"
         containment="true"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="ASN1_OCTET_STRING" eSuperTypes="#//ASN1_SIMPLE"/>

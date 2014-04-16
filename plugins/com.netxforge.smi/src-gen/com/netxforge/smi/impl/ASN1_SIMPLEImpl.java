@@ -2,6 +2,7 @@
  */
 package com.netxforge.smi.impl;
 
+import com.netxforge.smi.ASN1_RANGE;
 import com.netxforge.smi.ASN1_SIMPLE;
 import com.netxforge.smi.SmiPackage;
 
@@ -19,6 +20,8 @@ import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 
 import org.eclipse.emf.ecore.util.EDataTypeEList;
+import org.eclipse.emf.ecore.util.EObjectContainmentEList;
+import org.eclipse.emf.ecore.util.InternalEList;
 
 /**
  * <!-- begin-user-doc -->
@@ -28,7 +31,9 @@ import org.eclipse.emf.ecore.util.EDataTypeEList;
  * The following features are implemented:
  * <ul>
  *   <li>{@link com.netxforge.smi.impl.ASN1_SIMPLEImpl#getConstraint <em>Constraint</em>}</li>
+ *   <li>{@link com.netxforge.smi.impl.ASN1_SIMPLEImpl#getName <em>Name</em>}</li>
  *   <li>{@link com.netxforge.smi.impl.ASN1_SIMPLEImpl#getValuePairs <em>Value Pairs</em>}</li>
+ *   <li>{@link com.netxforge.smi.impl.ASN1_SIMPLEImpl#getRanges <em>Ranges</em>}</li>
  * </ul>
  * </p>
  *
@@ -47,6 +52,26 @@ public class ASN1_SIMPLEImpl extends ASN1_TYPEImpl implements ASN1_SIMPLE
   protected EObject constraint;
 
   /**
+   * The default value of the '{@link #getName() <em>Name</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see #getName()
+   * @generated
+   * @ordered
+   */
+  protected static final String NAME_EDEFAULT = null;
+
+  /**
+   * The cached value of the '{@link #getName() <em>Name</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see #getName()
+   * @generated
+   * @ordered
+   */
+  protected String name = NAME_EDEFAULT;
+
+  /**
    * The cached value of the '{@link #getValuePairs() <em>Value Pairs</em>}' attribute list.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -55,6 +80,16 @@ public class ASN1_SIMPLEImpl extends ASN1_TYPEImpl implements ASN1_SIMPLE
    * @ordered
    */
   protected EList<String> valuePairs;
+
+  /**
+   * The cached value of the '{@link #getRanges() <em>Ranges</em>}' containment reference list.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see #getRanges()
+   * @generated
+   * @ordered
+   */
+  protected EList<ASN1_RANGE> ranges;
 
   /**
    * <!-- begin-user-doc -->
@@ -130,6 +165,29 @@ public class ASN1_SIMPLEImpl extends ASN1_TYPEImpl implements ASN1_SIMPLE
    * <!-- end-user-doc -->
    * @generated
    */
+  public String getName()
+  {
+    return name;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public void setName(String newName)
+  {
+    String oldName = name;
+    name = newName;
+    if (eNotificationRequired())
+      eNotify(new ENotificationImpl(this, Notification.SET, SmiPackage.ASN1_SIMPLE__NAME, oldName, name));
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
   public EList<String> getValuePairs()
   {
     if (valuePairs == null)
@@ -144,6 +202,20 @@ public class ASN1_SIMPLEImpl extends ASN1_TYPEImpl implements ASN1_SIMPLE
    * <!-- end-user-doc -->
    * @generated
    */
+  public EList<ASN1_RANGE> getRanges()
+  {
+    if (ranges == null)
+    {
+      ranges = new EObjectContainmentEList<ASN1_RANGE>(ASN1_RANGE.class, this, SmiPackage.ASN1_SIMPLE__RANGES);
+    }
+    return ranges;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
   @Override
   public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs)
   {
@@ -151,6 +223,8 @@ public class ASN1_SIMPLEImpl extends ASN1_TYPEImpl implements ASN1_SIMPLE
     {
       case SmiPackage.ASN1_SIMPLE__CONSTRAINT:
         return basicSetConstraint(null, msgs);
+      case SmiPackage.ASN1_SIMPLE__RANGES:
+        return ((InternalEList<?>)getRanges()).basicRemove(otherEnd, msgs);
     }
     return super.eInverseRemove(otherEnd, featureID, msgs);
   }
@@ -167,8 +241,12 @@ public class ASN1_SIMPLEImpl extends ASN1_TYPEImpl implements ASN1_SIMPLE
     {
       case SmiPackage.ASN1_SIMPLE__CONSTRAINT:
         return getConstraint();
+      case SmiPackage.ASN1_SIMPLE__NAME:
+        return getName();
       case SmiPackage.ASN1_SIMPLE__VALUE_PAIRS:
         return getValuePairs();
+      case SmiPackage.ASN1_SIMPLE__RANGES:
+        return getRanges();
     }
     return super.eGet(featureID, resolve, coreType);
   }
@@ -187,9 +265,16 @@ public class ASN1_SIMPLEImpl extends ASN1_TYPEImpl implements ASN1_SIMPLE
       case SmiPackage.ASN1_SIMPLE__CONSTRAINT:
         setConstraint((EObject)newValue);
         return;
+      case SmiPackage.ASN1_SIMPLE__NAME:
+        setName((String)newValue);
+        return;
       case SmiPackage.ASN1_SIMPLE__VALUE_PAIRS:
         getValuePairs().clear();
         getValuePairs().addAll((Collection<? extends String>)newValue);
+        return;
+      case SmiPackage.ASN1_SIMPLE__RANGES:
+        getRanges().clear();
+        getRanges().addAll((Collection<? extends ASN1_RANGE>)newValue);
         return;
     }
     super.eSet(featureID, newValue);
@@ -208,8 +293,14 @@ public class ASN1_SIMPLEImpl extends ASN1_TYPEImpl implements ASN1_SIMPLE
       case SmiPackage.ASN1_SIMPLE__CONSTRAINT:
         setConstraint((EObject)null);
         return;
+      case SmiPackage.ASN1_SIMPLE__NAME:
+        setName(NAME_EDEFAULT);
+        return;
       case SmiPackage.ASN1_SIMPLE__VALUE_PAIRS:
         getValuePairs().clear();
+        return;
+      case SmiPackage.ASN1_SIMPLE__RANGES:
+        getRanges().clear();
         return;
     }
     super.eUnset(featureID);
@@ -227,8 +318,12 @@ public class ASN1_SIMPLEImpl extends ASN1_TYPEImpl implements ASN1_SIMPLE
     {
       case SmiPackage.ASN1_SIMPLE__CONSTRAINT:
         return constraint != null;
+      case SmiPackage.ASN1_SIMPLE__NAME:
+        return NAME_EDEFAULT == null ? name != null : !NAME_EDEFAULT.equals(name);
       case SmiPackage.ASN1_SIMPLE__VALUE_PAIRS:
         return valuePairs != null && !valuePairs.isEmpty();
+      case SmiPackage.ASN1_SIMPLE__RANGES:
+        return ranges != null && !ranges.isEmpty();
     }
     return super.eIsSet(featureID);
   }
@@ -244,7 +339,9 @@ public class ASN1_SIMPLEImpl extends ASN1_TYPEImpl implements ASN1_SIMPLE
     if (eIsProxy()) return super.toString();
 
     StringBuffer result = new StringBuffer(super.toString());
-    result.append(" (valuePairs: ");
+    result.append(" (name: ");
+    result.append(name);
+    result.append(", valuePairs: ");
     result.append(valuePairs);
     result.append(')');
     return result.toString();

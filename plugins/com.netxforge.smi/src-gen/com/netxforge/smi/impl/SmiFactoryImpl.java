@@ -72,16 +72,12 @@ public class SmiFactoryImpl extends EFactoryImpl implements SmiFactory
       case SmiPackage.TYPE_ASSIGNMENT: return createTypeAssignment();
       case SmiPackage.PARAM_ASSIGNMENT: return createParamAssignment();
       case SmiPackage.TYPE_NOTATION: return createTypeNotation();
-      case SmiPackage.TYPE_REFERENCE_EXT: return createTypeReferenceExt();
-      case SmiPackage.TYPE_REFERENCE: return createTypeReference();
-      case SmiPackage.SCOPE: return createScope();
       case SmiPackage.VALUE: return createValue();
       case SmiPackage.VALUE_TYPE: return createValueType();
       case SmiPackage.MACRO_VALUE_TYPE: return createMACRO_VALUE_TYPE();
       case SmiPackage.UPDATE_TYPE: return createUpdateType();
       case SmiPackage.ASN1_TYPE: return createASN1_TYPE();
       case SmiPackage.ASN1_SIMPLE: return createASN1_SIMPLE();
-      case SmiPackage.ASN1_SUBTYPE: return createASN1_SUBTYPE();
       case SmiPackage.ASN1_RANGE: return createASN1_RANGE();
       case SmiPackage.ASN1_CHOICE: return createASN1_CHOICE();
       case SmiPackage.ASN1_CHOICE_ENTRY: return createASN1_CHOICE_ENTRY();
@@ -185,39 +181,6 @@ public class SmiFactoryImpl extends EFactoryImpl implements SmiFactory
    * <!-- end-user-doc -->
    * @generated
    */
-  public TypeReferenceExt createTypeReferenceExt()
-  {
-    TypeReferenceExtImpl typeReferenceExt = new TypeReferenceExtImpl();
-    return typeReferenceExt;
-  }
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  public TypeReference createTypeReference()
-  {
-    TypeReferenceImpl typeReference = new TypeReferenceImpl();
-    return typeReference;
-  }
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  public Scope createScope()
-  {
-    ScopeImpl scope = new ScopeImpl();
-    return scope;
-  }
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
   public Value createValue()
   {
     ValueImpl value = new ValueImpl();
@@ -277,17 +240,6 @@ public class SmiFactoryImpl extends EFactoryImpl implements SmiFactory
   {
     ASN1_SIMPLEImpl asn1_SIMPLE = new ASN1_SIMPLEImpl();
     return asn1_SIMPLE;
-  }
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  public ASN1_SUBTYPE createASN1_SUBTYPE()
-  {
-    ASN1_SUBTYPEImpl asn1_SUBTYPE = new ASN1_SUBTYPEImpl();
-    return asn1_SUBTYPE;
   }
 
   /**

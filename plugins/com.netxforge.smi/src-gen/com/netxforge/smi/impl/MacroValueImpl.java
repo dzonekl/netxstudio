@@ -21,7 +21,7 @@ import org.eclipse.emf.ecore.impl.ENotificationImpl;
  * <p>
  * The following features are implemented:
  * <ul>
- *   <li>{@link com.netxforge.smi.impl.MacroValueImpl#getType <em>Type</em>}</li>
+ *   <li>{@link com.netxforge.smi.impl.MacroValueImpl#getValueType <em>Value Type</em>}</li>
  * </ul>
  * </p>
  *
@@ -30,14 +30,14 @@ import org.eclipse.emf.ecore.impl.ENotificationImpl;
 public class MacroValueImpl extends ValueImpl implements MacroValue
 {
   /**
-   * The cached value of the '{@link #getType() <em>Type</em>}' containment reference.
+   * The cached value of the '{@link #getValueType() <em>Value Type</em>}' containment reference.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @see #getType()
+   * @see #getValueType()
    * @generated
    * @ordered
    */
-  protected MACRO_VALUE_TYPE type;
+  protected MACRO_VALUE_TYPE valueType;
 
   /**
    * <!-- begin-user-doc -->
@@ -65,9 +65,9 @@ public class MacroValueImpl extends ValueImpl implements MacroValue
    * <!-- end-user-doc -->
    * @generated
    */
-  public MACRO_VALUE_TYPE getType()
+  public MACRO_VALUE_TYPE getValueType()
   {
-    return type;
+    return valueType;
   }
 
   /**
@@ -75,13 +75,13 @@ public class MacroValueImpl extends ValueImpl implements MacroValue
    * <!-- end-user-doc -->
    * @generated
    */
-  public NotificationChain basicSetType(MACRO_VALUE_TYPE newType, NotificationChain msgs)
+  public NotificationChain basicSetValueType(MACRO_VALUE_TYPE newValueType, NotificationChain msgs)
   {
-    MACRO_VALUE_TYPE oldType = type;
-    type = newType;
+    MACRO_VALUE_TYPE oldValueType = valueType;
+    valueType = newValueType;
     if (eNotificationRequired())
     {
-      ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, SmiPackage.MACRO_VALUE__TYPE, oldType, newType);
+      ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, SmiPackage.MACRO_VALUE__VALUE_TYPE, oldValueType, newValueType);
       if (msgs == null) msgs = notification; else msgs.add(notification);
     }
     return msgs;
@@ -92,20 +92,20 @@ public class MacroValueImpl extends ValueImpl implements MacroValue
    * <!-- end-user-doc -->
    * @generated
    */
-  public void setType(MACRO_VALUE_TYPE newType)
+  public void setValueType(MACRO_VALUE_TYPE newValueType)
   {
-    if (newType != type)
+    if (newValueType != valueType)
     {
       NotificationChain msgs = null;
-      if (type != null)
-        msgs = ((InternalEObject)type).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - SmiPackage.MACRO_VALUE__TYPE, null, msgs);
-      if (newType != null)
-        msgs = ((InternalEObject)newType).eInverseAdd(this, EOPPOSITE_FEATURE_BASE - SmiPackage.MACRO_VALUE__TYPE, null, msgs);
-      msgs = basicSetType(newType, msgs);
+      if (valueType != null)
+        msgs = ((InternalEObject)valueType).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - SmiPackage.MACRO_VALUE__VALUE_TYPE, null, msgs);
+      if (newValueType != null)
+        msgs = ((InternalEObject)newValueType).eInverseAdd(this, EOPPOSITE_FEATURE_BASE - SmiPackage.MACRO_VALUE__VALUE_TYPE, null, msgs);
+      msgs = basicSetValueType(newValueType, msgs);
       if (msgs != null) msgs.dispatch();
     }
     else if (eNotificationRequired())
-      eNotify(new ENotificationImpl(this, Notification.SET, SmiPackage.MACRO_VALUE__TYPE, newType, newType));
+      eNotify(new ENotificationImpl(this, Notification.SET, SmiPackage.MACRO_VALUE__VALUE_TYPE, newValueType, newValueType));
   }
 
   /**
@@ -118,8 +118,8 @@ public class MacroValueImpl extends ValueImpl implements MacroValue
   {
     switch (featureID)
     {
-      case SmiPackage.MACRO_VALUE__TYPE:
-        return basicSetType(null, msgs);
+      case SmiPackage.MACRO_VALUE__VALUE_TYPE:
+        return basicSetValueType(null, msgs);
     }
     return super.eInverseRemove(otherEnd, featureID, msgs);
   }
@@ -134,8 +134,8 @@ public class MacroValueImpl extends ValueImpl implements MacroValue
   {
     switch (featureID)
     {
-      case SmiPackage.MACRO_VALUE__TYPE:
-        return getType();
+      case SmiPackage.MACRO_VALUE__VALUE_TYPE:
+        return getValueType();
     }
     return super.eGet(featureID, resolve, coreType);
   }
@@ -150,8 +150,8 @@ public class MacroValueImpl extends ValueImpl implements MacroValue
   {
     switch (featureID)
     {
-      case SmiPackage.MACRO_VALUE__TYPE:
-        setType((MACRO_VALUE_TYPE)newValue);
+      case SmiPackage.MACRO_VALUE__VALUE_TYPE:
+        setValueType((MACRO_VALUE_TYPE)newValue);
         return;
     }
     super.eSet(featureID, newValue);
@@ -167,8 +167,8 @@ public class MacroValueImpl extends ValueImpl implements MacroValue
   {
     switch (featureID)
     {
-      case SmiPackage.MACRO_VALUE__TYPE:
-        setType((MACRO_VALUE_TYPE)null);
+      case SmiPackage.MACRO_VALUE__VALUE_TYPE:
+        setValueType((MACRO_VALUE_TYPE)null);
         return;
     }
     super.eUnset(featureID);
@@ -184,8 +184,8 @@ public class MacroValueImpl extends ValueImpl implements MacroValue
   {
     switch (featureID)
     {
-      case SmiPackage.MACRO_VALUE__TYPE:
-        return type != null;
+      case SmiPackage.MACRO_VALUE__VALUE_TYPE:
+        return valueType != null;
     }
     return super.eIsSet(featureID);
   }
