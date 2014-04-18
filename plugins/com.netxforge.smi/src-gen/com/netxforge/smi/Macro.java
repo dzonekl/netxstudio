@@ -15,7 +15,7 @@ import org.eclipse.emf.ecore.EObject;
  * The following features are supported:
  * <ul>
  *   <li>{@link com.netxforge.smi.Macro#getName <em>Name</em>}</li>
- *   <li>{@link com.netxforge.smi.Macro#getTypeNotations <em>Type Notations</em>}</li>
+ *   <li>{@link com.netxforge.smi.Macro#getTypeNotation <em>Type Notation</em>}</li>
  *   <li>{@link com.netxforge.smi.Macro#getValueNotation <em>Value Notation</em>}</li>
  *   <li>{@link com.netxforge.smi.Macro#getInnerTypes <em>Inner Types</em>}</li>
  * </ul>
@@ -54,20 +54,30 @@ public interface Macro extends EObject
   void setName(String value);
 
   /**
-   * Returns the value of the '<em><b>Type Notations</b></em>' containment reference list.
-   * The list contents are of type {@link com.netxforge.smi.TypeAssignment}.
+   * Returns the value of the '<em><b>Type Notation</b></em>' containment reference.
    * <!-- begin-user-doc -->
    * <p>
-   * If the meaning of the '<em>Type Notations</em>' containment reference list isn't clear,
+   * If the meaning of the '<em>Type Notation</em>' containment reference isn't clear,
    * there really should be more of a description here...
    * </p>
    * <!-- end-user-doc -->
-   * @return the value of the '<em>Type Notations</em>' containment reference list.
-   * @see com.netxforge.smi.SmiPackage#getMacro_TypeNotations()
+   * @return the value of the '<em>Type Notation</em>' containment reference.
+   * @see #setTypeNotation(TypeNotation)
+   * @see com.netxforge.smi.SmiPackage#getMacro_TypeNotation()
    * @model containment="true"
    * @generated
    */
-  EList<TypeAssignment> getTypeNotations();
+  TypeNotation getTypeNotation();
+
+  /**
+   * Sets the value of the '{@link com.netxforge.smi.Macro#getTypeNotation <em>Type Notation</em>}' containment reference.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @param value the new value of the '<em>Type Notation</em>' containment reference.
+   * @see #getTypeNotation()
+   * @generated
+   */
+  void setTypeNotation(TypeNotation value);
 
   /**
    * Returns the value of the '<em><b>Value Notation</b></em>' containment reference.
@@ -78,12 +88,12 @@ public interface Macro extends EObject
    * </p>
    * <!-- end-user-doc -->
    * @return the value of the '<em>Value Notation</em>' containment reference.
-   * @see #setValueNotation(Value)
+   * @see #setValueNotation(ValueNotation)
    * @see com.netxforge.smi.SmiPackage#getMacro_ValueNotation()
    * @model containment="true"
    * @generated
    */
-  Value getValueNotation();
+  ValueNotation getValueNotation();
 
   /**
    * Sets the value of the '{@link com.netxforge.smi.Macro#getValueNotation <em>Value Notation</em>}' containment reference.
@@ -93,7 +103,7 @@ public interface Macro extends EObject
    * @see #getValueNotation()
    * @generated
    */
-  void setValueNotation(Value value);
+  void setValueNotation(ValueNotation value);
 
   /**
    * Returns the value of the '<em><b>Inner Types</b></em>' containment reference list.

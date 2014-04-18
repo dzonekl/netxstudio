@@ -25,7 +25,7 @@ import org.eclipse.emf.ecore.util.InternalEList;
  * <p>
  * The following features are implemented:
  * <ul>
- *   <li>{@link com.netxforge.smi.impl.ASN1_CHOICEImpl#getChoices <em>Choices</em>}</li>
+ *   <li>{@link com.netxforge.smi.impl.ASN1_CHOICEImpl#getChoiceType <em>Choice Type</em>}</li>
  * </ul>
  * </p>
  *
@@ -34,14 +34,14 @@ import org.eclipse.emf.ecore.util.InternalEList;
 public class ASN1_CHOICEImpl extends ASN1_TYPEImpl implements ASN1_CHOICE
 {
   /**
-   * The cached value of the '{@link #getChoices() <em>Choices</em>}' containment reference list.
+   * The cached value of the '{@link #getChoiceType() <em>Choice Type</em>}' containment reference list.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @see #getChoices()
+   * @see #getChoiceType()
    * @generated
    * @ordered
    */
-  protected EList<ASN1_CHOICE_ENTRY> choices;
+  protected EList<ASN1_CHOICE_ENTRY> choiceType;
 
   /**
    * <!-- begin-user-doc -->
@@ -69,13 +69,13 @@ public class ASN1_CHOICEImpl extends ASN1_TYPEImpl implements ASN1_CHOICE
    * <!-- end-user-doc -->
    * @generated
    */
-  public EList<ASN1_CHOICE_ENTRY> getChoices()
+  public EList<ASN1_CHOICE_ENTRY> getChoiceType()
   {
-    if (choices == null)
+    if (choiceType == null)
     {
-      choices = new EObjectContainmentEList<ASN1_CHOICE_ENTRY>(ASN1_CHOICE_ENTRY.class, this, SmiPackage.ASN1_CHOICE__CHOICES);
+      choiceType = new EObjectContainmentEList<ASN1_CHOICE_ENTRY>(ASN1_CHOICE_ENTRY.class, this, SmiPackage.ASN1_CHOICE__CHOICE_TYPE);
     }
-    return choices;
+    return choiceType;
   }
 
   /**
@@ -88,8 +88,8 @@ public class ASN1_CHOICEImpl extends ASN1_TYPEImpl implements ASN1_CHOICE
   {
     switch (featureID)
     {
-      case SmiPackage.ASN1_CHOICE__CHOICES:
-        return ((InternalEList<?>)getChoices()).basicRemove(otherEnd, msgs);
+      case SmiPackage.ASN1_CHOICE__CHOICE_TYPE:
+        return ((InternalEList<?>)getChoiceType()).basicRemove(otherEnd, msgs);
     }
     return super.eInverseRemove(otherEnd, featureID, msgs);
   }
@@ -104,8 +104,8 @@ public class ASN1_CHOICEImpl extends ASN1_TYPEImpl implements ASN1_CHOICE
   {
     switch (featureID)
     {
-      case SmiPackage.ASN1_CHOICE__CHOICES:
-        return getChoices();
+      case SmiPackage.ASN1_CHOICE__CHOICE_TYPE:
+        return getChoiceType();
     }
     return super.eGet(featureID, resolve, coreType);
   }
@@ -121,9 +121,9 @@ public class ASN1_CHOICEImpl extends ASN1_TYPEImpl implements ASN1_CHOICE
   {
     switch (featureID)
     {
-      case SmiPackage.ASN1_CHOICE__CHOICES:
-        getChoices().clear();
-        getChoices().addAll((Collection<? extends ASN1_CHOICE_ENTRY>)newValue);
+      case SmiPackage.ASN1_CHOICE__CHOICE_TYPE:
+        getChoiceType().clear();
+        getChoiceType().addAll((Collection<? extends ASN1_CHOICE_ENTRY>)newValue);
         return;
     }
     super.eSet(featureID, newValue);
@@ -139,8 +139,8 @@ public class ASN1_CHOICEImpl extends ASN1_TYPEImpl implements ASN1_CHOICE
   {
     switch (featureID)
     {
-      case SmiPackage.ASN1_CHOICE__CHOICES:
-        getChoices().clear();
+      case SmiPackage.ASN1_CHOICE__CHOICE_TYPE:
+        getChoiceType().clear();
         return;
     }
     super.eUnset(featureID);
@@ -156,8 +156,8 @@ public class ASN1_CHOICEImpl extends ASN1_TYPEImpl implements ASN1_CHOICE
   {
     switch (featureID)
     {
-      case SmiPackage.ASN1_CHOICE__CHOICES:
-        return choices != null && !choices.isEmpty();
+      case SmiPackage.ASN1_CHOICE__CHOICE_TYPE:
+        return choiceType != null && !choiceType.isEmpty();
     }
     return super.eIsSet(featureID);
   }

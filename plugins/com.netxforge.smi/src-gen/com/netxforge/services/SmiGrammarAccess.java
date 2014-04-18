@@ -148,32 +148,32 @@ public class SmiGrammarAccess extends AbstractGrammarElementFinder {
 		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "ObjectIdentifierValue");
 		private final Group cGroup = (Group)rule.eContents().get(1);
 		private final Alternatives cAlternatives_0 = (Alternatives)cGroup.eContents().get(0);
-		private final Assignment cRootAssignment_0_0 = (Assignment)cAlternatives_0.eContents().get(0);
-		private final RuleCall cRootASN1_IDTerminalRuleCall_0_0_0 = (RuleCall)cRootAssignment_0_0.eContents().get(0);
+		private final Assignment cNameAssignment_0_0 = (Assignment)cAlternatives_0.eContents().get(0);
+		private final RuleCall cNameASN1_IDTerminalRuleCall_0_0_0 = (RuleCall)cNameAssignment_0_0.eContents().get(0);
 		private final Assignment cDescriptorReferenceAssignment_0_1 = (Assignment)cAlternatives_0.eContents().get(1);
 		private final CrossReference cDescriptorReferenceObjectIdentifierCrossReference_0_1_0 = (CrossReference)cDescriptorReferenceAssignment_0_1.eContents().get(0);
 		private final RuleCall cDescriptorReferenceObjectIdentifierASN1_IDTerminalRuleCall_0_1_0_1 = (RuleCall)cDescriptorReferenceObjectIdentifierCrossReference_0_1_0.eContents().get(1);
 		private final Assignment cSubIdsAssignment_1 = (Assignment)cGroup.eContents().get(1);
-		private final RuleCall cSubIdsINTTerminalRuleCall_1_0 = (RuleCall)cSubIdsAssignment_1.eContents().get(0);
+		private final RuleCall cSubIdsBIG_INTEGERTerminalRuleCall_1_0 = (RuleCall)cSubIdsAssignment_1.eContents().get(0);
 		private final Assignment cSubIdsAssignment_2 = (Assignment)cGroup.eContents().get(2);
-		private final RuleCall cSubIdsINTTerminalRuleCall_2_0 = (RuleCall)cSubIdsAssignment_2.eContents().get(0);
+		private final RuleCall cSubIdsBIG_INTEGERTerminalRuleCall_2_0 = (RuleCall)cSubIdsAssignment_2.eContents().get(0);
 		
 		//// The value of the Object identifier	
 		//ObjectIdentifierValue:
-		//	(root=ASN1_ID | => descriptorReference=[ObjectIdentifier|ASN1_ID])? subIds+=INT subIds+=INT*;
+		//	(name=ASN1_ID | => descriptorReference=[ObjectIdentifier|ASN1_ID])? subIds+=BIG_INTEGER subIds+=BIG_INTEGER*;
 		public ParserRule getRule() { return rule; }
 
-		//(root=ASN1_ID | => descriptorReference=[ObjectIdentifier|ASN1_ID])? subIds+=INT subIds+=INT*
+		//(name=ASN1_ID | => descriptorReference=[ObjectIdentifier|ASN1_ID])? subIds+=BIG_INTEGER subIds+=BIG_INTEGER*
 		public Group getGroup() { return cGroup; }
 
-		//(root=ASN1_ID | => descriptorReference=[ObjectIdentifier|ASN1_ID])?
+		//(name=ASN1_ID | => descriptorReference=[ObjectIdentifier|ASN1_ID])?
 		public Alternatives getAlternatives_0() { return cAlternatives_0; }
 
-		//root=ASN1_ID
-		public Assignment getRootAssignment_0_0() { return cRootAssignment_0_0; }
+		//name=ASN1_ID
+		public Assignment getNameAssignment_0_0() { return cNameAssignment_0_0; }
 
 		//ASN1_ID
-		public RuleCall getRootASN1_IDTerminalRuleCall_0_0_0() { return cRootASN1_IDTerminalRuleCall_0_0_0; }
+		public RuleCall getNameASN1_IDTerminalRuleCall_0_0_0() { return cNameASN1_IDTerminalRuleCall_0_0_0; }
 
 		//=> descriptorReference=[ObjectIdentifier|ASN1_ID]
 		public Assignment getDescriptorReferenceAssignment_0_1() { return cDescriptorReferenceAssignment_0_1; }
@@ -184,17 +184,17 @@ public class SmiGrammarAccess extends AbstractGrammarElementFinder {
 		//ASN1_ID
 		public RuleCall getDescriptorReferenceObjectIdentifierASN1_IDTerminalRuleCall_0_1_0_1() { return cDescriptorReferenceObjectIdentifierASN1_IDTerminalRuleCall_0_1_0_1; }
 
-		//subIds+=INT
+		//subIds+=BIG_INTEGER
 		public Assignment getSubIdsAssignment_1() { return cSubIdsAssignment_1; }
 
-		//INT
-		public RuleCall getSubIdsINTTerminalRuleCall_1_0() { return cSubIdsINTTerminalRuleCall_1_0; }
+		//BIG_INTEGER
+		public RuleCall getSubIdsBIG_INTEGERTerminalRuleCall_1_0() { return cSubIdsBIG_INTEGERTerminalRuleCall_1_0; }
 
-		//subIds+=INT*
+		//subIds+=BIG_INTEGER*
 		public Assignment getSubIdsAssignment_2() { return cSubIdsAssignment_2; }
 
-		//INT
-		public RuleCall getSubIdsINTTerminalRuleCall_2_0() { return cSubIdsINTTerminalRuleCall_2_0; }
+		//BIG_INTEGER
+		public RuleCall getSubIdsBIG_INTEGERTerminalRuleCall_2_0() { return cSubIdsBIG_INTEGERTerminalRuleCall_2_0; }
 	}
 
 	public class TypeDefinitionElements extends AbstractParserRuleElementFinder {
@@ -244,35 +244,24 @@ public class SmiGrammarAccess extends AbstractGrammarElementFinder {
 		private final Keyword cColonColonEqualsSignKeyword_3 = (Keyword)cGroup.eContents().get(3);
 		private final RuleCall cNEWLINETerminalRuleCall_4 = (RuleCall)cGroup.eContents().get(4);
 		private final Keyword cBEGINKeyword_5 = (Keyword)cGroup.eContents().get(5);
-		private final RuleCall cNEWLINETerminalRuleCall_6 = (RuleCall)cGroup.eContents().get(6);
-		private final Keyword cTYPENOTATIONKeyword_7 = (Keyword)cGroup.eContents().get(7);
-		private final Keyword cColonColonEqualsSignKeyword_8 = (Keyword)cGroup.eContents().get(8);
-		private final Assignment cTypeNotationsAssignment_9 = (Assignment)cGroup.eContents().get(9);
-		private final RuleCall cTypeNotationsTypeAssignmentParserRuleCall_9_0 = (RuleCall)cTypeNotationsAssignment_9.eContents().get(0);
-		private final RuleCall cNEWLINETerminalRuleCall_10 = (RuleCall)cGroup.eContents().get(10);
-		private final Keyword cVALUENOTATIONKeyword_11 = (Keyword)cGroup.eContents().get(11);
-		private final Keyword cColonColonEqualsSignKeyword_12 = (Keyword)cGroup.eContents().get(12);
-		private final RuleCall cNEWLINETerminalRuleCall_13 = (RuleCall)cGroup.eContents().get(13);
-		private final Assignment cValueNotationAssignment_14 = (Assignment)cGroup.eContents().get(14);
-		private final RuleCall cValueNotationMacroValueParserRuleCall_14_0 = (RuleCall)cValueNotationAssignment_14.eContents().get(0);
-		private final Assignment cInnerTypesAssignment_15 = (Assignment)cGroup.eContents().get(15);
-		private final RuleCall cInnerTypesTypeDefinitionParserRuleCall_15_0 = (RuleCall)cInnerTypesAssignment_15.eContents().get(0);
-		private final RuleCall cNEWLINETerminalRuleCall_16 = (RuleCall)cGroup.eContents().get(16);
-		private final Keyword cENDKeyword_17 = (Keyword)cGroup.eContents().get(17);
+		private final Assignment cTypeNotationAssignment_6 = (Assignment)cGroup.eContents().get(6);
+		private final RuleCall cTypeNotationTypeNotationParserRuleCall_6_0 = (RuleCall)cTypeNotationAssignment_6.eContents().get(0);
+		private final Assignment cValueNotationAssignment_7 = (Assignment)cGroup.eContents().get(7);
+		private final RuleCall cValueNotationValueNotationParserRuleCall_7_0 = (RuleCall)cValueNotationAssignment_7.eContents().get(0);
+		private final Assignment cInnerTypesAssignment_8 = (Assignment)cGroup.eContents().get(8);
+		private final RuleCall cInnerTypesTypeDefinitionParserRuleCall_8_0 = (RuleCall)cInnerTypesAssignment_8.eContents().get(0);
+		private final RuleCall cNEWLINETerminalRuleCall_9 = (RuleCall)cGroup.eContents().get(9);
+		private final Keyword cENDKeyword_10 = (Keyword)cGroup.eContents().get(10);
 		
 		////Scope:
 		////	name='::=' values+=Value+;
 		//// An ASN.1 Macro structure
 		//Macro:
-		//	NEWLINE+ name=MODULE_ID "MACRO" "::=" NEWLINE "BEGIN" NEWLINE+ "TYPE NOTATION" "::=" // Reference one or more type assignment. 
-		//	typeNotations+=TypeAssignment+ NEWLINE+ "VALUE NOTATION" "::=" NEWLINE? valueNotation= // Define one Macro value. 
-		//	MacroValue // Define 1 or more type definitions
+		//	NEWLINE+ name=MODULE_ID "MACRO" "::=" NEWLINE "BEGIN" typeNotation=TypeNotation valueNotation=ValueNotation // Define 1 or more type definitions
 		//	innerTypes+=TypeDefinition+ NEWLINE+ "END";
 		public ParserRule getRule() { return rule; }
 
-		//NEWLINE+ name=MODULE_ID "MACRO" "::=" NEWLINE "BEGIN" NEWLINE+ "TYPE NOTATION" "::=" // Reference one or more type assignment. 
-		//typeNotations+=TypeAssignment+ NEWLINE+ "VALUE NOTATION" "::=" NEWLINE? valueNotation= // Define one Macro value. 
-		//MacroValue // Define 1 or more type definitions
+		//NEWLINE+ name=MODULE_ID "MACRO" "::=" NEWLINE "BEGIN" typeNotation=TypeNotation valueNotation=ValueNotation // Define 1 or more type definitions
 		//innerTypes+=TypeDefinition+ NEWLINE+ "END"
 		public Group getGroup() { return cGroup; }
 
@@ -297,54 +286,113 @@ public class SmiGrammarAccess extends AbstractGrammarElementFinder {
 		//"BEGIN"
 		public Keyword getBEGINKeyword_5() { return cBEGINKeyword_5; }
 
-		//NEWLINE+
-		public RuleCall getNEWLINETerminalRuleCall_6() { return cNEWLINETerminalRuleCall_6; }
+		//typeNotation=TypeNotation
+		public Assignment getTypeNotationAssignment_6() { return cTypeNotationAssignment_6; }
 
-		//"TYPE NOTATION"
-		public Keyword getTYPENOTATIONKeyword_7() { return cTYPENOTATIONKeyword_7; }
+		//TypeNotation
+		public RuleCall getTypeNotationTypeNotationParserRuleCall_6_0() { return cTypeNotationTypeNotationParserRuleCall_6_0; }
 
-		//"::="
-		public Keyword getColonColonEqualsSignKeyword_8() { return cColonColonEqualsSignKeyword_8; }
+		//valueNotation=ValueNotation
+		public Assignment getValueNotationAssignment_7() { return cValueNotationAssignment_7; }
 
-		//// Reference one or more type assignment. 
-		//typeNotations+=TypeAssignment+
-		public Assignment getTypeNotationsAssignment_9() { return cTypeNotationsAssignment_9; }
-
-		//TypeAssignment
-		public RuleCall getTypeNotationsTypeAssignmentParserRuleCall_9_0() { return cTypeNotationsTypeAssignmentParserRuleCall_9_0; }
-
-		//NEWLINE+
-		public RuleCall getNEWLINETerminalRuleCall_10() { return cNEWLINETerminalRuleCall_10; }
-
-		//"VALUE NOTATION"
-		public Keyword getVALUENOTATIONKeyword_11() { return cVALUENOTATIONKeyword_11; }
-
-		//"::="
-		public Keyword getColonColonEqualsSignKeyword_12() { return cColonColonEqualsSignKeyword_12; }
-
-		//NEWLINE?
-		public RuleCall getNEWLINETerminalRuleCall_13() { return cNEWLINETerminalRuleCall_13; }
-
-		//valueNotation= // Define one Macro value. 
-		//MacroValue
-		public Assignment getValueNotationAssignment_14() { return cValueNotationAssignment_14; }
-
-		//// Define one Macro value. 
-		//MacroValue
-		public RuleCall getValueNotationMacroValueParserRuleCall_14_0() { return cValueNotationMacroValueParserRuleCall_14_0; }
+		//ValueNotation
+		public RuleCall getValueNotationValueNotationParserRuleCall_7_0() { return cValueNotationValueNotationParserRuleCall_7_0; }
 
 		//// Define 1 or more type definitions
 		//innerTypes+=TypeDefinition+
-		public Assignment getInnerTypesAssignment_15() { return cInnerTypesAssignment_15; }
+		public Assignment getInnerTypesAssignment_8() { return cInnerTypesAssignment_8; }
 
 		//TypeDefinition
-		public RuleCall getInnerTypesTypeDefinitionParserRuleCall_15_0() { return cInnerTypesTypeDefinitionParserRuleCall_15_0; }
+		public RuleCall getInnerTypesTypeDefinitionParserRuleCall_8_0() { return cInnerTypesTypeDefinitionParserRuleCall_8_0; }
 
 		//NEWLINE+
-		public RuleCall getNEWLINETerminalRuleCall_16() { return cNEWLINETerminalRuleCall_16; }
+		public RuleCall getNEWLINETerminalRuleCall_9() { return cNEWLINETerminalRuleCall_9; }
 
 		//"END"
-		public Keyword getENDKeyword_17() { return cENDKeyword_17; }
+		public Keyword getENDKeyword_10() { return cENDKeyword_10; }
+	}
+
+	public class TypeNotationElements extends AbstractParserRuleElementFinder {
+		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "TypeNotation");
+		private final Group cGroup = (Group)rule.eContents().get(1);
+		private final RuleCall cNEWLINETerminalRuleCall_0 = (RuleCall)cGroup.eContents().get(0);
+		private final Assignment cNameAssignment_1 = (Assignment)cGroup.eContents().get(1);
+		private final Keyword cNameTYPENOTATIONKeyword_1_0 = (Keyword)cNameAssignment_1.eContents().get(0);
+		private final Keyword cColonColonEqualsSignKeyword_2 = (Keyword)cGroup.eContents().get(2);
+		private final Assignment cTypeNotationsAssignment_3 = (Assignment)cGroup.eContents().get(3);
+		private final RuleCall cTypeNotationsTypeAssignmentParserRuleCall_3_0 = (RuleCall)cTypeNotationsAssignment_3.eContents().get(0);
+		
+		//TypeNotation:
+		//	NEWLINE+ name="TYPE NOTATION" "::=" // Reference one or more type assignment.
+		//	typeNotations+=TypeAssignment+;
+		public ParserRule getRule() { return rule; }
+
+		//NEWLINE+ name="TYPE NOTATION" "::=" // Reference one or more type assignment.
+		//typeNotations+=TypeAssignment+
+		public Group getGroup() { return cGroup; }
+
+		//NEWLINE+
+		public RuleCall getNEWLINETerminalRuleCall_0() { return cNEWLINETerminalRuleCall_0; }
+
+		//name="TYPE NOTATION"
+		public Assignment getNameAssignment_1() { return cNameAssignment_1; }
+
+		//"TYPE NOTATION"
+		public Keyword getNameTYPENOTATIONKeyword_1_0() { return cNameTYPENOTATIONKeyword_1_0; }
+
+		//"::="
+		public Keyword getColonColonEqualsSignKeyword_2() { return cColonColonEqualsSignKeyword_2; }
+
+		//// Reference one or more type assignment.
+		//typeNotations+=TypeAssignment+
+		public Assignment getTypeNotationsAssignment_3() { return cTypeNotationsAssignment_3; }
+
+		//TypeAssignment
+		public RuleCall getTypeNotationsTypeAssignmentParserRuleCall_3_0() { return cTypeNotationsTypeAssignmentParserRuleCall_3_0; }
+	}
+
+	public class ValueNotationElements extends AbstractParserRuleElementFinder {
+		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "ValueNotation");
+		private final Group cGroup = (Group)rule.eContents().get(1);
+		private final RuleCall cNEWLINETerminalRuleCall_0 = (RuleCall)cGroup.eContents().get(0);
+		private final Assignment cNameAssignment_1 = (Assignment)cGroup.eContents().get(1);
+		private final Keyword cNameVALUENOTATIONKeyword_1_0 = (Keyword)cNameAssignment_1.eContents().get(0);
+		private final Keyword cColonColonEqualsSignKeyword_2 = (Keyword)cGroup.eContents().get(2);
+		private final RuleCall cNEWLINETerminalRuleCall_3 = (RuleCall)cGroup.eContents().get(3);
+		private final Assignment cValueNotationAssignment_4 = (Assignment)cGroup.eContents().get(4);
+		private final RuleCall cValueNotationMacroValueParserRuleCall_4_0 = (RuleCall)cValueNotationAssignment_4.eContents().get(0);
+		
+		//ValueNotation:
+		//	NEWLINE+ name="VALUE NOTATION" "::=" NEWLINE? valueNotation= // Define one Macro value.
+		//	MacroValue;
+		public ParserRule getRule() { return rule; }
+
+		//NEWLINE+ name="VALUE NOTATION" "::=" NEWLINE? valueNotation= // Define one Macro value.
+		//MacroValue
+		public Group getGroup() { return cGroup; }
+
+		//NEWLINE+
+		public RuleCall getNEWLINETerminalRuleCall_0() { return cNEWLINETerminalRuleCall_0; }
+
+		//name="VALUE NOTATION"
+		public Assignment getNameAssignment_1() { return cNameAssignment_1; }
+
+		//"VALUE NOTATION"
+		public Keyword getNameVALUENOTATIONKeyword_1_0() { return cNameVALUENOTATIONKeyword_1_0; }
+
+		//"::="
+		public Keyword getColonColonEqualsSignKeyword_2() { return cColonColonEqualsSignKeyword_2; }
+
+		//NEWLINE?
+		public RuleCall getNEWLINETerminalRuleCall_3() { return cNEWLINETerminalRuleCall_3; }
+
+		//valueNotation= // Define one Macro value.
+		//MacroValue
+		public Assignment getValueNotationAssignment_4() { return cValueNotationAssignment_4; }
+
+		//// Define one Macro value.
+		//MacroValue
+		public RuleCall getValueNotationMacroValueParserRuleCall_4_0() { return cValueNotationMacroValueParserRuleCall_4_0; }
 	}
 
 	public class TypeAssignmentElements extends AbstractParserRuleElementFinder {
@@ -386,14 +434,14 @@ public class SmiGrammarAccess extends AbstractGrammarElementFinder {
 		private final Assignment cParamAssignment_0 = (Assignment)cGroup.eContents().get(0);
 		private final RuleCall cParamPARAMETERTerminalRuleCall_0_0 = (RuleCall)cParamAssignment_0.eContents().get(0);
 		private final Assignment cRightAssignment_1 = (Assignment)cGroup.eContents().get(1);
-		private final RuleCall cRightTypeNotationParserRuleCall_1_0 = (RuleCall)cRightAssignment_1.eContents().get(0);
+		private final RuleCall cRightTypeNotationRightParserRuleCall_1_0 = (RuleCall)cRightAssignment_1.eContents().get(0);
 		
 		//// An ASN.1 Parameter assignment
 		//ParamAssignment:
-		//	param=PARAMETER right=TypeNotation;
+		//	param=PARAMETER right=TypeNotationRight;
 		public ParserRule getRule() { return rule; }
 
-		//param=PARAMETER right=TypeNotation
+		//param=PARAMETER right=TypeNotationRight
 		public Group getGroup() { return cGroup; }
 
 		//param=PARAMETER
@@ -402,21 +450,21 @@ public class SmiGrammarAccess extends AbstractGrammarElementFinder {
 		//PARAMETER
 		public RuleCall getParamPARAMETERTerminalRuleCall_0_0() { return cParamPARAMETERTerminalRuleCall_0_0; }
 
-		//right=TypeNotation
+		//right=TypeNotationRight
 		public Assignment getRightAssignment_1() { return cRightAssignment_1; }
 
-		//TypeNotation
-		public RuleCall getRightTypeNotationParserRuleCall_1_0() { return cRightTypeNotationParserRuleCall_1_0; }
+		//TypeNotationRight
+		public RuleCall getRightTypeNotationRightParserRuleCall_1_0() { return cRightTypeNotationRightParserRuleCall_1_0; }
 	}
 
-	public class TypeNotationElements extends AbstractParserRuleElementFinder {
-		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "TypeNotation");
+	public class TypeNotationRightElements extends AbstractParserRuleElementFinder {
+		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "TypeNotationRight");
 		private final Alternatives cAlternatives = (Alternatives)rule.eContents().get(1);
 		private final RuleCall cTypeReferenceParserRuleCall_0 = (RuleCall)cAlternatives.eContents().get(0);
 		private final Assignment cValueAssignment_1 = (Assignment)cAlternatives.eContents().get(1);
 		private final RuleCall cValueMacroValueParserRuleCall_1_0 = (RuleCall)cValueAssignment_1.eContents().get(0);
 		
-		//TypeNotation:
+		//TypeNotationRight:
 		//	TypeReference | value=MacroValue;
 		public ParserRule getRule() { return rule; }
 
@@ -485,45 +533,94 @@ public class SmiGrammarAccess extends AbstractGrammarElementFinder {
 	public class ValueElements extends AbstractParserRuleElementFinder {
 		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "Value");
 		private final Group cGroup = (Group)rule.eContents().get(1);
-		private final RuleCall cNEWLINETerminalRuleCall_0 = (RuleCall)cGroup.eContents().get(0);
-		private final Assignment cValueTypesAssignment_1 = (Assignment)cGroup.eContents().get(1);
-		private final RuleCall cValueTypesValueTypeParserRuleCall_1_0 = (RuleCall)cValueTypesAssignment_1.eContents().get(0);
-		private final Group cGroup_2 = (Group)cGroup.eContents().get(2);
-		private final RuleCall cNEWLINETerminalRuleCall_2_0 = (RuleCall)cGroup_2.eContents().get(0);
-		private final Keyword cVerticalLineKeyword_2_1 = (Keyword)cGroup_2.eContents().get(1);
-		private final Assignment cValueTypesAssignment_2_2 = (Assignment)cGroup_2.eContents().get(2);
-		private final RuleCall cValueTypesValueTypeParserRuleCall_2_2_0 = (RuleCall)cValueTypesAssignment_2_2.eContents().get(0);
+		private final Assignment cTagAssignment_0 = (Assignment)cGroup.eContents().get(0);
+		private final RuleCall cTagTagParserRuleCall_0_0 = (RuleCall)cTagAssignment_0.eContents().get(0);
+		private final RuleCall cNEWLINETerminalRuleCall_1 = (RuleCall)cGroup.eContents().get(1);
+		private final Assignment cImplicitAssignment_2 = (Assignment)cGroup.eContents().get(2);
+		private final Keyword cImplicitIMPLICITKeyword_2_0 = (Keyword)cImplicitAssignment_2.eContents().get(0);
+		private final Assignment cValueTypesAssignment_3 = (Assignment)cGroup.eContents().get(3);
+		private final RuleCall cValueTypesValueTypeParserRuleCall_3_0 = (RuleCall)cValueTypesAssignment_3.eContents().get(0);
+		private final Group cGroup_4 = (Group)cGroup.eContents().get(4);
+		private final RuleCall cNEWLINETerminalRuleCall_4_0 = (RuleCall)cGroup_4.eContents().get(0);
+		private final Keyword cVerticalLineKeyword_4_1 = (Keyword)cGroup_4.eContents().get(1);
+		private final Assignment cValueTypesAssignment_4_2 = (Assignment)cGroup_4.eContents().get(2);
+		private final RuleCall cValueTypesValueTypeParserRuleCall_4_2_0 = (RuleCall)cValueTypesAssignment_4_2.eContents().get(0);
 		
 		//Value:
-		//	NEWLINE? valueTypes+=ValueType (NEWLINE? "|" valueTypes+=ValueType)*;
+		//	tag=Tag? NEWLINE? implicit?="IMPLICIT"? valueTypes+=ValueType (NEWLINE? "|" valueTypes+=ValueType)*;
 		public ParserRule getRule() { return rule; }
 
-		//NEWLINE? valueTypes+=ValueType (NEWLINE? "|" valueTypes+=ValueType)*
+		//tag=Tag? NEWLINE? implicit?="IMPLICIT"? valueTypes+=ValueType (NEWLINE? "|" valueTypes+=ValueType)*
+		public Group getGroup() { return cGroup; }
+
+		//tag=Tag?
+		public Assignment getTagAssignment_0() { return cTagAssignment_0; }
+
+		//Tag
+		public RuleCall getTagTagParserRuleCall_0_0() { return cTagTagParserRuleCall_0_0; }
+
+		//NEWLINE?
+		public RuleCall getNEWLINETerminalRuleCall_1() { return cNEWLINETerminalRuleCall_1; }
+
+		//implicit?="IMPLICIT"?
+		public Assignment getImplicitAssignment_2() { return cImplicitAssignment_2; }
+
+		//"IMPLICIT"
+		public Keyword getImplicitIMPLICITKeyword_2_0() { return cImplicitIMPLICITKeyword_2_0; }
+
+		//valueTypes+=ValueType
+		public Assignment getValueTypesAssignment_3() { return cValueTypesAssignment_3; }
+
+		//ValueType
+		public RuleCall getValueTypesValueTypeParserRuleCall_3_0() { return cValueTypesValueTypeParserRuleCall_3_0; }
+
+		//(NEWLINE? "|" valueTypes+=ValueType)*
+		public Group getGroup_4() { return cGroup_4; }
+
+		//NEWLINE?
+		public RuleCall getNEWLINETerminalRuleCall_4_0() { return cNEWLINETerminalRuleCall_4_0; }
+
+		//"|"
+		public Keyword getVerticalLineKeyword_4_1() { return cVerticalLineKeyword_4_1; }
+
+		//valueTypes+=ValueType
+		public Assignment getValueTypesAssignment_4_2() { return cValueTypesAssignment_4_2; }
+
+		//ValueType
+		public RuleCall getValueTypesValueTypeParserRuleCall_4_2_0() { return cValueTypesValueTypeParserRuleCall_4_2_0; }
+	}
+
+	public class TagElements extends AbstractParserRuleElementFinder {
+		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "Tag");
+		private final Group cGroup = (Group)rule.eContents().get(1);
+		private final RuleCall cNEWLINETerminalRuleCall_0 = (RuleCall)cGroup.eContents().get(0);
+		private final Keyword cAPPLICATIONKeyword_1 = (Keyword)cGroup.eContents().get(1);
+		private final Assignment cTagValueAssignment_2 = (Assignment)cGroup.eContents().get(2);
+		private final RuleCall cTagValueBIG_INTEGERTerminalRuleCall_2_0 = (RuleCall)cTagValueAssignment_2.eContents().get(0);
+		private final Keyword cRightSquareBracketKeyword_3 = (Keyword)cGroup.eContents().get(3);
+		
+		//// ASN1 Tagging
+		//Tag:
+		//	NEWLINE? "[APPLICATION" tagValue=BIG_INTEGER "]";
+		public ParserRule getRule() { return rule; }
+
+		//NEWLINE? "[APPLICATION" tagValue=BIG_INTEGER "]"
 		public Group getGroup() { return cGroup; }
 
 		//NEWLINE?
 		public RuleCall getNEWLINETerminalRuleCall_0() { return cNEWLINETerminalRuleCall_0; }
 
-		//valueTypes+=ValueType
-		public Assignment getValueTypesAssignment_1() { return cValueTypesAssignment_1; }
+		//"[APPLICATION"
+		public Keyword getAPPLICATIONKeyword_1() { return cAPPLICATIONKeyword_1; }
 
-		//ValueType
-		public RuleCall getValueTypesValueTypeParserRuleCall_1_0() { return cValueTypesValueTypeParserRuleCall_1_0; }
+		//tagValue=BIG_INTEGER
+		public Assignment getTagValueAssignment_2() { return cTagValueAssignment_2; }
 
-		//(NEWLINE? "|" valueTypes+=ValueType)*
-		public Group getGroup_2() { return cGroup_2; }
+		//BIG_INTEGER
+		public RuleCall getTagValueBIG_INTEGERTerminalRuleCall_2_0() { return cTagValueBIG_INTEGERTerminalRuleCall_2_0; }
 
-		//NEWLINE?
-		public RuleCall getNEWLINETerminalRuleCall_2_0() { return cNEWLINETerminalRuleCall_2_0; }
-
-		//"|"
-		public Keyword getVerticalLineKeyword_2_1() { return cVerticalLineKeyword_2_1; }
-
-		//valueTypes+=ValueType
-		public Assignment getValueTypesAssignment_2_2() { return cValueTypesAssignment_2_2; }
-
-		//ValueType
-		public RuleCall getValueTypesValueTypeParserRuleCall_2_2_0() { return cValueTypesValueTypeParserRuleCall_2_2_0; }
+		//"]"
+		public Keyword getRightSquareBracketKeyword_3() { return cRightSquareBracketKeyword_3; }
 	}
 
 	public class ValueTypeElements extends AbstractParserRuleElementFinder {
@@ -620,14 +717,18 @@ public class SmiGrammarAccess extends AbstractGrammarElementFinder {
 		private final Alternatives cAlternatives = (Alternatives)rule.eContents().get(1);
 		private final Assignment cUpdateAssignment_0 = (Assignment)cAlternatives.eContents().get(0);
 		private final RuleCall cUpdateUpdateTypeParserRuleCall_0_0 = (RuleCall)cUpdateAssignment_0.eContents().get(0);
-		private final Assignment cLiteralAssignment_1 = (Assignment)cAlternatives.eContents().get(1);
-		private final RuleCall cLiteralMACRO_VALUE_CAPParserRuleCall_1_0 = (RuleCall)cLiteralAssignment_1.eContents().get(0);
+		private final Group cGroup_1 = (Group)cAlternatives.eContents().get(1);
+		private final Keyword cVALUEKeyword_1_0 = (Keyword)cGroup_1.eContents().get(0);
+		private final Assignment cLiteralAssignment_1_1 = (Assignment)cGroup_1.eContents().get(1);
+		private final RuleCall cLiteralMACRO_VALUE_CAPParserRuleCall_1_1_0 = (RuleCall)cLiteralAssignment_1_1.eContents().get(0);
+		private final Assignment cStringAssignment_2 = (Assignment)cAlternatives.eContents().get(2);
+		private final Keyword cStringIA5StringKeyword_2_0 = (Keyword)cStringAssignment_2.eContents().get(0);
 		
 		//MACRO_VALUE_TYPE:
-		//	update=UpdateType | literal=MACRO_VALUE_CAP;
+		//	update=UpdateType | "VALUE" literal=MACRO_VALUE_CAP | string="IA5String";
 		public ParserRule getRule() { return rule; }
 
-		//update=UpdateType | literal=MACRO_VALUE_CAP
+		//update=UpdateType | "VALUE" literal=MACRO_VALUE_CAP | string="IA5String"
 		public Alternatives getAlternatives() { return cAlternatives; }
 
 		//update=UpdateType
@@ -636,60 +737,79 @@ public class SmiGrammarAccess extends AbstractGrammarElementFinder {
 		//UpdateType
 		public RuleCall getUpdateUpdateTypeParserRuleCall_0_0() { return cUpdateUpdateTypeParserRuleCall_0_0; }
 
+		//"VALUE" literal=MACRO_VALUE_CAP
+		public Group getGroup_1() { return cGroup_1; }
+
+		//"VALUE"
+		public Keyword getVALUEKeyword_1_0() { return cVALUEKeyword_1_0; }
+
 		//literal=MACRO_VALUE_CAP
-		public Assignment getLiteralAssignment_1() { return cLiteralAssignment_1; }
+		public Assignment getLiteralAssignment_1_1() { return cLiteralAssignment_1_1; }
 
 		//MACRO_VALUE_CAP
-		public RuleCall getLiteralMACRO_VALUE_CAPParserRuleCall_1_0() { return cLiteralMACRO_VALUE_CAPParserRuleCall_1_0; }
+		public RuleCall getLiteralMACRO_VALUE_CAPParserRuleCall_1_1_0() { return cLiteralMACRO_VALUE_CAPParserRuleCall_1_1_0; }
+
+		//string="IA5String"
+		public Assignment getStringAssignment_2() { return cStringAssignment_2; }
+
+		//"IA5String"
+		public Keyword getStringIA5StringKeyword_2_0() { return cStringIA5StringKeyword_2_0; }
 	}
 
 	public class UpdateTypeElements extends AbstractParserRuleElementFinder {
 		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "UpdateType");
 		private final Group cGroup = (Group)rule.eContents().get(1);
 		private final Keyword cUpdateKeyword_0 = (Keyword)cGroup.eContents().get(0);
-		private final Assignment cTypeAssignment_1 = (Assignment)cGroup.eContents().get(1);
-		private final CrossReference cTypeTypeDefinitionCrossReference_1_0 = (CrossReference)cTypeAssignment_1.eContents().get(0);
-		private final RuleCall cTypeTypeDefinitionMODULE_IDTerminalRuleCall_1_0_1 = (RuleCall)cTypeTypeDefinitionCrossReference_1_0.eContents().get(1);
+		private final Assignment cRefAssignment_1 = (Assignment)cGroup.eContents().get(1);
+		private final RuleCall cRefTypeReferenceParserRuleCall_1_0 = (RuleCall)cRefAssignment_1.eContents().get(0);
 		
 		//UpdateType:
-		//	"Update" type=[TypeDefinition|MODULE_ID];
+		//	"Update" ref=TypeReference;
 		public ParserRule getRule() { return rule; }
 
-		//"Update" type=[TypeDefinition|MODULE_ID]
+		//"Update" ref=TypeReference
 		public Group getGroup() { return cGroup; }
 
 		//"Update"
 		public Keyword getUpdateKeyword_0() { return cUpdateKeyword_0; }
 
-		//type=[TypeDefinition|MODULE_ID]
-		public Assignment getTypeAssignment_1() { return cTypeAssignment_1; }
+		//ref=TypeReference
+		public Assignment getRefAssignment_1() { return cRefAssignment_1; }
 
-		//[TypeDefinition|MODULE_ID]
-		public CrossReference getTypeTypeDefinitionCrossReference_1_0() { return cTypeTypeDefinitionCrossReference_1_0; }
-
-		//MODULE_ID
-		public RuleCall getTypeTypeDefinitionMODULE_IDTerminalRuleCall_1_0_1() { return cTypeTypeDefinitionMODULE_IDTerminalRuleCall_1_0_1; }
+		//TypeReference
+		public RuleCall getRefTypeReferenceParserRuleCall_1_0() { return cRefTypeReferenceParserRuleCall_1_0; }
 	}
 
 	public class MACRO_VALUE_CAPElements extends AbstractParserRuleElementFinder {
 		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "MACRO_VALUE_CAP");
 		private final Alternatives cAlternatives = (Alternatives)rule.eContents().get(1);
-		private final Keyword cVALUEOBJECTIDENTIFIERKeyword_0 = (Keyword)cAlternatives.eContents().get(0);
-		private final Keyword cIA5StringKeyword_1 = (Keyword)cAlternatives.eContents().get(1);
+		private final Group cGroup_0 = (Group)cAlternatives.eContents().get(0);
+		private final Action cMACRO_VALUE_CAPAction_0_0 = (Action)cGroup_0.eContents().get(0);
+		private final Keyword cOBJECTIDENTIFIERKeyword_0_1 = (Keyword)cGroup_0.eContents().get(1);
+		private final Assignment cRefAssignment_1 = (Assignment)cAlternatives.eContents().get(1);
+		private final RuleCall cRefTypeReferenceParserRuleCall_1_0 = (RuleCall)cRefAssignment_1.eContents().get(0);
 		
-		//// Add other options.
 		//MACRO_VALUE_CAP:
-		//	"VALUE OBJECT IDENTIFIER" | "IA5String";
+		//	{MACRO_VALUE_CAP} "OBJECT IDENTIFIER" | ref=TypeReference;
 		public ParserRule getRule() { return rule; }
 
-		//"VALUE OBJECT IDENTIFIER" | "IA5String"
+		//{MACRO_VALUE_CAP} "OBJECT IDENTIFIER" | ref=TypeReference
 		public Alternatives getAlternatives() { return cAlternatives; }
 
-		//"VALUE OBJECT IDENTIFIER"
-		public Keyword getVALUEOBJECTIDENTIFIERKeyword_0() { return cVALUEOBJECTIDENTIFIERKeyword_0; }
+		//{MACRO_VALUE_CAP} "OBJECT IDENTIFIER"
+		public Group getGroup_0() { return cGroup_0; }
 
-		//"IA5String"
-		public Keyword getIA5StringKeyword_1() { return cIA5StringKeyword_1; }
+		//{MACRO_VALUE_CAP}
+		public Action getMACRO_VALUE_CAPAction_0_0() { return cMACRO_VALUE_CAPAction_0_0; }
+
+		//"OBJECT IDENTIFIER"
+		public Keyword getOBJECTIDENTIFIERKeyword_0_1() { return cOBJECTIDENTIFIERKeyword_0_1; }
+
+		//ref=TypeReference
+		public Assignment getRefAssignment_1() { return cRefAssignment_1; }
+
+		//TypeReference
+		public RuleCall getRefTypeReferenceParserRuleCall_1_0() { return cRefTypeReferenceParserRuleCall_1_0; }
 	}
 
 	public class ASN1_TYPEElements extends AbstractParserRuleElementFinder {
@@ -698,8 +818,6 @@ public class SmiGrammarAccess extends AbstractGrammarElementFinder {
 		private final RuleCall cASN1_SIMPLEParserRuleCall_0 = (RuleCall)cAlternatives.eContents().get(0);
 		private final RuleCall cASN1_CHOICEParserRuleCall_1 = (RuleCall)cAlternatives.eContents().get(1);
 		
-		////enum VALUE_CAP_LITERALS:
-		////	oiLiteral='OBJECT IDENTIFIER' | ia5StringLiteral='IA5String';
 		//// Simple and structured types. 
 		//ASN1_TYPE:
 		//	ASN1_SIMPLE | ASN1_CHOICE;
@@ -728,20 +846,15 @@ public class SmiGrammarAccess extends AbstractGrammarElementFinder {
 		private final RuleCall cASN1_OCTET_STRINGParserRuleCall_2_0 = (RuleCall)cGroup_2.eContents().get(0);
 		private final Assignment cConstraintAssignment_2_1 = (Assignment)cGroup_2.eContents().get(1);
 		private final RuleCall cConstraintASN1_SUBTYPEParserRuleCall_2_1_0 = (RuleCall)cConstraintAssignment_2_1.eContents().get(0);
-		private final Group cGroup_3 = (Group)cAlternatives.eContents().get(3);
-		private final RuleCall cASN1_INTEGERParserRuleCall_3_0 = (RuleCall)cGroup_3.eContents().get(0);
-		private final Assignment cConstraintAssignment_3_1 = (Assignment)cGroup_3.eContents().get(1);
-		private final RuleCall cConstraintASN1_RANGEParserRuleCall_3_1_0 = (RuleCall)cConstraintAssignment_3_1.eContents().get(0);
+		private final RuleCall cASN1_INTEGERParserRuleCall_3 = (RuleCall)cAlternatives.eContents().get(3);
 		
 		//// -- the "base types" defined here are:
 		//// --   3 built-in ASN.1 types: INTEGER, OCTET STRING, OBJECT IDENTIFIER
 		//ASN1_SIMPLE returns ASN1_TYPE:
-		//	{ASN1_SIMPLE} "empty" | {ASN1_SIMPLE} IA5STRING | ASN1_OCTET_STRING constraint=ASN1_SUBTYPE? | ASN1_INTEGER
-		//	constraint=ASN1_RANGE?;
+		//	{ASN1_SIMPLE} "empty" | {ASN1_SIMPLE} IA5STRING | ASN1_OCTET_STRING constraint=ASN1_SUBTYPE? | ASN1_INTEGER;
 		public ParserRule getRule() { return rule; }
 
 		//{ASN1_SIMPLE} "empty" | {ASN1_SIMPLE} IA5STRING | ASN1_OCTET_STRING constraint=ASN1_SUBTYPE? | ASN1_INTEGER
-		//constraint=ASN1_RANGE?
 		public Alternatives getAlternatives() { return cAlternatives; }
 
 		//{ASN1_SIMPLE} "empty"
@@ -774,17 +887,8 @@ public class SmiGrammarAccess extends AbstractGrammarElementFinder {
 		//ASN1_SUBTYPE
 		public RuleCall getConstraintASN1_SUBTYPEParserRuleCall_2_1_0() { return cConstraintASN1_SUBTYPEParserRuleCall_2_1_0; }
 
-		//ASN1_INTEGER constraint=ASN1_RANGE?
-		public Group getGroup_3() { return cGroup_3; }
-
 		//ASN1_INTEGER
-		public RuleCall getASN1_INTEGERParserRuleCall_3_0() { return cASN1_INTEGERParserRuleCall_3_0; }
-
-		//constraint=ASN1_RANGE?
-		public Assignment getConstraintAssignment_3_1() { return cConstraintAssignment_3_1; }
-
-		//ASN1_RANGE
-		public RuleCall getConstraintASN1_RANGEParserRuleCall_3_1_0() { return cConstraintASN1_RANGEParserRuleCall_3_1_0; }
+		public RuleCall getASN1_INTEGERParserRuleCall_3() { return cASN1_INTEGERParserRuleCall_3; }
 	}
 
 	public class ASN1_OCTET_STRINGElements extends AbstractParserRuleElementFinder {
@@ -816,16 +920,17 @@ public class SmiGrammarAccess extends AbstractGrammarElementFinder {
 		private final Group cGroup = (Group)rule.eContents().get(1);
 		private final Assignment cNameAssignment_0 = (Assignment)cGroup.eContents().get(0);
 		private final Keyword cNameINTEGERKeyword_0_0 = (Keyword)cNameAssignment_0.eContents().get(0);
-		private final Keyword cLeftCurlyBracketKeyword_1 = (Keyword)cGroup.eContents().get(1);
-		private final Assignment cValuePairsAssignment_2 = (Assignment)cGroup.eContents().get(2);
-		private final RuleCall cValuePairsASN1_VALUEPAIRParserRuleCall_2_0 = (RuleCall)cValuePairsAssignment_2.eContents().get(0);
-		private final Keyword cRightCurlyBracketKeyword_3 = (Keyword)cGroup.eContents().get(3);
+		private final Group cGroup_1 = (Group)cGroup.eContents().get(1);
+		private final Keyword cLeftParenthesisKeyword_1_0 = (Keyword)cGroup_1.eContents().get(0);
+		private final Assignment cRangeAssignment_1_1 = (Assignment)cGroup_1.eContents().get(1);
+		private final RuleCall cRangeASN1_RANGEParserRuleCall_1_1_0 = (RuleCall)cRangeAssignment_1_1.eContents().get(0);
+		private final Keyword cRightParenthesisKeyword_1_2 = (Keyword)cGroup_1.eContents().get(2);
 		
 		//ASN1_INTEGER returns ASN1_SIMPLE:
-		//	name="INTEGER" "{" valuePairs+=ASN1_VALUEPAIR+ "}";
+		//	name="INTEGER" ("(" range=ASN1_RANGE ")")?;
 		public ParserRule getRule() { return rule; }
 
-		//name="INTEGER" "{" valuePairs+=ASN1_VALUEPAIR+ "}"
+		//name="INTEGER" ("(" range=ASN1_RANGE ")")?
 		public Group getGroup() { return cGroup; }
 
 		//name="INTEGER"
@@ -834,17 +939,20 @@ public class SmiGrammarAccess extends AbstractGrammarElementFinder {
 		//"INTEGER"
 		public Keyword getNameINTEGERKeyword_0_0() { return cNameINTEGERKeyword_0_0; }
 
-		//"{"
-		public Keyword getLeftCurlyBracketKeyword_1() { return cLeftCurlyBracketKeyword_1; }
+		//("(" range=ASN1_RANGE ")")?
+		public Group getGroup_1() { return cGroup_1; }
 
-		//valuePairs+=ASN1_VALUEPAIR+
-		public Assignment getValuePairsAssignment_2() { return cValuePairsAssignment_2; }
+		//"("
+		public Keyword getLeftParenthesisKeyword_1_0() { return cLeftParenthesisKeyword_1_0; }
 
-		//ASN1_VALUEPAIR
-		public RuleCall getValuePairsASN1_VALUEPAIRParserRuleCall_2_0() { return cValuePairsASN1_VALUEPAIRParserRuleCall_2_0; }
+		//range=ASN1_RANGE
+		public Assignment getRangeAssignment_1_1() { return cRangeAssignment_1_1; }
 
-		//"}"
-		public Keyword getRightCurlyBracketKeyword_3() { return cRightCurlyBracketKeyword_3; }
+		//ASN1_RANGE
+		public RuleCall getRangeASN1_RANGEParserRuleCall_1_1_0() { return cRangeASN1_RANGEParserRuleCall_1_1_0; }
+
+		//")"
+		public Keyword getRightParenthesisKeyword_1_2() { return cRightParenthesisKeyword_1_2; }
 	}
 
 	public class ASN1_SUBTYPEElements extends AbstractParserRuleElementFinder {
@@ -862,6 +970,8 @@ public class SmiGrammarAccess extends AbstractGrammarElementFinder {
 		private final Keyword cRightParenthesisKeyword_5 = (Keyword)cGroup.eContents().get(5);
 		private final Keyword cRightParenthesisKeyword_6 = (Keyword)cGroup.eContents().get(6);
 		
+		//// Is this needed? 
+		////	'{' (valuePairs+=ASN1_VALUEPAIR)+ '}';
 		//ASN1_SUBTYPE returns ASN1_SIMPLE:
 		//	"(" "SIZE" "(" ranges+=ASN1_RANGE ("|" ranges+=ASN1_RANGE)* ")" ")";
 		public ParserRule getRule() { return rule; }
@@ -909,50 +1019,50 @@ public class SmiGrammarAccess extends AbstractGrammarElementFinder {
 		private final Group cGroup_0 = (Group)cAlternatives.eContents().get(0);
 		private final Action cASN1_RANGEAction_0_0 = (Action)cGroup_0.eContents().get(0);
 		private final Assignment cValueAssignment_0_1 = (Assignment)cGroup_0.eContents().get(1);
-		private final RuleCall cValueINTTerminalRuleCall_0_1_0 = (RuleCall)cValueAssignment_0_1.eContents().get(0);
+		private final RuleCall cValueBIG_INTEGERTerminalRuleCall_0_1_0 = (RuleCall)cValueAssignment_0_1.eContents().get(0);
 		private final Group cGroup_1 = (Group)cAlternatives.eContents().get(1);
 		private final Assignment cStartAssignment_1_0 = (Assignment)cGroup_1.eContents().get(0);
-		private final RuleCall cStartINTTerminalRuleCall_1_0_0 = (RuleCall)cStartAssignment_1_0.eContents().get(0);
+		private final RuleCall cStartBIG_INTEGERTerminalRuleCall_1_0_0 = (RuleCall)cStartAssignment_1_0.eContents().get(0);
 		private final Keyword cFullStopFullStopKeyword_1_1 = (Keyword)cGroup_1.eContents().get(1);
 		private final Assignment cEndAssignment_1_2 = (Assignment)cGroup_1.eContents().get(2);
-		private final RuleCall cEndINTTerminalRuleCall_1_2_0 = (RuleCall)cEndAssignment_1_2.eContents().get(0);
+		private final RuleCall cEndBIG_INTEGERTerminalRuleCall_1_2_0 = (RuleCall)cEndAssignment_1_2.eContents().get(0);
 		
 		//ASN1_RANGE:
-		//	{ASN1_RANGE} value=INT | start=INT ".." end=INT;
+		//	{ASN1_RANGE} value=BIG_INTEGER | start=BIG_INTEGER ".." end=BIG_INTEGER;
 		public ParserRule getRule() { return rule; }
 
-		//{ASN1_RANGE} value=INT | start=INT ".." end=INT
+		//{ASN1_RANGE} value=BIG_INTEGER | start=BIG_INTEGER ".." end=BIG_INTEGER
 		public Alternatives getAlternatives() { return cAlternatives; }
 
-		//{ASN1_RANGE} value=INT
+		//{ASN1_RANGE} value=BIG_INTEGER
 		public Group getGroup_0() { return cGroup_0; }
 
 		//{ASN1_RANGE}
 		public Action getASN1_RANGEAction_0_0() { return cASN1_RANGEAction_0_0; }
 
-		//value=INT
+		//value=BIG_INTEGER
 		public Assignment getValueAssignment_0_1() { return cValueAssignment_0_1; }
 
-		//INT
-		public RuleCall getValueINTTerminalRuleCall_0_1_0() { return cValueINTTerminalRuleCall_0_1_0; }
+		//BIG_INTEGER
+		public RuleCall getValueBIG_INTEGERTerminalRuleCall_0_1_0() { return cValueBIG_INTEGERTerminalRuleCall_0_1_0; }
 
-		//start=INT ".." end=INT
+		//start=BIG_INTEGER ".." end=BIG_INTEGER
 		public Group getGroup_1() { return cGroup_1; }
 
-		//start=INT
+		//start=BIG_INTEGER
 		public Assignment getStartAssignment_1_0() { return cStartAssignment_1_0; }
 
-		//INT
-		public RuleCall getStartINTTerminalRuleCall_1_0_0() { return cStartINTTerminalRuleCall_1_0_0; }
+		//BIG_INTEGER
+		public RuleCall getStartBIG_INTEGERTerminalRuleCall_1_0_0() { return cStartBIG_INTEGERTerminalRuleCall_1_0_0; }
 
 		//".."
 		public Keyword getFullStopFullStopKeyword_1_1() { return cFullStopFullStopKeyword_1_1; }
 
-		//end=INT
+		//end=BIG_INTEGER
 		public Assignment getEndAssignment_1_2() { return cEndAssignment_1_2; }
 
-		//INT
-		public RuleCall getEndINTTerminalRuleCall_1_2_0() { return cEndINTTerminalRuleCall_1_2_0; }
+		//BIG_INTEGER
+		public RuleCall getEndBIG_INTEGERTerminalRuleCall_1_2_0() { return cEndBIG_INTEGERTerminalRuleCall_1_2_0; }
 	}
 
 	public class ASN1_VALUEPAIRElements extends AbstractParserRuleElementFinder {
@@ -960,16 +1070,16 @@ public class SmiGrammarAccess extends AbstractGrammarElementFinder {
 		private final Group cGroup = (Group)rule.eContents().get(1);
 		private final RuleCall cASN1_IDTerminalRuleCall_0 = (RuleCall)cGroup.eContents().get(0);
 		private final Keyword cLeftParenthesisKeyword_1 = (Keyword)cGroup.eContents().get(1);
-		private final RuleCall cINTTerminalRuleCall_2 = (RuleCall)cGroup.eContents().get(2);
+		private final RuleCall cBIG_INTEGERTerminalRuleCall_2 = (RuleCall)cGroup.eContents().get(2);
 		private final Keyword cRightParenthesisKeyword_3 = (Keyword)cGroup.eContents().get(3);
 		
 		//// TODO1 Requries further definition. 	
 		//// TODO1 further specify id, as enum entry in the vp
 		//ASN1_VALUEPAIR:
-		//	ASN1_ID? "(" INT ")";
+		//	ASN1_ID? "(" BIG_INTEGER ")";
 		public ParserRule getRule() { return rule; }
 
-		//ASN1_ID? "(" INT ")"
+		//ASN1_ID? "(" BIG_INTEGER ")"
 		public Group getGroup() { return cGroup; }
 
 		//ASN1_ID?
@@ -978,8 +1088,8 @@ public class SmiGrammarAccess extends AbstractGrammarElementFinder {
 		//"("
 		public Keyword getLeftParenthesisKeyword_1() { return cLeftParenthesisKeyword_1; }
 
-		//INT
-		public RuleCall getINTTerminalRuleCall_2() { return cINTTerminalRuleCall_2; }
+		//BIG_INTEGER
+		public RuleCall getBIG_INTEGERTerminalRuleCall_2() { return cBIG_INTEGERTerminalRuleCall_2; }
 
 		//")"
 		public Keyword getRightParenthesisKeyword_3() { return cRightParenthesisKeyword_3; }
@@ -990,21 +1100,24 @@ public class SmiGrammarAccess extends AbstractGrammarElementFinder {
 		private final Group cGroup = (Group)rule.eContents().get(1);
 		private final Keyword cCHOICEKeyword_0 = (Keyword)cGroup.eContents().get(0);
 		private final Keyword cLeftCurlyBracketKeyword_1 = (Keyword)cGroup.eContents().get(1);
-		private final Assignment cChoicesAssignment_2 = (Assignment)cGroup.eContents().get(2);
-		private final RuleCall cChoicesASN1_CHOICE_ENTRYParserRuleCall_2_0 = (RuleCall)cChoicesAssignment_2.eContents().get(0);
-		private final Group cGroup_3 = (Group)cGroup.eContents().get(3);
-		private final Keyword cCommaKeyword_3_0 = (Keyword)cGroup_3.eContents().get(0);
-		private final Assignment cChoicesAssignment_3_1 = (Assignment)cGroup_3.eContents().get(1);
-		private final RuleCall cChoicesASN1_CHOICE_ENTRYParserRuleCall_3_1_0 = (RuleCall)cChoicesAssignment_3_1.eContents().get(0);
-		private final Keyword cRightCurlyBracketKeyword_4 = (Keyword)cGroup.eContents().get(4);
+		private final RuleCall cNEWLINETerminalRuleCall_2 = (RuleCall)cGroup.eContents().get(2);
+		private final Assignment cChoiceTypeAssignment_3 = (Assignment)cGroup.eContents().get(3);
+		private final RuleCall cChoiceTypeASN1_CHOICE_ENTRYParserRuleCall_3_0 = (RuleCall)cChoiceTypeAssignment_3.eContents().get(0);
+		private final Group cGroup_4 = (Group)cGroup.eContents().get(4);
+		private final Keyword cCommaKeyword_4_0 = (Keyword)cGroup_4.eContents().get(0);
+		private final RuleCall cNEWLINETerminalRuleCall_4_1 = (RuleCall)cGroup_4.eContents().get(1);
+		private final Assignment cChoiceTypeAssignment_4_2 = (Assignment)cGroup_4.eContents().get(2);
+		private final RuleCall cChoiceTypeASN1_CHOICE_ENTRYParserRuleCall_4_2_0 = (RuleCall)cChoiceTypeAssignment_4_2.eContents().get(0);
+		private final RuleCall cNEWLINETerminalRuleCall_5 = (RuleCall)cGroup.eContents().get(5);
+		private final Keyword cRightCurlyBracketKeyword_6 = (Keyword)cGroup.eContents().get(6);
 		
 		////Choice:
 		//// http://www.obj-sys.com/asn1tutorial/node11.html
 		//ASN1_CHOICE:
-		//	"CHOICE" "{" choices+=ASN1_CHOICE_ENTRY ("," choices+=ASN1_CHOICE_ENTRY)* "}";
+		//	"CHOICE" "{" NEWLINE+ choiceType+=ASN1_CHOICE_ENTRY ("," NEWLINE+ choiceType+=ASN1_CHOICE_ENTRY)* NEWLINE+ "}";
 		public ParserRule getRule() { return rule; }
 
-		//"CHOICE" "{" choices+=ASN1_CHOICE_ENTRY ("," choices+=ASN1_CHOICE_ENTRY)* "}"
+		//"CHOICE" "{" NEWLINE+ choiceType+=ASN1_CHOICE_ENTRY ("," NEWLINE+ choiceType+=ASN1_CHOICE_ENTRY)* NEWLINE+ "}"
 		public Group getGroup() { return cGroup; }
 
 		//"CHOICE"
@@ -1013,26 +1126,35 @@ public class SmiGrammarAccess extends AbstractGrammarElementFinder {
 		//"{"
 		public Keyword getLeftCurlyBracketKeyword_1() { return cLeftCurlyBracketKeyword_1; }
 
-		//choices+=ASN1_CHOICE_ENTRY
-		public Assignment getChoicesAssignment_2() { return cChoicesAssignment_2; }
+		//NEWLINE+
+		public RuleCall getNEWLINETerminalRuleCall_2() { return cNEWLINETerminalRuleCall_2; }
+
+		//choiceType+=ASN1_CHOICE_ENTRY
+		public Assignment getChoiceTypeAssignment_3() { return cChoiceTypeAssignment_3; }
 
 		//ASN1_CHOICE_ENTRY
-		public RuleCall getChoicesASN1_CHOICE_ENTRYParserRuleCall_2_0() { return cChoicesASN1_CHOICE_ENTRYParserRuleCall_2_0; }
+		public RuleCall getChoiceTypeASN1_CHOICE_ENTRYParserRuleCall_3_0() { return cChoiceTypeASN1_CHOICE_ENTRYParserRuleCall_3_0; }
 
-		//("," choices+=ASN1_CHOICE_ENTRY)*
-		public Group getGroup_3() { return cGroup_3; }
+		//("," NEWLINE+ choiceType+=ASN1_CHOICE_ENTRY)*
+		public Group getGroup_4() { return cGroup_4; }
 
 		//","
-		public Keyword getCommaKeyword_3_0() { return cCommaKeyword_3_0; }
+		public Keyword getCommaKeyword_4_0() { return cCommaKeyword_4_0; }
 
-		//choices+=ASN1_CHOICE_ENTRY
-		public Assignment getChoicesAssignment_3_1() { return cChoicesAssignment_3_1; }
+		//NEWLINE+
+		public RuleCall getNEWLINETerminalRuleCall_4_1() { return cNEWLINETerminalRuleCall_4_1; }
+
+		//choiceType+=ASN1_CHOICE_ENTRY
+		public Assignment getChoiceTypeAssignment_4_2() { return cChoiceTypeAssignment_4_2; }
 
 		//ASN1_CHOICE_ENTRY
-		public RuleCall getChoicesASN1_CHOICE_ENTRYParserRuleCall_3_1_0() { return cChoicesASN1_CHOICE_ENTRYParserRuleCall_3_1_0; }
+		public RuleCall getChoiceTypeASN1_CHOICE_ENTRYParserRuleCall_4_2_0() { return cChoiceTypeASN1_CHOICE_ENTRYParserRuleCall_4_2_0; }
+
+		//NEWLINE+
+		public RuleCall getNEWLINETerminalRuleCall_5() { return cNEWLINETerminalRuleCall_5; }
 
 		//"}"
-		public Keyword getRightCurlyBracketKeyword_4() { return cRightCurlyBracketKeyword_4; }
+		public Keyword getRightCurlyBracketKeyword_6() { return cRightCurlyBracketKeyword_6; }
 	}
 
 	public class ASN1_CHOICE_ENTRYElements extends AbstractParserRuleElementFinder {
@@ -1040,17 +1162,17 @@ public class SmiGrammarAccess extends AbstractGrammarElementFinder {
 		private final Group cGroup = (Group)rule.eContents().get(1);
 		private final Assignment cIdAssignment_0 = (Assignment)cGroup.eContents().get(0);
 		private final RuleCall cIdASN1_IDTerminalRuleCall_0_0 = (RuleCall)cIdAssignment_0.eContents().get(0);
-		private final Assignment cValueTypeAssignment_1 = (Assignment)cGroup.eContents().get(1);
-		private final CrossReference cValueTypeValueCrossReference_1_0 = (CrossReference)cValueTypeAssignment_1.eContents().get(0);
-		private final RuleCall cValueTypeValueASN1_IDTerminalRuleCall_1_0_1 = (RuleCall)cValueTypeValueCrossReference_1_0.eContents().get(1);
+		private final RuleCall cNEWLINETerminalRuleCall_1 = (RuleCall)cGroup.eContents().get(1);
+		private final Assignment cValueTypeAssignment_2 = (Assignment)cGroup.eContents().get(2);
+		private final RuleCall cValueTypeChoiceTypeParserRuleCall_2_0 = (RuleCall)cValueTypeAssignment_2.eContents().get(0);
 		
 		//// TODO1 The reference to a ValueType is indented by 4 WS on the next line. 
 		////  
 		//ASN1_CHOICE_ENTRY:
-		//	id=ASN1_ID valueType=[Value|ASN1_ID];
+		//	id=ASN1_ID NEWLINE? valueType=ChoiceType;
 		public ParserRule getRule() { return rule; }
 
-		//id=ASN1_ID valueType=[Value|ASN1_ID]
+		//id=ASN1_ID NEWLINE? valueType=ChoiceType
 		public Group getGroup() { return cGroup; }
 
 		//id=ASN1_ID
@@ -1059,14 +1181,50 @@ public class SmiGrammarAccess extends AbstractGrammarElementFinder {
 		//ASN1_ID
 		public RuleCall getIdASN1_IDTerminalRuleCall_0_0() { return cIdASN1_IDTerminalRuleCall_0_0; }
 
-		//valueType=[Value|ASN1_ID]
-		public Assignment getValueTypeAssignment_1() { return cValueTypeAssignment_1; }
+		//NEWLINE?
+		public RuleCall getNEWLINETerminalRuleCall_1() { return cNEWLINETerminalRuleCall_1; }
 
-		//[Value|ASN1_ID]
-		public CrossReference getValueTypeValueCrossReference_1_0() { return cValueTypeValueCrossReference_1_0; }
+		//valueType=ChoiceType
+		public Assignment getValueTypeAssignment_2() { return cValueTypeAssignment_2; }
 
-		//ASN1_ID
-		public RuleCall getValueTypeValueASN1_IDTerminalRuleCall_1_0_1() { return cValueTypeValueASN1_IDTerminalRuleCall_1_0_1; }
+		//ChoiceType
+		public RuleCall getValueTypeChoiceTypeParserRuleCall_2_0() { return cValueTypeChoiceTypeParserRuleCall_2_0; }
+	}
+
+	public class ChoiceTypeElements extends AbstractParserRuleElementFinder {
+		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "ChoiceType");
+		private final Alternatives cAlternatives = (Alternatives)rule.eContents().get(1);
+		private final Assignment cTypeRefAssignment_0 = (Assignment)cAlternatives.eContents().get(0);
+		private final RuleCall cTypeRefTypeReferenceParserRuleCall_0_0 = (RuleCall)cTypeRefAssignment_0.eContents().get(0);
+		private final Assignment cSimpleTypeAssignment_1 = (Assignment)cAlternatives.eContents().get(1);
+		private final RuleCall cSimpleTypeASN1_TYPEParserRuleCall_1_0 = (RuleCall)cSimpleTypeAssignment_1.eContents().get(0);
+		private final Assignment cOiAssignment_2 = (Assignment)cAlternatives.eContents().get(2);
+		private final Keyword cOiOBJECTIDENTIFIERKeyword_2_0 = (Keyword)cOiAssignment_2.eContents().get(0);
+		
+		//ChoiceType:
+		//	typeRef=TypeReference | simpleType=ASN1_TYPE | oi="OBJECT IDENTIFIER";
+		public ParserRule getRule() { return rule; }
+
+		//typeRef=TypeReference | simpleType=ASN1_TYPE | oi="OBJECT IDENTIFIER"
+		public Alternatives getAlternatives() { return cAlternatives; }
+
+		//typeRef=TypeReference
+		public Assignment getTypeRefAssignment_0() { return cTypeRefAssignment_0; }
+
+		//TypeReference
+		public RuleCall getTypeRefTypeReferenceParserRuleCall_0_0() { return cTypeRefTypeReferenceParserRuleCall_0_0; }
+
+		//simpleType=ASN1_TYPE
+		public Assignment getSimpleTypeAssignment_1() { return cSimpleTypeAssignment_1; }
+
+		//ASN1_TYPE
+		public RuleCall getSimpleTypeASN1_TYPEParserRuleCall_1_0() { return cSimpleTypeASN1_TYPEParserRuleCall_1_0; }
+
+		//oi="OBJECT IDENTIFIER"
+		public Assignment getOiAssignment_2() { return cOiAssignment_2; }
+
+		//"OBJECT IDENTIFIER"
+		public Keyword getOiOBJECTIDENTIFIERKeyword_2_0() { return cOiOBJECTIDENTIFIERKeyword_2_0; }
 	}
 	
 	
@@ -1075,12 +1233,15 @@ public class SmiGrammarAccess extends AbstractGrammarElementFinder {
 	private ObjectIdentifierValueElements pObjectIdentifierValue;
 	private TypeDefinitionElements pTypeDefinition;
 	private MacroElements pMacro;
+	private TypeNotationElements pTypeNotation;
+	private ValueNotationElements pValueNotation;
 	private TypeAssignmentElements pTypeAssignment;
 	private ParamAssignmentElements pParamAssignment;
-	private TypeNotationElements pTypeNotation;
+	private TypeNotationRightElements pTypeNotationRight;
 	private TypeReferenceExtElements pTypeReferenceExt;
 	private TypeReferenceElements pTypeReference;
 	private ValueElements pValue;
+	private TagElements pTag;
 	private ValueTypeElements pValueType;
 	private MacroValueElements pMacroValue;
 	private MACRO_VALUE_TYPEElements pMACRO_VALUE_TYPE;
@@ -1095,14 +1256,15 @@ public class SmiGrammarAccess extends AbstractGrammarElementFinder {
 	private ASN1_VALUEPAIRElements pASN1_VALUEPAIR;
 	private ASN1_CHOICEElements pASN1_CHOICE;
 	private ASN1_CHOICE_ENTRYElements pASN1_CHOICE_ENTRY;
+	private ChoiceTypeElements pChoiceType;
 	private TerminalRule tMODULE_ID;
 	private TerminalRule tASN1_ID;
 	private TerminalRule tPARAMETER;
 	private TerminalRule tIA5STRING;
-	private TerminalRule tNUMERIC;
 	private TerminalRule tALPHA;
 	private TerminalRule tALPHA_CAP;
-	private TerminalRule tINT;
+	private TerminalRule tNUMERIC;
+	private TerminalRule tBIG_INTEGER;
 	private TerminalRule tSL_ASN1_COMMENT;
 	private TerminalRule tWS;
 	private TerminalRule tNEWLINE;
@@ -1162,7 +1324,7 @@ public class SmiGrammarAccess extends AbstractGrammarElementFinder {
 
 	//// The value of the Object identifier	
 	//ObjectIdentifierValue:
-	//	(root=ASN1_ID | => descriptorReference=[ObjectIdentifier|ASN1_ID])? subIds+=INT subIds+=INT*;
+	//	(name=ASN1_ID | => descriptorReference=[ObjectIdentifier|ASN1_ID])? subIds+=BIG_INTEGER subIds+=BIG_INTEGER*;
 	public ObjectIdentifierValueElements getObjectIdentifierValueAccess() {
 		return (pObjectIdentifierValue != null) ? pObjectIdentifierValue : (pObjectIdentifierValue = new ObjectIdentifierValueElements());
 	}
@@ -1186,9 +1348,7 @@ public class SmiGrammarAccess extends AbstractGrammarElementFinder {
 	////	name='::=' values+=Value+;
 	//// An ASN.1 Macro structure
 	//Macro:
-	//	NEWLINE+ name=MODULE_ID "MACRO" "::=" NEWLINE "BEGIN" NEWLINE+ "TYPE NOTATION" "::=" // Reference one or more type assignment. 
-	//	typeNotations+=TypeAssignment+ NEWLINE+ "VALUE NOTATION" "::=" NEWLINE? valueNotation= // Define one Macro value. 
-	//	MacroValue // Define 1 or more type definitions
+	//	NEWLINE+ name=MODULE_ID "MACRO" "::=" NEWLINE "BEGIN" typeNotation=TypeNotation valueNotation=ValueNotation // Define 1 or more type definitions
 	//	innerTypes+=TypeDefinition+ NEWLINE+ "END";
 	public MacroElements getMacroAccess() {
 		return (pMacro != null) ? pMacro : (pMacro = new MacroElements());
@@ -1196,6 +1356,28 @@ public class SmiGrammarAccess extends AbstractGrammarElementFinder {
 	
 	public ParserRule getMacroRule() {
 		return getMacroAccess().getRule();
+	}
+
+	//TypeNotation:
+	//	NEWLINE+ name="TYPE NOTATION" "::=" // Reference one or more type assignment.
+	//	typeNotations+=TypeAssignment+;
+	public TypeNotationElements getTypeNotationAccess() {
+		return (pTypeNotation != null) ? pTypeNotation : (pTypeNotation = new TypeNotationElements());
+	}
+	
+	public ParserRule getTypeNotationRule() {
+		return getTypeNotationAccess().getRule();
+	}
+
+	//ValueNotation:
+	//	NEWLINE+ name="VALUE NOTATION" "::=" NEWLINE? valueNotation= // Define one Macro value.
+	//	MacroValue;
+	public ValueNotationElements getValueNotationAccess() {
+		return (pValueNotation != null) ? pValueNotation : (pValueNotation = new ValueNotationElements());
+	}
+	
+	public ParserRule getValueNotationRule() {
+		return getValueNotationAccess().getRule();
 	}
 
 	//// An ASN.1 Macro Type Notation, it's slightly different then  a type definition. 
@@ -1211,7 +1393,7 @@ public class SmiGrammarAccess extends AbstractGrammarElementFinder {
 
 	//// An ASN.1 Parameter assignment
 	//ParamAssignment:
-	//	param=PARAMETER right=TypeNotation;
+	//	param=PARAMETER right=TypeNotationRight;
 	public ParamAssignmentElements getParamAssignmentAccess() {
 		return (pParamAssignment != null) ? pParamAssignment : (pParamAssignment = new ParamAssignmentElements());
 	}
@@ -1220,14 +1402,14 @@ public class SmiGrammarAccess extends AbstractGrammarElementFinder {
 		return getParamAssignmentAccess().getRule();
 	}
 
-	//TypeNotation:
+	//TypeNotationRight:
 	//	TypeReference | value=MacroValue;
-	public TypeNotationElements getTypeNotationAccess() {
-		return (pTypeNotation != null) ? pTypeNotation : (pTypeNotation = new TypeNotationElements());
+	public TypeNotationRightElements getTypeNotationRightAccess() {
+		return (pTypeNotationRight != null) ? pTypeNotationRight : (pTypeNotationRight = new TypeNotationRightElements());
 	}
 	
-	public ParserRule getTypeNotationRule() {
-		return getTypeNotationAccess().getRule();
+	public ParserRule getTypeNotationRightRule() {
+		return getTypeNotationRightAccess().getRule();
 	}
 
 	//// Types can be referred once or twice. The right side is named a child reference. 
@@ -1252,13 +1434,24 @@ public class SmiGrammarAccess extends AbstractGrammarElementFinder {
 	}
 
 	//Value:
-	//	NEWLINE? valueTypes+=ValueType (NEWLINE? "|" valueTypes+=ValueType)*;
+	//	tag=Tag? NEWLINE? implicit?="IMPLICIT"? valueTypes+=ValueType (NEWLINE? "|" valueTypes+=ValueType)*;
 	public ValueElements getValueAccess() {
 		return (pValue != null) ? pValue : (pValue = new ValueElements());
 	}
 	
 	public ParserRule getValueRule() {
 		return getValueAccess().getRule();
+	}
+
+	//// ASN1 Tagging
+	//Tag:
+	//	NEWLINE? "[APPLICATION" tagValue=BIG_INTEGER "]";
+	public TagElements getTagAccess() {
+		return (pTag != null) ? pTag : (pTag = new TagElements());
+	}
+	
+	public ParserRule getTagRule() {
+		return getTagAccess().getRule();
 	}
 
 	//ValueType:
@@ -1283,7 +1476,7 @@ public class SmiGrammarAccess extends AbstractGrammarElementFinder {
 	}
 
 	//MACRO_VALUE_TYPE:
-	//	update=UpdateType | literal=MACRO_VALUE_CAP;
+	//	update=UpdateType | "VALUE" literal=MACRO_VALUE_CAP | string="IA5String";
 	public MACRO_VALUE_TYPEElements getMACRO_VALUE_TYPEAccess() {
 		return (pMACRO_VALUE_TYPE != null) ? pMACRO_VALUE_TYPE : (pMACRO_VALUE_TYPE = new MACRO_VALUE_TYPEElements());
 	}
@@ -1293,7 +1486,7 @@ public class SmiGrammarAccess extends AbstractGrammarElementFinder {
 	}
 
 	//UpdateType:
-	//	"Update" type=[TypeDefinition|MODULE_ID];
+	//	"Update" ref=TypeReference;
 	public UpdateTypeElements getUpdateTypeAccess() {
 		return (pUpdateType != null) ? pUpdateType : (pUpdateType = new UpdateTypeElements());
 	}
@@ -1302,9 +1495,8 @@ public class SmiGrammarAccess extends AbstractGrammarElementFinder {
 		return getUpdateTypeAccess().getRule();
 	}
 
-	//// Add other options.
 	//MACRO_VALUE_CAP:
-	//	"VALUE OBJECT IDENTIFIER" | "IA5String";
+	//	{MACRO_VALUE_CAP} "OBJECT IDENTIFIER" | ref=TypeReference;
 	public MACRO_VALUE_CAPElements getMACRO_VALUE_CAPAccess() {
 		return (pMACRO_VALUE_CAP != null) ? pMACRO_VALUE_CAP : (pMACRO_VALUE_CAP = new MACRO_VALUE_CAPElements());
 	}
@@ -1313,8 +1505,6 @@ public class SmiGrammarAccess extends AbstractGrammarElementFinder {
 		return getMACRO_VALUE_CAPAccess().getRule();
 	}
 
-	////enum VALUE_CAP_LITERALS:
-	////	oiLiteral='OBJECT IDENTIFIER' | ia5StringLiteral='IA5String';
 	//// Simple and structured types. 
 	//ASN1_TYPE:
 	//	ASN1_SIMPLE | ASN1_CHOICE;
@@ -1329,8 +1519,7 @@ public class SmiGrammarAccess extends AbstractGrammarElementFinder {
 	//// -- the "base types" defined here are:
 	//// --   3 built-in ASN.1 types: INTEGER, OCTET STRING, OBJECT IDENTIFIER
 	//ASN1_SIMPLE returns ASN1_TYPE:
-	//	{ASN1_SIMPLE} "empty" | {ASN1_SIMPLE} IA5STRING | ASN1_OCTET_STRING constraint=ASN1_SUBTYPE? | ASN1_INTEGER
-	//	constraint=ASN1_RANGE?;
+	//	{ASN1_SIMPLE} "empty" | {ASN1_SIMPLE} IA5STRING | ASN1_OCTET_STRING constraint=ASN1_SUBTYPE? | ASN1_INTEGER;
 	public ASN1_SIMPLEElements getASN1_SIMPLEAccess() {
 		return (pASN1_SIMPLE != null) ? pASN1_SIMPLE : (pASN1_SIMPLE = new ASN1_SIMPLEElements());
 	}
@@ -1350,7 +1539,7 @@ public class SmiGrammarAccess extends AbstractGrammarElementFinder {
 	}
 
 	//ASN1_INTEGER returns ASN1_SIMPLE:
-	//	name="INTEGER" "{" valuePairs+=ASN1_VALUEPAIR+ "}";
+	//	name="INTEGER" ("(" range=ASN1_RANGE ")")?;
 	public ASN1_INTEGERElements getASN1_INTEGERAccess() {
 		return (pASN1_INTEGER != null) ? pASN1_INTEGER : (pASN1_INTEGER = new ASN1_INTEGERElements());
 	}
@@ -1359,6 +1548,8 @@ public class SmiGrammarAccess extends AbstractGrammarElementFinder {
 		return getASN1_INTEGERAccess().getRule();
 	}
 
+	//// Is this needed? 
+	////	'{' (valuePairs+=ASN1_VALUEPAIR)+ '}';
 	//ASN1_SUBTYPE returns ASN1_SIMPLE:
 	//	"(" "SIZE" "(" ranges+=ASN1_RANGE ("|" ranges+=ASN1_RANGE)* ")" ")";
 	public ASN1_SUBTYPEElements getASN1_SUBTYPEAccess() {
@@ -1370,7 +1561,7 @@ public class SmiGrammarAccess extends AbstractGrammarElementFinder {
 	}
 
 	//ASN1_RANGE:
-	//	{ASN1_RANGE} value=INT | start=INT ".." end=INT;
+	//	{ASN1_RANGE} value=BIG_INTEGER | start=BIG_INTEGER ".." end=BIG_INTEGER;
 	public ASN1_RANGEElements getASN1_RANGEAccess() {
 		return (pASN1_RANGE != null) ? pASN1_RANGE : (pASN1_RANGE = new ASN1_RANGEElements());
 	}
@@ -1382,7 +1573,7 @@ public class SmiGrammarAccess extends AbstractGrammarElementFinder {
 	//// TODO1 Requries further definition. 	
 	//// TODO1 further specify id, as enum entry in the vp
 	//ASN1_VALUEPAIR:
-	//	ASN1_ID? "(" INT ")";
+	//	ASN1_ID? "(" BIG_INTEGER ")";
 	public ASN1_VALUEPAIRElements getASN1_VALUEPAIRAccess() {
 		return (pASN1_VALUEPAIR != null) ? pASN1_VALUEPAIR : (pASN1_VALUEPAIR = new ASN1_VALUEPAIRElements());
 	}
@@ -1394,7 +1585,7 @@ public class SmiGrammarAccess extends AbstractGrammarElementFinder {
 	////Choice:
 	//// http://www.obj-sys.com/asn1tutorial/node11.html
 	//ASN1_CHOICE:
-	//	"CHOICE" "{" choices+=ASN1_CHOICE_ENTRY ("," choices+=ASN1_CHOICE_ENTRY)* "}";
+	//	"CHOICE" "{" NEWLINE+ choiceType+=ASN1_CHOICE_ENTRY ("," NEWLINE+ choiceType+=ASN1_CHOICE_ENTRY)* NEWLINE+ "}";
 	public ASN1_CHOICEElements getASN1_CHOICEAccess() {
 		return (pASN1_CHOICE != null) ? pASN1_CHOICE : (pASN1_CHOICE = new ASN1_CHOICEElements());
 	}
@@ -1406,13 +1597,23 @@ public class SmiGrammarAccess extends AbstractGrammarElementFinder {
 	//// TODO1 The reference to a ValueType is indented by 4 WS on the next line. 
 	////  
 	//ASN1_CHOICE_ENTRY:
-	//	id=ASN1_ID valueType=[Value|ASN1_ID];
+	//	id=ASN1_ID NEWLINE? valueType=ChoiceType;
 	public ASN1_CHOICE_ENTRYElements getASN1_CHOICE_ENTRYAccess() {
 		return (pASN1_CHOICE_ENTRY != null) ? pASN1_CHOICE_ENTRY : (pASN1_CHOICE_ENTRY = new ASN1_CHOICE_ENTRYElements());
 	}
 	
 	public ParserRule getASN1_CHOICE_ENTRYRule() {
 		return getASN1_CHOICE_ENTRYAccess().getRule();
+	}
+
+	//ChoiceType:
+	//	typeRef=TypeReference | simpleType=ASN1_TYPE | oi="OBJECT IDENTIFIER";
+	public ChoiceTypeElements getChoiceTypeAccess() {
+		return (pChoiceType != null) ? pChoiceType : (pChoiceType = new ChoiceTypeElements());
+	}
+	
+	public ParserRule getChoiceTypeRule() {
+		return getChoiceTypeAccess().getRule();
 	}
 
 	//terminal MODULE_ID:
@@ -1439,13 +1640,6 @@ public class SmiGrammarAccess extends AbstractGrammarElementFinder {
 		return (tIA5STRING != null) ? tIA5STRING : (tIA5STRING = (TerminalRule) GrammarUtil.findRuleForName(getGrammar(), "IA5STRING"));
 	} 
 
-	//// Fragments.
-	//terminal fragment NUMERIC:
-	//	"0".."9";
-	public TerminalRule getNUMERICRule() {
-		return (tNUMERIC != null) ? tNUMERIC : (tNUMERIC = (TerminalRule) GrammarUtil.findRuleForName(getGrammar(), "NUMERIC"));
-	} 
-
 	//terminal fragment ALPHA:
 	//	"a".."z";
 	public TerminalRule getALPHARule() {
@@ -1458,10 +1652,16 @@ public class SmiGrammarAccess extends AbstractGrammarElementFinder {
 		return (tALPHA_CAP != null) ? tALPHA_CAP : (tALPHA_CAP = (TerminalRule) GrammarUtil.findRuleForName(getGrammar(), "ALPHA_CAP"));
 	} 
 
-	//terminal INT returns ecore::EInt:
-	//	"0".."9"+;
-	public TerminalRule getINTRule() {
-		return (tINT != null) ? tINT : (tINT = (TerminalRule) GrammarUtil.findRuleForName(getGrammar(), "INT"));
+	//terminal fragment NUMERIC:
+	//	"0".."9";
+	public TerminalRule getNUMERICRule() {
+		return (tNUMERIC != null) ? tNUMERIC : (tNUMERIC = (TerminalRule) GrammarUtil.findRuleForName(getGrammar(), "NUMERIC"));
+	} 
+
+	//terminal BIG_INTEGER returns ecore::EBigInteger:
+	//	"-"? "0".."9"+;
+	public TerminalRule getBIG_INTEGERRule() {
+		return (tBIG_INTEGER != null) ? tBIG_INTEGER : (tBIG_INTEGER = (TerminalRule) GrammarUtil.findRuleForName(getGrammar(), "BIG_INTEGER"));
 	} 
 
 	//// Section 3.4 

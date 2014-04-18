@@ -29,7 +29,7 @@ import org.eclipse.emf.ecore.impl.ENotificationImpl;
  *
  * @generated
  */
-public class TypeAssignmentImpl extends TypeNotationImpl implements TypeAssignment
+public class TypeAssignmentImpl extends TypeNotationRightImpl implements TypeAssignment
 {
   /**
    * The cached value of the '{@link #getParentRef() <em>Parent Ref</em>}' containment reference.

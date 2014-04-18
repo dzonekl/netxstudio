@@ -6,6 +6,8 @@ import com.netxforge.smi.ObjectIdentifier;
 import com.netxforge.smi.ObjectIdentifierValue;
 import com.netxforge.smi.SmiPackage;
 
+import java.math.BigInteger;
+
 import java.util.Collection;
 
 import org.eclipse.emf.common.notify.Notification;
@@ -27,7 +29,7 @@ import org.eclipse.emf.ecore.util.EDataTypeEList;
  * <p>
  * The following features are implemented:
  * <ul>
- *   <li>{@link com.netxforge.smi.impl.ObjectIdentifierValueImpl#getRoot <em>Root</em>}</li>
+ *   <li>{@link com.netxforge.smi.impl.ObjectIdentifierValueImpl#getName <em>Name</em>}</li>
  *   <li>{@link com.netxforge.smi.impl.ObjectIdentifierValueImpl#getDescriptorReference <em>Descriptor Reference</em>}</li>
  *   <li>{@link com.netxforge.smi.impl.ObjectIdentifierValueImpl#getSubIds <em>Sub Ids</em>}</li>
  * </ul>
@@ -38,24 +40,24 @@ import org.eclipse.emf.ecore.util.EDataTypeEList;
 public class ObjectIdentifierValueImpl extends MinimalEObjectImpl.Container implements ObjectIdentifierValue
 {
   /**
-   * The default value of the '{@link #getRoot() <em>Root</em>}' attribute.
+   * The default value of the '{@link #getName() <em>Name</em>}' attribute.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @see #getRoot()
+   * @see #getName()
    * @generated
    * @ordered
    */
-  protected static final String ROOT_EDEFAULT = null;
+  protected static final String NAME_EDEFAULT = null;
 
   /**
-   * The cached value of the '{@link #getRoot() <em>Root</em>}' attribute.
+   * The cached value of the '{@link #getName() <em>Name</em>}' attribute.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @see #getRoot()
+   * @see #getName()
    * @generated
    * @ordered
    */
-  protected String root = ROOT_EDEFAULT;
+  protected String name = NAME_EDEFAULT;
 
   /**
    * The cached value of the '{@link #getDescriptorReference() <em>Descriptor Reference</em>}' reference.
@@ -75,7 +77,7 @@ public class ObjectIdentifierValueImpl extends MinimalEObjectImpl.Container impl
    * @generated
    * @ordered
    */
-  protected EList<Integer> subIds;
+  protected EList<BigInteger> subIds;
 
   /**
    * <!-- begin-user-doc -->
@@ -103,9 +105,9 @@ public class ObjectIdentifierValueImpl extends MinimalEObjectImpl.Container impl
    * <!-- end-user-doc -->
    * @generated
    */
-  public String getRoot()
+  public String getName()
   {
-    return root;
+    return name;
   }
 
   /**
@@ -113,12 +115,12 @@ public class ObjectIdentifierValueImpl extends MinimalEObjectImpl.Container impl
    * <!-- end-user-doc -->
    * @generated
    */
-  public void setRoot(String newRoot)
+  public void setName(String newName)
   {
-    String oldRoot = root;
-    root = newRoot;
+    String oldName = name;
+    name = newName;
     if (eNotificationRequired())
-      eNotify(new ENotificationImpl(this, Notification.SET, SmiPackage.OBJECT_IDENTIFIER_VALUE__ROOT, oldRoot, root));
+      eNotify(new ENotificationImpl(this, Notification.SET, SmiPackage.OBJECT_IDENTIFIER_VALUE__NAME, oldName, name));
   }
 
   /**
@@ -169,11 +171,11 @@ public class ObjectIdentifierValueImpl extends MinimalEObjectImpl.Container impl
    * <!-- end-user-doc -->
    * @generated
    */
-  public EList<Integer> getSubIds()
+  public EList<BigInteger> getSubIds()
   {
     if (subIds == null)
     {
-      subIds = new EDataTypeEList<Integer>(Integer.class, this, SmiPackage.OBJECT_IDENTIFIER_VALUE__SUB_IDS);
+      subIds = new EDataTypeEList<BigInteger>(BigInteger.class, this, SmiPackage.OBJECT_IDENTIFIER_VALUE__SUB_IDS);
     }
     return subIds;
   }
@@ -188,8 +190,8 @@ public class ObjectIdentifierValueImpl extends MinimalEObjectImpl.Container impl
   {
     switch (featureID)
     {
-      case SmiPackage.OBJECT_IDENTIFIER_VALUE__ROOT:
-        return getRoot();
+      case SmiPackage.OBJECT_IDENTIFIER_VALUE__NAME:
+        return getName();
       case SmiPackage.OBJECT_IDENTIFIER_VALUE__DESCRIPTOR_REFERENCE:
         if (resolve) return getDescriptorReference();
         return basicGetDescriptorReference();
@@ -210,15 +212,15 @@ public class ObjectIdentifierValueImpl extends MinimalEObjectImpl.Container impl
   {
     switch (featureID)
     {
-      case SmiPackage.OBJECT_IDENTIFIER_VALUE__ROOT:
-        setRoot((String)newValue);
+      case SmiPackage.OBJECT_IDENTIFIER_VALUE__NAME:
+        setName((String)newValue);
         return;
       case SmiPackage.OBJECT_IDENTIFIER_VALUE__DESCRIPTOR_REFERENCE:
         setDescriptorReference((ObjectIdentifier)newValue);
         return;
       case SmiPackage.OBJECT_IDENTIFIER_VALUE__SUB_IDS:
         getSubIds().clear();
-        getSubIds().addAll((Collection<? extends Integer>)newValue);
+        getSubIds().addAll((Collection<? extends BigInteger>)newValue);
         return;
     }
     super.eSet(featureID, newValue);
@@ -234,8 +236,8 @@ public class ObjectIdentifierValueImpl extends MinimalEObjectImpl.Container impl
   {
     switch (featureID)
     {
-      case SmiPackage.OBJECT_IDENTIFIER_VALUE__ROOT:
-        setRoot(ROOT_EDEFAULT);
+      case SmiPackage.OBJECT_IDENTIFIER_VALUE__NAME:
+        setName(NAME_EDEFAULT);
         return;
       case SmiPackage.OBJECT_IDENTIFIER_VALUE__DESCRIPTOR_REFERENCE:
         setDescriptorReference((ObjectIdentifier)null);
@@ -257,8 +259,8 @@ public class ObjectIdentifierValueImpl extends MinimalEObjectImpl.Container impl
   {
     switch (featureID)
     {
-      case SmiPackage.OBJECT_IDENTIFIER_VALUE__ROOT:
-        return ROOT_EDEFAULT == null ? root != null : !ROOT_EDEFAULT.equals(root);
+      case SmiPackage.OBJECT_IDENTIFIER_VALUE__NAME:
+        return NAME_EDEFAULT == null ? name != null : !NAME_EDEFAULT.equals(name);
       case SmiPackage.OBJECT_IDENTIFIER_VALUE__DESCRIPTOR_REFERENCE:
         return descriptorReference != null;
       case SmiPackage.OBJECT_IDENTIFIER_VALUE__SUB_IDS:
@@ -278,8 +280,8 @@ public class ObjectIdentifierValueImpl extends MinimalEObjectImpl.Container impl
     if (eIsProxy()) return super.toString();
 
     StringBuffer result = new StringBuffer(super.toString());
-    result.append(" (root: ");
-    result.append(root);
+    result.append(" (name: ");
+    result.append(name);
     result.append(", subIds: ");
     result.append(subIds);
     result.append(')');

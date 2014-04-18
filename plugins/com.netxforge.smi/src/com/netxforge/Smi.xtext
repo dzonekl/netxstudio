@@ -48,34 +48,41 @@ ObjectIdentifier hidden(WS, SL_ASN1_COMMENT):
 
 	// The value of the Object identifier	
 ObjectIdentifierValue:
-	(root=ASN1_ID
-	| => descriptorReference=[ObjectIdentifier|ASN1_ID])? subIds+=INT (subIds+=INT)*;
+	(name=ASN1_ID
+	| => descriptorReference=[ObjectIdentifier|ASN1_ID])? subIds+=BIG_INTEGER (subIds+=BIG_INTEGER)*;
 
 	// An ASN.1 Value assignment. 
 TypeDefinition:
 	NEWLINE+ name=(MODULE_ID) '::=' values+=Value+;
 
-//Scope:
+	//Scope:
 //	name='::=' values+=Value+;
 
-	// An ASN.1 Macro structure
+// An ASN.1 Macro structure
 Macro:
 	NEWLINE+ name=MODULE_ID 'MACRO' '::='
 	NEWLINE 'BEGIN'
-	NEWLINE+ 'TYPE NOTATION' '::=' typeNotations+=TypeAssignment+ // Reference one or more type assignment. 
-	NEWLINE+ 'VALUE NOTATION' '::=' NEWLINE? valueNotation=MacroValue // Define one Macro value. 
+	typeNotation=TypeNotation
+	valueNotation=ValueNotation
 	innerTypes+=TypeDefinition+ // Define 1 or more type definitions
 	NEWLINE+ 'END';
 
-	// An ASN.1 Macro Type Notation, it's slightly different then  a type definition. 
+TypeNotation:
+	NEWLINE+ name='TYPE NOTATION' '::=' typeNotations+=TypeAssignment+ // Reference one or more type assignment.
+;
+
+ValueNotation:
+	NEWLINE+ name='VALUE NOTATION' '::=' NEWLINE? valueNotation=MacroValue // Define one Macro value.
+;
+// An ASN.1 Macro Type Notation, it's slightly different then  a type definition. 
 TypeAssignment:
 	NEWLINE+ (ParamAssignment | TypeReference | MacroValue);
 
 	// An ASN.1 Parameter assignment
 ParamAssignment:
-	param=PARAMETER right=TypeNotation;
+	param=PARAMETER right=TypeNotationRight;
 
-TypeNotation:
+TypeNotationRight:
 	TypeReference | value=MacroValue;
 
 	// Types can be referred once or twice. The right side is named a child reference. 
@@ -86,7 +93,11 @@ TypeReference returns TypeAssignment:
 	type=[TypeDefinition|MODULE_ID];
 
 Value:
-	NEWLINE? valueTypes+=ValueType (NEWLINE? '|' valueTypes+=ValueType)*;
+	(tag=Tag)? NEWLINE? (implicit?='IMPLICIT')? valueTypes+=ValueType (NEWLINE? '|' valueTypes+=ValueType)*;
+
+	// ASN1 Tagging
+Tag:
+	NEWLINE? '[APPLICATION' tagValue=BIG_INTEGER ']';
 
 ValueType:
 	(param=ParamAssignment | types=TypeReferenceExt | simpleType=ASN1_TYPE | macroValue=MacroValue |
@@ -96,56 +107,56 @@ MacroValue returns Value:
 	{MacroValue} 'value' '(' valueType=MACRO_VALUE_TYPE ')';
 
 MACRO_VALUE_TYPE:
-	update=UpdateType | literal=MACRO_VALUE_CAP;
+	update=UpdateType | 'VALUE' literal=MACRO_VALUE_CAP | string='IA5String';
 
 UpdateType:
-	'Update' type=[TypeDefinition|MODULE_ID];
+	'Update' ref=TypeReference;
 
-	// Add other options.
 MACRO_VALUE_CAP:
-	'VALUE OBJECT IDENTIFIER' | 'IA5String';
+	{MACRO_VALUE_CAP} 'OBJECT IDENTIFIER' | ref=TypeReference;
 
-	//enum VALUE_CAP_LITERALS:
-//	oiLiteral='OBJECT IDENTIFIER' | ia5StringLiteral='IA5String';
-
-// Simple and structured types. 
+	// Simple and structured types. 
 ASN1_TYPE:
 	ASN1_SIMPLE | ASN1_CHOICE;
 
 	// -- the "base types" defined here are:
 // --   3 built-in ASN.1 types: INTEGER, OCTET STRING, OBJECT IDENTIFIER
 ASN1_SIMPLE returns ASN1_TYPE:
-	{ASN1_SIMPLE} 'empty' | {ASN1_SIMPLE} IA5STRING | ASN1_OCTET_STRING constraint=ASN1_SUBTYPE? | ASN1_INTEGER
-	constraint=ASN1_RANGE?;
+	{ASN1_SIMPLE} 'empty' | {ASN1_SIMPLE} IA5STRING | ASN1_OCTET_STRING constraint=ASN1_SUBTYPE? | ASN1_INTEGER;
 
 ASN1_OCTET_STRING returns ASN1_SIMPLE:
 	{ASN1_OCTET_STRING} name='OCTET STRING';
 
 ASN1_INTEGER returns ASN1_SIMPLE:
-	name='INTEGER' '{' (valuePairs+=ASN1_VALUEPAIR)+ '}';
+	name='INTEGER' ('(' range=ASN1_RANGE ')')?;
 
+	// Is this needed? 
+//	'{' (valuePairs+=ASN1_VALUEPAIR)+ '}';
 ASN1_SUBTYPE returns ASN1_SIMPLE:
 	'(' 'SIZE' '(' ranges+=ASN1_RANGE
 	('|' ranges+=ASN1_RANGE)* ')' ')';
 
 ASN1_RANGE:
-	{ASN1_RANGE} value=INT | (start=INT '..' end=INT);
+	{ASN1_RANGE} value=BIG_INTEGER | (start=BIG_INTEGER '..' end=BIG_INTEGER);
 
 	// TODO1 Requries further definition. 	
 
 // TODO1 further specify id, as enum entry in the vp
 ASN1_VALUEPAIR:
-	(ASN1_ID)? '(' INT ')';
+	(ASN1_ID)? '(' BIG_INTEGER ')';
 
 	//Choice:
 // http://www.obj-sys.com/asn1tutorial/node11.html
 ASN1_CHOICE:
-	 'CHOICE' '{' choices+=ASN1_CHOICE_ENTRY (',' choices+=ASN1_CHOICE_ENTRY)* '}';
+	'CHOICE' '{' NEWLINE+ choiceType+=ASN1_CHOICE_ENTRY (',' NEWLINE+ choiceType+=ASN1_CHOICE_ENTRY)* NEWLINE+ '}';
 
 	// TODO1 The reference to a ValueType is indented by 4 WS on the next line. 
 //  
 ASN1_CHOICE_ENTRY:
-	id=ASN1_ID valueType=[Value|ASN1_ID];
+	id=ASN1_ID NEWLINE? valueType=ChoiceType;
+
+ChoiceType:
+	(typeRef=TypeReference | simpleType=ASN1_TYPE | oi='OBJECT IDENTIFIER');
 
 terminal MODULE_ID:
 	(ALPHA_CAP) (ALPHA | ALPHA_CAP | '-' | NUMERIC)* (ALPHA_CAP | ALPHA | NUMERIC);
@@ -160,18 +171,17 @@ terminal IA5STRING:
 	'"' ('\\' ('b'
 	| 't' | 'n' | 'f' | 'r' | 'u' | '"' | "'" | '\\') | !('\\' | '"'))* '"';
 
-	// Fragments.
-terminal fragment NUMERIC:
-	'0'..'9';
-
 terminal fragment ALPHA:
 	'a'..'z';
 
 terminal fragment ALPHA_CAP:
 	'A'..'Z';
 
-terminal INT returns ecore::EInt:
-	('0'..'9')+;
+terminal fragment NUMERIC:
+	'0'..'9';
+
+terminal BIG_INTEGER returns ecore::EBigInteger:
+	'-'? ('0'..'9')+;
 
 	// Section 3.4 
 // ... ASN.1 comments commence with a pair of adjacent hyphens and end with

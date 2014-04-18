@@ -5,6 +5,8 @@ package com.netxforge.smi.impl;
 import com.netxforge.smi.ASN1_RANGE;
 import com.netxforge.smi.SmiPackage;
 
+import java.math.BigInteger;
+
 import org.eclipse.emf.common.notify.Notification;
 
 import org.eclipse.emf.ecore.EClass;
@@ -37,7 +39,7 @@ public class ASN1_RANGEImpl extends MinimalEObjectImpl.Container implements ASN1
    * @generated
    * @ordered
    */
-  protected static final int VALUE_EDEFAULT = 0;
+  protected static final BigInteger VALUE_EDEFAULT = null;
 
   /**
    * The cached value of the '{@link #getValue() <em>Value</em>}' attribute.
@@ -47,7 +49,7 @@ public class ASN1_RANGEImpl extends MinimalEObjectImpl.Container implements ASN1
    * @generated
    * @ordered
    */
-  protected int value = VALUE_EDEFAULT;
+  protected BigInteger value = VALUE_EDEFAULT;
 
   /**
    * The default value of the '{@link #getStart() <em>Start</em>}' attribute.
@@ -57,7 +59,7 @@ public class ASN1_RANGEImpl extends MinimalEObjectImpl.Container implements ASN1
    * @generated
    * @ordered
    */
-  protected static final int START_EDEFAULT = 0;
+  protected static final BigInteger START_EDEFAULT = null;
 
   /**
    * The cached value of the '{@link #getStart() <em>Start</em>}' attribute.
@@ -67,7 +69,7 @@ public class ASN1_RANGEImpl extends MinimalEObjectImpl.Container implements ASN1
    * @generated
    * @ordered
    */
-  protected int start = START_EDEFAULT;
+  protected BigInteger start = START_EDEFAULT;
 
   /**
    * The default value of the '{@link #getEnd() <em>End</em>}' attribute.
@@ -77,7 +79,7 @@ public class ASN1_RANGEImpl extends MinimalEObjectImpl.Container implements ASN1
    * @generated
    * @ordered
    */
-  protected static final int END_EDEFAULT = 0;
+  protected static final BigInteger END_EDEFAULT = null;
 
   /**
    * The cached value of the '{@link #getEnd() <em>End</em>}' attribute.
@@ -87,7 +89,7 @@ public class ASN1_RANGEImpl extends MinimalEObjectImpl.Container implements ASN1
    * @generated
    * @ordered
    */
-  protected int end = END_EDEFAULT;
+  protected BigInteger end = END_EDEFAULT;
 
   /**
    * <!-- begin-user-doc -->
@@ -115,7 +117,7 @@ public class ASN1_RANGEImpl extends MinimalEObjectImpl.Container implements ASN1
    * <!-- end-user-doc -->
    * @generated
    */
-  public int getValue()
+  public BigInteger getValue()
   {
     return value;
   }
@@ -125,9 +127,9 @@ public class ASN1_RANGEImpl extends MinimalEObjectImpl.Container implements ASN1
    * <!-- end-user-doc -->
    * @generated
    */
-  public void setValue(int newValue)
+  public void setValue(BigInteger newValue)
   {
-    int oldValue = value;
+    BigInteger oldValue = value;
     value = newValue;
     if (eNotificationRequired())
       eNotify(new ENotificationImpl(this, Notification.SET, SmiPackage.ASN1_RANGE__VALUE, oldValue, value));
@@ -138,7 +140,7 @@ public class ASN1_RANGEImpl extends MinimalEObjectImpl.Container implements ASN1
    * <!-- end-user-doc -->
    * @generated
    */
-  public int getStart()
+  public BigInteger getStart()
   {
     return start;
   }
@@ -148,9 +150,9 @@ public class ASN1_RANGEImpl extends MinimalEObjectImpl.Container implements ASN1
    * <!-- end-user-doc -->
    * @generated
    */
-  public void setStart(int newStart)
+  public void setStart(BigInteger newStart)
   {
-    int oldStart = start;
+    BigInteger oldStart = start;
     start = newStart;
     if (eNotificationRequired())
       eNotify(new ENotificationImpl(this, Notification.SET, SmiPackage.ASN1_RANGE__START, oldStart, start));
@@ -161,7 +163,7 @@ public class ASN1_RANGEImpl extends MinimalEObjectImpl.Container implements ASN1
    * <!-- end-user-doc -->
    * @generated
    */
-  public int getEnd()
+  public BigInteger getEnd()
   {
     return end;
   }
@@ -171,9 +173,9 @@ public class ASN1_RANGEImpl extends MinimalEObjectImpl.Container implements ASN1
    * <!-- end-user-doc -->
    * @generated
    */
-  public void setEnd(int newEnd)
+  public void setEnd(BigInteger newEnd)
   {
-    int oldEnd = end;
+    BigInteger oldEnd = end;
     end = newEnd;
     if (eNotificationRequired())
       eNotify(new ENotificationImpl(this, Notification.SET, SmiPackage.ASN1_RANGE__END, oldEnd, end));
@@ -210,13 +212,13 @@ public class ASN1_RANGEImpl extends MinimalEObjectImpl.Container implements ASN1
     switch (featureID)
     {
       case SmiPackage.ASN1_RANGE__VALUE:
-        setValue((Integer)newValue);
+        setValue((BigInteger)newValue);
         return;
       case SmiPackage.ASN1_RANGE__START:
-        setStart((Integer)newValue);
+        setStart((BigInteger)newValue);
         return;
       case SmiPackage.ASN1_RANGE__END:
-        setEnd((Integer)newValue);
+        setEnd((BigInteger)newValue);
         return;
     }
     super.eSet(featureID, newValue);
@@ -256,11 +258,11 @@ public class ASN1_RANGEImpl extends MinimalEObjectImpl.Container implements ASN1
     switch (featureID)
     {
       case SmiPackage.ASN1_RANGE__VALUE:
-        return value != VALUE_EDEFAULT;
+        return VALUE_EDEFAULT == null ? value != null : !VALUE_EDEFAULT.equals(value);
       case SmiPackage.ASN1_RANGE__START:
-        return start != START_EDEFAULT;
+        return START_EDEFAULT == null ? start != null : !START_EDEFAULT.equals(start);
       case SmiPackage.ASN1_RANGE__END:
-        return end != END_EDEFAULT;
+        return END_EDEFAULT == null ? end != null : !END_EDEFAULT.equals(end);
     }
     return super.eIsSet(featureID);
   }

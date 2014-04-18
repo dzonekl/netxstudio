@@ -3,8 +3,8 @@
 package com.netxforge.smi.impl;
 
 import com.netxforge.smi.SmiPackage;
-import com.netxforge.smi.TypeAssignment;
-import com.netxforge.smi.UpdateType;
+import com.netxforge.smi.TypeNotationRight;
+import com.netxforge.smi.Value;
 
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
@@ -17,35 +17,35 @@ import org.eclipse.emf.ecore.impl.MinimalEObjectImpl;
 
 /**
  * <!-- begin-user-doc -->
- * An implementation of the model object '<em><b>Update Type</b></em>'.
+ * An implementation of the model object '<em><b>Type Notation Right</b></em>'.
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
  * <ul>
- *   <li>{@link com.netxforge.smi.impl.UpdateTypeImpl#getRef <em>Ref</em>}</li>
+ *   <li>{@link com.netxforge.smi.impl.TypeNotationRightImpl#getValue <em>Value</em>}</li>
  * </ul>
  * </p>
  *
  * @generated
  */
-public class UpdateTypeImpl extends MinimalEObjectImpl.Container implements UpdateType
+public class TypeNotationRightImpl extends MinimalEObjectImpl.Container implements TypeNotationRight
 {
   /**
-   * The cached value of the '{@link #getRef() <em>Ref</em>}' containment reference.
+   * The cached value of the '{@link #getValue() <em>Value</em>}' containment reference.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @see #getRef()
+   * @see #getValue()
    * @generated
    * @ordered
    */
-  protected TypeAssignment ref;
+  protected Value value;
 
   /**
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
    */
-  protected UpdateTypeImpl()
+  protected TypeNotationRightImpl()
   {
     super();
   }
@@ -58,7 +58,7 @@ public class UpdateTypeImpl extends MinimalEObjectImpl.Container implements Upda
   @Override
   protected EClass eStaticClass()
   {
-    return SmiPackage.Literals.UPDATE_TYPE;
+    return SmiPackage.Literals.TYPE_NOTATION_RIGHT;
   }
 
   /**
@@ -66,9 +66,9 @@ public class UpdateTypeImpl extends MinimalEObjectImpl.Container implements Upda
    * <!-- end-user-doc -->
    * @generated
    */
-  public TypeAssignment getRef()
+  public Value getValue()
   {
-    return ref;
+    return value;
   }
 
   /**
@@ -76,13 +76,13 @@ public class UpdateTypeImpl extends MinimalEObjectImpl.Container implements Upda
    * <!-- end-user-doc -->
    * @generated
    */
-  public NotificationChain basicSetRef(TypeAssignment newRef, NotificationChain msgs)
+  public NotificationChain basicSetValue(Value newValue, NotificationChain msgs)
   {
-    TypeAssignment oldRef = ref;
-    ref = newRef;
+    Value oldValue = value;
+    value = newValue;
     if (eNotificationRequired())
     {
-      ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, SmiPackage.UPDATE_TYPE__REF, oldRef, newRef);
+      ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, SmiPackage.TYPE_NOTATION_RIGHT__VALUE, oldValue, newValue);
       if (msgs == null) msgs = notification; else msgs.add(notification);
     }
     return msgs;
@@ -93,20 +93,20 @@ public class UpdateTypeImpl extends MinimalEObjectImpl.Container implements Upda
    * <!-- end-user-doc -->
    * @generated
    */
-  public void setRef(TypeAssignment newRef)
+  public void setValue(Value newValue)
   {
-    if (newRef != ref)
+    if (newValue != value)
     {
       NotificationChain msgs = null;
-      if (ref != null)
-        msgs = ((InternalEObject)ref).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - SmiPackage.UPDATE_TYPE__REF, null, msgs);
-      if (newRef != null)
-        msgs = ((InternalEObject)newRef).eInverseAdd(this, EOPPOSITE_FEATURE_BASE - SmiPackage.UPDATE_TYPE__REF, null, msgs);
-      msgs = basicSetRef(newRef, msgs);
+      if (value != null)
+        msgs = ((InternalEObject)value).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - SmiPackage.TYPE_NOTATION_RIGHT__VALUE, null, msgs);
+      if (newValue != null)
+        msgs = ((InternalEObject)newValue).eInverseAdd(this, EOPPOSITE_FEATURE_BASE - SmiPackage.TYPE_NOTATION_RIGHT__VALUE, null, msgs);
+      msgs = basicSetValue(newValue, msgs);
       if (msgs != null) msgs.dispatch();
     }
     else if (eNotificationRequired())
-      eNotify(new ENotificationImpl(this, Notification.SET, SmiPackage.UPDATE_TYPE__REF, newRef, newRef));
+      eNotify(new ENotificationImpl(this, Notification.SET, SmiPackage.TYPE_NOTATION_RIGHT__VALUE, newValue, newValue));
   }
 
   /**
@@ -119,8 +119,8 @@ public class UpdateTypeImpl extends MinimalEObjectImpl.Container implements Upda
   {
     switch (featureID)
     {
-      case SmiPackage.UPDATE_TYPE__REF:
-        return basicSetRef(null, msgs);
+      case SmiPackage.TYPE_NOTATION_RIGHT__VALUE:
+        return basicSetValue(null, msgs);
     }
     return super.eInverseRemove(otherEnd, featureID, msgs);
   }
@@ -135,8 +135,8 @@ public class UpdateTypeImpl extends MinimalEObjectImpl.Container implements Upda
   {
     switch (featureID)
     {
-      case SmiPackage.UPDATE_TYPE__REF:
-        return getRef();
+      case SmiPackage.TYPE_NOTATION_RIGHT__VALUE:
+        return getValue();
     }
     return super.eGet(featureID, resolve, coreType);
   }
@@ -151,8 +151,8 @@ public class UpdateTypeImpl extends MinimalEObjectImpl.Container implements Upda
   {
     switch (featureID)
     {
-      case SmiPackage.UPDATE_TYPE__REF:
-        setRef((TypeAssignment)newValue);
+      case SmiPackage.TYPE_NOTATION_RIGHT__VALUE:
+        setValue((Value)newValue);
         return;
     }
     super.eSet(featureID, newValue);
@@ -168,8 +168,8 @@ public class UpdateTypeImpl extends MinimalEObjectImpl.Container implements Upda
   {
     switch (featureID)
     {
-      case SmiPackage.UPDATE_TYPE__REF:
-        setRef((TypeAssignment)null);
+      case SmiPackage.TYPE_NOTATION_RIGHT__VALUE:
+        setValue((Value)null);
         return;
     }
     super.eUnset(featureID);
@@ -185,10 +185,10 @@ public class UpdateTypeImpl extends MinimalEObjectImpl.Container implements Upda
   {
     switch (featureID)
     {
-      case SmiPackage.UPDATE_TYPE__REF:
-        return ref != null;
+      case SmiPackage.TYPE_NOTATION_RIGHT__VALUE:
+        return value != null;
     }
     return super.eIsSet(featureID);
   }
 
-} //UpdateTypeImpl
+} //TypeNotationRightImpl

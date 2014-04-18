@@ -57,12 +57,12 @@ public interface ParamAssignment extends TypeAssignment
    * </p>
    * <!-- end-user-doc -->
    * @return the value of the '<em>Right</em>' containment reference.
-   * @see #setRight(TypeNotation)
+   * @see #setRight(TypeNotationRight)
    * @see com.netxforge.smi.SmiPackage#getParamAssignment_Right()
    * @model containment="true"
    * @generated
    */
-  TypeNotation getRight();
+  TypeNotationRight getRight();
 
   /**
    * Sets the value of the '{@link com.netxforge.smi.ParamAssignment#getRight <em>Right</em>}' containment reference.
@@ -72,6 +72,6 @@ public interface ParamAssignment extends TypeAssignment
    * @see #getRight()
    * @generated
    */
-  void setRight(TypeNotation value);
+  void setRight(TypeNotationRight value);
 
 } // ParamAssignment

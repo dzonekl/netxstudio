@@ -2,6 +2,8 @@
  */
 package com.netxforge.smi;
 
+import java.math.BigInteger;
+
 import org.eclipse.emf.ecore.EObject;
 
 /**
@@ -33,12 +35,12 @@ public interface ASN1_RANGE extends EObject
    * </p>
    * <!-- end-user-doc -->
    * @return the value of the '<em>Value</em>' attribute.
-   * @see #setValue(int)
+   * @see #setValue(BigInteger)
    * @see com.netxforge.smi.SmiPackage#getASN1_RANGE_Value()
    * @model
    * @generated
    */
-  int getValue();
+  BigInteger getValue();
 
   /**
    * Sets the value of the '{@link com.netxforge.smi.ASN1_RANGE#getValue <em>Value</em>}' attribute.
@@ -48,7 +50,7 @@ public interface ASN1_RANGE extends EObject
    * @see #getValue()
    * @generated
    */
-  void setValue(int value);
+  void setValue(BigInteger value);
 
   /**
    * Returns the value of the '<em><b>Start</b></em>' attribute.
@@ -59,12 +61,12 @@ public interface ASN1_RANGE extends EObject
    * </p>
    * <!-- end-user-doc -->
    * @return the value of the '<em>Start</em>' attribute.
-   * @see #setStart(int)
+   * @see #setStart(BigInteger)
    * @see com.netxforge.smi.SmiPackage#getASN1_RANGE_Start()
    * @model
    * @generated
    */
-  int getStart();
+  BigInteger getStart();
 
   /**
    * Sets the value of the '{@link com.netxforge.smi.ASN1_RANGE#getStart <em>Start</em>}' attribute.
@@ -74,7 +76,7 @@ public interface ASN1_RANGE extends EObject
    * @see #getStart()
    * @generated
    */
-  void setStart(int value);
+  void setStart(BigInteger value);
 
   /**
    * Returns the value of the '<em><b>End</b></em>' attribute.
@@ -85,12 +87,12 @@ public interface ASN1_RANGE extends EObject
    * </p>
    * <!-- end-user-doc -->
    * @return the value of the '<em>End</em>' attribute.
-   * @see #setEnd(int)
+   * @see #setEnd(BigInteger)
    * @see com.netxforge.smi.SmiPackage#getASN1_RANGE_End()
    * @model
    * @generated
    */
-  int getEnd();
+  BigInteger getEnd();
 
   /**
    * Sets the value of the '{@link com.netxforge.smi.ASN1_RANGE#getEnd <em>End</em>}' attribute.
@@ -100,6 +102,6 @@ public interface ASN1_RANGE extends EObject
    * @see #getEnd()
    * @generated
    */
-  void setEnd(int value);
+  void setEnd(BigInteger value);
 
 } // ASN1_RANGE

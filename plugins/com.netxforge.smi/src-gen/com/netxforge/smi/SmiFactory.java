@@ -68,6 +68,24 @@ public interface SmiFactory extends EFactory
   Macro createMacro();
 
   /**
+   * Returns a new object of class '<em>Type Notation</em>'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return a new object of class '<em>Type Notation</em>'.
+   * @generated
+   */
+  TypeNotation createTypeNotation();
+
+  /**
+   * Returns a new object of class '<em>Value Notation</em>'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return a new object of class '<em>Value Notation</em>'.
+   * @generated
+   */
+  ValueNotation createValueNotation();
+
+  /**
    * Returns a new object of class '<em>Type Assignment</em>'.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -86,13 +104,13 @@ public interface SmiFactory extends EFactory
   ParamAssignment createParamAssignment();
 
   /**
-   * Returns a new object of class '<em>Type Notation</em>'.
+   * Returns a new object of class '<em>Type Notation Right</em>'.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @return a new object of class '<em>Type Notation</em>'.
+   * @return a new object of class '<em>Type Notation Right</em>'.
    * @generated
    */
-  TypeNotation createTypeNotation();
+  TypeNotationRight createTypeNotationRight();
 
   /**
    * Returns a new object of class '<em>Value</em>'.
@@ -102,6 +120,15 @@ public interface SmiFactory extends EFactory
    * @generated
    */
   Value createValue();
+
+  /**
+   * Returns a new object of class '<em>Tag</em>'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return a new object of class '<em>Tag</em>'.
+   * @generated
+   */
+  Tag createTag();
 
   /**
    * Returns a new object of class '<em>Value Type</em>'.
@@ -129,6 +156,15 @@ public interface SmiFactory extends EFactory
    * @generated
    */
   UpdateType createUpdateType();
+
+  /**
+   * Returns a new object of class '<em>MACRO VALUE CAP</em>'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return a new object of class '<em>MACRO VALUE CAP</em>'.
+   * @generated
+   */
+  MACRO_VALUE_CAP createMACRO_VALUE_CAP();
 
   /**
    * Returns a new object of class '<em>ASN1 TYPE</em>'.
@@ -174,6 +210,15 @@ public interface SmiFactory extends EFactory
    * @generated
    */
   ASN1_CHOICE_ENTRY createASN1_CHOICE_ENTRY();
+
+  /**
+   * Returns a new object of class '<em>Choice Type</em>'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return a new object of class '<em>Choice Type</em>'.
+   * @generated
+   */
+  ChoiceType createChoiceType();
 
   /**
    * Returns a new object of class '<em>Macro Value</em>'.

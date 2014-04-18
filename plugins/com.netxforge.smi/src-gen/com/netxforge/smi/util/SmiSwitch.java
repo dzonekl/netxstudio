@@ -107,11 +107,25 @@ public class SmiSwitch<T> extends Switch<T>
         if (result == null) result = defaultCase(theEObject);
         return result;
       }
+      case SmiPackage.TYPE_NOTATION:
+      {
+        TypeNotation typeNotation = (TypeNotation)theEObject;
+        T result = caseTypeNotation(typeNotation);
+        if (result == null) result = defaultCase(theEObject);
+        return result;
+      }
+      case SmiPackage.VALUE_NOTATION:
+      {
+        ValueNotation valueNotation = (ValueNotation)theEObject;
+        T result = caseValueNotation(valueNotation);
+        if (result == null) result = defaultCase(theEObject);
+        return result;
+      }
       case SmiPackage.TYPE_ASSIGNMENT:
       {
         TypeAssignment typeAssignment = (TypeAssignment)theEObject;
         T result = caseTypeAssignment(typeAssignment);
-        if (result == null) result = caseTypeNotation(typeAssignment);
+        if (result == null) result = caseTypeNotationRight(typeAssignment);
         if (result == null) result = defaultCase(theEObject);
         return result;
       }
@@ -120,14 +134,14 @@ public class SmiSwitch<T> extends Switch<T>
         ParamAssignment paramAssignment = (ParamAssignment)theEObject;
         T result = caseParamAssignment(paramAssignment);
         if (result == null) result = caseTypeAssignment(paramAssignment);
-        if (result == null) result = caseTypeNotation(paramAssignment);
+        if (result == null) result = caseTypeNotationRight(paramAssignment);
         if (result == null) result = defaultCase(theEObject);
         return result;
       }
-      case SmiPackage.TYPE_NOTATION:
+      case SmiPackage.TYPE_NOTATION_RIGHT:
       {
-        TypeNotation typeNotation = (TypeNotation)theEObject;
-        T result = caseTypeNotation(typeNotation);
+        TypeNotationRight typeNotationRight = (TypeNotationRight)theEObject;
+        T result = caseTypeNotationRight(typeNotationRight);
         if (result == null) result = defaultCase(theEObject);
         return result;
       }
@@ -136,7 +150,14 @@ public class SmiSwitch<T> extends Switch<T>
         Value value = (Value)theEObject;
         T result = caseValue(value);
         if (result == null) result = caseTypeAssignment(value);
-        if (result == null) result = caseTypeNotation(value);
+        if (result == null) result = caseTypeNotationRight(value);
+        if (result == null) result = defaultCase(theEObject);
+        return result;
+      }
+      case SmiPackage.TAG:
+      {
+        Tag tag = (Tag)theEObject;
+        T result = caseTag(tag);
         if (result == null) result = defaultCase(theEObject);
         return result;
       }
@@ -158,6 +179,13 @@ public class SmiSwitch<T> extends Switch<T>
       {
         UpdateType updateType = (UpdateType)theEObject;
         T result = caseUpdateType(updateType);
+        if (result == null) result = defaultCase(theEObject);
+        return result;
+      }
+      case SmiPackage.MACRO_VALUE_CAP:
+      {
+        MACRO_VALUE_CAP macrO_VALUE_CAP = (MACRO_VALUE_CAP)theEObject;
+        T result = caseMACRO_VALUE_CAP(macrO_VALUE_CAP);
         if (result == null) result = defaultCase(theEObject);
         return result;
       }
@@ -198,13 +226,20 @@ public class SmiSwitch<T> extends Switch<T>
         if (result == null) result = defaultCase(theEObject);
         return result;
       }
+      case SmiPackage.CHOICE_TYPE:
+      {
+        ChoiceType choiceType = (ChoiceType)theEObject;
+        T result = caseChoiceType(choiceType);
+        if (result == null) result = defaultCase(theEObject);
+        return result;
+      }
       case SmiPackage.MACRO_VALUE:
       {
         MacroValue macroValue = (MacroValue)theEObject;
         T result = caseMacroValue(macroValue);
         if (result == null) result = caseValue(macroValue);
         if (result == null) result = caseTypeAssignment(macroValue);
-        if (result == null) result = caseTypeNotation(macroValue);
+        if (result == null) result = caseTypeNotationRight(macroValue);
         if (result == null) result = defaultCase(theEObject);
         return result;
       }
@@ -302,6 +337,38 @@ public class SmiSwitch<T> extends Switch<T>
   }
 
   /**
+   * Returns the result of interpreting the object as an instance of '<em>Type Notation</em>'.
+   * <!-- begin-user-doc -->
+   * This implementation returns null;
+   * returning a non-null result will terminate the switch.
+   * <!-- end-user-doc -->
+   * @param object the target of the switch.
+   * @return the result of interpreting the object as an instance of '<em>Type Notation</em>'.
+   * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+   * @generated
+   */
+  public T caseTypeNotation(TypeNotation object)
+  {
+    return null;
+  }
+
+  /**
+   * Returns the result of interpreting the object as an instance of '<em>Value Notation</em>'.
+   * <!-- begin-user-doc -->
+   * This implementation returns null;
+   * returning a non-null result will terminate the switch.
+   * <!-- end-user-doc -->
+   * @param object the target of the switch.
+   * @return the result of interpreting the object as an instance of '<em>Value Notation</em>'.
+   * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+   * @generated
+   */
+  public T caseValueNotation(ValueNotation object)
+  {
+    return null;
+  }
+
+  /**
    * Returns the result of interpreting the object as an instance of '<em>Type Assignment</em>'.
    * <!-- begin-user-doc -->
    * This implementation returns null;
@@ -334,17 +401,17 @@ public class SmiSwitch<T> extends Switch<T>
   }
 
   /**
-   * Returns the result of interpreting the object as an instance of '<em>Type Notation</em>'.
+   * Returns the result of interpreting the object as an instance of '<em>Type Notation Right</em>'.
    * <!-- begin-user-doc -->
    * This implementation returns null;
    * returning a non-null result will terminate the switch.
    * <!-- end-user-doc -->
    * @param object the target of the switch.
-   * @return the result of interpreting the object as an instance of '<em>Type Notation</em>'.
+   * @return the result of interpreting the object as an instance of '<em>Type Notation Right</em>'.
    * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
    * @generated
    */
-  public T caseTypeNotation(TypeNotation object)
+  public T caseTypeNotationRight(TypeNotationRight object)
   {
     return null;
   }
@@ -361,6 +428,22 @@ public class SmiSwitch<T> extends Switch<T>
    * @generated
    */
   public T caseValue(Value object)
+  {
+    return null;
+  }
+
+  /**
+   * Returns the result of interpreting the object as an instance of '<em>Tag</em>'.
+   * <!-- begin-user-doc -->
+   * This implementation returns null;
+   * returning a non-null result will terminate the switch.
+   * <!-- end-user-doc -->
+   * @param object the target of the switch.
+   * @return the result of interpreting the object as an instance of '<em>Tag</em>'.
+   * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+   * @generated
+   */
+  public T caseTag(Tag object)
   {
     return null;
   }
@@ -409,6 +492,22 @@ public class SmiSwitch<T> extends Switch<T>
    * @generated
    */
   public T caseUpdateType(UpdateType object)
+  {
+    return null;
+  }
+
+  /**
+   * Returns the result of interpreting the object as an instance of '<em>MACRO VALUE CAP</em>'.
+   * <!-- begin-user-doc -->
+   * This implementation returns null;
+   * returning a non-null result will terminate the switch.
+   * <!-- end-user-doc -->
+   * @param object the target of the switch.
+   * @return the result of interpreting the object as an instance of '<em>MACRO VALUE CAP</em>'.
+   * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+   * @generated
+   */
+  public T caseMACRO_VALUE_CAP(MACRO_VALUE_CAP object)
   {
     return null;
   }
@@ -489,6 +588,22 @@ public class SmiSwitch<T> extends Switch<T>
    * @generated
    */
   public T caseASN1_CHOICE_ENTRY(ASN1_CHOICE_ENTRY object)
+  {
+    return null;
+  }
+
+  /**
+   * Returns the result of interpreting the object as an instance of '<em>Choice Type</em>'.
+   * <!-- begin-user-doc -->
+   * This implementation returns null;
+   * returning a non-null result will terminate the switch.
+   * <!-- end-user-doc -->
+   * @param object the target of the switch.
+   * @return the result of interpreting the object as an instance of '<em>Choice Type</em>'.
+   * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+   * @generated
+   */
+  public T caseChoiceType(ChoiceType object)
   {
     return null;
   }

@@ -14,6 +14,7 @@ import org.eclipse.emf.ecore.EObject;
  * <ul>
  *   <li>{@link com.netxforge.smi.MACRO_VALUE_TYPE#getUpdate <em>Update</em>}</li>
  *   <li>{@link com.netxforge.smi.MACRO_VALUE_TYPE#getLiteral <em>Literal</em>}</li>
+ *   <li>{@link com.netxforge.smi.MACRO_VALUE_TYPE#getString <em>String</em>}</li>
  * </ul>
  * </p>
  *
@@ -50,29 +51,55 @@ public interface MACRO_VALUE_TYPE extends EObject
   void setUpdate(UpdateType value);
 
   /**
-   * Returns the value of the '<em><b>Literal</b></em>' attribute.
+   * Returns the value of the '<em><b>Literal</b></em>' containment reference.
    * <!-- begin-user-doc -->
    * <p>
-   * If the meaning of the '<em>Literal</em>' attribute isn't clear,
+   * If the meaning of the '<em>Literal</em>' containment reference isn't clear,
    * there really should be more of a description here...
    * </p>
    * <!-- end-user-doc -->
-   * @return the value of the '<em>Literal</em>' attribute.
-   * @see #setLiteral(String)
+   * @return the value of the '<em>Literal</em>' containment reference.
+   * @see #setLiteral(MACRO_VALUE_CAP)
    * @see com.netxforge.smi.SmiPackage#getMACRO_VALUE_TYPE_Literal()
-   * @model
+   * @model containment="true"
    * @generated
    */
-  String getLiteral();
+  MACRO_VALUE_CAP getLiteral();
 
   /**
-   * Sets the value of the '{@link com.netxforge.smi.MACRO_VALUE_TYPE#getLiteral <em>Literal</em>}' attribute.
+   * Sets the value of the '{@link com.netxforge.smi.MACRO_VALUE_TYPE#getLiteral <em>Literal</em>}' containment reference.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @param value the new value of the '<em>Literal</em>' attribute.
+   * @param value the new value of the '<em>Literal</em>' containment reference.
    * @see #getLiteral()
    * @generated
    */
-  void setLiteral(String value);
+  void setLiteral(MACRO_VALUE_CAP value);
+
+  /**
+   * Returns the value of the '<em><b>String</b></em>' attribute.
+   * <!-- begin-user-doc -->
+   * <p>
+   * If the meaning of the '<em>String</em>' attribute isn't clear,
+   * there really should be more of a description here...
+   * </p>
+   * <!-- end-user-doc -->
+   * @return the value of the '<em>String</em>' attribute.
+   * @see #setString(String)
+   * @see com.netxforge.smi.SmiPackage#getMACRO_VALUE_TYPE_String()
+   * @model
+   * @generated
+   */
+  String getString();
+
+  /**
+   * Sets the value of the '{@link com.netxforge.smi.MACRO_VALUE_TYPE#getString <em>String</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @param value the new value of the '<em>String</em>' attribute.
+   * @see #getString()
+   * @generated
+   */
+  void setString(String value);
 
 } // MACRO_VALUE_TYPE

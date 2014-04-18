@@ -4,7 +4,7 @@ package com.netxforge.smi.impl;
 
 import com.netxforge.smi.ParamAssignment;
 import com.netxforge.smi.SmiPackage;
-import com.netxforge.smi.TypeNotation;
+import com.netxforge.smi.TypeNotationRight;
 
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
@@ -58,7 +58,7 @@ public class ParamAssignmentImpl extends TypeAssignmentImpl implements ParamAssi
    * @generated
    * @ordered
    */
-  protected TypeNotation right;
+  protected TypeNotationRight right;
 
   /**
    * <!-- begin-user-doc -->
@@ -109,7 +109,7 @@ public class ParamAssignmentImpl extends TypeAssignmentImpl implements ParamAssi
    * <!-- end-user-doc -->
    * @generated
    */
-  public TypeNotation getRight()
+  public TypeNotationRight getRight()
   {
     return right;
   }
@@ -119,9 +119,9 @@ public class ParamAssignmentImpl extends TypeAssignmentImpl implements ParamAssi
    * <!-- end-user-doc -->
    * @generated
    */
-  public NotificationChain basicSetRight(TypeNotation newRight, NotificationChain msgs)
+  public NotificationChain basicSetRight(TypeNotationRight newRight, NotificationChain msgs)
   {
-    TypeNotation oldRight = right;
+    TypeNotationRight oldRight = right;
     right = newRight;
     if (eNotificationRequired())
     {
@@ -136,7 +136,7 @@ public class ParamAssignmentImpl extends TypeAssignmentImpl implements ParamAssi
    * <!-- end-user-doc -->
    * @generated
    */
-  public void setRight(TypeNotation newRight)
+  public void setRight(TypeNotationRight newRight)
   {
     if (newRight != right)
     {
@@ -200,7 +200,7 @@ public class ParamAssignmentImpl extends TypeAssignmentImpl implements ParamAssi
         setParam((String)newValue);
         return;
       case SmiPackage.PARAM_ASSIGNMENT__RIGHT:
-        setRight((TypeNotation)newValue);
+        setRight((TypeNotationRight)newValue);
         return;
     }
     super.eSet(featureID, newValue);
@@ -220,7 +220,7 @@ public class ParamAssignmentImpl extends TypeAssignmentImpl implements ParamAssi
         setParam(PARAM_EDEFAULT);
         return;
       case SmiPackage.PARAM_ASSIGNMENT__RIGHT:
-        setRight((TypeNotation)null);
+        setRight((TypeNotationRight)null);
         return;
     }
     super.eUnset(featureID);

@@ -3,10 +3,11 @@
 package com.netxforge.smi.impl;
 
 import com.netxforge.smi.ASN1_CHOICE_ENTRY;
+import com.netxforge.smi.ChoiceType;
 import com.netxforge.smi.SmiPackage;
-import com.netxforge.smi.Value;
 
 import org.eclipse.emf.common.notify.Notification;
+import org.eclipse.emf.common.notify.NotificationChain;
 
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.InternalEObject;
@@ -51,14 +52,14 @@ public class ASN1_CHOICE_ENTRYImpl extends MinimalEObjectImpl.Container implemen
   protected String id = ID_EDEFAULT;
 
   /**
-   * The cached value of the '{@link #getValueType() <em>Value Type</em>}' reference.
+   * The cached value of the '{@link #getValueType() <em>Value Type</em>}' containment reference.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @see #getValueType()
    * @generated
    * @ordered
    */
-  protected Value valueType;
+  protected ChoiceType valueType;
 
   /**
    * <!-- begin-user-doc -->
@@ -109,27 +110,7 @@ public class ASN1_CHOICE_ENTRYImpl extends MinimalEObjectImpl.Container implemen
    * <!-- end-user-doc -->
    * @generated
    */
-  public Value getValueType()
-  {
-    if (valueType != null && valueType.eIsProxy())
-    {
-      InternalEObject oldValueType = (InternalEObject)valueType;
-      valueType = (Value)eResolveProxy(oldValueType);
-      if (valueType != oldValueType)
-      {
-        if (eNotificationRequired())
-          eNotify(new ENotificationImpl(this, Notification.RESOLVE, SmiPackage.ASN1_CHOICE_ENTRY__VALUE_TYPE, oldValueType, valueType));
-      }
-    }
-    return valueType;
-  }
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  public Value basicGetValueType()
+  public ChoiceType getValueType()
   {
     return valueType;
   }
@@ -139,12 +120,53 @@ public class ASN1_CHOICE_ENTRYImpl extends MinimalEObjectImpl.Container implemen
    * <!-- end-user-doc -->
    * @generated
    */
-  public void setValueType(Value newValueType)
+  public NotificationChain basicSetValueType(ChoiceType newValueType, NotificationChain msgs)
   {
-    Value oldValueType = valueType;
+    ChoiceType oldValueType = valueType;
     valueType = newValueType;
     if (eNotificationRequired())
-      eNotify(new ENotificationImpl(this, Notification.SET, SmiPackage.ASN1_CHOICE_ENTRY__VALUE_TYPE, oldValueType, valueType));
+    {
+      ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, SmiPackage.ASN1_CHOICE_ENTRY__VALUE_TYPE, oldValueType, newValueType);
+      if (msgs == null) msgs = notification; else msgs.add(notification);
+    }
+    return msgs;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public void setValueType(ChoiceType newValueType)
+  {
+    if (newValueType != valueType)
+    {
+      NotificationChain msgs = null;
+      if (valueType != null)
+        msgs = ((InternalEObject)valueType).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - SmiPackage.ASN1_CHOICE_ENTRY__VALUE_TYPE, null, msgs);
+      if (newValueType != null)
+        msgs = ((InternalEObject)newValueType).eInverseAdd(this, EOPPOSITE_FEATURE_BASE - SmiPackage.ASN1_CHOICE_ENTRY__VALUE_TYPE, null, msgs);
+      msgs = basicSetValueType(newValueType, msgs);
+      if (msgs != null) msgs.dispatch();
+    }
+    else if (eNotificationRequired())
+      eNotify(new ENotificationImpl(this, Notification.SET, SmiPackage.ASN1_CHOICE_ENTRY__VALUE_TYPE, newValueType, newValueType));
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  @Override
+  public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs)
+  {
+    switch (featureID)
+    {
+      case SmiPackage.ASN1_CHOICE_ENTRY__VALUE_TYPE:
+        return basicSetValueType(null, msgs);
+    }
+    return super.eInverseRemove(otherEnd, featureID, msgs);
   }
 
   /**
@@ -160,8 +182,7 @@ public class ASN1_CHOICE_ENTRYImpl extends MinimalEObjectImpl.Container implemen
       case SmiPackage.ASN1_CHOICE_ENTRY__ID:
         return getId();
       case SmiPackage.ASN1_CHOICE_ENTRY__VALUE_TYPE:
-        if (resolve) return getValueType();
-        return basicGetValueType();
+        return getValueType();
     }
     return super.eGet(featureID, resolve, coreType);
   }
@@ -180,7 +201,7 @@ public class ASN1_CHOICE_ENTRYImpl extends MinimalEObjectImpl.Container implemen
         setId((String)newValue);
         return;
       case SmiPackage.ASN1_CHOICE_ENTRY__VALUE_TYPE:
-        setValueType((Value)newValue);
+        setValueType((ChoiceType)newValue);
         return;
     }
     super.eSet(featureID, newValue);
@@ -200,7 +221,7 @@ public class ASN1_CHOICE_ENTRYImpl extends MinimalEObjectImpl.Container implemen
         setId(ID_EDEFAULT);
         return;
       case SmiPackage.ASN1_CHOICE_ENTRY__VALUE_TYPE:
-        setValueType((Value)null);
+        setValueType((ChoiceType)null);
         return;
     }
     super.eUnset(featureID);

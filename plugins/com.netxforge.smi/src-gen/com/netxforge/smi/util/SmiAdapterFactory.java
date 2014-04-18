@@ -100,6 +100,16 @@ public class SmiAdapterFactory extends AdapterFactoryImpl
         return createMacroAdapter();
       }
       @Override
+      public Adapter caseTypeNotation(TypeNotation object)
+      {
+        return createTypeNotationAdapter();
+      }
+      @Override
+      public Adapter caseValueNotation(ValueNotation object)
+      {
+        return createValueNotationAdapter();
+      }
+      @Override
       public Adapter caseTypeAssignment(TypeAssignment object)
       {
         return createTypeAssignmentAdapter();
@@ -110,14 +120,19 @@ public class SmiAdapterFactory extends AdapterFactoryImpl
         return createParamAssignmentAdapter();
       }
       @Override
-      public Adapter caseTypeNotation(TypeNotation object)
+      public Adapter caseTypeNotationRight(TypeNotationRight object)
       {
-        return createTypeNotationAdapter();
+        return createTypeNotationRightAdapter();
       }
       @Override
       public Adapter caseValue(Value object)
       {
         return createValueAdapter();
+      }
+      @Override
+      public Adapter caseTag(Tag object)
+      {
+        return createTagAdapter();
       }
       @Override
       public Adapter caseValueType(ValueType object)
@@ -133,6 +148,11 @@ public class SmiAdapterFactory extends AdapterFactoryImpl
       public Adapter caseUpdateType(UpdateType object)
       {
         return createUpdateTypeAdapter();
+      }
+      @Override
+      public Adapter caseMACRO_VALUE_CAP(MACRO_VALUE_CAP object)
+      {
+        return createMACRO_VALUE_CAPAdapter();
       }
       @Override
       public Adapter caseASN1_TYPE(ASN1_TYPE object)
@@ -158,6 +178,11 @@ public class SmiAdapterFactory extends AdapterFactoryImpl
       public Adapter caseASN1_CHOICE_ENTRY(ASN1_CHOICE_ENTRY object)
       {
         return createASN1_CHOICE_ENTRYAdapter();
+      }
+      @Override
+      public Adapter caseChoiceType(ChoiceType object)
+      {
+        return createChoiceTypeAdapter();
       }
       @Override
       public Adapter caseMacroValue(MacroValue object)
@@ -267,6 +292,36 @@ public class SmiAdapterFactory extends AdapterFactoryImpl
   }
 
   /**
+   * Creates a new adapter for an object of class '{@link com.netxforge.smi.TypeNotation <em>Type Notation</em>}'.
+   * <!-- begin-user-doc -->
+   * This default implementation returns null so that we can easily ignore cases;
+   * it's useful to ignore a case when inheritance will catch all the cases anyway.
+   * <!-- end-user-doc -->
+   * @return the new adapter.
+   * @see com.netxforge.smi.TypeNotation
+   * @generated
+   */
+  public Adapter createTypeNotationAdapter()
+  {
+    return null;
+  }
+
+  /**
+   * Creates a new adapter for an object of class '{@link com.netxforge.smi.ValueNotation <em>Value Notation</em>}'.
+   * <!-- begin-user-doc -->
+   * This default implementation returns null so that we can easily ignore cases;
+   * it's useful to ignore a case when inheritance will catch all the cases anyway.
+   * <!-- end-user-doc -->
+   * @return the new adapter.
+   * @see com.netxforge.smi.ValueNotation
+   * @generated
+   */
+  public Adapter createValueNotationAdapter()
+  {
+    return null;
+  }
+
+  /**
    * Creates a new adapter for an object of class '{@link com.netxforge.smi.TypeAssignment <em>Type Assignment</em>}'.
    * <!-- begin-user-doc -->
    * This default implementation returns null so that we can easily ignore cases;
@@ -297,16 +352,16 @@ public class SmiAdapterFactory extends AdapterFactoryImpl
   }
 
   /**
-   * Creates a new adapter for an object of class '{@link com.netxforge.smi.TypeNotation <em>Type Notation</em>}'.
+   * Creates a new adapter for an object of class '{@link com.netxforge.smi.TypeNotationRight <em>Type Notation Right</em>}'.
    * <!-- begin-user-doc -->
    * This default implementation returns null so that we can easily ignore cases;
    * it's useful to ignore a case when inheritance will catch all the cases anyway.
    * <!-- end-user-doc -->
    * @return the new adapter.
-   * @see com.netxforge.smi.TypeNotation
+   * @see com.netxforge.smi.TypeNotationRight
    * @generated
    */
-  public Adapter createTypeNotationAdapter()
+  public Adapter createTypeNotationRightAdapter()
   {
     return null;
   }
@@ -322,6 +377,21 @@ public class SmiAdapterFactory extends AdapterFactoryImpl
    * @generated
    */
   public Adapter createValueAdapter()
+  {
+    return null;
+  }
+
+  /**
+   * Creates a new adapter for an object of class '{@link com.netxforge.smi.Tag <em>Tag</em>}'.
+   * <!-- begin-user-doc -->
+   * This default implementation returns null so that we can easily ignore cases;
+   * it's useful to ignore a case when inheritance will catch all the cases anyway.
+   * <!-- end-user-doc -->
+   * @return the new adapter.
+   * @see com.netxforge.smi.Tag
+   * @generated
+   */
+  public Adapter createTagAdapter()
   {
     return null;
   }
@@ -367,6 +437,21 @@ public class SmiAdapterFactory extends AdapterFactoryImpl
    * @generated
    */
   public Adapter createUpdateTypeAdapter()
+  {
+    return null;
+  }
+
+  /**
+   * Creates a new adapter for an object of class '{@link com.netxforge.smi.MACRO_VALUE_CAP <em>MACRO VALUE CAP</em>}'.
+   * <!-- begin-user-doc -->
+   * This default implementation returns null so that we can easily ignore cases;
+   * it's useful to ignore a case when inheritance will catch all the cases anyway.
+   * <!-- end-user-doc -->
+   * @return the new adapter.
+   * @see com.netxforge.smi.MACRO_VALUE_CAP
+   * @generated
+   */
+  public Adapter createMACRO_VALUE_CAPAdapter()
   {
     return null;
   }
@@ -442,6 +527,21 @@ public class SmiAdapterFactory extends AdapterFactoryImpl
    * @generated
    */
   public Adapter createASN1_CHOICE_ENTRYAdapter()
+  {
+    return null;
+  }
+
+  /**
+   * Creates a new adapter for an object of class '{@link com.netxforge.smi.ChoiceType <em>Choice Type</em>}'.
+   * <!-- begin-user-doc -->
+   * This default implementation returns null so that we can easily ignore cases;
+   * it's useful to ignore a case when inheritance will catch all the cases anyway.
+   * <!-- end-user-doc -->
+   * @return the new adapter.
+   * @see com.netxforge.smi.ChoiceType
+   * @generated
+   */
+  public Adapter createChoiceTypeAdapter()
   {
     return null;
   }

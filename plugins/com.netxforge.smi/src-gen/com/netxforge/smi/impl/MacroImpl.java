@@ -4,9 +4,9 @@ package com.netxforge.smi.impl;
 
 import com.netxforge.smi.Macro;
 import com.netxforge.smi.SmiPackage;
-import com.netxforge.smi.TypeAssignment;
 import com.netxforge.smi.TypeDefinition;
-import com.netxforge.smi.Value;
+import com.netxforge.smi.TypeNotation;
+import com.netxforge.smi.ValueNotation;
 
 import java.util.Collection;
 
@@ -32,7 +32,7 @@ import org.eclipse.emf.ecore.util.InternalEList;
  * The following features are implemented:
  * <ul>
  *   <li>{@link com.netxforge.smi.impl.MacroImpl#getName <em>Name</em>}</li>
- *   <li>{@link com.netxforge.smi.impl.MacroImpl#getTypeNotations <em>Type Notations</em>}</li>
+ *   <li>{@link com.netxforge.smi.impl.MacroImpl#getTypeNotation <em>Type Notation</em>}</li>
  *   <li>{@link com.netxforge.smi.impl.MacroImpl#getValueNotation <em>Value Notation</em>}</li>
  *   <li>{@link com.netxforge.smi.impl.MacroImpl#getInnerTypes <em>Inner Types</em>}</li>
  * </ul>
@@ -63,14 +63,14 @@ public class MacroImpl extends MinimalEObjectImpl.Container implements Macro
   protected String name = NAME_EDEFAULT;
 
   /**
-   * The cached value of the '{@link #getTypeNotations() <em>Type Notations</em>}' containment reference list.
+   * The cached value of the '{@link #getTypeNotation() <em>Type Notation</em>}' containment reference.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @see #getTypeNotations()
+   * @see #getTypeNotation()
    * @generated
    * @ordered
    */
-  protected EList<TypeAssignment> typeNotations;
+  protected TypeNotation typeNotation;
 
   /**
    * The cached value of the '{@link #getValueNotation() <em>Value Notation</em>}' containment reference.
@@ -80,7 +80,7 @@ public class MacroImpl extends MinimalEObjectImpl.Container implements Macro
    * @generated
    * @ordered
    */
-  protected Value valueNotation;
+  protected ValueNotation valueNotation;
 
   /**
    * The cached value of the '{@link #getInnerTypes() <em>Inner Types</em>}' containment reference list.
@@ -141,13 +141,9 @@ public class MacroImpl extends MinimalEObjectImpl.Container implements Macro
    * <!-- end-user-doc -->
    * @generated
    */
-  public EList<TypeAssignment> getTypeNotations()
+  public TypeNotation getTypeNotation()
   {
-    if (typeNotations == null)
-    {
-      typeNotations = new EObjectContainmentEList<TypeAssignment>(TypeAssignment.class, this, SmiPackage.MACRO__TYPE_NOTATIONS);
-    }
-    return typeNotations;
+    return typeNotation;
   }
 
   /**
@@ -155,7 +151,45 @@ public class MacroImpl extends MinimalEObjectImpl.Container implements Macro
    * <!-- end-user-doc -->
    * @generated
    */
-  public Value getValueNotation()
+  public NotificationChain basicSetTypeNotation(TypeNotation newTypeNotation, NotificationChain msgs)
+  {
+    TypeNotation oldTypeNotation = typeNotation;
+    typeNotation = newTypeNotation;
+    if (eNotificationRequired())
+    {
+      ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, SmiPackage.MACRO__TYPE_NOTATION, oldTypeNotation, newTypeNotation);
+      if (msgs == null) msgs = notification; else msgs.add(notification);
+    }
+    return msgs;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public void setTypeNotation(TypeNotation newTypeNotation)
+  {
+    if (newTypeNotation != typeNotation)
+    {
+      NotificationChain msgs = null;
+      if (typeNotation != null)
+        msgs = ((InternalEObject)typeNotation).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - SmiPackage.MACRO__TYPE_NOTATION, null, msgs);
+      if (newTypeNotation != null)
+        msgs = ((InternalEObject)newTypeNotation).eInverseAdd(this, EOPPOSITE_FEATURE_BASE - SmiPackage.MACRO__TYPE_NOTATION, null, msgs);
+      msgs = basicSetTypeNotation(newTypeNotation, msgs);
+      if (msgs != null) msgs.dispatch();
+    }
+    else if (eNotificationRequired())
+      eNotify(new ENotificationImpl(this, Notification.SET, SmiPackage.MACRO__TYPE_NOTATION, newTypeNotation, newTypeNotation));
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public ValueNotation getValueNotation()
   {
     return valueNotation;
   }
@@ -165,9 +199,9 @@ public class MacroImpl extends MinimalEObjectImpl.Container implements Macro
    * <!-- end-user-doc -->
    * @generated
    */
-  public NotificationChain basicSetValueNotation(Value newValueNotation, NotificationChain msgs)
+  public NotificationChain basicSetValueNotation(ValueNotation newValueNotation, NotificationChain msgs)
   {
-    Value oldValueNotation = valueNotation;
+    ValueNotation oldValueNotation = valueNotation;
     valueNotation = newValueNotation;
     if (eNotificationRequired())
     {
@@ -182,7 +216,7 @@ public class MacroImpl extends MinimalEObjectImpl.Container implements Macro
    * <!-- end-user-doc -->
    * @generated
    */
-  public void setValueNotation(Value newValueNotation)
+  public void setValueNotation(ValueNotation newValueNotation)
   {
     if (newValueNotation != valueNotation)
     {
@@ -222,8 +256,8 @@ public class MacroImpl extends MinimalEObjectImpl.Container implements Macro
   {
     switch (featureID)
     {
-      case SmiPackage.MACRO__TYPE_NOTATIONS:
-        return ((InternalEList<?>)getTypeNotations()).basicRemove(otherEnd, msgs);
+      case SmiPackage.MACRO__TYPE_NOTATION:
+        return basicSetTypeNotation(null, msgs);
       case SmiPackage.MACRO__VALUE_NOTATION:
         return basicSetValueNotation(null, msgs);
       case SmiPackage.MACRO__INNER_TYPES:
@@ -244,8 +278,8 @@ public class MacroImpl extends MinimalEObjectImpl.Container implements Macro
     {
       case SmiPackage.MACRO__NAME:
         return getName();
-      case SmiPackage.MACRO__TYPE_NOTATIONS:
-        return getTypeNotations();
+      case SmiPackage.MACRO__TYPE_NOTATION:
+        return getTypeNotation();
       case SmiPackage.MACRO__VALUE_NOTATION:
         return getValueNotation();
       case SmiPackage.MACRO__INNER_TYPES:
@@ -268,12 +302,11 @@ public class MacroImpl extends MinimalEObjectImpl.Container implements Macro
       case SmiPackage.MACRO__NAME:
         setName((String)newValue);
         return;
-      case SmiPackage.MACRO__TYPE_NOTATIONS:
-        getTypeNotations().clear();
-        getTypeNotations().addAll((Collection<? extends TypeAssignment>)newValue);
+      case SmiPackage.MACRO__TYPE_NOTATION:
+        setTypeNotation((TypeNotation)newValue);
         return;
       case SmiPackage.MACRO__VALUE_NOTATION:
-        setValueNotation((Value)newValue);
+        setValueNotation((ValueNotation)newValue);
         return;
       case SmiPackage.MACRO__INNER_TYPES:
         getInnerTypes().clear();
@@ -296,11 +329,11 @@ public class MacroImpl extends MinimalEObjectImpl.Container implements Macro
       case SmiPackage.MACRO__NAME:
         setName(NAME_EDEFAULT);
         return;
-      case SmiPackage.MACRO__TYPE_NOTATIONS:
-        getTypeNotations().clear();
+      case SmiPackage.MACRO__TYPE_NOTATION:
+        setTypeNotation((TypeNotation)null);
         return;
       case SmiPackage.MACRO__VALUE_NOTATION:
-        setValueNotation((Value)null);
+        setValueNotation((ValueNotation)null);
         return;
       case SmiPackage.MACRO__INNER_TYPES:
         getInnerTypes().clear();
@@ -321,8 +354,8 @@ public class MacroImpl extends MinimalEObjectImpl.Container implements Macro
     {
       case SmiPackage.MACRO__NAME:
         return NAME_EDEFAULT == null ? name != null : !NAME_EDEFAULT.equals(name);
-      case SmiPackage.MACRO__TYPE_NOTATIONS:
-        return typeNotations != null && !typeNotations.isEmpty();
+      case SmiPackage.MACRO__TYPE_NOTATION:
+        return typeNotation != null;
       case SmiPackage.MACRO__VALUE_NOTATION:
         return valueNotation != null;
       case SmiPackage.MACRO__INNER_TYPES:

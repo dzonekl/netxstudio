@@ -50,29 +50,29 @@ public interface ASN1_CHOICE_ENTRY extends EObject
   void setId(String value);
 
   /**
-   * Returns the value of the '<em><b>Value Type</b></em>' reference.
+   * Returns the value of the '<em><b>Value Type</b></em>' containment reference.
    * <!-- begin-user-doc -->
    * <p>
-   * If the meaning of the '<em>Value Type</em>' reference isn't clear,
+   * If the meaning of the '<em>Value Type</em>' containment reference isn't clear,
    * there really should be more of a description here...
    * </p>
    * <!-- end-user-doc -->
-   * @return the value of the '<em>Value Type</em>' reference.
-   * @see #setValueType(Value)
+   * @return the value of the '<em>Value Type</em>' containment reference.
+   * @see #setValueType(ChoiceType)
    * @see com.netxforge.smi.SmiPackage#getASN1_CHOICE_ENTRY_ValueType()
-   * @model
+   * @model containment="true"
    * @generated
    */
-  Value getValueType();
+  ChoiceType getValueType();
 
   /**
-   * Sets the value of the '{@link com.netxforge.smi.ASN1_CHOICE_ENTRY#getValueType <em>Value Type</em>}' reference.
+   * Sets the value of the '{@link com.netxforge.smi.ASN1_CHOICE_ENTRY#getValueType <em>Value Type</em>}' containment reference.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @param value the new value of the '<em>Value Type</em>' reference.
+   * @param value the new value of the '<em>Value Type</em>' containment reference.
    * @see #getValueType()
    * @generated
    */
-  void setValueType(Value value);
+  void setValueType(ChoiceType value);
 
 } // ASN1_CHOICE_ENTRY

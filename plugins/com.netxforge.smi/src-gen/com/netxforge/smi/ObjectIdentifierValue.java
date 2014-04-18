@@ -2,6 +2,8 @@
  */
 package com.netxforge.smi;
 
+import java.math.BigInteger;
+
 import org.eclipse.emf.common.util.EList;
 
 import org.eclipse.emf.ecore.EObject;
@@ -14,7 +16,7 @@ import org.eclipse.emf.ecore.EObject;
  * <p>
  * The following features are supported:
  * <ul>
- *   <li>{@link com.netxforge.smi.ObjectIdentifierValue#getRoot <em>Root</em>}</li>
+ *   <li>{@link com.netxforge.smi.ObjectIdentifierValue#getName <em>Name</em>}</li>
  *   <li>{@link com.netxforge.smi.ObjectIdentifierValue#getDescriptorReference <em>Descriptor Reference</em>}</li>
  *   <li>{@link com.netxforge.smi.ObjectIdentifierValue#getSubIds <em>Sub Ids</em>}</li>
  * </ul>
@@ -27,30 +29,30 @@ import org.eclipse.emf.ecore.EObject;
 public interface ObjectIdentifierValue extends EObject
 {
   /**
-   * Returns the value of the '<em><b>Root</b></em>' attribute.
+   * Returns the value of the '<em><b>Name</b></em>' attribute.
    * <!-- begin-user-doc -->
    * <p>
-   * If the meaning of the '<em>Root</em>' attribute isn't clear,
+   * If the meaning of the '<em>Name</em>' attribute isn't clear,
    * there really should be more of a description here...
    * </p>
    * <!-- end-user-doc -->
-   * @return the value of the '<em>Root</em>' attribute.
-   * @see #setRoot(String)
-   * @see com.netxforge.smi.SmiPackage#getObjectIdentifierValue_Root()
+   * @return the value of the '<em>Name</em>' attribute.
+   * @see #setName(String)
+   * @see com.netxforge.smi.SmiPackage#getObjectIdentifierValue_Name()
    * @model
    * @generated
    */
-  String getRoot();
+  String getName();
 
   /**
-   * Sets the value of the '{@link com.netxforge.smi.ObjectIdentifierValue#getRoot <em>Root</em>}' attribute.
+   * Sets the value of the '{@link com.netxforge.smi.ObjectIdentifierValue#getName <em>Name</em>}' attribute.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @param value the new value of the '<em>Root</em>' attribute.
-   * @see #getRoot()
+   * @param value the new value of the '<em>Name</em>' attribute.
+   * @see #getName()
    * @generated
    */
-  void setRoot(String value);
+  void setName(String value);
 
   /**
    * Returns the value of the '<em><b>Descriptor Reference</b></em>' reference.
@@ -80,7 +82,7 @@ public interface ObjectIdentifierValue extends EObject
 
   /**
    * Returns the value of the '<em><b>Sub Ids</b></em>' attribute list.
-   * The list contents are of type {@link java.lang.Integer}.
+   * The list contents are of type {@link java.math.BigInteger}.
    * <!-- begin-user-doc -->
    * <p>
    * If the meaning of the '<em>Sub Ids</em>' attribute list isn't clear,
@@ -92,6 +94,6 @@ public interface ObjectIdentifierValue extends EObject
    * @model unique="false"
    * @generated
    */
-  EList<Integer> getSubIds();
+  EList<BigInteger> getSubIds();
 
 } // ObjectIdentifierValue

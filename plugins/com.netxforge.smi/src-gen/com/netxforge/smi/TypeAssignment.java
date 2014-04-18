@@ -21,7 +21,7 @@ package com.netxforge.smi;
  * @model
  * @generated
  */
-public interface TypeAssignment extends TypeNotation
+public interface TypeAssignment extends TypeNotationRight
 {
   /**
    * Returns the value of the '<em><b>Parent Ref</b></em>' containment reference.

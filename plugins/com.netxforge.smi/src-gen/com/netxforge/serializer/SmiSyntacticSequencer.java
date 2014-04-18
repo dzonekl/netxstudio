@@ -18,34 +18,44 @@ import org.eclipse.xtext.serializer.sequencer.AbstractSyntacticSequencer;
 public class SmiSyntacticSequencer extends AbstractSyntacticSequencer {
 
 	protected SmiGrammarAccess grammarAccess;
+	protected AbstractElementAlias match_ASN1_CHOICE_ENTRY_NEWLINETerminalRuleCall_1_q;
+	protected AbstractElementAlias match_ASN1_CHOICE_NEWLINETerminalRuleCall_2_p;
+	protected AbstractElementAlias match_ASN1_CHOICE_NEWLINETerminalRuleCall_4_1_p;
+	protected AbstractElementAlias match_ASN1_CHOICE_NEWLINETerminalRuleCall_5_p;
 	protected AbstractElementAlias match_ASN1_SIMPLE_EmptyKeyword_0_1_or_IA5STRINGTerminalRuleCall_1_1;
 	protected AbstractElementAlias match_Macro_NEWLINETerminalRuleCall_0_p;
-	protected AbstractElementAlias match_Macro_NEWLINETerminalRuleCall_10_p;
-	protected AbstractElementAlias match_Macro_NEWLINETerminalRuleCall_13_q;
-	protected AbstractElementAlias match_Macro_NEWLINETerminalRuleCall_16_p;
-	protected AbstractElementAlias match_Macro_NEWLINETerminalRuleCall_6_p;
+	protected AbstractElementAlias match_Macro_NEWLINETerminalRuleCall_9_p;
 	protected AbstractElementAlias match_Module_NEWLINETerminalRuleCall_8_a;
 	protected AbstractElementAlias match_ObjectIdentifier_NEWLINETerminalRuleCall_0_p;
+	protected AbstractElementAlias match_Tag_NEWLINETerminalRuleCall_0_q;
 	protected AbstractElementAlias match_TypeAssignment_NEWLINETerminalRuleCall_0_p;
 	protected AbstractElementAlias match_TypeDefinition_NEWLINETerminalRuleCall_0_p;
-	protected AbstractElementAlias match_Value_NEWLINETerminalRuleCall_0_q;
-	protected AbstractElementAlias match_Value_NEWLINETerminalRuleCall_2_0_q;
+	protected AbstractElementAlias match_TypeNotation_NEWLINETerminalRuleCall_0_p;
+	protected AbstractElementAlias match_ValueNotation_NEWLINETerminalRuleCall_0_p;
+	protected AbstractElementAlias match_ValueNotation_NEWLINETerminalRuleCall_3_q;
+	protected AbstractElementAlias match_Value_NEWLINETerminalRuleCall_1_q;
+	protected AbstractElementAlias match_Value_NEWLINETerminalRuleCall_4_0_q;
 	
 	@Inject
 	protected void init(IGrammarAccess access) {
 		grammarAccess = (SmiGrammarAccess) access;
+		match_ASN1_CHOICE_ENTRY_NEWLINETerminalRuleCall_1_q = new TokenAlias(false, true, grammarAccess.getASN1_CHOICE_ENTRYAccess().getNEWLINETerminalRuleCall_1());
+		match_ASN1_CHOICE_NEWLINETerminalRuleCall_2_p = new TokenAlias(true, false, grammarAccess.getASN1_CHOICEAccess().getNEWLINETerminalRuleCall_2());
+		match_ASN1_CHOICE_NEWLINETerminalRuleCall_4_1_p = new TokenAlias(true, false, grammarAccess.getASN1_CHOICEAccess().getNEWLINETerminalRuleCall_4_1());
+		match_ASN1_CHOICE_NEWLINETerminalRuleCall_5_p = new TokenAlias(true, false, grammarAccess.getASN1_CHOICEAccess().getNEWLINETerminalRuleCall_5());
 		match_ASN1_SIMPLE_EmptyKeyword_0_1_or_IA5STRINGTerminalRuleCall_1_1 = new AlternativeAlias(false, false, new TokenAlias(false, false, grammarAccess.getASN1_SIMPLEAccess().getEmptyKeyword_0_1()), new TokenAlias(false, false, grammarAccess.getASN1_SIMPLEAccess().getIA5STRINGTerminalRuleCall_1_1()));
 		match_Macro_NEWLINETerminalRuleCall_0_p = new TokenAlias(true, false, grammarAccess.getMacroAccess().getNEWLINETerminalRuleCall_0());
-		match_Macro_NEWLINETerminalRuleCall_10_p = new TokenAlias(true, false, grammarAccess.getMacroAccess().getNEWLINETerminalRuleCall_10());
-		match_Macro_NEWLINETerminalRuleCall_13_q = new TokenAlias(false, true, grammarAccess.getMacroAccess().getNEWLINETerminalRuleCall_13());
-		match_Macro_NEWLINETerminalRuleCall_16_p = new TokenAlias(true, false, grammarAccess.getMacroAccess().getNEWLINETerminalRuleCall_16());
-		match_Macro_NEWLINETerminalRuleCall_6_p = new TokenAlias(true, false, grammarAccess.getMacroAccess().getNEWLINETerminalRuleCall_6());
+		match_Macro_NEWLINETerminalRuleCall_9_p = new TokenAlias(true, false, grammarAccess.getMacroAccess().getNEWLINETerminalRuleCall_9());
 		match_Module_NEWLINETerminalRuleCall_8_a = new TokenAlias(true, true, grammarAccess.getModuleAccess().getNEWLINETerminalRuleCall_8());
 		match_ObjectIdentifier_NEWLINETerminalRuleCall_0_p = new TokenAlias(true, false, grammarAccess.getObjectIdentifierAccess().getNEWLINETerminalRuleCall_0());
+		match_Tag_NEWLINETerminalRuleCall_0_q = new TokenAlias(false, true, grammarAccess.getTagAccess().getNEWLINETerminalRuleCall_0());
 		match_TypeAssignment_NEWLINETerminalRuleCall_0_p = new TokenAlias(true, false, grammarAccess.getTypeAssignmentAccess().getNEWLINETerminalRuleCall_0());
 		match_TypeDefinition_NEWLINETerminalRuleCall_0_p = new TokenAlias(true, false, grammarAccess.getTypeDefinitionAccess().getNEWLINETerminalRuleCall_0());
-		match_Value_NEWLINETerminalRuleCall_0_q = new TokenAlias(false, true, grammarAccess.getValueAccess().getNEWLINETerminalRuleCall_0());
-		match_Value_NEWLINETerminalRuleCall_2_0_q = new TokenAlias(false, true, grammarAccess.getValueAccess().getNEWLINETerminalRuleCall_2_0());
+		match_TypeNotation_NEWLINETerminalRuleCall_0_p = new TokenAlias(true, false, grammarAccess.getTypeNotationAccess().getNEWLINETerminalRuleCall_0());
+		match_ValueNotation_NEWLINETerminalRuleCall_0_p = new TokenAlias(true, false, grammarAccess.getValueNotationAccess().getNEWLINETerminalRuleCall_0());
+		match_ValueNotation_NEWLINETerminalRuleCall_3_q = new TokenAlias(false, true, grammarAccess.getValueNotationAccess().getNEWLINETerminalRuleCall_3());
+		match_Value_NEWLINETerminalRuleCall_1_q = new TokenAlias(false, true, grammarAccess.getValueAccess().getNEWLINETerminalRuleCall_1());
+		match_Value_NEWLINETerminalRuleCall_4_0_q = new TokenAlias(false, true, grammarAccess.getValueAccess().getNEWLINETerminalRuleCall_4_0());
 	}
 	
 	@Override
@@ -84,37 +94,79 @@ public class SmiSyntacticSequencer extends AbstractSyntacticSequencer {
 		List<INode> transitionNodes = collectNodes(fromNode, toNode);
 		for (AbstractElementAlias syntax : transition.getAmbiguousSyntaxes()) {
 			List<INode> syntaxNodes = getNodesFor(transitionNodes, syntax);
-			if(match_ASN1_SIMPLE_EmptyKeyword_0_1_or_IA5STRINGTerminalRuleCall_1_1.equals(syntax))
+			if(match_ASN1_CHOICE_ENTRY_NEWLINETerminalRuleCall_1_q.equals(syntax))
+				emit_ASN1_CHOICE_ENTRY_NEWLINETerminalRuleCall_1_q(semanticObject, getLastNavigableState(), syntaxNodes);
+			else if(match_ASN1_CHOICE_NEWLINETerminalRuleCall_2_p.equals(syntax))
+				emit_ASN1_CHOICE_NEWLINETerminalRuleCall_2_p(semanticObject, getLastNavigableState(), syntaxNodes);
+			else if(match_ASN1_CHOICE_NEWLINETerminalRuleCall_4_1_p.equals(syntax))
+				emit_ASN1_CHOICE_NEWLINETerminalRuleCall_4_1_p(semanticObject, getLastNavigableState(), syntaxNodes);
+			else if(match_ASN1_CHOICE_NEWLINETerminalRuleCall_5_p.equals(syntax))
+				emit_ASN1_CHOICE_NEWLINETerminalRuleCall_5_p(semanticObject, getLastNavigableState(), syntaxNodes);
+			else if(match_ASN1_SIMPLE_EmptyKeyword_0_1_or_IA5STRINGTerminalRuleCall_1_1.equals(syntax))
 				emit_ASN1_SIMPLE_EmptyKeyword_0_1_or_IA5STRINGTerminalRuleCall_1_1(semanticObject, getLastNavigableState(), syntaxNodes);
 			else if(match_Macro_NEWLINETerminalRuleCall_0_p.equals(syntax))
 				emit_Macro_NEWLINETerminalRuleCall_0_p(semanticObject, getLastNavigableState(), syntaxNodes);
-			else if(match_Macro_NEWLINETerminalRuleCall_10_p.equals(syntax))
-				emit_Macro_NEWLINETerminalRuleCall_10_p(semanticObject, getLastNavigableState(), syntaxNodes);
-			else if(match_Macro_NEWLINETerminalRuleCall_13_q.equals(syntax))
-				emit_Macro_NEWLINETerminalRuleCall_13_q(semanticObject, getLastNavigableState(), syntaxNodes);
-			else if(match_Macro_NEWLINETerminalRuleCall_16_p.equals(syntax))
-				emit_Macro_NEWLINETerminalRuleCall_16_p(semanticObject, getLastNavigableState(), syntaxNodes);
-			else if(match_Macro_NEWLINETerminalRuleCall_6_p.equals(syntax))
-				emit_Macro_NEWLINETerminalRuleCall_6_p(semanticObject, getLastNavigableState(), syntaxNodes);
+			else if(match_Macro_NEWLINETerminalRuleCall_9_p.equals(syntax))
+				emit_Macro_NEWLINETerminalRuleCall_9_p(semanticObject, getLastNavigableState(), syntaxNodes);
 			else if(match_Module_NEWLINETerminalRuleCall_8_a.equals(syntax))
 				emit_Module_NEWLINETerminalRuleCall_8_a(semanticObject, getLastNavigableState(), syntaxNodes);
 			else if(match_ObjectIdentifier_NEWLINETerminalRuleCall_0_p.equals(syntax))
 				emit_ObjectIdentifier_NEWLINETerminalRuleCall_0_p(semanticObject, getLastNavigableState(), syntaxNodes);
+			else if(match_Tag_NEWLINETerminalRuleCall_0_q.equals(syntax))
+				emit_Tag_NEWLINETerminalRuleCall_0_q(semanticObject, getLastNavigableState(), syntaxNodes);
 			else if(match_TypeAssignment_NEWLINETerminalRuleCall_0_p.equals(syntax))
 				emit_TypeAssignment_NEWLINETerminalRuleCall_0_p(semanticObject, getLastNavigableState(), syntaxNodes);
 			else if(match_TypeDefinition_NEWLINETerminalRuleCall_0_p.equals(syntax))
 				emit_TypeDefinition_NEWLINETerminalRuleCall_0_p(semanticObject, getLastNavigableState(), syntaxNodes);
-			else if(match_Value_NEWLINETerminalRuleCall_0_q.equals(syntax))
-				emit_Value_NEWLINETerminalRuleCall_0_q(semanticObject, getLastNavigableState(), syntaxNodes);
-			else if(match_Value_NEWLINETerminalRuleCall_2_0_q.equals(syntax))
-				emit_Value_NEWLINETerminalRuleCall_2_0_q(semanticObject, getLastNavigableState(), syntaxNodes);
+			else if(match_TypeNotation_NEWLINETerminalRuleCall_0_p.equals(syntax))
+				emit_TypeNotation_NEWLINETerminalRuleCall_0_p(semanticObject, getLastNavigableState(), syntaxNodes);
+			else if(match_ValueNotation_NEWLINETerminalRuleCall_0_p.equals(syntax))
+				emit_ValueNotation_NEWLINETerminalRuleCall_0_p(semanticObject, getLastNavigableState(), syntaxNodes);
+			else if(match_ValueNotation_NEWLINETerminalRuleCall_3_q.equals(syntax))
+				emit_ValueNotation_NEWLINETerminalRuleCall_3_q(semanticObject, getLastNavigableState(), syntaxNodes);
+			else if(match_Value_NEWLINETerminalRuleCall_1_q.equals(syntax))
+				emit_Value_NEWLINETerminalRuleCall_1_q(semanticObject, getLastNavigableState(), syntaxNodes);
+			else if(match_Value_NEWLINETerminalRuleCall_4_0_q.equals(syntax))
+				emit_Value_NEWLINETerminalRuleCall_4_0_q(semanticObject, getLastNavigableState(), syntaxNodes);
 			else acceptNodes(getLastNavigableState(), syntaxNodes);
 		}
 	}
 
 	/**
 	 * Syntax:
-	 *     IA5STRING | 'empty'
+	 *     NEWLINE?
+	 */
+	protected void emit_ASN1_CHOICE_ENTRY_NEWLINETerminalRuleCall_1_q(EObject semanticObject, ISynNavigable transition, List<INode> nodes) {
+		acceptNodes(transition, nodes);
+	}
+	
+	/**
+	 * Syntax:
+	 *     NEWLINE+
+	 */
+	protected void emit_ASN1_CHOICE_NEWLINETerminalRuleCall_2_p(EObject semanticObject, ISynNavigable transition, List<INode> nodes) {
+		acceptNodes(transition, nodes);
+	}
+	
+	/**
+	 * Syntax:
+	 *     NEWLINE+
+	 */
+	protected void emit_ASN1_CHOICE_NEWLINETerminalRuleCall_4_1_p(EObject semanticObject, ISynNavigable transition, List<INode> nodes) {
+		acceptNodes(transition, nodes);
+	}
+	
+	/**
+	 * Syntax:
+	 *     NEWLINE+
+	 */
+	protected void emit_ASN1_CHOICE_NEWLINETerminalRuleCall_5_p(EObject semanticObject, ISynNavigable transition, List<INode> nodes) {
+		acceptNodes(transition, nodes);
+	}
+	
+	/**
+	 * Syntax:
+	 *     'empty' | IA5STRING
 	 */
 	protected void emit_ASN1_SIMPLE_EmptyKeyword_0_1_or_IA5STRINGTerminalRuleCall_1_1(EObject semanticObject, ISynNavigable transition, List<INode> nodes) {
 		acceptNodes(transition, nodes);
@@ -132,31 +184,7 @@ public class SmiSyntacticSequencer extends AbstractSyntacticSequencer {
 	 * Syntax:
 	 *     NEWLINE+
 	 */
-	protected void emit_Macro_NEWLINETerminalRuleCall_10_p(EObject semanticObject, ISynNavigable transition, List<INode> nodes) {
-		acceptNodes(transition, nodes);
-	}
-	
-	/**
-	 * Syntax:
-	 *     NEWLINE?
-	 */
-	protected void emit_Macro_NEWLINETerminalRuleCall_13_q(EObject semanticObject, ISynNavigable transition, List<INode> nodes) {
-		acceptNodes(transition, nodes);
-	}
-	
-	/**
-	 * Syntax:
-	 *     NEWLINE+
-	 */
-	protected void emit_Macro_NEWLINETerminalRuleCall_16_p(EObject semanticObject, ISynNavigable transition, List<INode> nodes) {
-		acceptNodes(transition, nodes);
-	}
-	
-	/**
-	 * Syntax:
-	 *     NEWLINE+
-	 */
-	protected void emit_Macro_NEWLINETerminalRuleCall_6_p(EObject semanticObject, ISynNavigable transition, List<INode> nodes) {
+	protected void emit_Macro_NEWLINETerminalRuleCall_9_p(EObject semanticObject, ISynNavigable transition, List<INode> nodes) {
 		acceptNodes(transition, nodes);
 	}
 	
@@ -178,6 +206,14 @@ public class SmiSyntacticSequencer extends AbstractSyntacticSequencer {
 	
 	/**
 	 * Syntax:
+	 *     NEWLINE?
+	 */
+	protected void emit_Tag_NEWLINETerminalRuleCall_0_q(EObject semanticObject, ISynNavigable transition, List<INode> nodes) {
+		acceptNodes(transition, nodes);
+	}
+	
+	/**
+	 * Syntax:
 	 *     NEWLINE+
 	 */
 	protected void emit_TypeAssignment_NEWLINETerminalRuleCall_0_p(EObject semanticObject, ISynNavigable transition, List<INode> nodes) {
@@ -194,9 +230,17 @@ public class SmiSyntacticSequencer extends AbstractSyntacticSequencer {
 	
 	/**
 	 * Syntax:
-	 *     NEWLINE?
+	 *     NEWLINE+
 	 */
-	protected void emit_Value_NEWLINETerminalRuleCall_0_q(EObject semanticObject, ISynNavigable transition, List<INode> nodes) {
+	protected void emit_TypeNotation_NEWLINETerminalRuleCall_0_p(EObject semanticObject, ISynNavigable transition, List<INode> nodes) {
+		acceptNodes(transition, nodes);
+	}
+	
+	/**
+	 * Syntax:
+	 *     NEWLINE+
+	 */
+	protected void emit_ValueNotation_NEWLINETerminalRuleCall_0_p(EObject semanticObject, ISynNavigable transition, List<INode> nodes) {
 		acceptNodes(transition, nodes);
 	}
 	
@@ -204,7 +248,23 @@ public class SmiSyntacticSequencer extends AbstractSyntacticSequencer {
 	 * Syntax:
 	 *     NEWLINE?
 	 */
-	protected void emit_Value_NEWLINETerminalRuleCall_2_0_q(EObject semanticObject, ISynNavigable transition, List<INode> nodes) {
+	protected void emit_ValueNotation_NEWLINETerminalRuleCall_3_q(EObject semanticObject, ISynNavigable transition, List<INode> nodes) {
+		acceptNodes(transition, nodes);
+	}
+	
+	/**
+	 * Syntax:
+	 *     NEWLINE?
+	 */
+	protected void emit_Value_NEWLINETerminalRuleCall_1_q(EObject semanticObject, ISynNavigable transition, List<INode> nodes) {
+		acceptNodes(transition, nodes);
+	}
+	
+	/**
+	 * Syntax:
+	 *     NEWLINE?
+	 */
+	protected void emit_Value_NEWLINETerminalRuleCall_4_0_q(EObject semanticObject, ISynNavigable transition, List<INode> nodes) {
 		acceptNodes(transition, nodes);
 	}
 	

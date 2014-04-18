@@ -69,18 +69,23 @@ public class SmiFactoryImpl extends EFactoryImpl implements SmiFactory
       case SmiPackage.OBJECT_IDENTIFIER_VALUE: return createObjectIdentifierValue();
       case SmiPackage.TYPE_DEFINITION: return createTypeDefinition();
       case SmiPackage.MACRO: return createMacro();
+      case SmiPackage.TYPE_NOTATION: return createTypeNotation();
+      case SmiPackage.VALUE_NOTATION: return createValueNotation();
       case SmiPackage.TYPE_ASSIGNMENT: return createTypeAssignment();
       case SmiPackage.PARAM_ASSIGNMENT: return createParamAssignment();
-      case SmiPackage.TYPE_NOTATION: return createTypeNotation();
+      case SmiPackage.TYPE_NOTATION_RIGHT: return createTypeNotationRight();
       case SmiPackage.VALUE: return createValue();
+      case SmiPackage.TAG: return createTag();
       case SmiPackage.VALUE_TYPE: return createValueType();
       case SmiPackage.MACRO_VALUE_TYPE: return createMACRO_VALUE_TYPE();
       case SmiPackage.UPDATE_TYPE: return createUpdateType();
+      case SmiPackage.MACRO_VALUE_CAP: return createMACRO_VALUE_CAP();
       case SmiPackage.ASN1_TYPE: return createASN1_TYPE();
       case SmiPackage.ASN1_SIMPLE: return createASN1_SIMPLE();
       case SmiPackage.ASN1_RANGE: return createASN1_RANGE();
       case SmiPackage.ASN1_CHOICE: return createASN1_CHOICE();
       case SmiPackage.ASN1_CHOICE_ENTRY: return createASN1_CHOICE_ENTRY();
+      case SmiPackage.CHOICE_TYPE: return createChoiceType();
       case SmiPackage.MACRO_VALUE: return createMacroValue();
       case SmiPackage.ASN1_OCTET_STRING: return createASN1_OCTET_STRING();
       default:
@@ -148,6 +153,28 @@ public class SmiFactoryImpl extends EFactoryImpl implements SmiFactory
    * <!-- end-user-doc -->
    * @generated
    */
+  public TypeNotation createTypeNotation()
+  {
+    TypeNotationImpl typeNotation = new TypeNotationImpl();
+    return typeNotation;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public ValueNotation createValueNotation()
+  {
+    ValueNotationImpl valueNotation = new ValueNotationImpl();
+    return valueNotation;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
   public TypeAssignment createTypeAssignment()
   {
     TypeAssignmentImpl typeAssignment = new TypeAssignmentImpl();
@@ -170,10 +197,10 @@ public class SmiFactoryImpl extends EFactoryImpl implements SmiFactory
    * <!-- end-user-doc -->
    * @generated
    */
-  public TypeNotation createTypeNotation()
+  public TypeNotationRight createTypeNotationRight()
   {
-    TypeNotationImpl typeNotation = new TypeNotationImpl();
-    return typeNotation;
+    TypeNotationRightImpl typeNotationRight = new TypeNotationRightImpl();
+    return typeNotationRight;
   }
 
   /**
@@ -185,6 +212,17 @@ public class SmiFactoryImpl extends EFactoryImpl implements SmiFactory
   {
     ValueImpl value = new ValueImpl();
     return value;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public Tag createTag()
+  {
+    TagImpl tag = new TagImpl();
+    return tag;
   }
 
   /**
@@ -218,6 +256,17 @@ public class SmiFactoryImpl extends EFactoryImpl implements SmiFactory
   {
     UpdateTypeImpl updateType = new UpdateTypeImpl();
     return updateType;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public MACRO_VALUE_CAP createMACRO_VALUE_CAP()
+  {
+    MACRO_VALUE_CAPImpl macrO_VALUE_CAP = new MACRO_VALUE_CAPImpl();
+    return macrO_VALUE_CAP;
   }
 
   /**
@@ -273,6 +322,17 @@ public class SmiFactoryImpl extends EFactoryImpl implements SmiFactory
   {
     ASN1_CHOICE_ENTRYImpl asn1_CHOICE_ENTRY = new ASN1_CHOICE_ENTRYImpl();
     return asn1_CHOICE_ENTRY;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public ChoiceType createChoiceType()
+  {
+    ChoiceTypeImpl choiceType = new ChoiceTypeImpl();
+    return choiceType;
   }
 
   /**

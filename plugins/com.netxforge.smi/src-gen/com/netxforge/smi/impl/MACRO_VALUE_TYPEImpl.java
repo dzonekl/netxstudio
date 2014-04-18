@@ -2,6 +2,7 @@
  */
 package com.netxforge.smi.impl;
 
+import com.netxforge.smi.MACRO_VALUE_CAP;
 import com.netxforge.smi.MACRO_VALUE_TYPE;
 import com.netxforge.smi.SmiPackage;
 import com.netxforge.smi.UpdateType;
@@ -24,6 +25,7 @@ import org.eclipse.emf.ecore.impl.MinimalEObjectImpl;
  * <ul>
  *   <li>{@link com.netxforge.smi.impl.MACRO_VALUE_TYPEImpl#getUpdate <em>Update</em>}</li>
  *   <li>{@link com.netxforge.smi.impl.MACRO_VALUE_TYPEImpl#getLiteral <em>Literal</em>}</li>
+ *   <li>{@link com.netxforge.smi.impl.MACRO_VALUE_TYPEImpl#getString <em>String</em>}</li>
  * </ul>
  * </p>
  *
@@ -42,24 +44,34 @@ public class MACRO_VALUE_TYPEImpl extends MinimalEObjectImpl.Container implement
   protected UpdateType update;
 
   /**
-   * The default value of the '{@link #getLiteral() <em>Literal</em>}' attribute.
+   * The cached value of the '{@link #getLiteral() <em>Literal</em>}' containment reference.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @see #getLiteral()
    * @generated
    * @ordered
    */
-  protected static final String LITERAL_EDEFAULT = null;
+  protected MACRO_VALUE_CAP literal;
 
   /**
-   * The cached value of the '{@link #getLiteral() <em>Literal</em>}' attribute.
+   * The default value of the '{@link #getString() <em>String</em>}' attribute.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @see #getLiteral()
+   * @see #getString()
    * @generated
    * @ordered
    */
-  protected String literal = LITERAL_EDEFAULT;
+  protected static final String STRING_EDEFAULT = null;
+
+  /**
+   * The cached value of the '{@link #getString() <em>String</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see #getString()
+   * @generated
+   * @ordered
+   */
+  protected String string = STRING_EDEFAULT;
 
   /**
    * <!-- begin-user-doc -->
@@ -135,7 +147,7 @@ public class MACRO_VALUE_TYPEImpl extends MinimalEObjectImpl.Container implement
    * <!-- end-user-doc -->
    * @generated
    */
-  public String getLiteral()
+  public MACRO_VALUE_CAP getLiteral()
   {
     return literal;
   }
@@ -145,12 +157,60 @@ public class MACRO_VALUE_TYPEImpl extends MinimalEObjectImpl.Container implement
    * <!-- end-user-doc -->
    * @generated
    */
-  public void setLiteral(String newLiteral)
+  public NotificationChain basicSetLiteral(MACRO_VALUE_CAP newLiteral, NotificationChain msgs)
   {
-    String oldLiteral = literal;
+    MACRO_VALUE_CAP oldLiteral = literal;
     literal = newLiteral;
     if (eNotificationRequired())
-      eNotify(new ENotificationImpl(this, Notification.SET, SmiPackage.MACRO_VALUE_TYPE__LITERAL, oldLiteral, literal));
+    {
+      ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, SmiPackage.MACRO_VALUE_TYPE__LITERAL, oldLiteral, newLiteral);
+      if (msgs == null) msgs = notification; else msgs.add(notification);
+    }
+    return msgs;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public void setLiteral(MACRO_VALUE_CAP newLiteral)
+  {
+    if (newLiteral != literal)
+    {
+      NotificationChain msgs = null;
+      if (literal != null)
+        msgs = ((InternalEObject)literal).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - SmiPackage.MACRO_VALUE_TYPE__LITERAL, null, msgs);
+      if (newLiteral != null)
+        msgs = ((InternalEObject)newLiteral).eInverseAdd(this, EOPPOSITE_FEATURE_BASE - SmiPackage.MACRO_VALUE_TYPE__LITERAL, null, msgs);
+      msgs = basicSetLiteral(newLiteral, msgs);
+      if (msgs != null) msgs.dispatch();
+    }
+    else if (eNotificationRequired())
+      eNotify(new ENotificationImpl(this, Notification.SET, SmiPackage.MACRO_VALUE_TYPE__LITERAL, newLiteral, newLiteral));
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public String getString()
+  {
+    return string;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public void setString(String newString)
+  {
+    String oldString = string;
+    string = newString;
+    if (eNotificationRequired())
+      eNotify(new ENotificationImpl(this, Notification.SET, SmiPackage.MACRO_VALUE_TYPE__STRING, oldString, string));
   }
 
   /**
@@ -165,6 +225,8 @@ public class MACRO_VALUE_TYPEImpl extends MinimalEObjectImpl.Container implement
     {
       case SmiPackage.MACRO_VALUE_TYPE__UPDATE:
         return basicSetUpdate(null, msgs);
+      case SmiPackage.MACRO_VALUE_TYPE__LITERAL:
+        return basicSetLiteral(null, msgs);
     }
     return super.eInverseRemove(otherEnd, featureID, msgs);
   }
@@ -183,6 +245,8 @@ public class MACRO_VALUE_TYPEImpl extends MinimalEObjectImpl.Container implement
         return getUpdate();
       case SmiPackage.MACRO_VALUE_TYPE__LITERAL:
         return getLiteral();
+      case SmiPackage.MACRO_VALUE_TYPE__STRING:
+        return getString();
     }
     return super.eGet(featureID, resolve, coreType);
   }
@@ -201,7 +265,10 @@ public class MACRO_VALUE_TYPEImpl extends MinimalEObjectImpl.Container implement
         setUpdate((UpdateType)newValue);
         return;
       case SmiPackage.MACRO_VALUE_TYPE__LITERAL:
-        setLiteral((String)newValue);
+        setLiteral((MACRO_VALUE_CAP)newValue);
+        return;
+      case SmiPackage.MACRO_VALUE_TYPE__STRING:
+        setString((String)newValue);
         return;
     }
     super.eSet(featureID, newValue);
@@ -221,7 +288,10 @@ public class MACRO_VALUE_TYPEImpl extends MinimalEObjectImpl.Container implement
         setUpdate((UpdateType)null);
         return;
       case SmiPackage.MACRO_VALUE_TYPE__LITERAL:
-        setLiteral(LITERAL_EDEFAULT);
+        setLiteral((MACRO_VALUE_CAP)null);
+        return;
+      case SmiPackage.MACRO_VALUE_TYPE__STRING:
+        setString(STRING_EDEFAULT);
         return;
     }
     super.eUnset(featureID);
@@ -240,7 +310,9 @@ public class MACRO_VALUE_TYPEImpl extends MinimalEObjectImpl.Container implement
       case SmiPackage.MACRO_VALUE_TYPE__UPDATE:
         return update != null;
       case SmiPackage.MACRO_VALUE_TYPE__LITERAL:
-        return LITERAL_EDEFAULT == null ? literal != null : !LITERAL_EDEFAULT.equals(literal);
+        return literal != null;
+      case SmiPackage.MACRO_VALUE_TYPE__STRING:
+        return STRING_EDEFAULT == null ? string != null : !STRING_EDEFAULT.equals(string);
     }
     return super.eIsSet(featureID);
   }
@@ -256,8 +328,8 @@ public class MACRO_VALUE_TYPEImpl extends MinimalEObjectImpl.Container implement
     if (eIsProxy()) return super.toString();
 
     StringBuffer result = new StringBuffer(super.toString());
-    result.append(" (literal: ");
-    result.append(literal);
+    result.append(" (string: ");
+    result.append(string);
     result.append(')');
     return result.toString();
   }

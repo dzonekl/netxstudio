@@ -2,9 +2,9 @@
  */
 package com.netxforge.smi.impl;
 
+import com.netxforge.smi.MACRO_VALUE_CAP;
 import com.netxforge.smi.SmiPackage;
 import com.netxforge.smi.TypeAssignment;
-import com.netxforge.smi.UpdateType;
 
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
@@ -17,18 +17,18 @@ import org.eclipse.emf.ecore.impl.MinimalEObjectImpl;
 
 /**
  * <!-- begin-user-doc -->
- * An implementation of the model object '<em><b>Update Type</b></em>'.
+ * An implementation of the model object '<em><b>MACRO VALUE CAP</b></em>'.
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
  * <ul>
- *   <li>{@link com.netxforge.smi.impl.UpdateTypeImpl#getRef <em>Ref</em>}</li>
+ *   <li>{@link com.netxforge.smi.impl.MACRO_VALUE_CAPImpl#getRef <em>Ref</em>}</li>
  * </ul>
  * </p>
  *
  * @generated
  */
-public class UpdateTypeImpl extends MinimalEObjectImpl.Container implements UpdateType
+public class MACRO_VALUE_CAPImpl extends MinimalEObjectImpl.Container implements MACRO_VALUE_CAP
 {
   /**
    * The cached value of the '{@link #getRef() <em>Ref</em>}' containment reference.
@@ -45,7 +45,7 @@ public class UpdateTypeImpl extends MinimalEObjectImpl.Container implements Upda
    * <!-- end-user-doc -->
    * @generated
    */
-  protected UpdateTypeImpl()
+  protected MACRO_VALUE_CAPImpl()
   {
     super();
   }
@@ -58,7 +58,7 @@ public class UpdateTypeImpl extends MinimalEObjectImpl.Container implements Upda
   @Override
   protected EClass eStaticClass()
   {
-    return SmiPackage.Literals.UPDATE_TYPE;
+    return SmiPackage.Literals.MACRO_VALUE_CAP;
   }
 
   /**
@@ -82,7 +82,7 @@ public class UpdateTypeImpl extends MinimalEObjectImpl.Container implements Upda
     ref = newRef;
     if (eNotificationRequired())
     {
-      ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, SmiPackage.UPDATE_TYPE__REF, oldRef, newRef);
+      ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, SmiPackage.MACRO_VALUE_CAP__REF, oldRef, newRef);
       if (msgs == null) msgs = notification; else msgs.add(notification);
     }
     return msgs;
@@ -99,14 +99,14 @@ public class UpdateTypeImpl extends MinimalEObjectImpl.Container implements Upda
     {
       NotificationChain msgs = null;
       if (ref != null)
-        msgs = ((InternalEObject)ref).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - SmiPackage.UPDATE_TYPE__REF, null, msgs);
+        msgs = ((InternalEObject)ref).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - SmiPackage.MACRO_VALUE_CAP__REF, null, msgs);
       if (newRef != null)
-        msgs = ((InternalEObject)newRef).eInverseAdd(this, EOPPOSITE_FEATURE_BASE - SmiPackage.UPDATE_TYPE__REF, null, msgs);
+        msgs = ((InternalEObject)newRef).eInverseAdd(this, EOPPOSITE_FEATURE_BASE - SmiPackage.MACRO_VALUE_CAP__REF, null, msgs);
       msgs = basicSetRef(newRef, msgs);
       if (msgs != null) msgs.dispatch();
     }
     else if (eNotificationRequired())
-      eNotify(new ENotificationImpl(this, Notification.SET, SmiPackage.UPDATE_TYPE__REF, newRef, newRef));
+      eNotify(new ENotificationImpl(this, Notification.SET, SmiPackage.MACRO_VALUE_CAP__REF, newRef, newRef));
   }
 
   /**
@@ -119,7 +119,7 @@ public class UpdateTypeImpl extends MinimalEObjectImpl.Container implements Upda
   {
     switch (featureID)
     {
-      case SmiPackage.UPDATE_TYPE__REF:
+      case SmiPackage.MACRO_VALUE_CAP__REF:
         return basicSetRef(null, msgs);
     }
     return super.eInverseRemove(otherEnd, featureID, msgs);
@@ -135,7 +135,7 @@ public class UpdateTypeImpl extends MinimalEObjectImpl.Container implements Upda
   {
     switch (featureID)
     {
-      case SmiPackage.UPDATE_TYPE__REF:
+      case SmiPackage.MACRO_VALUE_CAP__REF:
         return getRef();
     }
     return super.eGet(featureID, resolve, coreType);
@@ -151,7 +151,7 @@ public class UpdateTypeImpl extends MinimalEObjectImpl.Container implements Upda
   {
     switch (featureID)
     {
-      case SmiPackage.UPDATE_TYPE__REF:
+      case SmiPackage.MACRO_VALUE_CAP__REF:
         setRef((TypeAssignment)newValue);
         return;
     }
@@ -168,7 +168,7 @@ public class UpdateTypeImpl extends MinimalEObjectImpl.Container implements Upda
   {
     switch (featureID)
     {
-      case SmiPackage.UPDATE_TYPE__REF:
+      case SmiPackage.MACRO_VALUE_CAP__REF:
         setRef((TypeAssignment)null);
         return;
     }
@@ -185,10 +185,10 @@ public class UpdateTypeImpl extends MinimalEObjectImpl.Container implements Upda
   {
     switch (featureID)
     {
-      case SmiPackage.UPDATE_TYPE__REF:
+      case SmiPackage.MACRO_VALUE_CAP__REF:
         return ref != null;
     }
     return super.eIsSet(featureID);
   }
 
-} //UpdateTypeImpl
+} //MACRO_VALUE_CAPImpl

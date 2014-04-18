@@ -2,6 +2,8 @@
  */
 package com.netxforge.smi;
 
+import org.eclipse.emf.common.util.EList;
+
 import org.eclipse.emf.ecore.EObject;
 
 /**
@@ -12,7 +14,8 @@ import org.eclipse.emf.ecore.EObject;
  * <p>
  * The following features are supported:
  * <ul>
- *   <li>{@link com.netxforge.smi.TypeNotation#getValue <em>Value</em>}</li>
+ *   <li>{@link com.netxforge.smi.TypeNotation#getName <em>Name</em>}</li>
+ *   <li>{@link com.netxforge.smi.TypeNotation#getTypeNotations <em>Type Notations</em>}</li>
  * </ul>
  * </p>
  *
@@ -23,29 +26,45 @@ import org.eclipse.emf.ecore.EObject;
 public interface TypeNotation extends EObject
 {
   /**
-   * Returns the value of the '<em><b>Value</b></em>' containment reference.
+   * Returns the value of the '<em><b>Name</b></em>' attribute.
    * <!-- begin-user-doc -->
    * <p>
-   * If the meaning of the '<em>Value</em>' containment reference isn't clear,
+   * If the meaning of the '<em>Name</em>' attribute isn't clear,
    * there really should be more of a description here...
    * </p>
    * <!-- end-user-doc -->
-   * @return the value of the '<em>Value</em>' containment reference.
-   * @see #setValue(Value)
-   * @see com.netxforge.smi.SmiPackage#getTypeNotation_Value()
+   * @return the value of the '<em>Name</em>' attribute.
+   * @see #setName(String)
+   * @see com.netxforge.smi.SmiPackage#getTypeNotation_Name()
+   * @model
+   * @generated
+   */
+  String getName();
+
+  /**
+   * Sets the value of the '{@link com.netxforge.smi.TypeNotation#getName <em>Name</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @param value the new value of the '<em>Name</em>' attribute.
+   * @see #getName()
+   * @generated
+   */
+  void setName(String value);
+
+  /**
+   * Returns the value of the '<em><b>Type Notations</b></em>' containment reference list.
+   * The list contents are of type {@link com.netxforge.smi.TypeAssignment}.
+   * <!-- begin-user-doc -->
+   * <p>
+   * If the meaning of the '<em>Type Notations</em>' containment reference list isn't clear,
+   * there really should be more of a description here...
+   * </p>
+   * <!-- end-user-doc -->
+   * @return the value of the '<em>Type Notations</em>' containment reference list.
+   * @see com.netxforge.smi.SmiPackage#getTypeNotation_TypeNotations()
    * @model containment="true"
    * @generated
    */
-  Value getValue();
-
-  /**
-   * Sets the value of the '{@link com.netxforge.smi.TypeNotation#getValue <em>Value</em>}' containment reference.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @param value the new value of the '<em>Value</em>' containment reference.
-   * @see #getValue()
-   * @generated
-   */
-  void setValue(Value value);
+  EList<TypeAssignment> getTypeNotations();
 
 } // TypeNotation

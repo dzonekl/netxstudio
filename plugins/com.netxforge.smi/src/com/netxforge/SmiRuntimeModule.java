@@ -3,9 +3,20 @@
  */
 package com.netxforge;
 
+import com.netxforge.converters.SMIValueConverters;
+
 /**
  * Use this class to register components to be used at runtime / without the Equinox extension registry.
  */
 public class SmiRuntimeModule extends com.netxforge.AbstractSmiRuntimeModule {
-
+	
+	
+	/**
+	 * Bind to a converter which can process large numeric values. 
+	 */
+	public Class<? extends org.eclipse.xtext.conversion.IValueConverterService> bindIValueConverterService() {
+		return SMIValueConverters.class;
+	}
+	
+	
 }
