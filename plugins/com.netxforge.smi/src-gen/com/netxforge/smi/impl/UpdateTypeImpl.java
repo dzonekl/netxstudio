@@ -22,6 +22,7 @@ import org.eclipse.emf.ecore.impl.MinimalEObjectImpl;
  * <p>
  * The following features are implemented:
  * <ul>
+ *   <li>{@link com.netxforge.smi.impl.UpdateTypeImpl#isUpdate <em>Update</em>}</li>
  *   <li>{@link com.netxforge.smi.impl.UpdateTypeImpl#getRef <em>Ref</em>}</li>
  * </ul>
  * </p>
@@ -30,6 +31,26 @@ import org.eclipse.emf.ecore.impl.MinimalEObjectImpl;
  */
 public class UpdateTypeImpl extends MinimalEObjectImpl.Container implements UpdateType
 {
+  /**
+   * The default value of the '{@link #isUpdate() <em>Update</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see #isUpdate()
+   * @generated
+   * @ordered
+   */
+  protected static final boolean UPDATE_EDEFAULT = false;
+
+  /**
+   * The cached value of the '{@link #isUpdate() <em>Update</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see #isUpdate()
+   * @generated
+   * @ordered
+   */
+  protected boolean update = UPDATE_EDEFAULT;
+
   /**
    * The cached value of the '{@link #getRef() <em>Ref</em>}' containment reference.
    * <!-- begin-user-doc -->
@@ -59,6 +80,29 @@ public class UpdateTypeImpl extends MinimalEObjectImpl.Container implements Upda
   protected EClass eStaticClass()
   {
     return SmiPackage.Literals.UPDATE_TYPE;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public boolean isUpdate()
+  {
+    return update;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public void setUpdate(boolean newUpdate)
+  {
+    boolean oldUpdate = update;
+    update = newUpdate;
+    if (eNotificationRequired())
+      eNotify(new ENotificationImpl(this, Notification.SET, SmiPackage.UPDATE_TYPE__UPDATE, oldUpdate, update));
   }
 
   /**
@@ -135,6 +179,8 @@ public class UpdateTypeImpl extends MinimalEObjectImpl.Container implements Upda
   {
     switch (featureID)
     {
+      case SmiPackage.UPDATE_TYPE__UPDATE:
+        return isUpdate();
       case SmiPackage.UPDATE_TYPE__REF:
         return getRef();
     }
@@ -151,6 +197,9 @@ public class UpdateTypeImpl extends MinimalEObjectImpl.Container implements Upda
   {
     switch (featureID)
     {
+      case SmiPackage.UPDATE_TYPE__UPDATE:
+        setUpdate((Boolean)newValue);
+        return;
       case SmiPackage.UPDATE_TYPE__REF:
         setRef((TypeAssignment)newValue);
         return;
@@ -168,6 +217,9 @@ public class UpdateTypeImpl extends MinimalEObjectImpl.Container implements Upda
   {
     switch (featureID)
     {
+      case SmiPackage.UPDATE_TYPE__UPDATE:
+        setUpdate(UPDATE_EDEFAULT);
+        return;
       case SmiPackage.UPDATE_TYPE__REF:
         setRef((TypeAssignment)null);
         return;
@@ -185,10 +237,29 @@ public class UpdateTypeImpl extends MinimalEObjectImpl.Container implements Upda
   {
     switch (featureID)
     {
+      case SmiPackage.UPDATE_TYPE__UPDATE:
+        return update != UPDATE_EDEFAULT;
       case SmiPackage.UPDATE_TYPE__REF:
         return ref != null;
     }
     return super.eIsSet(featureID);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  @Override
+  public String toString()
+  {
+    if (eIsProxy()) return super.toString();
+
+    StringBuffer result = new StringBuffer(super.toString());
+    result.append(" (update: ");
+    result.append(update);
+    result.append(')');
+    return result.toString();
   }
 
 } //UpdateTypeImpl

@@ -2,6 +2,8 @@
  */
 package com.netxforge.smi;
 
+import org.eclipse.emf.common.util.EList;
+
 import org.eclipse.emf.ecore.EObject;
 
 /**
@@ -13,7 +15,7 @@ import org.eclipse.emf.ecore.EObject;
  * The following features are supported:
  * <ul>
  *   <li>{@link com.netxforge.smi.ValueNotation#getName <em>Name</em>}</li>
- *   <li>{@link com.netxforge.smi.ValueNotation#getValueNotation <em>Value Notation</em>}</li>
+ *   <li>{@link com.netxforge.smi.ValueNotation#getValueNotations <em>Value Notations</em>}</li>
  * </ul>
  * </p>
  *
@@ -50,29 +52,19 @@ public interface ValueNotation extends EObject
   void setName(String value);
 
   /**
-   * Returns the value of the '<em><b>Value Notation</b></em>' containment reference.
+   * Returns the value of the '<em><b>Value Notations</b></em>' containment reference list.
+   * The list contents are of type {@link com.netxforge.smi.ValueAssignment}.
    * <!-- begin-user-doc -->
    * <p>
-   * If the meaning of the '<em>Value Notation</em>' containment reference isn't clear,
+   * If the meaning of the '<em>Value Notations</em>' containment reference list isn't clear,
    * there really should be more of a description here...
    * </p>
    * <!-- end-user-doc -->
-   * @return the value of the '<em>Value Notation</em>' containment reference.
-   * @see #setValueNotation(Value)
-   * @see com.netxforge.smi.SmiPackage#getValueNotation_ValueNotation()
+   * @return the value of the '<em>Value Notations</em>' containment reference list.
+   * @see com.netxforge.smi.SmiPackage#getValueNotation_ValueNotations()
    * @model containment="true"
    * @generated
    */
-  Value getValueNotation();
-
-  /**
-   * Sets the value of the '{@link com.netxforge.smi.ValueNotation#getValueNotation <em>Value Notation</em>}' containment reference.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @param value the new value of the '<em>Value Notation</em>' containment reference.
-   * @see #getValueNotation()
-   * @generated
-   */
-  void setValueNotation(Value value);
+  EList<ValueAssignment> getValueNotations();
 
 } // ValueNotation

@@ -25,7 +25,6 @@ import org.eclipse.emf.ecore.impl.MinimalEObjectImpl;
  * <ul>
  *   <li>{@link com.netxforge.smi.impl.ChoiceTypeImpl#getTypeRef <em>Type Ref</em>}</li>
  *   <li>{@link com.netxforge.smi.impl.ChoiceTypeImpl#getSimpleType <em>Simple Type</em>}</li>
- *   <li>{@link com.netxforge.smi.impl.ChoiceTypeImpl#getOi <em>Oi</em>}</li>
  * </ul>
  * </p>
  *
@@ -52,26 +51,6 @@ public class ChoiceTypeImpl extends MinimalEObjectImpl.Container implements Choi
    * @ordered
    */
   protected ASN1_TYPE simpleType;
-
-  /**
-   * The default value of the '{@link #getOi() <em>Oi</em>}' attribute.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @see #getOi()
-   * @generated
-   * @ordered
-   */
-  protected static final String OI_EDEFAULT = null;
-
-  /**
-   * The cached value of the '{@link #getOi() <em>Oi</em>}' attribute.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @see #getOi()
-   * @generated
-   * @ordered
-   */
-  protected String oi = OI_EDEFAULT;
 
   /**
    * <!-- begin-user-doc -->
@@ -195,29 +174,6 @@ public class ChoiceTypeImpl extends MinimalEObjectImpl.Container implements Choi
    * <!-- end-user-doc -->
    * @generated
    */
-  public String getOi()
-  {
-    return oi;
-  }
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  public void setOi(String newOi)
-  {
-    String oldOi = oi;
-    oi = newOi;
-    if (eNotificationRequired())
-      eNotify(new ENotificationImpl(this, Notification.SET, SmiPackage.CHOICE_TYPE__OI, oldOi, oi));
-  }
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
   @Override
   public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs)
   {
@@ -245,8 +201,6 @@ public class ChoiceTypeImpl extends MinimalEObjectImpl.Container implements Choi
         return getTypeRef();
       case SmiPackage.CHOICE_TYPE__SIMPLE_TYPE:
         return getSimpleType();
-      case SmiPackage.CHOICE_TYPE__OI:
-        return getOi();
     }
     return super.eGet(featureID, resolve, coreType);
   }
@@ -266,9 +220,6 @@ public class ChoiceTypeImpl extends MinimalEObjectImpl.Container implements Choi
         return;
       case SmiPackage.CHOICE_TYPE__SIMPLE_TYPE:
         setSimpleType((ASN1_TYPE)newValue);
-        return;
-      case SmiPackage.CHOICE_TYPE__OI:
-        setOi((String)newValue);
         return;
     }
     super.eSet(featureID, newValue);
@@ -290,9 +241,6 @@ public class ChoiceTypeImpl extends MinimalEObjectImpl.Container implements Choi
       case SmiPackage.CHOICE_TYPE__SIMPLE_TYPE:
         setSimpleType((ASN1_TYPE)null);
         return;
-      case SmiPackage.CHOICE_TYPE__OI:
-        setOi(OI_EDEFAULT);
-        return;
     }
     super.eUnset(featureID);
   }
@@ -311,27 +259,8 @@ public class ChoiceTypeImpl extends MinimalEObjectImpl.Container implements Choi
         return typeRef != null;
       case SmiPackage.CHOICE_TYPE__SIMPLE_TYPE:
         return simpleType != null;
-      case SmiPackage.CHOICE_TYPE__OI:
-        return OI_EDEFAULT == null ? oi != null : !OI_EDEFAULT.equals(oi);
     }
     return super.eIsSet(featureID);
-  }
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  @Override
-  public String toString()
-  {
-    if (eIsProxy()) return super.toString();
-
-    StringBuffer result = new StringBuffer(super.toString());
-    result.append(" (oi: ");
-    result.append(oi);
-    result.append(')');
-    return result.toString();
   }
 
 } //ChoiceTypeImpl

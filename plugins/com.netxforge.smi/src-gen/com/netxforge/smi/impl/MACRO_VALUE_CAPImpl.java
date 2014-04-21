@@ -13,7 +13,6 @@ import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.InternalEObject;
 
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
-import org.eclipse.emf.ecore.impl.MinimalEObjectImpl;
 
 /**
  * <!-- begin-user-doc -->
@@ -28,7 +27,7 @@ import org.eclipse.emf.ecore.impl.MinimalEObjectImpl;
  *
  * @generated
  */
-public class MACRO_VALUE_CAPImpl extends MinimalEObjectImpl.Container implements MACRO_VALUE_CAP
+public class MACRO_VALUE_CAPImpl extends ValueCapTypeImpl implements MACRO_VALUE_CAP
 {
   /**
    * The cached value of the '{@link #getRef() <em>Ref</em>}' containment reference.

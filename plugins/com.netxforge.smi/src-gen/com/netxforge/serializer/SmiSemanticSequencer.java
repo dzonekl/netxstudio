@@ -8,11 +8,16 @@ import com.netxforge.smi.ASN1_CHOICE_ENTRY;
 import com.netxforge.smi.ASN1_OCTET_STRING;
 import com.netxforge.smi.ASN1_RANGE;
 import com.netxforge.smi.ASN1_SIMPLE;
+import com.netxforge.smi.Attribute;
+import com.netxforge.smi.AttributeValue;
 import com.netxforge.smi.ChoiceType;
+import com.netxforge.smi.ImportClosure;
+import com.netxforge.smi.ImportRef;
+import com.netxforge.smi.ImportRefs;
 import com.netxforge.smi.MACRO_VALUE_CAP;
-import com.netxforge.smi.MACRO_VALUE_TYPE;
 import com.netxforge.smi.Macro;
 import com.netxforge.smi.MacroValue;
+import com.netxforge.smi.MacroValueType;
 import com.netxforge.smi.Module;
 import com.netxforge.smi.ObjectIdentifier;
 import com.netxforge.smi.ObjectIdentifierValue;
@@ -25,6 +30,7 @@ import com.netxforge.smi.TypeNotation;
 import com.netxforge.smi.TypeNotationRight;
 import com.netxforge.smi.UpdateType;
 import com.netxforge.smi.Value;
+import com.netxforge.smi.ValueAssignment;
 import com.netxforge.smi.ValueNotation;
 import com.netxforge.smi.ValueType;
 import org.eclipse.emf.ecore.EObject;
@@ -67,7 +73,7 @@ public class SmiSemanticSequencer extends AbstractDelegatingSemanticSequencer {
 				}
 				else if(context == grammarAccess.getASN1_SIMPLERule() ||
 				   context == grammarAccess.getASN1_TYPERule()) {
-					sequence_ASN1_OCTET_STRING_ASN1_SIMPLE(context, (ASN1_OCTET_STRING) semanticObject); 
+					sequence_ASN1_SIMPLE(context, (ASN1_OCTET_STRING) semanticObject); 
 					return; 
 				}
 				else break;
@@ -89,21 +95,46 @@ public class SmiSemanticSequencer extends AbstractDelegatingSemanticSequencer {
 					return; 
 				}
 				else break;
+			case SmiPackage.ATTRIBUTE:
+				if(context == grammarAccess.getAttributeRule()) {
+					sequence_Attribute(context, (Attribute) semanticObject); 
+					return; 
+				}
+				else break;
+			case SmiPackage.ATTRIBUTE_VALUE:
+				if(context == grammarAccess.getAttributeValueRule()) {
+					sequence_AttributeValue(context, (AttributeValue) semanticObject); 
+					return; 
+				}
+				else break;
 			case SmiPackage.CHOICE_TYPE:
 				if(context == grammarAccess.getChoiceTypeRule()) {
 					sequence_ChoiceType(context, (ChoiceType) semanticObject); 
 					return; 
 				}
 				else break;
-			case SmiPackage.MACRO_VALUE_CAP:
-				if(context == grammarAccess.getMACRO_VALUE_CAPRule()) {
-					sequence_MACRO_VALUE_CAP(context, (MACRO_VALUE_CAP) semanticObject); 
+			case SmiPackage.IMPORT_CLOSURE:
+				if(context == grammarAccess.getImportClosureRule() ||
+				   context == grammarAccess.getImportsRule()) {
+					sequence_ImportClosure(context, (ImportClosure) semanticObject); 
 					return; 
 				}
 				else break;
-			case SmiPackage.MACRO_VALUE_TYPE:
-				if(context == grammarAccess.getMACRO_VALUE_TYPERule()) {
-					sequence_MACRO_VALUE_TYPE(context, (MACRO_VALUE_TYPE) semanticObject); 
+			case SmiPackage.IMPORT_REF:
+				if(context == grammarAccess.getImportRefRule()) {
+					sequence_ImportRef(context, (ImportRef) semanticObject); 
+					return; 
+				}
+				else break;
+			case SmiPackage.IMPORT_REFS:
+				if(context == grammarAccess.getImportRefsRule()) {
+					sequence_ImportRefs(context, (ImportRefs) semanticObject); 
+					return; 
+				}
+				else break;
+			case SmiPackage.MACRO_VALUE_CAP:
+				if(context == grammarAccess.getValueCapTypeRule()) {
+					sequence_ValueCapType(context, (MACRO_VALUE_CAP) semanticObject); 
 					return; 
 				}
 				else break;
@@ -120,9 +151,21 @@ public class SmiSemanticSequencer extends AbstractDelegatingSemanticSequencer {
 					return; 
 				}
 				else break;
+			case SmiPackage.MACRO_VALUE_TYPE:
+				if(context == grammarAccess.getMacroValueTypeRule()) {
+					sequence_MacroValueType(context, (MacroValueType) semanticObject); 
+					return; 
+				}
+				else break;
 			case SmiPackage.MODULE:
 				if(context == grammarAccess.getModuleRule()) {
 					sequence_Module(context, (Module) semanticObject); 
+					return; 
+				}
+				else break;
+			case SmiPackage.OBJECT:
+				if(context == grammarAccess.getObjectRule()) {
+					sequence_Object(context, (com.netxforge.smi.Object) semanticObject); 
 					return; 
 				}
 				else break;
@@ -133,7 +176,8 @@ public class SmiSemanticSequencer extends AbstractDelegatingSemanticSequencer {
 				}
 				else break;
 			case SmiPackage.OBJECT_IDENTIFIER_VALUE:
-				if(context == grammarAccess.getObjectIdentifierValueRule()) {
+				if(context == grammarAccess.getObjectIdentifierValueRule() ||
+				   context == grammarAccess.getObjectValueRule()) {
 					sequence_ObjectIdentifierValue(context, (ObjectIdentifierValue) semanticObject); 
 					return; 
 				}
@@ -156,7 +200,8 @@ public class SmiSemanticSequencer extends AbstractDelegatingSemanticSequencer {
 					sequence_TypeReferenceExt(context, (TypeAssignment) semanticObject); 
 					return; 
 				}
-				else if(context == grammarAccess.getTypeAssignmentRule() ||
+				else if(context == grammarAccess.getBracedTypeReferenceRule() ||
+				   context == grammarAccess.getTypeAssignmentRule() ||
 				   context == grammarAccess.getTypeNotationRightRule() ||
 				   context == grammarAccess.getTypeReferenceRule()) {
 					sequence_TypeReference(context, (TypeAssignment) semanticObject); 
@@ -190,6 +235,12 @@ public class SmiSemanticSequencer extends AbstractDelegatingSemanticSequencer {
 			case SmiPackage.VALUE:
 				if(context == grammarAccess.getValueRule()) {
 					sequence_Value(context, (Value) semanticObject); 
+					return; 
+				}
+				else break;
+			case SmiPackage.VALUE_ASSIGNMENT:
+				if(context == grammarAccess.getValueAssignmentRule()) {
+					sequence_ValueAssignment(context, (ValueAssignment) semanticObject); 
 					return; 
 				}
 				else break;
@@ -248,18 +299,9 @@ public class SmiSemanticSequencer extends AbstractDelegatingSemanticSequencer {
 	
 	/**
 	 * Constraint:
-	 *     name='OCTET STRING'
+	 *     {ASN1_OCTET_STRING}
 	 */
 	protected void sequence_ASN1_OCTET_STRING(EObject context, ASN1_OCTET_STRING semanticObject) {
-		genericSequencer.createSequence(context, semanticObject);
-	}
-	
-	
-	/**
-	 * Constraint:
-	 *     (name='OCTET STRING' constraint=ASN1_SUBTYPE?)
-	 */
-	protected void sequence_ASN1_OCTET_STRING_ASN1_SIMPLE(EObject context, ASN1_OCTET_STRING semanticObject) {
 		genericSequencer.createSequence(context, semanticObject);
 	}
 	
@@ -275,6 +317,15 @@ public class SmiSemanticSequencer extends AbstractDelegatingSemanticSequencer {
 	
 	/**
 	 * Constraint:
+	 *     (constraint=ASN1_SUBTYPE?)
+	 */
+	protected void sequence_ASN1_SIMPLE(EObject context, ASN1_OCTET_STRING semanticObject) {
+		genericSequencer.createSequence(context, semanticObject);
+	}
+	
+	
+	/**
+	 * Constraint:
 	 *     (ranges+=ASN1_RANGE ranges+=ASN1_RANGE*)
 	 */
 	protected void sequence_ASN1_SUBTYPE(EObject context, ASN1_SIMPLE semanticObject) {
@@ -284,7 +335,35 @@ public class SmiSemanticSequencer extends AbstractDelegatingSemanticSequencer {
 	
 	/**
 	 * Constraint:
-	 *     (typeRef=TypeReference | simpleType=ASN1_TYPE | oi='OBJECT IDENTIFIER')
+	 *     (id=ASN1_ID | text=IA5STRING)
+	 */
+	protected void sequence_AttributeValue(EObject context, AttributeValue semanticObject) {
+		genericSequencer.createSequence(context, semanticObject);
+	}
+	
+	
+	/**
+	 * Constraint:
+	 *     (paramRef=[ParamAssignment|MODULE_ID] value=AttributeValue)
+	 */
+	protected void sequence_Attribute(EObject context, Attribute semanticObject) {
+		if(errorAcceptor != null) {
+			if(transientValues.isValueTransient(semanticObject, SmiPackage.Literals.ATTRIBUTE__PARAM_REF) == ValueTransient.YES)
+				errorAcceptor.accept(diagnosticProvider.createFeatureValueMissing(semanticObject, SmiPackage.Literals.ATTRIBUTE__PARAM_REF));
+			if(transientValues.isValueTransient(semanticObject, SmiPackage.Literals.ATTRIBUTE__VALUE) == ValueTransient.YES)
+				errorAcceptor.accept(diagnosticProvider.createFeatureValueMissing(semanticObject, SmiPackage.Literals.ATTRIBUTE__VALUE));
+		}
+		INodesForEObjectProvider nodes = createNodeProvider(semanticObject);
+		SequenceFeeder feeder = createSequencerFeeder(semanticObject, nodes);
+		feeder.accept(grammarAccess.getAttributeAccess().getParamRefParamAssignmentMODULE_IDTerminalRuleCall_1_0_1(), semanticObject.getParamRef());
+		feeder.accept(grammarAccess.getAttributeAccess().getValueAttributeValueParserRuleCall_2_0(), semanticObject.getValue());
+		feeder.finish();
+	}
+	
+	
+	/**
+	 * Constraint:
+	 *     ((typeRef=TypeReference | simpleType=ASN1_TYPE)?)
 	 */
 	protected void sequence_ChoiceType(EObject context, ChoiceType semanticObject) {
 		genericSequencer.createSequence(context, semanticObject);
@@ -293,25 +372,53 @@ public class SmiSemanticSequencer extends AbstractDelegatingSemanticSequencer {
 	
 	/**
 	 * Constraint:
-	 *     {MACRO_VALUE_CAP}
+	 *     (refs=ImportRefs importURI=MODULE_ID)
 	 */
-	protected void sequence_MACRO_VALUE_CAP(EObject context, MACRO_VALUE_CAP semanticObject) {
+	protected void sequence_ImportClosure(EObject context, ImportClosure semanticObject) {
+		if(errorAcceptor != null) {
+			if(transientValues.isValueTransient(semanticObject, SmiPackage.Literals.IMPORT_CLOSURE__REFS) == ValueTransient.YES)
+				errorAcceptor.accept(diagnosticProvider.createFeatureValueMissing(semanticObject, SmiPackage.Literals.IMPORT_CLOSURE__REFS));
+			if(transientValues.isValueTransient(semanticObject, SmiPackage.Literals.IMPORT_CLOSURE__IMPORT_URI) == ValueTransient.YES)
+				errorAcceptor.accept(diagnosticProvider.createFeatureValueMissing(semanticObject, SmiPackage.Literals.IMPORT_CLOSURE__IMPORT_URI));
+		}
+		INodesForEObjectProvider nodes = createNodeProvider(semanticObject);
+		SequenceFeeder feeder = createSequencerFeeder(semanticObject, nodes);
+		feeder.accept(grammarAccess.getImportClosureAccess().getRefsImportRefsParserRuleCall_0_0(), semanticObject.getRefs());
+		feeder.accept(grammarAccess.getImportClosureAccess().getImportURIMODULE_IDTerminalRuleCall_2_0(), semanticObject.getImportURI());
+		feeder.finish();
+	}
+	
+	
+	/**
+	 * Constraint:
+	 *     (oiRef=[ObjectIdentifier|ASN1_ID] | typeRef=[TypeDefinition|MODULE_ID])
+	 */
+	protected void sequence_ImportRef(EObject context, ImportRef semanticObject) {
 		genericSequencer.createSequence(context, semanticObject);
 	}
 	
 	
 	/**
 	 * Constraint:
-	 *     (update=UpdateType | literal=MACRO_VALUE_CAP | string='IA5String')
+	 *     (refs+=ImportRef refs+=ImportRef*)
 	 */
-	protected void sequence_MACRO_VALUE_TYPE(EObject context, MACRO_VALUE_TYPE semanticObject) {
+	protected void sequence_ImportRefs(EObject context, ImportRefs semanticObject) {
 		genericSequencer.createSequence(context, semanticObject);
 	}
 	
 	
 	/**
 	 * Constraint:
-	 *     valueType=MACRO_VALUE_TYPE
+	 *     (update=UpdateType | literal=ValueCapType | string='IA5String')
+	 */
+	protected void sequence_MacroValueType(EObject context, MacroValueType semanticObject) {
+		genericSequencer.createSequence(context, semanticObject);
+	}
+	
+	
+	/**
+	 * Constraint:
+	 *     valueType=MacroValueType
 	 */
 	protected void sequence_MacroValue(EObject context, MacroValue semanticObject) {
 		genericSequencer.createSequence(context, semanticObject);
@@ -329,7 +436,7 @@ public class SmiSemanticSequencer extends AbstractDelegatingSemanticSequencer {
 	
 	/**
 	 * Constraint:
-	 *     (name=MODULE_ID (identifiers+=ObjectIdentifier | types+=TypeDefinition | macros+=Macro)+)
+	 *     (name=MODULE_ID imports=Imports? (objects+=Object | identifiers+=ObjectIdentifier | types+=TypeDefinition | macros+=Macro)+)
 	 */
 	protected void sequence_Module(EObject context, Module semanticObject) {
 		genericSequencer.createSequence(context, semanticObject);
@@ -366,7 +473,16 @@ public class SmiSemanticSequencer extends AbstractDelegatingSemanticSequencer {
 	
 	/**
 	 * Constraint:
-	 *     (param=PARAMETER right=TypeNotationRight)
+	 *     (name=ASN1_ID macroRef=[Macro|MODULE_ID] attributes+=Attribute+ objectValue=ObjectValue)
+	 */
+	protected void sequence_Object(EObject context, com.netxforge.smi.Object semanticObject) {
+		genericSequencer.createSequence(context, semanticObject);
+	}
+	
+	
+	/**
+	 * Constraint:
+	 *     (name=PARAMETER right=TypeNotationRight)
 	 */
 	protected void sequence_ParamAssignment(EObject context, ParamAssignment semanticObject) {
 		genericSequencer.createSequence(context, semanticObject);
@@ -416,7 +532,7 @@ public class SmiSemanticSequencer extends AbstractDelegatingSemanticSequencer {
 	
 	/**
 	 * Constraint:
-	 *     (name='TYPE NOTATION' typeNotations+=TypeAssignment+)
+	 *     (name='TYPE' typeNotations+=TypeAssignment+)
 	 */
 	protected void sequence_TypeNotation(EObject context, TypeNotation semanticObject) {
 		genericSequencer.createSequence(context, semanticObject);
@@ -443,42 +559,50 @@ public class SmiSemanticSequencer extends AbstractDelegatingSemanticSequencer {
 	
 	/**
 	 * Constraint:
-	 *     ref=TypeReference
+	 *     (update?='Update'? ref=TypeReference)
 	 */
 	protected void sequence_UpdateType(EObject context, UpdateType semanticObject) {
+		genericSequencer.createSequence(context, semanticObject);
+	}
+	
+	
+	/**
+	 * Constraint:
+	 *     valueNotation=MacroValue
+	 */
+	protected void sequence_ValueAssignment(EObject context, ValueAssignment semanticObject) {
 		if(errorAcceptor != null) {
-			if(transientValues.isValueTransient(semanticObject, SmiPackage.Literals.UPDATE_TYPE__REF) == ValueTransient.YES)
-				errorAcceptor.accept(diagnosticProvider.createFeatureValueMissing(semanticObject, SmiPackage.Literals.UPDATE_TYPE__REF));
+			if(transientValues.isValueTransient(semanticObject, SmiPackage.Literals.VALUE_ASSIGNMENT__VALUE_NOTATION) == ValueTransient.YES)
+				errorAcceptor.accept(diagnosticProvider.createFeatureValueMissing(semanticObject, SmiPackage.Literals.VALUE_ASSIGNMENT__VALUE_NOTATION));
 		}
 		INodesForEObjectProvider nodes = createNodeProvider(semanticObject);
 		SequenceFeeder feeder = createSequencerFeeder(semanticObject, nodes);
-		feeder.accept(grammarAccess.getUpdateTypeAccess().getRefTypeReferenceParserRuleCall_1_0(), semanticObject.getRef());
+		feeder.accept(grammarAccess.getValueAssignmentAccess().getValueNotationMacroValueParserRuleCall_1_0(), semanticObject.getValueNotation());
 		feeder.finish();
 	}
 	
 	
 	/**
 	 * Constraint:
-	 *     (name='VALUE NOTATION' valueNotation=MacroValue)
+	 *     (ref=TypeReference?)
+	 */
+	protected void sequence_ValueCapType(EObject context, MACRO_VALUE_CAP semanticObject) {
+		genericSequencer.createSequence(context, semanticObject);
+	}
+	
+	
+	/**
+	 * Constraint:
+	 *     (name='VALUE' valueNotations+=ValueAssignment+)
 	 */
 	protected void sequence_ValueNotation(EObject context, ValueNotation semanticObject) {
-		if(errorAcceptor != null) {
-			if(transientValues.isValueTransient(semanticObject, SmiPackage.Literals.VALUE_NOTATION__NAME) == ValueTransient.YES)
-				errorAcceptor.accept(diagnosticProvider.createFeatureValueMissing(semanticObject, SmiPackage.Literals.VALUE_NOTATION__NAME));
-			if(transientValues.isValueTransient(semanticObject, SmiPackage.Literals.VALUE_NOTATION__VALUE_NOTATION) == ValueTransient.YES)
-				errorAcceptor.accept(diagnosticProvider.createFeatureValueMissing(semanticObject, SmiPackage.Literals.VALUE_NOTATION__VALUE_NOTATION));
-		}
-		INodesForEObjectProvider nodes = createNodeProvider(semanticObject);
-		SequenceFeeder feeder = createSequencerFeeder(semanticObject, nodes);
-		feeder.accept(grammarAccess.getValueNotationAccess().getNameVALUENOTATIONKeyword_1_0(), semanticObject.getName());
-		feeder.accept(grammarAccess.getValueNotationAccess().getValueNotationMacroValueParserRuleCall_4_0(), semanticObject.getValueNotation());
-		feeder.finish();
+		genericSequencer.createSequence(context, semanticObject);
 	}
 	
 	
 	/**
 	 * Constraint:
-	 *     (param=ParamAssignment | types=TypeReferenceExt | simpleType=ASN1_TYPE | macroValue=MacroValue | oi='OBJECT IDENTIFIER')
+	 *     {ValueType}
 	 */
 	protected void sequence_ValueType(EObject context, ValueType semanticObject) {
 		genericSequencer.createSequence(context, semanticObject);

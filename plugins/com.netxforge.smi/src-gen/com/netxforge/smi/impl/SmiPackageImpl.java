@@ -2,12 +2,20 @@
  */
 package com.netxforge.smi.impl;
 
+import com.netxforge.smi.Attribute;
+import com.netxforge.smi.AttributeValue;
 import com.netxforge.smi.ChoiceType;
+import com.netxforge.smi.ImportClosure;
+import com.netxforge.smi.ImportRef;
+import com.netxforge.smi.ImportRefs;
+import com.netxforge.smi.Imports;
 import com.netxforge.smi.Macro;
 import com.netxforge.smi.MacroValue;
+import com.netxforge.smi.MacroValueType;
 import com.netxforge.smi.Module;
 import com.netxforge.smi.ObjectIdentifier;
 import com.netxforge.smi.ObjectIdentifierValue;
+import com.netxforge.smi.ObjectValue;
 import com.netxforge.smi.ParamAssignment;
 import com.netxforge.smi.SmiFactory;
 import com.netxforge.smi.SmiPackage;
@@ -18,6 +26,8 @@ import com.netxforge.smi.TypeNotation;
 import com.netxforge.smi.TypeNotationRight;
 import com.netxforge.smi.UpdateType;
 import com.netxforge.smi.Value;
+import com.netxforge.smi.ValueAssignment;
+import com.netxforge.smi.ValueCapType;
 import com.netxforge.smi.ValueNotation;
 import com.netxforge.smi.ValueType;
 
@@ -48,6 +58,34 @@ public class SmiPackageImpl extends EPackageImpl implements SmiPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  private EClass importsEClass = null;
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  private EClass importClosureEClass = null;
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  private EClass importRefsEClass = null;
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  private EClass importRefEClass = null;
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
   private EClass objectIdentifierEClass = null;
 
   /**
@@ -63,6 +101,34 @@ public class SmiPackageImpl extends EPackageImpl implements SmiPackage
    * @generated
    */
   private EClass typeDefinitionEClass = null;
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  private EClass objectEClass = null;
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  private EClass attributeEClass = null;
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  private EClass attributeValueEClass = null;
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  private EClass objectValueEClass = null;
 
   /**
    * <!-- begin-user-doc -->
@@ -111,6 +177,13 @@ public class SmiPackageImpl extends EPackageImpl implements SmiPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  private EClass valueAssignmentEClass = null;
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
   private EClass valueEClass = null;
 
   /**
@@ -132,7 +205,7 @@ public class SmiPackageImpl extends EPackageImpl implements SmiPackage
    * <!-- end-user-doc -->
    * @generated
    */
-  private EClass macrO_VALUE_TYPEEClass = null;
+  private EClass macroValueTypeEClass = null;
 
   /**
    * <!-- begin-user-doc -->
@@ -146,7 +219,7 @@ public class SmiPackageImpl extends EPackageImpl implements SmiPackage
    * <!-- end-user-doc -->
    * @generated
    */
-  private EClass macrO_VALUE_CAPEClass = null;
+  private EClass valueCapTypeEClass = null;
 
   /**
    * <!-- begin-user-doc -->
@@ -196,6 +269,13 @@ public class SmiPackageImpl extends EPackageImpl implements SmiPackage
    * @generated
    */
   private EClass macroValueEClass = null;
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  private EClass macrO_VALUE_CAPEClass = null;
 
   /**
    * <!-- begin-user-doc -->
@@ -292,7 +372,7 @@ public class SmiPackageImpl extends EPackageImpl implements SmiPackage
    * <!-- end-user-doc -->
    * @generated
    */
-  public EReference getModule_Identifiers()
+  public EReference getModule_Imports()
   {
     return (EReference)moduleEClass.getEStructuralFeatures().get(1);
   }
@@ -302,7 +382,7 @@ public class SmiPackageImpl extends EPackageImpl implements SmiPackage
    * <!-- end-user-doc -->
    * @generated
    */
-  public EReference getModule_Types()
+  public EReference getModule_Objects()
   {
     return (EReference)moduleEClass.getEStructuralFeatures().get(2);
   }
@@ -312,9 +392,119 @@ public class SmiPackageImpl extends EPackageImpl implements SmiPackage
    * <!-- end-user-doc -->
    * @generated
    */
-  public EReference getModule_Macros()
+  public EReference getModule_Identifiers()
   {
     return (EReference)moduleEClass.getEStructuralFeatures().get(3);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public EReference getModule_Types()
+  {
+    return (EReference)moduleEClass.getEStructuralFeatures().get(4);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public EReference getModule_Macros()
+  {
+    return (EReference)moduleEClass.getEStructuralFeatures().get(5);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public EClass getImports()
+  {
+    return importsEClass;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public EClass getImportClosure()
+  {
+    return importClosureEClass;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public EReference getImportClosure_Refs()
+  {
+    return (EReference)importClosureEClass.getEStructuralFeatures().get(0);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public EAttribute getImportClosure_ImportURI()
+  {
+    return (EAttribute)importClosureEClass.getEStructuralFeatures().get(1);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public EClass getImportRefs()
+  {
+    return importRefsEClass;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public EReference getImportRefs_Refs()
+  {
+    return (EReference)importRefsEClass.getEStructuralFeatures().get(0);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public EClass getImportRef()
+  {
+    return importRefEClass;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public EReference getImportRef_OiRef()
+  {
+    return (EReference)importRefEClass.getEStructuralFeatures().get(0);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public EReference getImportRef_TypeRef()
+  {
+    return (EReference)importRefEClass.getEStructuralFeatures().get(1);
   }
 
   /**
@@ -422,6 +612,126 @@ public class SmiPackageImpl extends EPackageImpl implements SmiPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  public EClass getObject()
+  {
+    return objectEClass;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public EAttribute getObject_Name()
+  {
+    return (EAttribute)objectEClass.getEStructuralFeatures().get(0);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public EReference getObject_MacroRef()
+  {
+    return (EReference)objectEClass.getEStructuralFeatures().get(1);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public EReference getObject_Attributes()
+  {
+    return (EReference)objectEClass.getEStructuralFeatures().get(2);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public EReference getObject_ObjectValue()
+  {
+    return (EReference)objectEClass.getEStructuralFeatures().get(3);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public EClass getAttribute()
+  {
+    return attributeEClass;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public EReference getAttribute_ParamRef()
+  {
+    return (EReference)attributeEClass.getEStructuralFeatures().get(0);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public EReference getAttribute_Value()
+  {
+    return (EReference)attributeEClass.getEStructuralFeatures().get(1);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public EClass getAttributeValue()
+  {
+    return attributeValueEClass;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public EAttribute getAttributeValue_Id()
+  {
+    return (EAttribute)attributeValueEClass.getEStructuralFeatures().get(0);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public EAttribute getAttributeValue_Text()
+  {
+    return (EAttribute)attributeValueEClass.getEStructuralFeatures().get(1);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public EClass getObjectValue()
+  {
+    return objectValueEClass;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
   public EClass getMacro()
   {
     return macroEClass;
@@ -522,7 +832,7 @@ public class SmiPackageImpl extends EPackageImpl implements SmiPackage
    * <!-- end-user-doc -->
    * @generated
    */
-  public EReference getValueNotation_ValueNotation()
+  public EReference getValueNotation_ValueNotations()
   {
     return (EReference)valueNotationEClass.getEStructuralFeatures().get(1);
   }
@@ -582,7 +892,7 @@ public class SmiPackageImpl extends EPackageImpl implements SmiPackage
    * <!-- end-user-doc -->
    * @generated
    */
-  public EAttribute getParamAssignment_Param()
+  public EAttribute getParamAssignment_Name()
   {
     return (EAttribute)paramAssignmentEClass.getEStructuralFeatures().get(0);
   }
@@ -615,6 +925,26 @@ public class SmiPackageImpl extends EPackageImpl implements SmiPackage
   public EReference getTypeNotationRight_Value()
   {
     return (EReference)typeNotationRightEClass.getEStructuralFeatures().get(0);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public EClass getValueAssignment()
+  {
+    return valueAssignmentEClass;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public EReference getValueAssignment_ValueNotation()
+  {
+    return (EReference)valueAssignmentEClass.getEStructuralFeatures().get(0);
   }
 
   /**
@@ -702,9 +1032,9 @@ public class SmiPackageImpl extends EPackageImpl implements SmiPackage
    * <!-- end-user-doc -->
    * @generated
    */
-  public EReference getValueType_Types()
+  public EAttribute getValueType_Id()
   {
-    return (EReference)valueTypeEClass.getEStructuralFeatures().get(1);
+    return (EAttribute)valueTypeEClass.getEStructuralFeatures().get(1);
   }
 
   /**
@@ -712,7 +1042,7 @@ public class SmiPackageImpl extends EPackageImpl implements SmiPackage
    * <!-- end-user-doc -->
    * @generated
    */
-  public EReference getValueType_SimpleType()
+  public EReference getValueType_Types()
   {
     return (EReference)valueTypeEClass.getEStructuralFeatures().get(2);
   }
@@ -722,7 +1052,7 @@ public class SmiPackageImpl extends EPackageImpl implements SmiPackage
    * <!-- end-user-doc -->
    * @generated
    */
-  public EReference getValueType_MacroValue()
+  public EReference getValueType_SimpleType()
   {
     return (EReference)valueTypeEClass.getEStructuralFeatures().get(3);
   }
@@ -732,9 +1062,9 @@ public class SmiPackageImpl extends EPackageImpl implements SmiPackage
    * <!-- end-user-doc -->
    * @generated
    */
-  public EAttribute getValueType_Oi()
+  public EReference getValueType_MacroValue()
   {
-    return (EAttribute)valueTypeEClass.getEStructuralFeatures().get(4);
+    return (EReference)valueTypeEClass.getEStructuralFeatures().get(4);
   }
 
   /**
@@ -742,9 +1072,9 @@ public class SmiPackageImpl extends EPackageImpl implements SmiPackage
    * <!-- end-user-doc -->
    * @generated
    */
-  public EClass getMACRO_VALUE_TYPE()
+  public EClass getMacroValueType()
   {
-    return macrO_VALUE_TYPEEClass;
+    return macroValueTypeEClass;
   }
 
   /**
@@ -752,9 +1082,9 @@ public class SmiPackageImpl extends EPackageImpl implements SmiPackage
    * <!-- end-user-doc -->
    * @generated
    */
-  public EReference getMACRO_VALUE_TYPE_Update()
+  public EReference getMacroValueType_Update()
   {
-    return (EReference)macrO_VALUE_TYPEEClass.getEStructuralFeatures().get(0);
+    return (EReference)macroValueTypeEClass.getEStructuralFeatures().get(0);
   }
 
   /**
@@ -762,9 +1092,9 @@ public class SmiPackageImpl extends EPackageImpl implements SmiPackage
    * <!-- end-user-doc -->
    * @generated
    */
-  public EReference getMACRO_VALUE_TYPE_Literal()
+  public EReference getMacroValueType_Literal()
   {
-    return (EReference)macrO_VALUE_TYPEEClass.getEStructuralFeatures().get(1);
+    return (EReference)macroValueTypeEClass.getEStructuralFeatures().get(1);
   }
 
   /**
@@ -772,9 +1102,9 @@ public class SmiPackageImpl extends EPackageImpl implements SmiPackage
    * <!-- end-user-doc -->
    * @generated
    */
-  public EAttribute getMACRO_VALUE_TYPE_String()
+  public EAttribute getMacroValueType_String()
   {
-    return (EAttribute)macrO_VALUE_TYPEEClass.getEStructuralFeatures().get(2);
+    return (EAttribute)macroValueTypeEClass.getEStructuralFeatures().get(2);
   }
 
   /**
@@ -792,9 +1122,19 @@ public class SmiPackageImpl extends EPackageImpl implements SmiPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  public EAttribute getUpdateType_Update()
+  {
+    return (EAttribute)updateTypeEClass.getEStructuralFeatures().get(0);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
   public EReference getUpdateType_Ref()
   {
-    return (EReference)updateTypeEClass.getEStructuralFeatures().get(0);
+    return (EReference)updateTypeEClass.getEStructuralFeatures().get(1);
   }
 
   /**
@@ -802,19 +1142,9 @@ public class SmiPackageImpl extends EPackageImpl implements SmiPackage
    * <!-- end-user-doc -->
    * @generated
    */
-  public EClass getMACRO_VALUE_CAP()
+  public EClass getValueCapType()
   {
-    return macrO_VALUE_CAPEClass;
-  }
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  public EReference getMACRO_VALUE_CAP_Ref()
-  {
-    return (EReference)macrO_VALUE_CAPEClass.getEStructuralFeatures().get(0);
+    return valueCapTypeEClass;
   }
 
   /**
@@ -1002,16 +1332,6 @@ public class SmiPackageImpl extends EPackageImpl implements SmiPackage
    * <!-- end-user-doc -->
    * @generated
    */
-  public EAttribute getChoiceType_Oi()
-  {
-    return (EAttribute)choiceTypeEClass.getEStructuralFeatures().get(2);
-  }
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
   public EClass getMacroValue()
   {
     return macroValueEClass;
@@ -1025,6 +1345,26 @@ public class SmiPackageImpl extends EPackageImpl implements SmiPackage
   public EReference getMacroValue_ValueType()
   {
     return (EReference)macroValueEClass.getEStructuralFeatures().get(0);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public EClass getMACRO_VALUE_CAP()
+  {
+    return macrO_VALUE_CAPEClass;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public EReference getMACRO_VALUE_CAP_Ref()
+  {
+    return (EReference)macrO_VALUE_CAPEClass.getEStructuralFeatures().get(0);
   }
 
   /**
@@ -1069,9 +1409,24 @@ public class SmiPackageImpl extends EPackageImpl implements SmiPackage
     // Create classes and their features
     moduleEClass = createEClass(MODULE);
     createEAttribute(moduleEClass, MODULE__NAME);
+    createEReference(moduleEClass, MODULE__IMPORTS);
+    createEReference(moduleEClass, MODULE__OBJECTS);
     createEReference(moduleEClass, MODULE__IDENTIFIERS);
     createEReference(moduleEClass, MODULE__TYPES);
     createEReference(moduleEClass, MODULE__MACROS);
+
+    importsEClass = createEClass(IMPORTS);
+
+    importClosureEClass = createEClass(IMPORT_CLOSURE);
+    createEReference(importClosureEClass, IMPORT_CLOSURE__REFS);
+    createEAttribute(importClosureEClass, IMPORT_CLOSURE__IMPORT_URI);
+
+    importRefsEClass = createEClass(IMPORT_REFS);
+    createEReference(importRefsEClass, IMPORT_REFS__REFS);
+
+    importRefEClass = createEClass(IMPORT_REF);
+    createEReference(importRefEClass, IMPORT_REF__OI_REF);
+    createEReference(importRefEClass, IMPORT_REF__TYPE_REF);
 
     objectIdentifierEClass = createEClass(OBJECT_IDENTIFIER);
     createEAttribute(objectIdentifierEClass, OBJECT_IDENTIFIER__NAME);
@@ -1086,6 +1441,22 @@ public class SmiPackageImpl extends EPackageImpl implements SmiPackage
     createEAttribute(typeDefinitionEClass, TYPE_DEFINITION__NAME);
     createEReference(typeDefinitionEClass, TYPE_DEFINITION__VALUES);
 
+    objectEClass = createEClass(OBJECT);
+    createEAttribute(objectEClass, OBJECT__NAME);
+    createEReference(objectEClass, OBJECT__MACRO_REF);
+    createEReference(objectEClass, OBJECT__ATTRIBUTES);
+    createEReference(objectEClass, OBJECT__OBJECT_VALUE);
+
+    attributeEClass = createEClass(ATTRIBUTE);
+    createEReference(attributeEClass, ATTRIBUTE__PARAM_REF);
+    createEReference(attributeEClass, ATTRIBUTE__VALUE);
+
+    attributeValueEClass = createEClass(ATTRIBUTE_VALUE);
+    createEAttribute(attributeValueEClass, ATTRIBUTE_VALUE__ID);
+    createEAttribute(attributeValueEClass, ATTRIBUTE_VALUE__TEXT);
+
+    objectValueEClass = createEClass(OBJECT_VALUE);
+
     macroEClass = createEClass(MACRO);
     createEAttribute(macroEClass, MACRO__NAME);
     createEReference(macroEClass, MACRO__TYPE_NOTATION);
@@ -1098,7 +1469,7 @@ public class SmiPackageImpl extends EPackageImpl implements SmiPackage
 
     valueNotationEClass = createEClass(VALUE_NOTATION);
     createEAttribute(valueNotationEClass, VALUE_NOTATION__NAME);
-    createEReference(valueNotationEClass, VALUE_NOTATION__VALUE_NOTATION);
+    createEReference(valueNotationEClass, VALUE_NOTATION__VALUE_NOTATIONS);
 
     typeAssignmentEClass = createEClass(TYPE_ASSIGNMENT);
     createEReference(typeAssignmentEClass, TYPE_ASSIGNMENT__PARENT_REF);
@@ -1106,11 +1477,14 @@ public class SmiPackageImpl extends EPackageImpl implements SmiPackage
     createEReference(typeAssignmentEClass, TYPE_ASSIGNMENT__TYPE);
 
     paramAssignmentEClass = createEClass(PARAM_ASSIGNMENT);
-    createEAttribute(paramAssignmentEClass, PARAM_ASSIGNMENT__PARAM);
+    createEAttribute(paramAssignmentEClass, PARAM_ASSIGNMENT__NAME);
     createEReference(paramAssignmentEClass, PARAM_ASSIGNMENT__RIGHT);
 
     typeNotationRightEClass = createEClass(TYPE_NOTATION_RIGHT);
     createEReference(typeNotationRightEClass, TYPE_NOTATION_RIGHT__VALUE);
+
+    valueAssignmentEClass = createEClass(VALUE_ASSIGNMENT);
+    createEReference(valueAssignmentEClass, VALUE_ASSIGNMENT__VALUE_NOTATION);
 
     valueEClass = createEClass(VALUE);
     createEReference(valueEClass, VALUE__TAG);
@@ -1122,21 +1496,21 @@ public class SmiPackageImpl extends EPackageImpl implements SmiPackage
 
     valueTypeEClass = createEClass(VALUE_TYPE);
     createEReference(valueTypeEClass, VALUE_TYPE__PARAM);
+    createEAttribute(valueTypeEClass, VALUE_TYPE__ID);
     createEReference(valueTypeEClass, VALUE_TYPE__TYPES);
     createEReference(valueTypeEClass, VALUE_TYPE__SIMPLE_TYPE);
     createEReference(valueTypeEClass, VALUE_TYPE__MACRO_VALUE);
-    createEAttribute(valueTypeEClass, VALUE_TYPE__OI);
 
-    macrO_VALUE_TYPEEClass = createEClass(MACRO_VALUE_TYPE);
-    createEReference(macrO_VALUE_TYPEEClass, MACRO_VALUE_TYPE__UPDATE);
-    createEReference(macrO_VALUE_TYPEEClass, MACRO_VALUE_TYPE__LITERAL);
-    createEAttribute(macrO_VALUE_TYPEEClass, MACRO_VALUE_TYPE__STRING);
+    macroValueTypeEClass = createEClass(MACRO_VALUE_TYPE);
+    createEReference(macroValueTypeEClass, MACRO_VALUE_TYPE__UPDATE);
+    createEReference(macroValueTypeEClass, MACRO_VALUE_TYPE__LITERAL);
+    createEAttribute(macroValueTypeEClass, MACRO_VALUE_TYPE__STRING);
 
     updateTypeEClass = createEClass(UPDATE_TYPE);
+    createEAttribute(updateTypeEClass, UPDATE_TYPE__UPDATE);
     createEReference(updateTypeEClass, UPDATE_TYPE__REF);
 
-    macrO_VALUE_CAPEClass = createEClass(MACRO_VALUE_CAP);
-    createEReference(macrO_VALUE_CAPEClass, MACRO_VALUE_CAP__REF);
+    valueCapTypeEClass = createEClass(VALUE_CAP_TYPE);
 
     asn1_TYPEEClass = createEClass(ASN1_TYPE);
 
@@ -1161,10 +1535,12 @@ public class SmiPackageImpl extends EPackageImpl implements SmiPackage
     choiceTypeEClass = createEClass(CHOICE_TYPE);
     createEReference(choiceTypeEClass, CHOICE_TYPE__TYPE_REF);
     createEReference(choiceTypeEClass, CHOICE_TYPE__SIMPLE_TYPE);
-    createEAttribute(choiceTypeEClass, CHOICE_TYPE__OI);
 
     macroValueEClass = createEClass(MACRO_VALUE);
     createEReference(macroValueEClass, MACRO_VALUE__VALUE_TYPE);
+
+    macrO_VALUE_CAPEClass = createEClass(MACRO_VALUE_CAP);
+    createEReference(macrO_VALUE_CAPEClass, MACRO_VALUE_CAP__REF);
 
     asn1_OCTET_STRINGEClass = createEClass(ASN1_OCTET_STRING);
   }
@@ -1198,20 +1574,38 @@ public class SmiPackageImpl extends EPackageImpl implements SmiPackage
     // Set bounds for type parameters
 
     // Add supertypes to classes
+    importClosureEClass.getESuperTypes().add(this.getImports());
+    objectIdentifierValueEClass.getESuperTypes().add(this.getObjectValue());
     typeAssignmentEClass.getESuperTypes().add(this.getTypeNotationRight());
     paramAssignmentEClass.getESuperTypes().add(this.getTypeAssignment());
     valueEClass.getESuperTypes().add(this.getTypeAssignment());
     asn1_SIMPLEEClass.getESuperTypes().add(this.getASN1_TYPE());
     asn1_CHOICEEClass.getESuperTypes().add(this.getASN1_TYPE());
     macroValueEClass.getESuperTypes().add(this.getValue());
+    macrO_VALUE_CAPEClass.getESuperTypes().add(this.getValueCapType());
     asn1_OCTET_STRINGEClass.getESuperTypes().add(this.getASN1_SIMPLE());
 
     // Initialize classes and features; add operations and parameters
     initEClass(moduleEClass, Module.class, "Module", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
     initEAttribute(getModule_Name(), ecorePackage.getEString(), "name", null, 0, 1, Module.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEReference(getModule_Imports(), this.getImports(), null, "imports", null, 0, 1, Module.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEReference(getModule_Objects(), this.getObject(), null, "objects", null, 0, -1, Module.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
     initEReference(getModule_Identifiers(), this.getObjectIdentifier(), null, "identifiers", null, 0, -1, Module.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
     initEReference(getModule_Types(), this.getTypeDefinition(), null, "types", null, 0, -1, Module.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
     initEReference(getModule_Macros(), this.getMacro(), null, "macros", null, 0, -1, Module.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+    initEClass(importsEClass, Imports.class, "Imports", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+
+    initEClass(importClosureEClass, ImportClosure.class, "ImportClosure", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+    initEReference(getImportClosure_Refs(), this.getImportRefs(), null, "refs", null, 0, 1, ImportClosure.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEAttribute(getImportClosure_ImportURI(), ecorePackage.getEString(), "importURI", null, 0, 1, ImportClosure.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+    initEClass(importRefsEClass, ImportRefs.class, "ImportRefs", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+    initEReference(getImportRefs_Refs(), this.getImportRef(), null, "refs", null, 0, -1, ImportRefs.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+    initEClass(importRefEClass, ImportRef.class, "ImportRef", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+    initEReference(getImportRef_OiRef(), this.getObjectIdentifier(), null, "oiRef", null, 0, 1, ImportRef.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEReference(getImportRef_TypeRef(), this.getTypeDefinition(), null, "typeRef", null, 0, 1, ImportRef.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
     initEClass(objectIdentifierEClass, ObjectIdentifier.class, "ObjectIdentifier", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
     initEAttribute(getObjectIdentifier_Name(), ecorePackage.getEString(), "name", null, 0, 1, ObjectIdentifier.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
@@ -1226,6 +1620,22 @@ public class SmiPackageImpl extends EPackageImpl implements SmiPackage
     initEAttribute(getTypeDefinition_Name(), ecorePackage.getEString(), "name", null, 0, 1, TypeDefinition.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
     initEReference(getTypeDefinition_Values(), this.getValue(), null, "values", null, 0, -1, TypeDefinition.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
+    initEClass(objectEClass, com.netxforge.smi.Object.class, "Object", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+    initEAttribute(getObject_Name(), ecorePackage.getEString(), "name", null, 0, 1, com.netxforge.smi.Object.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEReference(getObject_MacroRef(), this.getMacro(), null, "macroRef", null, 0, 1, com.netxforge.smi.Object.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEReference(getObject_Attributes(), this.getAttribute(), null, "attributes", null, 0, -1, com.netxforge.smi.Object.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEReference(getObject_ObjectValue(), this.getObjectValue(), null, "objectValue", null, 0, 1, com.netxforge.smi.Object.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+    initEClass(attributeEClass, Attribute.class, "Attribute", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+    initEReference(getAttribute_ParamRef(), this.getParamAssignment(), null, "paramRef", null, 0, 1, Attribute.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEReference(getAttribute_Value(), this.getAttributeValue(), null, "value", null, 0, 1, Attribute.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+    initEClass(attributeValueEClass, AttributeValue.class, "AttributeValue", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+    initEAttribute(getAttributeValue_Id(), ecorePackage.getEString(), "id", null, 0, 1, AttributeValue.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEAttribute(getAttributeValue_Text(), ecorePackage.getEString(), "text", null, 0, 1, AttributeValue.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+    initEClass(objectValueEClass, ObjectValue.class, "ObjectValue", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+
     initEClass(macroEClass, Macro.class, "Macro", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
     initEAttribute(getMacro_Name(), ecorePackage.getEString(), "name", null, 0, 1, Macro.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
     initEReference(getMacro_TypeNotation(), this.getTypeNotation(), null, "typeNotation", null, 0, 1, Macro.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
@@ -1238,7 +1648,7 @@ public class SmiPackageImpl extends EPackageImpl implements SmiPackage
 
     initEClass(valueNotationEClass, ValueNotation.class, "ValueNotation", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
     initEAttribute(getValueNotation_Name(), ecorePackage.getEString(), "name", null, 0, 1, ValueNotation.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-    initEReference(getValueNotation_ValueNotation(), this.getValue(), null, "valueNotation", null, 0, 1, ValueNotation.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEReference(getValueNotation_ValueNotations(), this.getValueAssignment(), null, "valueNotations", null, 0, -1, ValueNotation.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
     initEClass(typeAssignmentEClass, TypeAssignment.class, "TypeAssignment", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
     initEReference(getTypeAssignment_ParentRef(), this.getTypeAssignment(), null, "parentRef", null, 0, 1, TypeAssignment.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
@@ -1246,11 +1656,14 @@ public class SmiPackageImpl extends EPackageImpl implements SmiPackage
     initEReference(getTypeAssignment_Type(), this.getTypeDefinition(), null, "type", null, 0, 1, TypeAssignment.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
     initEClass(paramAssignmentEClass, ParamAssignment.class, "ParamAssignment", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-    initEAttribute(getParamAssignment_Param(), ecorePackage.getEString(), "param", null, 0, 1, ParamAssignment.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEAttribute(getParamAssignment_Name(), ecorePackage.getEString(), "name", null, 0, 1, ParamAssignment.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
     initEReference(getParamAssignment_Right(), this.getTypeNotationRight(), null, "right", null, 0, 1, ParamAssignment.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
     initEClass(typeNotationRightEClass, TypeNotationRight.class, "TypeNotationRight", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
     initEReference(getTypeNotationRight_Value(), this.getValue(), null, "value", null, 0, 1, TypeNotationRight.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+    initEClass(valueAssignmentEClass, ValueAssignment.class, "ValueAssignment", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+    initEReference(getValueAssignment_ValueNotation(), this.getValue(), null, "valueNotation", null, 0, 1, ValueAssignment.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
     initEClass(valueEClass, Value.class, "Value", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
     initEReference(getValue_Tag(), this.getTag(), null, "tag", null, 0, 1, Value.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
@@ -1262,21 +1675,21 @@ public class SmiPackageImpl extends EPackageImpl implements SmiPackage
 
     initEClass(valueTypeEClass, ValueType.class, "ValueType", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
     initEReference(getValueType_Param(), this.getParamAssignment(), null, "param", null, 0, 1, ValueType.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEAttribute(getValueType_Id(), ecorePackage.getEString(), "id", null, 0, 1, ValueType.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
     initEReference(getValueType_Types(), this.getTypeAssignment(), null, "types", null, 0, 1, ValueType.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
     initEReference(getValueType_SimpleType(), this.getASN1_TYPE(), null, "simpleType", null, 0, 1, ValueType.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
     initEReference(getValueType_MacroValue(), this.getValue(), null, "macroValue", null, 0, 1, ValueType.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-    initEAttribute(getValueType_Oi(), ecorePackage.getEString(), "oi", null, 0, 1, ValueType.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
-    initEClass(macrO_VALUE_TYPEEClass, com.netxforge.smi.MACRO_VALUE_TYPE.class, "MACRO_VALUE_TYPE", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-    initEReference(getMACRO_VALUE_TYPE_Update(), this.getUpdateType(), null, "update", null, 0, 1, com.netxforge.smi.MACRO_VALUE_TYPE.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-    initEReference(getMACRO_VALUE_TYPE_Literal(), this.getMACRO_VALUE_CAP(), null, "literal", null, 0, 1, com.netxforge.smi.MACRO_VALUE_TYPE.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-    initEAttribute(getMACRO_VALUE_TYPE_String(), ecorePackage.getEString(), "string", null, 0, 1, com.netxforge.smi.MACRO_VALUE_TYPE.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEClass(macroValueTypeEClass, MacroValueType.class, "MacroValueType", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+    initEReference(getMacroValueType_Update(), this.getUpdateType(), null, "update", null, 0, 1, MacroValueType.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEReference(getMacroValueType_Literal(), this.getValueCapType(), null, "literal", null, 0, 1, MacroValueType.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEAttribute(getMacroValueType_String(), ecorePackage.getEString(), "string", null, 0, 1, MacroValueType.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
     initEClass(updateTypeEClass, UpdateType.class, "UpdateType", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+    initEAttribute(getUpdateType_Update(), ecorePackage.getEBoolean(), "update", null, 0, 1, UpdateType.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
     initEReference(getUpdateType_Ref(), this.getTypeAssignment(), null, "ref", null, 0, 1, UpdateType.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
-    initEClass(macrO_VALUE_CAPEClass, com.netxforge.smi.MACRO_VALUE_CAP.class, "MACRO_VALUE_CAP", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-    initEReference(getMACRO_VALUE_CAP_Ref(), this.getTypeAssignment(), null, "ref", null, 0, 1, com.netxforge.smi.MACRO_VALUE_CAP.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEClass(valueCapTypeEClass, ValueCapType.class, "ValueCapType", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 
     initEClass(asn1_TYPEEClass, com.netxforge.smi.ASN1_TYPE.class, "ASN1_TYPE", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 
@@ -1301,10 +1714,12 @@ public class SmiPackageImpl extends EPackageImpl implements SmiPackage
     initEClass(choiceTypeEClass, ChoiceType.class, "ChoiceType", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
     initEReference(getChoiceType_TypeRef(), this.getTypeAssignment(), null, "typeRef", null, 0, 1, ChoiceType.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
     initEReference(getChoiceType_SimpleType(), this.getASN1_TYPE(), null, "simpleType", null, 0, 1, ChoiceType.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-    initEAttribute(getChoiceType_Oi(), ecorePackage.getEString(), "oi", null, 0, 1, ChoiceType.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
     initEClass(macroValueEClass, MacroValue.class, "MacroValue", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-    initEReference(getMacroValue_ValueType(), this.getMACRO_VALUE_TYPE(), null, "valueType", null, 0, 1, MacroValue.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEReference(getMacroValue_ValueType(), this.getMacroValueType(), null, "valueType", null, 0, 1, MacroValue.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+    initEClass(macrO_VALUE_CAPEClass, com.netxforge.smi.MACRO_VALUE_CAP.class, "MACRO_VALUE_CAP", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+    initEReference(getMACRO_VALUE_CAP_Ref(), this.getTypeAssignment(), null, "ref", null, 0, 1, com.netxforge.smi.MACRO_VALUE_CAP.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
     initEClass(asn1_OCTET_STRINGEClass, com.netxforge.smi.ASN1_OCTET_STRING.class, "ASN1_OCTET_STRING", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 

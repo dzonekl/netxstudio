@@ -13,10 +13,10 @@ import org.eclipse.emf.ecore.EObject;
  * The following features are supported:
  * <ul>
  *   <li>{@link com.netxforge.smi.ValueType#getParam <em>Param</em>}</li>
+ *   <li>{@link com.netxforge.smi.ValueType#getId <em>Id</em>}</li>
  *   <li>{@link com.netxforge.smi.ValueType#getTypes <em>Types</em>}</li>
  *   <li>{@link com.netxforge.smi.ValueType#getSimpleType <em>Simple Type</em>}</li>
  *   <li>{@link com.netxforge.smi.ValueType#getMacroValue <em>Macro Value</em>}</li>
- *   <li>{@link com.netxforge.smi.ValueType#getOi <em>Oi</em>}</li>
  * </ul>
  * </p>
  *
@@ -51,6 +51,32 @@ public interface ValueType extends EObject
    * @generated
    */
   void setParam(ParamAssignment value);
+
+  /**
+   * Returns the value of the '<em><b>Id</b></em>' attribute.
+   * <!-- begin-user-doc -->
+   * <p>
+   * If the meaning of the '<em>Id</em>' attribute isn't clear,
+   * there really should be more of a description here...
+   * </p>
+   * <!-- end-user-doc -->
+   * @return the value of the '<em>Id</em>' attribute.
+   * @see #setId(String)
+   * @see com.netxforge.smi.SmiPackage#getValueType_Id()
+   * @model
+   * @generated
+   */
+  String getId();
+
+  /**
+   * Sets the value of the '{@link com.netxforge.smi.ValueType#getId <em>Id</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @param value the new value of the '<em>Id</em>' attribute.
+   * @see #getId()
+   * @generated
+   */
+  void setId(String value);
 
   /**
    * Returns the value of the '<em><b>Types</b></em>' containment reference.
@@ -129,31 +155,5 @@ public interface ValueType extends EObject
    * @generated
    */
   void setMacroValue(Value value);
-
-  /**
-   * Returns the value of the '<em><b>Oi</b></em>' attribute.
-   * <!-- begin-user-doc -->
-   * <p>
-   * If the meaning of the '<em>Oi</em>' attribute isn't clear,
-   * there really should be more of a description here...
-   * </p>
-   * <!-- end-user-doc -->
-   * @return the value of the '<em>Oi</em>' attribute.
-   * @see #setOi(String)
-   * @see com.netxforge.smi.SmiPackage#getValueType_Oi()
-   * @model
-   * @generated
-   */
-  String getOi();
-
-  /**
-   * Sets the value of the '{@link com.netxforge.smi.ValueType#getOi <em>Oi</em>}' attribute.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @param value the new value of the '<em>Oi</em>' attribute.
-   * @see #getOi()
-   * @generated
-   */
-  void setOi(String value);
 
 } // ValueType

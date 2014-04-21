@@ -33,9 +33,17 @@ public class SMIValueConverters extends DefaultTerminalConverters {
 	@Inject
 	private BigIntegerValueConverter bigIntegerValueConverter;
 
+	@Inject
+	private ParameterValueConverter paramValueConverter;
+
 	@ValueConverter(rule = "BIG_INTEGER")
 	public IValueConverter<BigInteger> BIG_INTEGER() {
 		return bigIntegerValueConverter;
+	}
+
+	@ValueConverter(rule = "PARAMETER")
+	public IValueConverter<String> PARAMETER() {
+		return paramValueConverter;
 	}
 
 	private static class BigIntegerValueConverter extends
@@ -49,6 +57,24 @@ public class SMIValueConverters extends DefaultTerminalConverters {
 				throw new ValueConverterException("Is not a Big Integer", node,
 						e);
 			}
+		}
+
+	}
+
+	private static class ParameterValueConverter extends
+			AbstractLexerBasedConverter<String> {
+
+		public String toValue(String string, INode node)
+				throws ValueConverterException {
+			if (string.length() >= 2 && string.startsWith("\"")
+					&& string.endsWith("\"")) {
+				return string.substring(1, string.length() - 1);
+			}
+			// else{
+			// throw new ValueConverterException("Not a quoted parameter",
+			// node, null);
+			// }
+			return string;
 		}
 
 	}

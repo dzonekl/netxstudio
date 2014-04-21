@@ -12,6 +12,7 @@ import org.eclipse.emf.ecore.EObject;
  * <p>
  * The following features are supported:
  * <ul>
+ *   <li>{@link com.netxforge.smi.UpdateType#isUpdate <em>Update</em>}</li>
  *   <li>{@link com.netxforge.smi.UpdateType#getRef <em>Ref</em>}</li>
  * </ul>
  * </p>
@@ -22,6 +23,32 @@ import org.eclipse.emf.ecore.EObject;
  */
 public interface UpdateType extends EObject
 {
+  /**
+   * Returns the value of the '<em><b>Update</b></em>' attribute.
+   * <!-- begin-user-doc -->
+   * <p>
+   * If the meaning of the '<em>Update</em>' attribute isn't clear,
+   * there really should be more of a description here...
+   * </p>
+   * <!-- end-user-doc -->
+   * @return the value of the '<em>Update</em>' attribute.
+   * @see #setUpdate(boolean)
+   * @see com.netxforge.smi.SmiPackage#getUpdateType_Update()
+   * @model
+   * @generated
+   */
+  boolean isUpdate();
+
+  /**
+   * Sets the value of the '{@link com.netxforge.smi.UpdateType#isUpdate <em>Update</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @param value the new value of the '<em>Update</em>' attribute.
+   * @see #isUpdate()
+   * @generated
+   */
+  void setUpdate(boolean value);
+
   /**
    * Returns the value of the '<em><b>Ref</b></em>' containment reference.
    * <!-- begin-user-doc -->

@@ -26,10 +26,10 @@ import org.eclipse.emf.ecore.impl.MinimalEObjectImpl;
  * The following features are implemented:
  * <ul>
  *   <li>{@link com.netxforge.smi.impl.ValueTypeImpl#getParam <em>Param</em>}</li>
+ *   <li>{@link com.netxforge.smi.impl.ValueTypeImpl#getId <em>Id</em>}</li>
  *   <li>{@link com.netxforge.smi.impl.ValueTypeImpl#getTypes <em>Types</em>}</li>
  *   <li>{@link com.netxforge.smi.impl.ValueTypeImpl#getSimpleType <em>Simple Type</em>}</li>
  *   <li>{@link com.netxforge.smi.impl.ValueTypeImpl#getMacroValue <em>Macro Value</em>}</li>
- *   <li>{@link com.netxforge.smi.impl.ValueTypeImpl#getOi <em>Oi</em>}</li>
  * </ul>
  * </p>
  *
@@ -46,6 +46,26 @@ public class ValueTypeImpl extends MinimalEObjectImpl.Container implements Value
    * @ordered
    */
   protected ParamAssignment param;
+
+  /**
+   * The default value of the '{@link #getId() <em>Id</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see #getId()
+   * @generated
+   * @ordered
+   */
+  protected static final String ID_EDEFAULT = null;
+
+  /**
+   * The cached value of the '{@link #getId() <em>Id</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see #getId()
+   * @generated
+   * @ordered
+   */
+  protected String id = ID_EDEFAULT;
 
   /**
    * The cached value of the '{@link #getTypes() <em>Types</em>}' containment reference.
@@ -76,26 +96,6 @@ public class ValueTypeImpl extends MinimalEObjectImpl.Container implements Value
    * @ordered
    */
   protected Value macroValue;
-
-  /**
-   * The default value of the '{@link #getOi() <em>Oi</em>}' attribute.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @see #getOi()
-   * @generated
-   * @ordered
-   */
-  protected static final String OI_EDEFAULT = null;
-
-  /**
-   * The cached value of the '{@link #getOi() <em>Oi</em>}' attribute.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @see #getOi()
-   * @generated
-   * @ordered
-   */
-  protected String oi = OI_EDEFAULT;
 
   /**
    * <!-- begin-user-doc -->
@@ -164,6 +164,29 @@ public class ValueTypeImpl extends MinimalEObjectImpl.Container implements Value
     }
     else if (eNotificationRequired())
       eNotify(new ENotificationImpl(this, Notification.SET, SmiPackage.VALUE_TYPE__PARAM, newParam, newParam));
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public String getId()
+  {
+    return id;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public void setId(String newId)
+  {
+    String oldId = id;
+    id = newId;
+    if (eNotificationRequired())
+      eNotify(new ENotificationImpl(this, Notification.SET, SmiPackage.VALUE_TYPE__ID, oldId, id));
   }
 
   /**
@@ -315,29 +338,6 @@ public class ValueTypeImpl extends MinimalEObjectImpl.Container implements Value
    * <!-- end-user-doc -->
    * @generated
    */
-  public String getOi()
-  {
-    return oi;
-  }
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  public void setOi(String newOi)
-  {
-    String oldOi = oi;
-    oi = newOi;
-    if (eNotificationRequired())
-      eNotify(new ENotificationImpl(this, Notification.SET, SmiPackage.VALUE_TYPE__OI, oldOi, oi));
-  }
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
   @Override
   public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs)
   {
@@ -367,14 +367,14 @@ public class ValueTypeImpl extends MinimalEObjectImpl.Container implements Value
     {
       case SmiPackage.VALUE_TYPE__PARAM:
         return getParam();
+      case SmiPackage.VALUE_TYPE__ID:
+        return getId();
       case SmiPackage.VALUE_TYPE__TYPES:
         return getTypes();
       case SmiPackage.VALUE_TYPE__SIMPLE_TYPE:
         return getSimpleType();
       case SmiPackage.VALUE_TYPE__MACRO_VALUE:
         return getMacroValue();
-      case SmiPackage.VALUE_TYPE__OI:
-        return getOi();
     }
     return super.eGet(featureID, resolve, coreType);
   }
@@ -392,6 +392,9 @@ public class ValueTypeImpl extends MinimalEObjectImpl.Container implements Value
       case SmiPackage.VALUE_TYPE__PARAM:
         setParam((ParamAssignment)newValue);
         return;
+      case SmiPackage.VALUE_TYPE__ID:
+        setId((String)newValue);
+        return;
       case SmiPackage.VALUE_TYPE__TYPES:
         setTypes((TypeAssignment)newValue);
         return;
@@ -400,9 +403,6 @@ public class ValueTypeImpl extends MinimalEObjectImpl.Container implements Value
         return;
       case SmiPackage.VALUE_TYPE__MACRO_VALUE:
         setMacroValue((Value)newValue);
-        return;
-      case SmiPackage.VALUE_TYPE__OI:
-        setOi((String)newValue);
         return;
     }
     super.eSet(featureID, newValue);
@@ -421,6 +421,9 @@ public class ValueTypeImpl extends MinimalEObjectImpl.Container implements Value
       case SmiPackage.VALUE_TYPE__PARAM:
         setParam((ParamAssignment)null);
         return;
+      case SmiPackage.VALUE_TYPE__ID:
+        setId(ID_EDEFAULT);
+        return;
       case SmiPackage.VALUE_TYPE__TYPES:
         setTypes((TypeAssignment)null);
         return;
@@ -429,9 +432,6 @@ public class ValueTypeImpl extends MinimalEObjectImpl.Container implements Value
         return;
       case SmiPackage.VALUE_TYPE__MACRO_VALUE:
         setMacroValue((Value)null);
-        return;
-      case SmiPackage.VALUE_TYPE__OI:
-        setOi(OI_EDEFAULT);
         return;
     }
     super.eUnset(featureID);
@@ -449,14 +449,14 @@ public class ValueTypeImpl extends MinimalEObjectImpl.Container implements Value
     {
       case SmiPackage.VALUE_TYPE__PARAM:
         return param != null;
+      case SmiPackage.VALUE_TYPE__ID:
+        return ID_EDEFAULT == null ? id != null : !ID_EDEFAULT.equals(id);
       case SmiPackage.VALUE_TYPE__TYPES:
         return types != null;
       case SmiPackage.VALUE_TYPE__SIMPLE_TYPE:
         return simpleType != null;
       case SmiPackage.VALUE_TYPE__MACRO_VALUE:
         return macroValue != null;
-      case SmiPackage.VALUE_TYPE__OI:
-        return OI_EDEFAULT == null ? oi != null : !OI_EDEFAULT.equals(oi);
     }
     return super.eIsSet(featureID);
   }
@@ -472,8 +472,8 @@ public class ValueTypeImpl extends MinimalEObjectImpl.Container implements Value
     if (eIsProxy()) return super.toString();
 
     StringBuffer result = new StringBuffer(super.toString());
-    result.append(" (oi: ");
-    result.append(oi);
+    result.append(" (id: ");
+    result.append(id);
     result.append(')');
     return result.toString();
   }

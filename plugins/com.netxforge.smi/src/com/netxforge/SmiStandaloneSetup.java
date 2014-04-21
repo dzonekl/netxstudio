@@ -11,6 +11,7 @@ public class SmiStandaloneSetup extends SmiStandaloneSetupGenerated{
 
 	public static void doSetup() {
 		new SmiStandaloneSetup().createInjectorAndDoEMFRegistration();
+		
 	}
 }
 

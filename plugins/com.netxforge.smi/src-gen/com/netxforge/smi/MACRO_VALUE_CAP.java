@@ -2,7 +2,6 @@
  */
 package com.netxforge.smi;
 
-import org.eclipse.emf.ecore.EObject;
 
 /**
  * <!-- begin-user-doc -->
@@ -20,7 +19,7 @@ import org.eclipse.emf.ecore.EObject;
  * @model
  * @generated
  */
-public interface MACRO_VALUE_CAP extends EObject
+public interface MACRO_VALUE_CAP extends ValueCapType
 {
   /**
    * Returns the value of the '<em><b>Ref</b></em>' containment reference.

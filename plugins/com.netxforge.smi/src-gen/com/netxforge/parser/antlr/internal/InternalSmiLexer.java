@@ -12,46 +12,52 @@ import java.util.ArrayList;
 
 @SuppressWarnings("all")
 public class InternalSmiLexer extends Lexer {
-    public static final int T__42=42;
-    public static final int T__40=40;
-    public static final int RULE_NEWLINE=5;
-    public static final int T__41=41;
     public static final int T__29=29;
     public static final int T__28=28;
     public static final int T__27=27;
     public static final int T__26=26;
     public static final int T__25=25;
-    public static final int RULE_ALPHA_CAP=10;
     public static final int T__24=24;
+    public static final int RULE_ALPHA_CAP=10;
     public static final int T__23=23;
-    public static final int RULE_IA5STRING=9;
+    public static final int RULE_IA5STRING=8;
     public static final int T__22=22;
     public static final int T__21=21;
     public static final int RULE_ANY_OTHER=15;
     public static final int T__20=20;
+    public static final int EOF=-1;
+    public static final int T__19=19;
+    public static final int T__16=16;
+    public static final int T__18=18;
+    public static final int T__17=17;
+    public static final int RULE_PARAMETER=9;
+    public static final int T__42=42;
+    public static final int T__43=43;
+    public static final int T__40=40;
+    public static final int T__41=41;
+    public static final int RULE_NEWLINE=5;
+    public static final int T__46=46;
+    public static final int T__47=47;
+    public static final int T__44=44;
+    public static final int T__45=45;
+    public static final int T__48=48;
     public static final int RULE_ASN1_ID=6;
     public static final int RULE_ALPHA=11;
-    public static final int EOF=-1;
     public static final int RULE_MODULE_ID=4;
     public static final int T__30=30;
-    public static final int T__19=19;
     public static final int T__31=31;
     public static final int T__32=32;
     public static final int RULE_BIG_INTEGER=7;
-    public static final int T__16=16;
-    public static final int T__33=33;
     public static final int RULE_NUMERIC=12;
+    public static final int T__33=33;
     public static final int T__34=34;
-    public static final int T__18=18;
     public static final int T__35=35;
-    public static final int T__17=17;
     public static final int T__36=36;
     public static final int T__37=37;
     public static final int T__38=38;
     public static final int T__39=39;
     public static final int RULE_WS=14;
     public static final int RULE_SL_ASN1_COMMENT=13;
-    public static final int RULE_PARAMETER=8;
 
     // delegates
     // delegators
@@ -155,10 +161,10 @@ public class InternalSmiLexer extends Lexer {
         try {
             int _type = T__20;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:15:7: ( 'OBJECT IDENTIFIER' )
-            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:15:9: 'OBJECT IDENTIFIER'
+            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:15:7: ( 'IMPORTS' )
+            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:15:9: 'IMPORTS'
             {
-            match("OBJECT IDENTIFIER"); 
+            match("IMPORTS"); 
 
 
             }
@@ -176,10 +182,10 @@ public class InternalSmiLexer extends Lexer {
         try {
             int _type = T__21;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:16:7: ( '{' )
-            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:16:9: '{'
+            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:16:7: ( ';' )
+            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:16:9: ';'
             {
-            match('{'); 
+            match(';'); 
 
             }
 
@@ -196,10 +202,11 @@ public class InternalSmiLexer extends Lexer {
         try {
             int _type = T__22;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:17:7: ( '}' )
-            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:17:9: '}'
+            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:17:7: ( 'FROM' )
+            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:17:9: 'FROM'
             {
-            match('}'); 
+            match("FROM"); 
+
 
             }
 
@@ -216,11 +223,10 @@ public class InternalSmiLexer extends Lexer {
         try {
             int _type = T__23;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:18:7: ( 'MACRO' )
-            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:18:9: 'MACRO'
+            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:18:7: ( ',' )
+            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:18:9: ','
             {
-            match("MACRO"); 
-
+            match(','); 
 
             }
 
@@ -237,10 +243,10 @@ public class InternalSmiLexer extends Lexer {
         try {
             int _type = T__24;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:19:7: ( 'TYPE NOTATION' )
-            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:19:9: 'TYPE NOTATION'
+            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:19:7: ( 'OBJECT IDENTIFIER' )
+            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:19:9: 'OBJECT IDENTIFIER'
             {
-            match("TYPE NOTATION"); 
+            match("OBJECT IDENTIFIER"); 
 
 
             }
@@ -258,11 +264,10 @@ public class InternalSmiLexer extends Lexer {
         try {
             int _type = T__25;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:20:7: ( 'VALUE NOTATION' )
-            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:20:9: 'VALUE NOTATION'
+            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:20:7: ( '{' )
+            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:20:9: '{'
             {
-            match("VALUE NOTATION"); 
-
+            match('{'); 
 
             }
 
@@ -279,11 +284,10 @@ public class InternalSmiLexer extends Lexer {
         try {
             int _type = T__26;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:21:7: ( 'IMPLICIT' )
-            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:21:9: 'IMPLICIT'
+            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:21:7: ( '}' )
+            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:21:9: '}'
             {
-            match("IMPLICIT"); 
-
+            match('}'); 
 
             }
 
@@ -300,10 +304,11 @@ public class InternalSmiLexer extends Lexer {
         try {
             int _type = T__27;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:22:7: ( '|' )
-            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:22:9: '|'
+            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:22:7: ( 'MACRO' )
+            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:22:9: 'MACRO'
             {
-            match('|'); 
+            match("MACRO"); 
+
 
             }
 
@@ -320,10 +325,10 @@ public class InternalSmiLexer extends Lexer {
         try {
             int _type = T__28;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:23:7: ( '[APPLICATION' )
-            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:23:9: '[APPLICATION'
+            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:23:7: ( 'TYPE' )
+            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:23:9: 'TYPE'
             {
-            match("[APPLICATION"); 
+            match("TYPE"); 
 
 
             }
@@ -341,10 +346,11 @@ public class InternalSmiLexer extends Lexer {
         try {
             int _type = T__29;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:24:7: ( ']' )
-            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:24:9: ']'
+            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:24:7: ( 'NOTATION' )
+            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:24:9: 'NOTATION'
             {
-            match(']'); 
+            match("NOTATION"); 
+
 
             }
 
@@ -361,10 +367,10 @@ public class InternalSmiLexer extends Lexer {
         try {
             int _type = T__30;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:25:7: ( 'value' )
-            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:25:9: 'value'
+            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:25:7: ( 'VALUE' )
+            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:25:9: 'VALUE'
             {
-            match("value"); 
+            match("VALUE"); 
 
 
             }
@@ -382,10 +388,11 @@ public class InternalSmiLexer extends Lexer {
         try {
             int _type = T__31;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:26:7: ( '(' )
-            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:26:9: '('
+            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:26:7: ( '\"{\"' )
+            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:26:9: '\"{\"'
             {
-            match('('); 
+            match("\"{\""); 
+
 
             }
 
@@ -402,10 +409,11 @@ public class InternalSmiLexer extends Lexer {
         try {
             int _type = T__32;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:27:7: ( ')' )
-            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:27:9: ')'
+            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:27:7: ( '\"}\"' )
+            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:27:9: '\"}\"'
             {
-            match(')'); 
+            match("\"}\""); 
+
 
             }
 
@@ -422,10 +430,10 @@ public class InternalSmiLexer extends Lexer {
         try {
             int _type = T__33;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:28:7: ( 'VALUE' )
-            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:28:9: 'VALUE'
+            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:28:7: ( 'IMPLICIT' )
+            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:28:9: 'IMPLICIT'
             {
-            match("VALUE"); 
+            match("IMPLICIT"); 
 
 
             }
@@ -443,11 +451,10 @@ public class InternalSmiLexer extends Lexer {
         try {
             int _type = T__34;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:29:7: ( 'IA5String' )
-            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:29:9: 'IA5String'
+            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:29:7: ( '|' )
+            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:29:9: '|'
             {
-            match("IA5String"); 
-
+            match('|'); 
 
             }
 
@@ -464,10 +471,10 @@ public class InternalSmiLexer extends Lexer {
         try {
             int _type = T__35;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:30:7: ( 'Update' )
-            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:30:9: 'Update'
+            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:30:7: ( '[APPLICATION' )
+            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:30:9: '[APPLICATION'
             {
-            match("Update"); 
+            match("[APPLICATION"); 
 
 
             }
@@ -485,11 +492,10 @@ public class InternalSmiLexer extends Lexer {
         try {
             int _type = T__36;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:31:7: ( 'empty' )
-            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:31:9: 'empty'
+            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:31:7: ( ']' )
+            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:31:9: ']'
             {
-            match("empty"); 
-
+            match(']'); 
 
             }
 
@@ -506,10 +512,10 @@ public class InternalSmiLexer extends Lexer {
         try {
             int _type = T__37;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:32:7: ( 'OCTET STRING' )
-            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:32:9: 'OCTET STRING'
+            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:32:7: ( 'value' )
+            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:32:9: 'value'
             {
-            match("OCTET STRING"); 
+            match("value"); 
 
 
             }
@@ -527,11 +533,10 @@ public class InternalSmiLexer extends Lexer {
         try {
             int _type = T__38;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:33:7: ( 'INTEGER' )
-            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:33:9: 'INTEGER'
+            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:33:7: ( '(' )
+            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:33:9: '('
             {
-            match("INTEGER"); 
-
+            match('('); 
 
             }
 
@@ -548,11 +553,10 @@ public class InternalSmiLexer extends Lexer {
         try {
             int _type = T__39;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:34:7: ( 'SIZE' )
-            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:34:9: 'SIZE'
+            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:34:7: ( ')' )
+            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:34:9: ')'
             {
-            match("SIZE"); 
-
+            match(')'); 
 
             }
 
@@ -569,10 +573,10 @@ public class InternalSmiLexer extends Lexer {
         try {
             int _type = T__40;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:35:7: ( '..' )
-            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:35:9: '..'
+            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:35:7: ( 'IA5String' )
+            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:35:9: 'IA5String'
             {
-            match(".."); 
+            match("IA5String"); 
 
 
             }
@@ -590,10 +594,10 @@ public class InternalSmiLexer extends Lexer {
         try {
             int _type = T__41;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:36:7: ( 'CHOICE' )
-            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:36:9: 'CHOICE'
+            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:36:7: ( 'Update' )
+            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:36:9: 'Update'
             {
-            match("CHOICE"); 
+            match("Update"); 
 
 
             }
@@ -611,10 +615,11 @@ public class InternalSmiLexer extends Lexer {
         try {
             int _type = T__42;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:37:7: ( ',' )
-            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:37:9: ','
+            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:37:7: ( 'empty' )
+            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:37:9: 'empty'
             {
-            match(','); 
+            match("empty"); 
+
 
             }
 
@@ -626,16 +631,142 @@ public class InternalSmiLexer extends Lexer {
     }
     // $ANTLR end "T__42"
 
+    // $ANTLR start "T__43"
+    public final void mT__43() throws RecognitionException {
+        try {
+            int _type = T__43;
+            int _channel = DEFAULT_TOKEN_CHANNEL;
+            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:38:7: ( 'OCTET' )
+            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:38:9: 'OCTET'
+            {
+            match("OCTET"); 
+
+
+            }
+
+            state.type = _type;
+            state.channel = _channel;
+        }
+        finally {
+        }
+    }
+    // $ANTLR end "T__43"
+
+    // $ANTLR start "T__44"
+    public final void mT__44() throws RecognitionException {
+        try {
+            int _type = T__44;
+            int _channel = DEFAULT_TOKEN_CHANNEL;
+            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:39:7: ( 'STRING' )
+            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:39:9: 'STRING'
+            {
+            match("STRING"); 
+
+
+            }
+
+            state.type = _type;
+            state.channel = _channel;
+        }
+        finally {
+        }
+    }
+    // $ANTLR end "T__44"
+
+    // $ANTLR start "T__45"
+    public final void mT__45() throws RecognitionException {
+        try {
+            int _type = T__45;
+            int _channel = DEFAULT_TOKEN_CHANNEL;
+            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:40:7: ( 'INTEGER' )
+            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:40:9: 'INTEGER'
+            {
+            match("INTEGER"); 
+
+
+            }
+
+            state.type = _type;
+            state.channel = _channel;
+        }
+        finally {
+        }
+    }
+    // $ANTLR end "T__45"
+
+    // $ANTLR start "T__46"
+    public final void mT__46() throws RecognitionException {
+        try {
+            int _type = T__46;
+            int _channel = DEFAULT_TOKEN_CHANNEL;
+            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:41:7: ( 'SIZE' )
+            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:41:9: 'SIZE'
+            {
+            match("SIZE"); 
+
+
+            }
+
+            state.type = _type;
+            state.channel = _channel;
+        }
+        finally {
+        }
+    }
+    // $ANTLR end "T__46"
+
+    // $ANTLR start "T__47"
+    public final void mT__47() throws RecognitionException {
+        try {
+            int _type = T__47;
+            int _channel = DEFAULT_TOKEN_CHANNEL;
+            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:42:7: ( '..' )
+            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:42:9: '..'
+            {
+            match(".."); 
+
+
+            }
+
+            state.type = _type;
+            state.channel = _channel;
+        }
+        finally {
+        }
+    }
+    // $ANTLR end "T__47"
+
+    // $ANTLR start "T__48"
+    public final void mT__48() throws RecognitionException {
+        try {
+            int _type = T__48;
+            int _channel = DEFAULT_TOKEN_CHANNEL;
+            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:43:7: ( 'CHOICE' )
+            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:43:9: 'CHOICE'
+            {
+            match("CHOICE"); 
+
+
+            }
+
+            state.type = _type;
+            state.channel = _channel;
+        }
+        finally {
+        }
+    }
+    // $ANTLR end "T__48"
+
     // $ANTLR start "RULE_MODULE_ID"
     public final void mRULE_MODULE_ID() throws RecognitionException {
         try {
             int _type = RULE_MODULE_ID;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2045:16: ( RULE_ALPHA_CAP ( RULE_ALPHA | RULE_ALPHA_CAP | '-' | RULE_NUMERIC )* ( RULE_ALPHA_CAP | RULE_ALPHA | RULE_NUMERIC ) )
-            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2045:18: RULE_ALPHA_CAP ( RULE_ALPHA | RULE_ALPHA_CAP | '-' | RULE_NUMERIC )* ( RULE_ALPHA_CAP | RULE_ALPHA | RULE_NUMERIC )
+            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2656:16: ( RULE_ALPHA_CAP ( RULE_ALPHA | RULE_ALPHA_CAP | '-' | RULE_NUMERIC )* ( RULE_ALPHA_CAP | RULE_ALPHA | RULE_NUMERIC ) )
+            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2656:18: RULE_ALPHA_CAP ( RULE_ALPHA | RULE_ALPHA_CAP | '-' | RULE_NUMERIC )* ( RULE_ALPHA_CAP | RULE_ALPHA | RULE_NUMERIC )
             {
             mRULE_ALPHA_CAP(); 
-            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2045:33: ( RULE_ALPHA | RULE_ALPHA_CAP | '-' | RULE_NUMERIC )*
+            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2656:33: ( RULE_ALPHA | RULE_ALPHA_CAP | '-' | RULE_NUMERIC )*
             loop1:
             do {
                 int alt1=2;
@@ -702,17 +833,26 @@ public class InternalSmiLexer extends Lexer {
         try {
             int _type = RULE_ASN1_ID;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2047:14: ( RULE_ALPHA ( RULE_ALPHA | RULE_ALPHA_CAP | '-' | RULE_NUMERIC )* )
-            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2047:16: RULE_ALPHA ( RULE_ALPHA | RULE_ALPHA_CAP | '-' | RULE_NUMERIC )*
+            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2658:14: ( RULE_ALPHA ( RULE_ALPHA | RULE_ALPHA_CAP | '-' | RULE_NUMERIC )* ( RULE_ALPHA_CAP | RULE_ALPHA | RULE_NUMERIC ) )
+            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2658:16: RULE_ALPHA ( RULE_ALPHA | RULE_ALPHA_CAP | '-' | RULE_NUMERIC )* ( RULE_ALPHA_CAP | RULE_ALPHA | RULE_NUMERIC )
             {
             mRULE_ALPHA(); 
-            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2047:27: ( RULE_ALPHA | RULE_ALPHA_CAP | '-' | RULE_NUMERIC )*
+            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2658:27: ( RULE_ALPHA | RULE_ALPHA_CAP | '-' | RULE_NUMERIC )*
             loop2:
             do {
                 int alt2=2;
                 int LA2_0 = input.LA(1);
 
-                if ( (LA2_0=='-'||(LA2_0>='0' && LA2_0<='9')||(LA2_0>='A' && LA2_0<='Z')||(LA2_0>='a' && LA2_0<='z')) ) {
+                if ( ((LA2_0>='0' && LA2_0<='9')||(LA2_0>='A' && LA2_0<='Z')||(LA2_0>='a' && LA2_0<='z')) ) {
+                    int LA2_1 = input.LA(2);
+
+                    if ( (LA2_1=='-'||(LA2_1>='0' && LA2_1<='9')||(LA2_1>='A' && LA2_1<='Z')||(LA2_1>='a' && LA2_1<='z')) ) {
+                        alt2=1;
+                    }
+
+
+                }
+                else if ( (LA2_0=='-') ) {
                     alt2=1;
                 }
 
@@ -739,6 +879,15 @@ public class InternalSmiLexer extends Lexer {
                 }
             } while (true);
 
+            if ( (input.LA(1)>='0' && input.LA(1)<='9')||(input.LA(1)>='A' && input.LA(1)<='Z')||(input.LA(1)>='a' && input.LA(1)<='z') ) {
+                input.consume();
+
+            }
+            else {
+                MismatchedSetException mse = new MismatchedSetException(null,input);
+                recover(mse);
+                throw mse;}
+
 
             }
 
@@ -755,8 +904,8 @@ public class InternalSmiLexer extends Lexer {
         try {
             int _type = RULE_PARAMETER;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2049:16: ( '\"' RULE_MODULE_ID '\"' )
-            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2049:18: '\"' RULE_MODULE_ID '\"'
+            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2660:16: ( '\"' RULE_MODULE_ID '\"' )
+            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2660:18: '\"' RULE_MODULE_ID '\"'
             {
             match('\"'); 
             mRULE_MODULE_ID(); 
@@ -777,11 +926,11 @@ public class InternalSmiLexer extends Lexer {
         try {
             int _type = RULE_IA5STRING;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2051:16: ( '\"' ( '\\\\' ( 'b' | 't' | 'n' | 'f' | 'r' | 'u' | '\"' | '\\'' | '\\\\' ) | ~ ( ( '\\\\' | '\"' ) ) )* '\"' )
-            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2051:18: '\"' ( '\\\\' ( 'b' | 't' | 'n' | 'f' | 'r' | 'u' | '\"' | '\\'' | '\\\\' ) | ~ ( ( '\\\\' | '\"' ) ) )* '\"'
+            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2662:16: ( '\"' ( '\\\\' ( 'b' | 't' | 'n' | 'f' | 'r' | 'u' | '\"' | '\\'' | '\\\\' ) | ~ ( ( '\\\\' | '\"' ) ) )* '\"' )
+            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2662:18: '\"' ( '\\\\' ( 'b' | 't' | 'n' | 'f' | 'r' | 'u' | '\"' | '\\'' | '\\\\' ) | ~ ( ( '\\\\' | '\"' ) ) )* '\"'
             {
             match('\"'); 
-            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2051:22: ( '\\\\' ( 'b' | 't' | 'n' | 'f' | 'r' | 'u' | '\"' | '\\'' | '\\\\' ) | ~ ( ( '\\\\' | '\"' ) ) )*
+            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2662:22: ( '\\\\' ( 'b' | 't' | 'n' | 'f' | 'r' | 'u' | '\"' | '\\'' | '\\\\' ) | ~ ( ( '\\\\' | '\"' ) ) )*
             loop3:
             do {
                 int alt3=3;
@@ -797,7 +946,7 @@ public class InternalSmiLexer extends Lexer {
 
                 switch (alt3) {
             	case 1 :
-            	    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2051:23: '\\\\' ( 'b' | 't' | 'n' | 'f' | 'r' | 'u' | '\"' | '\\'' | '\\\\' )
+            	    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2662:23: '\\\\' ( 'b' | 't' | 'n' | 'f' | 'r' | 'u' | '\"' | '\\'' | '\\\\' )
             	    {
             	    match('\\'); 
             	    if ( input.LA(1)=='\"'||input.LA(1)=='\''||input.LA(1)=='\\'||input.LA(1)=='b'||input.LA(1)=='f'||input.LA(1)=='n'||input.LA(1)=='r'||(input.LA(1)>='t' && input.LA(1)<='u') ) {
@@ -813,7 +962,7 @@ public class InternalSmiLexer extends Lexer {
             	    }
             	    break;
             	case 2 :
-            	    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2051:68: ~ ( ( '\\\\' | '\"' ) )
+            	    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2662:68: ~ ( ( '\\\\' | '\"' ) )
             	    {
             	    if ( (input.LA(1)>='\u0000' && input.LA(1)<='!')||(input.LA(1)>='#' && input.LA(1)<='[')||(input.LA(1)>=']' && input.LA(1)<='\uFFFF') ) {
             	        input.consume();
@@ -848,8 +997,8 @@ public class InternalSmiLexer extends Lexer {
     // $ANTLR start "RULE_ALPHA"
     public final void mRULE_ALPHA() throws RecognitionException {
         try {
-            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2053:21: ( 'a' .. 'z' )
-            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2053:23: 'a' .. 'z'
+            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2664:21: ( 'a' .. 'z' )
+            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2664:23: 'a' .. 'z'
             {
             matchRange('a','z'); 
 
@@ -864,8 +1013,8 @@ public class InternalSmiLexer extends Lexer {
     // $ANTLR start "RULE_ALPHA_CAP"
     public final void mRULE_ALPHA_CAP() throws RecognitionException {
         try {
-            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2055:25: ( 'A' .. 'Z' )
-            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2055:27: 'A' .. 'Z'
+            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2666:25: ( 'A' .. 'Z' )
+            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2666:27: 'A' .. 'Z'
             {
             matchRange('A','Z'); 
 
@@ -880,8 +1029,8 @@ public class InternalSmiLexer extends Lexer {
     // $ANTLR start "RULE_NUMERIC"
     public final void mRULE_NUMERIC() throws RecognitionException {
         try {
-            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2057:23: ( '0' .. '9' )
-            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2057:25: '0' .. '9'
+            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2668:23: ( '0' .. '9' )
+            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2668:25: '0' .. '9'
             {
             matchRange('0','9'); 
 
@@ -898,10 +1047,10 @@ public class InternalSmiLexer extends Lexer {
         try {
             int _type = RULE_BIG_INTEGER;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2059:18: ( ( '-' )? ( '0' .. '9' )+ )
-            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2059:20: ( '-' )? ( '0' .. '9' )+
+            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2670:18: ( ( '-' )? ( '0' .. '9' )+ )
+            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2670:20: ( '-' )? ( '0' .. '9' )+
             {
-            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2059:20: ( '-' )?
+            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2670:20: ( '-' )?
             int alt4=2;
             int LA4_0 = input.LA(1);
 
@@ -910,7 +1059,7 @@ public class InternalSmiLexer extends Lexer {
             }
             switch (alt4) {
                 case 1 :
-                    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2059:20: '-'
+                    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2670:20: '-'
                     {
                     match('-'); 
 
@@ -919,7 +1068,7 @@ public class InternalSmiLexer extends Lexer {
 
             }
 
-            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2059:25: ( '0' .. '9' )+
+            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2670:25: ( '0' .. '9' )+
             int cnt5=0;
             loop5:
             do {
@@ -933,7 +1082,7 @@ public class InternalSmiLexer extends Lexer {
 
                 switch (alt5) {
             	case 1 :
-            	    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2059:26: '0' .. '9'
+            	    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2670:26: '0' .. '9'
             	    {
             	    matchRange('0','9'); 
 
@@ -965,12 +1114,12 @@ public class InternalSmiLexer extends Lexer {
         try {
             int _type = RULE_SL_ASN1_COMMENT;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2061:22: ( '--' (~ ( ( '\\n' | '\\r' ) ) )* )
-            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2061:24: '--' (~ ( ( '\\n' | '\\r' ) ) )*
+            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2672:22: ( '--' (~ ( ( '\\n' | '\\r' ) ) )* )
+            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2672:24: '--' (~ ( ( '\\n' | '\\r' ) ) )*
             {
             match("--"); 
 
-            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2061:29: (~ ( ( '\\n' | '\\r' ) ) )*
+            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2672:29: (~ ( ( '\\n' | '\\r' ) ) )*
             loop6:
             do {
                 int alt6=2;
@@ -983,7 +1132,7 @@ public class InternalSmiLexer extends Lexer {
 
                 switch (alt6) {
             	case 1 :
-            	    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2061:29: ~ ( ( '\\n' | '\\r' ) )
+            	    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2672:29: ~ ( ( '\\n' | '\\r' ) )
             	    {
             	    if ( (input.LA(1)>='\u0000' && input.LA(1)<='\t')||(input.LA(1)>='\u000B' && input.LA(1)<='\f')||(input.LA(1)>='\u000E' && input.LA(1)<='\uFFFF') ) {
             	        input.consume();
@@ -1019,10 +1168,10 @@ public class InternalSmiLexer extends Lexer {
         try {
             int _type = RULE_WS;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2063:9: ( ( ' ' | '\\t' )+ )
-            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2063:11: ( ' ' | '\\t' )+
+            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2674:9: ( ( ' ' | '\\t' )+ )
+            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2674:11: ( ' ' | '\\t' )+
             {
-            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2063:11: ( ' ' | '\\t' )+
+            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2674:11: ( ' ' | '\\t' )+
             int cnt7=0;
             loop7:
             do {
@@ -1076,10 +1225,10 @@ public class InternalSmiLexer extends Lexer {
         try {
             int _type = RULE_NEWLINE;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2065:14: ( ( ( '\\r' )? | '\\n' ) )
-            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2065:16: ( ( '\\r' )? | '\\n' )
+            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2676:14: ( ( ( '\\r' )? | '\\n' ) )
+            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2676:16: ( ( '\\r' )? | '\\n' )
             {
-            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2065:16: ( ( '\\r' )? | '\\n' )
+            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2676:16: ( ( '\\r' )? | '\\n' )
             int alt9=2;
             int LA9_0 = input.LA(1);
 
@@ -1090,9 +1239,9 @@ public class InternalSmiLexer extends Lexer {
                 alt9=1;}
             switch (alt9) {
                 case 1 :
-                    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2065:17: ( '\\r' )?
+                    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2676:17: ( '\\r' )?
                     {
-                    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2065:17: ( '\\r' )?
+                    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2676:17: ( '\\r' )?
                     int alt8=2;
                     int LA8_0 = input.LA(1);
 
@@ -1101,7 +1250,7 @@ public class InternalSmiLexer extends Lexer {
                     }
                     switch (alt8) {
                         case 1 :
-                            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2065:17: '\\r'
+                            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2676:17: '\\r'
                             {
                             match('\r'); 
 
@@ -1114,7 +1263,7 @@ public class InternalSmiLexer extends Lexer {
                     }
                     break;
                 case 2 :
-                    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2065:23: '\\n'
+                    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2676:23: '\\n'
                     {
                     match('\n'); 
 
@@ -1139,8 +1288,8 @@ public class InternalSmiLexer extends Lexer {
         try {
             int _type = RULE_ANY_OTHER;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2067:16: ( . )
-            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2067:18: .
+            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2678:16: ( . )
+            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2678:18: .
             {
             matchAny(); 
 
@@ -1155,8 +1304,8 @@ public class InternalSmiLexer extends Lexer {
     // $ANTLR end "RULE_ANY_OTHER"
 
     public void mTokens() throws RecognitionException {
-        // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1:8: ( T__16 | T__17 | T__18 | T__19 | T__20 | T__21 | T__22 | T__23 | T__24 | T__25 | T__26 | T__27 | T__28 | T__29 | T__30 | T__31 | T__32 | T__33 | T__34 | T__35 | T__36 | T__37 | T__38 | T__39 | T__40 | T__41 | T__42 | RULE_MODULE_ID | RULE_ASN1_ID | RULE_PARAMETER | RULE_IA5STRING | RULE_BIG_INTEGER | RULE_SL_ASN1_COMMENT | RULE_WS | RULE_NEWLINE | RULE_ANY_OTHER )
-        int alt10=36;
+        // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1:8: ( T__16 | T__17 | T__18 | T__19 | T__20 | T__21 | T__22 | T__23 | T__24 | T__25 | T__26 | T__27 | T__28 | T__29 | T__30 | T__31 | T__32 | T__33 | T__34 | T__35 | T__36 | T__37 | T__38 | T__39 | T__40 | T__41 | T__42 | T__43 | T__44 | T__45 | T__46 | T__47 | T__48 | RULE_MODULE_ID | RULE_ASN1_ID | RULE_PARAMETER | RULE_IA5STRING | RULE_BIG_INTEGER | RULE_SL_ASN1_COMMENT | RULE_WS | RULE_NEWLINE | RULE_ANY_OTHER )
+        int alt10=42;
         alt10 = dfa10.predict(input);
         switch (alt10) {
             case 1 :
@@ -1349,63 +1498,105 @@ public class InternalSmiLexer extends Lexer {
                 }
                 break;
             case 28 :
-                // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1:172: RULE_MODULE_ID
+                // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1:172: T__43
+                {
+                mT__43(); 
+
+                }
+                break;
+            case 29 :
+                // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1:178: T__44
+                {
+                mT__44(); 
+
+                }
+                break;
+            case 30 :
+                // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1:184: T__45
+                {
+                mT__45(); 
+
+                }
+                break;
+            case 31 :
+                // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1:190: T__46
+                {
+                mT__46(); 
+
+                }
+                break;
+            case 32 :
+                // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1:196: T__47
+                {
+                mT__47(); 
+
+                }
+                break;
+            case 33 :
+                // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1:202: T__48
+                {
+                mT__48(); 
+
+                }
+                break;
+            case 34 :
+                // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1:208: RULE_MODULE_ID
                 {
                 mRULE_MODULE_ID(); 
 
                 }
                 break;
-            case 29 :
-                // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1:187: RULE_ASN1_ID
+            case 35 :
+                // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1:223: RULE_ASN1_ID
                 {
                 mRULE_ASN1_ID(); 
 
                 }
                 break;
-            case 30 :
-                // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1:200: RULE_PARAMETER
+            case 36 :
+                // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1:236: RULE_PARAMETER
                 {
                 mRULE_PARAMETER(); 
 
                 }
                 break;
-            case 31 :
-                // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1:215: RULE_IA5STRING
+            case 37 :
+                // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1:251: RULE_IA5STRING
                 {
                 mRULE_IA5STRING(); 
 
                 }
                 break;
-            case 32 :
-                // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1:230: RULE_BIG_INTEGER
+            case 38 :
+                // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1:266: RULE_BIG_INTEGER
                 {
                 mRULE_BIG_INTEGER(); 
 
                 }
                 break;
-            case 33 :
-                // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1:247: RULE_SL_ASN1_COMMENT
+            case 39 :
+                // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1:283: RULE_SL_ASN1_COMMENT
                 {
                 mRULE_SL_ASN1_COMMENT(); 
 
                 }
                 break;
-            case 34 :
-                // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1:268: RULE_WS
+            case 40 :
+                // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1:304: RULE_WS
                 {
                 mRULE_WS(); 
 
                 }
                 break;
-            case 35 :
-                // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1:276: RULE_NEWLINE
+            case 41 :
+                // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1:312: RULE_NEWLINE
                 {
                 mRULE_NEWLINE(); 
 
                 }
                 break;
-            case 36 :
-                // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1:289: RULE_ANY_OTHER
+            case 42 :
+                // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1:325: RULE_ANY_OTHER
                 {
                 mRULE_ANY_OTHER(); 
 
@@ -1419,151 +1610,152 @@ public class InternalSmiLexer extends Lexer {
 
     protected DFA10 dfa10 = new DFA10(this);
     static final String DFA10_eotS =
-        "\1\37\5\41\2\uffff\4\41\1\uffff\1\41\1\uffff\1\65\2\uffff\1\41\1"+
-        "\65\3\41\1\uffff\1\41\1\uffff\2\41\6\uffff\1\43\2\uffff\4\43\2\uffff"+
-        "\6\43\3\uffff\1\65\3\uffff\1\43\1\65\1\43\1\uffff\1\43\6\uffff\2"+
-        "\43\1\127\10\43\1\65\1\43\1\65\2\43\2\uffff\2\43\1\uffff\10\43\1"+
-        "\65\1\43\1\65\1\163\1\43\1\uffff\1\43\1\167\2\43\1\172\1\uffff\1"+
-        "\174\3\43\1\u0080\1\43\1\u0082\1\uffff\1\43\1\uffff\1\43\1\uffff"+
-        "\1\43\4\uffff\3\43\1\uffff\1\u0089\1\uffff\1\u008a\1\43\1\uffff"+
-        "\2\43\1\u008e\2\uffff\1\43\1\u0090\1\43\1\uffff\1\43\1\uffff\1\u0093"+
-        "\1\43\1\uffff\1\u0095\1\uffff";
+        "\1\42\5\44\1\uffff\1\44\1\uffff\1\44\2\uffff\5\44\1\uffff\1\44\1"+
+        "\uffff\1\44\2\uffff\10\44\6\uffff\1\46\2\uffff\5\46\1\uffff\1\46"+
+        "\1\uffff\2\46\2\uffff\4\46\7\uffff\1\100\3\uffff\1\46\1\100\2\46"+
+        "\1\uffff\1\46\3\uffff\2\46\1\145\12\46\4\uffff\1\100\1\46\1\100"+
+        "\5\46\1\uffff\4\46\1\u0080\3\46\1\u0084\2\46\3\uffff\1\100\1\46"+
+        "\1\100\1\46\1\u008c\2\46\1\u008f\4\46\1\uffff\1\46\1\u0095\1\u0096"+
+        "\1\uffff\1\46\1\u0098\1\uffff\1\u0099\1\46\1\u009b\1\46\1\uffff"+
+        "\2\46\1\uffff\5\46\2\uffff\1\46\2\uffff\1\u00a5\1\uffff\1\u00a6"+
+        "\1\u00a7\1\46\1\u00a9\2\46\1\u00ac\1\uffff\1\46\3\uffff\1\46\1\uffff"+
+        "\1\u00af\1\46\1\uffff\1\u00b1\1\46\1\uffff\1\u00b3\1\uffff\1\46"+
+        "\1\uffff\1\u00b5\1\uffff";
     static final String DFA10_eofS =
-        "\u0096\uffff";
+        "\u00b6\uffff";
     static final String DFA10_minS =
-        "\1\0\1\55\1\72\3\55\2\uffff\4\55\1\uffff\1\101\1\uffff\1\141\2\uffff"+
-        "\1\55\1\155\1\55\1\56\1\55\1\uffff\1\55\1\uffff\1\0\1\55\6\uffff"+
-        "\1\106\2\uffff\1\107\1\104\1\112\1\124\2\uffff\1\103\1\120\1\114"+
-        "\1\120\1\65\1\124\3\uffff\1\154\3\uffff\1\144\1\160\1\132\1\uffff"+
-        "\1\117\2\uffff\1\0\3\uffff\2\111\1\55\2\105\1\122\1\105\1\125\1"+
-        "\114\1\123\1\105\1\165\1\141\1\164\1\105\1\111\2\0\2\116\1\uffff"+
-        "\1\103\1\124\1\117\1\40\1\105\1\111\1\164\1\107\1\145\1\164\1\171"+
-        "\1\55\1\103\1\uffff\1\111\1\55\1\124\1\40\1\55\1\uffff\1\40\1\103"+
-        "\1\162\1\105\1\55\1\145\1\55\1\uffff\1\105\1\uffff\1\124\1\uffff"+
-        "\1\40\4\uffff\1\111\1\151\1\122\1\uffff\1\55\1\uffff\1\55\1\111"+
-        "\1\uffff\1\124\1\156\1\55\2\uffff\1\117\1\55\1\147\1\uffff\1\116"+
-        "\1\uffff\1\55\1\123\1\uffff\1\55\1\uffff";
+        "\1\0\1\55\1\72\3\55\1\uffff\1\55\1\uffff\1\55\2\uffff\4\55\1\0\1"+
+        "\uffff\1\101\1\uffff\1\55\2\uffff\3\55\1\56\4\55\6\uffff\1\106\2"+
+        "\uffff\1\107\1\104\1\120\1\65\1\124\1\uffff\1\117\1\uffff\1\112"+
+        "\1\124\2\uffff\1\103\1\120\1\124\1\114\2\0\1\uffff\1\0\3\uffff\1"+
+        "\154\3\uffff\1\144\1\160\1\122\1\132\1\uffff\1\117\3\uffff\2\111"+
+        "\1\55\1\114\1\123\1\105\1\115\2\105\1\122\1\105\1\101\1\125\2\uffff"+
+        "\2\0\1\165\1\141\1\164\1\111\1\105\1\111\2\116\1\uffff\1\122\1\111"+
+        "\1\164\1\107\1\55\1\103\1\124\1\117\1\55\1\124\1\105\3\uffff\1\145"+
+        "\1\164\1\171\1\116\1\55\1\103\1\111\1\55\1\124\1\103\1\162\1\105"+
+        "\1\uffff\1\124\2\55\1\uffff\1\111\1\55\1\uffff\1\55\1\145\1\55\1"+
+        "\107\1\uffff\1\105\1\124\1\uffff\1\123\1\111\1\151\1\122\1\40\2"+
+        "\uffff\1\117\2\uffff\1\55\1\uffff\2\55\1\111\1\55\1\124\1\156\1"+
+        "\55\1\uffff\1\116\3\uffff\1\117\1\uffff\1\55\1\147\1\uffff\1\55"+
+        "\1\116\1\uffff\1\55\1\uffff\1\123\1\uffff\1\55\1\uffff";
     static final String DFA10_maxS =
-        "\1\uffff\1\172\1\72\3\172\2\uffff\4\172\1\uffff\1\101\1\uffff\1"+
-        "\141\2\uffff\1\172\1\155\1\172\1\56\1\172\1\uffff\1\172\1\uffff"+
-        "\1\uffff\1\71\6\uffff\1\106\2\uffff\1\107\1\104\1\112\1\124\2\uffff"+
-        "\1\103\1\120\1\114\1\120\1\65\1\124\3\uffff\1\154\3\uffff\1\144"+
-        "\1\160\1\132\1\uffff\1\117\2\uffff\1\uffff\3\uffff\2\111\1\172\2"+
-        "\105\1\122\1\105\1\125\1\114\1\123\1\105\1\165\1\141\1\164\1\105"+
-        "\1\111\2\uffff\2\116\1\uffff\1\103\1\124\1\117\1\40\1\105\1\111"+
-        "\1\164\1\107\1\145\1\164\1\171\1\172\1\103\1\uffff\1\111\1\172\1"+
-        "\124\1\40\1\172\1\uffff\1\172\1\103\1\162\1\105\1\172\1\145\1\172"+
-        "\1\uffff\1\105\1\uffff\1\124\1\uffff\1\40\4\uffff\1\111\1\151\1"+
-        "\122\1\uffff\1\172\1\uffff\1\172\1\111\1\uffff\1\124\1\156\1\172"+
-        "\2\uffff\1\117\1\172\1\147\1\uffff\1\116\1\uffff\1\172\1\123\1\uffff"+
-        "\1\172\1\uffff";
+        "\1\uffff\1\172\1\72\3\172\1\uffff\1\172\1\uffff\1\172\2\uffff\4"+
+        "\172\1\uffff\1\uffff\1\101\1\uffff\1\172\2\uffff\3\172\1\56\3\172"+
+        "\1\71\6\uffff\1\106\2\uffff\1\107\1\104\1\120\1\65\1\124\1\uffff"+
+        "\1\117\1\uffff\1\112\1\124\2\uffff\1\103\1\120\1\124\1\114\2\uffff"+
+        "\1\uffff\1\uffff\3\uffff\1\154\3\uffff\1\144\1\160\1\122\1\132\1"+
+        "\uffff\1\117\3\uffff\2\111\1\172\1\117\1\123\1\105\1\115\2\105\1"+
+        "\122\1\105\1\101\1\125\2\uffff\2\uffff\1\165\1\141\1\164\1\111\1"+
+        "\105\1\111\2\116\1\uffff\1\122\1\111\1\164\1\107\1\172\1\103\1\124"+
+        "\1\117\1\172\1\124\1\105\3\uffff\1\145\1\164\1\171\1\116\1\172\1"+
+        "\103\1\111\1\172\1\124\1\103\1\162\1\105\1\uffff\1\124\2\172\1\uffff"+
+        "\1\111\1\172\1\uffff\1\172\1\145\1\172\1\107\1\uffff\1\105\1\124"+
+        "\1\uffff\1\123\1\111\1\151\1\122\1\40\2\uffff\1\117\2\uffff\1\172"+
+        "\1\uffff\2\172\1\111\1\172\1\124\1\156\1\172\1\uffff\1\116\3\uffff"+
+        "\1\117\1\uffff\1\172\1\147\1\uffff\1\172\1\116\1\uffff\1\172\1\uffff"+
+        "\1\123\1\uffff\1\172\1\uffff";
     static final String DFA10_acceptS =
-        "\6\uffff\1\6\1\7\4\uffff\1\14\1\uffff\1\16\1\uffff\1\20\1\21\5\uffff"+
-        "\1\33\1\uffff\1\35\2\uffff\1\40\1\42\3\43\1\44\1\uffff\1\34\1\2"+
-        "\4\uffff\1\6\1\7\6\uffff\1\14\1\15\1\16\1\uffff\1\35\1\20\1\21\3"+
-        "\uffff\1\31\1\uffff\1\33\1\37\1\uffff\1\41\1\40\1\42\24\uffff\1"+
-        "\4\15\uffff\1\36\5\uffff\1\11\7\uffff\1\30\1\uffff\1\36\1\uffff"+
-        "\1\3\1\uffff\1\26\1\10\1\12\1\22\3\uffff\1\17\1\uffff\1\25\2\uffff"+
-        "\1\5\3\uffff\1\24\1\32\3\uffff\1\27\1\uffff\1\13\2\uffff\1\23\1"+
-        "\uffff\1\1";
+        "\6\uffff\1\6\1\uffff\1\10\1\uffff\1\12\1\13\5\uffff\1\23\1\uffff"+
+        "\1\25\1\uffff\1\27\1\30\10\uffff\1\46\1\50\3\51\1\52\1\uffff\1\42"+
+        "\1\2\5\uffff\1\6\1\uffff\1\10\2\uffff\1\12\1\13\6\uffff\1\45\1\uffff"+
+        "\1\23\1\24\1\25\1\uffff\1\43\1\27\1\30\4\uffff\1\40\1\uffff\1\47"+
+        "\1\46\1\50\15\uffff\1\20\1\21\12\uffff\1\4\13\uffff\1\20\1\21\1"+
+        "\44\14\uffff\1\7\3\uffff\1\15\2\uffff\1\44\4\uffff\1\37\2\uffff"+
+        "\1\3\5\uffff\1\34\1\14\1\uffff\1\17\1\26\1\uffff\1\33\7\uffff\1"+
+        "\11\1\uffff\1\32\1\35\1\41\1\uffff\1\5\2\uffff\1\36\2\uffff\1\22"+
+        "\1\uffff\1\16\1\uffff\1\31\1\uffff\1\1";
     static final String DFA10_specialS =
-        "\1\0\31\uffff\1\4\44\uffff\1\1\23\uffff\1\2\1\3\101\uffff}>";
+        "\1\5\17\uffff\1\4\47\uffff\1\0\1\1\1\uffff\1\2\37\uffff\1\6\1\3"+
+        "\131\uffff}>";
     static final String[] DFA10_transitionS = {
-            "\11\41\1\35\1\40\2\41\1\36\22\41\1\35\1\41\1\32\5\41\1\20\1"+
-            "\21\2\41\1\27\1\33\1\25\1\41\12\34\1\2\6\41\1\30\1\3\1\26\1"+
-            "\1\1\4\3\30\1\13\3\30\1\10\1\30\1\5\3\30\1\24\1\11\1\22\1\12"+
-            "\4\30\1\15\1\41\1\16\3\41\4\31\1\23\20\31\1\17\4\31\1\6\1\14"+
-            "\1\7\uff82\41",
-            "\1\43\2\uffff\12\43\7\uffff\4\43\1\42\25\43\6\uffff\32\43",
-            "\1\44",
-            "\1\43\2\uffff\12\43\7\uffff\4\43\1\45\25\43\6\uffff\32\43",
-            "\1\43\2\uffff\12\43\7\uffff\15\43\1\46\14\43\6\uffff\32\43",
-            "\1\43\2\uffff\12\43\7\uffff\1\43\1\47\1\50\27\43\6\uffff\32"+
-            "\43",
+            "\11\44\1\40\1\43\2\44\1\41\22\44\1\40\1\44\1\20\5\44\1\25\1"+
+            "\26\2\44\1\10\1\36\1\32\1\44\12\37\1\2\1\6\5\44\1\34\1\3\1\33"+
+            "\1\1\1\4\1\7\2\34\1\5\3\34\1\14\1\16\1\11\3\34\1\31\1\15\1\27"+
+            "\1\17\4\34\1\22\1\44\1\23\3\44\4\35\1\30\20\35\1\24\4\35\1\12"+
+            "\1\21\1\13\uff82\44",
+            "\1\46\2\uffff\12\46\7\uffff\4\46\1\45\25\46\6\uffff\32\46",
+            "\1\47",
+            "\1\46\2\uffff\12\46\7\uffff\4\46\1\50\25\46\6\uffff\32\46",
+            "\1\46\2\uffff\12\46\7\uffff\15\46\1\51\14\46\6\uffff\32\46",
+            "\1\46\2\uffff\12\46\7\uffff\1\53\13\46\1\52\1\54\14\46\6\uffff"+
+            "\32\46",
+            "",
+            "\1\46\2\uffff\12\46\7\uffff\21\46\1\56\10\46\6\uffff\32\46",
+            "",
+            "\1\46\2\uffff\12\46\7\uffff\1\46\1\60\1\61\27\46\6\uffff\32"+
+            "\46",
             "",
             "",
-            "\1\43\2\uffff\12\43\7\uffff\1\53\31\43\6\uffff\32\43",
-            "\1\43\2\uffff\12\43\7\uffff\30\43\1\54\1\43\6\uffff\32\43",
-            "\1\43\2\uffff\12\43\7\uffff\1\55\31\43\6\uffff\32\43",
-            "\1\43\2\uffff\12\43\7\uffff\1\57\13\43\1\56\1\60\14\43\6\uffff"+
-            "\32\43",
+            "\1\46\2\uffff\12\46\7\uffff\1\64\31\46\6\uffff\32\46",
+            "\1\46\2\uffff\12\46\7\uffff\30\46\1\65\1\46\6\uffff\32\46",
+            "\1\46\2\uffff\12\46\7\uffff\16\46\1\66\13\46\6\uffff\32\46",
+            "\1\46\2\uffff\12\46\7\uffff\1\67\31\46\6\uffff\32\46",
+            "\101\72\32\73\40\72\1\70\1\72\1\71\uff82\72",
             "",
-            "\1\62",
+            "\1\75",
             "",
-            "\1\64",
-            "",
-            "",
-            "\1\43\2\uffff\12\43\7\uffff\32\43\6\uffff\17\43\1\70\12\43",
-            "\1\71",
-            "\1\43\2\uffff\12\43\7\uffff\10\43\1\72\21\43\6\uffff\32\43",
-            "\1\73",
-            "\1\43\2\uffff\12\43\7\uffff\7\43\1\74\22\43\6\uffff\32\43",
-            "",
-            "\1\43\2\uffff\12\43\7\uffff\32\43\6\uffff\32\43",
-            "",
-            "\101\76\32\77\uffa5\76",
-            "\1\100\2\uffff\12\101",
+            "\1\100\2\uffff\12\100\7\uffff\32\100\6\uffff\1\77\31\100",
             "",
             "",
-            "",
-            "",
-            "",
-            "",
-            "\1\103",
-            "",
-            "",
-            "\1\104",
-            "\1\105",
-            "\1\106",
+            "\1\46\2\uffff\12\46\7\uffff\32\46\6\uffff\17\46\1\103\12\46",
+            "\1\100\2\uffff\12\100\7\uffff\32\100\6\uffff\14\100\1\104\15"+
+            "\100",
+            "\1\46\2\uffff\12\46\7\uffff\10\46\1\106\12\46\1\105\6\46\6"+
+            "\uffff\32\46",
             "\1\107",
+            "\1\46\2\uffff\12\46\7\uffff\7\46\1\110\22\46\6\uffff\32\46",
+            "\1\46\2\uffff\12\46\7\uffff\32\46\6\uffff\32\46",
+            "\1\100\2\uffff\12\100\7\uffff\32\100\6\uffff\32\100",
+            "\1\111\2\uffff\12\112",
             "",
             "",
-            "\1\110",
-            "\1\111",
-            "\1\112",
-            "\1\113",
+            "",
+            "",
+            "",
+            "",
             "\1\114",
+            "",
+            "",
             "\1\115",
-            "",
-            "",
-            "",
             "\1\116",
-            "",
-            "",
-            "",
             "\1\117",
             "\1\120",
             "\1\121",
             "",
             "\1\122",
             "",
-            "",
-            "\55\76\1\124\2\76\12\123\7\76\32\123\6\76\32\123\uff85\76",
-            "",
+            "\1\123",
+            "\1\124",
             "",
             "",
             "\1\125",
             "\1\126",
-            "\1\43\2\uffff\12\43\7\uffff\32\43\6\uffff\32\43",
+            "\1\127",
             "\1\130",
-            "\1\131",
-            "\1\132",
-            "\1\133",
-            "\1\134",
+            "\42\72\1\131\uffdd\72",
+            "\42\72\1\132\uffdd\72",
+            "",
+            "\55\72\1\134\2\72\12\133\7\72\32\133\6\72\32\133\uff85\72",
+            "",
+            "",
+            "",
             "\1\135",
+            "",
+            "",
+            "",
             "\1\136",
             "\1\137",
             "\1\140",
             "\1\141",
+            "",
             "\1\142",
+            "",
+            "",
+            "",
             "\1\143",
             "\1\144",
-            "\42\76\1\145\12\76\1\124\2\76\12\123\7\76\32\123\6\76\32\123"+
-            "\uff85\76",
-            "\55\76\1\124\2\76\12\123\7\76\32\123\6\76\32\123\uff85\76",
-            "\1\146",
-            "\1\147",
-            "",
+            "\1\46\2\uffff\12\46\7\uffff\32\46\6\uffff\32\46",
+            "\1\147\2\uffff\1\146",
             "\1\150",
             "\1\151",
             "\1\152",
@@ -1573,59 +1765,99 @@ public class InternalSmiLexer extends Lexer {
             "\1\156",
             "\1\157",
             "\1\160",
-            "\1\161",
-            "\1\162",
-            "\1\43\2\uffff\12\43\7\uffff\32\43\6\uffff\32\43",
-            "\1\164",
             "",
+            "",
+            "\42\72\1\163\12\72\1\134\2\72\12\133\7\72\32\133\6\72\32\133"+
+            "\uff85\72",
+            "\55\72\1\134\2\72\12\133\7\72\32\133\6\72\32\133\uff85\72",
+            "\1\164",
+            "\1\165",
             "\1\166",
-            "\1\43\2\uffff\12\43\7\uffff\32\43\6\uffff\32\43",
+            "\1\167",
             "\1\170",
             "\1\171",
-            "\1\43\2\uffff\12\43\7\uffff\32\43\6\uffff\32\43",
+            "\1\172",
+            "\1\173",
             "",
-            "\1\173\14\uffff\1\43\2\uffff\12\43\7\uffff\32\43\6\uffff\32"+
-            "\43",
+            "\1\174",
             "\1\175",
             "\1\176",
             "\1\177",
-            "\1\65\2\uffff\12\65\7\uffff\32\65\6\uffff\32\65",
+            "\1\46\2\uffff\12\46\7\uffff\32\46\6\uffff\32\46",
             "\1\u0081",
-            "\1\65\2\uffff\12\65\7\uffff\32\65\6\uffff\32\65",
-            "",
+            "\1\u0082",
             "\1\u0083",
-            "",
-            "\1\u0084",
-            "",
+            "\1\46\2\uffff\12\46\7\uffff\32\46\6\uffff\32\46",
             "\1\u0085",
-            "",
-            "",
-            "",
-            "",
             "\1\u0086",
-            "\1\u0087",
+            "",
+            "",
+            "",
             "\1\u0088",
-            "",
-            "\1\43\2\uffff\12\43\7\uffff\32\43\6\uffff\32\43",
-            "",
-            "\1\43\2\uffff\12\43\7\uffff\32\43\6\uffff\32\43",
+            "\1\u0089",
+            "\1\u008a",
             "\1\u008b",
-            "",
-            "\1\u008c",
+            "\1\46\2\uffff\12\46\7\uffff\32\46\6\uffff\32\46",
             "\1\u008d",
-            "\1\43\2\uffff\12\43\7\uffff\32\43\6\uffff\32\43",
-            "",
-            "",
-            "\1\u008f",
-            "\1\43\2\uffff\12\43\7\uffff\32\43\6\uffff\32\43",
+            "\1\u008e",
+            "\1\46\2\uffff\12\46\7\uffff\32\46\6\uffff\32\46",
+            "\1\u0090",
             "\1\u0091",
-            "",
             "\1\u0092",
+            "\1\u0093",
             "",
-            "\1\43\2\uffff\12\43\7\uffff\32\43\6\uffff\32\43",
             "\1\u0094",
+            "\1\46\2\uffff\12\46\7\uffff\32\46\6\uffff\32\46",
+            "\1\46\2\uffff\12\46\7\uffff\32\46\6\uffff\32\46",
             "",
-            "\1\43\2\uffff\12\43\7\uffff\32\43\6\uffff\32\43",
+            "\1\u0097",
+            "\1\46\2\uffff\12\46\7\uffff\32\46\6\uffff\32\46",
+            "",
+            "\1\100\2\uffff\12\100\7\uffff\32\100\6\uffff\32\100",
+            "\1\u009a",
+            "\1\100\2\uffff\12\100\7\uffff\32\100\6\uffff\32\100",
+            "\1\u009c",
+            "",
+            "\1\u009d",
+            "\1\u009e",
+            "",
+            "\1\u009f",
+            "\1\u00a0",
+            "\1\u00a1",
+            "\1\u00a2",
+            "\1\u00a3",
+            "",
+            "",
+            "\1\u00a4",
+            "",
+            "",
+            "\1\46\2\uffff\12\46\7\uffff\32\46\6\uffff\32\46",
+            "",
+            "\1\46\2\uffff\12\46\7\uffff\32\46\6\uffff\32\46",
+            "\1\46\2\uffff\12\46\7\uffff\32\46\6\uffff\32\46",
+            "\1\u00a8",
+            "\1\46\2\uffff\12\46\7\uffff\32\46\6\uffff\32\46",
+            "\1\u00aa",
+            "\1\u00ab",
+            "\1\46\2\uffff\12\46\7\uffff\32\46\6\uffff\32\46",
+            "",
+            "\1\u00ad",
+            "",
+            "",
+            "",
+            "\1\u00ae",
+            "",
+            "\1\46\2\uffff\12\46\7\uffff\32\46\6\uffff\32\46",
+            "\1\u00b0",
+            "",
+            "\1\46\2\uffff\12\46\7\uffff\32\46\6\uffff\32\46",
+            "\1\u00b2",
+            "",
+            "\1\46\2\uffff\12\46\7\uffff\32\46\6\uffff\32\46",
+            "",
+            "\1\u00b4",
+            "",
+            "\1\46\2\uffff\12\46\7\uffff\32\46\6\uffff\32\46",
             ""
     };
 
@@ -1659,13 +1891,73 @@ public class InternalSmiLexer extends Lexer {
             this.transition = DFA10_transition;
         }
         public String getDescription() {
-            return "1:1: Tokens : ( T__16 | T__17 | T__18 | T__19 | T__20 | T__21 | T__22 | T__23 | T__24 | T__25 | T__26 | T__27 | T__28 | T__29 | T__30 | T__31 | T__32 | T__33 | T__34 | T__35 | T__36 | T__37 | T__38 | T__39 | T__40 | T__41 | T__42 | RULE_MODULE_ID | RULE_ASN1_ID | RULE_PARAMETER | RULE_IA5STRING | RULE_BIG_INTEGER | RULE_SL_ASN1_COMMENT | RULE_WS | RULE_NEWLINE | RULE_ANY_OTHER );";
+            return "1:1: Tokens : ( T__16 | T__17 | T__18 | T__19 | T__20 | T__21 | T__22 | T__23 | T__24 | T__25 | T__26 | T__27 | T__28 | T__29 | T__30 | T__31 | T__32 | T__33 | T__34 | T__35 | T__36 | T__37 | T__38 | T__39 | T__40 | T__41 | T__42 | T__43 | T__44 | T__45 | T__46 | T__47 | T__48 | RULE_MODULE_ID | RULE_ASN1_ID | RULE_PARAMETER | RULE_IA5STRING | RULE_BIG_INTEGER | RULE_SL_ASN1_COMMENT | RULE_WS | RULE_NEWLINE | RULE_ANY_OTHER );";
         }
         public int specialStateTransition(int s, IntStream _input) throws NoViableAltException {
             IntStream input = _input;
         	int _s = s;
             switch ( s ) {
                     case 0 : 
+                        int LA10_56 = input.LA(1);
+
+                        s = -1;
+                        if ( (LA10_56=='\"') ) {s = 89;}
+
+                        else if ( ((LA10_56>='\u0000' && LA10_56<='!')||(LA10_56>='#' && LA10_56<='\uFFFF')) ) {s = 58;}
+
+                        if ( s>=0 ) return s;
+                        break;
+                    case 1 : 
+                        int LA10_57 = input.LA(1);
+
+                        s = -1;
+                        if ( (LA10_57=='\"') ) {s = 90;}
+
+                        else if ( ((LA10_57>='\u0000' && LA10_57<='!')||(LA10_57>='#' && LA10_57<='\uFFFF')) ) {s = 58;}
+
+                        if ( s>=0 ) return s;
+                        break;
+                    case 2 : 
+                        int LA10_59 = input.LA(1);
+
+                        s = -1;
+                        if ( ((LA10_59>='0' && LA10_59<='9')||(LA10_59>='A' && LA10_59<='Z')||(LA10_59>='a' && LA10_59<='z')) ) {s = 91;}
+
+                        else if ( (LA10_59=='-') ) {s = 92;}
+
+                        else if ( ((LA10_59>='\u0000' && LA10_59<=',')||(LA10_59>='.' && LA10_59<='/')||(LA10_59>=':' && LA10_59<='@')||(LA10_59>='[' && LA10_59<='`')||(LA10_59>='{' && LA10_59<='\uFFFF')) ) {s = 58;}
+
+                        if ( s>=0 ) return s;
+                        break;
+                    case 3 : 
+                        int LA10_92 = input.LA(1);
+
+                        s = -1;
+                        if ( ((LA10_92>='\u0000' && LA10_92<=',')||(LA10_92>='.' && LA10_92<='/')||(LA10_92>=':' && LA10_92<='@')||(LA10_92>='[' && LA10_92<='`')||(LA10_92>='{' && LA10_92<='\uFFFF')) ) {s = 58;}
+
+                        else if ( ((LA10_92>='0' && LA10_92<='9')||(LA10_92>='A' && LA10_92<='Z')||(LA10_92>='a' && LA10_92<='z')) ) {s = 91;}
+
+                        else if ( (LA10_92=='-') ) {s = 92;}
+
+                        if ( s>=0 ) return s;
+                        break;
+                    case 4 : 
+                        int LA10_16 = input.LA(1);
+
+                        s = -1;
+                        if ( (LA10_16=='{') ) {s = 56;}
+
+                        else if ( (LA10_16=='}') ) {s = 57;}
+
+                        else if ( ((LA10_16>='\u0000' && LA10_16<='@')||(LA10_16>='[' && LA10_16<='z')||LA10_16=='|'||(LA10_16>='~' && LA10_16<='\uFFFF')) ) {s = 58;}
+
+                        else if ( ((LA10_16>='A' && LA10_16<='Z')) ) {s = 59;}
+
+                        else s = 36;
+
+                        if ( s>=0 ) return s;
+                        break;
+                    case 5 : 
                         int LA10_0 = input.LA(1);
 
                         s = -1;
@@ -1677,113 +1969,83 @@ public class InternalSmiLexer extends Lexer {
 
                         else if ( (LA10_0=='E') ) {s = 4;}
 
-                        else if ( (LA10_0=='O') ) {s = 5;}
+                        else if ( (LA10_0=='I') ) {s = 5;}
 
-                        else if ( (LA10_0=='{') ) {s = 6;}
+                        else if ( (LA10_0==';') ) {s = 6;}
 
-                        else if ( (LA10_0=='}') ) {s = 7;}
+                        else if ( (LA10_0=='F') ) {s = 7;}
 
-                        else if ( (LA10_0=='M') ) {s = 8;}
+                        else if ( (LA10_0==',') ) {s = 8;}
 
-                        else if ( (LA10_0=='T') ) {s = 9;}
+                        else if ( (LA10_0=='O') ) {s = 9;}
 
-                        else if ( (LA10_0=='V') ) {s = 10;}
+                        else if ( (LA10_0=='{') ) {s = 10;}
 
-                        else if ( (LA10_0=='I') ) {s = 11;}
+                        else if ( (LA10_0=='}') ) {s = 11;}
 
-                        else if ( (LA10_0=='|') ) {s = 12;}
+                        else if ( (LA10_0=='M') ) {s = 12;}
 
-                        else if ( (LA10_0=='[') ) {s = 13;}
+                        else if ( (LA10_0=='T') ) {s = 13;}
 
-                        else if ( (LA10_0==']') ) {s = 14;}
+                        else if ( (LA10_0=='N') ) {s = 14;}
 
-                        else if ( (LA10_0=='v') ) {s = 15;}
+                        else if ( (LA10_0=='V') ) {s = 15;}
 
-                        else if ( (LA10_0=='(') ) {s = 16;}
+                        else if ( (LA10_0=='\"') ) {s = 16;}
 
-                        else if ( (LA10_0==')') ) {s = 17;}
+                        else if ( (LA10_0=='|') ) {s = 17;}
 
-                        else if ( (LA10_0=='U') ) {s = 18;}
+                        else if ( (LA10_0=='[') ) {s = 18;}
 
-                        else if ( (LA10_0=='e') ) {s = 19;}
+                        else if ( (LA10_0==']') ) {s = 19;}
 
-                        else if ( (LA10_0=='S') ) {s = 20;}
+                        else if ( (LA10_0=='v') ) {s = 20;}
 
-                        else if ( (LA10_0=='.') ) {s = 21;}
+                        else if ( (LA10_0=='(') ) {s = 21;}
 
-                        else if ( (LA10_0=='C') ) {s = 22;}
+                        else if ( (LA10_0==')') ) {s = 22;}
 
-                        else if ( (LA10_0==',') ) {s = 23;}
+                        else if ( (LA10_0=='U') ) {s = 23;}
 
-                        else if ( (LA10_0=='A'||(LA10_0>='F' && LA10_0<='H')||(LA10_0>='J' && LA10_0<='L')||LA10_0=='N'||(LA10_0>='P' && LA10_0<='R')||(LA10_0>='W' && LA10_0<='Z')) ) {s = 24;}
+                        else if ( (LA10_0=='e') ) {s = 24;}
 
-                        else if ( ((LA10_0>='a' && LA10_0<='d')||(LA10_0>='f' && LA10_0<='u')||(LA10_0>='w' && LA10_0<='z')) ) {s = 25;}
+                        else if ( (LA10_0=='S') ) {s = 25;}
 
-                        else if ( (LA10_0=='\"') ) {s = 26;}
+                        else if ( (LA10_0=='.') ) {s = 26;}
 
-                        else if ( (LA10_0=='-') ) {s = 27;}
+                        else if ( (LA10_0=='C') ) {s = 27;}
 
-                        else if ( ((LA10_0>='0' && LA10_0<='9')) ) {s = 28;}
+                        else if ( (LA10_0=='A'||(LA10_0>='G' && LA10_0<='H')||(LA10_0>='J' && LA10_0<='L')||(LA10_0>='P' && LA10_0<='R')||(LA10_0>='W' && LA10_0<='Z')) ) {s = 28;}
 
-                        else if ( (LA10_0=='\t'||LA10_0==' ') ) {s = 29;}
+                        else if ( ((LA10_0>='a' && LA10_0<='d')||(LA10_0>='f' && LA10_0<='u')||(LA10_0>='w' && LA10_0<='z')) ) {s = 29;}
 
-                        else if ( (LA10_0=='\r') ) {s = 30;}
+                        else if ( (LA10_0=='-') ) {s = 30;}
 
-                        else if ( (LA10_0=='\n') ) {s = 32;}
+                        else if ( ((LA10_0>='0' && LA10_0<='9')) ) {s = 31;}
 
-                        else if ( ((LA10_0>='\u0000' && LA10_0<='\b')||(LA10_0>='\u000B' && LA10_0<='\f')||(LA10_0>='\u000E' && LA10_0<='\u001F')||LA10_0=='!'||(LA10_0>='#' && LA10_0<='\'')||(LA10_0>='*' && LA10_0<='+')||LA10_0=='/'||(LA10_0>=';' && LA10_0<='@')||LA10_0=='\\'||(LA10_0>='^' && LA10_0<='`')||(LA10_0>='~' && LA10_0<='\uFFFF')) ) {s = 33;}
+                        else if ( (LA10_0=='\t'||LA10_0==' ') ) {s = 32;}
 
-                        else s = 31;
+                        else if ( (LA10_0=='\r') ) {s = 33;}
 
-                        if ( s>=0 ) return s;
-                        break;
-                    case 1 : 
-                        int LA10_63 = input.LA(1);
+                        else if ( (LA10_0=='\n') ) {s = 35;}
 
-                        s = -1;
-                        if ( ((LA10_63>='\u0000' && LA10_63<=',')||(LA10_63>='.' && LA10_63<='/')||(LA10_63>=':' && LA10_63<='@')||(LA10_63>='[' && LA10_63<='`')||(LA10_63>='{' && LA10_63<='\uFFFF')) ) {s = 62;}
+                        else if ( ((LA10_0>='\u0000' && LA10_0<='\b')||(LA10_0>='\u000B' && LA10_0<='\f')||(LA10_0>='\u000E' && LA10_0<='\u001F')||LA10_0=='!'||(LA10_0>='#' && LA10_0<='\'')||(LA10_0>='*' && LA10_0<='+')||LA10_0=='/'||(LA10_0>='<' && LA10_0<='@')||LA10_0=='\\'||(LA10_0>='^' && LA10_0<='`')||(LA10_0>='~' && LA10_0<='\uFFFF')) ) {s = 36;}
 
-                        else if ( ((LA10_63>='0' && LA10_63<='9')||(LA10_63>='A' && LA10_63<='Z')||(LA10_63>='a' && LA10_63<='z')) ) {s = 83;}
-
-                        else if ( (LA10_63=='-') ) {s = 84;}
+                        else s = 34;
 
                         if ( s>=0 ) return s;
                         break;
-                    case 2 : 
-                        int LA10_83 = input.LA(1);
+                    case 6 : 
+                        int LA10_91 = input.LA(1);
 
                         s = -1;
-                        if ( (LA10_83=='\"') ) {s = 101;}
+                        if ( (LA10_91=='\"') ) {s = 115;}
 
-                        else if ( ((LA10_83>='\u0000' && LA10_83<='!')||(LA10_83>='#' && LA10_83<=',')||(LA10_83>='.' && LA10_83<='/')||(LA10_83>=':' && LA10_83<='@')||(LA10_83>='[' && LA10_83<='`')||(LA10_83>='{' && LA10_83<='\uFFFF')) ) {s = 62;}
+                        else if ( ((LA10_91>='\u0000' && LA10_91<='!')||(LA10_91>='#' && LA10_91<=',')||(LA10_91>='.' && LA10_91<='/')||(LA10_91>=':' && LA10_91<='@')||(LA10_91>='[' && LA10_91<='`')||(LA10_91>='{' && LA10_91<='\uFFFF')) ) {s = 58;}
 
-                        else if ( ((LA10_83>='0' && LA10_83<='9')||(LA10_83>='A' && LA10_83<='Z')||(LA10_83>='a' && LA10_83<='z')) ) {s = 83;}
+                        else if ( ((LA10_91>='0' && LA10_91<='9')||(LA10_91>='A' && LA10_91<='Z')||(LA10_91>='a' && LA10_91<='z')) ) {s = 91;}
 
-                        else if ( (LA10_83=='-') ) {s = 84;}
-
-                        if ( s>=0 ) return s;
-                        break;
-                    case 3 : 
-                        int LA10_84 = input.LA(1);
-
-                        s = -1;
-                        if ( ((LA10_84>='\u0000' && LA10_84<=',')||(LA10_84>='.' && LA10_84<='/')||(LA10_84>=':' && LA10_84<='@')||(LA10_84>='[' && LA10_84<='`')||(LA10_84>='{' && LA10_84<='\uFFFF')) ) {s = 62;}
-
-                        else if ( ((LA10_84>='0' && LA10_84<='9')||(LA10_84>='A' && LA10_84<='Z')||(LA10_84>='a' && LA10_84<='z')) ) {s = 83;}
-
-                        else if ( (LA10_84=='-') ) {s = 84;}
-
-                        if ( s>=0 ) return s;
-                        break;
-                    case 4 : 
-                        int LA10_26 = input.LA(1);
-
-                        s = -1;
-                        if ( ((LA10_26>='\u0000' && LA10_26<='@')||(LA10_26>='[' && LA10_26<='\uFFFF')) ) {s = 62;}
-
-                        else if ( ((LA10_26>='A' && LA10_26<='Z')) ) {s = 63;}
-
-                        else s = 33;
+                        else if ( (LA10_91=='-') ) {s = 92;}
 
                         if ( s>=0 ) return s;
                         break;

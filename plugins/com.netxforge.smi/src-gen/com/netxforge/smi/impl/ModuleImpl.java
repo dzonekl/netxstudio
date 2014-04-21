@@ -2,6 +2,7 @@
  */
 package com.netxforge.smi.impl;
 
+import com.netxforge.smi.Imports;
 import com.netxforge.smi.Macro;
 import com.netxforge.smi.Module;
 import com.netxforge.smi.ObjectIdentifier;
@@ -32,6 +33,8 @@ import org.eclipse.emf.ecore.util.InternalEList;
  * The following features are implemented:
  * <ul>
  *   <li>{@link com.netxforge.smi.impl.ModuleImpl#getName <em>Name</em>}</li>
+ *   <li>{@link com.netxforge.smi.impl.ModuleImpl#getImports <em>Imports</em>}</li>
+ *   <li>{@link com.netxforge.smi.impl.ModuleImpl#getObjects <em>Objects</em>}</li>
  *   <li>{@link com.netxforge.smi.impl.ModuleImpl#getIdentifiers <em>Identifiers</em>}</li>
  *   <li>{@link com.netxforge.smi.impl.ModuleImpl#getTypes <em>Types</em>}</li>
  *   <li>{@link com.netxforge.smi.impl.ModuleImpl#getMacros <em>Macros</em>}</li>
@@ -61,6 +64,26 @@ public class ModuleImpl extends MinimalEObjectImpl.Container implements Module
    * @ordered
    */
   protected String name = NAME_EDEFAULT;
+
+  /**
+   * The cached value of the '{@link #getImports() <em>Imports</em>}' containment reference.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see #getImports()
+   * @generated
+   * @ordered
+   */
+  protected Imports imports;
+
+  /**
+   * The cached value of the '{@link #getObjects() <em>Objects</em>}' containment reference list.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see #getObjects()
+   * @generated
+   * @ordered
+   */
+  protected EList<com.netxforge.smi.Object> objects;
 
   /**
    * The cached value of the '{@link #getIdentifiers() <em>Identifiers</em>}' containment reference list.
@@ -141,6 +164,68 @@ public class ModuleImpl extends MinimalEObjectImpl.Container implements Module
    * <!-- end-user-doc -->
    * @generated
    */
+  public Imports getImports()
+  {
+    return imports;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public NotificationChain basicSetImports(Imports newImports, NotificationChain msgs)
+  {
+    Imports oldImports = imports;
+    imports = newImports;
+    if (eNotificationRequired())
+    {
+      ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, SmiPackage.MODULE__IMPORTS, oldImports, newImports);
+      if (msgs == null) msgs = notification; else msgs.add(notification);
+    }
+    return msgs;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public void setImports(Imports newImports)
+  {
+    if (newImports != imports)
+    {
+      NotificationChain msgs = null;
+      if (imports != null)
+        msgs = ((InternalEObject)imports).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - SmiPackage.MODULE__IMPORTS, null, msgs);
+      if (newImports != null)
+        msgs = ((InternalEObject)newImports).eInverseAdd(this, EOPPOSITE_FEATURE_BASE - SmiPackage.MODULE__IMPORTS, null, msgs);
+      msgs = basicSetImports(newImports, msgs);
+      if (msgs != null) msgs.dispatch();
+    }
+    else if (eNotificationRequired())
+      eNotify(new ENotificationImpl(this, Notification.SET, SmiPackage.MODULE__IMPORTS, newImports, newImports));
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public EList<com.netxforge.smi.Object> getObjects()
+  {
+    if (objects == null)
+    {
+      objects = new EObjectContainmentEList<com.netxforge.smi.Object>(com.netxforge.smi.Object.class, this, SmiPackage.MODULE__OBJECTS);
+    }
+    return objects;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
   public EList<ObjectIdentifier> getIdentifiers()
   {
     if (identifiers == null)
@@ -188,6 +273,10 @@ public class ModuleImpl extends MinimalEObjectImpl.Container implements Module
   {
     switch (featureID)
     {
+      case SmiPackage.MODULE__IMPORTS:
+        return basicSetImports(null, msgs);
+      case SmiPackage.MODULE__OBJECTS:
+        return ((InternalEList<?>)getObjects()).basicRemove(otherEnd, msgs);
       case SmiPackage.MODULE__IDENTIFIERS:
         return ((InternalEList<?>)getIdentifiers()).basicRemove(otherEnd, msgs);
       case SmiPackage.MODULE__TYPES:
@@ -210,6 +299,10 @@ public class ModuleImpl extends MinimalEObjectImpl.Container implements Module
     {
       case SmiPackage.MODULE__NAME:
         return getName();
+      case SmiPackage.MODULE__IMPORTS:
+        return getImports();
+      case SmiPackage.MODULE__OBJECTS:
+        return getObjects();
       case SmiPackage.MODULE__IDENTIFIERS:
         return getIdentifiers();
       case SmiPackage.MODULE__TYPES:
@@ -233,6 +326,13 @@ public class ModuleImpl extends MinimalEObjectImpl.Container implements Module
     {
       case SmiPackage.MODULE__NAME:
         setName((String)newValue);
+        return;
+      case SmiPackage.MODULE__IMPORTS:
+        setImports((Imports)newValue);
+        return;
+      case SmiPackage.MODULE__OBJECTS:
+        getObjects().clear();
+        getObjects().addAll((Collection<? extends com.netxforge.smi.Object>)newValue);
         return;
       case SmiPackage.MODULE__IDENTIFIERS:
         getIdentifiers().clear();
@@ -263,6 +363,12 @@ public class ModuleImpl extends MinimalEObjectImpl.Container implements Module
       case SmiPackage.MODULE__NAME:
         setName(NAME_EDEFAULT);
         return;
+      case SmiPackage.MODULE__IMPORTS:
+        setImports((Imports)null);
+        return;
+      case SmiPackage.MODULE__OBJECTS:
+        getObjects().clear();
+        return;
       case SmiPackage.MODULE__IDENTIFIERS:
         getIdentifiers().clear();
         return;
@@ -288,6 +394,10 @@ public class ModuleImpl extends MinimalEObjectImpl.Container implements Module
     {
       case SmiPackage.MODULE__NAME:
         return NAME_EDEFAULT == null ? name != null : !NAME_EDEFAULT.equals(name);
+      case SmiPackage.MODULE__IMPORTS:
+        return imports != null;
+      case SmiPackage.MODULE__OBJECTS:
+        return objects != null && !objects.isEmpty();
       case SmiPackage.MODULE__IDENTIFIERS:
         return identifiers != null && !identifiers.isEmpty();
       case SmiPackage.MODULE__TYPES:

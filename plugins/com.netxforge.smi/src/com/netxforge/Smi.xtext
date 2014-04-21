@@ -36,11 +36,26 @@ import "http://www.eclipse.org/emf/2002/Ecore" as ecore
 generate smi "http://www.netxforge.com/Smi"
 
 Module:
-	name=MODULE_ID 'DEFINITIONS' '::=' 'BEGIN' NEWLINE
-	(identifiers+=ObjectIdentifier |
+	name=MODULE_ID 'DEFINITIONS' '::=' 'BEGIN'
+	imports=Imports? (objects+=Object | identifiers+=ObjectIdentifier |
 	types+=TypeDefinition |
 	macros+=Macro)+
-	NEWLINE 'END' NEWLINE*;
+	NEWLINE+ 'END' NEWLINE*;
+
+Imports:
+	NEWLINE+ 'IMPORTS' ImportClosure ';';
+
+	//ImportClosure:
+//	'FROM' importURI=MODULE_ID;
+ImportClosure:
+	refs=ImportRefs 'FROM' importURI=MODULE_ID;
+
+	// Consists of OID, Macro, Type usage Refs. 
+ImportRefs:
+	NEWLINE+ refs+=ImportRef (',' refs+=ImportRef)*;
+
+ImportRef:
+	oiRef=[ObjectIdentifier|ASN1_ID] | typeRef=[TypeDefinition|MODULE_ID];
 
 	// An ASN.1 Object Identifier
 ObjectIdentifier hidden(WS, SL_ASN1_COMMENT):
@@ -48,39 +63,47 @@ ObjectIdentifier hidden(WS, SL_ASN1_COMMENT):
 
 	// The value of the Object identifier	
 ObjectIdentifierValue:
-	(name=ASN1_ID
-	| => descriptorReference=[ObjectIdentifier|ASN1_ID])? subIds+=BIG_INTEGER (subIds+=BIG_INTEGER)*;
+	(name=ASN1_ID | => descriptorReference=[ObjectIdentifier|ASN1_ID])? subIds+=BIG_INTEGER (subIds+=BIG_INTEGER)*;
 
 	// An ASN.1 Value assignment. 
 TypeDefinition:
 	NEWLINE+ name=(MODULE_ID) '::=' values+=Value+;
 
-	//Scope:
-//	name='::=' values+=Value+;
+Object:
+	NEWLINE+ name=ASN1_ID macroRef=[Macro|MODULE_ID] attributes+=Attribute+ NEWLINE+ '::=' objectValue=ObjectValue;
 
-// An ASN.1 Macro structure
+Attribute:
+	NEWLINE+ paramRef=[ParamAssignment|MODULE_ID] value=AttributeValue;
+
+AttributeValue:
+	NEWLINE? (id=ASN1_ID | text=IA5STRING);
+
+	// An ASN.1 Object value is of type defined by 'VALUE NOTATION'
+// can be an OBJECT IDENTIFIER the value will be i.e: {0 0}
+ObjectValue:
+	'{' ObjectIdentifierValue '}';
+
+	// An ASN.1 Macro structure
 Macro:
-	NEWLINE+ name=MODULE_ID 'MACRO' '::='
-	NEWLINE 'BEGIN'
-	typeNotation=TypeNotation
-	valueNotation=ValueNotation
+	NEWLINE+ name=MODULE_ID 'MACRO' '::=' NEWLINE+ 'BEGIN' typeNotation=TypeNotation valueNotation=ValueNotation
 	innerTypes+=TypeDefinition+ // Define 1 or more type definitions
 	NEWLINE+ 'END';
 
 TypeNotation:
-	NEWLINE+ name='TYPE NOTATION' '::=' typeNotations+=TypeAssignment+ // Reference one or more type assignment.
+	NEWLINE+ name='TYPE' 'NOTATION' '::=' typeNotations+=TypeAssignment+ // Reference one or more type assignment.
 ;
 
 ValueNotation:
-	NEWLINE+ name='VALUE NOTATION' '::=' NEWLINE? valueNotation=MacroValue // Define one Macro value.
+	NEWLINE+ name='VALUE' 'NOTATION' '::=' valueNotations+=ValueAssignment+ // Define one Macro value.
 ;
+
 // An ASN.1 Macro Type Notation, it's slightly different then  a type definition. 
 TypeAssignment:
 	NEWLINE+ (ParamAssignment | TypeReference | MacroValue);
 
 	// An ASN.1 Parameter assignment
 ParamAssignment:
-	param=PARAMETER right=TypeNotationRight;
+	name=PARAMETER right=TypeNotationRight;
 
 TypeNotationRight:
 	TypeReference | value=MacroValue;
@@ -90,30 +113,38 @@ TypeReferenceExt returns TypeAssignment:
 	parentRef=TypeReference (=> childRef=TypeReference)?;
 
 TypeReference returns TypeAssignment:
-	type=[TypeDefinition|MODULE_ID];
+	type=[TypeDefinition|MODULE_ID] | BracedTypeReference;
+
+	// A Type reference which is enclosed with "{" "}" 
+BracedTypeReference returns TypeAssignment:
+	'"{"' TypeReference '"}"';
+
+ValueAssignment:
+	NEWLINE? valueNotation=MacroValue;
 
 Value:
-	(tag=Tag)? NEWLINE? (implicit?='IMPLICIT')? valueTypes+=ValueType (NEWLINE? '|' valueTypes+=ValueType)*;
+	(tag=Tag)? NEWLINE* (implicit?='IMPLICIT')? valueTypes+=ValueType (NEWLINE* '|'
+	valueTypes+=ValueType)*;
 
 	// ASN1 Tagging
 Tag:
 	NEWLINE? '[APPLICATION' tagValue=BIG_INTEGER ']';
 
 ValueType:
-	(param=ParamAssignment | types=TypeReferenceExt | simpleType=ASN1_TYPE | macroValue=MacroValue |
-	oi='OBJECT IDENTIFIER');
+	(param=ParamAssignment | id=ASN1_ID | types=TypeReferenceExt | simpleType=ASN1_TYPE | macroValue=MacroValue |
+	{ValueType} 'OBJECT IDENTIFIER');
 
 MacroValue returns Value:
-	{MacroValue} 'value' '(' valueType=MACRO_VALUE_TYPE ')';
+	{MacroValue} 'value' '(' valueType=MacroValueType ')';
 
-MACRO_VALUE_TYPE:
-	update=UpdateType | 'VALUE' literal=MACRO_VALUE_CAP | string='IA5String';
+MacroValueType:
+	update=UpdateType | literal=ValueCapType | string='IA5String';
 
 UpdateType:
-	'Update' ref=TypeReference;
+	update?='Update'? ref=TypeReference;
 
-MACRO_VALUE_CAP:
-	{MACRO_VALUE_CAP} 'OBJECT IDENTIFIER' | ref=TypeReference;
+ValueCapType:
+	{MACRO_VALUE_CAP} 'VALUE' ('OBJECT IDENTIFIER' | ref=TypeReference);
 
 	// Simple and structured types. 
 ASN1_TYPE:
@@ -125,7 +156,7 @@ ASN1_SIMPLE returns ASN1_TYPE:
 	{ASN1_SIMPLE} 'empty' | {ASN1_SIMPLE} IA5STRING | ASN1_OCTET_STRING constraint=ASN1_SUBTYPE? | ASN1_INTEGER;
 
 ASN1_OCTET_STRING returns ASN1_SIMPLE:
-	{ASN1_OCTET_STRING} name='OCTET STRING';
+	{ASN1_OCTET_STRING} 'OCTET' 'STRING';
 
 ASN1_INTEGER returns ASN1_SIMPLE:
 	name='INTEGER' ('(' range=ASN1_RANGE ')')?;
@@ -133,22 +164,18 @@ ASN1_INTEGER returns ASN1_SIMPLE:
 	// Is this needed? 
 //	'{' (valuePairs+=ASN1_VALUEPAIR)+ '}';
 ASN1_SUBTYPE returns ASN1_SIMPLE:
-	'(' 'SIZE' '(' ranges+=ASN1_RANGE
-	('|' ranges+=ASN1_RANGE)* ')' ')';
+	'(' 'SIZE' '(' ranges+=ASN1_RANGE ('|' ranges+=ASN1_RANGE)* ')' ')';
 
 ASN1_RANGE:
 	{ASN1_RANGE} value=BIG_INTEGER | (start=BIG_INTEGER '..' end=BIG_INTEGER);
 
 	// TODO1 Requries further definition. 	
 
-// TODO1 further specify id, as enum entry in the vp
-ASN1_VALUEPAIR:
-	(ASN1_ID)? '(' BIG_INTEGER ')';
-
-	//Choice:
+//Choice:
 // http://www.obj-sys.com/asn1tutorial/node11.html
 ASN1_CHOICE:
-	'CHOICE' '{' NEWLINE+ choiceType+=ASN1_CHOICE_ENTRY (',' NEWLINE+ choiceType+=ASN1_CHOICE_ENTRY)* NEWLINE+ '}';
+	'CHOICE' '{' NEWLINE+ choiceType+=ASN1_CHOICE_ENTRY (',' NEWLINE+ choiceType+=ASN1_CHOICE_ENTRY)*
+	NEWLINE+ '}';
 
 	// TODO1 The reference to a ValueType is indented by 4 WS on the next line. 
 //  
@@ -156,20 +183,21 @@ ASN1_CHOICE_ENTRY:
 	id=ASN1_ID NEWLINE? valueType=ChoiceType;
 
 ChoiceType:
-	(typeRef=TypeReference | simpleType=ASN1_TYPE | oi='OBJECT IDENTIFIER');
+	{ChoiceType} (typeRef=TypeReference | simpleType=ASN1_TYPE | 'OBJECT IDENTIFIER');
 
 terminal MODULE_ID:
-	(ALPHA_CAP) (ALPHA | ALPHA_CAP | '-' | NUMERIC)* (ALPHA_CAP | ALPHA | NUMERIC);
+	(ALPHA_CAP) (ALPHA | ALPHA_CAP
+	| '-' | NUMERIC)* (ALPHA_CAP | ALPHA | NUMERIC);
 
 terminal ASN1_ID:
-	(ALPHA) (ALPHA | ALPHA_CAP | '-' | NUMERIC)*;
+	(ALPHA) (ALPHA | ALPHA_CAP | '-' | NUMERIC)* (ALPHA_CAP | ALPHA | NUMERIC);
 
 terminal PARAMETER:
 	'"' MODULE_ID '"';
 
 terminal IA5STRING:
-	'"' ('\\' ('b'
-	| 't' | 'n' | 'f' | 'r' | 'u' | '"' | "'" | '\\') | !('\\' | '"'))* '"';
+	'"' ('\\' ('b' |
+	't' | 'n' | 'f' | 'r' | 'u' | '"' | "'" | '\\') | !('\\' | '"'))* '"';
 
 terminal fragment ALPHA:
 	'a'..'z';

@@ -3,17 +3,24 @@
 package com.netxforge.smi.impl;
 
 import com.netxforge.smi.SmiPackage;
-import com.netxforge.smi.Value;
+import com.netxforge.smi.ValueAssignment;
 import com.netxforge.smi.ValueNotation;
+
+import java.util.Collection;
 
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
+
+import org.eclipse.emf.common.util.EList;
 
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.InternalEObject;
 
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.impl.MinimalEObjectImpl;
+
+import org.eclipse.emf.ecore.util.EObjectContainmentEList;
+import org.eclipse.emf.ecore.util.InternalEList;
 
 /**
  * <!-- begin-user-doc -->
@@ -23,7 +30,7 @@ import org.eclipse.emf.ecore.impl.MinimalEObjectImpl;
  * The following features are implemented:
  * <ul>
  *   <li>{@link com.netxforge.smi.impl.ValueNotationImpl#getName <em>Name</em>}</li>
- *   <li>{@link com.netxforge.smi.impl.ValueNotationImpl#getValueNotation <em>Value Notation</em>}</li>
+ *   <li>{@link com.netxforge.smi.impl.ValueNotationImpl#getValueNotations <em>Value Notations</em>}</li>
  * </ul>
  * </p>
  *
@@ -52,14 +59,14 @@ public class ValueNotationImpl extends MinimalEObjectImpl.Container implements V
   protected String name = NAME_EDEFAULT;
 
   /**
-   * The cached value of the '{@link #getValueNotation() <em>Value Notation</em>}' containment reference.
+   * The cached value of the '{@link #getValueNotations() <em>Value Notations</em>}' containment reference list.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @see #getValueNotation()
+   * @see #getValueNotations()
    * @generated
    * @ordered
    */
-  protected Value valueNotation;
+  protected EList<ValueAssignment> valueNotations;
 
   /**
    * <!-- begin-user-doc -->
@@ -110,47 +117,13 @@ public class ValueNotationImpl extends MinimalEObjectImpl.Container implements V
    * <!-- end-user-doc -->
    * @generated
    */
-  public Value getValueNotation()
+  public EList<ValueAssignment> getValueNotations()
   {
-    return valueNotation;
-  }
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  public NotificationChain basicSetValueNotation(Value newValueNotation, NotificationChain msgs)
-  {
-    Value oldValueNotation = valueNotation;
-    valueNotation = newValueNotation;
-    if (eNotificationRequired())
+    if (valueNotations == null)
     {
-      ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, SmiPackage.VALUE_NOTATION__VALUE_NOTATION, oldValueNotation, newValueNotation);
-      if (msgs == null) msgs = notification; else msgs.add(notification);
+      valueNotations = new EObjectContainmentEList<ValueAssignment>(ValueAssignment.class, this, SmiPackage.VALUE_NOTATION__VALUE_NOTATIONS);
     }
-    return msgs;
-  }
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  public void setValueNotation(Value newValueNotation)
-  {
-    if (newValueNotation != valueNotation)
-    {
-      NotificationChain msgs = null;
-      if (valueNotation != null)
-        msgs = ((InternalEObject)valueNotation).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - SmiPackage.VALUE_NOTATION__VALUE_NOTATION, null, msgs);
-      if (newValueNotation != null)
-        msgs = ((InternalEObject)newValueNotation).eInverseAdd(this, EOPPOSITE_FEATURE_BASE - SmiPackage.VALUE_NOTATION__VALUE_NOTATION, null, msgs);
-      msgs = basicSetValueNotation(newValueNotation, msgs);
-      if (msgs != null) msgs.dispatch();
-    }
-    else if (eNotificationRequired())
-      eNotify(new ENotificationImpl(this, Notification.SET, SmiPackage.VALUE_NOTATION__VALUE_NOTATION, newValueNotation, newValueNotation));
+    return valueNotations;
   }
 
   /**
@@ -163,8 +136,8 @@ public class ValueNotationImpl extends MinimalEObjectImpl.Container implements V
   {
     switch (featureID)
     {
-      case SmiPackage.VALUE_NOTATION__VALUE_NOTATION:
-        return basicSetValueNotation(null, msgs);
+      case SmiPackage.VALUE_NOTATION__VALUE_NOTATIONS:
+        return ((InternalEList<?>)getValueNotations()).basicRemove(otherEnd, msgs);
     }
     return super.eInverseRemove(otherEnd, featureID, msgs);
   }
@@ -181,8 +154,8 @@ public class ValueNotationImpl extends MinimalEObjectImpl.Container implements V
     {
       case SmiPackage.VALUE_NOTATION__NAME:
         return getName();
-      case SmiPackage.VALUE_NOTATION__VALUE_NOTATION:
-        return getValueNotation();
+      case SmiPackage.VALUE_NOTATION__VALUE_NOTATIONS:
+        return getValueNotations();
     }
     return super.eGet(featureID, resolve, coreType);
   }
@@ -192,6 +165,7 @@ public class ValueNotationImpl extends MinimalEObjectImpl.Container implements V
    * <!-- end-user-doc -->
    * @generated
    */
+  @SuppressWarnings("unchecked")
   @Override
   public void eSet(int featureID, Object newValue)
   {
@@ -200,8 +174,9 @@ public class ValueNotationImpl extends MinimalEObjectImpl.Container implements V
       case SmiPackage.VALUE_NOTATION__NAME:
         setName((String)newValue);
         return;
-      case SmiPackage.VALUE_NOTATION__VALUE_NOTATION:
-        setValueNotation((Value)newValue);
+      case SmiPackage.VALUE_NOTATION__VALUE_NOTATIONS:
+        getValueNotations().clear();
+        getValueNotations().addAll((Collection<? extends ValueAssignment>)newValue);
         return;
     }
     super.eSet(featureID, newValue);
@@ -220,8 +195,8 @@ public class ValueNotationImpl extends MinimalEObjectImpl.Container implements V
       case SmiPackage.VALUE_NOTATION__NAME:
         setName(NAME_EDEFAULT);
         return;
-      case SmiPackage.VALUE_NOTATION__VALUE_NOTATION:
-        setValueNotation((Value)null);
+      case SmiPackage.VALUE_NOTATION__VALUE_NOTATIONS:
+        getValueNotations().clear();
         return;
     }
     super.eUnset(featureID);
@@ -239,8 +214,8 @@ public class ValueNotationImpl extends MinimalEObjectImpl.Container implements V
     {
       case SmiPackage.VALUE_NOTATION__NAME:
         return NAME_EDEFAULT == null ? name != null : !NAME_EDEFAULT.equals(name);
-      case SmiPackage.VALUE_NOTATION__VALUE_NOTATION:
-        return valueNotation != null;
+      case SmiPackage.VALUE_NOTATION__VALUE_NOTATIONS:
+        return valueNotations != null && !valueNotations.isEmpty();
     }
     return super.eIsSet(featureID);
   }

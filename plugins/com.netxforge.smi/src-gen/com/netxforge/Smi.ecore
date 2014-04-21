@@ -3,6 +3,10 @@
     xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="smi" nsURI="http://www.netxforge.com/Smi" nsPrefix="smi">
   <eClassifiers xsi:type="ecore:EClass" name="Module">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="imports" eType="#//Imports"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="objects" upperBound="-1"
+        eType="#//Object" containment="true"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="identifiers" upperBound="-1"
         eType="#//ObjectIdentifier" containment="true"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="types" upperBound="-1"
@@ -10,12 +14,26 @@
     <eStructuralFeatures xsi:type="ecore:EReference" name="macros" upperBound="-1"
         eType="#//Macro" containment="true"/>
   </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Imports"/>
+  <eClassifiers xsi:type="ecore:EClass" name="ImportClosure" eSuperTypes="#//Imports">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="refs" eType="#//ImportRefs"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="importURI" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ImportRefs">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="refs" upperBound="-1" eType="#//ImportRef"
+        containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ImportRef">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="oiRef" eType="#//ObjectIdentifier"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="typeRef" eType="#//TypeDefinition"/>
+  </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="ObjectIdentifier">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="oidValue" eType="#//ObjectIdentifierValue"
         containment="true"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="ObjectIdentifierValue">
+  <eClassifiers xsi:type="ecore:EClass" name="ObjectIdentifierValue" eSuperTypes="#//ObjectValue">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="descriptorReference" eType="#//ObjectIdentifier"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="subIds" unique="false"
@@ -26,6 +44,24 @@
     <eStructuralFeatures xsi:type="ecore:EReference" name="values" upperBound="-1"
         eType="#//Value" containment="true"/>
   </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Object">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="macroRef" eType="#//Macro"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="attributes" upperBound="-1"
+        eType="#//Attribute" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="objectValue" eType="#//ObjectValue"
+        containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Attribute">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="paramRef" eType="#//ParamAssignment"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="value" eType="#//AttributeValue"
+        containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="AttributeValue">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="id" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="text" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ObjectValue"/>
   <eClassifiers xsi:type="ecore:EClass" name="Macro">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="typeNotation" eType="#//TypeNotation"
@@ -42,8 +78,8 @@
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="ValueNotation">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="valueNotation" eType="#//Value"
-        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="valueNotations" upperBound="-1"
+        eType="#//ValueAssignment" containment="true"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="TypeAssignment" eSuperTypes="#//TypeNotationRight">
     <eStructuralFeatures xsi:type="ecore:EReference" name="parentRef" eType="#//TypeAssignment"
@@ -53,12 +89,16 @@
     <eStructuralFeatures xsi:type="ecore:EReference" name="type" eType="#//TypeDefinition"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="ParamAssignment" eSuperTypes="#//TypeAssignment">
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="param" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="right" eType="#//TypeNotationRight"
         containment="true"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="TypeNotationRight">
     <eStructuralFeatures xsi:type="ecore:EReference" name="value" eType="#//Value"
+        containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ValueAssignment">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="valueNotation" eType="#//Value"
         containment="true"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Value" eSuperTypes="#//TypeAssignment">
@@ -73,29 +113,27 @@
   <eClassifiers xsi:type="ecore:EClass" name="ValueType">
     <eStructuralFeatures xsi:type="ecore:EReference" name="param" eType="#//ParamAssignment"
         containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="id" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="types" eType="#//TypeAssignment"
         containment="true"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="simpleType" eType="#//ASN1_TYPE"
         containment="true"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="macroValue" eType="#//Value"
         containment="true"/>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="oi" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="MACRO_VALUE_TYPE">
+  <eClassifiers xsi:type="ecore:EClass" name="MacroValueType">
     <eStructuralFeatures xsi:type="ecore:EReference" name="update" eType="#//UpdateType"
         containment="true"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="literal" eType="#//MACRO_VALUE_CAP"
+    <eStructuralFeatures xsi:type="ecore:EReference" name="literal" eType="#//ValueCapType"
         containment="true"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="string" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="UpdateType">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="update" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="ref" eType="#//TypeAssignment"
         containment="true"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="MACRO_VALUE_CAP">
-    <eStructuralFeatures xsi:type="ecore:EReference" name="ref" eType="#//TypeAssignment"
-        containment="true"/>
-  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ValueCapType"/>
   <eClassifiers xsi:type="ecore:EClass" name="ASN1_TYPE"/>
   <eClassifiers xsi:type="ecore:EClass" name="ASN1_SIMPLE" eSuperTypes="#//ASN1_TYPE">
     <eStructuralFeatures xsi:type="ecore:EReference" name="constraint" eType="#//ASN1_SIMPLE"
@@ -125,10 +163,13 @@
         containment="true"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="simpleType" eType="#//ASN1_TYPE"
         containment="true"/>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="oi" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="MacroValue" eSuperTypes="#//Value">
-    <eStructuralFeatures xsi:type="ecore:EReference" name="valueType" eType="#//MACRO_VALUE_TYPE"
+    <eStructuralFeatures xsi:type="ecore:EReference" name="valueType" eType="#//MacroValueType"
+        containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="MACRO_VALUE_CAP" eSuperTypes="#//ValueCapType">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="ref" eType="#//TypeAssignment"
         containment="true"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="ASN1_OCTET_STRING" eSuperTypes="#//ASN1_SIMPLE"/>

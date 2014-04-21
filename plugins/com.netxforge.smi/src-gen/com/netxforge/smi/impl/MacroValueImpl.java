@@ -2,8 +2,8 @@
  */
 package com.netxforge.smi.impl;
 
-import com.netxforge.smi.MACRO_VALUE_TYPE;
 import com.netxforge.smi.MacroValue;
+import com.netxforge.smi.MacroValueType;
 import com.netxforge.smi.SmiPackage;
 
 import org.eclipse.emf.common.notify.Notification;
@@ -37,7 +37,7 @@ public class MacroValueImpl extends ValueImpl implements MacroValue
    * @generated
    * @ordered
    */
-  protected MACRO_VALUE_TYPE valueType;
+  protected MacroValueType valueType;
 
   /**
    * <!-- begin-user-doc -->
@@ -65,7 +65,7 @@ public class MacroValueImpl extends ValueImpl implements MacroValue
    * <!-- end-user-doc -->
    * @generated
    */
-  public MACRO_VALUE_TYPE getValueType()
+  public MacroValueType getValueType()
   {
     return valueType;
   }
@@ -75,9 +75,9 @@ public class MacroValueImpl extends ValueImpl implements MacroValue
    * <!-- end-user-doc -->
    * @generated
    */
-  public NotificationChain basicSetValueType(MACRO_VALUE_TYPE newValueType, NotificationChain msgs)
+  public NotificationChain basicSetValueType(MacroValueType newValueType, NotificationChain msgs)
   {
-    MACRO_VALUE_TYPE oldValueType = valueType;
+    MacroValueType oldValueType = valueType;
     valueType = newValueType;
     if (eNotificationRequired())
     {
@@ -92,7 +92,7 @@ public class MacroValueImpl extends ValueImpl implements MacroValue
    * <!-- end-user-doc -->
    * @generated
    */
-  public void setValueType(MACRO_VALUE_TYPE newValueType)
+  public void setValueType(MacroValueType newValueType)
   {
     if (newValueType != valueType)
     {
@@ -151,7 +151,7 @@ public class MacroValueImpl extends ValueImpl implements MacroValue
     switch (featureID)
     {
       case SmiPackage.MACRO_VALUE__VALUE_TYPE:
-        setValueType((MACRO_VALUE_TYPE)newValue);
+        setValueType((MacroValueType)newValue);
         return;
     }
     super.eSet(featureID, newValue);
@@ -168,7 +168,7 @@ public class MacroValueImpl extends ValueImpl implements MacroValue
     switch (featureID)
     {
       case SmiPackage.MACRO_VALUE__VALUE_TYPE:
-        setValueType((MACRO_VALUE_TYPE)null);
+        setValueType((MacroValueType)null);
         return;
     }
     super.eUnset(featureID);

@@ -14,7 +14,6 @@ import org.eclipse.emf.ecore.EObject;
  * <ul>
  *   <li>{@link com.netxforge.smi.ChoiceType#getTypeRef <em>Type Ref</em>}</li>
  *   <li>{@link com.netxforge.smi.ChoiceType#getSimpleType <em>Simple Type</em>}</li>
- *   <li>{@link com.netxforge.smi.ChoiceType#getOi <em>Oi</em>}</li>
  * </ul>
  * </p>
  *
@@ -75,31 +74,5 @@ public interface ChoiceType extends EObject
    * @generated
    */
   void setSimpleType(ASN1_TYPE value);
-
-  /**
-   * Returns the value of the '<em><b>Oi</b></em>' attribute.
-   * <!-- begin-user-doc -->
-   * <p>
-   * If the meaning of the '<em>Oi</em>' attribute isn't clear,
-   * there really should be more of a description here...
-   * </p>
-   * <!-- end-user-doc -->
-   * @return the value of the '<em>Oi</em>' attribute.
-   * @see #setOi(String)
-   * @see com.netxforge.smi.SmiPackage#getChoiceType_Oi()
-   * @model
-   * @generated
-   */
-  String getOi();
-
-  /**
-   * Sets the value of the '{@link com.netxforge.smi.ChoiceType#getOi <em>Oi</em>}' attribute.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @param value the new value of the '<em>Oi</em>' attribute.
-   * @see #getOi()
-   * @generated
-   */
-  void setOi(String value);
 
 } // ChoiceType

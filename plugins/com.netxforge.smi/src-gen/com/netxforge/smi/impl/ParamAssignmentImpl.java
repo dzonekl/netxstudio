@@ -21,7 +21,7 @@ import org.eclipse.emf.ecore.impl.ENotificationImpl;
  * <p>
  * The following features are implemented:
  * <ul>
- *   <li>{@link com.netxforge.smi.impl.ParamAssignmentImpl#getParam <em>Param</em>}</li>
+ *   <li>{@link com.netxforge.smi.impl.ParamAssignmentImpl#getName <em>Name</em>}</li>
  *   <li>{@link com.netxforge.smi.impl.ParamAssignmentImpl#getRight <em>Right</em>}</li>
  * </ul>
  * </p>
@@ -31,24 +31,24 @@ import org.eclipse.emf.ecore.impl.ENotificationImpl;
 public class ParamAssignmentImpl extends TypeAssignmentImpl implements ParamAssignment
 {
   /**
-   * The default value of the '{@link #getParam() <em>Param</em>}' attribute.
+   * The default value of the '{@link #getName() <em>Name</em>}' attribute.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @see #getParam()
+   * @see #getName()
    * @generated
    * @ordered
    */
-  protected static final String PARAM_EDEFAULT = null;
+  protected static final String NAME_EDEFAULT = null;
 
   /**
-   * The cached value of the '{@link #getParam() <em>Param</em>}' attribute.
+   * The cached value of the '{@link #getName() <em>Name</em>}' attribute.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @see #getParam()
+   * @see #getName()
    * @generated
    * @ordered
    */
-  protected String param = PARAM_EDEFAULT;
+  protected String name = NAME_EDEFAULT;
 
   /**
    * The cached value of the '{@link #getRight() <em>Right</em>}' containment reference.
@@ -86,9 +86,9 @@ public class ParamAssignmentImpl extends TypeAssignmentImpl implements ParamAssi
    * <!-- end-user-doc -->
    * @generated
    */
-  public String getParam()
+  public String getName()
   {
-    return param;
+    return name;
   }
 
   /**
@@ -96,12 +96,12 @@ public class ParamAssignmentImpl extends TypeAssignmentImpl implements ParamAssi
    * <!-- end-user-doc -->
    * @generated
    */
-  public void setParam(String newParam)
+  public void setName(String newName)
   {
-    String oldParam = param;
-    param = newParam;
+    String oldName = name;
+    name = newName;
     if (eNotificationRequired())
-      eNotify(new ENotificationImpl(this, Notification.SET, SmiPackage.PARAM_ASSIGNMENT__PARAM, oldParam, param));
+      eNotify(new ENotificationImpl(this, Notification.SET, SmiPackage.PARAM_ASSIGNMENT__NAME, oldName, name));
   }
 
   /**
@@ -178,8 +178,8 @@ public class ParamAssignmentImpl extends TypeAssignmentImpl implements ParamAssi
   {
     switch (featureID)
     {
-      case SmiPackage.PARAM_ASSIGNMENT__PARAM:
-        return getParam();
+      case SmiPackage.PARAM_ASSIGNMENT__NAME:
+        return getName();
       case SmiPackage.PARAM_ASSIGNMENT__RIGHT:
         return getRight();
     }
@@ -196,8 +196,8 @@ public class ParamAssignmentImpl extends TypeAssignmentImpl implements ParamAssi
   {
     switch (featureID)
     {
-      case SmiPackage.PARAM_ASSIGNMENT__PARAM:
-        setParam((String)newValue);
+      case SmiPackage.PARAM_ASSIGNMENT__NAME:
+        setName((String)newValue);
         return;
       case SmiPackage.PARAM_ASSIGNMENT__RIGHT:
         setRight((TypeNotationRight)newValue);
@@ -216,8 +216,8 @@ public class ParamAssignmentImpl extends TypeAssignmentImpl implements ParamAssi
   {
     switch (featureID)
     {
-      case SmiPackage.PARAM_ASSIGNMENT__PARAM:
-        setParam(PARAM_EDEFAULT);
+      case SmiPackage.PARAM_ASSIGNMENT__NAME:
+        setName(NAME_EDEFAULT);
         return;
       case SmiPackage.PARAM_ASSIGNMENT__RIGHT:
         setRight((TypeNotationRight)null);
@@ -236,8 +236,8 @@ public class ParamAssignmentImpl extends TypeAssignmentImpl implements ParamAssi
   {
     switch (featureID)
     {
-      case SmiPackage.PARAM_ASSIGNMENT__PARAM:
-        return PARAM_EDEFAULT == null ? param != null : !PARAM_EDEFAULT.equals(param);
+      case SmiPackage.PARAM_ASSIGNMENT__NAME:
+        return NAME_EDEFAULT == null ? name != null : !NAME_EDEFAULT.equals(name);
       case SmiPackage.PARAM_ASSIGNMENT__RIGHT:
         return right != null;
     }
@@ -255,8 +255,8 @@ public class ParamAssignmentImpl extends TypeAssignmentImpl implements ParamAssi
     if (eIsProxy()) return super.toString();
 
     StringBuffer result = new StringBuffer(super.toString());
-    result.append(" (param: ");
-    result.append(param);
+    result.append(" (name: ");
+    result.append(name);
     result.append(')');
     return result.toString();
   }

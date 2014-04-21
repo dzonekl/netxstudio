@@ -2,10 +2,10 @@
  */
 package com.netxforge.smi.impl;
 
-import com.netxforge.smi.MACRO_VALUE_CAP;
-import com.netxforge.smi.MACRO_VALUE_TYPE;
+import com.netxforge.smi.MacroValueType;
 import com.netxforge.smi.SmiPackage;
 import com.netxforge.smi.UpdateType;
+import com.netxforge.smi.ValueCapType;
 
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
@@ -18,20 +18,20 @@ import org.eclipse.emf.ecore.impl.MinimalEObjectImpl;
 
 /**
  * <!-- begin-user-doc -->
- * An implementation of the model object '<em><b>MACRO VALUE TYPE</b></em>'.
+ * An implementation of the model object '<em><b>Macro Value Type</b></em>'.
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
  * <ul>
- *   <li>{@link com.netxforge.smi.impl.MACRO_VALUE_TYPEImpl#getUpdate <em>Update</em>}</li>
- *   <li>{@link com.netxforge.smi.impl.MACRO_VALUE_TYPEImpl#getLiteral <em>Literal</em>}</li>
- *   <li>{@link com.netxforge.smi.impl.MACRO_VALUE_TYPEImpl#getString <em>String</em>}</li>
+ *   <li>{@link com.netxforge.smi.impl.MacroValueTypeImpl#getUpdate <em>Update</em>}</li>
+ *   <li>{@link com.netxforge.smi.impl.MacroValueTypeImpl#getLiteral <em>Literal</em>}</li>
+ *   <li>{@link com.netxforge.smi.impl.MacroValueTypeImpl#getString <em>String</em>}</li>
  * </ul>
  * </p>
  *
  * @generated
  */
-public class MACRO_VALUE_TYPEImpl extends MinimalEObjectImpl.Container implements MACRO_VALUE_TYPE
+public class MacroValueTypeImpl extends MinimalEObjectImpl.Container implements MacroValueType
 {
   /**
    * The cached value of the '{@link #getUpdate() <em>Update</em>}' containment reference.
@@ -51,7 +51,7 @@ public class MACRO_VALUE_TYPEImpl extends MinimalEObjectImpl.Container implement
    * @generated
    * @ordered
    */
-  protected MACRO_VALUE_CAP literal;
+  protected ValueCapType literal;
 
   /**
    * The default value of the '{@link #getString() <em>String</em>}' attribute.
@@ -78,7 +78,7 @@ public class MACRO_VALUE_TYPEImpl extends MinimalEObjectImpl.Container implement
    * <!-- end-user-doc -->
    * @generated
    */
-  protected MACRO_VALUE_TYPEImpl()
+  protected MacroValueTypeImpl()
   {
     super();
   }
@@ -147,7 +147,7 @@ public class MACRO_VALUE_TYPEImpl extends MinimalEObjectImpl.Container implement
    * <!-- end-user-doc -->
    * @generated
    */
-  public MACRO_VALUE_CAP getLiteral()
+  public ValueCapType getLiteral()
   {
     return literal;
   }
@@ -157,9 +157,9 @@ public class MACRO_VALUE_TYPEImpl extends MinimalEObjectImpl.Container implement
    * <!-- end-user-doc -->
    * @generated
    */
-  public NotificationChain basicSetLiteral(MACRO_VALUE_CAP newLiteral, NotificationChain msgs)
+  public NotificationChain basicSetLiteral(ValueCapType newLiteral, NotificationChain msgs)
   {
-    MACRO_VALUE_CAP oldLiteral = literal;
+    ValueCapType oldLiteral = literal;
     literal = newLiteral;
     if (eNotificationRequired())
     {
@@ -174,7 +174,7 @@ public class MACRO_VALUE_TYPEImpl extends MinimalEObjectImpl.Container implement
    * <!-- end-user-doc -->
    * @generated
    */
-  public void setLiteral(MACRO_VALUE_CAP newLiteral)
+  public void setLiteral(ValueCapType newLiteral)
   {
     if (newLiteral != literal)
     {
@@ -265,7 +265,7 @@ public class MACRO_VALUE_TYPEImpl extends MinimalEObjectImpl.Container implement
         setUpdate((UpdateType)newValue);
         return;
       case SmiPackage.MACRO_VALUE_TYPE__LITERAL:
-        setLiteral((MACRO_VALUE_CAP)newValue);
+        setLiteral((ValueCapType)newValue);
         return;
       case SmiPackage.MACRO_VALUE_TYPE__STRING:
         setString((String)newValue);
@@ -288,7 +288,7 @@ public class MACRO_VALUE_TYPEImpl extends MinimalEObjectImpl.Container implement
         setUpdate((UpdateType)null);
         return;
       case SmiPackage.MACRO_VALUE_TYPE__LITERAL:
-        setLiteral((MACRO_VALUE_CAP)null);
+        setLiteral((ValueCapType)null);
         return;
       case SmiPackage.MACRO_VALUE_TYPE__STRING:
         setString(STRING_EDEFAULT);
@@ -334,4 +334,4 @@ public class MACRO_VALUE_TYPEImpl extends MinimalEObjectImpl.Container implement
     return result.toString();
   }
 
-} //MACRO_VALUE_TYPEImpl
+} //MacroValueTypeImpl

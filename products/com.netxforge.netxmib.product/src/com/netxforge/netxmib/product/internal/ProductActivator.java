@@ -81,10 +81,11 @@ public class ProductActivator extends AbstractUIPlugin {
 		// is only set when the application inisitalized, if the plugin is
 		// self-starting
 		// this will thrown an exception that the data area is not set.
-		System.getProperties()
-				.setProperty(
-						"org.eclipse.emf.ecore.plugin.EcorePlugin.doNotLoadResourcesPlugin",
-						"false");
+		
+//		System.getProperties()
+//				.setProperty(
+//						"org.eclipse.emf.ecore.plugin.EcorePlugin.doNotLoadResourcesPlugin",
+//						"false");
 
 		// As we auto start this plugin, and EMF requires a workspace, in it'c
 		// core

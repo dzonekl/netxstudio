@@ -6,8 +6,6 @@ import java.math.BigInteger;
 
 import org.eclipse.emf.common.util.EList;
 
-import org.eclipse.emf.ecore.EObject;
-
 /**
  * <!-- begin-user-doc -->
  * A representation of the model object '<em><b>Object Identifier Value</b></em>'.
@@ -26,7 +24,7 @@ import org.eclipse.emf.ecore.EObject;
  * @model
  * @generated
  */
-public interface ObjectIdentifierValue extends EObject
+public interface ObjectIdentifierValue extends ObjectValue
 {
   /**
    * Returns the value of the '<em><b>Name</b></em>' attribute.

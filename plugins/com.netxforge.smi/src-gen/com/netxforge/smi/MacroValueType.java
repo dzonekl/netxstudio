@@ -6,23 +6,23 @@ import org.eclipse.emf.ecore.EObject;
 
 /**
  * <!-- begin-user-doc -->
- * A representation of the model object '<em><b>MACRO VALUE TYPE</b></em>'.
+ * A representation of the model object '<em><b>Macro Value Type</b></em>'.
  * <!-- end-user-doc -->
  *
  * <p>
  * The following features are supported:
  * <ul>
- *   <li>{@link com.netxforge.smi.MACRO_VALUE_TYPE#getUpdate <em>Update</em>}</li>
- *   <li>{@link com.netxforge.smi.MACRO_VALUE_TYPE#getLiteral <em>Literal</em>}</li>
- *   <li>{@link com.netxforge.smi.MACRO_VALUE_TYPE#getString <em>String</em>}</li>
+ *   <li>{@link com.netxforge.smi.MacroValueType#getUpdate <em>Update</em>}</li>
+ *   <li>{@link com.netxforge.smi.MacroValueType#getLiteral <em>Literal</em>}</li>
+ *   <li>{@link com.netxforge.smi.MacroValueType#getString <em>String</em>}</li>
  * </ul>
  * </p>
  *
- * @see com.netxforge.smi.SmiPackage#getMACRO_VALUE_TYPE()
+ * @see com.netxforge.smi.SmiPackage#getMacroValueType()
  * @model
  * @generated
  */
-public interface MACRO_VALUE_TYPE extends EObject
+public interface MacroValueType extends EObject
 {
   /**
    * Returns the value of the '<em><b>Update</b></em>' containment reference.
@@ -34,14 +34,14 @@ public interface MACRO_VALUE_TYPE extends EObject
    * <!-- end-user-doc -->
    * @return the value of the '<em>Update</em>' containment reference.
    * @see #setUpdate(UpdateType)
-   * @see com.netxforge.smi.SmiPackage#getMACRO_VALUE_TYPE_Update()
+   * @see com.netxforge.smi.SmiPackage#getMacroValueType_Update()
    * @model containment="true"
    * @generated
    */
   UpdateType getUpdate();
 
   /**
-   * Sets the value of the '{@link com.netxforge.smi.MACRO_VALUE_TYPE#getUpdate <em>Update</em>}' containment reference.
+   * Sets the value of the '{@link com.netxforge.smi.MacroValueType#getUpdate <em>Update</em>}' containment reference.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @param value the new value of the '<em>Update</em>' containment reference.
@@ -59,22 +59,22 @@ public interface MACRO_VALUE_TYPE extends EObject
    * </p>
    * <!-- end-user-doc -->
    * @return the value of the '<em>Literal</em>' containment reference.
-   * @see #setLiteral(MACRO_VALUE_CAP)
-   * @see com.netxforge.smi.SmiPackage#getMACRO_VALUE_TYPE_Literal()
+   * @see #setLiteral(ValueCapType)
+   * @see com.netxforge.smi.SmiPackage#getMacroValueType_Literal()
    * @model containment="true"
    * @generated
    */
-  MACRO_VALUE_CAP getLiteral();
+  ValueCapType getLiteral();
 
   /**
-   * Sets the value of the '{@link com.netxforge.smi.MACRO_VALUE_TYPE#getLiteral <em>Literal</em>}' containment reference.
+   * Sets the value of the '{@link com.netxforge.smi.MacroValueType#getLiteral <em>Literal</em>}' containment reference.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @param value the new value of the '<em>Literal</em>' containment reference.
    * @see #getLiteral()
    * @generated
    */
-  void setLiteral(MACRO_VALUE_CAP value);
+  void setLiteral(ValueCapType value);
 
   /**
    * Returns the value of the '<em><b>String</b></em>' attribute.
@@ -86,14 +86,14 @@ public interface MACRO_VALUE_TYPE extends EObject
    * <!-- end-user-doc -->
    * @return the value of the '<em>String</em>' attribute.
    * @see #setString(String)
-   * @see com.netxforge.smi.SmiPackage#getMACRO_VALUE_TYPE_String()
+   * @see com.netxforge.smi.SmiPackage#getMacroValueType_String()
    * @model
    * @generated
    */
   String getString();
 
   /**
-   * Sets the value of the '{@link com.netxforge.smi.MACRO_VALUE_TYPE#getString <em>String</em>}' attribute.
+   * Sets the value of the '{@link com.netxforge.smi.MacroValueType#getString <em>String</em>}' attribute.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @param value the new value of the '<em>String</em>' attribute.
@@ -102,4 +102,4 @@ public interface MACRO_VALUE_TYPE extends EObject
    */
   void setString(String value);
 
-} // MACRO_VALUE_TYPE
+} // MacroValueType

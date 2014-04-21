@@ -14,11 +14,11 @@ Require-Bundle: com.netxforge.smi;visibility:=reexport,
  org.eclipse.xtext.ui.shared;bundle-version="2.3.1",
  org.eclipse.ui.editors,
  org.eclipse.xtext.ui.codetemplates.ui
-Import-Package: org.apache.log4j,
- org.eclipse.xtext.xbase.lib
 Bundle-RequiredExecutionEnvironment: J2SE-1.5
 Export-Package: com.netxforge.ui.quickfix,
  com.netxforge.ui.contentassist,
  com.netxforge.ui.contentassist.antlr,
  com.netxforge.ui.internal
 Bundle-Activator: com.netxforge.ui.internal.SmiActivator
+Import-Package: org.eclipse.xtext.xbase.lib,
+ org.apache.log4j

@@ -11,7 +11,7 @@ package com.netxforge.smi;
  * <p>
  * The following features are supported:
  * <ul>
- *   <li>{@link com.netxforge.smi.ParamAssignment#getParam <em>Param</em>}</li>
+ *   <li>{@link com.netxforge.smi.ParamAssignment#getName <em>Name</em>}</li>
  *   <li>{@link com.netxforge.smi.ParamAssignment#getRight <em>Right</em>}</li>
  * </ul>
  * </p>
@@ -23,30 +23,30 @@ package com.netxforge.smi;
 public interface ParamAssignment extends TypeAssignment
 {
   /**
-   * Returns the value of the '<em><b>Param</b></em>' attribute.
+   * Returns the value of the '<em><b>Name</b></em>' attribute.
    * <!-- begin-user-doc -->
    * <p>
-   * If the meaning of the '<em>Param</em>' attribute isn't clear,
+   * If the meaning of the '<em>Name</em>' attribute isn't clear,
    * there really should be more of a description here...
    * </p>
    * <!-- end-user-doc -->
-   * @return the value of the '<em>Param</em>' attribute.
-   * @see #setParam(String)
-   * @see com.netxforge.smi.SmiPackage#getParamAssignment_Param()
+   * @return the value of the '<em>Name</em>' attribute.
+   * @see #setName(String)
+   * @see com.netxforge.smi.SmiPackage#getParamAssignment_Name()
    * @model
    * @generated
    */
-  String getParam();
+  String getName();
 
   /**
-   * Sets the value of the '{@link com.netxforge.smi.ParamAssignment#getParam <em>Param</em>}' attribute.
+   * Sets the value of the '{@link com.netxforge.smi.ParamAssignment#getName <em>Name</em>}' attribute.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @param value the new value of the '<em>Param</em>' attribute.
-   * @see #getParam()
+   * @param value the new value of the '<em>Name</em>' attribute.
+   * @see #getName()
    * @generated
    */
-  void setParam(String value);
+  void setName(String value);
 
   /**
    * Returns the value of the '<em><b>Right</b></em>' containment reference.

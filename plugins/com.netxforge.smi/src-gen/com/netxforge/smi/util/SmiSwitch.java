@@ -2,7 +2,40 @@
  */
 package com.netxforge.smi.util;
 
-import com.netxforge.smi.*;
+import com.netxforge.smi.ASN1_CHOICE;
+import com.netxforge.smi.ASN1_CHOICE_ENTRY;
+import com.netxforge.smi.ASN1_OCTET_STRING;
+import com.netxforge.smi.ASN1_RANGE;
+import com.netxforge.smi.ASN1_SIMPLE;
+import com.netxforge.smi.ASN1_TYPE;
+import com.netxforge.smi.Attribute;
+import com.netxforge.smi.AttributeValue;
+import com.netxforge.smi.ChoiceType;
+import com.netxforge.smi.ImportClosure;
+import com.netxforge.smi.ImportRef;
+import com.netxforge.smi.ImportRefs;
+import com.netxforge.smi.Imports;
+import com.netxforge.smi.MACRO_VALUE_CAP;
+import com.netxforge.smi.Macro;
+import com.netxforge.smi.MacroValue;
+import com.netxforge.smi.MacroValueType;
+import com.netxforge.smi.Module;
+import com.netxforge.smi.ObjectIdentifier;
+import com.netxforge.smi.ObjectIdentifierValue;
+import com.netxforge.smi.ObjectValue;
+import com.netxforge.smi.ParamAssignment;
+import com.netxforge.smi.SmiPackage;
+import com.netxforge.smi.Tag;
+import com.netxforge.smi.TypeAssignment;
+import com.netxforge.smi.TypeDefinition;
+import com.netxforge.smi.TypeNotation;
+import com.netxforge.smi.TypeNotationRight;
+import com.netxforge.smi.UpdateType;
+import com.netxforge.smi.Value;
+import com.netxforge.smi.ValueAssignment;
+import com.netxforge.smi.ValueCapType;
+import com.netxforge.smi.ValueNotation;
+import com.netxforge.smi.ValueType;
 
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
@@ -79,6 +112,35 @@ public class SmiSwitch<T> extends Switch<T>
         if (result == null) result = defaultCase(theEObject);
         return result;
       }
+      case SmiPackage.IMPORTS:
+      {
+        Imports imports = (Imports)theEObject;
+        T result = caseImports(imports);
+        if (result == null) result = defaultCase(theEObject);
+        return result;
+      }
+      case SmiPackage.IMPORT_CLOSURE:
+      {
+        ImportClosure importClosure = (ImportClosure)theEObject;
+        T result = caseImportClosure(importClosure);
+        if (result == null) result = caseImports(importClosure);
+        if (result == null) result = defaultCase(theEObject);
+        return result;
+      }
+      case SmiPackage.IMPORT_REFS:
+      {
+        ImportRefs importRefs = (ImportRefs)theEObject;
+        T result = caseImportRefs(importRefs);
+        if (result == null) result = defaultCase(theEObject);
+        return result;
+      }
+      case SmiPackage.IMPORT_REF:
+      {
+        ImportRef importRef = (ImportRef)theEObject;
+        T result = caseImportRef(importRef);
+        if (result == null) result = defaultCase(theEObject);
+        return result;
+      }
       case SmiPackage.OBJECT_IDENTIFIER:
       {
         ObjectIdentifier objectIdentifier = (ObjectIdentifier)theEObject;
@@ -90,6 +152,7 @@ public class SmiSwitch<T> extends Switch<T>
       {
         ObjectIdentifierValue objectIdentifierValue = (ObjectIdentifierValue)theEObject;
         T result = caseObjectIdentifierValue(objectIdentifierValue);
+        if (result == null) result = caseObjectValue(objectIdentifierValue);
         if (result == null) result = defaultCase(theEObject);
         return result;
       }
@@ -97,6 +160,34 @@ public class SmiSwitch<T> extends Switch<T>
       {
         TypeDefinition typeDefinition = (TypeDefinition)theEObject;
         T result = caseTypeDefinition(typeDefinition);
+        if (result == null) result = defaultCase(theEObject);
+        return result;
+      }
+      case SmiPackage.OBJECT:
+      {
+        com.netxforge.smi.Object object = (com.netxforge.smi.Object)theEObject;
+        T result = caseObject(object);
+        if (result == null) result = defaultCase(theEObject);
+        return result;
+      }
+      case SmiPackage.ATTRIBUTE:
+      {
+        Attribute attribute = (Attribute)theEObject;
+        T result = caseAttribute(attribute);
+        if (result == null) result = defaultCase(theEObject);
+        return result;
+      }
+      case SmiPackage.ATTRIBUTE_VALUE:
+      {
+        AttributeValue attributeValue = (AttributeValue)theEObject;
+        T result = caseAttributeValue(attributeValue);
+        if (result == null) result = defaultCase(theEObject);
+        return result;
+      }
+      case SmiPackage.OBJECT_VALUE:
+      {
+        ObjectValue objectValue = (ObjectValue)theEObject;
+        T result = caseObjectValue(objectValue);
         if (result == null) result = defaultCase(theEObject);
         return result;
       }
@@ -145,6 +236,13 @@ public class SmiSwitch<T> extends Switch<T>
         if (result == null) result = defaultCase(theEObject);
         return result;
       }
+      case SmiPackage.VALUE_ASSIGNMENT:
+      {
+        ValueAssignment valueAssignment = (ValueAssignment)theEObject;
+        T result = caseValueAssignment(valueAssignment);
+        if (result == null) result = defaultCase(theEObject);
+        return result;
+      }
       case SmiPackage.VALUE:
       {
         Value value = (Value)theEObject;
@@ -170,8 +268,8 @@ public class SmiSwitch<T> extends Switch<T>
       }
       case SmiPackage.MACRO_VALUE_TYPE:
       {
-        MACRO_VALUE_TYPE macrO_VALUE_TYPE = (MACRO_VALUE_TYPE)theEObject;
-        T result = caseMACRO_VALUE_TYPE(macrO_VALUE_TYPE);
+        MacroValueType macroValueType = (MacroValueType)theEObject;
+        T result = caseMacroValueType(macroValueType);
         if (result == null) result = defaultCase(theEObject);
         return result;
       }
@@ -182,10 +280,10 @@ public class SmiSwitch<T> extends Switch<T>
         if (result == null) result = defaultCase(theEObject);
         return result;
       }
-      case SmiPackage.MACRO_VALUE_CAP:
+      case SmiPackage.VALUE_CAP_TYPE:
       {
-        MACRO_VALUE_CAP macrO_VALUE_CAP = (MACRO_VALUE_CAP)theEObject;
-        T result = caseMACRO_VALUE_CAP(macrO_VALUE_CAP);
+        ValueCapType valueCapType = (ValueCapType)theEObject;
+        T result = caseValueCapType(valueCapType);
         if (result == null) result = defaultCase(theEObject);
         return result;
       }
@@ -243,6 +341,14 @@ public class SmiSwitch<T> extends Switch<T>
         if (result == null) result = defaultCase(theEObject);
         return result;
       }
+      case SmiPackage.MACRO_VALUE_CAP:
+      {
+        MACRO_VALUE_CAP macrO_VALUE_CAP = (MACRO_VALUE_CAP)theEObject;
+        T result = caseMACRO_VALUE_CAP(macrO_VALUE_CAP);
+        if (result == null) result = caseValueCapType(macrO_VALUE_CAP);
+        if (result == null) result = defaultCase(theEObject);
+        return result;
+      }
       case SmiPackage.ASN1_OCTET_STRING:
       {
         ASN1_OCTET_STRING asn1_OCTET_STRING = (ASN1_OCTET_STRING)theEObject;
@@ -268,6 +374,70 @@ public class SmiSwitch<T> extends Switch<T>
    * @generated
    */
   public T caseModule(Module object)
+  {
+    return null;
+  }
+
+  /**
+   * Returns the result of interpreting the object as an instance of '<em>Imports</em>'.
+   * <!-- begin-user-doc -->
+   * This implementation returns null;
+   * returning a non-null result will terminate the switch.
+   * <!-- end-user-doc -->
+   * @param object the target of the switch.
+   * @return the result of interpreting the object as an instance of '<em>Imports</em>'.
+   * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+   * @generated
+   */
+  public T caseImports(Imports object)
+  {
+    return null;
+  }
+
+  /**
+   * Returns the result of interpreting the object as an instance of '<em>Import Closure</em>'.
+   * <!-- begin-user-doc -->
+   * This implementation returns null;
+   * returning a non-null result will terminate the switch.
+   * <!-- end-user-doc -->
+   * @param object the target of the switch.
+   * @return the result of interpreting the object as an instance of '<em>Import Closure</em>'.
+   * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+   * @generated
+   */
+  public T caseImportClosure(ImportClosure object)
+  {
+    return null;
+  }
+
+  /**
+   * Returns the result of interpreting the object as an instance of '<em>Import Refs</em>'.
+   * <!-- begin-user-doc -->
+   * This implementation returns null;
+   * returning a non-null result will terminate the switch.
+   * <!-- end-user-doc -->
+   * @param object the target of the switch.
+   * @return the result of interpreting the object as an instance of '<em>Import Refs</em>'.
+   * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+   * @generated
+   */
+  public T caseImportRefs(ImportRefs object)
+  {
+    return null;
+  }
+
+  /**
+   * Returns the result of interpreting the object as an instance of '<em>Import Ref</em>'.
+   * <!-- begin-user-doc -->
+   * This implementation returns null;
+   * returning a non-null result will terminate the switch.
+   * <!-- end-user-doc -->
+   * @param object the target of the switch.
+   * @return the result of interpreting the object as an instance of '<em>Import Ref</em>'.
+   * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+   * @generated
+   */
+  public T caseImportRef(ImportRef object)
   {
     return null;
   }
@@ -316,6 +486,70 @@ public class SmiSwitch<T> extends Switch<T>
    * @generated
    */
   public T caseTypeDefinition(TypeDefinition object)
+  {
+    return null;
+  }
+
+  /**
+   * Returns the result of interpreting the object as an instance of '<em>Object</em>'.
+   * <!-- begin-user-doc -->
+   * This implementation returns null;
+   * returning a non-null result will terminate the switch.
+   * <!-- end-user-doc -->
+   * @param object the target of the switch.
+   * @return the result of interpreting the object as an instance of '<em>Object</em>'.
+   * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+   * @generated
+   */
+  public T caseObject(com.netxforge.smi.Object object)
+  {
+    return null;
+  }
+
+  /**
+   * Returns the result of interpreting the object as an instance of '<em>Attribute</em>'.
+   * <!-- begin-user-doc -->
+   * This implementation returns null;
+   * returning a non-null result will terminate the switch.
+   * <!-- end-user-doc -->
+   * @param object the target of the switch.
+   * @return the result of interpreting the object as an instance of '<em>Attribute</em>'.
+   * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+   * @generated
+   */
+  public T caseAttribute(Attribute object)
+  {
+    return null;
+  }
+
+  /**
+   * Returns the result of interpreting the object as an instance of '<em>Attribute Value</em>'.
+   * <!-- begin-user-doc -->
+   * This implementation returns null;
+   * returning a non-null result will terminate the switch.
+   * <!-- end-user-doc -->
+   * @param object the target of the switch.
+   * @return the result of interpreting the object as an instance of '<em>Attribute Value</em>'.
+   * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+   * @generated
+   */
+  public T caseAttributeValue(AttributeValue object)
+  {
+    return null;
+  }
+
+  /**
+   * Returns the result of interpreting the object as an instance of '<em>Object Value</em>'.
+   * <!-- begin-user-doc -->
+   * This implementation returns null;
+   * returning a non-null result will terminate the switch.
+   * <!-- end-user-doc -->
+   * @param object the target of the switch.
+   * @return the result of interpreting the object as an instance of '<em>Object Value</em>'.
+   * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+   * @generated
+   */
+  public T caseObjectValue(ObjectValue object)
   {
     return null;
   }
@@ -417,6 +651,22 @@ public class SmiSwitch<T> extends Switch<T>
   }
 
   /**
+   * Returns the result of interpreting the object as an instance of '<em>Value Assignment</em>'.
+   * <!-- begin-user-doc -->
+   * This implementation returns null;
+   * returning a non-null result will terminate the switch.
+   * <!-- end-user-doc -->
+   * @param object the target of the switch.
+   * @return the result of interpreting the object as an instance of '<em>Value Assignment</em>'.
+   * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+   * @generated
+   */
+  public T caseValueAssignment(ValueAssignment object)
+  {
+    return null;
+  }
+
+  /**
    * Returns the result of interpreting the object as an instance of '<em>Value</em>'.
    * <!-- begin-user-doc -->
    * This implementation returns null;
@@ -465,17 +715,17 @@ public class SmiSwitch<T> extends Switch<T>
   }
 
   /**
-   * Returns the result of interpreting the object as an instance of '<em>MACRO VALUE TYPE</em>'.
+   * Returns the result of interpreting the object as an instance of '<em>Macro Value Type</em>'.
    * <!-- begin-user-doc -->
    * This implementation returns null;
    * returning a non-null result will terminate the switch.
    * <!-- end-user-doc -->
    * @param object the target of the switch.
-   * @return the result of interpreting the object as an instance of '<em>MACRO VALUE TYPE</em>'.
+   * @return the result of interpreting the object as an instance of '<em>Macro Value Type</em>'.
    * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
    * @generated
    */
-  public T caseMACRO_VALUE_TYPE(MACRO_VALUE_TYPE object)
+  public T caseMacroValueType(MacroValueType object)
   {
     return null;
   }
@@ -497,17 +747,17 @@ public class SmiSwitch<T> extends Switch<T>
   }
 
   /**
-   * Returns the result of interpreting the object as an instance of '<em>MACRO VALUE CAP</em>'.
+   * Returns the result of interpreting the object as an instance of '<em>Value Cap Type</em>'.
    * <!-- begin-user-doc -->
    * This implementation returns null;
    * returning a non-null result will terminate the switch.
    * <!-- end-user-doc -->
    * @param object the target of the switch.
-   * @return the result of interpreting the object as an instance of '<em>MACRO VALUE CAP</em>'.
+   * @return the result of interpreting the object as an instance of '<em>Value Cap Type</em>'.
    * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
    * @generated
    */
-  public T caseMACRO_VALUE_CAP(MACRO_VALUE_CAP object)
+  public T caseValueCapType(ValueCapType object)
   {
     return null;
   }
@@ -620,6 +870,22 @@ public class SmiSwitch<T> extends Switch<T>
    * @generated
    */
   public T caseMacroValue(MacroValue object)
+  {
+    return null;
+  }
+
+  /**
+   * Returns the result of interpreting the object as an instance of '<em>MACRO VALUE CAP</em>'.
+   * <!-- begin-user-doc -->
+   * This implementation returns null;
+   * returning a non-null result will terminate the switch.
+   * <!-- end-user-doc -->
+   * @param object the target of the switch.
+   * @return the result of interpreting the object as an instance of '<em>MACRO VALUE CAP</em>'.
+   * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+   * @generated
+   */
+  public T caseMACRO_VALUE_CAP(MACRO_VALUE_CAP object)
   {
     return null;
   }

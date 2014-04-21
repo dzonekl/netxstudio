@@ -15,6 +15,8 @@ import org.eclipse.emf.ecore.EObject;
  * The following features are supported:
  * <ul>
  *   <li>{@link com.netxforge.smi.Module#getName <em>Name</em>}</li>
+ *   <li>{@link com.netxforge.smi.Module#getImports <em>Imports</em>}</li>
+ *   <li>{@link com.netxforge.smi.Module#getObjects <em>Objects</em>}</li>
  *   <li>{@link com.netxforge.smi.Module#getIdentifiers <em>Identifiers</em>}</li>
  *   <li>{@link com.netxforge.smi.Module#getTypes <em>Types</em>}</li>
  *   <li>{@link com.netxforge.smi.Module#getMacros <em>Macros</em>}</li>
@@ -52,6 +54,48 @@ public interface Module extends EObject
    * @generated
    */
   void setName(String value);
+
+  /**
+   * Returns the value of the '<em><b>Imports</b></em>' containment reference.
+   * <!-- begin-user-doc -->
+   * <p>
+   * If the meaning of the '<em>Imports</em>' containment reference isn't clear,
+   * there really should be more of a description here...
+   * </p>
+   * <!-- end-user-doc -->
+   * @return the value of the '<em>Imports</em>' containment reference.
+   * @see #setImports(Imports)
+   * @see com.netxforge.smi.SmiPackage#getModule_Imports()
+   * @model containment="true"
+   * @generated
+   */
+  Imports getImports();
+
+  /**
+   * Sets the value of the '{@link com.netxforge.smi.Module#getImports <em>Imports</em>}' containment reference.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @param value the new value of the '<em>Imports</em>' containment reference.
+   * @see #getImports()
+   * @generated
+   */
+  void setImports(Imports value);
+
+  /**
+   * Returns the value of the '<em><b>Objects</b></em>' containment reference list.
+   * The list contents are of type {@link com.netxforge.smi.Object}.
+   * <!-- begin-user-doc -->
+   * <p>
+   * If the meaning of the '<em>Objects</em>' containment reference list isn't clear,
+   * there really should be more of a description here...
+   * </p>
+   * <!-- end-user-doc -->
+   * @return the value of the '<em>Objects</em>' containment reference list.
+   * @see com.netxforge.smi.SmiPackage#getModule_Objects()
+   * @model containment="true"
+   * @generated
+   */
+  EList<com.netxforge.smi.Object> getObjects();
 
   /**
    * Returns the value of the '<em><b>Identifiers</b></em>' containment reference list.

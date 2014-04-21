@@ -30,12 +30,12 @@ public interface MacroValue extends Value
    * </p>
    * <!-- end-user-doc -->
    * @return the value of the '<em>Value Type</em>' containment reference.
-   * @see #setValueType(MACRO_VALUE_TYPE)
+   * @see #setValueType(MacroValueType)
    * @see com.netxforge.smi.SmiPackage#getMacroValue_ValueType()
    * @model containment="true"
    * @generated
    */
-  MACRO_VALUE_TYPE getValueType();
+  MacroValueType getValueType();
 
   /**
    * Sets the value of the '{@link com.netxforge.smi.MacroValue#getValueType <em>Value Type</em>}' containment reference.
@@ -45,6 +45,6 @@ public interface MacroValue extends Value
    * @see #getValueType()
    * @generated
    */
-  void setValueType(MACRO_VALUE_TYPE value);
+  void setValueType(MacroValueType value);
 
 } // MacroValue
