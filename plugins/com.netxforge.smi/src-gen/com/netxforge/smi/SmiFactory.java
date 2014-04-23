@@ -68,15 +68,6 @@ public interface SmiFactory extends EFactory
   ImportRef createImportRef();
 
   /**
-   * Returns a new object of class '<em>Referenceable</em>'.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @return a new object of class '<em>Referenceable</em>'.
-   * @generated
-   */
-  Referenceable createReferenceable();
-
-  /**
    * Returns a new object of class '<em>Object Referenceable</em>'.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -86,13 +77,22 @@ public interface SmiFactory extends EFactory
   ObjectReferenceable createObjectReferenceable();
 
   /**
-   * Returns a new object of class '<em>Object Identifier Value</em>'.
+   * Returns a new object of class '<em>Object</em>'.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @return a new object of class '<em>Object Identifier Value</em>'.
+   * @return a new object of class '<em>Object</em>'.
    * @generated
    */
-  ObjectIdentifierValue createObjectIdentifierValue();
+  Object createObject();
+
+  /**
+   * Returns a new object of class '<em>Object Reference</em>'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return a new object of class '<em>Object Reference</em>'.
+   * @generated
+   */
+  ObjectReference createObjectReference();
 
   /**
    * Returns a new object of class '<em>Attribute</em>'.
@@ -131,13 +131,13 @@ public interface SmiFactory extends EFactory
   BracedObjectReference createBracedObjectReference();
 
   /**
-   * Returns a new object of class '<em>Object Value</em>'.
+   * Returns a new object of class '<em>Referenceable</em>'.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @return a new object of class '<em>Object Value</em>'.
+   * @return a new object of class '<em>Referenceable</em>'.
    * @generated
    */
-  ObjectValue createObjectValue();
+  Referenceable createReferenceable();
 
   /**
    * Returns a new object of class '<em>Type Notation</em>'.

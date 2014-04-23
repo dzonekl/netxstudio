@@ -28,7 +28,8 @@ public class SmiScopeProvider extends AbstractDeclarativeScopeProvider {
     {
       EObject _eContainer = attr.eContainer();
       final ObjectReferenceable o = ((ObjectReferenceable) _eContainer);
-      Referenceable _macroRef = o.getMacroRef();
+      com.netxforge.smi.Object _object = o.getObject();
+      Referenceable _macroRef = _object.getMacroRef();
       TypeNotation _typeNotation = _macroRef.getTypeNotation();
       IScope _scope = super.getScope(_typeNotation, Literals.TYPE_NOTATION__TYPE_NOTATIONS);
       _xblockexpression = (_scope);

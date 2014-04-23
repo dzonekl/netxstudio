@@ -34,7 +34,6 @@ import org.eclipse.emf.ecore.util.InternalEList;
  *   <li>{@link com.netxforge.smi.impl.ModuleImpl#getName <em>Name</em>}</li>
  *   <li>{@link com.netxforge.smi.impl.ModuleImpl#getImports <em>Imports</em>}</li>
  *   <li>{@link com.netxforge.smi.impl.ModuleImpl#getObjects <em>Objects</em>}</li>
- *   <li>{@link com.netxforge.smi.impl.ModuleImpl#getIdentifiers <em>Identifiers</em>}</li>
  *   <li>{@link com.netxforge.smi.impl.ModuleImpl#getTypes <em>Types</em>}</li>
  * </ul>
  * </p>
@@ -82,16 +81,6 @@ public class ModuleImpl extends MinimalEObjectImpl.Container implements Module
    * @ordered
    */
   protected EList<ObjectReferenceable> objects;
-
-  /**
-   * The cached value of the '{@link #getIdentifiers() <em>Identifiers</em>}' containment reference list.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @see #getIdentifiers()
-   * @generated
-   * @ordered
-   */
-  protected EList<ObjectReferenceable> identifiers;
 
   /**
    * The cached value of the '{@link #getTypes() <em>Types</em>}' containment reference list.
@@ -214,20 +203,6 @@ public class ModuleImpl extends MinimalEObjectImpl.Container implements Module
    * <!-- end-user-doc -->
    * @generated
    */
-  public EList<ObjectReferenceable> getIdentifiers()
-  {
-    if (identifiers == null)
-    {
-      identifiers = new EObjectContainmentEList<ObjectReferenceable>(ObjectReferenceable.class, this, SmiPackage.MODULE__IDENTIFIERS);
-    }
-    return identifiers;
-  }
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
   public EList<Referenceable> getTypes()
   {
     if (types == null)
@@ -251,8 +226,6 @@ public class ModuleImpl extends MinimalEObjectImpl.Container implements Module
         return basicSetImports(null, msgs);
       case SmiPackage.MODULE__OBJECTS:
         return ((InternalEList<?>)getObjects()).basicRemove(otherEnd, msgs);
-      case SmiPackage.MODULE__IDENTIFIERS:
-        return ((InternalEList<?>)getIdentifiers()).basicRemove(otherEnd, msgs);
       case SmiPackage.MODULE__TYPES:
         return ((InternalEList<?>)getTypes()).basicRemove(otherEnd, msgs);
     }
@@ -275,8 +248,6 @@ public class ModuleImpl extends MinimalEObjectImpl.Container implements Module
         return getImports();
       case SmiPackage.MODULE__OBJECTS:
         return getObjects();
-      case SmiPackage.MODULE__IDENTIFIERS:
-        return getIdentifiers();
       case SmiPackage.MODULE__TYPES:
         return getTypes();
     }
@@ -303,10 +274,6 @@ public class ModuleImpl extends MinimalEObjectImpl.Container implements Module
       case SmiPackage.MODULE__OBJECTS:
         getObjects().clear();
         getObjects().addAll((Collection<? extends ObjectReferenceable>)newValue);
-        return;
-      case SmiPackage.MODULE__IDENTIFIERS:
-        getIdentifiers().clear();
-        getIdentifiers().addAll((Collection<? extends ObjectReferenceable>)newValue);
         return;
       case SmiPackage.MODULE__TYPES:
         getTypes().clear();
@@ -335,9 +302,6 @@ public class ModuleImpl extends MinimalEObjectImpl.Container implements Module
       case SmiPackage.MODULE__OBJECTS:
         getObjects().clear();
         return;
-      case SmiPackage.MODULE__IDENTIFIERS:
-        getIdentifiers().clear();
-        return;
       case SmiPackage.MODULE__TYPES:
         getTypes().clear();
         return;
@@ -361,8 +325,6 @@ public class ModuleImpl extends MinimalEObjectImpl.Container implements Module
         return imports != null;
       case SmiPackage.MODULE__OBJECTS:
         return objects != null && !objects.isEmpty();
-      case SmiPackage.MODULE__IDENTIFIERS:
-        return identifiers != null && !identifiers.isEmpty();
       case SmiPackage.MODULE__TYPES:
         return types != null && !types.isEmpty();
     }

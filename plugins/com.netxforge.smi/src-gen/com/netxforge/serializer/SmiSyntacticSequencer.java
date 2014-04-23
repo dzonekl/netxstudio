@@ -42,9 +42,9 @@ public class SmiSyntacticSequencer extends AbstractSyntacticSequencer {
 	protected AbstractElementAlias match_Macro_NEWLINETerminalRuleCall_9_p;
 	protected AbstractElementAlias match_Module_NEWLINETerminalRuleCall_6_p;
 	protected AbstractElementAlias match_Module_NEWLINETerminalRuleCall_8_a;
-	protected AbstractElementAlias match_ObjectIdentifier_NEWLINETerminalRuleCall_0_p;
-	protected AbstractElementAlias match_Object_NEWLINETerminalRuleCall_0_p;
-	protected AbstractElementAlias match_Object_NEWLINETerminalRuleCall_4_p;
+	protected AbstractElementAlias match_ObjectReferenceable_NEWLINETerminalRuleCall_0_p;
+	protected AbstractElementAlias match_ObjectReferenceable_NEWLINETerminalRuleCall_2_a;
+	protected AbstractElementAlias match_ObjectReferenceable_NEWLINETerminalRuleCall_4_a;
 	protected AbstractElementAlias match_Tag_NEWLINETerminalRuleCall_0_q;
 	protected AbstractElementAlias match_TypeAssignment_NEWLINETerminalRuleCall_0_p;
 	protected AbstractElementAlias match_TypeDefinition_NEWLINETerminalRuleCall_0_p;
@@ -81,9 +81,9 @@ public class SmiSyntacticSequencer extends AbstractSyntacticSequencer {
 		match_Macro_NEWLINETerminalRuleCall_9_p = new TokenAlias(true, false, grammarAccess.getMacroAccess().getNEWLINETerminalRuleCall_9());
 		match_Module_NEWLINETerminalRuleCall_6_p = new TokenAlias(true, false, grammarAccess.getModuleAccess().getNEWLINETerminalRuleCall_6());
 		match_Module_NEWLINETerminalRuleCall_8_a = new TokenAlias(true, true, grammarAccess.getModuleAccess().getNEWLINETerminalRuleCall_8());
-		match_ObjectIdentifier_NEWLINETerminalRuleCall_0_p = new TokenAlias(true, false, grammarAccess.getObjectIdentifierAccess().getNEWLINETerminalRuleCall_0());
-		match_Object_NEWLINETerminalRuleCall_0_p = new TokenAlias(true, false, grammarAccess.getObjectAccess().getNEWLINETerminalRuleCall_0());
-		match_Object_NEWLINETerminalRuleCall_4_p = new TokenAlias(true, false, grammarAccess.getObjectAccess().getNEWLINETerminalRuleCall_4());
+		match_ObjectReferenceable_NEWLINETerminalRuleCall_0_p = new TokenAlias(true, false, grammarAccess.getObjectReferenceableAccess().getNEWLINETerminalRuleCall_0());
+		match_ObjectReferenceable_NEWLINETerminalRuleCall_2_a = new TokenAlias(true, true, grammarAccess.getObjectReferenceableAccess().getNEWLINETerminalRuleCall_2());
+		match_ObjectReferenceable_NEWLINETerminalRuleCall_4_a = new TokenAlias(true, true, grammarAccess.getObjectReferenceableAccess().getNEWLINETerminalRuleCall_4());
 		match_Tag_NEWLINETerminalRuleCall_0_q = new TokenAlias(false, true, grammarAccess.getTagAccess().getNEWLINETerminalRuleCall_0());
 		match_TypeAssignment_NEWLINETerminalRuleCall_0_p = new TokenAlias(true, false, grammarAccess.getTypeAssignmentAccess().getNEWLINETerminalRuleCall_0());
 		match_TypeDefinition_NEWLINETerminalRuleCall_0_p = new TokenAlias(true, false, grammarAccess.getTypeDefinitionAccess().getNEWLINETerminalRuleCall_0());
@@ -178,12 +178,12 @@ public class SmiSyntacticSequencer extends AbstractSyntacticSequencer {
 				emit_Module_NEWLINETerminalRuleCall_6_p(semanticObject, getLastNavigableState(), syntaxNodes);
 			else if(match_Module_NEWLINETerminalRuleCall_8_a.equals(syntax))
 				emit_Module_NEWLINETerminalRuleCall_8_a(semanticObject, getLastNavigableState(), syntaxNodes);
-			else if(match_ObjectIdentifier_NEWLINETerminalRuleCall_0_p.equals(syntax))
-				emit_ObjectIdentifier_NEWLINETerminalRuleCall_0_p(semanticObject, getLastNavigableState(), syntaxNodes);
-			else if(match_Object_NEWLINETerminalRuleCall_0_p.equals(syntax))
-				emit_Object_NEWLINETerminalRuleCall_0_p(semanticObject, getLastNavigableState(), syntaxNodes);
-			else if(match_Object_NEWLINETerminalRuleCall_4_p.equals(syntax))
-				emit_Object_NEWLINETerminalRuleCall_4_p(semanticObject, getLastNavigableState(), syntaxNodes);
+			else if(match_ObjectReferenceable_NEWLINETerminalRuleCall_0_p.equals(syntax))
+				emit_ObjectReferenceable_NEWLINETerminalRuleCall_0_p(semanticObject, getLastNavigableState(), syntaxNodes);
+			else if(match_ObjectReferenceable_NEWLINETerminalRuleCall_2_a.equals(syntax))
+				emit_ObjectReferenceable_NEWLINETerminalRuleCall_2_a(semanticObject, getLastNavigableState(), syntaxNodes);
+			else if(match_ObjectReferenceable_NEWLINETerminalRuleCall_4_a.equals(syntax))
+				emit_ObjectReferenceable_NEWLINETerminalRuleCall_4_a(semanticObject, getLastNavigableState(), syntaxNodes);
 			else if(match_Tag_NEWLINETerminalRuleCall_0_q.equals(syntax))
 				emit_Tag_NEWLINETerminalRuleCall_0_q(semanticObject, getLastNavigableState(), syntaxNodes);
 			else if(match_TypeAssignment_NEWLINETerminalRuleCall_0_p.equals(syntax))
@@ -400,23 +400,23 @@ public class SmiSyntacticSequencer extends AbstractSyntacticSequencer {
 	 * Syntax:
 	 *     NEWLINE+
 	 */
-	protected void emit_ObjectIdentifier_NEWLINETerminalRuleCall_0_p(EObject semanticObject, ISynNavigable transition, List<INode> nodes) {
+	protected void emit_ObjectReferenceable_NEWLINETerminalRuleCall_0_p(EObject semanticObject, ISynNavigable transition, List<INode> nodes) {
 		acceptNodes(transition, nodes);
 	}
 	
 	/**
 	 * Syntax:
-	 *     NEWLINE+
+	 *     NEWLINE*
 	 */
-	protected void emit_Object_NEWLINETerminalRuleCall_0_p(EObject semanticObject, ISynNavigable transition, List<INode> nodes) {
+	protected void emit_ObjectReferenceable_NEWLINETerminalRuleCall_2_a(EObject semanticObject, ISynNavigable transition, List<INode> nodes) {
 		acceptNodes(transition, nodes);
 	}
 	
 	/**
 	 * Syntax:
-	 *     NEWLINE+
+	 *     NEWLINE*
 	 */
-	protected void emit_Object_NEWLINETerminalRuleCall_4_p(EObject semanticObject, ISynNavigable transition, List<INode> nodes) {
+	protected void emit_ObjectReferenceable_NEWLINETerminalRuleCall_4_a(EObject semanticObject, ISynNavigable transition, List<INode> nodes) {
 		acceptNodes(transition, nodes);
 	}
 	

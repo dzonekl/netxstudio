@@ -2,28 +2,18 @@
  */
 package com.netxforge.smi.impl;
 
-import com.netxforge.smi.Attribute;
-import com.netxforge.smi.ObjectIdentifierValue;
+import com.netxforge.smi.ObjectReference;
 import com.netxforge.smi.ObjectReferenceable;
-import com.netxforge.smi.ObjectValue;
-import com.netxforge.smi.Referenceable;
 import com.netxforge.smi.SmiPackage;
-
-import java.util.Collection;
 
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
-
-import org.eclipse.emf.common.util.EList;
 
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.InternalEObject;
 
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.impl.MinimalEObjectImpl;
-
-import org.eclipse.emf.ecore.util.EObjectContainmentEList;
-import org.eclipse.emf.ecore.util.InternalEList;
 
 /**
  * <!-- begin-user-doc -->
@@ -33,9 +23,7 @@ import org.eclipse.emf.ecore.util.InternalEList;
  * The following features are implemented:
  * <ul>
  *   <li>{@link com.netxforge.smi.impl.ObjectReferenceableImpl#getName <em>Name</em>}</li>
- *   <li>{@link com.netxforge.smi.impl.ObjectReferenceableImpl#getOidValue <em>Oid Value</em>}</li>
- *   <li>{@link com.netxforge.smi.impl.ObjectReferenceableImpl#getMacroRef <em>Macro Ref</em>}</li>
- *   <li>{@link com.netxforge.smi.impl.ObjectReferenceableImpl#getAttributes <em>Attributes</em>}</li>
+ *   <li>{@link com.netxforge.smi.impl.ObjectReferenceableImpl#getObject <em>Object</em>}</li>
  *   <li>{@link com.netxforge.smi.impl.ObjectReferenceableImpl#getObjectValue <em>Object Value</em>}</li>
  * </ul>
  * </p>
@@ -65,34 +53,14 @@ public class ObjectReferenceableImpl extends MinimalEObjectImpl.Container implem
   protected String name = NAME_EDEFAULT;
 
   /**
-   * The cached value of the '{@link #getOidValue() <em>Oid Value</em>}' containment reference.
+   * The cached value of the '{@link #getObject() <em>Object</em>}' containment reference.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @see #getOidValue()
+   * @see #getObject()
    * @generated
    * @ordered
    */
-  protected ObjectIdentifierValue oidValue;
-
-  /**
-   * The cached value of the '{@link #getMacroRef() <em>Macro Ref</em>}' reference.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @see #getMacroRef()
-   * @generated
-   * @ordered
-   */
-  protected Referenceable macroRef;
-
-  /**
-   * The cached value of the '{@link #getAttributes() <em>Attributes</em>}' containment reference list.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @see #getAttributes()
-   * @generated
-   * @ordered
-   */
-  protected EList<Attribute> attributes;
+  protected com.netxforge.smi.Object object;
 
   /**
    * The cached value of the '{@link #getObjectValue() <em>Object Value</em>}' containment reference.
@@ -102,7 +70,7 @@ public class ObjectReferenceableImpl extends MinimalEObjectImpl.Container implem
    * @generated
    * @ordered
    */
-  protected ObjectValue objectValue;
+  protected ObjectReference objectValue;
 
   /**
    * <!-- begin-user-doc -->
@@ -153,9 +121,9 @@ public class ObjectReferenceableImpl extends MinimalEObjectImpl.Container implem
    * <!-- end-user-doc -->
    * @generated
    */
-  public ObjectIdentifierValue getOidValue()
+  public com.netxforge.smi.Object getObject()
   {
-    return oidValue;
+    return object;
   }
 
   /**
@@ -163,13 +131,13 @@ public class ObjectReferenceableImpl extends MinimalEObjectImpl.Container implem
    * <!-- end-user-doc -->
    * @generated
    */
-  public NotificationChain basicSetOidValue(ObjectIdentifierValue newOidValue, NotificationChain msgs)
+  public NotificationChain basicSetObject(com.netxforge.smi.Object newObject, NotificationChain msgs)
   {
-    ObjectIdentifierValue oldOidValue = oidValue;
-    oidValue = newOidValue;
+    com.netxforge.smi.Object oldObject = object;
+    object = newObject;
     if (eNotificationRequired())
     {
-      ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, SmiPackage.OBJECT_REFERENCEABLE__OID_VALUE, oldOidValue, newOidValue);
+      ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, SmiPackage.OBJECT_REFERENCEABLE__OBJECT, oldObject, newObject);
       if (msgs == null) msgs = notification; else msgs.add(notification);
     }
     return msgs;
@@ -180,20 +148,20 @@ public class ObjectReferenceableImpl extends MinimalEObjectImpl.Container implem
    * <!-- end-user-doc -->
    * @generated
    */
-  public void setOidValue(ObjectIdentifierValue newOidValue)
+  public void setObject(com.netxforge.smi.Object newObject)
   {
-    if (newOidValue != oidValue)
+    if (newObject != object)
     {
       NotificationChain msgs = null;
-      if (oidValue != null)
-        msgs = ((InternalEObject)oidValue).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - SmiPackage.OBJECT_REFERENCEABLE__OID_VALUE, null, msgs);
-      if (newOidValue != null)
-        msgs = ((InternalEObject)newOidValue).eInverseAdd(this, EOPPOSITE_FEATURE_BASE - SmiPackage.OBJECT_REFERENCEABLE__OID_VALUE, null, msgs);
-      msgs = basicSetOidValue(newOidValue, msgs);
+      if (object != null)
+        msgs = ((InternalEObject)object).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - SmiPackage.OBJECT_REFERENCEABLE__OBJECT, null, msgs);
+      if (newObject != null)
+        msgs = ((InternalEObject)newObject).eInverseAdd(this, EOPPOSITE_FEATURE_BASE - SmiPackage.OBJECT_REFERENCEABLE__OBJECT, null, msgs);
+      msgs = basicSetObject(newObject, msgs);
       if (msgs != null) msgs.dispatch();
     }
     else if (eNotificationRequired())
-      eNotify(new ENotificationImpl(this, Notification.SET, SmiPackage.OBJECT_REFERENCEABLE__OID_VALUE, newOidValue, newOidValue));
+      eNotify(new ENotificationImpl(this, Notification.SET, SmiPackage.OBJECT_REFERENCEABLE__OBJECT, newObject, newObject));
   }
 
   /**
@@ -201,64 +169,7 @@ public class ObjectReferenceableImpl extends MinimalEObjectImpl.Container implem
    * <!-- end-user-doc -->
    * @generated
    */
-  public Referenceable getMacroRef()
-  {
-    if (macroRef != null && macroRef.eIsProxy())
-    {
-      InternalEObject oldMacroRef = (InternalEObject)macroRef;
-      macroRef = (Referenceable)eResolveProxy(oldMacroRef);
-      if (macroRef != oldMacroRef)
-      {
-        if (eNotificationRequired())
-          eNotify(new ENotificationImpl(this, Notification.RESOLVE, SmiPackage.OBJECT_REFERENCEABLE__MACRO_REF, oldMacroRef, macroRef));
-      }
-    }
-    return macroRef;
-  }
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  public Referenceable basicGetMacroRef()
-  {
-    return macroRef;
-  }
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  public void setMacroRef(Referenceable newMacroRef)
-  {
-    Referenceable oldMacroRef = macroRef;
-    macroRef = newMacroRef;
-    if (eNotificationRequired())
-      eNotify(new ENotificationImpl(this, Notification.SET, SmiPackage.OBJECT_REFERENCEABLE__MACRO_REF, oldMacroRef, macroRef));
-  }
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  public EList<Attribute> getAttributes()
-  {
-    if (attributes == null)
-    {
-      attributes = new EObjectContainmentEList<Attribute>(Attribute.class, this, SmiPackage.OBJECT_REFERENCEABLE__ATTRIBUTES);
-    }
-    return attributes;
-  }
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  public ObjectValue getObjectValue()
+  public ObjectReference getObjectValue()
   {
     return objectValue;
   }
@@ -268,9 +179,9 @@ public class ObjectReferenceableImpl extends MinimalEObjectImpl.Container implem
    * <!-- end-user-doc -->
    * @generated
    */
-  public NotificationChain basicSetObjectValue(ObjectValue newObjectValue, NotificationChain msgs)
+  public NotificationChain basicSetObjectValue(ObjectReference newObjectValue, NotificationChain msgs)
   {
-    ObjectValue oldObjectValue = objectValue;
+    ObjectReference oldObjectValue = objectValue;
     objectValue = newObjectValue;
     if (eNotificationRequired())
     {
@@ -285,7 +196,7 @@ public class ObjectReferenceableImpl extends MinimalEObjectImpl.Container implem
    * <!-- end-user-doc -->
    * @generated
    */
-  public void setObjectValue(ObjectValue newObjectValue)
+  public void setObjectValue(ObjectReference newObjectValue)
   {
     if (newObjectValue != objectValue)
     {
@@ -311,10 +222,8 @@ public class ObjectReferenceableImpl extends MinimalEObjectImpl.Container implem
   {
     switch (featureID)
     {
-      case SmiPackage.OBJECT_REFERENCEABLE__OID_VALUE:
-        return basicSetOidValue(null, msgs);
-      case SmiPackage.OBJECT_REFERENCEABLE__ATTRIBUTES:
-        return ((InternalEList<?>)getAttributes()).basicRemove(otherEnd, msgs);
+      case SmiPackage.OBJECT_REFERENCEABLE__OBJECT:
+        return basicSetObject(null, msgs);
       case SmiPackage.OBJECT_REFERENCEABLE__OBJECT_VALUE:
         return basicSetObjectValue(null, msgs);
     }
@@ -333,13 +242,8 @@ public class ObjectReferenceableImpl extends MinimalEObjectImpl.Container implem
     {
       case SmiPackage.OBJECT_REFERENCEABLE__NAME:
         return getName();
-      case SmiPackage.OBJECT_REFERENCEABLE__OID_VALUE:
-        return getOidValue();
-      case SmiPackage.OBJECT_REFERENCEABLE__MACRO_REF:
-        if (resolve) return getMacroRef();
-        return basicGetMacroRef();
-      case SmiPackage.OBJECT_REFERENCEABLE__ATTRIBUTES:
-        return getAttributes();
+      case SmiPackage.OBJECT_REFERENCEABLE__OBJECT:
+        return getObject();
       case SmiPackage.OBJECT_REFERENCEABLE__OBJECT_VALUE:
         return getObjectValue();
     }
@@ -351,7 +255,6 @@ public class ObjectReferenceableImpl extends MinimalEObjectImpl.Container implem
    * <!-- end-user-doc -->
    * @generated
    */
-  @SuppressWarnings("unchecked")
   @Override
   public void eSet(int featureID, Object newValue)
   {
@@ -360,18 +263,11 @@ public class ObjectReferenceableImpl extends MinimalEObjectImpl.Container implem
       case SmiPackage.OBJECT_REFERENCEABLE__NAME:
         setName((String)newValue);
         return;
-      case SmiPackage.OBJECT_REFERENCEABLE__OID_VALUE:
-        setOidValue((ObjectIdentifierValue)newValue);
-        return;
-      case SmiPackage.OBJECT_REFERENCEABLE__MACRO_REF:
-        setMacroRef((Referenceable)newValue);
-        return;
-      case SmiPackage.OBJECT_REFERENCEABLE__ATTRIBUTES:
-        getAttributes().clear();
-        getAttributes().addAll((Collection<? extends Attribute>)newValue);
+      case SmiPackage.OBJECT_REFERENCEABLE__OBJECT:
+        setObject((com.netxforge.smi.Object)newValue);
         return;
       case SmiPackage.OBJECT_REFERENCEABLE__OBJECT_VALUE:
-        setObjectValue((ObjectValue)newValue);
+        setObjectValue((ObjectReference)newValue);
         return;
     }
     super.eSet(featureID, newValue);
@@ -390,17 +286,11 @@ public class ObjectReferenceableImpl extends MinimalEObjectImpl.Container implem
       case SmiPackage.OBJECT_REFERENCEABLE__NAME:
         setName(NAME_EDEFAULT);
         return;
-      case SmiPackage.OBJECT_REFERENCEABLE__OID_VALUE:
-        setOidValue((ObjectIdentifierValue)null);
-        return;
-      case SmiPackage.OBJECT_REFERENCEABLE__MACRO_REF:
-        setMacroRef((Referenceable)null);
-        return;
-      case SmiPackage.OBJECT_REFERENCEABLE__ATTRIBUTES:
-        getAttributes().clear();
+      case SmiPackage.OBJECT_REFERENCEABLE__OBJECT:
+        setObject((com.netxforge.smi.Object)null);
         return;
       case SmiPackage.OBJECT_REFERENCEABLE__OBJECT_VALUE:
-        setObjectValue((ObjectValue)null);
+        setObjectValue((ObjectReference)null);
         return;
     }
     super.eUnset(featureID);
@@ -418,12 +308,8 @@ public class ObjectReferenceableImpl extends MinimalEObjectImpl.Container implem
     {
       case SmiPackage.OBJECT_REFERENCEABLE__NAME:
         return NAME_EDEFAULT == null ? name != null : !NAME_EDEFAULT.equals(name);
-      case SmiPackage.OBJECT_REFERENCEABLE__OID_VALUE:
-        return oidValue != null;
-      case SmiPackage.OBJECT_REFERENCEABLE__MACRO_REF:
-        return macroRef != null;
-      case SmiPackage.OBJECT_REFERENCEABLE__ATTRIBUTES:
-        return attributes != null && !attributes.isEmpty();
+      case SmiPackage.OBJECT_REFERENCEABLE__OBJECT:
+        return object != null;
       case SmiPackage.OBJECT_REFERENCEABLE__OBJECT_VALUE:
         return objectValue != null;
     }

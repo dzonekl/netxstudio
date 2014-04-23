@@ -2,7 +2,40 @@
  */
 package com.netxforge.smi.impl;
 
-import com.netxforge.smi.*;
+import com.netxforge.smi.ASN1_CHOICE;
+import com.netxforge.smi.ASN1_CHOICE_ENTRY;
+import com.netxforge.smi.ASN1_INTEGER_REFINEMENT;
+import com.netxforge.smi.ASN1_OCTET_STRING;
+import com.netxforge.smi.ASN1_RANGE;
+import com.netxforge.smi.ASN1_SEQUENCE;
+import com.netxforge.smi.ASN1_SEQUENCE_OF;
+import com.netxforge.smi.ASN1_SIMPLE;
+import com.netxforge.smi.ASN1_TYPE;
+import com.netxforge.smi.Attribute;
+import com.netxforge.smi.AttributeValue;
+import com.netxforge.smi.BracedObjectReference;
+import com.netxforge.smi.ChoiceType;
+import com.netxforge.smi.Identifier;
+import com.netxforge.smi.ImportClosure;
+import com.netxforge.smi.ImportRef;
+import com.netxforge.smi.ImportRefs;
+import com.netxforge.smi.Imports;
+import com.netxforge.smi.MacroValue;
+import com.netxforge.smi.MacroValueType;
+import com.netxforge.smi.Module;
+import com.netxforge.smi.ObjectReference;
+import com.netxforge.smi.ObjectReferenceable;
+import com.netxforge.smi.Referenceable;
+import com.netxforge.smi.SmiFactory;
+import com.netxforge.smi.SmiPackage;
+import com.netxforge.smi.Tag;
+import com.netxforge.smi.TypeAssignment;
+import com.netxforge.smi.TypeNotation;
+import com.netxforge.smi.TypeNotationRight;
+import com.netxforge.smi.Value;
+import com.netxforge.smi.ValueAssignment;
+import com.netxforge.smi.ValueNotation;
+import com.netxforge.smi.ValueType;
 
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
@@ -69,14 +102,14 @@ public class SmiFactoryImpl extends EFactoryImpl implements SmiFactory
       case SmiPackage.IMPORT_CLOSURE: return createImportClosure();
       case SmiPackage.IMPORT_REFS: return createImportRefs();
       case SmiPackage.IMPORT_REF: return createImportRef();
-      case SmiPackage.REFERENCEABLE: return createReferenceable();
       case SmiPackage.OBJECT_REFERENCEABLE: return createObjectReferenceable();
-      case SmiPackage.OBJECT_IDENTIFIER_VALUE: return createObjectIdentifierValue();
+      case SmiPackage.OBJECT: return createObject();
+      case SmiPackage.OBJECT_REFERENCE: return createObjectReference();
       case SmiPackage.ATTRIBUTE: return createAttribute();
       case SmiPackage.ATTRIBUTE_VALUE: return createAttributeValue();
       case SmiPackage.IDENTIFIER: return createIdentifier();
       case SmiPackage.BRACED_OBJECT_REFERENCE: return createBracedObjectReference();
-      case SmiPackage.OBJECT_VALUE: return createObjectValue();
+      case SmiPackage.REFERENCEABLE: return createReferenceable();
       case SmiPackage.TYPE_NOTATION: return createTypeNotation();
       case SmiPackage.VALUE_NOTATION: return createValueNotation();
       case SmiPackage.TYPE_ASSIGNMENT: return createTypeAssignment();
@@ -162,17 +195,6 @@ public class SmiFactoryImpl extends EFactoryImpl implements SmiFactory
    * <!-- end-user-doc -->
    * @generated
    */
-  public Referenceable createReferenceable()
-  {
-    ReferenceableImpl referenceable = new ReferenceableImpl();
-    return referenceable;
-  }
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
   public ObjectReferenceable createObjectReferenceable()
   {
     ObjectReferenceableImpl objectReferenceable = new ObjectReferenceableImpl();
@@ -184,10 +206,21 @@ public class SmiFactoryImpl extends EFactoryImpl implements SmiFactory
    * <!-- end-user-doc -->
    * @generated
    */
-  public ObjectIdentifierValue createObjectIdentifierValue()
+  public com.netxforge.smi.Object createObject()
   {
-    ObjectIdentifierValueImpl objectIdentifierValue = new ObjectIdentifierValueImpl();
-    return objectIdentifierValue;
+    ObjectImpl object = new ObjectImpl();
+    return object;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public ObjectReference createObjectReference()
+  {
+    ObjectReferenceImpl objectReference = new ObjectReferenceImpl();
+    return objectReference;
   }
 
   /**
@@ -239,10 +272,10 @@ public class SmiFactoryImpl extends EFactoryImpl implements SmiFactory
    * <!-- end-user-doc -->
    * @generated
    */
-  public ObjectValue createObjectValue()
+  public Referenceable createReferenceable()
   {
-    ObjectValueImpl objectValue = new ObjectValueImpl();
-    return objectValue;
+    ReferenceableImpl referenceable = new ReferenceableImpl();
+    return referenceable;
   }
 
   /**

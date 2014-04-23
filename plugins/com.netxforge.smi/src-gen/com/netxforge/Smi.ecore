@@ -7,8 +7,6 @@
         containment="true"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="objects" upperBound="-1"
         eType="#//ObjectReferenceable" containment="true"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="identifiers" upperBound="-1"
-        eType="#//ObjectReferenceable" containment="true"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="types" upperBound="-1"
         eType="#//Referenceable" containment="true"/>
   </eClassifiers>
@@ -29,32 +27,21 @@
     <eStructuralFeatures xsi:type="ecore:EReference" name="oiRef" eType="#//ObjectReferenceable"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="typeRef" eType="#//Referenceable"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="Referenceable" eSuperTypes="#//TypeAssignment">
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="values" upperBound="-1"
-        eType="#//Value" containment="true"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="typeNotation" eType="#//TypeNotation"
-        containment="true"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="valueNotation" eType="#//ValueNotation"
-        containment="true"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="innerTypes" upperBound="-1"
-        eType="#//Referenceable" containment="true"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="right" eType="#//TypeNotationRight"
-        containment="true"/>
-  </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="ObjectReferenceable">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="oidValue" eType="#//ObjectIdentifierValue"
+    <eStructuralFeatures xsi:type="ecore:EReference" name="object" eType="#//Object"
         containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="objectValue" eType="#//ObjectReference"
+        containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Object">
     <eStructuralFeatures xsi:type="ecore:EReference" name="macroRef" eType="#//Referenceable"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="attributes" upperBound="-1"
         eType="#//Attribute" containment="true"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="objectValue" eType="#//ObjectValue"
-        containment="true"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="ObjectIdentifierValue" eSuperTypes="#//ObjectValue">
-    <eStructuralFeatures xsi:type="ecore:EReference" name="descriptorRef" eType="#//ObjectReferenceable"/>
+  <eClassifiers xsi:type="ecore:EClass" name="ObjectReference">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="descriptorRef" eType="#//ObjectReferenceable"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="subIds" unique="false"
         upperBound="-1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBigInteger"/>
   </eClassifiers>
@@ -83,7 +70,19 @@
   <eClassifiers xsi:type="ecore:EClass" name="BracedObjectReference">
     <eStructuralFeatures xsi:type="ecore:EReference" name="objectRef" eType="#//ObjectReferenceable"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="ObjectValue"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Referenceable" eSuperTypes="#//TypeAssignment">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="values" upperBound="-1"
+        eType="#//Value" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="typeNotation" eType="#//TypeNotation"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="valueNotation" eType="#//ValueNotation"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="innerTypes" upperBound="-1"
+        eType="#//Referenceable" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="right" eType="#//TypeNotationRight"
+        containment="true"/>
+  </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="TypeNotation">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="typeNotations" upperBound="-1"

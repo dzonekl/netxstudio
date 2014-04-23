@@ -37,7 +37,7 @@ generate smi "http://www.netxforge.com/Smi"
 
 Module:
 	name=MODULE_ID 'DEFINITIONS' '::=' 'BEGIN'
-	imports=Imports? (objects+=Object | identifiers+=ObjectIdentifier |
+	imports=Imports? (objects+=ObjectReferenceable |
 	types+=Referenceable)+
 	NEWLINE+ 'END' NEWLINE*;
 
@@ -56,29 +56,20 @@ ImportRefs:
 ImportRef:
 	oiRef=[ObjectReferenceable|ASN1_ID] | typeRef=[Referenceable|MODULE_ID];
 
-Referenceable:
-	Macro | TypeDefinition;
+ObjectReferenceable:
+	NEWLINE+ name=ASN1_ID NEWLINE* ('OBJECT IDENTIFIER' | object=Object) NEWLINE* '::=' '{' objectValue=ObjectReference '}';
 
-	// An ASN.1 Object Identifier
-ObjectIdentifier returns ObjectReferenceable:
-	NEWLINE+ name=ASN1_ID 'OBJECT IDENTIFIER' '::=' '{' oidValue=ObjectIdentifierValue '}';
+Object:
+	macroRef=[Referenceable|MODULE_ID] attributes+=Attribute+;
 
 	// The value of the Object identifier	
-ObjectIdentifierValue:
-	(descriptorRef=[ObjectReferenceable|ASN1_ID] | => name=ASN1_ID)? subIds+=BIG_INTEGER (subIds+=BIG_INTEGER)*;
-
-	// An ASN.1 Value assignment. 
-TypeDefinition returns Referenceable:
-	NEWLINE+ name=MODULE_ID '::=' values+=Value+;
-
-Object returns ObjectReferenceable:
-	NEWLINE+ name=ASN1_ID macroRef=[Referenceable|MODULE_ID] attributes+=Attribute+ NEWLINE+ '::='
-	objectValue=ObjectValue;
+ObjectReference:
+	(name=ASN1_ID | => descriptorRef=[ObjectReferenceable|ASN1_ID] )? subIds+=BIG_INTEGER (subIds+=BIG_INTEGER)*;
 
 Attribute:
 	NEWLINE+ paramRef=[Referenceable|MODULE_ID] value=AttributeValue;
 
-// The Identifier is very often an enum
+	// The Identifier is very often an enum
 AttributeValue:
 	NEWLINE* (identifier=Identifier | text=IA5STRING | typeRef=[Referenceable|MODULE_ID] (subType=ASN1_SUBTYPE)?) |
 	objectRef=BracedObjectReference | integer=ASN1_INTEGER |
@@ -90,10 +81,12 @@ Identifier:
 BracedObjectReference:
 	'{' objectRef=[ObjectReferenceable|ASN1_ID] '}';
 
-	// An ASN.1 Object value is of type defined by 'VALUE NOTATION'
-// can be an OBJECT IDENTIFIER the value will be i.e: {0 0}
-ObjectValue:
-	'{' ObjectIdentifierValue '}';
+Referenceable:
+	Macro | TypeDefinition;
+
+	// An ASN.1 Value assignment. 
+TypeDefinition returns Referenceable:
+	NEWLINE+ name=MODULE_ID '::=' values+=Value+;
 
 	// An ASN.1 Macro structure
 Macro returns Referenceable:
@@ -169,7 +162,7 @@ ASN1_OCTET_STRING returns ASN1_SIMPLE:
 
 	// Support for Type refinement, like in TEXTUAL-CONVENTION, SYNTAX type definition 
 ASN1_INTEGER returns ASN1_SIMPLE:
-	name='INTEGER' ('(' range=ASN1_RANGE ')')?  refinement=ASN1_INTEGER_REFINEMENT?;
+	name='INTEGER' ('(' range=ASN1_RANGE ')')? refinement=ASN1_INTEGER_REFINEMENT?;
 
 ASN1_INTEGER_REFINEMENT:
 	'{' (NEWLINE* refinements+=ASN1_ID '(' ints+=BIG_INTEGER ')') (',' NEWLINE* refinements+=ASN1_ID '(' ints+=BIG_INTEGER

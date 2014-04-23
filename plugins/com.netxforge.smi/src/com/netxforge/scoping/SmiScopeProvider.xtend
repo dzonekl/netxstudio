@@ -24,7 +24,7 @@ class SmiScopeProvider extends AbstractDeclarativeScopeProvider {
 
 	def IScope scope_Attribute_paramRef(Attribute attr, EReference eRef) {
 		val ObjectReferenceable o = attr.eContainer as ObjectReferenceable;
-		super.getScope(o.macroRef.typeNotation, SmiPackage.Literals.TYPE_NOTATION__TYPE_NOTATIONS);
+		super.getScope(o.object.macroRef.typeNotation, SmiPackage.Literals.TYPE_NOTATION__TYPE_NOTATIONS);
 	}
 
 	// Scoping rule for the reference of an AttributeValue if the parent Attribute 

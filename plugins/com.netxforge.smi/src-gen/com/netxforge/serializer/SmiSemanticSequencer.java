@@ -23,7 +23,7 @@ import com.netxforge.smi.Imports;
 import com.netxforge.smi.MacroValue;
 import com.netxforge.smi.MacroValueType;
 import com.netxforge.smi.Module;
-import com.netxforge.smi.ObjectIdentifierValue;
+import com.netxforge.smi.ObjectReference;
 import com.netxforge.smi.ObjectReferenceable;
 import com.netxforge.smi.Referenceable;
 import com.netxforge.smi.SmiPackage;
@@ -189,20 +189,21 @@ public class SmiSemanticSequencer extends AbstractDelegatingSemanticSequencer {
 					return; 
 				}
 				else break;
-			case SmiPackage.OBJECT_IDENTIFIER_VALUE:
-				if(context == grammarAccess.getObjectIdentifierValueRule() ||
-				   context == grammarAccess.getObjectValueRule()) {
-					sequence_ObjectIdentifierValue(context, (ObjectIdentifierValue) semanticObject); 
+			case SmiPackage.OBJECT:
+				if(context == grammarAccess.getObjectRule()) {
+					sequence_Object(context, (com.netxforge.smi.Object) semanticObject); 
+					return; 
+				}
+				else break;
+			case SmiPackage.OBJECT_REFERENCE:
+				if(context == grammarAccess.getObjectReferenceRule()) {
+					sequence_ObjectReference(context, (ObjectReference) semanticObject); 
 					return; 
 				}
 				else break;
 			case SmiPackage.OBJECT_REFERENCEABLE:
-				if(context == grammarAccess.getObjectIdentifierRule()) {
-					sequence_ObjectIdentifier(context, (ObjectReferenceable) semanticObject); 
-					return; 
-				}
-				else if(context == grammarAccess.getObjectRule()) {
-					sequence_Object(context, (ObjectReferenceable) semanticObject); 
+				if(context == grammarAccess.getObjectReferenceableRule()) {
+					sequence_ObjectReferenceable(context, (ObjectReferenceable) semanticObject); 
 					return; 
 				}
 				else break;
@@ -544,7 +545,7 @@ public class SmiSemanticSequencer extends AbstractDelegatingSemanticSequencer {
 	
 	/**
 	 * Constraint:
-	 *     (name=MODULE_ID imports=Imports? (objects+=Object | identifiers+=ObjectIdentifier | types+=Referenceable)+)
+	 *     (name=MODULE_ID imports=Imports? (objects+=ObjectReferenceable | types+=Referenceable)+)
 	 */
 	protected void sequence_Module(EObject context, Module semanticObject) {
 		genericSequencer.createSequence(context, semanticObject);
@@ -553,27 +554,27 @@ public class SmiSemanticSequencer extends AbstractDelegatingSemanticSequencer {
 	
 	/**
 	 * Constraint:
-	 *     ((descriptorRef=[ObjectReferenceable|ASN1_ID] | name=ASN1_ID)? subIds+=BIG_INTEGER subIds+=BIG_INTEGER*)
+	 *     ((name=ASN1_ID | descriptorRef=[ObjectReferenceable|ASN1_ID])? subIds+=BIG_INTEGER subIds+=BIG_INTEGER*)
 	 */
-	protected void sequence_ObjectIdentifierValue(EObject context, ObjectIdentifierValue semanticObject) {
+	protected void sequence_ObjectReference(EObject context, ObjectReference semanticObject) {
 		genericSequencer.createSequence(context, semanticObject);
 	}
 	
 	
 	/**
 	 * Constraint:
-	 *     (name=ASN1_ID oidValue=ObjectIdentifierValue)
+	 *     (name=ASN1_ID object=Object? objectValue=ObjectReference)
 	 */
-	protected void sequence_ObjectIdentifier(EObject context, ObjectReferenceable semanticObject) {
+	protected void sequence_ObjectReferenceable(EObject context, ObjectReferenceable semanticObject) {
 		genericSequencer.createSequence(context, semanticObject);
 	}
 	
 	
 	/**
 	 * Constraint:
-	 *     (name=ASN1_ID macroRef=[Referenceable|MODULE_ID] attributes+=Attribute+ objectValue=ObjectValue)
+	 *     (macroRef=[Referenceable|MODULE_ID] attributes+=Attribute+)
 	 */
-	protected void sequence_Object(EObject context, ObjectReferenceable semanticObject) {
+	protected void sequence_Object(EObject context, com.netxforge.smi.Object semanticObject) {
 		genericSequencer.createSequence(context, semanticObject);
 	}
 	

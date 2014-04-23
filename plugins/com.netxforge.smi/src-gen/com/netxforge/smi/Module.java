@@ -17,7 +17,6 @@ import org.eclipse.emf.ecore.EObject;
  *   <li>{@link com.netxforge.smi.Module#getName <em>Name</em>}</li>
  *   <li>{@link com.netxforge.smi.Module#getImports <em>Imports</em>}</li>
  *   <li>{@link com.netxforge.smi.Module#getObjects <em>Objects</em>}</li>
- *   <li>{@link com.netxforge.smi.Module#getIdentifiers <em>Identifiers</em>}</li>
  *   <li>{@link com.netxforge.smi.Module#getTypes <em>Types</em>}</li>
  * </ul>
  * </p>
@@ -95,22 +94,6 @@ public interface Module extends EObject
    * @generated
    */
   EList<ObjectReferenceable> getObjects();
-
-  /**
-   * Returns the value of the '<em><b>Identifiers</b></em>' containment reference list.
-   * The list contents are of type {@link com.netxforge.smi.ObjectReferenceable}.
-   * <!-- begin-user-doc -->
-   * <p>
-   * If the meaning of the '<em>Identifiers</em>' containment reference list isn't clear,
-   * there really should be more of a description here...
-   * </p>
-   * <!-- end-user-doc -->
-   * @return the value of the '<em>Identifiers</em>' containment reference list.
-   * @see com.netxforge.smi.SmiPackage#getModule_Identifiers()
-   * @model containment="true"
-   * @generated
-   */
-  EList<ObjectReferenceable> getIdentifiers();
 
   /**
    * Returns the value of the '<em><b>Types</b></em>' containment reference list.

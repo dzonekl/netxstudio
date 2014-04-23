@@ -2,7 +2,39 @@
  */
 package com.netxforge.smi.util;
 
-import com.netxforge.smi.*;
+import com.netxforge.smi.ASN1_CHOICE;
+import com.netxforge.smi.ASN1_CHOICE_ENTRY;
+import com.netxforge.smi.ASN1_INTEGER_REFINEMENT;
+import com.netxforge.smi.ASN1_OCTET_STRING;
+import com.netxforge.smi.ASN1_RANGE;
+import com.netxforge.smi.ASN1_SEQUENCE;
+import com.netxforge.smi.ASN1_SEQUENCE_OF;
+import com.netxforge.smi.ASN1_SIMPLE;
+import com.netxforge.smi.ASN1_TYPE;
+import com.netxforge.smi.Attribute;
+import com.netxforge.smi.AttributeValue;
+import com.netxforge.smi.BracedObjectReference;
+import com.netxforge.smi.ChoiceType;
+import com.netxforge.smi.Identifier;
+import com.netxforge.smi.ImportClosure;
+import com.netxforge.smi.ImportRef;
+import com.netxforge.smi.ImportRefs;
+import com.netxforge.smi.Imports;
+import com.netxforge.smi.MacroValue;
+import com.netxforge.smi.MacroValueType;
+import com.netxforge.smi.Module;
+import com.netxforge.smi.ObjectReference;
+import com.netxforge.smi.ObjectReferenceable;
+import com.netxforge.smi.Referenceable;
+import com.netxforge.smi.SmiPackage;
+import com.netxforge.smi.Tag;
+import com.netxforge.smi.TypeAssignment;
+import com.netxforge.smi.TypeNotation;
+import com.netxforge.smi.TypeNotationRight;
+import com.netxforge.smi.Value;
+import com.netxforge.smi.ValueAssignment;
+import com.netxforge.smi.ValueNotation;
+import com.netxforge.smi.ValueType;
 
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
@@ -107,15 +139,6 @@ public class SmiSwitch<T> extends Switch<T>
         if (result == null) result = defaultCase(theEObject);
         return result;
       }
-      case SmiPackage.REFERENCEABLE:
-      {
-        Referenceable referenceable = (Referenceable)theEObject;
-        T result = caseReferenceable(referenceable);
-        if (result == null) result = caseTypeAssignment(referenceable);
-        if (result == null) result = caseTypeNotationRight(referenceable);
-        if (result == null) result = defaultCase(theEObject);
-        return result;
-      }
       case SmiPackage.OBJECT_REFERENCEABLE:
       {
         ObjectReferenceable objectReferenceable = (ObjectReferenceable)theEObject;
@@ -123,11 +146,17 @@ public class SmiSwitch<T> extends Switch<T>
         if (result == null) result = defaultCase(theEObject);
         return result;
       }
-      case SmiPackage.OBJECT_IDENTIFIER_VALUE:
+      case SmiPackage.OBJECT:
       {
-        ObjectIdentifierValue objectIdentifierValue = (ObjectIdentifierValue)theEObject;
-        T result = caseObjectIdentifierValue(objectIdentifierValue);
-        if (result == null) result = caseObjectValue(objectIdentifierValue);
+        com.netxforge.smi.Object object = (com.netxforge.smi.Object)theEObject;
+        T result = caseObject(object);
+        if (result == null) result = defaultCase(theEObject);
+        return result;
+      }
+      case SmiPackage.OBJECT_REFERENCE:
+      {
+        ObjectReference objectReference = (ObjectReference)theEObject;
+        T result = caseObjectReference(objectReference);
         if (result == null) result = defaultCase(theEObject);
         return result;
       }
@@ -159,10 +188,12 @@ public class SmiSwitch<T> extends Switch<T>
         if (result == null) result = defaultCase(theEObject);
         return result;
       }
-      case SmiPackage.OBJECT_VALUE:
+      case SmiPackage.REFERENCEABLE:
       {
-        ObjectValue objectValue = (ObjectValue)theEObject;
-        T result = caseObjectValue(objectValue);
+        Referenceable referenceable = (Referenceable)theEObject;
+        T result = caseReferenceable(referenceable);
+        if (result == null) result = caseTypeAssignment(referenceable);
+        if (result == null) result = caseTypeNotationRight(referenceable);
         if (result == null) result = defaultCase(theEObject);
         return result;
       }
@@ -402,22 +433,6 @@ public class SmiSwitch<T> extends Switch<T>
   }
 
   /**
-   * Returns the result of interpreting the object as an instance of '<em>Referenceable</em>'.
-   * <!-- begin-user-doc -->
-   * This implementation returns null;
-   * returning a non-null result will terminate the switch.
-   * <!-- end-user-doc -->
-   * @param object the target of the switch.
-   * @return the result of interpreting the object as an instance of '<em>Referenceable</em>'.
-   * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
-   * @generated
-   */
-  public T caseReferenceable(Referenceable object)
-  {
-    return null;
-  }
-
-  /**
    * Returns the result of interpreting the object as an instance of '<em>Object Referenceable</em>'.
    * <!-- begin-user-doc -->
    * This implementation returns null;
@@ -434,17 +449,33 @@ public class SmiSwitch<T> extends Switch<T>
   }
 
   /**
-   * Returns the result of interpreting the object as an instance of '<em>Object Identifier Value</em>'.
+   * Returns the result of interpreting the object as an instance of '<em>Object</em>'.
    * <!-- begin-user-doc -->
    * This implementation returns null;
    * returning a non-null result will terminate the switch.
    * <!-- end-user-doc -->
    * @param object the target of the switch.
-   * @return the result of interpreting the object as an instance of '<em>Object Identifier Value</em>'.
+   * @return the result of interpreting the object as an instance of '<em>Object</em>'.
    * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
    * @generated
    */
-  public T caseObjectIdentifierValue(ObjectIdentifierValue object)
+  public T caseObject(com.netxforge.smi.Object object)
+  {
+    return null;
+  }
+
+  /**
+   * Returns the result of interpreting the object as an instance of '<em>Object Reference</em>'.
+   * <!-- begin-user-doc -->
+   * This implementation returns null;
+   * returning a non-null result will terminate the switch.
+   * <!-- end-user-doc -->
+   * @param object the target of the switch.
+   * @return the result of interpreting the object as an instance of '<em>Object Reference</em>'.
+   * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+   * @generated
+   */
+  public T caseObjectReference(ObjectReference object)
   {
     return null;
   }
@@ -514,17 +545,17 @@ public class SmiSwitch<T> extends Switch<T>
   }
 
   /**
-   * Returns the result of interpreting the object as an instance of '<em>Object Value</em>'.
+   * Returns the result of interpreting the object as an instance of '<em>Referenceable</em>'.
    * <!-- begin-user-doc -->
    * This implementation returns null;
    * returning a non-null result will terminate the switch.
    * <!-- end-user-doc -->
    * @param object the target of the switch.
-   * @return the result of interpreting the object as an instance of '<em>Object Value</em>'.
+   * @return the result of interpreting the object as an instance of '<em>Referenceable</em>'.
    * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
    * @generated
    */
-  public T caseObjectValue(ObjectValue object)
+  public T caseReferenceable(Referenceable object)
   {
     return null;
   }

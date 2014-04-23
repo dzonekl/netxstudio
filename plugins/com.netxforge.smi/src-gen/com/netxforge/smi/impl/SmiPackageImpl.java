@@ -14,9 +14,8 @@ import com.netxforge.smi.Imports;
 import com.netxforge.smi.MacroValue;
 import com.netxforge.smi.MacroValueType;
 import com.netxforge.smi.Module;
-import com.netxforge.smi.ObjectIdentifierValue;
+import com.netxforge.smi.ObjectReference;
 import com.netxforge.smi.ObjectReferenceable;
-import com.netxforge.smi.ObjectValue;
 import com.netxforge.smi.Referenceable;
 import com.netxforge.smi.SmiFactory;
 import com.netxforge.smi.SmiPackage;
@@ -84,13 +83,6 @@ public class SmiPackageImpl extends EPackageImpl implements SmiPackage
    * <!-- end-user-doc -->
    * @generated
    */
-  private EClass referenceableEClass = null;
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
   private EClass objectReferenceableEClass = null;
 
   /**
@@ -98,7 +90,14 @@ public class SmiPackageImpl extends EPackageImpl implements SmiPackage
    * <!-- end-user-doc -->
    * @generated
    */
-  private EClass objectIdentifierValueEClass = null;
+  private EClass objectEClass = null;
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  private EClass objectReferenceEClass = null;
 
   /**
    * <!-- begin-user-doc -->
@@ -133,7 +132,7 @@ public class SmiPackageImpl extends EPackageImpl implements SmiPackage
    * <!-- end-user-doc -->
    * @generated
    */
-  private EClass objectValueEClass = null;
+  private EClass referenceableEClass = null;
 
   /**
    * <!-- begin-user-doc -->
@@ -383,19 +382,9 @@ public class SmiPackageImpl extends EPackageImpl implements SmiPackage
    * <!-- end-user-doc -->
    * @generated
    */
-  public EReference getModule_Identifiers()
-  {
-    return (EReference)moduleEClass.getEStructuralFeatures().get(3);
-  }
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
   public EReference getModule_Types()
   {
-    return (EReference)moduleEClass.getEStructuralFeatures().get(4);
+    return (EReference)moduleEClass.getEStructuralFeatures().get(3);
   }
 
   /**
@@ -503,76 +492,6 @@ public class SmiPackageImpl extends EPackageImpl implements SmiPackage
    * <!-- end-user-doc -->
    * @generated
    */
-  public EClass getReferenceable()
-  {
-    return referenceableEClass;
-  }
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  public EAttribute getReferenceable_Name()
-  {
-    return (EAttribute)referenceableEClass.getEStructuralFeatures().get(0);
-  }
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  public EReference getReferenceable_Values()
-  {
-    return (EReference)referenceableEClass.getEStructuralFeatures().get(1);
-  }
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  public EReference getReferenceable_TypeNotation()
-  {
-    return (EReference)referenceableEClass.getEStructuralFeatures().get(2);
-  }
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  public EReference getReferenceable_ValueNotation()
-  {
-    return (EReference)referenceableEClass.getEStructuralFeatures().get(3);
-  }
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  public EReference getReferenceable_InnerTypes()
-  {
-    return (EReference)referenceableEClass.getEStructuralFeatures().get(4);
-  }
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  public EReference getReferenceable_Right()
-  {
-    return (EReference)referenceableEClass.getEStructuralFeatures().get(5);
-  }
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
   public EClass getObjectReferenceable()
   {
     return objectReferenceableEClass;
@@ -593,7 +512,7 @@ public class SmiPackageImpl extends EPackageImpl implements SmiPackage
    * <!-- end-user-doc -->
    * @generated
    */
-  public EReference getObjectReferenceable_OidValue()
+  public EReference getObjectReferenceable_Object()
   {
     return (EReference)objectReferenceableEClass.getEStructuralFeatures().get(1);
   }
@@ -603,7 +522,7 @@ public class SmiPackageImpl extends EPackageImpl implements SmiPackage
    * <!-- end-user-doc -->
    * @generated
    */
-  public EReference getObjectReferenceable_MacroRef()
+  public EReference getObjectReferenceable_ObjectValue()
   {
     return (EReference)objectReferenceableEClass.getEStructuralFeatures().get(2);
   }
@@ -613,9 +532,9 @@ public class SmiPackageImpl extends EPackageImpl implements SmiPackage
    * <!-- end-user-doc -->
    * @generated
    */
-  public EReference getObjectReferenceable_Attributes()
+  public EClass getObject()
   {
-    return (EReference)objectReferenceableEClass.getEStructuralFeatures().get(3);
+    return objectEClass;
   }
 
   /**
@@ -623,9 +542,9 @@ public class SmiPackageImpl extends EPackageImpl implements SmiPackage
    * <!-- end-user-doc -->
    * @generated
    */
-  public EReference getObjectReferenceable_ObjectValue()
+  public EReference getObject_MacroRef()
   {
-    return (EReference)objectReferenceableEClass.getEStructuralFeatures().get(4);
+    return (EReference)objectEClass.getEStructuralFeatures().get(0);
   }
 
   /**
@@ -633,9 +552,9 @@ public class SmiPackageImpl extends EPackageImpl implements SmiPackage
    * <!-- end-user-doc -->
    * @generated
    */
-  public EClass getObjectIdentifierValue()
+  public EReference getObject_Attributes()
   {
-    return objectIdentifierValueEClass;
+    return (EReference)objectEClass.getEStructuralFeatures().get(1);
   }
 
   /**
@@ -643,9 +562,9 @@ public class SmiPackageImpl extends EPackageImpl implements SmiPackage
    * <!-- end-user-doc -->
    * @generated
    */
-  public EReference getObjectIdentifierValue_DescriptorRef()
+  public EClass getObjectReference()
   {
-    return (EReference)objectIdentifierValueEClass.getEStructuralFeatures().get(0);
+    return objectReferenceEClass;
   }
 
   /**
@@ -653,9 +572,9 @@ public class SmiPackageImpl extends EPackageImpl implements SmiPackage
    * <!-- end-user-doc -->
    * @generated
    */
-  public EAttribute getObjectIdentifierValue_Name()
+  public EAttribute getObjectReference_Name()
   {
-    return (EAttribute)objectIdentifierValueEClass.getEStructuralFeatures().get(1);
+    return (EAttribute)objectReferenceEClass.getEStructuralFeatures().get(0);
   }
 
   /**
@@ -663,9 +582,19 @@ public class SmiPackageImpl extends EPackageImpl implements SmiPackage
    * <!-- end-user-doc -->
    * @generated
    */
-  public EAttribute getObjectIdentifierValue_SubIds()
+  public EReference getObjectReference_DescriptorRef()
   {
-    return (EAttribute)objectIdentifierValueEClass.getEStructuralFeatures().get(2);
+    return (EReference)objectReferenceEClass.getEStructuralFeatures().get(1);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public EAttribute getObjectReference_SubIds()
+  {
+    return (EAttribute)objectReferenceEClass.getEStructuralFeatures().get(2);
   }
 
   /**
@@ -823,9 +752,69 @@ public class SmiPackageImpl extends EPackageImpl implements SmiPackage
    * <!-- end-user-doc -->
    * @generated
    */
-  public EClass getObjectValue()
+  public EClass getReferenceable()
   {
-    return objectValueEClass;
+    return referenceableEClass;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public EAttribute getReferenceable_Name()
+  {
+    return (EAttribute)referenceableEClass.getEStructuralFeatures().get(0);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public EReference getReferenceable_Values()
+  {
+    return (EReference)referenceableEClass.getEStructuralFeatures().get(1);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public EReference getReferenceable_TypeNotation()
+  {
+    return (EReference)referenceableEClass.getEStructuralFeatures().get(2);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public EReference getReferenceable_ValueNotation()
+  {
+    return (EReference)referenceableEClass.getEStructuralFeatures().get(3);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public EReference getReferenceable_InnerTypes()
+  {
+    return (EReference)referenceableEClass.getEStructuralFeatures().get(4);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public EReference getReferenceable_Right()
+  {
+    return (EReference)referenceableEClass.getEStructuralFeatures().get(5);
   }
 
   /**
@@ -1472,7 +1461,6 @@ public class SmiPackageImpl extends EPackageImpl implements SmiPackage
     createEAttribute(moduleEClass, MODULE__NAME);
     createEReference(moduleEClass, MODULE__IMPORTS);
     createEReference(moduleEClass, MODULE__OBJECTS);
-    createEReference(moduleEClass, MODULE__IDENTIFIERS);
     createEReference(moduleEClass, MODULE__TYPES);
 
     importsEClass = createEClass(IMPORTS);
@@ -1489,25 +1477,19 @@ public class SmiPackageImpl extends EPackageImpl implements SmiPackage
     createEReference(importRefEClass, IMPORT_REF__OI_REF);
     createEReference(importRefEClass, IMPORT_REF__TYPE_REF);
 
-    referenceableEClass = createEClass(REFERENCEABLE);
-    createEAttribute(referenceableEClass, REFERENCEABLE__NAME);
-    createEReference(referenceableEClass, REFERENCEABLE__VALUES);
-    createEReference(referenceableEClass, REFERENCEABLE__TYPE_NOTATION);
-    createEReference(referenceableEClass, REFERENCEABLE__VALUE_NOTATION);
-    createEReference(referenceableEClass, REFERENCEABLE__INNER_TYPES);
-    createEReference(referenceableEClass, REFERENCEABLE__RIGHT);
-
     objectReferenceableEClass = createEClass(OBJECT_REFERENCEABLE);
     createEAttribute(objectReferenceableEClass, OBJECT_REFERENCEABLE__NAME);
-    createEReference(objectReferenceableEClass, OBJECT_REFERENCEABLE__OID_VALUE);
-    createEReference(objectReferenceableEClass, OBJECT_REFERENCEABLE__MACRO_REF);
-    createEReference(objectReferenceableEClass, OBJECT_REFERENCEABLE__ATTRIBUTES);
+    createEReference(objectReferenceableEClass, OBJECT_REFERENCEABLE__OBJECT);
     createEReference(objectReferenceableEClass, OBJECT_REFERENCEABLE__OBJECT_VALUE);
 
-    objectIdentifierValueEClass = createEClass(OBJECT_IDENTIFIER_VALUE);
-    createEReference(objectIdentifierValueEClass, OBJECT_IDENTIFIER_VALUE__DESCRIPTOR_REF);
-    createEAttribute(objectIdentifierValueEClass, OBJECT_IDENTIFIER_VALUE__NAME);
-    createEAttribute(objectIdentifierValueEClass, OBJECT_IDENTIFIER_VALUE__SUB_IDS);
+    objectEClass = createEClass(OBJECT);
+    createEReference(objectEClass, OBJECT__MACRO_REF);
+    createEReference(objectEClass, OBJECT__ATTRIBUTES);
+
+    objectReferenceEClass = createEClass(OBJECT_REFERENCE);
+    createEAttribute(objectReferenceEClass, OBJECT_REFERENCE__NAME);
+    createEReference(objectReferenceEClass, OBJECT_REFERENCE__DESCRIPTOR_REF);
+    createEAttribute(objectReferenceEClass, OBJECT_REFERENCE__SUB_IDS);
 
     attributeEClass = createEClass(ATTRIBUTE);
     createEReference(attributeEClass, ATTRIBUTE__PARAM_REF);
@@ -1528,7 +1510,13 @@ public class SmiPackageImpl extends EPackageImpl implements SmiPackage
     bracedObjectReferenceEClass = createEClass(BRACED_OBJECT_REFERENCE);
     createEReference(bracedObjectReferenceEClass, BRACED_OBJECT_REFERENCE__OBJECT_REF);
 
-    objectValueEClass = createEClass(OBJECT_VALUE);
+    referenceableEClass = createEClass(REFERENCEABLE);
+    createEAttribute(referenceableEClass, REFERENCEABLE__NAME);
+    createEReference(referenceableEClass, REFERENCEABLE__VALUES);
+    createEReference(referenceableEClass, REFERENCEABLE__TYPE_NOTATION);
+    createEReference(referenceableEClass, REFERENCEABLE__VALUE_NOTATION);
+    createEReference(referenceableEClass, REFERENCEABLE__INNER_TYPES);
+    createEReference(referenceableEClass, REFERENCEABLE__RIGHT);
 
     typeNotationEClass = createEClass(TYPE_NOTATION);
     createEAttribute(typeNotationEClass, TYPE_NOTATION__NAME);
@@ -1642,7 +1630,6 @@ public class SmiPackageImpl extends EPackageImpl implements SmiPackage
 
     // Add supertypes to classes
     referenceableEClass.getESuperTypes().add(this.getTypeAssignment());
-    objectIdentifierValueEClass.getESuperTypes().add(this.getObjectValue());
     typeAssignmentEClass.getESuperTypes().add(this.getTypeNotationRight());
     valueEClass.getESuperTypes().add(this.getTypeAssignment());
     asn1_SIMPLEEClass.getESuperTypes().add(this.getASN1_TYPE());
@@ -1656,7 +1643,6 @@ public class SmiPackageImpl extends EPackageImpl implements SmiPackage
     initEAttribute(getModule_Name(), ecorePackage.getEString(), "name", null, 0, 1, Module.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
     initEReference(getModule_Imports(), this.getImports(), null, "imports", null, 0, 1, Module.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
     initEReference(getModule_Objects(), this.getObjectReferenceable(), null, "objects", null, 0, -1, Module.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-    initEReference(getModule_Identifiers(), this.getObjectReferenceable(), null, "identifiers", null, 0, -1, Module.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
     initEReference(getModule_Types(), this.getReferenceable(), null, "types", null, 0, -1, Module.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
     initEClass(importsEClass, Imports.class, "Imports", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
@@ -1673,25 +1659,19 @@ public class SmiPackageImpl extends EPackageImpl implements SmiPackage
     initEReference(getImportRef_OiRef(), this.getObjectReferenceable(), null, "oiRef", null, 0, 1, ImportRef.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
     initEReference(getImportRef_TypeRef(), this.getReferenceable(), null, "typeRef", null, 0, 1, ImportRef.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
-    initEClass(referenceableEClass, Referenceable.class, "Referenceable", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-    initEAttribute(getReferenceable_Name(), ecorePackage.getEString(), "name", null, 0, 1, Referenceable.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-    initEReference(getReferenceable_Values(), this.getValue(), null, "values", null, 0, -1, Referenceable.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-    initEReference(getReferenceable_TypeNotation(), this.getTypeNotation(), null, "typeNotation", null, 0, 1, Referenceable.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-    initEReference(getReferenceable_ValueNotation(), this.getValueNotation(), null, "valueNotation", null, 0, 1, Referenceable.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-    initEReference(getReferenceable_InnerTypes(), this.getReferenceable(), null, "innerTypes", null, 0, -1, Referenceable.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-    initEReference(getReferenceable_Right(), this.getTypeNotationRight(), null, "right", null, 0, 1, Referenceable.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-
     initEClass(objectReferenceableEClass, ObjectReferenceable.class, "ObjectReferenceable", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
     initEAttribute(getObjectReferenceable_Name(), ecorePackage.getEString(), "name", null, 0, 1, ObjectReferenceable.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-    initEReference(getObjectReferenceable_OidValue(), this.getObjectIdentifierValue(), null, "oidValue", null, 0, 1, ObjectReferenceable.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-    initEReference(getObjectReferenceable_MacroRef(), this.getReferenceable(), null, "macroRef", null, 0, 1, ObjectReferenceable.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-    initEReference(getObjectReferenceable_Attributes(), this.getAttribute(), null, "attributes", null, 0, -1, ObjectReferenceable.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-    initEReference(getObjectReferenceable_ObjectValue(), this.getObjectValue(), null, "objectValue", null, 0, 1, ObjectReferenceable.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEReference(getObjectReferenceable_Object(), this.getObject(), null, "object", null, 0, 1, ObjectReferenceable.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEReference(getObjectReferenceable_ObjectValue(), this.getObjectReference(), null, "objectValue", null, 0, 1, ObjectReferenceable.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
-    initEClass(objectIdentifierValueEClass, ObjectIdentifierValue.class, "ObjectIdentifierValue", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-    initEReference(getObjectIdentifierValue_DescriptorRef(), this.getObjectReferenceable(), null, "descriptorRef", null, 0, 1, ObjectIdentifierValue.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-    initEAttribute(getObjectIdentifierValue_Name(), ecorePackage.getEString(), "name", null, 0, 1, ObjectIdentifierValue.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-    initEAttribute(getObjectIdentifierValue_SubIds(), ecorePackage.getEBigInteger(), "subIds", null, 0, -1, ObjectIdentifierValue.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEClass(objectEClass, com.netxforge.smi.Object.class, "Object", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+    initEReference(getObject_MacroRef(), this.getReferenceable(), null, "macroRef", null, 0, 1, com.netxforge.smi.Object.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEReference(getObject_Attributes(), this.getAttribute(), null, "attributes", null, 0, -1, com.netxforge.smi.Object.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+    initEClass(objectReferenceEClass, ObjectReference.class, "ObjectReference", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+    initEAttribute(getObjectReference_Name(), ecorePackage.getEString(), "name", null, 0, 1, ObjectReference.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEReference(getObjectReference_DescriptorRef(), this.getObjectReferenceable(), null, "descriptorRef", null, 0, 1, ObjectReference.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEAttribute(getObjectReference_SubIds(), ecorePackage.getEBigInteger(), "subIds", null, 0, -1, ObjectReference.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
     initEClass(attributeEClass, Attribute.class, "Attribute", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
     initEReference(getAttribute_ParamRef(), this.getReferenceable(), null, "paramRef", null, 0, 1, Attribute.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
@@ -1712,7 +1692,13 @@ public class SmiPackageImpl extends EPackageImpl implements SmiPackage
     initEClass(bracedObjectReferenceEClass, BracedObjectReference.class, "BracedObjectReference", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
     initEReference(getBracedObjectReference_ObjectRef(), this.getObjectReferenceable(), null, "objectRef", null, 0, 1, BracedObjectReference.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
-    initEClass(objectValueEClass, ObjectValue.class, "ObjectValue", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+    initEClass(referenceableEClass, Referenceable.class, "Referenceable", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+    initEAttribute(getReferenceable_Name(), ecorePackage.getEString(), "name", null, 0, 1, Referenceable.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEReference(getReferenceable_Values(), this.getValue(), null, "values", null, 0, -1, Referenceable.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEReference(getReferenceable_TypeNotation(), this.getTypeNotation(), null, "typeNotation", null, 0, 1, Referenceable.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEReference(getReferenceable_ValueNotation(), this.getValueNotation(), null, "valueNotation", null, 0, 1, Referenceable.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEReference(getReferenceable_InnerTypes(), this.getReferenceable(), null, "innerTypes", null, 0, -1, Referenceable.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEReference(getReferenceable_Right(), this.getTypeNotationRight(), null, "right", null, 0, 1, Referenceable.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
     initEClass(typeNotationEClass, TypeNotation.class, "TypeNotation", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
     initEAttribute(getTypeNotation_Name(), ecorePackage.getEString(), "name", null, 0, 1, TypeNotation.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
