@@ -2,10 +2,11 @@
  */
 package com.netxforge.smi.impl;
 
-import com.netxforge.smi.Macro;
+import com.netxforge.smi.Referenceable;
 import com.netxforge.smi.SmiPackage;
-import com.netxforge.smi.TypeDefinition;
 import com.netxforge.smi.TypeNotation;
+import com.netxforge.smi.TypeNotationRight;
+import com.netxforge.smi.Value;
 import com.netxforge.smi.ValueNotation;
 
 import java.util.Collection;
@@ -19,28 +20,29 @@ import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.InternalEObject;
 
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
-import org.eclipse.emf.ecore.impl.MinimalEObjectImpl;
 
 import org.eclipse.emf.ecore.util.EObjectContainmentEList;
 import org.eclipse.emf.ecore.util.InternalEList;
 
 /**
  * <!-- begin-user-doc -->
- * An implementation of the model object '<em><b>Macro</b></em>'.
+ * An implementation of the model object '<em><b>Referenceable</b></em>'.
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
  * <ul>
- *   <li>{@link com.netxforge.smi.impl.MacroImpl#getName <em>Name</em>}</li>
- *   <li>{@link com.netxforge.smi.impl.MacroImpl#getTypeNotation <em>Type Notation</em>}</li>
- *   <li>{@link com.netxforge.smi.impl.MacroImpl#getValueNotation <em>Value Notation</em>}</li>
- *   <li>{@link com.netxforge.smi.impl.MacroImpl#getInnerTypes <em>Inner Types</em>}</li>
+ *   <li>{@link com.netxforge.smi.impl.ReferenceableImpl#getName <em>Name</em>}</li>
+ *   <li>{@link com.netxforge.smi.impl.ReferenceableImpl#getValues <em>Values</em>}</li>
+ *   <li>{@link com.netxforge.smi.impl.ReferenceableImpl#getTypeNotation <em>Type Notation</em>}</li>
+ *   <li>{@link com.netxforge.smi.impl.ReferenceableImpl#getValueNotation <em>Value Notation</em>}</li>
+ *   <li>{@link com.netxforge.smi.impl.ReferenceableImpl#getInnerTypes <em>Inner Types</em>}</li>
+ *   <li>{@link com.netxforge.smi.impl.ReferenceableImpl#getRight <em>Right</em>}</li>
  * </ul>
  * </p>
  *
  * @generated
  */
-public class MacroImpl extends MinimalEObjectImpl.Container implements Macro
+public class ReferenceableImpl extends TypeAssignmentImpl implements Referenceable
 {
   /**
    * The default value of the '{@link #getName() <em>Name</em>}' attribute.
@@ -61,6 +63,16 @@ public class MacroImpl extends MinimalEObjectImpl.Container implements Macro
    * @ordered
    */
   protected String name = NAME_EDEFAULT;
+
+  /**
+   * The cached value of the '{@link #getValues() <em>Values</em>}' containment reference list.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see #getValues()
+   * @generated
+   * @ordered
+   */
+  protected EList<Value> values;
 
   /**
    * The cached value of the '{@link #getTypeNotation() <em>Type Notation</em>}' containment reference.
@@ -90,14 +102,24 @@ public class MacroImpl extends MinimalEObjectImpl.Container implements Macro
    * @generated
    * @ordered
    */
-  protected EList<TypeDefinition> innerTypes;
+  protected EList<Referenceable> innerTypes;
+
+  /**
+   * The cached value of the '{@link #getRight() <em>Right</em>}' containment reference.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see #getRight()
+   * @generated
+   * @ordered
+   */
+  protected TypeNotationRight right;
 
   /**
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
    */
-  protected MacroImpl()
+  protected ReferenceableImpl()
   {
     super();
   }
@@ -110,7 +132,7 @@ public class MacroImpl extends MinimalEObjectImpl.Container implements Macro
   @Override
   protected EClass eStaticClass()
   {
-    return SmiPackage.Literals.MACRO;
+    return SmiPackage.Literals.REFERENCEABLE;
   }
 
   /**
@@ -133,7 +155,21 @@ public class MacroImpl extends MinimalEObjectImpl.Container implements Macro
     String oldName = name;
     name = newName;
     if (eNotificationRequired())
-      eNotify(new ENotificationImpl(this, Notification.SET, SmiPackage.MACRO__NAME, oldName, name));
+      eNotify(new ENotificationImpl(this, Notification.SET, SmiPackage.REFERENCEABLE__NAME, oldName, name));
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public EList<Value> getValues()
+  {
+    if (values == null)
+    {
+      values = new EObjectContainmentEList<Value>(Value.class, this, SmiPackage.REFERENCEABLE__VALUES);
+    }
+    return values;
   }
 
   /**
@@ -157,7 +193,7 @@ public class MacroImpl extends MinimalEObjectImpl.Container implements Macro
     typeNotation = newTypeNotation;
     if (eNotificationRequired())
     {
-      ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, SmiPackage.MACRO__TYPE_NOTATION, oldTypeNotation, newTypeNotation);
+      ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, SmiPackage.REFERENCEABLE__TYPE_NOTATION, oldTypeNotation, newTypeNotation);
       if (msgs == null) msgs = notification; else msgs.add(notification);
     }
     return msgs;
@@ -174,14 +210,14 @@ public class MacroImpl extends MinimalEObjectImpl.Container implements Macro
     {
       NotificationChain msgs = null;
       if (typeNotation != null)
-        msgs = ((InternalEObject)typeNotation).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - SmiPackage.MACRO__TYPE_NOTATION, null, msgs);
+        msgs = ((InternalEObject)typeNotation).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - SmiPackage.REFERENCEABLE__TYPE_NOTATION, null, msgs);
       if (newTypeNotation != null)
-        msgs = ((InternalEObject)newTypeNotation).eInverseAdd(this, EOPPOSITE_FEATURE_BASE - SmiPackage.MACRO__TYPE_NOTATION, null, msgs);
+        msgs = ((InternalEObject)newTypeNotation).eInverseAdd(this, EOPPOSITE_FEATURE_BASE - SmiPackage.REFERENCEABLE__TYPE_NOTATION, null, msgs);
       msgs = basicSetTypeNotation(newTypeNotation, msgs);
       if (msgs != null) msgs.dispatch();
     }
     else if (eNotificationRequired())
-      eNotify(new ENotificationImpl(this, Notification.SET, SmiPackage.MACRO__TYPE_NOTATION, newTypeNotation, newTypeNotation));
+      eNotify(new ENotificationImpl(this, Notification.SET, SmiPackage.REFERENCEABLE__TYPE_NOTATION, newTypeNotation, newTypeNotation));
   }
 
   /**
@@ -205,7 +241,7 @@ public class MacroImpl extends MinimalEObjectImpl.Container implements Macro
     valueNotation = newValueNotation;
     if (eNotificationRequired())
     {
-      ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, SmiPackage.MACRO__VALUE_NOTATION, oldValueNotation, newValueNotation);
+      ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, SmiPackage.REFERENCEABLE__VALUE_NOTATION, oldValueNotation, newValueNotation);
       if (msgs == null) msgs = notification; else msgs.add(notification);
     }
     return msgs;
@@ -222,14 +258,14 @@ public class MacroImpl extends MinimalEObjectImpl.Container implements Macro
     {
       NotificationChain msgs = null;
       if (valueNotation != null)
-        msgs = ((InternalEObject)valueNotation).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - SmiPackage.MACRO__VALUE_NOTATION, null, msgs);
+        msgs = ((InternalEObject)valueNotation).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - SmiPackage.REFERENCEABLE__VALUE_NOTATION, null, msgs);
       if (newValueNotation != null)
-        msgs = ((InternalEObject)newValueNotation).eInverseAdd(this, EOPPOSITE_FEATURE_BASE - SmiPackage.MACRO__VALUE_NOTATION, null, msgs);
+        msgs = ((InternalEObject)newValueNotation).eInverseAdd(this, EOPPOSITE_FEATURE_BASE - SmiPackage.REFERENCEABLE__VALUE_NOTATION, null, msgs);
       msgs = basicSetValueNotation(newValueNotation, msgs);
       if (msgs != null) msgs.dispatch();
     }
     else if (eNotificationRequired())
-      eNotify(new ENotificationImpl(this, Notification.SET, SmiPackage.MACRO__VALUE_NOTATION, newValueNotation, newValueNotation));
+      eNotify(new ENotificationImpl(this, Notification.SET, SmiPackage.REFERENCEABLE__VALUE_NOTATION, newValueNotation, newValueNotation));
   }
 
   /**
@@ -237,13 +273,61 @@ public class MacroImpl extends MinimalEObjectImpl.Container implements Macro
    * <!-- end-user-doc -->
    * @generated
    */
-  public EList<TypeDefinition> getInnerTypes()
+  public EList<Referenceable> getInnerTypes()
   {
     if (innerTypes == null)
     {
-      innerTypes = new EObjectContainmentEList<TypeDefinition>(TypeDefinition.class, this, SmiPackage.MACRO__INNER_TYPES);
+      innerTypes = new EObjectContainmentEList<Referenceable>(Referenceable.class, this, SmiPackage.REFERENCEABLE__INNER_TYPES);
     }
     return innerTypes;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public TypeNotationRight getRight()
+  {
+    return right;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public NotificationChain basicSetRight(TypeNotationRight newRight, NotificationChain msgs)
+  {
+    TypeNotationRight oldRight = right;
+    right = newRight;
+    if (eNotificationRequired())
+    {
+      ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, SmiPackage.REFERENCEABLE__RIGHT, oldRight, newRight);
+      if (msgs == null) msgs = notification; else msgs.add(notification);
+    }
+    return msgs;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public void setRight(TypeNotationRight newRight)
+  {
+    if (newRight != right)
+    {
+      NotificationChain msgs = null;
+      if (right != null)
+        msgs = ((InternalEObject)right).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - SmiPackage.REFERENCEABLE__RIGHT, null, msgs);
+      if (newRight != null)
+        msgs = ((InternalEObject)newRight).eInverseAdd(this, EOPPOSITE_FEATURE_BASE - SmiPackage.REFERENCEABLE__RIGHT, null, msgs);
+      msgs = basicSetRight(newRight, msgs);
+      if (msgs != null) msgs.dispatch();
+    }
+    else if (eNotificationRequired())
+      eNotify(new ENotificationImpl(this, Notification.SET, SmiPackage.REFERENCEABLE__RIGHT, newRight, newRight));
   }
 
   /**
@@ -256,12 +340,16 @@ public class MacroImpl extends MinimalEObjectImpl.Container implements Macro
   {
     switch (featureID)
     {
-      case SmiPackage.MACRO__TYPE_NOTATION:
+      case SmiPackage.REFERENCEABLE__VALUES:
+        return ((InternalEList<?>)getValues()).basicRemove(otherEnd, msgs);
+      case SmiPackage.REFERENCEABLE__TYPE_NOTATION:
         return basicSetTypeNotation(null, msgs);
-      case SmiPackage.MACRO__VALUE_NOTATION:
+      case SmiPackage.REFERENCEABLE__VALUE_NOTATION:
         return basicSetValueNotation(null, msgs);
-      case SmiPackage.MACRO__INNER_TYPES:
+      case SmiPackage.REFERENCEABLE__INNER_TYPES:
         return ((InternalEList<?>)getInnerTypes()).basicRemove(otherEnd, msgs);
+      case SmiPackage.REFERENCEABLE__RIGHT:
+        return basicSetRight(null, msgs);
     }
     return super.eInverseRemove(otherEnd, featureID, msgs);
   }
@@ -276,14 +364,18 @@ public class MacroImpl extends MinimalEObjectImpl.Container implements Macro
   {
     switch (featureID)
     {
-      case SmiPackage.MACRO__NAME:
+      case SmiPackage.REFERENCEABLE__NAME:
         return getName();
-      case SmiPackage.MACRO__TYPE_NOTATION:
+      case SmiPackage.REFERENCEABLE__VALUES:
+        return getValues();
+      case SmiPackage.REFERENCEABLE__TYPE_NOTATION:
         return getTypeNotation();
-      case SmiPackage.MACRO__VALUE_NOTATION:
+      case SmiPackage.REFERENCEABLE__VALUE_NOTATION:
         return getValueNotation();
-      case SmiPackage.MACRO__INNER_TYPES:
+      case SmiPackage.REFERENCEABLE__INNER_TYPES:
         return getInnerTypes();
+      case SmiPackage.REFERENCEABLE__RIGHT:
+        return getRight();
     }
     return super.eGet(featureID, resolve, coreType);
   }
@@ -299,18 +391,25 @@ public class MacroImpl extends MinimalEObjectImpl.Container implements Macro
   {
     switch (featureID)
     {
-      case SmiPackage.MACRO__NAME:
+      case SmiPackage.REFERENCEABLE__NAME:
         setName((String)newValue);
         return;
-      case SmiPackage.MACRO__TYPE_NOTATION:
+      case SmiPackage.REFERENCEABLE__VALUES:
+        getValues().clear();
+        getValues().addAll((Collection<? extends Value>)newValue);
+        return;
+      case SmiPackage.REFERENCEABLE__TYPE_NOTATION:
         setTypeNotation((TypeNotation)newValue);
         return;
-      case SmiPackage.MACRO__VALUE_NOTATION:
+      case SmiPackage.REFERENCEABLE__VALUE_NOTATION:
         setValueNotation((ValueNotation)newValue);
         return;
-      case SmiPackage.MACRO__INNER_TYPES:
+      case SmiPackage.REFERENCEABLE__INNER_TYPES:
         getInnerTypes().clear();
-        getInnerTypes().addAll((Collection<? extends TypeDefinition>)newValue);
+        getInnerTypes().addAll((Collection<? extends Referenceable>)newValue);
+        return;
+      case SmiPackage.REFERENCEABLE__RIGHT:
+        setRight((TypeNotationRight)newValue);
         return;
     }
     super.eSet(featureID, newValue);
@@ -326,17 +425,23 @@ public class MacroImpl extends MinimalEObjectImpl.Container implements Macro
   {
     switch (featureID)
     {
-      case SmiPackage.MACRO__NAME:
+      case SmiPackage.REFERENCEABLE__NAME:
         setName(NAME_EDEFAULT);
         return;
-      case SmiPackage.MACRO__TYPE_NOTATION:
+      case SmiPackage.REFERENCEABLE__VALUES:
+        getValues().clear();
+        return;
+      case SmiPackage.REFERENCEABLE__TYPE_NOTATION:
         setTypeNotation((TypeNotation)null);
         return;
-      case SmiPackage.MACRO__VALUE_NOTATION:
+      case SmiPackage.REFERENCEABLE__VALUE_NOTATION:
         setValueNotation((ValueNotation)null);
         return;
-      case SmiPackage.MACRO__INNER_TYPES:
+      case SmiPackage.REFERENCEABLE__INNER_TYPES:
         getInnerTypes().clear();
+        return;
+      case SmiPackage.REFERENCEABLE__RIGHT:
+        setRight((TypeNotationRight)null);
         return;
     }
     super.eUnset(featureID);
@@ -352,14 +457,18 @@ public class MacroImpl extends MinimalEObjectImpl.Container implements Macro
   {
     switch (featureID)
     {
-      case SmiPackage.MACRO__NAME:
+      case SmiPackage.REFERENCEABLE__NAME:
         return NAME_EDEFAULT == null ? name != null : !NAME_EDEFAULT.equals(name);
-      case SmiPackage.MACRO__TYPE_NOTATION:
+      case SmiPackage.REFERENCEABLE__VALUES:
+        return values != null && !values.isEmpty();
+      case SmiPackage.REFERENCEABLE__TYPE_NOTATION:
         return typeNotation != null;
-      case SmiPackage.MACRO__VALUE_NOTATION:
+      case SmiPackage.REFERENCEABLE__VALUE_NOTATION:
         return valueNotation != null;
-      case SmiPackage.MACRO__INNER_TYPES:
+      case SmiPackage.REFERENCEABLE__INNER_TYPES:
         return innerTypes != null && !innerTypes.isEmpty();
+      case SmiPackage.REFERENCEABLE__RIGHT:
+        return right != null;
     }
     return super.eIsSet(featureID);
   }
@@ -381,4 +490,4 @@ public class MacroImpl extends MinimalEObjectImpl.Container implements Macro
     return result.toString();
   }
 
-} //MacroImpl
+} //ReferenceableImpl

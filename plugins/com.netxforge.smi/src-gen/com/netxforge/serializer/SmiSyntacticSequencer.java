@@ -22,12 +22,20 @@ public class SmiSyntacticSequencer extends AbstractSyntacticSequencer {
 	protected AbstractElementAlias match_ASN1_CHOICE_NEWLINETerminalRuleCall_2_p;
 	protected AbstractElementAlias match_ASN1_CHOICE_NEWLINETerminalRuleCall_4_1_p;
 	protected AbstractElementAlias match_ASN1_CHOICE_NEWLINETerminalRuleCall_5_p;
+	protected AbstractElementAlias match_ASN1_INTEGER_REFINEMENT_NEWLINETerminalRuleCall_1_0_a;
+	protected AbstractElementAlias match_ASN1_INTEGER_REFINEMENT_NEWLINETerminalRuleCall_2_1_a;
+	protected AbstractElementAlias match_ASN1_INTEGER_REFINEMENT_NEWLINETerminalRuleCall_3_a;
+	protected AbstractElementAlias match_ASN1_SEQUENCE_NEWLINETerminalRuleCall_2_p;
+	protected AbstractElementAlias match_ASN1_SEQUENCE_NEWLINETerminalRuleCall_4_1_p;
+	protected AbstractElementAlias match_ASN1_SEQUENCE_NEWLINETerminalRuleCall_5_p;
 	protected AbstractElementAlias match_ASN1_SIMPLE_EmptyKeyword_0_1_or_IA5STRINGTerminalRuleCall_1_1;
-	protected AbstractElementAlias match_AttributeValue_NEWLINETerminalRuleCall_0_q;
+	protected AbstractElementAlias match_AttributeValue_NEWLINETerminalRuleCall_0_0_a;
 	protected AbstractElementAlias match_Attribute_NEWLINETerminalRuleCall_0_p;
 	protected AbstractElementAlias match_BracedTypeReference_QuotationMarkLeftCurlyBracketQuotationMarkKeyword_0_a;
 	protected AbstractElementAlias match_BracedTypeReference_QuotationMarkLeftCurlyBracketQuotationMarkKeyword_0_p;
-	protected AbstractElementAlias match_ImportRefs_NEWLINETerminalRuleCall_0_p;
+	protected AbstractElementAlias match_ImportClosure_NEWLINETerminalRuleCall_1_a;
+	protected AbstractElementAlias match_ImportRefs_NEWLINETerminalRuleCall_0_a;
+	protected AbstractElementAlias match_ImportRefs_NEWLINETerminalRuleCall_2_1_a;
 	protected AbstractElementAlias match_Imports_NEWLINETerminalRuleCall_0_p;
 	protected AbstractElementAlias match_Macro_NEWLINETerminalRuleCall_0_p;
 	protected AbstractElementAlias match_Macro_NEWLINETerminalRuleCall_4_p;
@@ -53,12 +61,20 @@ public class SmiSyntacticSequencer extends AbstractSyntacticSequencer {
 		match_ASN1_CHOICE_NEWLINETerminalRuleCall_2_p = new TokenAlias(true, false, grammarAccess.getASN1_CHOICEAccess().getNEWLINETerminalRuleCall_2());
 		match_ASN1_CHOICE_NEWLINETerminalRuleCall_4_1_p = new TokenAlias(true, false, grammarAccess.getASN1_CHOICEAccess().getNEWLINETerminalRuleCall_4_1());
 		match_ASN1_CHOICE_NEWLINETerminalRuleCall_5_p = new TokenAlias(true, false, grammarAccess.getASN1_CHOICEAccess().getNEWLINETerminalRuleCall_5());
+		match_ASN1_INTEGER_REFINEMENT_NEWLINETerminalRuleCall_1_0_a = new TokenAlias(true, true, grammarAccess.getASN1_INTEGER_REFINEMENTAccess().getNEWLINETerminalRuleCall_1_0());
+		match_ASN1_INTEGER_REFINEMENT_NEWLINETerminalRuleCall_2_1_a = new TokenAlias(true, true, grammarAccess.getASN1_INTEGER_REFINEMENTAccess().getNEWLINETerminalRuleCall_2_1());
+		match_ASN1_INTEGER_REFINEMENT_NEWLINETerminalRuleCall_3_a = new TokenAlias(true, true, grammarAccess.getASN1_INTEGER_REFINEMENTAccess().getNEWLINETerminalRuleCall_3());
+		match_ASN1_SEQUENCE_NEWLINETerminalRuleCall_2_p = new TokenAlias(true, false, grammarAccess.getASN1_SEQUENCEAccess().getNEWLINETerminalRuleCall_2());
+		match_ASN1_SEQUENCE_NEWLINETerminalRuleCall_4_1_p = new TokenAlias(true, false, grammarAccess.getASN1_SEQUENCEAccess().getNEWLINETerminalRuleCall_4_1());
+		match_ASN1_SEQUENCE_NEWLINETerminalRuleCall_5_p = new TokenAlias(true, false, grammarAccess.getASN1_SEQUENCEAccess().getNEWLINETerminalRuleCall_5());
 		match_ASN1_SIMPLE_EmptyKeyword_0_1_or_IA5STRINGTerminalRuleCall_1_1 = new AlternativeAlias(false, false, new TokenAlias(false, false, grammarAccess.getASN1_SIMPLEAccess().getEmptyKeyword_0_1()), new TokenAlias(false, false, grammarAccess.getASN1_SIMPLEAccess().getIA5STRINGTerminalRuleCall_1_1()));
-		match_AttributeValue_NEWLINETerminalRuleCall_0_q = new TokenAlias(false, true, grammarAccess.getAttributeValueAccess().getNEWLINETerminalRuleCall_0());
+		match_AttributeValue_NEWLINETerminalRuleCall_0_0_a = new TokenAlias(true, true, grammarAccess.getAttributeValueAccess().getNEWLINETerminalRuleCall_0_0());
 		match_Attribute_NEWLINETerminalRuleCall_0_p = new TokenAlias(true, false, grammarAccess.getAttributeAccess().getNEWLINETerminalRuleCall_0());
 		match_BracedTypeReference_QuotationMarkLeftCurlyBracketQuotationMarkKeyword_0_a = new TokenAlias(true, true, grammarAccess.getBracedTypeReferenceAccess().getQuotationMarkLeftCurlyBracketQuotationMarkKeyword_0());
 		match_BracedTypeReference_QuotationMarkLeftCurlyBracketQuotationMarkKeyword_0_p = new TokenAlias(true, false, grammarAccess.getBracedTypeReferenceAccess().getQuotationMarkLeftCurlyBracketQuotationMarkKeyword_0());
-		match_ImportRefs_NEWLINETerminalRuleCall_0_p = new TokenAlias(true, false, grammarAccess.getImportRefsAccess().getNEWLINETerminalRuleCall_0());
+		match_ImportClosure_NEWLINETerminalRuleCall_1_a = new TokenAlias(true, true, grammarAccess.getImportClosureAccess().getNEWLINETerminalRuleCall_1());
+		match_ImportRefs_NEWLINETerminalRuleCall_0_a = new TokenAlias(true, true, grammarAccess.getImportRefsAccess().getNEWLINETerminalRuleCall_0());
+		match_ImportRefs_NEWLINETerminalRuleCall_2_1_a = new TokenAlias(true, true, grammarAccess.getImportRefsAccess().getNEWLINETerminalRuleCall_2_1());
 		match_Imports_NEWLINETerminalRuleCall_0_p = new TokenAlias(true, false, grammarAccess.getImportsAccess().getNEWLINETerminalRuleCall_0());
 		match_Macro_NEWLINETerminalRuleCall_0_p = new TokenAlias(true, false, grammarAccess.getMacroAccess().getNEWLINETerminalRuleCall_0());
 		match_Macro_NEWLINETerminalRuleCall_4_p = new TokenAlias(true, false, grammarAccess.getMacroAccess().getNEWLINETerminalRuleCall_4());
@@ -122,18 +138,34 @@ public class SmiSyntacticSequencer extends AbstractSyntacticSequencer {
 				emit_ASN1_CHOICE_NEWLINETerminalRuleCall_4_1_p(semanticObject, getLastNavigableState(), syntaxNodes);
 			else if(match_ASN1_CHOICE_NEWLINETerminalRuleCall_5_p.equals(syntax))
 				emit_ASN1_CHOICE_NEWLINETerminalRuleCall_5_p(semanticObject, getLastNavigableState(), syntaxNodes);
+			else if(match_ASN1_INTEGER_REFINEMENT_NEWLINETerminalRuleCall_1_0_a.equals(syntax))
+				emit_ASN1_INTEGER_REFINEMENT_NEWLINETerminalRuleCall_1_0_a(semanticObject, getLastNavigableState(), syntaxNodes);
+			else if(match_ASN1_INTEGER_REFINEMENT_NEWLINETerminalRuleCall_2_1_a.equals(syntax))
+				emit_ASN1_INTEGER_REFINEMENT_NEWLINETerminalRuleCall_2_1_a(semanticObject, getLastNavigableState(), syntaxNodes);
+			else if(match_ASN1_INTEGER_REFINEMENT_NEWLINETerminalRuleCall_3_a.equals(syntax))
+				emit_ASN1_INTEGER_REFINEMENT_NEWLINETerminalRuleCall_3_a(semanticObject, getLastNavigableState(), syntaxNodes);
+			else if(match_ASN1_SEQUENCE_NEWLINETerminalRuleCall_2_p.equals(syntax))
+				emit_ASN1_SEQUENCE_NEWLINETerminalRuleCall_2_p(semanticObject, getLastNavigableState(), syntaxNodes);
+			else if(match_ASN1_SEQUENCE_NEWLINETerminalRuleCall_4_1_p.equals(syntax))
+				emit_ASN1_SEQUENCE_NEWLINETerminalRuleCall_4_1_p(semanticObject, getLastNavigableState(), syntaxNodes);
+			else if(match_ASN1_SEQUENCE_NEWLINETerminalRuleCall_5_p.equals(syntax))
+				emit_ASN1_SEQUENCE_NEWLINETerminalRuleCall_5_p(semanticObject, getLastNavigableState(), syntaxNodes);
 			else if(match_ASN1_SIMPLE_EmptyKeyword_0_1_or_IA5STRINGTerminalRuleCall_1_1.equals(syntax))
 				emit_ASN1_SIMPLE_EmptyKeyword_0_1_or_IA5STRINGTerminalRuleCall_1_1(semanticObject, getLastNavigableState(), syntaxNodes);
-			else if(match_AttributeValue_NEWLINETerminalRuleCall_0_q.equals(syntax))
-				emit_AttributeValue_NEWLINETerminalRuleCall_0_q(semanticObject, getLastNavigableState(), syntaxNodes);
+			else if(match_AttributeValue_NEWLINETerminalRuleCall_0_0_a.equals(syntax))
+				emit_AttributeValue_NEWLINETerminalRuleCall_0_0_a(semanticObject, getLastNavigableState(), syntaxNodes);
 			else if(match_Attribute_NEWLINETerminalRuleCall_0_p.equals(syntax))
 				emit_Attribute_NEWLINETerminalRuleCall_0_p(semanticObject, getLastNavigableState(), syntaxNodes);
 			else if(match_BracedTypeReference_QuotationMarkLeftCurlyBracketQuotationMarkKeyword_0_a.equals(syntax))
 				emit_BracedTypeReference_QuotationMarkLeftCurlyBracketQuotationMarkKeyword_0_a(semanticObject, getLastNavigableState(), syntaxNodes);
 			else if(match_BracedTypeReference_QuotationMarkLeftCurlyBracketQuotationMarkKeyword_0_p.equals(syntax))
 				emit_BracedTypeReference_QuotationMarkLeftCurlyBracketQuotationMarkKeyword_0_p(semanticObject, getLastNavigableState(), syntaxNodes);
-			else if(match_ImportRefs_NEWLINETerminalRuleCall_0_p.equals(syntax))
-				emit_ImportRefs_NEWLINETerminalRuleCall_0_p(semanticObject, getLastNavigableState(), syntaxNodes);
+			else if(match_ImportClosure_NEWLINETerminalRuleCall_1_a.equals(syntax))
+				emit_ImportClosure_NEWLINETerminalRuleCall_1_a(semanticObject, getLastNavigableState(), syntaxNodes);
+			else if(match_ImportRefs_NEWLINETerminalRuleCall_0_a.equals(syntax))
+				emit_ImportRefs_NEWLINETerminalRuleCall_0_a(semanticObject, getLastNavigableState(), syntaxNodes);
+			else if(match_ImportRefs_NEWLINETerminalRuleCall_2_1_a.equals(syntax))
+				emit_ImportRefs_NEWLINETerminalRuleCall_2_1_a(semanticObject, getLastNavigableState(), syntaxNodes);
 			else if(match_Imports_NEWLINETerminalRuleCall_0_p.equals(syntax))
 				emit_Imports_NEWLINETerminalRuleCall_0_p(semanticObject, getLastNavigableState(), syntaxNodes);
 			else if(match_Macro_NEWLINETerminalRuleCall_0_p.equals(syntax))
@@ -206,7 +238,55 @@ public class SmiSyntacticSequencer extends AbstractSyntacticSequencer {
 	
 	/**
 	 * Syntax:
-	 *     'empty' | IA5STRING
+	 *     NEWLINE*
+	 */
+	protected void emit_ASN1_INTEGER_REFINEMENT_NEWLINETerminalRuleCall_1_0_a(EObject semanticObject, ISynNavigable transition, List<INode> nodes) {
+		acceptNodes(transition, nodes);
+	}
+	
+	/**
+	 * Syntax:
+	 *     NEWLINE*
+	 */
+	protected void emit_ASN1_INTEGER_REFINEMENT_NEWLINETerminalRuleCall_2_1_a(EObject semanticObject, ISynNavigable transition, List<INode> nodes) {
+		acceptNodes(transition, nodes);
+	}
+	
+	/**
+	 * Syntax:
+	 *     NEWLINE*
+	 */
+	protected void emit_ASN1_INTEGER_REFINEMENT_NEWLINETerminalRuleCall_3_a(EObject semanticObject, ISynNavigable transition, List<INode> nodes) {
+		acceptNodes(transition, nodes);
+	}
+	
+	/**
+	 * Syntax:
+	 *     NEWLINE+
+	 */
+	protected void emit_ASN1_SEQUENCE_NEWLINETerminalRuleCall_2_p(EObject semanticObject, ISynNavigable transition, List<INode> nodes) {
+		acceptNodes(transition, nodes);
+	}
+	
+	/**
+	 * Syntax:
+	 *     NEWLINE+
+	 */
+	protected void emit_ASN1_SEQUENCE_NEWLINETerminalRuleCall_4_1_p(EObject semanticObject, ISynNavigable transition, List<INode> nodes) {
+		acceptNodes(transition, nodes);
+	}
+	
+	/**
+	 * Syntax:
+	 *     NEWLINE+
+	 */
+	protected void emit_ASN1_SEQUENCE_NEWLINETerminalRuleCall_5_p(EObject semanticObject, ISynNavigable transition, List<INode> nodes) {
+		acceptNodes(transition, nodes);
+	}
+	
+	/**
+	 * Syntax:
+	 *     IA5STRING | 'empty'
 	 */
 	protected void emit_ASN1_SIMPLE_EmptyKeyword_0_1_or_IA5STRINGTerminalRuleCall_1_1(EObject semanticObject, ISynNavigable transition, List<INode> nodes) {
 		acceptNodes(transition, nodes);
@@ -214,9 +294,9 @@ public class SmiSyntacticSequencer extends AbstractSyntacticSequencer {
 	
 	/**
 	 * Syntax:
-	 *     NEWLINE?
+	 *     NEWLINE*
 	 */
-	protected void emit_AttributeValue_NEWLINETerminalRuleCall_0_q(EObject semanticObject, ISynNavigable transition, List<INode> nodes) {
+	protected void emit_AttributeValue_NEWLINETerminalRuleCall_0_0_a(EObject semanticObject, ISynNavigable transition, List<INode> nodes) {
 		acceptNodes(transition, nodes);
 	}
 	
@@ -246,9 +326,25 @@ public class SmiSyntacticSequencer extends AbstractSyntacticSequencer {
 	
 	/**
 	 * Syntax:
-	 *     NEWLINE+
+	 *     NEWLINE*
 	 */
-	protected void emit_ImportRefs_NEWLINETerminalRuleCall_0_p(EObject semanticObject, ISynNavigable transition, List<INode> nodes) {
+	protected void emit_ImportClosure_NEWLINETerminalRuleCall_1_a(EObject semanticObject, ISynNavigable transition, List<INode> nodes) {
+		acceptNodes(transition, nodes);
+	}
+	
+	/**
+	 * Syntax:
+	 *     NEWLINE*
+	 */
+	protected void emit_ImportRefs_NEWLINETerminalRuleCall_0_a(EObject semanticObject, ISynNavigable transition, List<INode> nodes) {
+		acceptNodes(transition, nodes);
+	}
+	
+	/**
+	 * Syntax:
+	 *     NEWLINE*
+	 */
+	protected void emit_ImportRefs_NEWLINETerminalRuleCall_2_1_a(EObject semanticObject, ISynNavigable transition, List<INode> nodes) {
 		acceptNodes(transition, nodes);
 	}
 	

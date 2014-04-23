@@ -4,12 +4,14 @@
 package com.netxforge.scoping
 
 import com.netxforge.smi.Attribute
-import com.netxforge.smi.Macro
+import com.netxforge.smi.AttributeValue
+import com.netxforge.smi.ObjectReferenceable
+import com.netxforge.smi.Referenceable
+import com.netxforge.smi.SmiPackage
+import java.util.List
 import org.eclipse.emf.ecore.EReference
 import org.eclipse.xtext.scoping.IScope
 import org.eclipse.xtext.scoping.impl.AbstractDeclarativeScopeProvider
-import com.netxforge.smi.SmiPackage
-import org.eclipse.emf.codegen.ecore.genmodel.impl.Literals
 
 /**
  * This class contains custom scoping description.
@@ -20,18 +22,30 @@ import org.eclipse.emf.codegen.ecore.genmodel.impl.Literals
  */
 class SmiScopeProvider extends AbstractDeclarativeScopeProvider {
 
-	def IScope scope_Attribute_paramRef(Attribute attr, EReference eRef){
-		val com.netxforge.smi.Object o = attr.eContainer as com.netxforge.smi.Object;
-		super.getScope(o.macroRef.typeNotation,SmiPackage.Literals.TYPE_NOTATION__TYPE_NOTATIONS);
+	def IScope scope_Attribute_paramRef(Attribute attr, EReference eRef) {
+		val ObjectReferenceable o = attr.eContainer as ObjectReferenceable;
+		super.getScope(o.macroRef.typeNotation, SmiPackage.Literals.TYPE_NOTATION__TYPE_NOTATIONS);
 	}
 
-//	def IScope scope_ParamAssignment(Attribute attr, EReference ref) {
-//		System.out.println("scope_ParamAssignment: => " + attr + "," + ref)
-//		if(attr.eContainer instanceof Macro){
-//			return super.getScope(attr.eContainer, ref);
-//		}
-//		return super.getScope(attr, ref);
-//	}
-	
+	// Scoping rule for the reference of an AttributeValue if the parent Attribute 
+	def IScope scope_AttributeValue_ref(AttributeValue attrValue, EReference eRef) {
+		val Attribute attr = attrValue.eContainer as Attribute // The Attribute.
+		val Referenceable ref = attr.paramRef;
 
+		// Check which feature of the Referenceable is set. 
+		//  SmiPackage.Literals.REFERENCEABLE__RIGHT it's a Parameter. 
+		//
+		if (ref.eIsSet(SmiPackage.Literals.REFERENCEABLE__RIGHT)) {
+			super.getScope(ref, SmiPackage.Literals.REFERENCEABLE__RIGHT)
+		} else {
+
+			// Check if  SmiPackage.Literals.REFERENCEABLE__VALUES is populated. Then we likely dealing with a TypeDefinition. 
+			val values = ref.eGet(SmiPackage.Literals.REFERENCEABLE__VALUES) as List<?>
+			if (!values.isEmpty()) {
+				return super.getScope(ref, SmiPackage.Literals.REFERENCEABLE__VALUES)
+
+			}
+		}
+				
+	}
 }

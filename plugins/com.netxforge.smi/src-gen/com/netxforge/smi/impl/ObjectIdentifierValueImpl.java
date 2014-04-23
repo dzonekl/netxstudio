@@ -2,8 +2,8 @@
  */
 package com.netxforge.smi.impl;
 
-import com.netxforge.smi.ObjectIdentifier;
 import com.netxforge.smi.ObjectIdentifierValue;
+import com.netxforge.smi.ObjectReferenceable;
 import com.netxforge.smi.SmiPackage;
 
 import java.math.BigInteger;
@@ -28,8 +28,8 @@ import org.eclipse.emf.ecore.util.EDataTypeEList;
  * <p>
  * The following features are implemented:
  * <ul>
+ *   <li>{@link com.netxforge.smi.impl.ObjectIdentifierValueImpl#getDescriptorRef <em>Descriptor Ref</em>}</li>
  *   <li>{@link com.netxforge.smi.impl.ObjectIdentifierValueImpl#getName <em>Name</em>}</li>
- *   <li>{@link com.netxforge.smi.impl.ObjectIdentifierValueImpl#getDescriptorReference <em>Descriptor Reference</em>}</li>
  *   <li>{@link com.netxforge.smi.impl.ObjectIdentifierValueImpl#getSubIds <em>Sub Ids</em>}</li>
  * </ul>
  * </p>
@@ -38,6 +38,16 @@ import org.eclipse.emf.ecore.util.EDataTypeEList;
  */
 public class ObjectIdentifierValueImpl extends ObjectValueImpl implements ObjectIdentifierValue
 {
+  /**
+   * The cached value of the '{@link #getDescriptorRef() <em>Descriptor Ref</em>}' reference.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see #getDescriptorRef()
+   * @generated
+   * @ordered
+   */
+  protected ObjectReferenceable descriptorRef;
+
   /**
    * The default value of the '{@link #getName() <em>Name</em>}' attribute.
    * <!-- begin-user-doc -->
@@ -57,16 +67,6 @@ public class ObjectIdentifierValueImpl extends ObjectValueImpl implements Object
    * @ordered
    */
   protected String name = NAME_EDEFAULT;
-
-  /**
-   * The cached value of the '{@link #getDescriptorReference() <em>Descriptor Reference</em>}' reference.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @see #getDescriptorReference()
-   * @generated
-   * @ordered
-   */
-  protected ObjectIdentifier descriptorReference;
 
   /**
    * The cached value of the '{@link #getSubIds() <em>Sub Ids</em>}' attribute list.
@@ -104,6 +104,49 @@ public class ObjectIdentifierValueImpl extends ObjectValueImpl implements Object
    * <!-- end-user-doc -->
    * @generated
    */
+  public ObjectReferenceable getDescriptorRef()
+  {
+    if (descriptorRef != null && descriptorRef.eIsProxy())
+    {
+      InternalEObject oldDescriptorRef = (InternalEObject)descriptorRef;
+      descriptorRef = (ObjectReferenceable)eResolveProxy(oldDescriptorRef);
+      if (descriptorRef != oldDescriptorRef)
+      {
+        if (eNotificationRequired())
+          eNotify(new ENotificationImpl(this, Notification.RESOLVE, SmiPackage.OBJECT_IDENTIFIER_VALUE__DESCRIPTOR_REF, oldDescriptorRef, descriptorRef));
+      }
+    }
+    return descriptorRef;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public ObjectReferenceable basicGetDescriptorRef()
+  {
+    return descriptorRef;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public void setDescriptorRef(ObjectReferenceable newDescriptorRef)
+  {
+    ObjectReferenceable oldDescriptorRef = descriptorRef;
+    descriptorRef = newDescriptorRef;
+    if (eNotificationRequired())
+      eNotify(new ENotificationImpl(this, Notification.SET, SmiPackage.OBJECT_IDENTIFIER_VALUE__DESCRIPTOR_REF, oldDescriptorRef, descriptorRef));
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
   public String getName()
   {
     return name;
@@ -120,49 +163,6 @@ public class ObjectIdentifierValueImpl extends ObjectValueImpl implements Object
     name = newName;
     if (eNotificationRequired())
       eNotify(new ENotificationImpl(this, Notification.SET, SmiPackage.OBJECT_IDENTIFIER_VALUE__NAME, oldName, name));
-  }
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  public ObjectIdentifier getDescriptorReference()
-  {
-    if (descriptorReference != null && descriptorReference.eIsProxy())
-    {
-      InternalEObject oldDescriptorReference = (InternalEObject)descriptorReference;
-      descriptorReference = (ObjectIdentifier)eResolveProxy(oldDescriptorReference);
-      if (descriptorReference != oldDescriptorReference)
-      {
-        if (eNotificationRequired())
-          eNotify(new ENotificationImpl(this, Notification.RESOLVE, SmiPackage.OBJECT_IDENTIFIER_VALUE__DESCRIPTOR_REFERENCE, oldDescriptorReference, descriptorReference));
-      }
-    }
-    return descriptorReference;
-  }
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  public ObjectIdentifier basicGetDescriptorReference()
-  {
-    return descriptorReference;
-  }
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  public void setDescriptorReference(ObjectIdentifier newDescriptorReference)
-  {
-    ObjectIdentifier oldDescriptorReference = descriptorReference;
-    descriptorReference = newDescriptorReference;
-    if (eNotificationRequired())
-      eNotify(new ENotificationImpl(this, Notification.SET, SmiPackage.OBJECT_IDENTIFIER_VALUE__DESCRIPTOR_REFERENCE, oldDescriptorReference, descriptorReference));
   }
 
   /**
@@ -189,11 +189,11 @@ public class ObjectIdentifierValueImpl extends ObjectValueImpl implements Object
   {
     switch (featureID)
     {
+      case SmiPackage.OBJECT_IDENTIFIER_VALUE__DESCRIPTOR_REF:
+        if (resolve) return getDescriptorRef();
+        return basicGetDescriptorRef();
       case SmiPackage.OBJECT_IDENTIFIER_VALUE__NAME:
         return getName();
-      case SmiPackage.OBJECT_IDENTIFIER_VALUE__DESCRIPTOR_REFERENCE:
-        if (resolve) return getDescriptorReference();
-        return basicGetDescriptorReference();
       case SmiPackage.OBJECT_IDENTIFIER_VALUE__SUB_IDS:
         return getSubIds();
     }
@@ -211,11 +211,11 @@ public class ObjectIdentifierValueImpl extends ObjectValueImpl implements Object
   {
     switch (featureID)
     {
+      case SmiPackage.OBJECT_IDENTIFIER_VALUE__DESCRIPTOR_REF:
+        setDescriptorRef((ObjectReferenceable)newValue);
+        return;
       case SmiPackage.OBJECT_IDENTIFIER_VALUE__NAME:
         setName((String)newValue);
-        return;
-      case SmiPackage.OBJECT_IDENTIFIER_VALUE__DESCRIPTOR_REFERENCE:
-        setDescriptorReference((ObjectIdentifier)newValue);
         return;
       case SmiPackage.OBJECT_IDENTIFIER_VALUE__SUB_IDS:
         getSubIds().clear();
@@ -235,11 +235,11 @@ public class ObjectIdentifierValueImpl extends ObjectValueImpl implements Object
   {
     switch (featureID)
     {
+      case SmiPackage.OBJECT_IDENTIFIER_VALUE__DESCRIPTOR_REF:
+        setDescriptorRef((ObjectReferenceable)null);
+        return;
       case SmiPackage.OBJECT_IDENTIFIER_VALUE__NAME:
         setName(NAME_EDEFAULT);
-        return;
-      case SmiPackage.OBJECT_IDENTIFIER_VALUE__DESCRIPTOR_REFERENCE:
-        setDescriptorReference((ObjectIdentifier)null);
         return;
       case SmiPackage.OBJECT_IDENTIFIER_VALUE__SUB_IDS:
         getSubIds().clear();
@@ -258,10 +258,10 @@ public class ObjectIdentifierValueImpl extends ObjectValueImpl implements Object
   {
     switch (featureID)
     {
+      case SmiPackage.OBJECT_IDENTIFIER_VALUE__DESCRIPTOR_REF:
+        return descriptorRef != null;
       case SmiPackage.OBJECT_IDENTIFIER_VALUE__NAME:
         return NAME_EDEFAULT == null ? name != null : !NAME_EDEFAULT.equals(name);
-      case SmiPackage.OBJECT_IDENTIFIER_VALUE__DESCRIPTOR_REFERENCE:
-        return descriptorReference != null;
       case SmiPackage.OBJECT_IDENTIFIER_VALUE__SUB_IDS:
         return subIds != null && !subIds.isEmpty();
     }

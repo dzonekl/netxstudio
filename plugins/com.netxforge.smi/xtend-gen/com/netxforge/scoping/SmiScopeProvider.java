@@ -4,9 +4,12 @@
 package com.netxforge.scoping;
 
 import com.netxforge.smi.Attribute;
-import com.netxforge.smi.Macro;
+import com.netxforge.smi.AttributeValue;
+import com.netxforge.smi.ObjectReferenceable;
+import com.netxforge.smi.Referenceable;
 import com.netxforge.smi.SmiPackage.Literals;
 import com.netxforge.smi.TypeNotation;
+import java.util.List;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.xtext.scoping.IScope;
@@ -24,11 +27,42 @@ public class SmiScopeProvider extends AbstractDeclarativeScopeProvider {
     IScope _xblockexpression = null;
     {
       EObject _eContainer = attr.eContainer();
-      final com.netxforge.smi.Object o = ((com.netxforge.smi.Object) _eContainer);
-      Macro _macroRef = o.getMacroRef();
+      final ObjectReferenceable o = ((ObjectReferenceable) _eContainer);
+      Referenceable _macroRef = o.getMacroRef();
       TypeNotation _typeNotation = _macroRef.getTypeNotation();
       IScope _scope = super.getScope(_typeNotation, Literals.TYPE_NOTATION__TYPE_NOTATIONS);
       _xblockexpression = (_scope);
+    }
+    return _xblockexpression;
+  }
+  
+  public IScope scope_AttributeValue_ref(final AttributeValue attrValue, final EReference eRef) {
+    IScope _xblockexpression = null;
+    {
+      EObject _eContainer = attrValue.eContainer();
+      final Attribute attr = ((Attribute) _eContainer);
+      final Referenceable ref = attr.getParamRef();
+      IScope _xifexpression = null;
+      boolean _eIsSet = ref.eIsSet(Literals.REFERENCEABLE__RIGHT);
+      if (_eIsSet) {
+        IScope _scope = super.getScope(ref, Literals.REFERENCEABLE__RIGHT);
+        _xifexpression = _scope;
+      } else {
+        IScope _xblockexpression_1 = null;
+        {
+          Object _eGet = ref.eGet(Literals.REFERENCEABLE__VALUES);
+          final List<? extends Object> values = ((List<?>) _eGet);
+          IScope _xifexpression_1 = null;
+          boolean _isEmpty = values.isEmpty();
+          boolean _not = (!_isEmpty);
+          if (_not) {
+            return super.getScope(ref, Literals.REFERENCEABLE__VALUES);
+          }
+          _xblockexpression_1 = (_xifexpression_1);
+        }
+        _xifexpression = _xblockexpression_1;
+      }
+      _xblockexpression = (_xifexpression);
     }
     return _xblockexpression;
   }

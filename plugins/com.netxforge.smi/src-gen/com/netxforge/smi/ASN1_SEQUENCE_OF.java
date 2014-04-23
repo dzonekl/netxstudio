@@ -2,24 +2,25 @@
  */
 package com.netxforge.smi;
 
+import org.eclipse.emf.ecore.EObject;
 
 /**
  * <!-- begin-user-doc -->
- * A representation of the model object '<em><b>MACRO VALUE CAP</b></em>'.
+ * A representation of the model object '<em><b>ASN1 SEQUENCE OF</b></em>'.
  * <!-- end-user-doc -->
  *
  * <p>
  * The following features are supported:
  * <ul>
- *   <li>{@link com.netxforge.smi.MACRO_VALUE_CAP#getRef <em>Ref</em>}</li>
+ *   <li>{@link com.netxforge.smi.ASN1_SEQUENCE_OF#getRef <em>Ref</em>}</li>
  * </ul>
  * </p>
  *
- * @see com.netxforge.smi.SmiPackage#getMACRO_VALUE_CAP()
+ * @see com.netxforge.smi.SmiPackage#getASN1_SEQUENCE_OF()
  * @model
  * @generated
  */
-public interface MACRO_VALUE_CAP extends ValueCapType
+public interface ASN1_SEQUENCE_OF extends EObject
 {
   /**
    * Returns the value of the '<em><b>Ref</b></em>' containment reference.
@@ -31,14 +32,14 @@ public interface MACRO_VALUE_CAP extends ValueCapType
    * <!-- end-user-doc -->
    * @return the value of the '<em>Ref</em>' containment reference.
    * @see #setRef(TypeAssignment)
-   * @see com.netxforge.smi.SmiPackage#getMACRO_VALUE_CAP_Ref()
+   * @see com.netxforge.smi.SmiPackage#getASN1_SEQUENCE_OF_Ref()
    * @model containment="true"
    * @generated
    */
   TypeAssignment getRef();
 
   /**
-   * Sets the value of the '{@link com.netxforge.smi.MACRO_VALUE_CAP#getRef <em>Ref</em>}' containment reference.
+   * Sets the value of the '{@link com.netxforge.smi.ASN1_SEQUENCE_OF#getRef <em>Ref</em>}' containment reference.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @param value the new value of the '<em>Ref</em>' containment reference.
@@ -47,4 +48,4 @@ public interface MACRO_VALUE_CAP extends ValueCapType
    */
   void setRef(TypeAssignment value);
 
-} // MACRO_VALUE_CAP
+} // ASN1_SEQUENCE_OF

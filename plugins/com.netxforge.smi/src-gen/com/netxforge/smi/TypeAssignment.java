@@ -84,12 +84,12 @@ public interface TypeAssignment extends TypeNotationRight
    * </p>
    * <!-- end-user-doc -->
    * @return the value of the '<em>Type</em>' reference.
-   * @see #setType(TypeDefinition)
+   * @see #setType(Referenceable)
    * @see com.netxforge.smi.SmiPackage#getTypeAssignment_Type()
    * @model
    * @generated
    */
-  TypeDefinition getType();
+  Referenceable getType();
 
   /**
    * Sets the value of the '{@link com.netxforge.smi.TypeAssignment#getType <em>Type</em>}' reference.
@@ -99,6 +99,6 @@ public interface TypeAssignment extends TypeNotationRight
    * @see #getType()
    * @generated
    */
-  void setType(TypeDefinition value);
+  void setType(Referenceable value);
 
 } // TypeAssignment

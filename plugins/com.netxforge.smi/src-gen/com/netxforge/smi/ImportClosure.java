@@ -2,6 +2,7 @@
  */
 package com.netxforge.smi;
 
+import org.eclipse.emf.ecore.EObject;
 
 /**
  * <!-- begin-user-doc -->
@@ -20,7 +21,7 @@ package com.netxforge.smi;
  * @model
  * @generated
  */
-public interface ImportClosure extends Imports
+public interface ImportClosure extends EObject
 {
   /**
    * Returns the value of the '<em><b>Refs</b></em>' containment reference.

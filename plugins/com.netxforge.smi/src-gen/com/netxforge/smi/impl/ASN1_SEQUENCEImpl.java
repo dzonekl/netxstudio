@@ -2,8 +2,8 @@
  */
 package com.netxforge.smi.impl;
 
-import com.netxforge.smi.ImportClosure;
-import com.netxforge.smi.Imports;
+import com.netxforge.smi.ASN1_CHOICE_ENTRY;
+import com.netxforge.smi.ASN1_SEQUENCE;
 import com.netxforge.smi.SmiPackage;
 
 import java.util.Collection;
@@ -15,42 +15,40 @@ import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.InternalEObject;
 
-import org.eclipse.emf.ecore.impl.MinimalEObjectImpl;
-
 import org.eclipse.emf.ecore.util.EObjectContainmentEList;
 import org.eclipse.emf.ecore.util.InternalEList;
 
 /**
  * <!-- begin-user-doc -->
- * An implementation of the model object '<em><b>Imports</b></em>'.
+ * An implementation of the model object '<em><b>ASN1 SEQUENCE</b></em>'.
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
  * <ul>
- *   <li>{@link com.netxforge.smi.impl.ImportsImpl#getImports <em>Imports</em>}</li>
+ *   <li>{@link com.netxforge.smi.impl.ASN1_SEQUENCEImpl#getChoiceType <em>Choice Type</em>}</li>
  * </ul>
  * </p>
  *
  * @generated
  */
-public class ImportsImpl extends MinimalEObjectImpl.Container implements Imports
+public class ASN1_SEQUENCEImpl extends ASN1_TYPEImpl implements ASN1_SEQUENCE
 {
   /**
-   * The cached value of the '{@link #getImports() <em>Imports</em>}' containment reference list.
+   * The cached value of the '{@link #getChoiceType() <em>Choice Type</em>}' containment reference list.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @see #getImports()
+   * @see #getChoiceType()
    * @generated
    * @ordered
    */
-  protected EList<ImportClosure> imports;
+  protected EList<ASN1_CHOICE_ENTRY> choiceType;
 
   /**
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
    */
-  protected ImportsImpl()
+  protected ASN1_SEQUENCEImpl()
   {
     super();
   }
@@ -63,7 +61,7 @@ public class ImportsImpl extends MinimalEObjectImpl.Container implements Imports
   @Override
   protected EClass eStaticClass()
   {
-    return SmiPackage.Literals.IMPORTS;
+    return SmiPackage.Literals.ASN1_SEQUENCE;
   }
 
   /**
@@ -71,13 +69,13 @@ public class ImportsImpl extends MinimalEObjectImpl.Container implements Imports
    * <!-- end-user-doc -->
    * @generated
    */
-  public EList<ImportClosure> getImports()
+  public EList<ASN1_CHOICE_ENTRY> getChoiceType()
   {
-    if (imports == null)
+    if (choiceType == null)
     {
-      imports = new EObjectContainmentEList<ImportClosure>(ImportClosure.class, this, SmiPackage.IMPORTS__IMPORTS);
+      choiceType = new EObjectContainmentEList<ASN1_CHOICE_ENTRY>(ASN1_CHOICE_ENTRY.class, this, SmiPackage.ASN1_SEQUENCE__CHOICE_TYPE);
     }
-    return imports;
+    return choiceType;
   }
 
   /**
@@ -90,8 +88,8 @@ public class ImportsImpl extends MinimalEObjectImpl.Container implements Imports
   {
     switch (featureID)
     {
-      case SmiPackage.IMPORTS__IMPORTS:
-        return ((InternalEList<?>)getImports()).basicRemove(otherEnd, msgs);
+      case SmiPackage.ASN1_SEQUENCE__CHOICE_TYPE:
+        return ((InternalEList<?>)getChoiceType()).basicRemove(otherEnd, msgs);
     }
     return super.eInverseRemove(otherEnd, featureID, msgs);
   }
@@ -106,8 +104,8 @@ public class ImportsImpl extends MinimalEObjectImpl.Container implements Imports
   {
     switch (featureID)
     {
-      case SmiPackage.IMPORTS__IMPORTS:
-        return getImports();
+      case SmiPackage.ASN1_SEQUENCE__CHOICE_TYPE:
+        return getChoiceType();
     }
     return super.eGet(featureID, resolve, coreType);
   }
@@ -123,9 +121,9 @@ public class ImportsImpl extends MinimalEObjectImpl.Container implements Imports
   {
     switch (featureID)
     {
-      case SmiPackage.IMPORTS__IMPORTS:
-        getImports().clear();
-        getImports().addAll((Collection<? extends ImportClosure>)newValue);
+      case SmiPackage.ASN1_SEQUENCE__CHOICE_TYPE:
+        getChoiceType().clear();
+        getChoiceType().addAll((Collection<? extends ASN1_CHOICE_ENTRY>)newValue);
         return;
     }
     super.eSet(featureID, newValue);
@@ -141,8 +139,8 @@ public class ImportsImpl extends MinimalEObjectImpl.Container implements Imports
   {
     switch (featureID)
     {
-      case SmiPackage.IMPORTS__IMPORTS:
-        getImports().clear();
+      case SmiPackage.ASN1_SEQUENCE__CHOICE_TYPE:
+        getChoiceType().clear();
         return;
     }
     super.eUnset(featureID);
@@ -158,10 +156,10 @@ public class ImportsImpl extends MinimalEObjectImpl.Container implements Imports
   {
     switch (featureID)
     {
-      case SmiPackage.IMPORTS__IMPORTS:
-        return imports != null && !imports.isEmpty();
+      case SmiPackage.ASN1_SEQUENCE__CHOICE_TYPE:
+        return choiceType != null && !choiceType.isEmpty();
     }
     return super.eIsSet(featureID);
   }
 
-} //ImportsImpl
+} //ASN1_SEQUENCEImpl

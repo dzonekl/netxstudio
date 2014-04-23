@@ -4,8 +4,7 @@ package com.netxforge.smi.impl;
 
 import com.netxforge.smi.MacroValueType;
 import com.netxforge.smi.SmiPackage;
-import com.netxforge.smi.UpdateType;
-import com.netxforge.smi.ValueCapType;
+import com.netxforge.smi.TypeAssignment;
 
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
@@ -23,8 +22,10 @@ import org.eclipse.emf.ecore.impl.MinimalEObjectImpl;
  * <p>
  * The following features are implemented:
  * <ul>
- *   <li>{@link com.netxforge.smi.impl.MacroValueTypeImpl#getUpdate <em>Update</em>}</li>
- *   <li>{@link com.netxforge.smi.impl.MacroValueTypeImpl#getLiteral <em>Literal</em>}</li>
+ *   <li>{@link com.netxforge.smi.impl.MacroValueTypeImpl#isUpdate <em>Update</em>}</li>
+ *   <li>{@link com.netxforge.smi.impl.MacroValueTypeImpl#isValueCAP <em>Value CAP</em>}</li>
+ *   <li>{@link com.netxforge.smi.impl.MacroValueTypeImpl#getRef <em>Ref</em>}</li>
+ *   <li>{@link com.netxforge.smi.impl.MacroValueTypeImpl#getOi <em>Oi</em>}</li>
  *   <li>{@link com.netxforge.smi.impl.MacroValueTypeImpl#getString <em>String</em>}</li>
  * </ul>
  * </p>
@@ -34,24 +35,74 @@ import org.eclipse.emf.ecore.impl.MinimalEObjectImpl;
 public class MacroValueTypeImpl extends MinimalEObjectImpl.Container implements MacroValueType
 {
   /**
-   * The cached value of the '{@link #getUpdate() <em>Update</em>}' containment reference.
+   * The default value of the '{@link #isUpdate() <em>Update</em>}' attribute.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @see #getUpdate()
+   * @see #isUpdate()
    * @generated
    * @ordered
    */
-  protected UpdateType update;
+  protected static final boolean UPDATE_EDEFAULT = false;
 
   /**
-   * The cached value of the '{@link #getLiteral() <em>Literal</em>}' containment reference.
+   * The cached value of the '{@link #isUpdate() <em>Update</em>}' attribute.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @see #getLiteral()
+   * @see #isUpdate()
    * @generated
    * @ordered
    */
-  protected ValueCapType literal;
+  protected boolean update = UPDATE_EDEFAULT;
+
+  /**
+   * The default value of the '{@link #isValueCAP() <em>Value CAP</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see #isValueCAP()
+   * @generated
+   * @ordered
+   */
+  protected static final boolean VALUE_CAP_EDEFAULT = false;
+
+  /**
+   * The cached value of the '{@link #isValueCAP() <em>Value CAP</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see #isValueCAP()
+   * @generated
+   * @ordered
+   */
+  protected boolean valueCAP = VALUE_CAP_EDEFAULT;
+
+  /**
+   * The cached value of the '{@link #getRef() <em>Ref</em>}' containment reference.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see #getRef()
+   * @generated
+   * @ordered
+   */
+  protected TypeAssignment ref;
+
+  /**
+   * The default value of the '{@link #getOi() <em>Oi</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see #getOi()
+   * @generated
+   * @ordered
+   */
+  protected static final String OI_EDEFAULT = null;
+
+  /**
+   * The cached value of the '{@link #getOi() <em>Oi</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see #getOi()
+   * @generated
+   * @ordered
+   */
+  protected String oi = OI_EDEFAULT;
 
   /**
    * The default value of the '{@link #getString() <em>String</em>}' attribute.
@@ -99,7 +150,7 @@ public class MacroValueTypeImpl extends MinimalEObjectImpl.Container implements 
    * <!-- end-user-doc -->
    * @generated
    */
-  public UpdateType getUpdate()
+  public boolean isUpdate()
   {
     return update;
   }
@@ -109,16 +160,12 @@ public class MacroValueTypeImpl extends MinimalEObjectImpl.Container implements 
    * <!-- end-user-doc -->
    * @generated
    */
-  public NotificationChain basicSetUpdate(UpdateType newUpdate, NotificationChain msgs)
+  public void setUpdate(boolean newUpdate)
   {
-    UpdateType oldUpdate = update;
+    boolean oldUpdate = update;
     update = newUpdate;
     if (eNotificationRequired())
-    {
-      ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, SmiPackage.MACRO_VALUE_TYPE__UPDATE, oldUpdate, newUpdate);
-      if (msgs == null) msgs = notification; else msgs.add(notification);
-    }
-    return msgs;
+      eNotify(new ENotificationImpl(this, Notification.SET, SmiPackage.MACRO_VALUE_TYPE__UPDATE, oldUpdate, update));
   }
 
   /**
@@ -126,20 +173,9 @@ public class MacroValueTypeImpl extends MinimalEObjectImpl.Container implements 
    * <!-- end-user-doc -->
    * @generated
    */
-  public void setUpdate(UpdateType newUpdate)
+  public boolean isValueCAP()
   {
-    if (newUpdate != update)
-    {
-      NotificationChain msgs = null;
-      if (update != null)
-        msgs = ((InternalEObject)update).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - SmiPackage.MACRO_VALUE_TYPE__UPDATE, null, msgs);
-      if (newUpdate != null)
-        msgs = ((InternalEObject)newUpdate).eInverseAdd(this, EOPPOSITE_FEATURE_BASE - SmiPackage.MACRO_VALUE_TYPE__UPDATE, null, msgs);
-      msgs = basicSetUpdate(newUpdate, msgs);
-      if (msgs != null) msgs.dispatch();
-    }
-    else if (eNotificationRequired())
-      eNotify(new ENotificationImpl(this, Notification.SET, SmiPackage.MACRO_VALUE_TYPE__UPDATE, newUpdate, newUpdate));
+    return valueCAP;
   }
 
   /**
@@ -147,9 +183,12 @@ public class MacroValueTypeImpl extends MinimalEObjectImpl.Container implements 
    * <!-- end-user-doc -->
    * @generated
    */
-  public ValueCapType getLiteral()
+  public void setValueCAP(boolean newValueCAP)
   {
-    return literal;
+    boolean oldValueCAP = valueCAP;
+    valueCAP = newValueCAP;
+    if (eNotificationRequired())
+      eNotify(new ENotificationImpl(this, Notification.SET, SmiPackage.MACRO_VALUE_TYPE__VALUE_CAP, oldValueCAP, valueCAP));
   }
 
   /**
@@ -157,13 +196,23 @@ public class MacroValueTypeImpl extends MinimalEObjectImpl.Container implements 
    * <!-- end-user-doc -->
    * @generated
    */
-  public NotificationChain basicSetLiteral(ValueCapType newLiteral, NotificationChain msgs)
+  public TypeAssignment getRef()
   {
-    ValueCapType oldLiteral = literal;
-    literal = newLiteral;
+    return ref;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public NotificationChain basicSetRef(TypeAssignment newRef, NotificationChain msgs)
+  {
+    TypeAssignment oldRef = ref;
+    ref = newRef;
     if (eNotificationRequired())
     {
-      ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, SmiPackage.MACRO_VALUE_TYPE__LITERAL, oldLiteral, newLiteral);
+      ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, SmiPackage.MACRO_VALUE_TYPE__REF, oldRef, newRef);
       if (msgs == null) msgs = notification; else msgs.add(notification);
     }
     return msgs;
@@ -174,20 +223,43 @@ public class MacroValueTypeImpl extends MinimalEObjectImpl.Container implements 
    * <!-- end-user-doc -->
    * @generated
    */
-  public void setLiteral(ValueCapType newLiteral)
+  public void setRef(TypeAssignment newRef)
   {
-    if (newLiteral != literal)
+    if (newRef != ref)
     {
       NotificationChain msgs = null;
-      if (literal != null)
-        msgs = ((InternalEObject)literal).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - SmiPackage.MACRO_VALUE_TYPE__LITERAL, null, msgs);
-      if (newLiteral != null)
-        msgs = ((InternalEObject)newLiteral).eInverseAdd(this, EOPPOSITE_FEATURE_BASE - SmiPackage.MACRO_VALUE_TYPE__LITERAL, null, msgs);
-      msgs = basicSetLiteral(newLiteral, msgs);
+      if (ref != null)
+        msgs = ((InternalEObject)ref).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - SmiPackage.MACRO_VALUE_TYPE__REF, null, msgs);
+      if (newRef != null)
+        msgs = ((InternalEObject)newRef).eInverseAdd(this, EOPPOSITE_FEATURE_BASE - SmiPackage.MACRO_VALUE_TYPE__REF, null, msgs);
+      msgs = basicSetRef(newRef, msgs);
       if (msgs != null) msgs.dispatch();
     }
     else if (eNotificationRequired())
-      eNotify(new ENotificationImpl(this, Notification.SET, SmiPackage.MACRO_VALUE_TYPE__LITERAL, newLiteral, newLiteral));
+      eNotify(new ENotificationImpl(this, Notification.SET, SmiPackage.MACRO_VALUE_TYPE__REF, newRef, newRef));
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public String getOi()
+  {
+    return oi;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public void setOi(String newOi)
+  {
+    String oldOi = oi;
+    oi = newOi;
+    if (eNotificationRequired())
+      eNotify(new ENotificationImpl(this, Notification.SET, SmiPackage.MACRO_VALUE_TYPE__OI, oldOi, oi));
   }
 
   /**
@@ -223,10 +295,8 @@ public class MacroValueTypeImpl extends MinimalEObjectImpl.Container implements 
   {
     switch (featureID)
     {
-      case SmiPackage.MACRO_VALUE_TYPE__UPDATE:
-        return basicSetUpdate(null, msgs);
-      case SmiPackage.MACRO_VALUE_TYPE__LITERAL:
-        return basicSetLiteral(null, msgs);
+      case SmiPackage.MACRO_VALUE_TYPE__REF:
+        return basicSetRef(null, msgs);
     }
     return super.eInverseRemove(otherEnd, featureID, msgs);
   }
@@ -242,9 +312,13 @@ public class MacroValueTypeImpl extends MinimalEObjectImpl.Container implements 
     switch (featureID)
     {
       case SmiPackage.MACRO_VALUE_TYPE__UPDATE:
-        return getUpdate();
-      case SmiPackage.MACRO_VALUE_TYPE__LITERAL:
-        return getLiteral();
+        return isUpdate();
+      case SmiPackage.MACRO_VALUE_TYPE__VALUE_CAP:
+        return isValueCAP();
+      case SmiPackage.MACRO_VALUE_TYPE__REF:
+        return getRef();
+      case SmiPackage.MACRO_VALUE_TYPE__OI:
+        return getOi();
       case SmiPackage.MACRO_VALUE_TYPE__STRING:
         return getString();
     }
@@ -262,10 +336,16 @@ public class MacroValueTypeImpl extends MinimalEObjectImpl.Container implements 
     switch (featureID)
     {
       case SmiPackage.MACRO_VALUE_TYPE__UPDATE:
-        setUpdate((UpdateType)newValue);
+        setUpdate((Boolean)newValue);
         return;
-      case SmiPackage.MACRO_VALUE_TYPE__LITERAL:
-        setLiteral((ValueCapType)newValue);
+      case SmiPackage.MACRO_VALUE_TYPE__VALUE_CAP:
+        setValueCAP((Boolean)newValue);
+        return;
+      case SmiPackage.MACRO_VALUE_TYPE__REF:
+        setRef((TypeAssignment)newValue);
+        return;
+      case SmiPackage.MACRO_VALUE_TYPE__OI:
+        setOi((String)newValue);
         return;
       case SmiPackage.MACRO_VALUE_TYPE__STRING:
         setString((String)newValue);
@@ -285,10 +365,16 @@ public class MacroValueTypeImpl extends MinimalEObjectImpl.Container implements 
     switch (featureID)
     {
       case SmiPackage.MACRO_VALUE_TYPE__UPDATE:
-        setUpdate((UpdateType)null);
+        setUpdate(UPDATE_EDEFAULT);
         return;
-      case SmiPackage.MACRO_VALUE_TYPE__LITERAL:
-        setLiteral((ValueCapType)null);
+      case SmiPackage.MACRO_VALUE_TYPE__VALUE_CAP:
+        setValueCAP(VALUE_CAP_EDEFAULT);
+        return;
+      case SmiPackage.MACRO_VALUE_TYPE__REF:
+        setRef((TypeAssignment)null);
+        return;
+      case SmiPackage.MACRO_VALUE_TYPE__OI:
+        setOi(OI_EDEFAULT);
         return;
       case SmiPackage.MACRO_VALUE_TYPE__STRING:
         setString(STRING_EDEFAULT);
@@ -308,9 +394,13 @@ public class MacroValueTypeImpl extends MinimalEObjectImpl.Container implements 
     switch (featureID)
     {
       case SmiPackage.MACRO_VALUE_TYPE__UPDATE:
-        return update != null;
-      case SmiPackage.MACRO_VALUE_TYPE__LITERAL:
-        return literal != null;
+        return update != UPDATE_EDEFAULT;
+      case SmiPackage.MACRO_VALUE_TYPE__VALUE_CAP:
+        return valueCAP != VALUE_CAP_EDEFAULT;
+      case SmiPackage.MACRO_VALUE_TYPE__REF:
+        return ref != null;
+      case SmiPackage.MACRO_VALUE_TYPE__OI:
+        return OI_EDEFAULT == null ? oi != null : !OI_EDEFAULT.equals(oi);
       case SmiPackage.MACRO_VALUE_TYPE__STRING:
         return STRING_EDEFAULT == null ? string != null : !STRING_EDEFAULT.equals(string);
     }
@@ -328,7 +418,13 @@ public class MacroValueTypeImpl extends MinimalEObjectImpl.Container implements 
     if (eIsProxy()) return super.toString();
 
     StringBuffer result = new StringBuffer(super.toString());
-    result.append(" (string: ");
+    result.append(" (update: ");
+    result.append(update);
+    result.append(", valueCAP: ");
+    result.append(valueCAP);
+    result.append(", oi: ");
+    result.append(oi);
+    result.append(", string: ");
     result.append(string);
     result.append(')');
     return result.toString();

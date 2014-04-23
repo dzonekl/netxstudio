@@ -14,8 +14,8 @@ import org.eclipse.emf.common.util.EList;
  * <p>
  * The following features are supported:
  * <ul>
+ *   <li>{@link com.netxforge.smi.ObjectIdentifierValue#getDescriptorRef <em>Descriptor Ref</em>}</li>
  *   <li>{@link com.netxforge.smi.ObjectIdentifierValue#getName <em>Name</em>}</li>
- *   <li>{@link com.netxforge.smi.ObjectIdentifierValue#getDescriptorReference <em>Descriptor Reference</em>}</li>
  *   <li>{@link com.netxforge.smi.ObjectIdentifierValue#getSubIds <em>Sub Ids</em>}</li>
  * </ul>
  * </p>
@@ -26,6 +26,32 @@ import org.eclipse.emf.common.util.EList;
  */
 public interface ObjectIdentifierValue extends ObjectValue
 {
+  /**
+   * Returns the value of the '<em><b>Descriptor Ref</b></em>' reference.
+   * <!-- begin-user-doc -->
+   * <p>
+   * If the meaning of the '<em>Descriptor Ref</em>' reference isn't clear,
+   * there really should be more of a description here...
+   * </p>
+   * <!-- end-user-doc -->
+   * @return the value of the '<em>Descriptor Ref</em>' reference.
+   * @see #setDescriptorRef(ObjectReferenceable)
+   * @see com.netxforge.smi.SmiPackage#getObjectIdentifierValue_DescriptorRef()
+   * @model
+   * @generated
+   */
+  ObjectReferenceable getDescriptorRef();
+
+  /**
+   * Sets the value of the '{@link com.netxforge.smi.ObjectIdentifierValue#getDescriptorRef <em>Descriptor Ref</em>}' reference.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @param value the new value of the '<em>Descriptor Ref</em>' reference.
+   * @see #getDescriptorRef()
+   * @generated
+   */
+  void setDescriptorRef(ObjectReferenceable value);
+
   /**
    * Returns the value of the '<em><b>Name</b></em>' attribute.
    * <!-- begin-user-doc -->
@@ -51,32 +77,6 @@ public interface ObjectIdentifierValue extends ObjectValue
    * @generated
    */
   void setName(String value);
-
-  /**
-   * Returns the value of the '<em><b>Descriptor Reference</b></em>' reference.
-   * <!-- begin-user-doc -->
-   * <p>
-   * If the meaning of the '<em>Descriptor Reference</em>' reference isn't clear,
-   * there really should be more of a description here...
-   * </p>
-   * <!-- end-user-doc -->
-   * @return the value of the '<em>Descriptor Reference</em>' reference.
-   * @see #setDescriptorReference(ObjectIdentifier)
-   * @see com.netxforge.smi.SmiPackage#getObjectIdentifierValue_DescriptorReference()
-   * @model
-   * @generated
-   */
-  ObjectIdentifier getDescriptorReference();
-
-  /**
-   * Sets the value of the '{@link com.netxforge.smi.ObjectIdentifierValue#getDescriptorReference <em>Descriptor Reference</em>}' reference.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @param value the new value of the '<em>Descriptor Reference</em>' reference.
-   * @see #getDescriptorReference()
-   * @generated
-   */
-  void setDescriptorReference(ObjectIdentifier value);
 
   /**
    * Returns the value of the '<em><b>Sub Ids</b></em>' attribute list.

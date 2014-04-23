@@ -4,7 +4,7 @@ package com.netxforge.smi.impl;
 
 import com.netxforge.smi.Attribute;
 import com.netxforge.smi.AttributeValue;
-import com.netxforge.smi.ParamAssignment;
+import com.netxforge.smi.Referenceable;
 import com.netxforge.smi.SmiPackage;
 
 import org.eclipse.emf.common.notify.Notification;
@@ -40,7 +40,7 @@ public class AttributeImpl extends MinimalEObjectImpl.Container implements Attri
    * @generated
    * @ordered
    */
-  protected ParamAssignment paramRef;
+  protected Referenceable paramRef;
 
   /**
    * The cached value of the '{@link #getValue() <em>Value</em>}' containment reference.
@@ -78,12 +78,12 @@ public class AttributeImpl extends MinimalEObjectImpl.Container implements Attri
    * <!-- end-user-doc -->
    * @generated
    */
-  public ParamAssignment getParamRef()
+  public Referenceable getParamRef()
   {
     if (paramRef != null && paramRef.eIsProxy())
     {
       InternalEObject oldParamRef = (InternalEObject)paramRef;
-      paramRef = (ParamAssignment)eResolveProxy(oldParamRef);
+      paramRef = (Referenceable)eResolveProxy(oldParamRef);
       if (paramRef != oldParamRef)
       {
         if (eNotificationRequired())
@@ -98,7 +98,7 @@ public class AttributeImpl extends MinimalEObjectImpl.Container implements Attri
    * <!-- end-user-doc -->
    * @generated
    */
-  public ParamAssignment basicGetParamRef()
+  public Referenceable basicGetParamRef()
   {
     return paramRef;
   }
@@ -108,9 +108,9 @@ public class AttributeImpl extends MinimalEObjectImpl.Container implements Attri
    * <!-- end-user-doc -->
    * @generated
    */
-  public void setParamRef(ParamAssignment newParamRef)
+  public void setParamRef(Referenceable newParamRef)
   {
-    ParamAssignment oldParamRef = paramRef;
+    Referenceable oldParamRef = paramRef;
     paramRef = newParamRef;
     if (eNotificationRequired())
       eNotify(new ENotificationImpl(this, Notification.SET, SmiPackage.ATTRIBUTE__PARAM_REF, oldParamRef, paramRef));
@@ -210,7 +210,7 @@ public class AttributeImpl extends MinimalEObjectImpl.Container implements Attri
     switch (featureID)
     {
       case SmiPackage.ATTRIBUTE__PARAM_REF:
-        setParamRef((ParamAssignment)newValue);
+        setParamRef((Referenceable)newValue);
         return;
       case SmiPackage.ATTRIBUTE__VALUE:
         setValue((AttributeValue)newValue);
@@ -230,7 +230,7 @@ public class AttributeImpl extends MinimalEObjectImpl.Container implements Attri
     switch (featureID)
     {
       case SmiPackage.ATTRIBUTE__PARAM_REF:
-        setParamRef((ParamAssignment)null);
+        setParamRef((Referenceable)null);
         return;
       case SmiPackage.ATTRIBUTE__VALUE:
         setValue((AttributeValue)null);

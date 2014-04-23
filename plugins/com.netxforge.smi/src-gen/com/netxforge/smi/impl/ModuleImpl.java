@@ -3,11 +3,10 @@
 package com.netxforge.smi.impl;
 
 import com.netxforge.smi.Imports;
-import com.netxforge.smi.Macro;
 import com.netxforge.smi.Module;
-import com.netxforge.smi.ObjectIdentifier;
+import com.netxforge.smi.ObjectReferenceable;
+import com.netxforge.smi.Referenceable;
 import com.netxforge.smi.SmiPackage;
-import com.netxforge.smi.TypeDefinition;
 
 import java.util.Collection;
 
@@ -37,7 +36,6 @@ import org.eclipse.emf.ecore.util.InternalEList;
  *   <li>{@link com.netxforge.smi.impl.ModuleImpl#getObjects <em>Objects</em>}</li>
  *   <li>{@link com.netxforge.smi.impl.ModuleImpl#getIdentifiers <em>Identifiers</em>}</li>
  *   <li>{@link com.netxforge.smi.impl.ModuleImpl#getTypes <em>Types</em>}</li>
- *   <li>{@link com.netxforge.smi.impl.ModuleImpl#getMacros <em>Macros</em>}</li>
  * </ul>
  * </p>
  *
@@ -83,7 +81,7 @@ public class ModuleImpl extends MinimalEObjectImpl.Container implements Module
    * @generated
    * @ordered
    */
-  protected EList<com.netxforge.smi.Object> objects;
+  protected EList<ObjectReferenceable> objects;
 
   /**
    * The cached value of the '{@link #getIdentifiers() <em>Identifiers</em>}' containment reference list.
@@ -93,7 +91,7 @@ public class ModuleImpl extends MinimalEObjectImpl.Container implements Module
    * @generated
    * @ordered
    */
-  protected EList<ObjectIdentifier> identifiers;
+  protected EList<ObjectReferenceable> identifiers;
 
   /**
    * The cached value of the '{@link #getTypes() <em>Types</em>}' containment reference list.
@@ -103,17 +101,7 @@ public class ModuleImpl extends MinimalEObjectImpl.Container implements Module
    * @generated
    * @ordered
    */
-  protected EList<TypeDefinition> types;
-
-  /**
-   * The cached value of the '{@link #getMacros() <em>Macros</em>}' containment reference list.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @see #getMacros()
-   * @generated
-   * @ordered
-   */
-  protected EList<Macro> macros;
+  protected EList<Referenceable> types;
 
   /**
    * <!-- begin-user-doc -->
@@ -212,11 +200,11 @@ public class ModuleImpl extends MinimalEObjectImpl.Container implements Module
    * <!-- end-user-doc -->
    * @generated
    */
-  public EList<com.netxforge.smi.Object> getObjects()
+  public EList<ObjectReferenceable> getObjects()
   {
     if (objects == null)
     {
-      objects = new EObjectContainmentEList<com.netxforge.smi.Object>(com.netxforge.smi.Object.class, this, SmiPackage.MODULE__OBJECTS);
+      objects = new EObjectContainmentEList<ObjectReferenceable>(ObjectReferenceable.class, this, SmiPackage.MODULE__OBJECTS);
     }
     return objects;
   }
@@ -226,11 +214,11 @@ public class ModuleImpl extends MinimalEObjectImpl.Container implements Module
    * <!-- end-user-doc -->
    * @generated
    */
-  public EList<ObjectIdentifier> getIdentifiers()
+  public EList<ObjectReferenceable> getIdentifiers()
   {
     if (identifiers == null)
     {
-      identifiers = new EObjectContainmentEList<ObjectIdentifier>(ObjectIdentifier.class, this, SmiPackage.MODULE__IDENTIFIERS);
+      identifiers = new EObjectContainmentEList<ObjectReferenceable>(ObjectReferenceable.class, this, SmiPackage.MODULE__IDENTIFIERS);
     }
     return identifiers;
   }
@@ -240,27 +228,13 @@ public class ModuleImpl extends MinimalEObjectImpl.Container implements Module
    * <!-- end-user-doc -->
    * @generated
    */
-  public EList<TypeDefinition> getTypes()
+  public EList<Referenceable> getTypes()
   {
     if (types == null)
     {
-      types = new EObjectContainmentEList<TypeDefinition>(TypeDefinition.class, this, SmiPackage.MODULE__TYPES);
+      types = new EObjectContainmentEList<Referenceable>(Referenceable.class, this, SmiPackage.MODULE__TYPES);
     }
     return types;
-  }
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  public EList<Macro> getMacros()
-  {
-    if (macros == null)
-    {
-      macros = new EObjectContainmentEList<Macro>(Macro.class, this, SmiPackage.MODULE__MACROS);
-    }
-    return macros;
   }
 
   /**
@@ -281,8 +255,6 @@ public class ModuleImpl extends MinimalEObjectImpl.Container implements Module
         return ((InternalEList<?>)getIdentifiers()).basicRemove(otherEnd, msgs);
       case SmiPackage.MODULE__TYPES:
         return ((InternalEList<?>)getTypes()).basicRemove(otherEnd, msgs);
-      case SmiPackage.MODULE__MACROS:
-        return ((InternalEList<?>)getMacros()).basicRemove(otherEnd, msgs);
     }
     return super.eInverseRemove(otherEnd, featureID, msgs);
   }
@@ -307,8 +279,6 @@ public class ModuleImpl extends MinimalEObjectImpl.Container implements Module
         return getIdentifiers();
       case SmiPackage.MODULE__TYPES:
         return getTypes();
-      case SmiPackage.MODULE__MACROS:
-        return getMacros();
     }
     return super.eGet(featureID, resolve, coreType);
   }
@@ -332,19 +302,15 @@ public class ModuleImpl extends MinimalEObjectImpl.Container implements Module
         return;
       case SmiPackage.MODULE__OBJECTS:
         getObjects().clear();
-        getObjects().addAll((Collection<? extends com.netxforge.smi.Object>)newValue);
+        getObjects().addAll((Collection<? extends ObjectReferenceable>)newValue);
         return;
       case SmiPackage.MODULE__IDENTIFIERS:
         getIdentifiers().clear();
-        getIdentifiers().addAll((Collection<? extends ObjectIdentifier>)newValue);
+        getIdentifiers().addAll((Collection<? extends ObjectReferenceable>)newValue);
         return;
       case SmiPackage.MODULE__TYPES:
         getTypes().clear();
-        getTypes().addAll((Collection<? extends TypeDefinition>)newValue);
-        return;
-      case SmiPackage.MODULE__MACROS:
-        getMacros().clear();
-        getMacros().addAll((Collection<? extends Macro>)newValue);
+        getTypes().addAll((Collection<? extends Referenceable>)newValue);
         return;
     }
     super.eSet(featureID, newValue);
@@ -375,9 +341,6 @@ public class ModuleImpl extends MinimalEObjectImpl.Container implements Module
       case SmiPackage.MODULE__TYPES:
         getTypes().clear();
         return;
-      case SmiPackage.MODULE__MACROS:
-        getMacros().clear();
-        return;
     }
     super.eUnset(featureID);
   }
@@ -402,8 +365,6 @@ public class ModuleImpl extends MinimalEObjectImpl.Container implements Module
         return identifiers != null && !identifiers.isEmpty();
       case SmiPackage.MODULE__TYPES:
         return types != null && !types.isEmpty();
-      case SmiPackage.MODULE__MACROS:
-        return macros != null && !macros.isEmpty();
     }
     return super.eIsSet(featureID);
   }

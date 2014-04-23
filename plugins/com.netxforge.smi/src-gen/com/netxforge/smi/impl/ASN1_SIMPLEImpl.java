@@ -2,6 +2,7 @@
  */
 package com.netxforge.smi.impl;
 
+import com.netxforge.smi.ASN1_INTEGER_REFINEMENT;
 import com.netxforge.smi.ASN1_RANGE;
 import com.netxforge.smi.ASN1_SIMPLE;
 import com.netxforge.smi.SmiPackage;
@@ -31,6 +32,7 @@ import org.eclipse.emf.ecore.util.InternalEList;
  *   <li>{@link com.netxforge.smi.impl.ASN1_SIMPLEImpl#getConstraint <em>Constraint</em>}</li>
  *   <li>{@link com.netxforge.smi.impl.ASN1_SIMPLEImpl#getName <em>Name</em>}</li>
  *   <li>{@link com.netxforge.smi.impl.ASN1_SIMPLEImpl#getRange <em>Range</em>}</li>
+ *   <li>{@link com.netxforge.smi.impl.ASN1_SIMPLEImpl#getRefinement <em>Refinement</em>}</li>
  *   <li>{@link com.netxforge.smi.impl.ASN1_SIMPLEImpl#getRanges <em>Ranges</em>}</li>
  * </ul>
  * </p>
@@ -78,6 +80,16 @@ public class ASN1_SIMPLEImpl extends ASN1_TYPEImpl implements ASN1_SIMPLE
    * @ordered
    */
   protected ASN1_RANGE range;
+
+  /**
+   * The cached value of the '{@link #getRefinement() <em>Refinement</em>}' containment reference.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see #getRefinement()
+   * @generated
+   * @ordered
+   */
+  protected ASN1_INTEGER_REFINEMENT refinement;
 
   /**
    * The cached value of the '{@link #getRanges() <em>Ranges</em>}' containment reference list.
@@ -234,6 +246,54 @@ public class ASN1_SIMPLEImpl extends ASN1_TYPEImpl implements ASN1_SIMPLE
    * <!-- end-user-doc -->
    * @generated
    */
+  public ASN1_INTEGER_REFINEMENT getRefinement()
+  {
+    return refinement;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public NotificationChain basicSetRefinement(ASN1_INTEGER_REFINEMENT newRefinement, NotificationChain msgs)
+  {
+    ASN1_INTEGER_REFINEMENT oldRefinement = refinement;
+    refinement = newRefinement;
+    if (eNotificationRequired())
+    {
+      ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, SmiPackage.ASN1_SIMPLE__REFINEMENT, oldRefinement, newRefinement);
+      if (msgs == null) msgs = notification; else msgs.add(notification);
+    }
+    return msgs;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public void setRefinement(ASN1_INTEGER_REFINEMENT newRefinement)
+  {
+    if (newRefinement != refinement)
+    {
+      NotificationChain msgs = null;
+      if (refinement != null)
+        msgs = ((InternalEObject)refinement).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - SmiPackage.ASN1_SIMPLE__REFINEMENT, null, msgs);
+      if (newRefinement != null)
+        msgs = ((InternalEObject)newRefinement).eInverseAdd(this, EOPPOSITE_FEATURE_BASE - SmiPackage.ASN1_SIMPLE__REFINEMENT, null, msgs);
+      msgs = basicSetRefinement(newRefinement, msgs);
+      if (msgs != null) msgs.dispatch();
+    }
+    else if (eNotificationRequired())
+      eNotify(new ENotificationImpl(this, Notification.SET, SmiPackage.ASN1_SIMPLE__REFINEMENT, newRefinement, newRefinement));
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
   public EList<ASN1_RANGE> getRanges()
   {
     if (ranges == null)
@@ -257,6 +317,8 @@ public class ASN1_SIMPLEImpl extends ASN1_TYPEImpl implements ASN1_SIMPLE
         return basicSetConstraint(null, msgs);
       case SmiPackage.ASN1_SIMPLE__RANGE:
         return basicSetRange(null, msgs);
+      case SmiPackage.ASN1_SIMPLE__REFINEMENT:
+        return basicSetRefinement(null, msgs);
       case SmiPackage.ASN1_SIMPLE__RANGES:
         return ((InternalEList<?>)getRanges()).basicRemove(otherEnd, msgs);
     }
@@ -279,6 +341,8 @@ public class ASN1_SIMPLEImpl extends ASN1_TYPEImpl implements ASN1_SIMPLE
         return getName();
       case SmiPackage.ASN1_SIMPLE__RANGE:
         return getRange();
+      case SmiPackage.ASN1_SIMPLE__REFINEMENT:
+        return getRefinement();
       case SmiPackage.ASN1_SIMPLE__RANGES:
         return getRanges();
     }
@@ -304,6 +368,9 @@ public class ASN1_SIMPLEImpl extends ASN1_TYPEImpl implements ASN1_SIMPLE
         return;
       case SmiPackage.ASN1_SIMPLE__RANGE:
         setRange((ASN1_RANGE)newValue);
+        return;
+      case SmiPackage.ASN1_SIMPLE__REFINEMENT:
+        setRefinement((ASN1_INTEGER_REFINEMENT)newValue);
         return;
       case SmiPackage.ASN1_SIMPLE__RANGES:
         getRanges().clear();
@@ -332,6 +399,9 @@ public class ASN1_SIMPLEImpl extends ASN1_TYPEImpl implements ASN1_SIMPLE
       case SmiPackage.ASN1_SIMPLE__RANGE:
         setRange((ASN1_RANGE)null);
         return;
+      case SmiPackage.ASN1_SIMPLE__REFINEMENT:
+        setRefinement((ASN1_INTEGER_REFINEMENT)null);
+        return;
       case SmiPackage.ASN1_SIMPLE__RANGES:
         getRanges().clear();
         return;
@@ -355,6 +425,8 @@ public class ASN1_SIMPLEImpl extends ASN1_TYPEImpl implements ASN1_SIMPLE
         return NAME_EDEFAULT == null ? name != null : !NAME_EDEFAULT.equals(name);
       case SmiPackage.ASN1_SIMPLE__RANGE:
         return range != null;
+      case SmiPackage.ASN1_SIMPLE__REFINEMENT:
+        return refinement != null;
       case SmiPackage.ASN1_SIMPLE__RANGES:
         return ranges != null && !ranges.isEmpty();
     }

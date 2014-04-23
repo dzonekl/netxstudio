@@ -2,41 +2,7 @@
  */
 package com.netxforge.smi.impl;
 
-import com.netxforge.smi.ASN1_CHOICE;
-import com.netxforge.smi.ASN1_CHOICE_ENTRY;
-import com.netxforge.smi.ASN1_OCTET_STRING;
-import com.netxforge.smi.ASN1_RANGE;
-import com.netxforge.smi.ASN1_SIMPLE;
-import com.netxforge.smi.ASN1_TYPE;
-import com.netxforge.smi.Attribute;
-import com.netxforge.smi.AttributeValue;
-import com.netxforge.smi.ChoiceType;
-import com.netxforge.smi.ImportClosure;
-import com.netxforge.smi.ImportRef;
-import com.netxforge.smi.ImportRefs;
-import com.netxforge.smi.Imports;
-import com.netxforge.smi.MACRO_VALUE_CAP;
-import com.netxforge.smi.Macro;
-import com.netxforge.smi.MacroValue;
-import com.netxforge.smi.MacroValueType;
-import com.netxforge.smi.Module;
-import com.netxforge.smi.ObjectIdentifier;
-import com.netxforge.smi.ObjectIdentifierValue;
-import com.netxforge.smi.ObjectValue;
-import com.netxforge.smi.ParamAssignment;
-import com.netxforge.smi.SmiFactory;
-import com.netxforge.smi.SmiPackage;
-import com.netxforge.smi.Tag;
-import com.netxforge.smi.TypeAssignment;
-import com.netxforge.smi.TypeDefinition;
-import com.netxforge.smi.TypeNotation;
-import com.netxforge.smi.TypeNotationRight;
-import com.netxforge.smi.UpdateType;
-import com.netxforge.smi.Value;
-import com.netxforge.smi.ValueAssignment;
-import com.netxforge.smi.ValueCapType;
-import com.netxforge.smi.ValueNotation;
-import com.netxforge.smi.ValueType;
+import com.netxforge.smi.*;
 
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
@@ -103,34 +69,33 @@ public class SmiFactoryImpl extends EFactoryImpl implements SmiFactory
       case SmiPackage.IMPORT_CLOSURE: return createImportClosure();
       case SmiPackage.IMPORT_REFS: return createImportRefs();
       case SmiPackage.IMPORT_REF: return createImportRef();
-      case SmiPackage.OBJECT_IDENTIFIER: return createObjectIdentifier();
+      case SmiPackage.REFERENCEABLE: return createReferenceable();
+      case SmiPackage.OBJECT_REFERENCEABLE: return createObjectReferenceable();
       case SmiPackage.OBJECT_IDENTIFIER_VALUE: return createObjectIdentifierValue();
-      case SmiPackage.TYPE_DEFINITION: return createTypeDefinition();
-      case SmiPackage.OBJECT: return createObject();
       case SmiPackage.ATTRIBUTE: return createAttribute();
       case SmiPackage.ATTRIBUTE_VALUE: return createAttributeValue();
+      case SmiPackage.IDENTIFIER: return createIdentifier();
+      case SmiPackage.BRACED_OBJECT_REFERENCE: return createBracedObjectReference();
       case SmiPackage.OBJECT_VALUE: return createObjectValue();
-      case SmiPackage.MACRO: return createMacro();
       case SmiPackage.TYPE_NOTATION: return createTypeNotation();
       case SmiPackage.VALUE_NOTATION: return createValueNotation();
       case SmiPackage.TYPE_ASSIGNMENT: return createTypeAssignment();
-      case SmiPackage.PARAM_ASSIGNMENT: return createParamAssignment();
       case SmiPackage.TYPE_NOTATION_RIGHT: return createTypeNotationRight();
       case SmiPackage.VALUE_ASSIGNMENT: return createValueAssignment();
       case SmiPackage.VALUE: return createValue();
       case SmiPackage.TAG: return createTag();
       case SmiPackage.VALUE_TYPE: return createValueType();
       case SmiPackage.MACRO_VALUE_TYPE: return createMacroValueType();
-      case SmiPackage.UPDATE_TYPE: return createUpdateType();
-      case SmiPackage.VALUE_CAP_TYPE: return createValueCapType();
       case SmiPackage.ASN1_TYPE: return createASN1_TYPE();
       case SmiPackage.ASN1_SIMPLE: return createASN1_SIMPLE();
+      case SmiPackage.ASN1_INTEGER_REFINEMENT: return createASN1_INTEGER_REFINEMENT();
       case SmiPackage.ASN1_RANGE: return createASN1_RANGE();
       case SmiPackage.ASN1_CHOICE: return createASN1_CHOICE();
+      case SmiPackage.ASN1_SEQUENCE: return createASN1_SEQUENCE();
+      case SmiPackage.ASN1_SEQUENCE_OF: return createASN1_SEQUENCE_OF();
       case SmiPackage.ASN1_CHOICE_ENTRY: return createASN1_CHOICE_ENTRY();
       case SmiPackage.CHOICE_TYPE: return createChoiceType();
       case SmiPackage.MACRO_VALUE: return createMacroValue();
-      case SmiPackage.MACRO_VALUE_CAP: return createMACRO_VALUE_CAP();
       case SmiPackage.ASN1_OCTET_STRING: return createASN1_OCTET_STRING();
       default:
         throw new IllegalArgumentException("The class '" + eClass.getName() + "' is not a valid classifier");
@@ -197,10 +162,21 @@ public class SmiFactoryImpl extends EFactoryImpl implements SmiFactory
    * <!-- end-user-doc -->
    * @generated
    */
-  public ObjectIdentifier createObjectIdentifier()
+  public Referenceable createReferenceable()
   {
-    ObjectIdentifierImpl objectIdentifier = new ObjectIdentifierImpl();
-    return objectIdentifier;
+    ReferenceableImpl referenceable = new ReferenceableImpl();
+    return referenceable;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public ObjectReferenceable createObjectReferenceable()
+  {
+    ObjectReferenceableImpl objectReferenceable = new ObjectReferenceableImpl();
+    return objectReferenceable;
   }
 
   /**
@@ -212,28 +188,6 @@ public class SmiFactoryImpl extends EFactoryImpl implements SmiFactory
   {
     ObjectIdentifierValueImpl objectIdentifierValue = new ObjectIdentifierValueImpl();
     return objectIdentifierValue;
-  }
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  public TypeDefinition createTypeDefinition()
-  {
-    TypeDefinitionImpl typeDefinition = new TypeDefinitionImpl();
-    return typeDefinition;
-  }
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  public com.netxforge.smi.Object createObject()
-  {
-    ObjectImpl object = new ObjectImpl();
-    return object;
   }
 
   /**
@@ -263,10 +217,10 @@ public class SmiFactoryImpl extends EFactoryImpl implements SmiFactory
    * <!-- end-user-doc -->
    * @generated
    */
-  public ObjectValue createObjectValue()
+  public Identifier createIdentifier()
   {
-    ObjectValueImpl objectValue = new ObjectValueImpl();
-    return objectValue;
+    IdentifierImpl identifier = new IdentifierImpl();
+    return identifier;
   }
 
   /**
@@ -274,10 +228,21 @@ public class SmiFactoryImpl extends EFactoryImpl implements SmiFactory
    * <!-- end-user-doc -->
    * @generated
    */
-  public Macro createMacro()
+  public BracedObjectReference createBracedObjectReference()
   {
-    MacroImpl macro = new MacroImpl();
-    return macro;
+    BracedObjectReferenceImpl bracedObjectReference = new BracedObjectReferenceImpl();
+    return bracedObjectReference;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public ObjectValue createObjectValue()
+  {
+    ObjectValueImpl objectValue = new ObjectValueImpl();
+    return objectValue;
   }
 
   /**
@@ -311,17 +276,6 @@ public class SmiFactoryImpl extends EFactoryImpl implements SmiFactory
   {
     TypeAssignmentImpl typeAssignment = new TypeAssignmentImpl();
     return typeAssignment;
-  }
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  public ParamAssignment createParamAssignment()
-  {
-    ParamAssignmentImpl paramAssignment = new ParamAssignmentImpl();
-    return paramAssignment;
   }
 
   /**
@@ -395,28 +349,6 @@ public class SmiFactoryImpl extends EFactoryImpl implements SmiFactory
    * <!-- end-user-doc -->
    * @generated
    */
-  public UpdateType createUpdateType()
-  {
-    UpdateTypeImpl updateType = new UpdateTypeImpl();
-    return updateType;
-  }
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  public ValueCapType createValueCapType()
-  {
-    ValueCapTypeImpl valueCapType = new ValueCapTypeImpl();
-    return valueCapType;
-  }
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
   public ASN1_TYPE createASN1_TYPE()
   {
     ASN1_TYPEImpl asn1_TYPE = new ASN1_TYPEImpl();
@@ -439,6 +371,17 @@ public class SmiFactoryImpl extends EFactoryImpl implements SmiFactory
    * <!-- end-user-doc -->
    * @generated
    */
+  public ASN1_INTEGER_REFINEMENT createASN1_INTEGER_REFINEMENT()
+  {
+    ASN1_INTEGER_REFINEMENTImpl asn1_INTEGER_REFINEMENT = new ASN1_INTEGER_REFINEMENTImpl();
+    return asn1_INTEGER_REFINEMENT;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
   public ASN1_RANGE createASN1_RANGE()
   {
     ASN1_RANGEImpl asn1_RANGE = new ASN1_RANGEImpl();
@@ -454,6 +397,28 @@ public class SmiFactoryImpl extends EFactoryImpl implements SmiFactory
   {
     ASN1_CHOICEImpl asn1_CHOICE = new ASN1_CHOICEImpl();
     return asn1_CHOICE;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public ASN1_SEQUENCE createASN1_SEQUENCE()
+  {
+    ASN1_SEQUENCEImpl asn1_SEQUENCE = new ASN1_SEQUENCEImpl();
+    return asn1_SEQUENCE;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public ASN1_SEQUENCE_OF createASN1_SEQUENCE_OF()
+  {
+    ASN1_SEQUENCE_OFImpl asn1_SEQUENCE_OF = new ASN1_SEQUENCE_OFImpl();
+    return asn1_SEQUENCE_OF;
   }
 
   /**
@@ -487,17 +452,6 @@ public class SmiFactoryImpl extends EFactoryImpl implements SmiFactory
   {
     MacroValueImpl macroValue = new MacroValueImpl();
     return macroValue;
-  }
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  public MACRO_VALUE_CAP createMACRO_VALUE_CAP()
-  {
-    MACRO_VALUE_CAPImpl macrO_VALUE_CAP = new MACRO_VALUE_CAPImpl();
-    return macrO_VALUE_CAP;
   }
 
   /**

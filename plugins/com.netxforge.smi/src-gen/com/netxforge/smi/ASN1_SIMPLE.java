@@ -15,6 +15,7 @@ import org.eclipse.emf.common.util.EList;
  *   <li>{@link com.netxforge.smi.ASN1_SIMPLE#getConstraint <em>Constraint</em>}</li>
  *   <li>{@link com.netxforge.smi.ASN1_SIMPLE#getName <em>Name</em>}</li>
  *   <li>{@link com.netxforge.smi.ASN1_SIMPLE#getRange <em>Range</em>}</li>
+ *   <li>{@link com.netxforge.smi.ASN1_SIMPLE#getRefinement <em>Refinement</em>}</li>
  *   <li>{@link com.netxforge.smi.ASN1_SIMPLE#getRanges <em>Ranges</em>}</li>
  * </ul>
  * </p>
@@ -102,6 +103,32 @@ public interface ASN1_SIMPLE extends ASN1_TYPE
    * @generated
    */
   void setRange(ASN1_RANGE value);
+
+  /**
+   * Returns the value of the '<em><b>Refinement</b></em>' containment reference.
+   * <!-- begin-user-doc -->
+   * <p>
+   * If the meaning of the '<em>Refinement</em>' containment reference isn't clear,
+   * there really should be more of a description here...
+   * </p>
+   * <!-- end-user-doc -->
+   * @return the value of the '<em>Refinement</em>' containment reference.
+   * @see #setRefinement(ASN1_INTEGER_REFINEMENT)
+   * @see com.netxforge.smi.SmiPackage#getASN1_SIMPLE_Refinement()
+   * @model containment="true"
+   * @generated
+   */
+  ASN1_INTEGER_REFINEMENT getRefinement();
+
+  /**
+   * Sets the value of the '{@link com.netxforge.smi.ASN1_SIMPLE#getRefinement <em>Refinement</em>}' containment reference.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @param value the new value of the '<em>Refinement</em>' containment reference.
+   * @see #getRefinement()
+   * @generated
+   */
+  void setRefinement(ASN1_INTEGER_REFINEMENT value);
 
   /**
    * Returns the value of the '<em><b>Ranges</b></em>' containment reference list.

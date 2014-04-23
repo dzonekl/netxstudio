@@ -32,12 +32,12 @@ public interface Attribute extends EObject
    * </p>
    * <!-- end-user-doc -->
    * @return the value of the '<em>Param Ref</em>' reference.
-   * @see #setParamRef(ParamAssignment)
+   * @see #setParamRef(Referenceable)
    * @see com.netxforge.smi.SmiPackage#getAttribute_ParamRef()
    * @model
    * @generated
    */
-  ParamAssignment getParamRef();
+  Referenceable getParamRef();
 
   /**
    * Sets the value of the '{@link com.netxforge.smi.Attribute#getParamRef <em>Param Ref</em>}' reference.
@@ -47,7 +47,7 @@ public interface Attribute extends EObject
    * @see #getParamRef()
    * @generated
    */
-  void setParamRef(ParamAssignment value);
+  void setParamRef(Referenceable value);
 
   /**
    * Returns the value of the '<em><b>Value</b></em>' containment reference.

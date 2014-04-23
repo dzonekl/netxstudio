@@ -22,7 +22,7 @@ import java.util.HashMap;
 @SuppressWarnings("all")
 public class InternalSmiParser extends AbstractInternalAntlrParser {
     public static final String[] tokenNames = new String[] {
-        "<invalid>", "<EOR>", "<DOWN>", "<UP>", "RULE_MODULE_ID", "RULE_NEWLINE", "RULE_ASN1_ID", "RULE_BIG_INTEGER", "RULE_IA5STRING", "RULE_PARAMETER", "RULE_ALPHA_CAP", "RULE_ALPHA", "RULE_NUMERIC", "RULE_SL_ASN1_COMMENT", "RULE_WS", "RULE_ANY_OTHER", "'DEFINITIONS'", "'::='", "'BEGIN'", "'END'", "'IMPORTS'", "';'", "'FROM'", "','", "'OBJECT IDENTIFIER'", "'{'", "'}'", "'MACRO'", "'TYPE'", "'NOTATION'", "'VALUE'", "'\"{\"'", "'\"}\"'", "'IMPLICIT'", "'|'", "'[APPLICATION'", "']'", "'value'", "'('", "')'", "'IA5String'", "'Update'", "'empty'", "'OCTET'", "'STRING'", "'INTEGER'", "'SIZE'", "'..'", "'CHOICE'"
+        "<invalid>", "<EOR>", "<DOWN>", "<UP>", "RULE_MODULE_ID", "RULE_NEWLINE", "RULE_ASN1_ID", "RULE_BIG_INTEGER", "RULE_IA5STRING", "RULE_PARAMETER", "RULE_ALPHA_CAP", "RULE_ALPHA", "RULE_NUMERIC", "RULE_SL_ASN1_COMMENT", "RULE_WS", "RULE_ANY_OTHER", "'DEFINITIONS'", "'::='", "'BEGIN'", "'END'", "'IMPORTS'", "';'", "'FROM'", "','", "'OBJECT IDENTIFIER'", "'{'", "'}'", "'MACRO'", "'TYPE'", "'NOTATION'", "'VALUE'", "'\"{\"'", "'\"}\"'", "'IMPLICIT'", "'|'", "'[APPLICATION'", "']'", "'value'", "'('", "')'", "'Update'", "'IA5String'", "'empty'", "'OCTET'", "'STRING'", "'INTEGER'", "'SIZE'", "'..'", "'CHOICE'", "'SEQUENCE'", "'OF'"
     };
     public static final int T__29=29;
     public static final int T__28=28;
@@ -32,8 +32,8 @@ public class InternalSmiParser extends AbstractInternalAntlrParser {
     public static final int RULE_ALPHA_CAP=10;
     public static final int T__24=24;
     public static final int T__23=23;
-    public static final int T__22=22;
     public static final int RULE_IA5STRING=8;
+    public static final int T__22=22;
     public static final int RULE_ANY_OTHER=15;
     public static final int T__21=21;
     public static final int T__20=20;
@@ -42,6 +42,7 @@ public class InternalSmiParser extends AbstractInternalAntlrParser {
     public static final int T__16=16;
     public static final int T__18=18;
     public static final int T__17=17;
+    public static final int T__50=50;
     public static final int RULE_PARAMETER=9;
     public static final int T__42=42;
     public static final int T__43=43;
@@ -53,6 +54,7 @@ public class InternalSmiParser extends AbstractInternalAntlrParser {
     public static final int T__44=44;
     public static final int T__45=45;
     public static final int T__48=48;
+    public static final int T__49=49;
     public static final int RULE_ASN1_ID=6;
     public static final int RULE_ALPHA=11;
     public static final int RULE_MODULE_ID=4;
@@ -150,7 +152,7 @@ public class InternalSmiParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "ruleModule"
-    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:76:1: ruleModule returns [EObject current=null] : ( ( (lv_name_0_0= RULE_MODULE_ID ) ) otherlv_1= 'DEFINITIONS' otherlv_2= '::=' otherlv_3= 'BEGIN' ( (lv_imports_4_0= ruleImports ) )? ( ( (lv_objects_5_0= ruleObject ) ) | ( (lv_identifiers_6_0= ruleObjectIdentifier ) ) | ( (lv_types_7_0= ruleTypeDefinition ) ) | ( (lv_macros_8_0= ruleMacro ) ) )+ (this_NEWLINE_9= RULE_NEWLINE )+ otherlv_10= 'END' (this_NEWLINE_11= RULE_NEWLINE )* ) ;
+    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:76:1: ruleModule returns [EObject current=null] : ( ( (lv_name_0_0= RULE_MODULE_ID ) ) otherlv_1= 'DEFINITIONS' otherlv_2= '::=' otherlv_3= 'BEGIN' ( (lv_imports_4_0= ruleImports ) )? ( ( (lv_objects_5_0= ruleObject ) ) | ( (lv_identifiers_6_0= ruleObjectIdentifier ) ) | ( (lv_types_7_0= ruleReferenceable ) ) )+ (this_NEWLINE_8= RULE_NEWLINE )+ otherlv_9= 'END' (this_NEWLINE_10= RULE_NEWLINE )* ) ;
     public final EObject ruleModule() throws RecognitionException {
         EObject current = null;
 
@@ -158,9 +160,9 @@ public class InternalSmiParser extends AbstractInternalAntlrParser {
         Token otherlv_1=null;
         Token otherlv_2=null;
         Token otherlv_3=null;
-        Token this_NEWLINE_9=null;
-        Token otherlv_10=null;
-        Token this_NEWLINE_11=null;
+        Token this_NEWLINE_8=null;
+        Token otherlv_9=null;
+        Token this_NEWLINE_10=null;
         EObject lv_imports_4_0 = null;
 
         EObject lv_objects_5_0 = null;
@@ -169,17 +171,15 @@ public class InternalSmiParser extends AbstractInternalAntlrParser {
 
         EObject lv_types_7_0 = null;
 
-        EObject lv_macros_8_0 = null;
-
 
          enterRule(); 
             
         try {
-            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:79:28: ( ( ( (lv_name_0_0= RULE_MODULE_ID ) ) otherlv_1= 'DEFINITIONS' otherlv_2= '::=' otherlv_3= 'BEGIN' ( (lv_imports_4_0= ruleImports ) )? ( ( (lv_objects_5_0= ruleObject ) ) | ( (lv_identifiers_6_0= ruleObjectIdentifier ) ) | ( (lv_types_7_0= ruleTypeDefinition ) ) | ( (lv_macros_8_0= ruleMacro ) ) )+ (this_NEWLINE_9= RULE_NEWLINE )+ otherlv_10= 'END' (this_NEWLINE_11= RULE_NEWLINE )* ) )
-            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:80:1: ( ( (lv_name_0_0= RULE_MODULE_ID ) ) otherlv_1= 'DEFINITIONS' otherlv_2= '::=' otherlv_3= 'BEGIN' ( (lv_imports_4_0= ruleImports ) )? ( ( (lv_objects_5_0= ruleObject ) ) | ( (lv_identifiers_6_0= ruleObjectIdentifier ) ) | ( (lv_types_7_0= ruleTypeDefinition ) ) | ( (lv_macros_8_0= ruleMacro ) ) )+ (this_NEWLINE_9= RULE_NEWLINE )+ otherlv_10= 'END' (this_NEWLINE_11= RULE_NEWLINE )* )
+            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:79:28: ( ( ( (lv_name_0_0= RULE_MODULE_ID ) ) otherlv_1= 'DEFINITIONS' otherlv_2= '::=' otherlv_3= 'BEGIN' ( (lv_imports_4_0= ruleImports ) )? ( ( (lv_objects_5_0= ruleObject ) ) | ( (lv_identifiers_6_0= ruleObjectIdentifier ) ) | ( (lv_types_7_0= ruleReferenceable ) ) )+ (this_NEWLINE_8= RULE_NEWLINE )+ otherlv_9= 'END' (this_NEWLINE_10= RULE_NEWLINE )* ) )
+            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:80:1: ( ( (lv_name_0_0= RULE_MODULE_ID ) ) otherlv_1= 'DEFINITIONS' otherlv_2= '::=' otherlv_3= 'BEGIN' ( (lv_imports_4_0= ruleImports ) )? ( ( (lv_objects_5_0= ruleObject ) ) | ( (lv_identifiers_6_0= ruleObjectIdentifier ) ) | ( (lv_types_7_0= ruleReferenceable ) ) )+ (this_NEWLINE_8= RULE_NEWLINE )+ otherlv_9= 'END' (this_NEWLINE_10= RULE_NEWLINE )* )
             {
-            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:80:1: ( ( (lv_name_0_0= RULE_MODULE_ID ) ) otherlv_1= 'DEFINITIONS' otherlv_2= '::=' otherlv_3= 'BEGIN' ( (lv_imports_4_0= ruleImports ) )? ( ( (lv_objects_5_0= ruleObject ) ) | ( (lv_identifiers_6_0= ruleObjectIdentifier ) ) | ( (lv_types_7_0= ruleTypeDefinition ) ) | ( (lv_macros_8_0= ruleMacro ) ) )+ (this_NEWLINE_9= RULE_NEWLINE )+ otherlv_10= 'END' (this_NEWLINE_11= RULE_NEWLINE )* )
-            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:80:2: ( (lv_name_0_0= RULE_MODULE_ID ) ) otherlv_1= 'DEFINITIONS' otherlv_2= '::=' otherlv_3= 'BEGIN' ( (lv_imports_4_0= ruleImports ) )? ( ( (lv_objects_5_0= ruleObject ) ) | ( (lv_identifiers_6_0= ruleObjectIdentifier ) ) | ( (lv_types_7_0= ruleTypeDefinition ) ) | ( (lv_macros_8_0= ruleMacro ) ) )+ (this_NEWLINE_9= RULE_NEWLINE )+ otherlv_10= 'END' (this_NEWLINE_11= RULE_NEWLINE )*
+            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:80:1: ( ( (lv_name_0_0= RULE_MODULE_ID ) ) otherlv_1= 'DEFINITIONS' otherlv_2= '::=' otherlv_3= 'BEGIN' ( (lv_imports_4_0= ruleImports ) )? ( ( (lv_objects_5_0= ruleObject ) ) | ( (lv_identifiers_6_0= ruleObjectIdentifier ) ) | ( (lv_types_7_0= ruleReferenceable ) ) )+ (this_NEWLINE_8= RULE_NEWLINE )+ otherlv_9= 'END' (this_NEWLINE_10= RULE_NEWLINE )* )
+            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:80:2: ( (lv_name_0_0= RULE_MODULE_ID ) ) otherlv_1= 'DEFINITIONS' otherlv_2= '::=' otherlv_3= 'BEGIN' ( (lv_imports_4_0= ruleImports ) )? ( ( (lv_objects_5_0= ruleObject ) ) | ( (lv_identifiers_6_0= ruleObjectIdentifier ) ) | ( (lv_types_7_0= ruleReferenceable ) ) )+ (this_NEWLINE_8= RULE_NEWLINE )+ otherlv_9= 'END' (this_NEWLINE_10= RULE_NEWLINE )*
             {
             // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:80:2: ( (lv_name_0_0= RULE_MODULE_ID ) )
             // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:81:1: (lv_name_0_0= RULE_MODULE_ID )
@@ -271,11 +271,11 @@ public class InternalSmiParser extends AbstractInternalAntlrParser {
 
             }
 
-            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:128:3: ( ( (lv_objects_5_0= ruleObject ) ) | ( (lv_identifiers_6_0= ruleObjectIdentifier ) ) | ( (lv_types_7_0= ruleTypeDefinition ) ) | ( (lv_macros_8_0= ruleMacro ) ) )+
+            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:128:3: ( ( (lv_objects_5_0= ruleObject ) ) | ( (lv_identifiers_6_0= ruleObjectIdentifier ) ) | ( (lv_types_7_0= ruleReferenceable ) ) )+
             int cnt2=0;
             loop2:
             do {
-                int alt2=5;
+                int alt2=4;
                 alt2 = dfa2.predict(input);
                 switch (alt2) {
             	case 1 :
@@ -361,21 +361,21 @@ public class InternalSmiParser extends AbstractInternalAntlrParser {
             	    }
             	    break;
             	case 3 :
-            	    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:166:6: ( (lv_types_7_0= ruleTypeDefinition ) )
+            	    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:166:6: ( (lv_types_7_0= ruleReferenceable ) )
             	    {
-            	    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:166:6: ( (lv_types_7_0= ruleTypeDefinition ) )
-            	    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:167:1: (lv_types_7_0= ruleTypeDefinition )
+            	    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:166:6: ( (lv_types_7_0= ruleReferenceable ) )
+            	    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:167:1: (lv_types_7_0= ruleReferenceable )
             	    {
-            	    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:167:1: (lv_types_7_0= ruleTypeDefinition )
-            	    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:168:3: lv_types_7_0= ruleTypeDefinition
+            	    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:167:1: (lv_types_7_0= ruleReferenceable )
+            	    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:168:3: lv_types_7_0= ruleReferenceable
             	    {
             	    if ( state.backtracking==0 ) {
             	       
-            	      	        newCompositeNode(grammarAccess.getModuleAccess().getTypesTypeDefinitionParserRuleCall_5_2_0()); 
+            	      	        newCompositeNode(grammarAccess.getModuleAccess().getTypesReferenceableParserRuleCall_5_2_0()); 
             	      	    
             	    }
-            	    pushFollow(FOLLOW_ruleTypeDefinition_in_ruleModule266);
-            	    lv_types_7_0=ruleTypeDefinition();
+            	    pushFollow(FOLLOW_ruleReferenceable_in_ruleModule266);
+            	    lv_types_7_0=ruleReferenceable();
 
             	    state._fsp--;
             	    if (state.failed) return current;
@@ -388,48 +388,7 @@ public class InternalSmiParser extends AbstractInternalAntlrParser {
             	             			current, 
             	             			"types",
             	              		lv_types_7_0, 
-            	              		"TypeDefinition");
-            	      	        afterParserOrEnumRuleCall();
-            	      	    
-            	    }
-
-            	    }
-
-
-            	    }
-
-
-            	    }
-            	    break;
-            	case 4 :
-            	    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:185:6: ( (lv_macros_8_0= ruleMacro ) )
-            	    {
-            	    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:185:6: ( (lv_macros_8_0= ruleMacro ) )
-            	    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:186:1: (lv_macros_8_0= ruleMacro )
-            	    {
-            	    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:186:1: (lv_macros_8_0= ruleMacro )
-            	    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:187:3: lv_macros_8_0= ruleMacro
-            	    {
-            	    if ( state.backtracking==0 ) {
-            	       
-            	      	        newCompositeNode(grammarAccess.getModuleAccess().getMacrosMacroParserRuleCall_5_3_0()); 
-            	      	    
-            	    }
-            	    pushFollow(FOLLOW_ruleMacro_in_ruleModule293);
-            	    lv_macros_8_0=ruleMacro();
-
-            	    state._fsp--;
-            	    if (state.failed) return current;
-            	    if ( state.backtracking==0 ) {
-
-            	      	        if (current==null) {
-            	      	            current = createModelElementForParent(grammarAccess.getModuleRule());
-            	      	        }
-            	             		add(
-            	             			current, 
-            	             			"macros",
-            	              		lv_macros_8_0, 
-            	              		"Macro");
+            	              		"Referenceable");
             	      	        afterParserOrEnumRuleCall();
             	      	    
             	    }
@@ -453,7 +412,7 @@ public class InternalSmiParser extends AbstractInternalAntlrParser {
                 cnt2++;
             } while (true);
 
-            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:203:4: (this_NEWLINE_9= RULE_NEWLINE )+
+            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:184:4: (this_NEWLINE_8= RULE_NEWLINE )+
             int cnt3=0;
             loop3:
             do {
@@ -467,12 +426,12 @@ public class InternalSmiParser extends AbstractInternalAntlrParser {
 
                 switch (alt3) {
             	case 1 :
-            	    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:203:5: this_NEWLINE_9= RULE_NEWLINE
+            	    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:184:5: this_NEWLINE_8= RULE_NEWLINE
             	    {
-            	    this_NEWLINE_9=(Token)match(input,RULE_NEWLINE,FOLLOW_RULE_NEWLINE_in_ruleModule307); if (state.failed) return current;
+            	    this_NEWLINE_8=(Token)match(input,RULE_NEWLINE,FOLLOW_RULE_NEWLINE_in_ruleModule280); if (state.failed) return current;
             	    if ( state.backtracking==0 ) {
             	       
-            	          newLeafNode(this_NEWLINE_9, grammarAccess.getModuleAccess().getNEWLINETerminalRuleCall_6()); 
+            	          newLeafNode(this_NEWLINE_8, grammarAccess.getModuleAccess().getNEWLINETerminalRuleCall_6()); 
             	          
             	    }
 
@@ -489,13 +448,13 @@ public class InternalSmiParser extends AbstractInternalAntlrParser {
                 cnt3++;
             } while (true);
 
-            otherlv_10=(Token)match(input,19,FOLLOW_19_in_ruleModule320); if (state.failed) return current;
+            otherlv_9=(Token)match(input,19,FOLLOW_19_in_ruleModule293); if (state.failed) return current;
             if ( state.backtracking==0 ) {
 
-                  	newLeafNode(otherlv_10, grammarAccess.getModuleAccess().getENDKeyword_7());
+                  	newLeafNode(otherlv_9, grammarAccess.getModuleAccess().getENDKeyword_7());
                   
             }
-            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:211:1: (this_NEWLINE_11= RULE_NEWLINE )*
+            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:192:1: (this_NEWLINE_10= RULE_NEWLINE )*
             loop4:
             do {
                 int alt4=2;
@@ -508,12 +467,12 @@ public class InternalSmiParser extends AbstractInternalAntlrParser {
 
                 switch (alt4) {
             	case 1 :
-            	    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:211:2: this_NEWLINE_11= RULE_NEWLINE
+            	    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:192:2: this_NEWLINE_10= RULE_NEWLINE
             	    {
-            	    this_NEWLINE_11=(Token)match(input,RULE_NEWLINE,FOLLOW_RULE_NEWLINE_in_ruleModule332); if (state.failed) return current;
+            	    this_NEWLINE_10=(Token)match(input,RULE_NEWLINE,FOLLOW_RULE_NEWLINE_in_ruleModule305); if (state.failed) return current;
             	    if ( state.backtracking==0 ) {
             	       
-            	          newLeafNode(this_NEWLINE_11, grammarAccess.getModuleAccess().getNEWLINETerminalRuleCall_8()); 
+            	          newLeafNode(this_NEWLINE_10, grammarAccess.getModuleAccess().getNEWLINETerminalRuleCall_8()); 
             	          
             	    }
 
@@ -548,7 +507,7 @@ public class InternalSmiParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "entryRuleImports"
-    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:223:1: entryRuleImports returns [EObject current=null] : iv_ruleImports= ruleImports EOF ;
+    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:204:1: entryRuleImports returns [EObject current=null] : iv_ruleImports= ruleImports EOF ;
     public final EObject entryRuleImports() throws RecognitionException {
         EObject current = null;
 
@@ -556,13 +515,13 @@ public class InternalSmiParser extends AbstractInternalAntlrParser {
 
 
         try {
-            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:224:2: (iv_ruleImports= ruleImports EOF )
-            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:225:2: iv_ruleImports= ruleImports EOF
+            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:205:2: (iv_ruleImports= ruleImports EOF )
+            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:206:2: iv_ruleImports= ruleImports EOF
             {
             if ( state.backtracking==0 ) {
                newCompositeNode(grammarAccess.getImportsRule()); 
             }
-            pushFollow(FOLLOW_ruleImports_in_entryRuleImports369);
+            pushFollow(FOLLOW_ruleImports_in_entryRuleImports342);
             iv_ruleImports=ruleImports();
 
             state._fsp--;
@@ -570,7 +529,7 @@ public class InternalSmiParser extends AbstractInternalAntlrParser {
             if ( state.backtracking==0 ) {
                current =iv_ruleImports; 
             }
-            match(input,EOF,FOLLOW_EOF_in_entryRuleImports379); if (state.failed) return current;
+            match(input,EOF,FOLLOW_EOF_in_entryRuleImports352); if (state.failed) return current;
 
             }
 
@@ -588,26 +547,26 @@ public class InternalSmiParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "ruleImports"
-    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:232:1: ruleImports returns [EObject current=null] : ( (this_NEWLINE_0= RULE_NEWLINE )+ otherlv_1= 'IMPORTS' this_ImportClosure_2= ruleImportClosure otherlv_3= ';' ) ;
+    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:213:1: ruleImports returns [EObject current=null] : ( (this_NEWLINE_0= RULE_NEWLINE )+ otherlv_1= 'IMPORTS' ( (lv_imports_2_0= ruleImportClosure ) )+ otherlv_3= ';' ) ;
     public final EObject ruleImports() throws RecognitionException {
         EObject current = null;
 
         Token this_NEWLINE_0=null;
         Token otherlv_1=null;
         Token otherlv_3=null;
-        EObject this_ImportClosure_2 = null;
+        EObject lv_imports_2_0 = null;
 
 
          enterRule(); 
             
         try {
-            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:235:28: ( ( (this_NEWLINE_0= RULE_NEWLINE )+ otherlv_1= 'IMPORTS' this_ImportClosure_2= ruleImportClosure otherlv_3= ';' ) )
-            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:236:1: ( (this_NEWLINE_0= RULE_NEWLINE )+ otherlv_1= 'IMPORTS' this_ImportClosure_2= ruleImportClosure otherlv_3= ';' )
+            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:216:28: ( ( (this_NEWLINE_0= RULE_NEWLINE )+ otherlv_1= 'IMPORTS' ( (lv_imports_2_0= ruleImportClosure ) )+ otherlv_3= ';' ) )
+            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:217:1: ( (this_NEWLINE_0= RULE_NEWLINE )+ otherlv_1= 'IMPORTS' ( (lv_imports_2_0= ruleImportClosure ) )+ otherlv_3= ';' )
             {
-            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:236:1: ( (this_NEWLINE_0= RULE_NEWLINE )+ otherlv_1= 'IMPORTS' this_ImportClosure_2= ruleImportClosure otherlv_3= ';' )
-            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:236:2: (this_NEWLINE_0= RULE_NEWLINE )+ otherlv_1= 'IMPORTS' this_ImportClosure_2= ruleImportClosure otherlv_3= ';'
+            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:217:1: ( (this_NEWLINE_0= RULE_NEWLINE )+ otherlv_1= 'IMPORTS' ( (lv_imports_2_0= ruleImportClosure ) )+ otherlv_3= ';' )
+            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:217:2: (this_NEWLINE_0= RULE_NEWLINE )+ otherlv_1= 'IMPORTS' ( (lv_imports_2_0= ruleImportClosure ) )+ otherlv_3= ';'
             {
-            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:236:2: (this_NEWLINE_0= RULE_NEWLINE )+
+            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:217:2: (this_NEWLINE_0= RULE_NEWLINE )+
             int cnt5=0;
             loop5:
             do {
@@ -621,9 +580,9 @@ public class InternalSmiParser extends AbstractInternalAntlrParser {
 
                 switch (alt5) {
             	case 1 :
-            	    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:236:3: this_NEWLINE_0= RULE_NEWLINE
+            	    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:217:3: this_NEWLINE_0= RULE_NEWLINE
             	    {
-            	    this_NEWLINE_0=(Token)match(input,RULE_NEWLINE,FOLLOW_RULE_NEWLINE_in_ruleImports416); if (state.failed) return current;
+            	    this_NEWLINE_0=(Token)match(input,RULE_NEWLINE,FOLLOW_RULE_NEWLINE_in_ruleImports389); if (state.failed) return current;
             	    if ( state.backtracking==0 ) {
             	       
             	          newLeafNode(this_NEWLINE_0, grammarAccess.getImportsAccess().getNEWLINETerminalRuleCall_0()); 
@@ -643,29 +602,72 @@ public class InternalSmiParser extends AbstractInternalAntlrParser {
                 cnt5++;
             } while (true);
 
-            otherlv_1=(Token)match(input,20,FOLLOW_20_in_ruleImports429); if (state.failed) return current;
+            otherlv_1=(Token)match(input,20,FOLLOW_20_in_ruleImports402); if (state.failed) return current;
             if ( state.backtracking==0 ) {
 
                   	newLeafNode(otherlv_1, grammarAccess.getImportsAccess().getIMPORTSKeyword_1());
                   
             }
-            if ( state.backtracking==0 ) {
-               
-                      newCompositeNode(grammarAccess.getImportsAccess().getImportClosureParserRuleCall_2()); 
-                  
-            }
-            pushFollow(FOLLOW_ruleImportClosure_in_ruleImports451);
-            this_ImportClosure_2=ruleImportClosure();
+            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:225:1: ( (lv_imports_2_0= ruleImportClosure ) )+
+            int cnt6=0;
+            loop6:
+            do {
+                int alt6=2;
+                int LA6_0 = input.LA(1);
 
-            state._fsp--;
-            if (state.failed) return current;
-            if ( state.backtracking==0 ) {
-               
-                      current = this_ImportClosure_2; 
-                      afterParserOrEnumRuleCall();
-                  
-            }
-            otherlv_3=(Token)match(input,21,FOLLOW_21_in_ruleImports462); if (state.failed) return current;
+                if ( ((LA6_0>=RULE_MODULE_ID && LA6_0<=RULE_ASN1_ID)) ) {
+                    alt6=1;
+                }
+
+
+                switch (alt6) {
+            	case 1 :
+            	    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:226:1: (lv_imports_2_0= ruleImportClosure )
+            	    {
+            	    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:226:1: (lv_imports_2_0= ruleImportClosure )
+            	    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:227:3: lv_imports_2_0= ruleImportClosure
+            	    {
+            	    if ( state.backtracking==0 ) {
+            	       
+            	      	        newCompositeNode(grammarAccess.getImportsAccess().getImportsImportClosureParserRuleCall_2_0()); 
+            	      	    
+            	    }
+            	    pushFollow(FOLLOW_ruleImportClosure_in_ruleImports423);
+            	    lv_imports_2_0=ruleImportClosure();
+
+            	    state._fsp--;
+            	    if (state.failed) return current;
+            	    if ( state.backtracking==0 ) {
+
+            	      	        if (current==null) {
+            	      	            current = createModelElementForParent(grammarAccess.getImportsRule());
+            	      	        }
+            	             		add(
+            	             			current, 
+            	             			"imports",
+            	              		lv_imports_2_0, 
+            	              		"ImportClosure");
+            	      	        afterParserOrEnumRuleCall();
+            	      	    
+            	    }
+
+            	    }
+
+
+            	    }
+            	    break;
+
+            	default :
+            	    if ( cnt6 >= 1 ) break loop6;
+            	    if (state.backtracking>0) {state.failed=true; return current;}
+                        EarlyExitException eee =
+                            new EarlyExitException(6, input);
+                        throw eee;
+                }
+                cnt6++;
+            } while (true);
+
+            otherlv_3=(Token)match(input,21,FOLLOW_21_in_ruleImports436); if (state.failed) return current;
             if ( state.backtracking==0 ) {
 
                   	newLeafNode(otherlv_3, grammarAccess.getImportsAccess().getSemicolonKeyword_3());
@@ -694,7 +696,7 @@ public class InternalSmiParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "entryRuleImportClosure"
-    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:265:1: entryRuleImportClosure returns [EObject current=null] : iv_ruleImportClosure= ruleImportClosure EOF ;
+    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:255:1: entryRuleImportClosure returns [EObject current=null] : iv_ruleImportClosure= ruleImportClosure EOF ;
     public final EObject entryRuleImportClosure() throws RecognitionException {
         EObject current = null;
 
@@ -702,13 +704,13 @@ public class InternalSmiParser extends AbstractInternalAntlrParser {
 
 
         try {
-            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:266:2: (iv_ruleImportClosure= ruleImportClosure EOF )
-            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:267:2: iv_ruleImportClosure= ruleImportClosure EOF
+            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:256:2: (iv_ruleImportClosure= ruleImportClosure EOF )
+            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:257:2: iv_ruleImportClosure= ruleImportClosure EOF
             {
             if ( state.backtracking==0 ) {
                newCompositeNode(grammarAccess.getImportClosureRule()); 
             }
-            pushFollow(FOLLOW_ruleImportClosure_in_entryRuleImportClosure498);
+            pushFollow(FOLLOW_ruleImportClosure_in_entryRuleImportClosure472);
             iv_ruleImportClosure=ruleImportClosure();
 
             state._fsp--;
@@ -716,7 +718,7 @@ public class InternalSmiParser extends AbstractInternalAntlrParser {
             if ( state.backtracking==0 ) {
                current =iv_ruleImportClosure; 
             }
-            match(input,EOF,FOLLOW_EOF_in_entryRuleImportClosure508); if (state.failed) return current;
+            match(input,EOF,FOLLOW_EOF_in_entryRuleImportClosure482); if (state.failed) return current;
 
             }
 
@@ -734,36 +736,37 @@ public class InternalSmiParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "ruleImportClosure"
-    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:274:1: ruleImportClosure returns [EObject current=null] : ( ( (lv_refs_0_0= ruleImportRefs ) ) otherlv_1= 'FROM' ( (lv_importURI_2_0= RULE_MODULE_ID ) ) ) ;
+    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:264:1: ruleImportClosure returns [EObject current=null] : ( ( (lv_refs_0_0= ruleImportRefs ) ) (this_NEWLINE_1= RULE_NEWLINE )* otherlv_2= 'FROM' ( (lv_importURI_3_0= RULE_MODULE_ID ) ) ) ;
     public final EObject ruleImportClosure() throws RecognitionException {
         EObject current = null;
 
-        Token otherlv_1=null;
-        Token lv_importURI_2_0=null;
+        Token this_NEWLINE_1=null;
+        Token otherlv_2=null;
+        Token lv_importURI_3_0=null;
         EObject lv_refs_0_0 = null;
 
 
          enterRule(); 
             
         try {
-            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:277:28: ( ( ( (lv_refs_0_0= ruleImportRefs ) ) otherlv_1= 'FROM' ( (lv_importURI_2_0= RULE_MODULE_ID ) ) ) )
-            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:278:1: ( ( (lv_refs_0_0= ruleImportRefs ) ) otherlv_1= 'FROM' ( (lv_importURI_2_0= RULE_MODULE_ID ) ) )
+            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:267:28: ( ( ( (lv_refs_0_0= ruleImportRefs ) ) (this_NEWLINE_1= RULE_NEWLINE )* otherlv_2= 'FROM' ( (lv_importURI_3_0= RULE_MODULE_ID ) ) ) )
+            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:268:1: ( ( (lv_refs_0_0= ruleImportRefs ) ) (this_NEWLINE_1= RULE_NEWLINE )* otherlv_2= 'FROM' ( (lv_importURI_3_0= RULE_MODULE_ID ) ) )
             {
-            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:278:1: ( ( (lv_refs_0_0= ruleImportRefs ) ) otherlv_1= 'FROM' ( (lv_importURI_2_0= RULE_MODULE_ID ) ) )
-            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:278:2: ( (lv_refs_0_0= ruleImportRefs ) ) otherlv_1= 'FROM' ( (lv_importURI_2_0= RULE_MODULE_ID ) )
+            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:268:1: ( ( (lv_refs_0_0= ruleImportRefs ) ) (this_NEWLINE_1= RULE_NEWLINE )* otherlv_2= 'FROM' ( (lv_importURI_3_0= RULE_MODULE_ID ) ) )
+            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:268:2: ( (lv_refs_0_0= ruleImportRefs ) ) (this_NEWLINE_1= RULE_NEWLINE )* otherlv_2= 'FROM' ( (lv_importURI_3_0= RULE_MODULE_ID ) )
             {
-            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:278:2: ( (lv_refs_0_0= ruleImportRefs ) )
-            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:279:1: (lv_refs_0_0= ruleImportRefs )
+            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:268:2: ( (lv_refs_0_0= ruleImportRefs ) )
+            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:269:1: (lv_refs_0_0= ruleImportRefs )
             {
-            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:279:1: (lv_refs_0_0= ruleImportRefs )
-            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:280:3: lv_refs_0_0= ruleImportRefs
+            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:269:1: (lv_refs_0_0= ruleImportRefs )
+            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:270:3: lv_refs_0_0= ruleImportRefs
             {
             if ( state.backtracking==0 ) {
                
               	        newCompositeNode(grammarAccess.getImportClosureAccess().getRefsImportRefsParserRuleCall_0_0()); 
               	    
             }
-            pushFollow(FOLLOW_ruleImportRefs_in_ruleImportClosure554);
+            pushFollow(FOLLOW_ruleImportRefs_in_ruleImportClosure528);
             lv_refs_0_0=ruleImportRefs();
 
             state._fsp--;
@@ -787,22 +790,52 @@ public class InternalSmiParser extends AbstractInternalAntlrParser {
 
             }
 
-            otherlv_1=(Token)match(input,22,FOLLOW_22_in_ruleImportClosure566); if (state.failed) return current;
+            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:286:2: (this_NEWLINE_1= RULE_NEWLINE )*
+            loop7:
+            do {
+                int alt7=2;
+                int LA7_0 = input.LA(1);
+
+                if ( (LA7_0==RULE_NEWLINE) ) {
+                    alt7=1;
+                }
+
+
+                switch (alt7) {
+            	case 1 :
+            	    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:286:3: this_NEWLINE_1= RULE_NEWLINE
+            	    {
+            	    this_NEWLINE_1=(Token)match(input,RULE_NEWLINE,FOLLOW_RULE_NEWLINE_in_ruleImportClosure540); if (state.failed) return current;
+            	    if ( state.backtracking==0 ) {
+            	       
+            	          newLeafNode(this_NEWLINE_1, grammarAccess.getImportClosureAccess().getNEWLINETerminalRuleCall_1()); 
+            	          
+            	    }
+
+            	    }
+            	    break;
+
+            	default :
+            	    break loop7;
+                }
+            } while (true);
+
+            otherlv_2=(Token)match(input,22,FOLLOW_22_in_ruleImportClosure553); if (state.failed) return current;
             if ( state.backtracking==0 ) {
 
-                  	newLeafNode(otherlv_1, grammarAccess.getImportClosureAccess().getFROMKeyword_1());
+                  	newLeafNode(otherlv_2, grammarAccess.getImportClosureAccess().getFROMKeyword_2());
                   
             }
-            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:300:1: ( (lv_importURI_2_0= RULE_MODULE_ID ) )
-            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:301:1: (lv_importURI_2_0= RULE_MODULE_ID )
+            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:294:1: ( (lv_importURI_3_0= RULE_MODULE_ID ) )
+            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:295:1: (lv_importURI_3_0= RULE_MODULE_ID )
             {
-            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:301:1: (lv_importURI_2_0= RULE_MODULE_ID )
-            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:302:3: lv_importURI_2_0= RULE_MODULE_ID
+            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:295:1: (lv_importURI_3_0= RULE_MODULE_ID )
+            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:296:3: lv_importURI_3_0= RULE_MODULE_ID
             {
-            lv_importURI_2_0=(Token)match(input,RULE_MODULE_ID,FOLLOW_RULE_MODULE_ID_in_ruleImportClosure583); if (state.failed) return current;
+            lv_importURI_3_0=(Token)match(input,RULE_MODULE_ID,FOLLOW_RULE_MODULE_ID_in_ruleImportClosure570); if (state.failed) return current;
             if ( state.backtracking==0 ) {
 
-              			newLeafNode(lv_importURI_2_0, grammarAccess.getImportClosureAccess().getImportURIMODULE_IDTerminalRuleCall_2_0()); 
+              			newLeafNode(lv_importURI_3_0, grammarAccess.getImportClosureAccess().getImportURIMODULE_IDTerminalRuleCall_3_0()); 
               		
             }
             if ( state.backtracking==0 ) {
@@ -813,7 +846,7 @@ public class InternalSmiParser extends AbstractInternalAntlrParser {
                      		setWithLastConsumed(
                      			current, 
                      			"importURI",
-                      		lv_importURI_2_0, 
+                      		lv_importURI_3_0, 
                       		"MODULE_ID");
               	    
             }
@@ -846,7 +879,7 @@ public class InternalSmiParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "entryRuleImportRefs"
-    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:326:1: entryRuleImportRefs returns [EObject current=null] : iv_ruleImportRefs= ruleImportRefs EOF ;
+    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:320:1: entryRuleImportRefs returns [EObject current=null] : iv_ruleImportRefs= ruleImportRefs EOF ;
     public final EObject entryRuleImportRefs() throws RecognitionException {
         EObject current = null;
 
@@ -854,13 +887,13 @@ public class InternalSmiParser extends AbstractInternalAntlrParser {
 
 
         try {
-            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:327:2: (iv_ruleImportRefs= ruleImportRefs EOF )
-            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:328:2: iv_ruleImportRefs= ruleImportRefs EOF
+            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:321:2: (iv_ruleImportRefs= ruleImportRefs EOF )
+            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:322:2: iv_ruleImportRefs= ruleImportRefs EOF
             {
             if ( state.backtracking==0 ) {
                newCompositeNode(grammarAccess.getImportRefsRule()); 
             }
-            pushFollow(FOLLOW_ruleImportRefs_in_entryRuleImportRefs624);
+            pushFollow(FOLLOW_ruleImportRefs_in_entryRuleImportRefs611);
             iv_ruleImportRefs=ruleImportRefs();
 
             state._fsp--;
@@ -868,7 +901,7 @@ public class InternalSmiParser extends AbstractInternalAntlrParser {
             if ( state.backtracking==0 ) {
                current =iv_ruleImportRefs; 
             }
-            match(input,EOF,FOLLOW_EOF_in_entryRuleImportRefs634); if (state.failed) return current;
+            match(input,EOF,FOLLOW_EOF_in_entryRuleImportRefs621); if (state.failed) return current;
 
             }
 
@@ -886,43 +919,43 @@ public class InternalSmiParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "ruleImportRefs"
-    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:335:1: ruleImportRefs returns [EObject current=null] : ( (this_NEWLINE_0= RULE_NEWLINE )+ ( (lv_refs_1_0= ruleImportRef ) ) (otherlv_2= ',' ( (lv_refs_3_0= ruleImportRef ) ) )* ) ;
+    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:329:1: ruleImportRefs returns [EObject current=null] : ( (this_NEWLINE_0= RULE_NEWLINE )* ( (lv_refs_1_0= ruleImportRef ) ) (otherlv_2= ',' (this_NEWLINE_3= RULE_NEWLINE )* ( (lv_refs_4_0= ruleImportRef ) ) )* ) ;
     public final EObject ruleImportRefs() throws RecognitionException {
         EObject current = null;
 
         Token this_NEWLINE_0=null;
         Token otherlv_2=null;
+        Token this_NEWLINE_3=null;
         EObject lv_refs_1_0 = null;
 
-        EObject lv_refs_3_0 = null;
+        EObject lv_refs_4_0 = null;
 
 
          enterRule(); 
             
         try {
-            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:338:28: ( ( (this_NEWLINE_0= RULE_NEWLINE )+ ( (lv_refs_1_0= ruleImportRef ) ) (otherlv_2= ',' ( (lv_refs_3_0= ruleImportRef ) ) )* ) )
-            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:339:1: ( (this_NEWLINE_0= RULE_NEWLINE )+ ( (lv_refs_1_0= ruleImportRef ) ) (otherlv_2= ',' ( (lv_refs_3_0= ruleImportRef ) ) )* )
+            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:332:28: ( ( (this_NEWLINE_0= RULE_NEWLINE )* ( (lv_refs_1_0= ruleImportRef ) ) (otherlv_2= ',' (this_NEWLINE_3= RULE_NEWLINE )* ( (lv_refs_4_0= ruleImportRef ) ) )* ) )
+            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:333:1: ( (this_NEWLINE_0= RULE_NEWLINE )* ( (lv_refs_1_0= ruleImportRef ) ) (otherlv_2= ',' (this_NEWLINE_3= RULE_NEWLINE )* ( (lv_refs_4_0= ruleImportRef ) ) )* )
             {
-            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:339:1: ( (this_NEWLINE_0= RULE_NEWLINE )+ ( (lv_refs_1_0= ruleImportRef ) ) (otherlv_2= ',' ( (lv_refs_3_0= ruleImportRef ) ) )* )
-            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:339:2: (this_NEWLINE_0= RULE_NEWLINE )+ ( (lv_refs_1_0= ruleImportRef ) ) (otherlv_2= ',' ( (lv_refs_3_0= ruleImportRef ) ) )*
+            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:333:1: ( (this_NEWLINE_0= RULE_NEWLINE )* ( (lv_refs_1_0= ruleImportRef ) ) (otherlv_2= ',' (this_NEWLINE_3= RULE_NEWLINE )* ( (lv_refs_4_0= ruleImportRef ) ) )* )
+            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:333:2: (this_NEWLINE_0= RULE_NEWLINE )* ( (lv_refs_1_0= ruleImportRef ) ) (otherlv_2= ',' (this_NEWLINE_3= RULE_NEWLINE )* ( (lv_refs_4_0= ruleImportRef ) ) )*
             {
-            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:339:2: (this_NEWLINE_0= RULE_NEWLINE )+
-            int cnt6=0;
-            loop6:
+            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:333:2: (this_NEWLINE_0= RULE_NEWLINE )*
+            loop8:
             do {
-                int alt6=2;
-                int LA6_0 = input.LA(1);
+                int alt8=2;
+                int LA8_0 = input.LA(1);
 
-                if ( (LA6_0==RULE_NEWLINE) ) {
-                    alt6=1;
+                if ( (LA8_0==RULE_NEWLINE) ) {
+                    alt8=1;
                 }
 
 
-                switch (alt6) {
+                switch (alt8) {
             	case 1 :
-            	    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:339:3: this_NEWLINE_0= RULE_NEWLINE
+            	    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:333:3: this_NEWLINE_0= RULE_NEWLINE
             	    {
-            	    this_NEWLINE_0=(Token)match(input,RULE_NEWLINE,FOLLOW_RULE_NEWLINE_in_ruleImportRefs671); if (state.failed) return current;
+            	    this_NEWLINE_0=(Token)match(input,RULE_NEWLINE,FOLLOW_RULE_NEWLINE_in_ruleImportRefs658); if (state.failed) return current;
             	    if ( state.backtracking==0 ) {
             	       
             	          newLeafNode(this_NEWLINE_0, grammarAccess.getImportRefsAccess().getNEWLINETerminalRuleCall_0()); 
@@ -933,27 +966,22 @@ public class InternalSmiParser extends AbstractInternalAntlrParser {
             	    break;
 
             	default :
-            	    if ( cnt6 >= 1 ) break loop6;
-            	    if (state.backtracking>0) {state.failed=true; return current;}
-                        EarlyExitException eee =
-                            new EarlyExitException(6, input);
-                        throw eee;
+            	    break loop8;
                 }
-                cnt6++;
             } while (true);
 
-            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:343:3: ( (lv_refs_1_0= ruleImportRef ) )
-            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:344:1: (lv_refs_1_0= ruleImportRef )
+            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:337:3: ( (lv_refs_1_0= ruleImportRef ) )
+            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:338:1: (lv_refs_1_0= ruleImportRef )
             {
-            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:344:1: (lv_refs_1_0= ruleImportRef )
-            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:345:3: lv_refs_1_0= ruleImportRef
+            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:338:1: (lv_refs_1_0= ruleImportRef )
+            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:339:3: lv_refs_1_0= ruleImportRef
             {
             if ( state.backtracking==0 ) {
                
               	        newCompositeNode(grammarAccess.getImportRefsAccess().getRefsImportRefParserRuleCall_1_0()); 
               	    
             }
-            pushFollow(FOLLOW_ruleImportRef_in_ruleImportRefs693);
+            pushFollow(FOLLOW_ruleImportRef_in_ruleImportRefs680);
             lv_refs_1_0=ruleImportRef();
 
             state._fsp--;
@@ -977,40 +1005,70 @@ public class InternalSmiParser extends AbstractInternalAntlrParser {
 
             }
 
-            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:361:2: (otherlv_2= ',' ( (lv_refs_3_0= ruleImportRef ) ) )*
-            loop7:
+            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:355:2: (otherlv_2= ',' (this_NEWLINE_3= RULE_NEWLINE )* ( (lv_refs_4_0= ruleImportRef ) ) )*
+            loop10:
             do {
-                int alt7=2;
-                int LA7_0 = input.LA(1);
+                int alt10=2;
+                int LA10_0 = input.LA(1);
 
-                if ( (LA7_0==23) ) {
-                    alt7=1;
+                if ( (LA10_0==23) ) {
+                    alt10=1;
                 }
 
 
-                switch (alt7) {
+                switch (alt10) {
             	case 1 :
-            	    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:361:4: otherlv_2= ',' ( (lv_refs_3_0= ruleImportRef ) )
+            	    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:355:4: otherlv_2= ',' (this_NEWLINE_3= RULE_NEWLINE )* ( (lv_refs_4_0= ruleImportRef ) )
             	    {
-            	    otherlv_2=(Token)match(input,23,FOLLOW_23_in_ruleImportRefs706); if (state.failed) return current;
+            	    otherlv_2=(Token)match(input,23,FOLLOW_23_in_ruleImportRefs693); if (state.failed) return current;
             	    if ( state.backtracking==0 ) {
 
             	          	newLeafNode(otherlv_2, grammarAccess.getImportRefsAccess().getCommaKeyword_2_0());
             	          
             	    }
-            	    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:365:1: ( (lv_refs_3_0= ruleImportRef ) )
-            	    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:366:1: (lv_refs_3_0= ruleImportRef )
+            	    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:359:1: (this_NEWLINE_3= RULE_NEWLINE )*
+            	    loop9:
+            	    do {
+            	        int alt9=2;
+            	        int LA9_0 = input.LA(1);
+
+            	        if ( (LA9_0==RULE_NEWLINE) ) {
+            	            alt9=1;
+            	        }
+
+
+            	        switch (alt9) {
+            	    	case 1 :
+            	    	    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:359:2: this_NEWLINE_3= RULE_NEWLINE
+            	    	    {
+            	    	    this_NEWLINE_3=(Token)match(input,RULE_NEWLINE,FOLLOW_RULE_NEWLINE_in_ruleImportRefs705); if (state.failed) return current;
+            	    	    if ( state.backtracking==0 ) {
+            	    	       
+            	    	          newLeafNode(this_NEWLINE_3, grammarAccess.getImportRefsAccess().getNEWLINETerminalRuleCall_2_1()); 
+            	    	          
+            	    	    }
+
+            	    	    }
+            	    	    break;
+
+            	    	default :
+            	    	    break loop9;
+            	        }
+            	    } while (true);
+
+            	    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:363:3: ( (lv_refs_4_0= ruleImportRef ) )
+            	    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:364:1: (lv_refs_4_0= ruleImportRef )
             	    {
-            	    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:366:1: (lv_refs_3_0= ruleImportRef )
-            	    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:367:3: lv_refs_3_0= ruleImportRef
+            	    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:364:1: (lv_refs_4_0= ruleImportRef )
+            	    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:365:3: lv_refs_4_0= ruleImportRef
             	    {
             	    if ( state.backtracking==0 ) {
             	       
-            	      	        newCompositeNode(grammarAccess.getImportRefsAccess().getRefsImportRefParserRuleCall_2_1_0()); 
+            	      	        newCompositeNode(grammarAccess.getImportRefsAccess().getRefsImportRefParserRuleCall_2_2_0()); 
             	      	    
             	    }
             	    pushFollow(FOLLOW_ruleImportRef_in_ruleImportRefs727);
-            	    lv_refs_3_0=ruleImportRef();
+            	    lv_refs_4_0=ruleImportRef();
 
             	    state._fsp--;
             	    if (state.failed) return current;
@@ -1022,7 +1080,7 @@ public class InternalSmiParser extends AbstractInternalAntlrParser {
             	             		add(
             	             			current, 
             	             			"refs",
-            	              		lv_refs_3_0, 
+            	              		lv_refs_4_0, 
             	              		"ImportRef");
             	      	        afterParserOrEnumRuleCall();
             	      	    
@@ -1038,7 +1096,7 @@ public class InternalSmiParser extends AbstractInternalAntlrParser {
             	    break;
 
             	default :
-            	    break loop7;
+            	    break loop10;
                 }
             } while (true);
 
@@ -1065,7 +1123,7 @@ public class InternalSmiParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "entryRuleImportRef"
-    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:391:1: entryRuleImportRef returns [EObject current=null] : iv_ruleImportRef= ruleImportRef EOF ;
+    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:389:1: entryRuleImportRef returns [EObject current=null] : iv_ruleImportRef= ruleImportRef EOF ;
     public final EObject entryRuleImportRef() throws RecognitionException {
         EObject current = null;
 
@@ -1073,8 +1131,8 @@ public class InternalSmiParser extends AbstractInternalAntlrParser {
 
 
         try {
-            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:392:2: (iv_ruleImportRef= ruleImportRef EOF )
-            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:393:2: iv_ruleImportRef= ruleImportRef EOF
+            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:390:2: (iv_ruleImportRef= ruleImportRef EOF )
+            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:391:2: iv_ruleImportRef= ruleImportRef EOF
             {
             if ( state.backtracking==0 ) {
                newCompositeNode(grammarAccess.getImportRefRule()); 
@@ -1105,7 +1163,7 @@ public class InternalSmiParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "ruleImportRef"
-    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:400:1: ruleImportRef returns [EObject current=null] : ( ( (otherlv_0= RULE_ASN1_ID ) ) | ( (otherlv_1= RULE_MODULE_ID ) ) ) ;
+    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:398:1: ruleImportRef returns [EObject current=null] : ( ( (otherlv_0= RULE_ASN1_ID ) ) | ( (otherlv_1= RULE_MODULE_ID ) ) ) ;
     public final EObject ruleImportRef() throws RecognitionException {
         EObject current = null;
 
@@ -1115,35 +1173,35 @@ public class InternalSmiParser extends AbstractInternalAntlrParser {
          enterRule(); 
             
         try {
-            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:403:28: ( ( ( (otherlv_0= RULE_ASN1_ID ) ) | ( (otherlv_1= RULE_MODULE_ID ) ) ) )
-            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:404:1: ( ( (otherlv_0= RULE_ASN1_ID ) ) | ( (otherlv_1= RULE_MODULE_ID ) ) )
+            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:401:28: ( ( ( (otherlv_0= RULE_ASN1_ID ) ) | ( (otherlv_1= RULE_MODULE_ID ) ) ) )
+            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:402:1: ( ( (otherlv_0= RULE_ASN1_ID ) ) | ( (otherlv_1= RULE_MODULE_ID ) ) )
             {
-            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:404:1: ( ( (otherlv_0= RULE_ASN1_ID ) ) | ( (otherlv_1= RULE_MODULE_ID ) ) )
-            int alt8=2;
-            int LA8_0 = input.LA(1);
+            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:402:1: ( ( (otherlv_0= RULE_ASN1_ID ) ) | ( (otherlv_1= RULE_MODULE_ID ) ) )
+            int alt11=2;
+            int LA11_0 = input.LA(1);
 
-            if ( (LA8_0==RULE_ASN1_ID) ) {
-                alt8=1;
+            if ( (LA11_0==RULE_ASN1_ID) ) {
+                alt11=1;
             }
-            else if ( (LA8_0==RULE_MODULE_ID) ) {
-                alt8=2;
+            else if ( (LA11_0==RULE_MODULE_ID) ) {
+                alt11=2;
             }
             else {
                 if (state.backtracking>0) {state.failed=true; return current;}
                 NoViableAltException nvae =
-                    new NoViableAltException("", 8, 0, input);
+                    new NoViableAltException("", 11, 0, input);
 
                 throw nvae;
             }
-            switch (alt8) {
+            switch (alt11) {
                 case 1 :
-                    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:404:2: ( (otherlv_0= RULE_ASN1_ID ) )
+                    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:402:2: ( (otherlv_0= RULE_ASN1_ID ) )
                     {
-                    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:404:2: ( (otherlv_0= RULE_ASN1_ID ) )
-                    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:405:1: (otherlv_0= RULE_ASN1_ID )
+                    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:402:2: ( (otherlv_0= RULE_ASN1_ID ) )
+                    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:403:1: (otherlv_0= RULE_ASN1_ID )
                     {
-                    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:405:1: (otherlv_0= RULE_ASN1_ID )
-                    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:406:3: otherlv_0= RULE_ASN1_ID
+                    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:403:1: (otherlv_0= RULE_ASN1_ID )
+                    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:404:3: otherlv_0= RULE_ASN1_ID
                     {
                     if ( state.backtracking==0 ) {
 
@@ -1155,7 +1213,7 @@ public class InternalSmiParser extends AbstractInternalAntlrParser {
                     otherlv_0=(Token)match(input,RULE_ASN1_ID,FOLLOW_RULE_ASN1_ID_in_ruleImportRef820); if (state.failed) return current;
                     if ( state.backtracking==0 ) {
 
-                      		newLeafNode(otherlv_0, grammarAccess.getImportRefAccess().getOiRefObjectIdentifierCrossReference_0_0()); 
+                      		newLeafNode(otherlv_0, grammarAccess.getImportRefAccess().getOiRefObjectReferenceableCrossReference_0_0()); 
                       	
                     }
 
@@ -1168,13 +1226,13 @@ public class InternalSmiParser extends AbstractInternalAntlrParser {
                     }
                     break;
                 case 2 :
-                    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:418:6: ( (otherlv_1= RULE_MODULE_ID ) )
+                    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:416:6: ( (otherlv_1= RULE_MODULE_ID ) )
                     {
-                    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:418:6: ( (otherlv_1= RULE_MODULE_ID ) )
-                    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:419:1: (otherlv_1= RULE_MODULE_ID )
+                    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:416:6: ( (otherlv_1= RULE_MODULE_ID ) )
+                    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:417:1: (otherlv_1= RULE_MODULE_ID )
                     {
-                    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:419:1: (otherlv_1= RULE_MODULE_ID )
-                    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:420:3: otherlv_1= RULE_MODULE_ID
+                    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:417:1: (otherlv_1= RULE_MODULE_ID )
+                    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:418:3: otherlv_1= RULE_MODULE_ID
                     {
                     if ( state.backtracking==0 ) {
 
@@ -1186,7 +1244,7 @@ public class InternalSmiParser extends AbstractInternalAntlrParser {
                     otherlv_1=(Token)match(input,RULE_MODULE_ID,FOLLOW_RULE_MODULE_ID_in_ruleImportRef846); if (state.failed) return current;
                     if ( state.backtracking==0 ) {
 
-                      		newLeafNode(otherlv_1, grammarAccess.getImportRefAccess().getTypeRefTypeDefinitionCrossReference_1_0()); 
+                      		newLeafNode(otherlv_1, grammarAccess.getImportRefAccess().getTypeRefReferenceableCrossReference_1_0()); 
                       	
                     }
 
@@ -1220,33 +1278,30 @@ public class InternalSmiParser extends AbstractInternalAntlrParser {
     // $ANTLR end "ruleImportRef"
 
 
-    // $ANTLR start "entryRuleObjectIdentifier"
-    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:439:1: entryRuleObjectIdentifier returns [EObject current=null] : iv_ruleObjectIdentifier= ruleObjectIdentifier EOF ;
-    public final EObject entryRuleObjectIdentifier() throws RecognitionException {
+    // $ANTLR start "entryRuleReferenceable"
+    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:437:1: entryRuleReferenceable returns [EObject current=null] : iv_ruleReferenceable= ruleReferenceable EOF ;
+    public final EObject entryRuleReferenceable() throws RecognitionException {
         EObject current = null;
 
-        EObject iv_ruleObjectIdentifier = null;
+        EObject iv_ruleReferenceable = null;
 
 
-         
-        		HiddenTokens myHiddenTokenState = ((XtextTokenStream)input).setHiddenTokens("RULE_WS", "RULE_SL_ASN1_COMMENT");
-        	
         try {
-            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:443:2: (iv_ruleObjectIdentifier= ruleObjectIdentifier EOF )
-            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:444:2: iv_ruleObjectIdentifier= ruleObjectIdentifier EOF
+            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:438:2: (iv_ruleReferenceable= ruleReferenceable EOF )
+            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:439:2: iv_ruleReferenceable= ruleReferenceable EOF
             {
             if ( state.backtracking==0 ) {
-               newCompositeNode(grammarAccess.getObjectIdentifierRule()); 
+               newCompositeNode(grammarAccess.getReferenceableRule()); 
             }
-            pushFollow(FOLLOW_ruleObjectIdentifier_in_entryRuleObjectIdentifier888);
-            iv_ruleObjectIdentifier=ruleObjectIdentifier();
+            pushFollow(FOLLOW_ruleReferenceable_in_entryRuleReferenceable882);
+            iv_ruleReferenceable=ruleReferenceable();
 
             state._fsp--;
             if (state.failed) return current;
             if ( state.backtracking==0 ) {
-               current =iv_ruleObjectIdentifier; 
+               current =iv_ruleReferenceable; 
             }
-            match(input,EOF,FOLLOW_EOF_in_entryRuleObjectIdentifier898); if (state.failed) return current;
+            match(input,EOF,FOLLOW_EOF_in_entryRuleReferenceable892); if (state.failed) return current;
 
             }
 
@@ -1257,9 +1312,132 @@ public class InternalSmiParser extends AbstractInternalAntlrParser {
                 appendSkippedTokens();
             } 
         finally {
+        }
+        return current;
+    }
+    // $ANTLR end "entryRuleReferenceable"
 
-            	myHiddenTokenState.restore();
 
+    // $ANTLR start "ruleReferenceable"
+    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:446:1: ruleReferenceable returns [EObject current=null] : (this_Macro_0= ruleMacro | this_TypeDefinition_1= ruleTypeDefinition ) ;
+    public final EObject ruleReferenceable() throws RecognitionException {
+        EObject current = null;
+
+        EObject this_Macro_0 = null;
+
+        EObject this_TypeDefinition_1 = null;
+
+
+         enterRule(); 
+            
+        try {
+            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:449:28: ( (this_Macro_0= ruleMacro | this_TypeDefinition_1= ruleTypeDefinition ) )
+            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:450:1: (this_Macro_0= ruleMacro | this_TypeDefinition_1= ruleTypeDefinition )
+            {
+            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:450:1: (this_Macro_0= ruleMacro | this_TypeDefinition_1= ruleTypeDefinition )
+            int alt12=2;
+            alt12 = dfa12.predict(input);
+            switch (alt12) {
+                case 1 :
+                    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:451:5: this_Macro_0= ruleMacro
+                    {
+                    if ( state.backtracking==0 ) {
+                       
+                              newCompositeNode(grammarAccess.getReferenceableAccess().getMacroParserRuleCall_0()); 
+                          
+                    }
+                    pushFollow(FOLLOW_ruleMacro_in_ruleReferenceable939);
+                    this_Macro_0=ruleMacro();
+
+                    state._fsp--;
+                    if (state.failed) return current;
+                    if ( state.backtracking==0 ) {
+                       
+                              current = this_Macro_0; 
+                              afterParserOrEnumRuleCall();
+                          
+                    }
+
+                    }
+                    break;
+                case 2 :
+                    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:461:5: this_TypeDefinition_1= ruleTypeDefinition
+                    {
+                    if ( state.backtracking==0 ) {
+                       
+                              newCompositeNode(grammarAccess.getReferenceableAccess().getTypeDefinitionParserRuleCall_1()); 
+                          
+                    }
+                    pushFollow(FOLLOW_ruleTypeDefinition_in_ruleReferenceable966);
+                    this_TypeDefinition_1=ruleTypeDefinition();
+
+                    state._fsp--;
+                    if (state.failed) return current;
+                    if ( state.backtracking==0 ) {
+                       
+                              current = this_TypeDefinition_1; 
+                              afterParserOrEnumRuleCall();
+                          
+                    }
+
+                    }
+                    break;
+
+            }
+
+
+            }
+
+            if ( state.backtracking==0 ) {
+               leaveRule(); 
+            }
+        }
+         
+            catch (RecognitionException re) { 
+                recover(input,re); 
+                appendSkippedTokens();
+            } 
+        finally {
+        }
+        return current;
+    }
+    // $ANTLR end "ruleReferenceable"
+
+
+    // $ANTLR start "entryRuleObjectIdentifier"
+    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:477:1: entryRuleObjectIdentifier returns [EObject current=null] : iv_ruleObjectIdentifier= ruleObjectIdentifier EOF ;
+    public final EObject entryRuleObjectIdentifier() throws RecognitionException {
+        EObject current = null;
+
+        EObject iv_ruleObjectIdentifier = null;
+
+
+        try {
+            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:478:2: (iv_ruleObjectIdentifier= ruleObjectIdentifier EOF )
+            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:479:2: iv_ruleObjectIdentifier= ruleObjectIdentifier EOF
+            {
+            if ( state.backtracking==0 ) {
+               newCompositeNode(grammarAccess.getObjectIdentifierRule()); 
+            }
+            pushFollow(FOLLOW_ruleObjectIdentifier_in_entryRuleObjectIdentifier1001);
+            iv_ruleObjectIdentifier=ruleObjectIdentifier();
+
+            state._fsp--;
+            if (state.failed) return current;
+            if ( state.backtracking==0 ) {
+               current =iv_ruleObjectIdentifier; 
+            }
+            match(input,EOF,FOLLOW_EOF_in_entryRuleObjectIdentifier1011); if (state.failed) return current;
+
+            }
+
+        }
+         
+            catch (RecognitionException re) { 
+                recover(input,re); 
+                appendSkippedTokens();
+            } 
+        finally {
         }
         return current;
     }
@@ -1267,7 +1445,7 @@ public class InternalSmiParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "ruleObjectIdentifier"
-    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:454:1: ruleObjectIdentifier returns [EObject current=null] : ( (this_NEWLINE_0= RULE_NEWLINE )+ ( (lv_name_1_0= RULE_ASN1_ID ) ) otherlv_2= 'OBJECT IDENTIFIER' otherlv_3= '::=' otherlv_4= '{' ( (lv_oidValue_5_0= ruleObjectIdentifierValue ) ) otherlv_6= '}' ) ;
+    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:486:1: ruleObjectIdentifier returns [EObject current=null] : ( (this_NEWLINE_0= RULE_NEWLINE )+ ( (lv_name_1_0= RULE_ASN1_ID ) ) otherlv_2= 'OBJECT IDENTIFIER' otherlv_3= '::=' otherlv_4= '{' ( (lv_oidValue_5_0= ruleObjectIdentifierValue ) ) otherlv_6= '}' ) ;
     public final EObject ruleObjectIdentifier() throws RecognitionException {
         EObject current = null;
 
@@ -1281,32 +1459,31 @@ public class InternalSmiParser extends AbstractInternalAntlrParser {
 
 
          enterRule(); 
-        		HiddenTokens myHiddenTokenState = ((XtextTokenStream)input).setHiddenTokens("RULE_WS", "RULE_SL_ASN1_COMMENT");
             
         try {
-            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:458:28: ( ( (this_NEWLINE_0= RULE_NEWLINE )+ ( (lv_name_1_0= RULE_ASN1_ID ) ) otherlv_2= 'OBJECT IDENTIFIER' otherlv_3= '::=' otherlv_4= '{' ( (lv_oidValue_5_0= ruleObjectIdentifierValue ) ) otherlv_6= '}' ) )
-            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:459:1: ( (this_NEWLINE_0= RULE_NEWLINE )+ ( (lv_name_1_0= RULE_ASN1_ID ) ) otherlv_2= 'OBJECT IDENTIFIER' otherlv_3= '::=' otherlv_4= '{' ( (lv_oidValue_5_0= ruleObjectIdentifierValue ) ) otherlv_6= '}' )
+            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:489:28: ( ( (this_NEWLINE_0= RULE_NEWLINE )+ ( (lv_name_1_0= RULE_ASN1_ID ) ) otherlv_2= 'OBJECT IDENTIFIER' otherlv_3= '::=' otherlv_4= '{' ( (lv_oidValue_5_0= ruleObjectIdentifierValue ) ) otherlv_6= '}' ) )
+            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:490:1: ( (this_NEWLINE_0= RULE_NEWLINE )+ ( (lv_name_1_0= RULE_ASN1_ID ) ) otherlv_2= 'OBJECT IDENTIFIER' otherlv_3= '::=' otherlv_4= '{' ( (lv_oidValue_5_0= ruleObjectIdentifierValue ) ) otherlv_6= '}' )
             {
-            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:459:1: ( (this_NEWLINE_0= RULE_NEWLINE )+ ( (lv_name_1_0= RULE_ASN1_ID ) ) otherlv_2= 'OBJECT IDENTIFIER' otherlv_3= '::=' otherlv_4= '{' ( (lv_oidValue_5_0= ruleObjectIdentifierValue ) ) otherlv_6= '}' )
-            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:459:2: (this_NEWLINE_0= RULE_NEWLINE )+ ( (lv_name_1_0= RULE_ASN1_ID ) ) otherlv_2= 'OBJECT IDENTIFIER' otherlv_3= '::=' otherlv_4= '{' ( (lv_oidValue_5_0= ruleObjectIdentifierValue ) ) otherlv_6= '}'
+            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:490:1: ( (this_NEWLINE_0= RULE_NEWLINE )+ ( (lv_name_1_0= RULE_ASN1_ID ) ) otherlv_2= 'OBJECT IDENTIFIER' otherlv_3= '::=' otherlv_4= '{' ( (lv_oidValue_5_0= ruleObjectIdentifierValue ) ) otherlv_6= '}' )
+            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:490:2: (this_NEWLINE_0= RULE_NEWLINE )+ ( (lv_name_1_0= RULE_ASN1_ID ) ) otherlv_2= 'OBJECT IDENTIFIER' otherlv_3= '::=' otherlv_4= '{' ( (lv_oidValue_5_0= ruleObjectIdentifierValue ) ) otherlv_6= '}'
             {
-            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:459:2: (this_NEWLINE_0= RULE_NEWLINE )+
-            int cnt9=0;
-            loop9:
+            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:490:2: (this_NEWLINE_0= RULE_NEWLINE )+
+            int cnt13=0;
+            loop13:
             do {
-                int alt9=2;
-                int LA9_0 = input.LA(1);
+                int alt13=2;
+                int LA13_0 = input.LA(1);
 
-                if ( (LA9_0==RULE_NEWLINE) ) {
-                    alt9=1;
+                if ( (LA13_0==RULE_NEWLINE) ) {
+                    alt13=1;
                 }
 
 
-                switch (alt9) {
+                switch (alt13) {
             	case 1 :
-            	    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:459:3: this_NEWLINE_0= RULE_NEWLINE
+            	    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:490:3: this_NEWLINE_0= RULE_NEWLINE
             	    {
-            	    this_NEWLINE_0=(Token)match(input,RULE_NEWLINE,FOLLOW_RULE_NEWLINE_in_ruleObjectIdentifier939); if (state.failed) return current;
+            	    this_NEWLINE_0=(Token)match(input,RULE_NEWLINE,FOLLOW_RULE_NEWLINE_in_ruleObjectIdentifier1048); if (state.failed) return current;
             	    if ( state.backtracking==0 ) {
             	       
             	          newLeafNode(this_NEWLINE_0, grammarAccess.getObjectIdentifierAccess().getNEWLINETerminalRuleCall_0()); 
@@ -1317,22 +1494,22 @@ public class InternalSmiParser extends AbstractInternalAntlrParser {
             	    break;
 
             	default :
-            	    if ( cnt9 >= 1 ) break loop9;
+            	    if ( cnt13 >= 1 ) break loop13;
             	    if (state.backtracking>0) {state.failed=true; return current;}
                         EarlyExitException eee =
-                            new EarlyExitException(9, input);
+                            new EarlyExitException(13, input);
                         throw eee;
                 }
-                cnt9++;
+                cnt13++;
             } while (true);
 
-            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:463:3: ( (lv_name_1_0= RULE_ASN1_ID ) )
-            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:464:1: (lv_name_1_0= RULE_ASN1_ID )
+            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:494:3: ( (lv_name_1_0= RULE_ASN1_ID ) )
+            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:495:1: (lv_name_1_0= RULE_ASN1_ID )
             {
-            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:464:1: (lv_name_1_0= RULE_ASN1_ID )
-            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:465:3: lv_name_1_0= RULE_ASN1_ID
+            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:495:1: (lv_name_1_0= RULE_ASN1_ID )
+            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:496:3: lv_name_1_0= RULE_ASN1_ID
             {
-            lv_name_1_0=(Token)match(input,RULE_ASN1_ID,FOLLOW_RULE_ASN1_ID_in_ruleObjectIdentifier957); if (state.failed) return current;
+            lv_name_1_0=(Token)match(input,RULE_ASN1_ID,FOLLOW_RULE_ASN1_ID_in_ruleObjectIdentifier1066); if (state.failed) return current;
             if ( state.backtracking==0 ) {
 
               			newLeafNode(lv_name_1_0, grammarAccess.getObjectIdentifierAccess().getNameASN1_IDTerminalRuleCall_1_0()); 
@@ -1356,36 +1533,36 @@ public class InternalSmiParser extends AbstractInternalAntlrParser {
 
             }
 
-            otherlv_2=(Token)match(input,24,FOLLOW_24_in_ruleObjectIdentifier974); if (state.failed) return current;
+            otherlv_2=(Token)match(input,24,FOLLOW_24_in_ruleObjectIdentifier1083); if (state.failed) return current;
             if ( state.backtracking==0 ) {
 
                   	newLeafNode(otherlv_2, grammarAccess.getObjectIdentifierAccess().getOBJECTIDENTIFIERKeyword_2());
                   
             }
-            otherlv_3=(Token)match(input,17,FOLLOW_17_in_ruleObjectIdentifier986); if (state.failed) return current;
+            otherlv_3=(Token)match(input,17,FOLLOW_17_in_ruleObjectIdentifier1095); if (state.failed) return current;
             if ( state.backtracking==0 ) {
 
                   	newLeafNode(otherlv_3, grammarAccess.getObjectIdentifierAccess().getColonColonEqualsSignKeyword_3());
                   
             }
-            otherlv_4=(Token)match(input,25,FOLLOW_25_in_ruleObjectIdentifier998); if (state.failed) return current;
+            otherlv_4=(Token)match(input,25,FOLLOW_25_in_ruleObjectIdentifier1107); if (state.failed) return current;
             if ( state.backtracking==0 ) {
 
                   	newLeafNode(otherlv_4, grammarAccess.getObjectIdentifierAccess().getLeftCurlyBracketKeyword_4());
                   
             }
-            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:493:1: ( (lv_oidValue_5_0= ruleObjectIdentifierValue ) )
-            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:494:1: (lv_oidValue_5_0= ruleObjectIdentifierValue )
+            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:524:1: ( (lv_oidValue_5_0= ruleObjectIdentifierValue ) )
+            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:525:1: (lv_oidValue_5_0= ruleObjectIdentifierValue )
             {
-            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:494:1: (lv_oidValue_5_0= ruleObjectIdentifierValue )
-            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:495:3: lv_oidValue_5_0= ruleObjectIdentifierValue
+            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:525:1: (lv_oidValue_5_0= ruleObjectIdentifierValue )
+            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:526:3: lv_oidValue_5_0= ruleObjectIdentifierValue
             {
             if ( state.backtracking==0 ) {
                
               	        newCompositeNode(grammarAccess.getObjectIdentifierAccess().getOidValueObjectIdentifierValueParserRuleCall_5_0()); 
               	    
             }
-            pushFollow(FOLLOW_ruleObjectIdentifierValue_in_ruleObjectIdentifier1019);
+            pushFollow(FOLLOW_ruleObjectIdentifierValue_in_ruleObjectIdentifier1128);
             lv_oidValue_5_0=ruleObjectIdentifierValue();
 
             state._fsp--;
@@ -1409,7 +1586,7 @@ public class InternalSmiParser extends AbstractInternalAntlrParser {
 
             }
 
-            otherlv_6=(Token)match(input,26,FOLLOW_26_in_ruleObjectIdentifier1031); if (state.failed) return current;
+            otherlv_6=(Token)match(input,26,FOLLOW_26_in_ruleObjectIdentifier1140); if (state.failed) return current;
             if ( state.backtracking==0 ) {
 
                   	newLeafNode(otherlv_6, grammarAccess.getObjectIdentifierAccess().getRightCurlyBracketKeyword_6());
@@ -1431,9 +1608,6 @@ public class InternalSmiParser extends AbstractInternalAntlrParser {
                 appendSkippedTokens();
             } 
         finally {
-
-            	myHiddenTokenState.restore();
-
         }
         return current;
     }
@@ -1441,7 +1615,7 @@ public class InternalSmiParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "entryRuleObjectIdentifierValue"
-    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:526:1: entryRuleObjectIdentifierValue returns [EObject current=null] : iv_ruleObjectIdentifierValue= ruleObjectIdentifierValue EOF ;
+    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:554:1: entryRuleObjectIdentifierValue returns [EObject current=null] : iv_ruleObjectIdentifierValue= ruleObjectIdentifierValue EOF ;
     public final EObject entryRuleObjectIdentifierValue() throws RecognitionException {
         EObject current = null;
 
@@ -1449,13 +1623,13 @@ public class InternalSmiParser extends AbstractInternalAntlrParser {
 
 
         try {
-            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:527:2: (iv_ruleObjectIdentifierValue= ruleObjectIdentifierValue EOF )
-            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:528:2: iv_ruleObjectIdentifierValue= ruleObjectIdentifierValue EOF
+            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:555:2: (iv_ruleObjectIdentifierValue= ruleObjectIdentifierValue EOF )
+            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:556:2: iv_ruleObjectIdentifierValue= ruleObjectIdentifierValue EOF
             {
             if ( state.backtracking==0 ) {
                newCompositeNode(grammarAccess.getObjectIdentifierValueRule()); 
             }
-            pushFollow(FOLLOW_ruleObjectIdentifierValue_in_entryRuleObjectIdentifierValue1071);
+            pushFollow(FOLLOW_ruleObjectIdentifierValue_in_entryRuleObjectIdentifierValue1176);
             iv_ruleObjectIdentifierValue=ruleObjectIdentifierValue();
 
             state._fsp--;
@@ -1463,7 +1637,7 @@ public class InternalSmiParser extends AbstractInternalAntlrParser {
             if ( state.backtracking==0 ) {
                current =iv_ruleObjectIdentifierValue; 
             }
-            match(input,EOF,FOLLOW_EOF_in_entryRuleObjectIdentifierValue1081); if (state.failed) return current;
+            match(input,EOF,FOLLOW_EOF_in_entryRuleObjectIdentifierValue1186); if (state.failed) return current;
 
             }
 
@@ -1481,52 +1655,83 @@ public class InternalSmiParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "ruleObjectIdentifierValue"
-    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:535:1: ruleObjectIdentifierValue returns [EObject current=null] : ( ( ( (lv_name_0_0= RULE_ASN1_ID ) ) | ( ( ( RULE_ASN1_ID ) )=> (otherlv_1= RULE_ASN1_ID ) ) )? ( (lv_subIds_2_0= RULE_BIG_INTEGER ) ) ( (lv_subIds_3_0= RULE_BIG_INTEGER ) )* ) ;
+    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:563:1: ruleObjectIdentifierValue returns [EObject current=null] : ( ( ( (otherlv_0= RULE_ASN1_ID ) ) | ( ( ( RULE_ASN1_ID ) )=> (lv_name_1_0= RULE_ASN1_ID ) ) )? ( (lv_subIds_2_0= RULE_BIG_INTEGER ) ) ( (lv_subIds_3_0= RULE_BIG_INTEGER ) )* ) ;
     public final EObject ruleObjectIdentifierValue() throws RecognitionException {
         EObject current = null;
 
-        Token lv_name_0_0=null;
-        Token otherlv_1=null;
+        Token otherlv_0=null;
+        Token lv_name_1_0=null;
         Token lv_subIds_2_0=null;
         Token lv_subIds_3_0=null;
 
          enterRule(); 
             
         try {
-            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:538:28: ( ( ( ( (lv_name_0_0= RULE_ASN1_ID ) ) | ( ( ( RULE_ASN1_ID ) )=> (otherlv_1= RULE_ASN1_ID ) ) )? ( (lv_subIds_2_0= RULE_BIG_INTEGER ) ) ( (lv_subIds_3_0= RULE_BIG_INTEGER ) )* ) )
-            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:539:1: ( ( ( (lv_name_0_0= RULE_ASN1_ID ) ) | ( ( ( RULE_ASN1_ID ) )=> (otherlv_1= RULE_ASN1_ID ) ) )? ( (lv_subIds_2_0= RULE_BIG_INTEGER ) ) ( (lv_subIds_3_0= RULE_BIG_INTEGER ) )* )
+            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:566:28: ( ( ( ( (otherlv_0= RULE_ASN1_ID ) ) | ( ( ( RULE_ASN1_ID ) )=> (lv_name_1_0= RULE_ASN1_ID ) ) )? ( (lv_subIds_2_0= RULE_BIG_INTEGER ) ) ( (lv_subIds_3_0= RULE_BIG_INTEGER ) )* ) )
+            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:567:1: ( ( ( (otherlv_0= RULE_ASN1_ID ) ) | ( ( ( RULE_ASN1_ID ) )=> (lv_name_1_0= RULE_ASN1_ID ) ) )? ( (lv_subIds_2_0= RULE_BIG_INTEGER ) ) ( (lv_subIds_3_0= RULE_BIG_INTEGER ) )* )
             {
-            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:539:1: ( ( ( (lv_name_0_0= RULE_ASN1_ID ) ) | ( ( ( RULE_ASN1_ID ) )=> (otherlv_1= RULE_ASN1_ID ) ) )? ( (lv_subIds_2_0= RULE_BIG_INTEGER ) ) ( (lv_subIds_3_0= RULE_BIG_INTEGER ) )* )
-            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:539:2: ( ( (lv_name_0_0= RULE_ASN1_ID ) ) | ( ( ( RULE_ASN1_ID ) )=> (otherlv_1= RULE_ASN1_ID ) ) )? ( (lv_subIds_2_0= RULE_BIG_INTEGER ) ) ( (lv_subIds_3_0= RULE_BIG_INTEGER ) )*
+            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:567:1: ( ( ( (otherlv_0= RULE_ASN1_ID ) ) | ( ( ( RULE_ASN1_ID ) )=> (lv_name_1_0= RULE_ASN1_ID ) ) )? ( (lv_subIds_2_0= RULE_BIG_INTEGER ) ) ( (lv_subIds_3_0= RULE_BIG_INTEGER ) )* )
+            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:567:2: ( ( (otherlv_0= RULE_ASN1_ID ) ) | ( ( ( RULE_ASN1_ID ) )=> (lv_name_1_0= RULE_ASN1_ID ) ) )? ( (lv_subIds_2_0= RULE_BIG_INTEGER ) ) ( (lv_subIds_3_0= RULE_BIG_INTEGER ) )*
             {
-            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:539:2: ( ( (lv_name_0_0= RULE_ASN1_ID ) ) | ( ( ( RULE_ASN1_ID ) )=> (otherlv_1= RULE_ASN1_ID ) ) )?
-            int alt10=3;
-            int LA10_0 = input.LA(1);
+            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:567:2: ( ( (otherlv_0= RULE_ASN1_ID ) ) | ( ( ( RULE_ASN1_ID ) )=> (lv_name_1_0= RULE_ASN1_ID ) ) )?
+            int alt14=3;
+            int LA14_0 = input.LA(1);
 
-            if ( (LA10_0==RULE_ASN1_ID) ) {
-                int LA10_1 = input.LA(2);
+            if ( (LA14_0==RULE_ASN1_ID) ) {
+                int LA14_1 = input.LA(2);
 
                 if ( (true) ) {
-                    alt10=1;
+                    alt14=1;
                 }
                 else if ( (synpred1_InternalSmi()) ) {
-                    alt10=2;
+                    alt14=2;
                 }
             }
-            switch (alt10) {
+            switch (alt14) {
                 case 1 :
-                    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:539:3: ( (lv_name_0_0= RULE_ASN1_ID ) )
+                    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:567:3: ( (otherlv_0= RULE_ASN1_ID ) )
                     {
-                    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:539:3: ( (lv_name_0_0= RULE_ASN1_ID ) )
-                    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:540:1: (lv_name_0_0= RULE_ASN1_ID )
+                    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:567:3: ( (otherlv_0= RULE_ASN1_ID ) )
+                    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:568:1: (otherlv_0= RULE_ASN1_ID )
                     {
-                    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:540:1: (lv_name_0_0= RULE_ASN1_ID )
-                    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:541:3: lv_name_0_0= RULE_ASN1_ID
+                    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:568:1: (otherlv_0= RULE_ASN1_ID )
+                    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:569:3: otherlv_0= RULE_ASN1_ID
                     {
-                    lv_name_0_0=(Token)match(input,RULE_ASN1_ID,FOLLOW_RULE_ASN1_ID_in_ruleObjectIdentifierValue1124); if (state.failed) return current;
                     if ( state.backtracking==0 ) {
 
-                      			newLeafNode(lv_name_0_0, grammarAccess.getObjectIdentifierValueAccess().getNameASN1_IDTerminalRuleCall_0_0_0()); 
+                      			if (current==null) {
+                      	            current = createModelElement(grammarAccess.getObjectIdentifierValueRule());
+                      	        }
+                              
+                    }
+                    otherlv_0=(Token)match(input,RULE_ASN1_ID,FOLLOW_RULE_ASN1_ID_in_ruleObjectIdentifierValue1232); if (state.failed) return current;
+                    if ( state.backtracking==0 ) {
+
+                      		newLeafNode(otherlv_0, grammarAccess.getObjectIdentifierValueAccess().getDescriptorRefObjectReferenceableCrossReference_0_0_0()); 
+                      	
+                    }
+
+                    }
+
+
+                    }
+
+
+                    }
+                    break;
+                case 2 :
+                    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:581:6: ( ( ( RULE_ASN1_ID ) )=> (lv_name_1_0= RULE_ASN1_ID ) )
+                    {
+                    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:581:6: ( ( ( RULE_ASN1_ID ) )=> (lv_name_1_0= RULE_ASN1_ID ) )
+                    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:581:7: ( ( RULE_ASN1_ID ) )=> (lv_name_1_0= RULE_ASN1_ID )
+                    {
+                    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:587:1: (lv_name_1_0= RULE_ASN1_ID )
+                    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:588:3: lv_name_1_0= RULE_ASN1_ID
+                    {
+                    lv_name_1_0=(Token)match(input,RULE_ASN1_ID,FOLLOW_RULE_ASN1_ID_in_ruleObjectIdentifierValue1266); if (state.failed) return current;
+                    if ( state.backtracking==0 ) {
+
+                      			newLeafNode(lv_name_1_0, grammarAccess.getObjectIdentifierValueAccess().getNameASN1_IDTerminalRuleCall_0_1_0()); 
                       		
                     }
                     if ( state.backtracking==0 ) {
@@ -1537,7 +1742,7 @@ public class InternalSmiParser extends AbstractInternalAntlrParser {
                              		setWithLastConsumed(
                              			current, 
                              			"name",
-                              		lv_name_0_0, 
+                              		lv_name_1_0, 
                               		"ASN1_ID");
                       	    
                     }
@@ -1550,47 +1755,16 @@ public class InternalSmiParser extends AbstractInternalAntlrParser {
 
                     }
                     break;
-                case 2 :
-                    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:558:6: ( ( ( RULE_ASN1_ID ) )=> (otherlv_1= RULE_ASN1_ID ) )
-                    {
-                    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:558:6: ( ( ( RULE_ASN1_ID ) )=> (otherlv_1= RULE_ASN1_ID ) )
-                    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:558:7: ( ( RULE_ASN1_ID ) )=> (otherlv_1= RULE_ASN1_ID )
-                    {
-                    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:564:1: (otherlv_1= RULE_ASN1_ID )
-                    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:565:3: otherlv_1= RULE_ASN1_ID
-                    {
-                    if ( state.backtracking==0 ) {
-
-                      			if (current==null) {
-                      	            current = createModelElement(grammarAccess.getObjectIdentifierValueRule());
-                      	        }
-                              
-                    }
-                    otherlv_1=(Token)match(input,RULE_ASN1_ID,FOLLOW_RULE_ASN1_ID_in_ruleObjectIdentifierValue1167); if (state.failed) return current;
-                    if ( state.backtracking==0 ) {
-
-                      		newLeafNode(otherlv_1, grammarAccess.getObjectIdentifierValueAccess().getDescriptorReferenceObjectIdentifierCrossReference_0_1_0()); 
-                      	
-                    }
-
-                    }
-
-
-                    }
-
-
-                    }
-                    break;
 
             }
 
-            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:576:4: ( (lv_subIds_2_0= RULE_BIG_INTEGER ) )
-            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:577:1: (lv_subIds_2_0= RULE_BIG_INTEGER )
+            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:604:4: ( (lv_subIds_2_0= RULE_BIG_INTEGER ) )
+            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:605:1: (lv_subIds_2_0= RULE_BIG_INTEGER )
             {
-            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:577:1: (lv_subIds_2_0= RULE_BIG_INTEGER )
-            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:578:3: lv_subIds_2_0= RULE_BIG_INTEGER
+            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:605:1: (lv_subIds_2_0= RULE_BIG_INTEGER )
+            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:606:3: lv_subIds_2_0= RULE_BIG_INTEGER
             {
-            lv_subIds_2_0=(Token)match(input,RULE_BIG_INTEGER,FOLLOW_RULE_BIG_INTEGER_in_ruleObjectIdentifierValue1186); if (state.failed) return current;
+            lv_subIds_2_0=(Token)match(input,RULE_BIG_INTEGER,FOLLOW_RULE_BIG_INTEGER_in_ruleObjectIdentifierValue1290); if (state.failed) return current;
             if ( state.backtracking==0 ) {
 
               			newLeafNode(lv_subIds_2_0, grammarAccess.getObjectIdentifierValueAccess().getSubIdsBIG_INTEGERTerminalRuleCall_1_0()); 
@@ -1614,25 +1788,25 @@ public class InternalSmiParser extends AbstractInternalAntlrParser {
 
             }
 
-            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:594:2: ( (lv_subIds_3_0= RULE_BIG_INTEGER ) )*
-            loop11:
+            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:622:2: ( (lv_subIds_3_0= RULE_BIG_INTEGER ) )*
+            loop15:
             do {
-                int alt11=2;
-                int LA11_0 = input.LA(1);
+                int alt15=2;
+                int LA15_0 = input.LA(1);
 
-                if ( (LA11_0==RULE_BIG_INTEGER) ) {
-                    alt11=1;
+                if ( (LA15_0==RULE_BIG_INTEGER) ) {
+                    alt15=1;
                 }
 
 
-                switch (alt11) {
+                switch (alt15) {
             	case 1 :
-            	    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:595:1: (lv_subIds_3_0= RULE_BIG_INTEGER )
+            	    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:623:1: (lv_subIds_3_0= RULE_BIG_INTEGER )
             	    {
-            	    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:595:1: (lv_subIds_3_0= RULE_BIG_INTEGER )
-            	    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:596:3: lv_subIds_3_0= RULE_BIG_INTEGER
+            	    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:623:1: (lv_subIds_3_0= RULE_BIG_INTEGER )
+            	    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:624:3: lv_subIds_3_0= RULE_BIG_INTEGER
             	    {
-            	    lv_subIds_3_0=(Token)match(input,RULE_BIG_INTEGER,FOLLOW_RULE_BIG_INTEGER_in_ruleObjectIdentifierValue1208); if (state.failed) return current;
+            	    lv_subIds_3_0=(Token)match(input,RULE_BIG_INTEGER,FOLLOW_RULE_BIG_INTEGER_in_ruleObjectIdentifierValue1312); if (state.failed) return current;
             	    if ( state.backtracking==0 ) {
 
             	      			newLeafNode(lv_subIds_3_0, grammarAccess.getObjectIdentifierValueAccess().getSubIdsBIG_INTEGERTerminalRuleCall_2_0()); 
@@ -1658,7 +1832,7 @@ public class InternalSmiParser extends AbstractInternalAntlrParser {
             	    break;
 
             	default :
-            	    break loop11;
+            	    break loop15;
                 }
             } while (true);
 
@@ -1685,7 +1859,7 @@ public class InternalSmiParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "entryRuleTypeDefinition"
-    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:620:1: entryRuleTypeDefinition returns [EObject current=null] : iv_ruleTypeDefinition= ruleTypeDefinition EOF ;
+    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:648:1: entryRuleTypeDefinition returns [EObject current=null] : iv_ruleTypeDefinition= ruleTypeDefinition EOF ;
     public final EObject entryRuleTypeDefinition() throws RecognitionException {
         EObject current = null;
 
@@ -1693,13 +1867,13 @@ public class InternalSmiParser extends AbstractInternalAntlrParser {
 
 
         try {
-            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:621:2: (iv_ruleTypeDefinition= ruleTypeDefinition EOF )
-            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:622:2: iv_ruleTypeDefinition= ruleTypeDefinition EOF
+            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:649:2: (iv_ruleTypeDefinition= ruleTypeDefinition EOF )
+            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:650:2: iv_ruleTypeDefinition= ruleTypeDefinition EOF
             {
             if ( state.backtracking==0 ) {
                newCompositeNode(grammarAccess.getTypeDefinitionRule()); 
             }
-            pushFollow(FOLLOW_ruleTypeDefinition_in_entryRuleTypeDefinition1250);
+            pushFollow(FOLLOW_ruleTypeDefinition_in_entryRuleTypeDefinition1354);
             iv_ruleTypeDefinition=ruleTypeDefinition();
 
             state._fsp--;
@@ -1707,7 +1881,7 @@ public class InternalSmiParser extends AbstractInternalAntlrParser {
             if ( state.backtracking==0 ) {
                current =iv_ruleTypeDefinition; 
             }
-            match(input,EOF,FOLLOW_EOF_in_entryRuleTypeDefinition1260); if (state.failed) return current;
+            match(input,EOF,FOLLOW_EOF_in_entryRuleTypeDefinition1364); if (state.failed) return current;
 
             }
 
@@ -1725,7 +1899,7 @@ public class InternalSmiParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "ruleTypeDefinition"
-    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:629:1: ruleTypeDefinition returns [EObject current=null] : ( (this_NEWLINE_0= RULE_NEWLINE )+ ( (lv_name_1_0= RULE_MODULE_ID ) ) otherlv_2= '::=' ( (lv_values_3_0= ruleValue ) )+ ) ;
+    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:657:1: ruleTypeDefinition returns [EObject current=null] : ( (this_NEWLINE_0= RULE_NEWLINE )+ ( (lv_name_1_0= RULE_MODULE_ID ) ) otherlv_2= '::=' ( (lv_values_3_0= ruleValue ) )+ ) ;
     public final EObject ruleTypeDefinition() throws RecognitionException {
         EObject current = null;
 
@@ -1738,29 +1912,29 @@ public class InternalSmiParser extends AbstractInternalAntlrParser {
          enterRule(); 
             
         try {
-            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:632:28: ( ( (this_NEWLINE_0= RULE_NEWLINE )+ ( (lv_name_1_0= RULE_MODULE_ID ) ) otherlv_2= '::=' ( (lv_values_3_0= ruleValue ) )+ ) )
-            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:633:1: ( (this_NEWLINE_0= RULE_NEWLINE )+ ( (lv_name_1_0= RULE_MODULE_ID ) ) otherlv_2= '::=' ( (lv_values_3_0= ruleValue ) )+ )
+            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:660:28: ( ( (this_NEWLINE_0= RULE_NEWLINE )+ ( (lv_name_1_0= RULE_MODULE_ID ) ) otherlv_2= '::=' ( (lv_values_3_0= ruleValue ) )+ ) )
+            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:661:1: ( (this_NEWLINE_0= RULE_NEWLINE )+ ( (lv_name_1_0= RULE_MODULE_ID ) ) otherlv_2= '::=' ( (lv_values_3_0= ruleValue ) )+ )
             {
-            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:633:1: ( (this_NEWLINE_0= RULE_NEWLINE )+ ( (lv_name_1_0= RULE_MODULE_ID ) ) otherlv_2= '::=' ( (lv_values_3_0= ruleValue ) )+ )
-            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:633:2: (this_NEWLINE_0= RULE_NEWLINE )+ ( (lv_name_1_0= RULE_MODULE_ID ) ) otherlv_2= '::=' ( (lv_values_3_0= ruleValue ) )+
+            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:661:1: ( (this_NEWLINE_0= RULE_NEWLINE )+ ( (lv_name_1_0= RULE_MODULE_ID ) ) otherlv_2= '::=' ( (lv_values_3_0= ruleValue ) )+ )
+            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:661:2: (this_NEWLINE_0= RULE_NEWLINE )+ ( (lv_name_1_0= RULE_MODULE_ID ) ) otherlv_2= '::=' ( (lv_values_3_0= ruleValue ) )+
             {
-            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:633:2: (this_NEWLINE_0= RULE_NEWLINE )+
-            int cnt12=0;
-            loop12:
+            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:661:2: (this_NEWLINE_0= RULE_NEWLINE )+
+            int cnt16=0;
+            loop16:
             do {
-                int alt12=2;
-                int LA12_0 = input.LA(1);
+                int alt16=2;
+                int LA16_0 = input.LA(1);
 
-                if ( (LA12_0==RULE_NEWLINE) ) {
-                    alt12=1;
+                if ( (LA16_0==RULE_NEWLINE) ) {
+                    alt16=1;
                 }
 
 
-                switch (alt12) {
+                switch (alt16) {
             	case 1 :
-            	    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:633:3: this_NEWLINE_0= RULE_NEWLINE
+            	    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:661:3: this_NEWLINE_0= RULE_NEWLINE
             	    {
-            	    this_NEWLINE_0=(Token)match(input,RULE_NEWLINE,FOLLOW_RULE_NEWLINE_in_ruleTypeDefinition1297); if (state.failed) return current;
+            	    this_NEWLINE_0=(Token)match(input,RULE_NEWLINE,FOLLOW_RULE_NEWLINE_in_ruleTypeDefinition1401); if (state.failed) return current;
             	    if ( state.backtracking==0 ) {
             	       
             	          newLeafNode(this_NEWLINE_0, grammarAccess.getTypeDefinitionAccess().getNEWLINETerminalRuleCall_0()); 
@@ -1771,22 +1945,22 @@ public class InternalSmiParser extends AbstractInternalAntlrParser {
             	    break;
 
             	default :
-            	    if ( cnt12 >= 1 ) break loop12;
+            	    if ( cnt16 >= 1 ) break loop16;
             	    if (state.backtracking>0) {state.failed=true; return current;}
                         EarlyExitException eee =
-                            new EarlyExitException(12, input);
+                            new EarlyExitException(16, input);
                         throw eee;
                 }
-                cnt12++;
+                cnt16++;
             } while (true);
 
-            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:637:3: ( (lv_name_1_0= RULE_MODULE_ID ) )
-            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:638:1: (lv_name_1_0= RULE_MODULE_ID )
+            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:665:3: ( (lv_name_1_0= RULE_MODULE_ID ) )
+            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:666:1: (lv_name_1_0= RULE_MODULE_ID )
             {
-            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:638:1: (lv_name_1_0= RULE_MODULE_ID )
-            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:639:3: lv_name_1_0= RULE_MODULE_ID
+            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:666:1: (lv_name_1_0= RULE_MODULE_ID )
+            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:667:3: lv_name_1_0= RULE_MODULE_ID
             {
-            lv_name_1_0=(Token)match(input,RULE_MODULE_ID,FOLLOW_RULE_MODULE_ID_in_ruleTypeDefinition1315); if (state.failed) return current;
+            lv_name_1_0=(Token)match(input,RULE_MODULE_ID,FOLLOW_RULE_MODULE_ID_in_ruleTypeDefinition1419); if (state.failed) return current;
             if ( state.backtracking==0 ) {
 
               			newLeafNode(lv_name_1_0, grammarAccess.getTypeDefinitionAccess().getNameMODULE_IDTerminalRuleCall_1_0()); 
@@ -1810,31 +1984,31 @@ public class InternalSmiParser extends AbstractInternalAntlrParser {
 
             }
 
-            otherlv_2=(Token)match(input,17,FOLLOW_17_in_ruleTypeDefinition1332); if (state.failed) return current;
+            otherlv_2=(Token)match(input,17,FOLLOW_17_in_ruleTypeDefinition1436); if (state.failed) return current;
             if ( state.backtracking==0 ) {
 
                   	newLeafNode(otherlv_2, grammarAccess.getTypeDefinitionAccess().getColonColonEqualsSignKeyword_2());
                   
             }
-            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:659:1: ( (lv_values_3_0= ruleValue ) )+
-            int cnt13=0;
-            loop13:
+            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:687:1: ( (lv_values_3_0= ruleValue ) )+
+            int cnt17=0;
+            loop17:
             do {
-                int alt13=2;
-                alt13 = dfa13.predict(input);
-                switch (alt13) {
+                int alt17=2;
+                alt17 = dfa17.predict(input);
+                switch (alt17) {
             	case 1 :
-            	    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:660:1: (lv_values_3_0= ruleValue )
+            	    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:688:1: (lv_values_3_0= ruleValue )
             	    {
-            	    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:660:1: (lv_values_3_0= ruleValue )
-            	    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:661:3: lv_values_3_0= ruleValue
+            	    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:688:1: (lv_values_3_0= ruleValue )
+            	    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:689:3: lv_values_3_0= ruleValue
             	    {
             	    if ( state.backtracking==0 ) {
             	       
             	      	        newCompositeNode(grammarAccess.getTypeDefinitionAccess().getValuesValueParserRuleCall_3_0()); 
             	      	    
             	    }
-            	    pushFollow(FOLLOW_ruleValue_in_ruleTypeDefinition1353);
+            	    pushFollow(FOLLOW_ruleValue_in_ruleTypeDefinition1457);
             	    lv_values_3_0=ruleValue();
 
             	    state._fsp--;
@@ -1860,13 +2034,13 @@ public class InternalSmiParser extends AbstractInternalAntlrParser {
             	    break;
 
             	default :
-            	    if ( cnt13 >= 1 ) break loop13;
+            	    if ( cnt17 >= 1 ) break loop17;
             	    if (state.backtracking>0) {state.failed=true; return current;}
                         EarlyExitException eee =
-                            new EarlyExitException(13, input);
+                            new EarlyExitException(17, input);
                         throw eee;
                 }
-                cnt13++;
+                cnt17++;
             } while (true);
 
 
@@ -1892,7 +2066,7 @@ public class InternalSmiParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "entryRuleObject"
-    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:685:1: entryRuleObject returns [EObject current=null] : iv_ruleObject= ruleObject EOF ;
+    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:713:1: entryRuleObject returns [EObject current=null] : iv_ruleObject= ruleObject EOF ;
     public final EObject entryRuleObject() throws RecognitionException {
         EObject current = null;
 
@@ -1900,13 +2074,13 @@ public class InternalSmiParser extends AbstractInternalAntlrParser {
 
 
         try {
-            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:686:2: (iv_ruleObject= ruleObject EOF )
-            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:687:2: iv_ruleObject= ruleObject EOF
+            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:714:2: (iv_ruleObject= ruleObject EOF )
+            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:715:2: iv_ruleObject= ruleObject EOF
             {
             if ( state.backtracking==0 ) {
                newCompositeNode(grammarAccess.getObjectRule()); 
             }
-            pushFollow(FOLLOW_ruleObject_in_entryRuleObject1390);
+            pushFollow(FOLLOW_ruleObject_in_entryRuleObject1494);
             iv_ruleObject=ruleObject();
 
             state._fsp--;
@@ -1914,7 +2088,7 @@ public class InternalSmiParser extends AbstractInternalAntlrParser {
             if ( state.backtracking==0 ) {
                current =iv_ruleObject; 
             }
-            match(input,EOF,FOLLOW_EOF_in_entryRuleObject1400); if (state.failed) return current;
+            match(input,EOF,FOLLOW_EOF_in_entryRuleObject1504); if (state.failed) return current;
 
             }
 
@@ -1932,7 +2106,7 @@ public class InternalSmiParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "ruleObject"
-    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:694:1: ruleObject returns [EObject current=null] : ( (this_NEWLINE_0= RULE_NEWLINE )+ ( (lv_name_1_0= RULE_ASN1_ID ) ) ( (otherlv_2= RULE_MODULE_ID ) ) ( (lv_attributes_3_0= ruleAttribute ) )+ (this_NEWLINE_4= RULE_NEWLINE )+ otherlv_5= '::=' ( (lv_objectValue_6_0= ruleObjectValue ) ) ) ;
+    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:722:1: ruleObject returns [EObject current=null] : ( (this_NEWLINE_0= RULE_NEWLINE )+ ( (lv_name_1_0= RULE_ASN1_ID ) ) ( (otherlv_2= RULE_MODULE_ID ) ) ( (lv_attributes_3_0= ruleAttribute ) )+ (this_NEWLINE_4= RULE_NEWLINE )+ otherlv_5= '::=' ( (lv_objectValue_6_0= ruleObjectValue ) ) ) ;
     public final EObject ruleObject() throws RecognitionException {
         EObject current = null;
 
@@ -1949,29 +2123,29 @@ public class InternalSmiParser extends AbstractInternalAntlrParser {
          enterRule(); 
             
         try {
-            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:697:28: ( ( (this_NEWLINE_0= RULE_NEWLINE )+ ( (lv_name_1_0= RULE_ASN1_ID ) ) ( (otherlv_2= RULE_MODULE_ID ) ) ( (lv_attributes_3_0= ruleAttribute ) )+ (this_NEWLINE_4= RULE_NEWLINE )+ otherlv_5= '::=' ( (lv_objectValue_6_0= ruleObjectValue ) ) ) )
-            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:698:1: ( (this_NEWLINE_0= RULE_NEWLINE )+ ( (lv_name_1_0= RULE_ASN1_ID ) ) ( (otherlv_2= RULE_MODULE_ID ) ) ( (lv_attributes_3_0= ruleAttribute ) )+ (this_NEWLINE_4= RULE_NEWLINE )+ otherlv_5= '::=' ( (lv_objectValue_6_0= ruleObjectValue ) ) )
+            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:725:28: ( ( (this_NEWLINE_0= RULE_NEWLINE )+ ( (lv_name_1_0= RULE_ASN1_ID ) ) ( (otherlv_2= RULE_MODULE_ID ) ) ( (lv_attributes_3_0= ruleAttribute ) )+ (this_NEWLINE_4= RULE_NEWLINE )+ otherlv_5= '::=' ( (lv_objectValue_6_0= ruleObjectValue ) ) ) )
+            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:726:1: ( (this_NEWLINE_0= RULE_NEWLINE )+ ( (lv_name_1_0= RULE_ASN1_ID ) ) ( (otherlv_2= RULE_MODULE_ID ) ) ( (lv_attributes_3_0= ruleAttribute ) )+ (this_NEWLINE_4= RULE_NEWLINE )+ otherlv_5= '::=' ( (lv_objectValue_6_0= ruleObjectValue ) ) )
             {
-            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:698:1: ( (this_NEWLINE_0= RULE_NEWLINE )+ ( (lv_name_1_0= RULE_ASN1_ID ) ) ( (otherlv_2= RULE_MODULE_ID ) ) ( (lv_attributes_3_0= ruleAttribute ) )+ (this_NEWLINE_4= RULE_NEWLINE )+ otherlv_5= '::=' ( (lv_objectValue_6_0= ruleObjectValue ) ) )
-            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:698:2: (this_NEWLINE_0= RULE_NEWLINE )+ ( (lv_name_1_0= RULE_ASN1_ID ) ) ( (otherlv_2= RULE_MODULE_ID ) ) ( (lv_attributes_3_0= ruleAttribute ) )+ (this_NEWLINE_4= RULE_NEWLINE )+ otherlv_5= '::=' ( (lv_objectValue_6_0= ruleObjectValue ) )
+            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:726:1: ( (this_NEWLINE_0= RULE_NEWLINE )+ ( (lv_name_1_0= RULE_ASN1_ID ) ) ( (otherlv_2= RULE_MODULE_ID ) ) ( (lv_attributes_3_0= ruleAttribute ) )+ (this_NEWLINE_4= RULE_NEWLINE )+ otherlv_5= '::=' ( (lv_objectValue_6_0= ruleObjectValue ) ) )
+            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:726:2: (this_NEWLINE_0= RULE_NEWLINE )+ ( (lv_name_1_0= RULE_ASN1_ID ) ) ( (otherlv_2= RULE_MODULE_ID ) ) ( (lv_attributes_3_0= ruleAttribute ) )+ (this_NEWLINE_4= RULE_NEWLINE )+ otherlv_5= '::=' ( (lv_objectValue_6_0= ruleObjectValue ) )
             {
-            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:698:2: (this_NEWLINE_0= RULE_NEWLINE )+
-            int cnt14=0;
-            loop14:
+            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:726:2: (this_NEWLINE_0= RULE_NEWLINE )+
+            int cnt18=0;
+            loop18:
             do {
-                int alt14=2;
-                int LA14_0 = input.LA(1);
+                int alt18=2;
+                int LA18_0 = input.LA(1);
 
-                if ( (LA14_0==RULE_NEWLINE) ) {
-                    alt14=1;
+                if ( (LA18_0==RULE_NEWLINE) ) {
+                    alt18=1;
                 }
 
 
-                switch (alt14) {
+                switch (alt18) {
             	case 1 :
-            	    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:698:3: this_NEWLINE_0= RULE_NEWLINE
+            	    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:726:3: this_NEWLINE_0= RULE_NEWLINE
             	    {
-            	    this_NEWLINE_0=(Token)match(input,RULE_NEWLINE,FOLLOW_RULE_NEWLINE_in_ruleObject1437); if (state.failed) return current;
+            	    this_NEWLINE_0=(Token)match(input,RULE_NEWLINE,FOLLOW_RULE_NEWLINE_in_ruleObject1541); if (state.failed) return current;
             	    if ( state.backtracking==0 ) {
             	       
             	          newLeafNode(this_NEWLINE_0, grammarAccess.getObjectAccess().getNEWLINETerminalRuleCall_0()); 
@@ -1982,22 +2156,22 @@ public class InternalSmiParser extends AbstractInternalAntlrParser {
             	    break;
 
             	default :
-            	    if ( cnt14 >= 1 ) break loop14;
+            	    if ( cnt18 >= 1 ) break loop18;
             	    if (state.backtracking>0) {state.failed=true; return current;}
                         EarlyExitException eee =
-                            new EarlyExitException(14, input);
+                            new EarlyExitException(18, input);
                         throw eee;
                 }
-                cnt14++;
+                cnt18++;
             } while (true);
 
-            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:702:3: ( (lv_name_1_0= RULE_ASN1_ID ) )
-            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:703:1: (lv_name_1_0= RULE_ASN1_ID )
+            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:730:3: ( (lv_name_1_0= RULE_ASN1_ID ) )
+            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:731:1: (lv_name_1_0= RULE_ASN1_ID )
             {
-            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:703:1: (lv_name_1_0= RULE_ASN1_ID )
-            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:704:3: lv_name_1_0= RULE_ASN1_ID
+            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:731:1: (lv_name_1_0= RULE_ASN1_ID )
+            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:732:3: lv_name_1_0= RULE_ASN1_ID
             {
-            lv_name_1_0=(Token)match(input,RULE_ASN1_ID,FOLLOW_RULE_ASN1_ID_in_ruleObject1455); if (state.failed) return current;
+            lv_name_1_0=(Token)match(input,RULE_ASN1_ID,FOLLOW_RULE_ASN1_ID_in_ruleObject1559); if (state.failed) return current;
             if ( state.backtracking==0 ) {
 
               			newLeafNode(lv_name_1_0, grammarAccess.getObjectAccess().getNameASN1_IDTerminalRuleCall_1_0()); 
@@ -2021,11 +2195,11 @@ public class InternalSmiParser extends AbstractInternalAntlrParser {
 
             }
 
-            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:720:2: ( (otherlv_2= RULE_MODULE_ID ) )
-            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:721:1: (otherlv_2= RULE_MODULE_ID )
+            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:748:2: ( (otherlv_2= RULE_MODULE_ID ) )
+            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:749:1: (otherlv_2= RULE_MODULE_ID )
             {
-            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:721:1: (otherlv_2= RULE_MODULE_ID )
-            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:722:3: otherlv_2= RULE_MODULE_ID
+            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:749:1: (otherlv_2= RULE_MODULE_ID )
+            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:750:3: otherlv_2= RULE_MODULE_ID
             {
             if ( state.backtracking==0 ) {
 
@@ -2034,10 +2208,10 @@ public class InternalSmiParser extends AbstractInternalAntlrParser {
               	        }
                       
             }
-            otherlv_2=(Token)match(input,RULE_MODULE_ID,FOLLOW_RULE_MODULE_ID_in_ruleObject1480); if (state.failed) return current;
+            otherlv_2=(Token)match(input,RULE_MODULE_ID,FOLLOW_RULE_MODULE_ID_in_ruleObject1584); if (state.failed) return current;
             if ( state.backtracking==0 ) {
 
-              		newLeafNode(otherlv_2, grammarAccess.getObjectAccess().getMacroRefMacroCrossReference_2_0()); 
+              		newLeafNode(otherlv_2, grammarAccess.getObjectAccess().getMacroRefReferenceableCrossReference_2_0()); 
               	
             }
 
@@ -2046,25 +2220,25 @@ public class InternalSmiParser extends AbstractInternalAntlrParser {
 
             }
 
-            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:733:2: ( (lv_attributes_3_0= ruleAttribute ) )+
-            int cnt15=0;
-            loop15:
+            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:761:2: ( (lv_attributes_3_0= ruleAttribute ) )+
+            int cnt19=0;
+            loop19:
             do {
-                int alt15=2;
-                alt15 = dfa15.predict(input);
-                switch (alt15) {
+                int alt19=2;
+                alt19 = dfa19.predict(input);
+                switch (alt19) {
             	case 1 :
-            	    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:734:1: (lv_attributes_3_0= ruleAttribute )
+            	    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:762:1: (lv_attributes_3_0= ruleAttribute )
             	    {
-            	    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:734:1: (lv_attributes_3_0= ruleAttribute )
-            	    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:735:3: lv_attributes_3_0= ruleAttribute
+            	    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:762:1: (lv_attributes_3_0= ruleAttribute )
+            	    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:763:3: lv_attributes_3_0= ruleAttribute
             	    {
             	    if ( state.backtracking==0 ) {
             	       
             	      	        newCompositeNode(grammarAccess.getObjectAccess().getAttributesAttributeParserRuleCall_3_0()); 
             	      	    
             	    }
-            	    pushFollow(FOLLOW_ruleAttribute_in_ruleObject1501);
+            	    pushFollow(FOLLOW_ruleAttribute_in_ruleObject1605);
             	    lv_attributes_3_0=ruleAttribute();
 
             	    state._fsp--;
@@ -2090,32 +2264,32 @@ public class InternalSmiParser extends AbstractInternalAntlrParser {
             	    break;
 
             	default :
-            	    if ( cnt15 >= 1 ) break loop15;
+            	    if ( cnt19 >= 1 ) break loop19;
             	    if (state.backtracking>0) {state.failed=true; return current;}
                         EarlyExitException eee =
-                            new EarlyExitException(15, input);
+                            new EarlyExitException(19, input);
                         throw eee;
                 }
-                cnt15++;
+                cnt19++;
             } while (true);
 
-            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:751:3: (this_NEWLINE_4= RULE_NEWLINE )+
-            int cnt16=0;
-            loop16:
+            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:779:3: (this_NEWLINE_4= RULE_NEWLINE )+
+            int cnt20=0;
+            loop20:
             do {
-                int alt16=2;
-                int LA16_0 = input.LA(1);
+                int alt20=2;
+                int LA20_0 = input.LA(1);
 
-                if ( (LA16_0==RULE_NEWLINE) ) {
-                    alt16=1;
+                if ( (LA20_0==RULE_NEWLINE) ) {
+                    alt20=1;
                 }
 
 
-                switch (alt16) {
+                switch (alt20) {
             	case 1 :
-            	    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:751:4: this_NEWLINE_4= RULE_NEWLINE
+            	    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:779:4: this_NEWLINE_4= RULE_NEWLINE
             	    {
-            	    this_NEWLINE_4=(Token)match(input,RULE_NEWLINE,FOLLOW_RULE_NEWLINE_in_ruleObject1514); if (state.failed) return current;
+            	    this_NEWLINE_4=(Token)match(input,RULE_NEWLINE,FOLLOW_RULE_NEWLINE_in_ruleObject1618); if (state.failed) return current;
             	    if ( state.backtracking==0 ) {
             	       
             	          newLeafNode(this_NEWLINE_4, grammarAccess.getObjectAccess().getNEWLINETerminalRuleCall_4()); 
@@ -2126,33 +2300,33 @@ public class InternalSmiParser extends AbstractInternalAntlrParser {
             	    break;
 
             	default :
-            	    if ( cnt16 >= 1 ) break loop16;
+            	    if ( cnt20 >= 1 ) break loop20;
             	    if (state.backtracking>0) {state.failed=true; return current;}
                         EarlyExitException eee =
-                            new EarlyExitException(16, input);
+                            new EarlyExitException(20, input);
                         throw eee;
                 }
-                cnt16++;
+                cnt20++;
             } while (true);
 
-            otherlv_5=(Token)match(input,17,FOLLOW_17_in_ruleObject1527); if (state.failed) return current;
+            otherlv_5=(Token)match(input,17,FOLLOW_17_in_ruleObject1631); if (state.failed) return current;
             if ( state.backtracking==0 ) {
 
                   	newLeafNode(otherlv_5, grammarAccess.getObjectAccess().getColonColonEqualsSignKeyword_5());
                   
             }
-            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:759:1: ( (lv_objectValue_6_0= ruleObjectValue ) )
-            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:760:1: (lv_objectValue_6_0= ruleObjectValue )
+            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:787:1: ( (lv_objectValue_6_0= ruleObjectValue ) )
+            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:788:1: (lv_objectValue_6_0= ruleObjectValue )
             {
-            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:760:1: (lv_objectValue_6_0= ruleObjectValue )
-            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:761:3: lv_objectValue_6_0= ruleObjectValue
+            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:788:1: (lv_objectValue_6_0= ruleObjectValue )
+            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:789:3: lv_objectValue_6_0= ruleObjectValue
             {
             if ( state.backtracking==0 ) {
                
               	        newCompositeNode(grammarAccess.getObjectAccess().getObjectValueObjectValueParserRuleCall_6_0()); 
               	    
             }
-            pushFollow(FOLLOW_ruleObjectValue_in_ruleObject1548);
+            pushFollow(FOLLOW_ruleObjectValue_in_ruleObject1652);
             lv_objectValue_6_0=ruleObjectValue();
 
             state._fsp--;
@@ -2199,7 +2373,7 @@ public class InternalSmiParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "entryRuleAttribute"
-    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:785:1: entryRuleAttribute returns [EObject current=null] : iv_ruleAttribute= ruleAttribute EOF ;
+    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:813:1: entryRuleAttribute returns [EObject current=null] : iv_ruleAttribute= ruleAttribute EOF ;
     public final EObject entryRuleAttribute() throws RecognitionException {
         EObject current = null;
 
@@ -2207,13 +2381,13 @@ public class InternalSmiParser extends AbstractInternalAntlrParser {
 
 
         try {
-            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:786:2: (iv_ruleAttribute= ruleAttribute EOF )
-            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:787:2: iv_ruleAttribute= ruleAttribute EOF
+            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:814:2: (iv_ruleAttribute= ruleAttribute EOF )
+            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:815:2: iv_ruleAttribute= ruleAttribute EOF
             {
             if ( state.backtracking==0 ) {
                newCompositeNode(grammarAccess.getAttributeRule()); 
             }
-            pushFollow(FOLLOW_ruleAttribute_in_entryRuleAttribute1584);
+            pushFollow(FOLLOW_ruleAttribute_in_entryRuleAttribute1688);
             iv_ruleAttribute=ruleAttribute();
 
             state._fsp--;
@@ -2221,7 +2395,7 @@ public class InternalSmiParser extends AbstractInternalAntlrParser {
             if ( state.backtracking==0 ) {
                current =iv_ruleAttribute; 
             }
-            match(input,EOF,FOLLOW_EOF_in_entryRuleAttribute1594); if (state.failed) return current;
+            match(input,EOF,FOLLOW_EOF_in_entryRuleAttribute1698); if (state.failed) return current;
 
             }
 
@@ -2239,7 +2413,7 @@ public class InternalSmiParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "ruleAttribute"
-    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:794:1: ruleAttribute returns [EObject current=null] : ( (this_NEWLINE_0= RULE_NEWLINE )+ ( (otherlv_1= RULE_MODULE_ID ) ) ( (lv_value_2_0= ruleAttributeValue ) ) ) ;
+    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:822:1: ruleAttribute returns [EObject current=null] : ( (this_NEWLINE_0= RULE_NEWLINE )+ ( (otherlv_1= RULE_MODULE_ID ) ) ( (lv_value_2_0= ruleAttributeValue ) ) ) ;
     public final EObject ruleAttribute() throws RecognitionException {
         EObject current = null;
 
@@ -2251,29 +2425,29 @@ public class InternalSmiParser extends AbstractInternalAntlrParser {
          enterRule(); 
             
         try {
-            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:797:28: ( ( (this_NEWLINE_0= RULE_NEWLINE )+ ( (otherlv_1= RULE_MODULE_ID ) ) ( (lv_value_2_0= ruleAttributeValue ) ) ) )
-            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:798:1: ( (this_NEWLINE_0= RULE_NEWLINE )+ ( (otherlv_1= RULE_MODULE_ID ) ) ( (lv_value_2_0= ruleAttributeValue ) ) )
+            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:825:28: ( ( (this_NEWLINE_0= RULE_NEWLINE )+ ( (otherlv_1= RULE_MODULE_ID ) ) ( (lv_value_2_0= ruleAttributeValue ) ) ) )
+            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:826:1: ( (this_NEWLINE_0= RULE_NEWLINE )+ ( (otherlv_1= RULE_MODULE_ID ) ) ( (lv_value_2_0= ruleAttributeValue ) ) )
             {
-            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:798:1: ( (this_NEWLINE_0= RULE_NEWLINE )+ ( (otherlv_1= RULE_MODULE_ID ) ) ( (lv_value_2_0= ruleAttributeValue ) ) )
-            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:798:2: (this_NEWLINE_0= RULE_NEWLINE )+ ( (otherlv_1= RULE_MODULE_ID ) ) ( (lv_value_2_0= ruleAttributeValue ) )
+            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:826:1: ( (this_NEWLINE_0= RULE_NEWLINE )+ ( (otherlv_1= RULE_MODULE_ID ) ) ( (lv_value_2_0= ruleAttributeValue ) ) )
+            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:826:2: (this_NEWLINE_0= RULE_NEWLINE )+ ( (otherlv_1= RULE_MODULE_ID ) ) ( (lv_value_2_0= ruleAttributeValue ) )
             {
-            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:798:2: (this_NEWLINE_0= RULE_NEWLINE )+
-            int cnt17=0;
-            loop17:
+            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:826:2: (this_NEWLINE_0= RULE_NEWLINE )+
+            int cnt21=0;
+            loop21:
             do {
-                int alt17=2;
-                int LA17_0 = input.LA(1);
+                int alt21=2;
+                int LA21_0 = input.LA(1);
 
-                if ( (LA17_0==RULE_NEWLINE) ) {
-                    alt17=1;
+                if ( (LA21_0==RULE_NEWLINE) ) {
+                    alt21=1;
                 }
 
 
-                switch (alt17) {
+                switch (alt21) {
             	case 1 :
-            	    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:798:3: this_NEWLINE_0= RULE_NEWLINE
+            	    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:826:3: this_NEWLINE_0= RULE_NEWLINE
             	    {
-            	    this_NEWLINE_0=(Token)match(input,RULE_NEWLINE,FOLLOW_RULE_NEWLINE_in_ruleAttribute1631); if (state.failed) return current;
+            	    this_NEWLINE_0=(Token)match(input,RULE_NEWLINE,FOLLOW_RULE_NEWLINE_in_ruleAttribute1735); if (state.failed) return current;
             	    if ( state.backtracking==0 ) {
             	       
             	          newLeafNode(this_NEWLINE_0, grammarAccess.getAttributeAccess().getNEWLINETerminalRuleCall_0()); 
@@ -2284,20 +2458,20 @@ public class InternalSmiParser extends AbstractInternalAntlrParser {
             	    break;
 
             	default :
-            	    if ( cnt17 >= 1 ) break loop17;
+            	    if ( cnt21 >= 1 ) break loop21;
             	    if (state.backtracking>0) {state.failed=true; return current;}
                         EarlyExitException eee =
-                            new EarlyExitException(17, input);
+                            new EarlyExitException(21, input);
                         throw eee;
                 }
-                cnt17++;
+                cnt21++;
             } while (true);
 
-            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:802:3: ( (otherlv_1= RULE_MODULE_ID ) )
-            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:803:1: (otherlv_1= RULE_MODULE_ID )
+            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:830:3: ( (otherlv_1= RULE_MODULE_ID ) )
+            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:831:1: (otherlv_1= RULE_MODULE_ID )
             {
-            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:803:1: (otherlv_1= RULE_MODULE_ID )
-            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:804:3: otherlv_1= RULE_MODULE_ID
+            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:831:1: (otherlv_1= RULE_MODULE_ID )
+            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:832:3: otherlv_1= RULE_MODULE_ID
             {
             if ( state.backtracking==0 ) {
 
@@ -2306,10 +2480,10 @@ public class InternalSmiParser extends AbstractInternalAntlrParser {
               	        }
                       
             }
-            otherlv_1=(Token)match(input,RULE_MODULE_ID,FOLLOW_RULE_MODULE_ID_in_ruleAttribute1652); if (state.failed) return current;
+            otherlv_1=(Token)match(input,RULE_MODULE_ID,FOLLOW_RULE_MODULE_ID_in_ruleAttribute1756); if (state.failed) return current;
             if ( state.backtracking==0 ) {
 
-              		newLeafNode(otherlv_1, grammarAccess.getAttributeAccess().getParamRefParamAssignmentCrossReference_1_0()); 
+              		newLeafNode(otherlv_1, grammarAccess.getAttributeAccess().getParamRefReferenceableCrossReference_1_0()); 
               	
             }
 
@@ -2318,18 +2492,18 @@ public class InternalSmiParser extends AbstractInternalAntlrParser {
 
             }
 
-            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:815:2: ( (lv_value_2_0= ruleAttributeValue ) )
-            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:816:1: (lv_value_2_0= ruleAttributeValue )
+            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:843:2: ( (lv_value_2_0= ruleAttributeValue ) )
+            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:844:1: (lv_value_2_0= ruleAttributeValue )
             {
-            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:816:1: (lv_value_2_0= ruleAttributeValue )
-            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:817:3: lv_value_2_0= ruleAttributeValue
+            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:844:1: (lv_value_2_0= ruleAttributeValue )
+            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:845:3: lv_value_2_0= ruleAttributeValue
             {
             if ( state.backtracking==0 ) {
                
               	        newCompositeNode(grammarAccess.getAttributeAccess().getValueAttributeValueParserRuleCall_2_0()); 
               	    
             }
-            pushFollow(FOLLOW_ruleAttributeValue_in_ruleAttribute1673);
+            pushFollow(FOLLOW_ruleAttributeValue_in_ruleAttribute1777);
             lv_value_2_0=ruleAttributeValue();
 
             state._fsp--;
@@ -2376,7 +2550,7 @@ public class InternalSmiParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "entryRuleAttributeValue"
-    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:841:1: entryRuleAttributeValue returns [EObject current=null] : iv_ruleAttributeValue= ruleAttributeValue EOF ;
+    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:869:1: entryRuleAttributeValue returns [EObject current=null] : iv_ruleAttributeValue= ruleAttributeValue EOF ;
     public final EObject entryRuleAttributeValue() throws RecognitionException {
         EObject current = null;
 
@@ -2384,13 +2558,13 @@ public class InternalSmiParser extends AbstractInternalAntlrParser {
 
 
         try {
-            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:842:2: (iv_ruleAttributeValue= ruleAttributeValue EOF )
-            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:843:2: iv_ruleAttributeValue= ruleAttributeValue EOF
+            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:870:2: (iv_ruleAttributeValue= ruleAttributeValue EOF )
+            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:871:2: iv_ruleAttributeValue= ruleAttributeValue EOF
             {
             if ( state.backtracking==0 ) {
                newCompositeNode(grammarAccess.getAttributeValueRule()); 
             }
-            pushFollow(FOLLOW_ruleAttributeValue_in_entryRuleAttributeValue1709);
+            pushFollow(FOLLOW_ruleAttributeValue_in_entryRuleAttributeValue1813);
             iv_ruleAttributeValue=ruleAttributeValue();
 
             state._fsp--;
@@ -2398,7 +2572,7 @@ public class InternalSmiParser extends AbstractInternalAntlrParser {
             if ( state.backtracking==0 ) {
                current =iv_ruleAttributeValue; 
             }
-            match(input,EOF,FOLLOW_EOF_in_entryRuleAttributeValue1719); if (state.failed) return current;
+            match(input,EOF,FOLLOW_EOF_in_entryRuleAttributeValue1823); if (state.failed) return current;
 
             }
 
@@ -2416,91 +2590,294 @@ public class InternalSmiParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "ruleAttributeValue"
-    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:850:1: ruleAttributeValue returns [EObject current=null] : ( (this_NEWLINE_0= RULE_NEWLINE )? ( ( (lv_id_1_0= RULE_ASN1_ID ) ) | ( (lv_text_2_0= RULE_IA5STRING ) ) ) ) ;
+    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:878:1: ruleAttributeValue returns [EObject current=null] : ( ( (this_NEWLINE_0= RULE_NEWLINE )* ( ( (lv_identifier_1_0= ruleIdentifier ) ) | ( (lv_text_2_0= RULE_IA5STRING ) ) | ( ( (otherlv_3= RULE_MODULE_ID ) ) ( (lv_subType_4_0= ruleASN1_SUBTYPE ) )? ) ) ) | ( (lv_objectRef_5_0= ruleBracedObjectReference ) ) | ( (lv_integer_6_0= ruleASN1_INTEGER ) ) | ( (lv_sequenceOf_7_0= ruleASN1_SEQUENCE_OF ) ) | ( () otherlv_9= 'OBJECT IDENTIFIER' ) ) ;
     public final EObject ruleAttributeValue() throws RecognitionException {
         EObject current = null;
 
         Token this_NEWLINE_0=null;
-        Token lv_id_1_0=null;
         Token lv_text_2_0=null;
+        Token otherlv_3=null;
+        Token otherlv_9=null;
+        EObject lv_identifier_1_0 = null;
+
+        EObject lv_subType_4_0 = null;
+
+        EObject lv_objectRef_5_0 = null;
+
+        EObject lv_integer_6_0 = null;
+
+        EObject lv_sequenceOf_7_0 = null;
+
 
          enterRule(); 
             
         try {
-            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:853:28: ( ( (this_NEWLINE_0= RULE_NEWLINE )? ( ( (lv_id_1_0= RULE_ASN1_ID ) ) | ( (lv_text_2_0= RULE_IA5STRING ) ) ) ) )
-            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:854:1: ( (this_NEWLINE_0= RULE_NEWLINE )? ( ( (lv_id_1_0= RULE_ASN1_ID ) ) | ( (lv_text_2_0= RULE_IA5STRING ) ) ) )
+            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:881:28: ( ( ( (this_NEWLINE_0= RULE_NEWLINE )* ( ( (lv_identifier_1_0= ruleIdentifier ) ) | ( (lv_text_2_0= RULE_IA5STRING ) ) | ( ( (otherlv_3= RULE_MODULE_ID ) ) ( (lv_subType_4_0= ruleASN1_SUBTYPE ) )? ) ) ) | ( (lv_objectRef_5_0= ruleBracedObjectReference ) ) | ( (lv_integer_6_0= ruleASN1_INTEGER ) ) | ( (lv_sequenceOf_7_0= ruleASN1_SEQUENCE_OF ) ) | ( () otherlv_9= 'OBJECT IDENTIFIER' ) ) )
+            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:882:1: ( ( (this_NEWLINE_0= RULE_NEWLINE )* ( ( (lv_identifier_1_0= ruleIdentifier ) ) | ( (lv_text_2_0= RULE_IA5STRING ) ) | ( ( (otherlv_3= RULE_MODULE_ID ) ) ( (lv_subType_4_0= ruleASN1_SUBTYPE ) )? ) ) ) | ( (lv_objectRef_5_0= ruleBracedObjectReference ) ) | ( (lv_integer_6_0= ruleASN1_INTEGER ) ) | ( (lv_sequenceOf_7_0= ruleASN1_SEQUENCE_OF ) ) | ( () otherlv_9= 'OBJECT IDENTIFIER' ) )
             {
-            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:854:1: ( (this_NEWLINE_0= RULE_NEWLINE )? ( ( (lv_id_1_0= RULE_ASN1_ID ) ) | ( (lv_text_2_0= RULE_IA5STRING ) ) ) )
-            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:854:2: (this_NEWLINE_0= RULE_NEWLINE )? ( ( (lv_id_1_0= RULE_ASN1_ID ) ) | ( (lv_text_2_0= RULE_IA5STRING ) ) )
-            {
-            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:854:2: (this_NEWLINE_0= RULE_NEWLINE )?
-            int alt18=2;
-            int LA18_0 = input.LA(1);
-
-            if ( (LA18_0==RULE_NEWLINE) ) {
-                alt18=1;
-            }
-            switch (alt18) {
-                case 1 :
-                    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:854:3: this_NEWLINE_0= RULE_NEWLINE
-                    {
-                    this_NEWLINE_0=(Token)match(input,RULE_NEWLINE,FOLLOW_RULE_NEWLINE_in_ruleAttributeValue1756); if (state.failed) return current;
-                    if ( state.backtracking==0 ) {
-                       
-                          newLeafNode(this_NEWLINE_0, grammarAccess.getAttributeValueAccess().getNEWLINETerminalRuleCall_0()); 
-                          
-                    }
-
-                    }
-                    break;
-
-            }
-
-            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:858:3: ( ( (lv_id_1_0= RULE_ASN1_ID ) ) | ( (lv_text_2_0= RULE_IA5STRING ) ) )
-            int alt19=2;
-            int LA19_0 = input.LA(1);
-
-            if ( (LA19_0==RULE_ASN1_ID) ) {
-                alt19=1;
-            }
-            else if ( (LA19_0==RULE_IA5STRING) ) {
-                alt19=2;
-            }
-            else {
+            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:882:1: ( ( (this_NEWLINE_0= RULE_NEWLINE )* ( ( (lv_identifier_1_0= ruleIdentifier ) ) | ( (lv_text_2_0= RULE_IA5STRING ) ) | ( ( (otherlv_3= RULE_MODULE_ID ) ) ( (lv_subType_4_0= ruleASN1_SUBTYPE ) )? ) ) ) | ( (lv_objectRef_5_0= ruleBracedObjectReference ) ) | ( (lv_integer_6_0= ruleASN1_INTEGER ) ) | ( (lv_sequenceOf_7_0= ruleASN1_SEQUENCE_OF ) ) | ( () otherlv_9= 'OBJECT IDENTIFIER' ) )
+            int alt25=5;
+            switch ( input.LA(1) ) {
+            case RULE_MODULE_ID:
+            case RULE_NEWLINE:
+            case RULE_ASN1_ID:
+            case RULE_IA5STRING:
+                {
+                alt25=1;
+                }
+                break;
+            case 25:
+                {
+                alt25=2;
+                }
+                break;
+            case 45:
+                {
+                alt25=3;
+                }
+                break;
+            case 49:
+                {
+                alt25=4;
+                }
+                break;
+            case 24:
+                {
+                alt25=5;
+                }
+                break;
+            default:
                 if (state.backtracking>0) {state.failed=true; return current;}
                 NoViableAltException nvae =
-                    new NoViableAltException("", 19, 0, input);
+                    new NoViableAltException("", 25, 0, input);
 
                 throw nvae;
             }
-            switch (alt19) {
+
+            switch (alt25) {
                 case 1 :
-                    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:858:4: ( (lv_id_1_0= RULE_ASN1_ID ) )
+                    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:882:2: ( (this_NEWLINE_0= RULE_NEWLINE )* ( ( (lv_identifier_1_0= ruleIdentifier ) ) | ( (lv_text_2_0= RULE_IA5STRING ) ) | ( ( (otherlv_3= RULE_MODULE_ID ) ) ( (lv_subType_4_0= ruleASN1_SUBTYPE ) )? ) ) )
                     {
-                    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:858:4: ( (lv_id_1_0= RULE_ASN1_ID ) )
-                    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:859:1: (lv_id_1_0= RULE_ASN1_ID )
+                    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:882:2: ( (this_NEWLINE_0= RULE_NEWLINE )* ( ( (lv_identifier_1_0= ruleIdentifier ) ) | ( (lv_text_2_0= RULE_IA5STRING ) ) | ( ( (otherlv_3= RULE_MODULE_ID ) ) ( (lv_subType_4_0= ruleASN1_SUBTYPE ) )? ) ) )
+                    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:882:3: (this_NEWLINE_0= RULE_NEWLINE )* ( ( (lv_identifier_1_0= ruleIdentifier ) ) | ( (lv_text_2_0= RULE_IA5STRING ) ) | ( ( (otherlv_3= RULE_MODULE_ID ) ) ( (lv_subType_4_0= ruleASN1_SUBTYPE ) )? ) )
                     {
-                    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:859:1: (lv_id_1_0= RULE_ASN1_ID )
-                    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:860:3: lv_id_1_0= RULE_ASN1_ID
-                    {
-                    lv_id_1_0=(Token)match(input,RULE_ASN1_ID,FOLLOW_RULE_ASN1_ID_in_ruleAttributeValue1775); if (state.failed) return current;
-                    if ( state.backtracking==0 ) {
+                    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:882:3: (this_NEWLINE_0= RULE_NEWLINE )*
+                    loop22:
+                    do {
+                        int alt22=2;
+                        int LA22_0 = input.LA(1);
 
-                      			newLeafNode(lv_id_1_0, grammarAccess.getAttributeValueAccess().getIdASN1_IDTerminalRuleCall_1_0_0()); 
-                      		
-                    }
-                    if ( state.backtracking==0 ) {
+                        if ( (LA22_0==RULE_NEWLINE) ) {
+                            alt22=1;
+                        }
 
-                      	        if (current==null) {
-                      	            current = createModelElement(grammarAccess.getAttributeValueRule());
-                      	        }
-                             		setWithLastConsumed(
-                             			current, 
-                             			"id",
-                              		lv_id_1_0, 
-                              		"ASN1_ID");
-                      	    
+
+                        switch (alt22) {
+                    	case 1 :
+                    	    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:882:4: this_NEWLINE_0= RULE_NEWLINE
+                    	    {
+                    	    this_NEWLINE_0=(Token)match(input,RULE_NEWLINE,FOLLOW_RULE_NEWLINE_in_ruleAttributeValue1861); if (state.failed) return current;
+                    	    if ( state.backtracking==0 ) {
+                    	       
+                    	          newLeafNode(this_NEWLINE_0, grammarAccess.getAttributeValueAccess().getNEWLINETerminalRuleCall_0_0()); 
+                    	          
+                    	    }
+
+                    	    }
+                    	    break;
+
+                    	default :
+                    	    break loop22;
+                        }
+                    } while (true);
+
+                    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:886:3: ( ( (lv_identifier_1_0= ruleIdentifier ) ) | ( (lv_text_2_0= RULE_IA5STRING ) ) | ( ( (otherlv_3= RULE_MODULE_ID ) ) ( (lv_subType_4_0= ruleASN1_SUBTYPE ) )? ) )
+                    int alt24=3;
+                    switch ( input.LA(1) ) {
+                    case RULE_ASN1_ID:
+                        {
+                        alt24=1;
+                        }
+                        break;
+                    case RULE_IA5STRING:
+                        {
+                        alt24=2;
+                        }
+                        break;
+                    case RULE_MODULE_ID:
+                        {
+                        alt24=3;
+                        }
+                        break;
+                    default:
+                        if (state.backtracking>0) {state.failed=true; return current;}
+                        NoViableAltException nvae =
+                            new NoViableAltException("", 24, 0, input);
+
+                        throw nvae;
                     }
+
+                    switch (alt24) {
+                        case 1 :
+                            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:886:4: ( (lv_identifier_1_0= ruleIdentifier ) )
+                            {
+                            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:886:4: ( (lv_identifier_1_0= ruleIdentifier ) )
+                            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:887:1: (lv_identifier_1_0= ruleIdentifier )
+                            {
+                            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:887:1: (lv_identifier_1_0= ruleIdentifier )
+                            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:888:3: lv_identifier_1_0= ruleIdentifier
+                            {
+                            if ( state.backtracking==0 ) {
+                               
+                              	        newCompositeNode(grammarAccess.getAttributeValueAccess().getIdentifierIdentifierParserRuleCall_0_1_0_0()); 
+                              	    
+                            }
+                            pushFollow(FOLLOW_ruleIdentifier_in_ruleAttributeValue1884);
+                            lv_identifier_1_0=ruleIdentifier();
+
+                            state._fsp--;
+                            if (state.failed) return current;
+                            if ( state.backtracking==0 ) {
+
+                              	        if (current==null) {
+                              	            current = createModelElementForParent(grammarAccess.getAttributeValueRule());
+                              	        }
+                                     		set(
+                                     			current, 
+                                     			"identifier",
+                                      		lv_identifier_1_0, 
+                                      		"Identifier");
+                              	        afterParserOrEnumRuleCall();
+                              	    
+                            }
+
+                            }
+
+
+                            }
+
+
+                            }
+                            break;
+                        case 2 :
+                            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:905:6: ( (lv_text_2_0= RULE_IA5STRING ) )
+                            {
+                            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:905:6: ( (lv_text_2_0= RULE_IA5STRING ) )
+                            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:906:1: (lv_text_2_0= RULE_IA5STRING )
+                            {
+                            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:906:1: (lv_text_2_0= RULE_IA5STRING )
+                            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:907:3: lv_text_2_0= RULE_IA5STRING
+                            {
+                            lv_text_2_0=(Token)match(input,RULE_IA5STRING,FOLLOW_RULE_IA5STRING_in_ruleAttributeValue1907); if (state.failed) return current;
+                            if ( state.backtracking==0 ) {
+
+                              			newLeafNode(lv_text_2_0, grammarAccess.getAttributeValueAccess().getTextIA5STRINGTerminalRuleCall_0_1_1_0()); 
+                              		
+                            }
+                            if ( state.backtracking==0 ) {
+
+                              	        if (current==null) {
+                              	            current = createModelElement(grammarAccess.getAttributeValueRule());
+                              	        }
+                                     		setWithLastConsumed(
+                                     			current, 
+                                     			"text",
+                                      		lv_text_2_0, 
+                                      		"IA5STRING");
+                              	    
+                            }
+
+                            }
+
+
+                            }
+
+
+                            }
+                            break;
+                        case 3 :
+                            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:924:6: ( ( (otherlv_3= RULE_MODULE_ID ) ) ( (lv_subType_4_0= ruleASN1_SUBTYPE ) )? )
+                            {
+                            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:924:6: ( ( (otherlv_3= RULE_MODULE_ID ) ) ( (lv_subType_4_0= ruleASN1_SUBTYPE ) )? )
+                            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:924:7: ( (otherlv_3= RULE_MODULE_ID ) ) ( (lv_subType_4_0= ruleASN1_SUBTYPE ) )?
+                            {
+                            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:924:7: ( (otherlv_3= RULE_MODULE_ID ) )
+                            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:925:1: (otherlv_3= RULE_MODULE_ID )
+                            {
+                            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:925:1: (otherlv_3= RULE_MODULE_ID )
+                            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:926:3: otherlv_3= RULE_MODULE_ID
+                            {
+                            if ( state.backtracking==0 ) {
+
+                              			if (current==null) {
+                              	            current = createModelElement(grammarAccess.getAttributeValueRule());
+                              	        }
+                                      
+                            }
+                            otherlv_3=(Token)match(input,RULE_MODULE_ID,FOLLOW_RULE_MODULE_ID_in_ruleAttributeValue1939); if (state.failed) return current;
+                            if ( state.backtracking==0 ) {
+
+                              		newLeafNode(otherlv_3, grammarAccess.getAttributeValueAccess().getTypeRefReferenceableCrossReference_0_1_2_0_0()); 
+                              	
+                            }
+
+                            }
+
+
+                            }
+
+                            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:937:2: ( (lv_subType_4_0= ruleASN1_SUBTYPE ) )?
+                            int alt23=2;
+                            int LA23_0 = input.LA(1);
+
+                            if ( (LA23_0==38) ) {
+                                alt23=1;
+                            }
+                            switch (alt23) {
+                                case 1 :
+                                    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:938:1: (lv_subType_4_0= ruleASN1_SUBTYPE )
+                                    {
+                                    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:938:1: (lv_subType_4_0= ruleASN1_SUBTYPE )
+                                    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:939:3: lv_subType_4_0= ruleASN1_SUBTYPE
+                                    {
+                                    if ( state.backtracking==0 ) {
+                                       
+                                      	        newCompositeNode(grammarAccess.getAttributeValueAccess().getSubTypeASN1_SUBTYPEParserRuleCall_0_1_2_1_0()); 
+                                      	    
+                                    }
+                                    pushFollow(FOLLOW_ruleASN1_SUBTYPE_in_ruleAttributeValue1960);
+                                    lv_subType_4_0=ruleASN1_SUBTYPE();
+
+                                    state._fsp--;
+                                    if (state.failed) return current;
+                                    if ( state.backtracking==0 ) {
+
+                                      	        if (current==null) {
+                                      	            current = createModelElementForParent(grammarAccess.getAttributeValueRule());
+                                      	        }
+                                             		set(
+                                             			current, 
+                                             			"subType",
+                                              		lv_subType_4_0, 
+                                              		"ASN1_SUBTYPE");
+                                      	        afterParserOrEnumRuleCall();
+                                      	    
+                                    }
+
+                                    }
+
+
+                                    }
+                                    break;
+
+                            }
+
+
+                            }
+
+
+                            }
+                            break;
 
                     }
 
@@ -2511,30 +2888,35 @@ public class InternalSmiParser extends AbstractInternalAntlrParser {
                     }
                     break;
                 case 2 :
-                    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:877:6: ( (lv_text_2_0= RULE_IA5STRING ) )
+                    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:956:6: ( (lv_objectRef_5_0= ruleBracedObjectReference ) )
                     {
-                    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:877:6: ( (lv_text_2_0= RULE_IA5STRING ) )
-                    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:878:1: (lv_text_2_0= RULE_IA5STRING )
+                    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:956:6: ( (lv_objectRef_5_0= ruleBracedObjectReference ) )
+                    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:957:1: (lv_objectRef_5_0= ruleBracedObjectReference )
                     {
-                    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:878:1: (lv_text_2_0= RULE_IA5STRING )
-                    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:879:3: lv_text_2_0= RULE_IA5STRING
+                    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:957:1: (lv_objectRef_5_0= ruleBracedObjectReference )
+                    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:958:3: lv_objectRef_5_0= ruleBracedObjectReference
                     {
-                    lv_text_2_0=(Token)match(input,RULE_IA5STRING,FOLLOW_RULE_IA5STRING_in_ruleAttributeValue1803); if (state.failed) return current;
                     if ( state.backtracking==0 ) {
-
-                      			newLeafNode(lv_text_2_0, grammarAccess.getAttributeValueAccess().getTextIA5STRINGTerminalRuleCall_1_1_0()); 
-                      		
+                       
+                      	        newCompositeNode(grammarAccess.getAttributeValueAccess().getObjectRefBracedObjectReferenceParserRuleCall_1_0()); 
+                      	    
                     }
+                    pushFollow(FOLLOW_ruleBracedObjectReference_in_ruleAttributeValue1991);
+                    lv_objectRef_5_0=ruleBracedObjectReference();
+
+                    state._fsp--;
+                    if (state.failed) return current;
                     if ( state.backtracking==0 ) {
 
                       	        if (current==null) {
-                      	            current = createModelElement(grammarAccess.getAttributeValueRule());
+                      	            current = createModelElementForParent(grammarAccess.getAttributeValueRule());
                       	        }
-                             		setWithLastConsumed(
+                             		set(
                              			current, 
-                             			"text",
-                              		lv_text_2_0, 
-                              		"IA5STRING");
+                             			"objectRef",
+                              		lv_objectRef_5_0, 
+                              		"BracedObjectReference");
+                      	        afterParserOrEnumRuleCall();
                       	    
                     }
 
@@ -2546,9 +2928,119 @@ public class InternalSmiParser extends AbstractInternalAntlrParser {
 
                     }
                     break;
+                case 3 :
+                    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:975:6: ( (lv_integer_6_0= ruleASN1_INTEGER ) )
+                    {
+                    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:975:6: ( (lv_integer_6_0= ruleASN1_INTEGER ) )
+                    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:976:1: (lv_integer_6_0= ruleASN1_INTEGER )
+                    {
+                    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:976:1: (lv_integer_6_0= ruleASN1_INTEGER )
+                    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:977:3: lv_integer_6_0= ruleASN1_INTEGER
+                    {
+                    if ( state.backtracking==0 ) {
+                       
+                      	        newCompositeNode(grammarAccess.getAttributeValueAccess().getIntegerASN1_INTEGERParserRuleCall_2_0()); 
+                      	    
+                    }
+                    pushFollow(FOLLOW_ruleASN1_INTEGER_in_ruleAttributeValue2018);
+                    lv_integer_6_0=ruleASN1_INTEGER();
 
-            }
+                    state._fsp--;
+                    if (state.failed) return current;
+                    if ( state.backtracking==0 ) {
 
+                      	        if (current==null) {
+                      	            current = createModelElementForParent(grammarAccess.getAttributeValueRule());
+                      	        }
+                             		set(
+                             			current, 
+                             			"integer",
+                              		lv_integer_6_0, 
+                              		"ASN1_INTEGER");
+                      	        afterParserOrEnumRuleCall();
+                      	    
+                    }
+
+                    }
+
+
+                    }
+
+
+                    }
+                    break;
+                case 4 :
+                    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:994:6: ( (lv_sequenceOf_7_0= ruleASN1_SEQUENCE_OF ) )
+                    {
+                    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:994:6: ( (lv_sequenceOf_7_0= ruleASN1_SEQUENCE_OF ) )
+                    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:995:1: (lv_sequenceOf_7_0= ruleASN1_SEQUENCE_OF )
+                    {
+                    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:995:1: (lv_sequenceOf_7_0= ruleASN1_SEQUENCE_OF )
+                    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:996:3: lv_sequenceOf_7_0= ruleASN1_SEQUENCE_OF
+                    {
+                    if ( state.backtracking==0 ) {
+                       
+                      	        newCompositeNode(grammarAccess.getAttributeValueAccess().getSequenceOfASN1_SEQUENCE_OFParserRuleCall_3_0()); 
+                      	    
+                    }
+                    pushFollow(FOLLOW_ruleASN1_SEQUENCE_OF_in_ruleAttributeValue2045);
+                    lv_sequenceOf_7_0=ruleASN1_SEQUENCE_OF();
+
+                    state._fsp--;
+                    if (state.failed) return current;
+                    if ( state.backtracking==0 ) {
+
+                      	        if (current==null) {
+                      	            current = createModelElementForParent(grammarAccess.getAttributeValueRule());
+                      	        }
+                             		set(
+                             			current, 
+                             			"sequenceOf",
+                              		lv_sequenceOf_7_0, 
+                              		"ASN1_SEQUENCE_OF");
+                      	        afterParserOrEnumRuleCall();
+                      	    
+                    }
+
+                    }
+
+
+                    }
+
+
+                    }
+                    break;
+                case 5 :
+                    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1013:6: ( () otherlv_9= 'OBJECT IDENTIFIER' )
+                    {
+                    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1013:6: ( () otherlv_9= 'OBJECT IDENTIFIER' )
+                    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1013:7: () otherlv_9= 'OBJECT IDENTIFIER'
+                    {
+                    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1013:7: ()
+                    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1014:5: 
+                    {
+                    if ( state.backtracking==0 ) {
+
+                              current = forceCreateModelElement(
+                                  grammarAccess.getAttributeValueAccess().getAttributeValueAction_4_0(),
+                                  current);
+                          
+                    }
+
+                    }
+
+                    otherlv_9=(Token)match(input,24,FOLLOW_24_in_ruleAttributeValue2073); if (state.failed) return current;
+                    if ( state.backtracking==0 ) {
+
+                          	newLeafNode(otherlv_9, grammarAccess.getAttributeValueAccess().getOBJECTIDENTIFIERKeyword_4_1());
+                          
+                    }
+
+                    }
+
+
+                    }
+                    break;
 
             }
 
@@ -2571,8 +3063,227 @@ public class InternalSmiParser extends AbstractInternalAntlrParser {
     // $ANTLR end "ruleAttributeValue"
 
 
+    // $ANTLR start "entryRuleIdentifier"
+    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1031:1: entryRuleIdentifier returns [EObject current=null] : iv_ruleIdentifier= ruleIdentifier EOF ;
+    public final EObject entryRuleIdentifier() throws RecognitionException {
+        EObject current = null;
+
+        EObject iv_ruleIdentifier = null;
+
+
+        try {
+            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1032:2: (iv_ruleIdentifier= ruleIdentifier EOF )
+            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1033:2: iv_ruleIdentifier= ruleIdentifier EOF
+            {
+            if ( state.backtracking==0 ) {
+               newCompositeNode(grammarAccess.getIdentifierRule()); 
+            }
+            pushFollow(FOLLOW_ruleIdentifier_in_entryRuleIdentifier2110);
+            iv_ruleIdentifier=ruleIdentifier();
+
+            state._fsp--;
+            if (state.failed) return current;
+            if ( state.backtracking==0 ) {
+               current =iv_ruleIdentifier; 
+            }
+            match(input,EOF,FOLLOW_EOF_in_entryRuleIdentifier2120); if (state.failed) return current;
+
+            }
+
+        }
+         
+            catch (RecognitionException re) { 
+                recover(input,re); 
+                appendSkippedTokens();
+            } 
+        finally {
+        }
+        return current;
+    }
+    // $ANTLR end "entryRuleIdentifier"
+
+
+    // $ANTLR start "ruleIdentifier"
+    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1040:1: ruleIdentifier returns [EObject current=null] : ( (lv_id_0_0= RULE_ASN1_ID ) ) ;
+    public final EObject ruleIdentifier() throws RecognitionException {
+        EObject current = null;
+
+        Token lv_id_0_0=null;
+
+         enterRule(); 
+            
+        try {
+            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1043:28: ( ( (lv_id_0_0= RULE_ASN1_ID ) ) )
+            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1044:1: ( (lv_id_0_0= RULE_ASN1_ID ) )
+            {
+            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1044:1: ( (lv_id_0_0= RULE_ASN1_ID ) )
+            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1045:1: (lv_id_0_0= RULE_ASN1_ID )
+            {
+            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1045:1: (lv_id_0_0= RULE_ASN1_ID )
+            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1046:3: lv_id_0_0= RULE_ASN1_ID
+            {
+            lv_id_0_0=(Token)match(input,RULE_ASN1_ID,FOLLOW_RULE_ASN1_ID_in_ruleIdentifier2161); if (state.failed) return current;
+            if ( state.backtracking==0 ) {
+
+              			newLeafNode(lv_id_0_0, grammarAccess.getIdentifierAccess().getIdASN1_IDTerminalRuleCall_0()); 
+              		
+            }
+            if ( state.backtracking==0 ) {
+
+              	        if (current==null) {
+              	            current = createModelElement(grammarAccess.getIdentifierRule());
+              	        }
+                     		setWithLastConsumed(
+                     			current, 
+                     			"id",
+                      		lv_id_0_0, 
+                      		"ASN1_ID");
+              	    
+            }
+
+            }
+
+
+            }
+
+
+            }
+
+            if ( state.backtracking==0 ) {
+               leaveRule(); 
+            }
+        }
+         
+            catch (RecognitionException re) { 
+                recover(input,re); 
+                appendSkippedTokens();
+            } 
+        finally {
+        }
+        return current;
+    }
+    // $ANTLR end "ruleIdentifier"
+
+
+    // $ANTLR start "entryRuleBracedObjectReference"
+    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1070:1: entryRuleBracedObjectReference returns [EObject current=null] : iv_ruleBracedObjectReference= ruleBracedObjectReference EOF ;
+    public final EObject entryRuleBracedObjectReference() throws RecognitionException {
+        EObject current = null;
+
+        EObject iv_ruleBracedObjectReference = null;
+
+
+        try {
+            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1071:2: (iv_ruleBracedObjectReference= ruleBracedObjectReference EOF )
+            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1072:2: iv_ruleBracedObjectReference= ruleBracedObjectReference EOF
+            {
+            if ( state.backtracking==0 ) {
+               newCompositeNode(grammarAccess.getBracedObjectReferenceRule()); 
+            }
+            pushFollow(FOLLOW_ruleBracedObjectReference_in_entryRuleBracedObjectReference2201);
+            iv_ruleBracedObjectReference=ruleBracedObjectReference();
+
+            state._fsp--;
+            if (state.failed) return current;
+            if ( state.backtracking==0 ) {
+               current =iv_ruleBracedObjectReference; 
+            }
+            match(input,EOF,FOLLOW_EOF_in_entryRuleBracedObjectReference2211); if (state.failed) return current;
+
+            }
+
+        }
+         
+            catch (RecognitionException re) { 
+                recover(input,re); 
+                appendSkippedTokens();
+            } 
+        finally {
+        }
+        return current;
+    }
+    // $ANTLR end "entryRuleBracedObjectReference"
+
+
+    // $ANTLR start "ruleBracedObjectReference"
+    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1079:1: ruleBracedObjectReference returns [EObject current=null] : (otherlv_0= '{' ( (otherlv_1= RULE_ASN1_ID ) ) otherlv_2= '}' ) ;
+    public final EObject ruleBracedObjectReference() throws RecognitionException {
+        EObject current = null;
+
+        Token otherlv_0=null;
+        Token otherlv_1=null;
+        Token otherlv_2=null;
+
+         enterRule(); 
+            
+        try {
+            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1082:28: ( (otherlv_0= '{' ( (otherlv_1= RULE_ASN1_ID ) ) otherlv_2= '}' ) )
+            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1083:1: (otherlv_0= '{' ( (otherlv_1= RULE_ASN1_ID ) ) otherlv_2= '}' )
+            {
+            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1083:1: (otherlv_0= '{' ( (otherlv_1= RULE_ASN1_ID ) ) otherlv_2= '}' )
+            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1083:3: otherlv_0= '{' ( (otherlv_1= RULE_ASN1_ID ) ) otherlv_2= '}'
+            {
+            otherlv_0=(Token)match(input,25,FOLLOW_25_in_ruleBracedObjectReference2248); if (state.failed) return current;
+            if ( state.backtracking==0 ) {
+
+                  	newLeafNode(otherlv_0, grammarAccess.getBracedObjectReferenceAccess().getLeftCurlyBracketKeyword_0());
+                  
+            }
+            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1087:1: ( (otherlv_1= RULE_ASN1_ID ) )
+            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1088:1: (otherlv_1= RULE_ASN1_ID )
+            {
+            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1088:1: (otherlv_1= RULE_ASN1_ID )
+            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1089:3: otherlv_1= RULE_ASN1_ID
+            {
+            if ( state.backtracking==0 ) {
+
+              			if (current==null) {
+              	            current = createModelElement(grammarAccess.getBracedObjectReferenceRule());
+              	        }
+                      
+            }
+            otherlv_1=(Token)match(input,RULE_ASN1_ID,FOLLOW_RULE_ASN1_ID_in_ruleBracedObjectReference2268); if (state.failed) return current;
+            if ( state.backtracking==0 ) {
+
+              		newLeafNode(otherlv_1, grammarAccess.getBracedObjectReferenceAccess().getObjectRefObjectReferenceableCrossReference_1_0()); 
+              	
+            }
+
+            }
+
+
+            }
+
+            otherlv_2=(Token)match(input,26,FOLLOW_26_in_ruleBracedObjectReference2280); if (state.failed) return current;
+            if ( state.backtracking==0 ) {
+
+                  	newLeafNode(otherlv_2, grammarAccess.getBracedObjectReferenceAccess().getRightCurlyBracketKeyword_2());
+                  
+            }
+
+            }
+
+
+            }
+
+            if ( state.backtracking==0 ) {
+               leaveRule(); 
+            }
+        }
+         
+            catch (RecognitionException re) { 
+                recover(input,re); 
+                appendSkippedTokens();
+            } 
+        finally {
+        }
+        return current;
+    }
+    // $ANTLR end "ruleBracedObjectReference"
+
+
     // $ANTLR start "entryRuleObjectValue"
-    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:903:1: entryRuleObjectValue returns [EObject current=null] : iv_ruleObjectValue= ruleObjectValue EOF ;
+    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1112:1: entryRuleObjectValue returns [EObject current=null] : iv_ruleObjectValue= ruleObjectValue EOF ;
     public final EObject entryRuleObjectValue() throws RecognitionException {
         EObject current = null;
 
@@ -2580,13 +3291,13 @@ public class InternalSmiParser extends AbstractInternalAntlrParser {
 
 
         try {
-            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:904:2: (iv_ruleObjectValue= ruleObjectValue EOF )
-            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:905:2: iv_ruleObjectValue= ruleObjectValue EOF
+            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1113:2: (iv_ruleObjectValue= ruleObjectValue EOF )
+            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1114:2: iv_ruleObjectValue= ruleObjectValue EOF
             {
             if ( state.backtracking==0 ) {
                newCompositeNode(grammarAccess.getObjectValueRule()); 
             }
-            pushFollow(FOLLOW_ruleObjectValue_in_entryRuleObjectValue1845);
+            pushFollow(FOLLOW_ruleObjectValue_in_entryRuleObjectValue2316);
             iv_ruleObjectValue=ruleObjectValue();
 
             state._fsp--;
@@ -2594,7 +3305,7 @@ public class InternalSmiParser extends AbstractInternalAntlrParser {
             if ( state.backtracking==0 ) {
                current =iv_ruleObjectValue; 
             }
-            match(input,EOF,FOLLOW_EOF_in_entryRuleObjectValue1855); if (state.failed) return current;
+            match(input,EOF,FOLLOW_EOF_in_entryRuleObjectValue2326); if (state.failed) return current;
 
             }
 
@@ -2612,7 +3323,7 @@ public class InternalSmiParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "ruleObjectValue"
-    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:912:1: ruleObjectValue returns [EObject current=null] : (otherlv_0= '{' this_ObjectIdentifierValue_1= ruleObjectIdentifierValue otherlv_2= '}' ) ;
+    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1121:1: ruleObjectValue returns [EObject current=null] : (otherlv_0= '{' this_ObjectIdentifierValue_1= ruleObjectIdentifierValue otherlv_2= '}' ) ;
     public final EObject ruleObjectValue() throws RecognitionException {
         EObject current = null;
 
@@ -2624,13 +3335,13 @@ public class InternalSmiParser extends AbstractInternalAntlrParser {
          enterRule(); 
             
         try {
-            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:915:28: ( (otherlv_0= '{' this_ObjectIdentifierValue_1= ruleObjectIdentifierValue otherlv_2= '}' ) )
-            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:916:1: (otherlv_0= '{' this_ObjectIdentifierValue_1= ruleObjectIdentifierValue otherlv_2= '}' )
+            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1124:28: ( (otherlv_0= '{' this_ObjectIdentifierValue_1= ruleObjectIdentifierValue otherlv_2= '}' ) )
+            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1125:1: (otherlv_0= '{' this_ObjectIdentifierValue_1= ruleObjectIdentifierValue otherlv_2= '}' )
             {
-            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:916:1: (otherlv_0= '{' this_ObjectIdentifierValue_1= ruleObjectIdentifierValue otherlv_2= '}' )
-            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:916:3: otherlv_0= '{' this_ObjectIdentifierValue_1= ruleObjectIdentifierValue otherlv_2= '}'
+            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1125:1: (otherlv_0= '{' this_ObjectIdentifierValue_1= ruleObjectIdentifierValue otherlv_2= '}' )
+            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1125:3: otherlv_0= '{' this_ObjectIdentifierValue_1= ruleObjectIdentifierValue otherlv_2= '}'
             {
-            otherlv_0=(Token)match(input,25,FOLLOW_25_in_ruleObjectValue1892); if (state.failed) return current;
+            otherlv_0=(Token)match(input,25,FOLLOW_25_in_ruleObjectValue2363); if (state.failed) return current;
             if ( state.backtracking==0 ) {
 
                   	newLeafNode(otherlv_0, grammarAccess.getObjectValueAccess().getLeftCurlyBracketKeyword_0());
@@ -2641,7 +3352,7 @@ public class InternalSmiParser extends AbstractInternalAntlrParser {
                       newCompositeNode(grammarAccess.getObjectValueAccess().getObjectIdentifierValueParserRuleCall_1()); 
                   
             }
-            pushFollow(FOLLOW_ruleObjectIdentifierValue_in_ruleObjectValue1914);
+            pushFollow(FOLLOW_ruleObjectIdentifierValue_in_ruleObjectValue2385);
             this_ObjectIdentifierValue_1=ruleObjectIdentifierValue();
 
             state._fsp--;
@@ -2652,7 +3363,7 @@ public class InternalSmiParser extends AbstractInternalAntlrParser {
                       afterParserOrEnumRuleCall();
                   
             }
-            otherlv_2=(Token)match(input,26,FOLLOW_26_in_ruleObjectValue1925); if (state.failed) return current;
+            otherlv_2=(Token)match(input,26,FOLLOW_26_in_ruleObjectValue2396); if (state.failed) return current;
             if ( state.backtracking==0 ) {
 
                   	newLeafNode(otherlv_2, grammarAccess.getObjectValueAccess().getRightCurlyBracketKeyword_2());
@@ -2681,7 +3392,7 @@ public class InternalSmiParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "entryRuleMacro"
-    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:941:1: entryRuleMacro returns [EObject current=null] : iv_ruleMacro= ruleMacro EOF ;
+    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1150:1: entryRuleMacro returns [EObject current=null] : iv_ruleMacro= ruleMacro EOF ;
     public final EObject entryRuleMacro() throws RecognitionException {
         EObject current = null;
 
@@ -2689,13 +3400,13 @@ public class InternalSmiParser extends AbstractInternalAntlrParser {
 
 
         try {
-            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:942:2: (iv_ruleMacro= ruleMacro EOF )
-            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:943:2: iv_ruleMacro= ruleMacro EOF
+            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1151:2: (iv_ruleMacro= ruleMacro EOF )
+            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1152:2: iv_ruleMacro= ruleMacro EOF
             {
             if ( state.backtracking==0 ) {
                newCompositeNode(grammarAccess.getMacroRule()); 
             }
-            pushFollow(FOLLOW_ruleMacro_in_entryRuleMacro1961);
+            pushFollow(FOLLOW_ruleMacro_in_entryRuleMacro2432);
             iv_ruleMacro=ruleMacro();
 
             state._fsp--;
@@ -2703,7 +3414,7 @@ public class InternalSmiParser extends AbstractInternalAntlrParser {
             if ( state.backtracking==0 ) {
                current =iv_ruleMacro; 
             }
-            match(input,EOF,FOLLOW_EOF_in_entryRuleMacro1971); if (state.failed) return current;
+            match(input,EOF,FOLLOW_EOF_in_entryRuleMacro2442); if (state.failed) return current;
 
             }
 
@@ -2721,7 +3432,7 @@ public class InternalSmiParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "ruleMacro"
-    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:950:1: ruleMacro returns [EObject current=null] : ( (this_NEWLINE_0= RULE_NEWLINE )+ ( (lv_name_1_0= RULE_MODULE_ID ) ) otherlv_2= 'MACRO' otherlv_3= '::=' (this_NEWLINE_4= RULE_NEWLINE )+ otherlv_5= 'BEGIN' ( (lv_typeNotation_6_0= ruleTypeNotation ) ) ( (lv_valueNotation_7_0= ruleValueNotation ) ) ( (lv_innerTypes_8_0= ruleTypeDefinition ) )+ (this_NEWLINE_9= RULE_NEWLINE )+ otherlv_10= 'END' ) ;
+    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1159:1: ruleMacro returns [EObject current=null] : ( (this_NEWLINE_0= RULE_NEWLINE )+ ( (lv_name_1_0= RULE_MODULE_ID ) ) otherlv_2= 'MACRO' otherlv_3= '::=' (this_NEWLINE_4= RULE_NEWLINE )+ otherlv_5= 'BEGIN' ( (lv_typeNotation_6_0= ruleTypeNotation ) ) ( (lv_valueNotation_7_0= ruleValueNotation ) ) ( (lv_innerTypes_8_0= ruleTypeDefinition ) )+ (this_NEWLINE_9= RULE_NEWLINE )+ otherlv_10= 'END' ) ;
     public final EObject ruleMacro() throws RecognitionException {
         EObject current = null;
 
@@ -2743,29 +3454,29 @@ public class InternalSmiParser extends AbstractInternalAntlrParser {
          enterRule(); 
             
         try {
-            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:953:28: ( ( (this_NEWLINE_0= RULE_NEWLINE )+ ( (lv_name_1_0= RULE_MODULE_ID ) ) otherlv_2= 'MACRO' otherlv_3= '::=' (this_NEWLINE_4= RULE_NEWLINE )+ otherlv_5= 'BEGIN' ( (lv_typeNotation_6_0= ruleTypeNotation ) ) ( (lv_valueNotation_7_0= ruleValueNotation ) ) ( (lv_innerTypes_8_0= ruleTypeDefinition ) )+ (this_NEWLINE_9= RULE_NEWLINE )+ otherlv_10= 'END' ) )
-            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:954:1: ( (this_NEWLINE_0= RULE_NEWLINE )+ ( (lv_name_1_0= RULE_MODULE_ID ) ) otherlv_2= 'MACRO' otherlv_3= '::=' (this_NEWLINE_4= RULE_NEWLINE )+ otherlv_5= 'BEGIN' ( (lv_typeNotation_6_0= ruleTypeNotation ) ) ( (lv_valueNotation_7_0= ruleValueNotation ) ) ( (lv_innerTypes_8_0= ruleTypeDefinition ) )+ (this_NEWLINE_9= RULE_NEWLINE )+ otherlv_10= 'END' )
+            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1162:28: ( ( (this_NEWLINE_0= RULE_NEWLINE )+ ( (lv_name_1_0= RULE_MODULE_ID ) ) otherlv_2= 'MACRO' otherlv_3= '::=' (this_NEWLINE_4= RULE_NEWLINE )+ otherlv_5= 'BEGIN' ( (lv_typeNotation_6_0= ruleTypeNotation ) ) ( (lv_valueNotation_7_0= ruleValueNotation ) ) ( (lv_innerTypes_8_0= ruleTypeDefinition ) )+ (this_NEWLINE_9= RULE_NEWLINE )+ otherlv_10= 'END' ) )
+            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1163:1: ( (this_NEWLINE_0= RULE_NEWLINE )+ ( (lv_name_1_0= RULE_MODULE_ID ) ) otherlv_2= 'MACRO' otherlv_3= '::=' (this_NEWLINE_4= RULE_NEWLINE )+ otherlv_5= 'BEGIN' ( (lv_typeNotation_6_0= ruleTypeNotation ) ) ( (lv_valueNotation_7_0= ruleValueNotation ) ) ( (lv_innerTypes_8_0= ruleTypeDefinition ) )+ (this_NEWLINE_9= RULE_NEWLINE )+ otherlv_10= 'END' )
             {
-            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:954:1: ( (this_NEWLINE_0= RULE_NEWLINE )+ ( (lv_name_1_0= RULE_MODULE_ID ) ) otherlv_2= 'MACRO' otherlv_3= '::=' (this_NEWLINE_4= RULE_NEWLINE )+ otherlv_5= 'BEGIN' ( (lv_typeNotation_6_0= ruleTypeNotation ) ) ( (lv_valueNotation_7_0= ruleValueNotation ) ) ( (lv_innerTypes_8_0= ruleTypeDefinition ) )+ (this_NEWLINE_9= RULE_NEWLINE )+ otherlv_10= 'END' )
-            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:954:2: (this_NEWLINE_0= RULE_NEWLINE )+ ( (lv_name_1_0= RULE_MODULE_ID ) ) otherlv_2= 'MACRO' otherlv_3= '::=' (this_NEWLINE_4= RULE_NEWLINE )+ otherlv_5= 'BEGIN' ( (lv_typeNotation_6_0= ruleTypeNotation ) ) ( (lv_valueNotation_7_0= ruleValueNotation ) ) ( (lv_innerTypes_8_0= ruleTypeDefinition ) )+ (this_NEWLINE_9= RULE_NEWLINE )+ otherlv_10= 'END'
+            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1163:1: ( (this_NEWLINE_0= RULE_NEWLINE )+ ( (lv_name_1_0= RULE_MODULE_ID ) ) otherlv_2= 'MACRO' otherlv_3= '::=' (this_NEWLINE_4= RULE_NEWLINE )+ otherlv_5= 'BEGIN' ( (lv_typeNotation_6_0= ruleTypeNotation ) ) ( (lv_valueNotation_7_0= ruleValueNotation ) ) ( (lv_innerTypes_8_0= ruleTypeDefinition ) )+ (this_NEWLINE_9= RULE_NEWLINE )+ otherlv_10= 'END' )
+            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1163:2: (this_NEWLINE_0= RULE_NEWLINE )+ ( (lv_name_1_0= RULE_MODULE_ID ) ) otherlv_2= 'MACRO' otherlv_3= '::=' (this_NEWLINE_4= RULE_NEWLINE )+ otherlv_5= 'BEGIN' ( (lv_typeNotation_6_0= ruleTypeNotation ) ) ( (lv_valueNotation_7_0= ruleValueNotation ) ) ( (lv_innerTypes_8_0= ruleTypeDefinition ) )+ (this_NEWLINE_9= RULE_NEWLINE )+ otherlv_10= 'END'
             {
-            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:954:2: (this_NEWLINE_0= RULE_NEWLINE )+
-            int cnt20=0;
-            loop20:
+            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1163:2: (this_NEWLINE_0= RULE_NEWLINE )+
+            int cnt26=0;
+            loop26:
             do {
-                int alt20=2;
-                int LA20_0 = input.LA(1);
+                int alt26=2;
+                int LA26_0 = input.LA(1);
 
-                if ( (LA20_0==RULE_NEWLINE) ) {
-                    alt20=1;
+                if ( (LA26_0==RULE_NEWLINE) ) {
+                    alt26=1;
                 }
 
 
-                switch (alt20) {
+                switch (alt26) {
             	case 1 :
-            	    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:954:3: this_NEWLINE_0= RULE_NEWLINE
+            	    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1163:3: this_NEWLINE_0= RULE_NEWLINE
             	    {
-            	    this_NEWLINE_0=(Token)match(input,RULE_NEWLINE,FOLLOW_RULE_NEWLINE_in_ruleMacro2008); if (state.failed) return current;
+            	    this_NEWLINE_0=(Token)match(input,RULE_NEWLINE,FOLLOW_RULE_NEWLINE_in_ruleMacro2479); if (state.failed) return current;
             	    if ( state.backtracking==0 ) {
             	       
             	          newLeafNode(this_NEWLINE_0, grammarAccess.getMacroAccess().getNEWLINETerminalRuleCall_0()); 
@@ -2776,22 +3487,22 @@ public class InternalSmiParser extends AbstractInternalAntlrParser {
             	    break;
 
             	default :
-            	    if ( cnt20 >= 1 ) break loop20;
+            	    if ( cnt26 >= 1 ) break loop26;
             	    if (state.backtracking>0) {state.failed=true; return current;}
                         EarlyExitException eee =
-                            new EarlyExitException(20, input);
+                            new EarlyExitException(26, input);
                         throw eee;
                 }
-                cnt20++;
+                cnt26++;
             } while (true);
 
-            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:958:3: ( (lv_name_1_0= RULE_MODULE_ID ) )
-            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:959:1: (lv_name_1_0= RULE_MODULE_ID )
+            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1167:3: ( (lv_name_1_0= RULE_MODULE_ID ) )
+            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1168:1: (lv_name_1_0= RULE_MODULE_ID )
             {
-            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:959:1: (lv_name_1_0= RULE_MODULE_ID )
-            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:960:3: lv_name_1_0= RULE_MODULE_ID
+            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1168:1: (lv_name_1_0= RULE_MODULE_ID )
+            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1169:3: lv_name_1_0= RULE_MODULE_ID
             {
-            lv_name_1_0=(Token)match(input,RULE_MODULE_ID,FOLLOW_RULE_MODULE_ID_in_ruleMacro2026); if (state.failed) return current;
+            lv_name_1_0=(Token)match(input,RULE_MODULE_ID,FOLLOW_RULE_MODULE_ID_in_ruleMacro2497); if (state.failed) return current;
             if ( state.backtracking==0 ) {
 
               			newLeafNode(lv_name_1_0, grammarAccess.getMacroAccess().getNameMODULE_IDTerminalRuleCall_1_0()); 
@@ -2815,35 +3526,35 @@ public class InternalSmiParser extends AbstractInternalAntlrParser {
 
             }
 
-            otherlv_2=(Token)match(input,27,FOLLOW_27_in_ruleMacro2043); if (state.failed) return current;
+            otherlv_2=(Token)match(input,27,FOLLOW_27_in_ruleMacro2514); if (state.failed) return current;
             if ( state.backtracking==0 ) {
 
                   	newLeafNode(otherlv_2, grammarAccess.getMacroAccess().getMACROKeyword_2());
                   
             }
-            otherlv_3=(Token)match(input,17,FOLLOW_17_in_ruleMacro2055); if (state.failed) return current;
+            otherlv_3=(Token)match(input,17,FOLLOW_17_in_ruleMacro2526); if (state.failed) return current;
             if ( state.backtracking==0 ) {
 
                   	newLeafNode(otherlv_3, grammarAccess.getMacroAccess().getColonColonEqualsSignKeyword_3());
                   
             }
-            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:984:1: (this_NEWLINE_4= RULE_NEWLINE )+
-            int cnt21=0;
-            loop21:
+            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1193:1: (this_NEWLINE_4= RULE_NEWLINE )+
+            int cnt27=0;
+            loop27:
             do {
-                int alt21=2;
-                int LA21_0 = input.LA(1);
+                int alt27=2;
+                int LA27_0 = input.LA(1);
 
-                if ( (LA21_0==RULE_NEWLINE) ) {
-                    alt21=1;
+                if ( (LA27_0==RULE_NEWLINE) ) {
+                    alt27=1;
                 }
 
 
-                switch (alt21) {
+                switch (alt27) {
             	case 1 :
-            	    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:984:2: this_NEWLINE_4= RULE_NEWLINE
+            	    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1193:2: this_NEWLINE_4= RULE_NEWLINE
             	    {
-            	    this_NEWLINE_4=(Token)match(input,RULE_NEWLINE,FOLLOW_RULE_NEWLINE_in_ruleMacro2067); if (state.failed) return current;
+            	    this_NEWLINE_4=(Token)match(input,RULE_NEWLINE,FOLLOW_RULE_NEWLINE_in_ruleMacro2538); if (state.failed) return current;
             	    if ( state.backtracking==0 ) {
             	       
             	          newLeafNode(this_NEWLINE_4, grammarAccess.getMacroAccess().getNEWLINETerminalRuleCall_4()); 
@@ -2854,33 +3565,33 @@ public class InternalSmiParser extends AbstractInternalAntlrParser {
             	    break;
 
             	default :
-            	    if ( cnt21 >= 1 ) break loop21;
+            	    if ( cnt27 >= 1 ) break loop27;
             	    if (state.backtracking>0) {state.failed=true; return current;}
                         EarlyExitException eee =
-                            new EarlyExitException(21, input);
+                            new EarlyExitException(27, input);
                         throw eee;
                 }
-                cnt21++;
+                cnt27++;
             } while (true);
 
-            otherlv_5=(Token)match(input,18,FOLLOW_18_in_ruleMacro2080); if (state.failed) return current;
+            otherlv_5=(Token)match(input,18,FOLLOW_18_in_ruleMacro2551); if (state.failed) return current;
             if ( state.backtracking==0 ) {
 
                   	newLeafNode(otherlv_5, grammarAccess.getMacroAccess().getBEGINKeyword_5());
                   
             }
-            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:992:1: ( (lv_typeNotation_6_0= ruleTypeNotation ) )
-            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:993:1: (lv_typeNotation_6_0= ruleTypeNotation )
+            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1201:1: ( (lv_typeNotation_6_0= ruleTypeNotation ) )
+            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1202:1: (lv_typeNotation_6_0= ruleTypeNotation )
             {
-            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:993:1: (lv_typeNotation_6_0= ruleTypeNotation )
-            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:994:3: lv_typeNotation_6_0= ruleTypeNotation
+            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1202:1: (lv_typeNotation_6_0= ruleTypeNotation )
+            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1203:3: lv_typeNotation_6_0= ruleTypeNotation
             {
             if ( state.backtracking==0 ) {
                
               	        newCompositeNode(grammarAccess.getMacroAccess().getTypeNotationTypeNotationParserRuleCall_6_0()); 
               	    
             }
-            pushFollow(FOLLOW_ruleTypeNotation_in_ruleMacro2101);
+            pushFollow(FOLLOW_ruleTypeNotation_in_ruleMacro2572);
             lv_typeNotation_6_0=ruleTypeNotation();
 
             state._fsp--;
@@ -2904,18 +3615,18 @@ public class InternalSmiParser extends AbstractInternalAntlrParser {
 
             }
 
-            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1010:2: ( (lv_valueNotation_7_0= ruleValueNotation ) )
-            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1011:1: (lv_valueNotation_7_0= ruleValueNotation )
+            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1219:2: ( (lv_valueNotation_7_0= ruleValueNotation ) )
+            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1220:1: (lv_valueNotation_7_0= ruleValueNotation )
             {
-            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1011:1: (lv_valueNotation_7_0= ruleValueNotation )
-            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1012:3: lv_valueNotation_7_0= ruleValueNotation
+            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1220:1: (lv_valueNotation_7_0= ruleValueNotation )
+            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1221:3: lv_valueNotation_7_0= ruleValueNotation
             {
             if ( state.backtracking==0 ) {
                
               	        newCompositeNode(grammarAccess.getMacroAccess().getValueNotationValueNotationParserRuleCall_7_0()); 
               	    
             }
-            pushFollow(FOLLOW_ruleValueNotation_in_ruleMacro2122);
+            pushFollow(FOLLOW_ruleValueNotation_in_ruleMacro2593);
             lv_valueNotation_7_0=ruleValueNotation();
 
             state._fsp--;
@@ -2939,25 +3650,25 @@ public class InternalSmiParser extends AbstractInternalAntlrParser {
 
             }
 
-            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1028:2: ( (lv_innerTypes_8_0= ruleTypeDefinition ) )+
-            int cnt22=0;
-            loop22:
+            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1237:2: ( (lv_innerTypes_8_0= ruleTypeDefinition ) )+
+            int cnt28=0;
+            loop28:
             do {
-                int alt22=2;
-                alt22 = dfa22.predict(input);
-                switch (alt22) {
+                int alt28=2;
+                alt28 = dfa28.predict(input);
+                switch (alt28) {
             	case 1 :
-            	    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1029:1: (lv_innerTypes_8_0= ruleTypeDefinition )
+            	    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1238:1: (lv_innerTypes_8_0= ruleTypeDefinition )
             	    {
-            	    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1029:1: (lv_innerTypes_8_0= ruleTypeDefinition )
-            	    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1030:3: lv_innerTypes_8_0= ruleTypeDefinition
+            	    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1238:1: (lv_innerTypes_8_0= ruleTypeDefinition )
+            	    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1239:3: lv_innerTypes_8_0= ruleTypeDefinition
             	    {
             	    if ( state.backtracking==0 ) {
             	       
             	      	        newCompositeNode(grammarAccess.getMacroAccess().getInnerTypesTypeDefinitionParserRuleCall_8_0()); 
             	      	    
             	    }
-            	    pushFollow(FOLLOW_ruleTypeDefinition_in_ruleMacro2143);
+            	    pushFollow(FOLLOW_ruleTypeDefinition_in_ruleMacro2614);
             	    lv_innerTypes_8_0=ruleTypeDefinition();
 
             	    state._fsp--;
@@ -2983,32 +3694,32 @@ public class InternalSmiParser extends AbstractInternalAntlrParser {
             	    break;
 
             	default :
-            	    if ( cnt22 >= 1 ) break loop22;
+            	    if ( cnt28 >= 1 ) break loop28;
             	    if (state.backtracking>0) {state.failed=true; return current;}
                         EarlyExitException eee =
-                            new EarlyExitException(22, input);
+                            new EarlyExitException(28, input);
                         throw eee;
                 }
-                cnt22++;
+                cnt28++;
             } while (true);
 
-            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1046:3: (this_NEWLINE_9= RULE_NEWLINE )+
-            int cnt23=0;
-            loop23:
+            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1255:3: (this_NEWLINE_9= RULE_NEWLINE )+
+            int cnt29=0;
+            loop29:
             do {
-                int alt23=2;
-                int LA23_0 = input.LA(1);
+                int alt29=2;
+                int LA29_0 = input.LA(1);
 
-                if ( (LA23_0==RULE_NEWLINE) ) {
-                    alt23=1;
+                if ( (LA29_0==RULE_NEWLINE) ) {
+                    alt29=1;
                 }
 
 
-                switch (alt23) {
+                switch (alt29) {
             	case 1 :
-            	    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1046:4: this_NEWLINE_9= RULE_NEWLINE
+            	    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1255:4: this_NEWLINE_9= RULE_NEWLINE
             	    {
-            	    this_NEWLINE_9=(Token)match(input,RULE_NEWLINE,FOLLOW_RULE_NEWLINE_in_ruleMacro2156); if (state.failed) return current;
+            	    this_NEWLINE_9=(Token)match(input,RULE_NEWLINE,FOLLOW_RULE_NEWLINE_in_ruleMacro2627); if (state.failed) return current;
             	    if ( state.backtracking==0 ) {
             	       
             	          newLeafNode(this_NEWLINE_9, grammarAccess.getMacroAccess().getNEWLINETerminalRuleCall_9()); 
@@ -3019,16 +3730,16 @@ public class InternalSmiParser extends AbstractInternalAntlrParser {
             	    break;
 
             	default :
-            	    if ( cnt23 >= 1 ) break loop23;
+            	    if ( cnt29 >= 1 ) break loop29;
             	    if (state.backtracking>0) {state.failed=true; return current;}
                         EarlyExitException eee =
-                            new EarlyExitException(23, input);
+                            new EarlyExitException(29, input);
                         throw eee;
                 }
-                cnt23++;
+                cnt29++;
             } while (true);
 
-            otherlv_10=(Token)match(input,19,FOLLOW_19_in_ruleMacro2169); if (state.failed) return current;
+            otherlv_10=(Token)match(input,19,FOLLOW_19_in_ruleMacro2640); if (state.failed) return current;
             if ( state.backtracking==0 ) {
 
                   	newLeafNode(otherlv_10, grammarAccess.getMacroAccess().getENDKeyword_10());
@@ -3057,7 +3768,7 @@ public class InternalSmiParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "entryRuleTypeNotation"
-    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1062:1: entryRuleTypeNotation returns [EObject current=null] : iv_ruleTypeNotation= ruleTypeNotation EOF ;
+    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1271:1: entryRuleTypeNotation returns [EObject current=null] : iv_ruleTypeNotation= ruleTypeNotation EOF ;
     public final EObject entryRuleTypeNotation() throws RecognitionException {
         EObject current = null;
 
@@ -3065,13 +3776,13 @@ public class InternalSmiParser extends AbstractInternalAntlrParser {
 
 
         try {
-            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1063:2: (iv_ruleTypeNotation= ruleTypeNotation EOF )
-            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1064:2: iv_ruleTypeNotation= ruleTypeNotation EOF
+            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1272:2: (iv_ruleTypeNotation= ruleTypeNotation EOF )
+            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1273:2: iv_ruleTypeNotation= ruleTypeNotation EOF
             {
             if ( state.backtracking==0 ) {
                newCompositeNode(grammarAccess.getTypeNotationRule()); 
             }
-            pushFollow(FOLLOW_ruleTypeNotation_in_entryRuleTypeNotation2205);
+            pushFollow(FOLLOW_ruleTypeNotation_in_entryRuleTypeNotation2676);
             iv_ruleTypeNotation=ruleTypeNotation();
 
             state._fsp--;
@@ -3079,7 +3790,7 @@ public class InternalSmiParser extends AbstractInternalAntlrParser {
             if ( state.backtracking==0 ) {
                current =iv_ruleTypeNotation; 
             }
-            match(input,EOF,FOLLOW_EOF_in_entryRuleTypeNotation2215); if (state.failed) return current;
+            match(input,EOF,FOLLOW_EOF_in_entryRuleTypeNotation2686); if (state.failed) return current;
 
             }
 
@@ -3097,7 +3808,7 @@ public class InternalSmiParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "ruleTypeNotation"
-    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1071:1: ruleTypeNotation returns [EObject current=null] : ( (this_NEWLINE_0= RULE_NEWLINE )+ ( (lv_name_1_0= 'TYPE' ) ) otherlv_2= 'NOTATION' otherlv_3= '::=' ( (lv_typeNotations_4_0= ruleTypeAssignment ) )+ ) ;
+    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1280:1: ruleTypeNotation returns [EObject current=null] : ( (this_NEWLINE_0= RULE_NEWLINE )+ ( (lv_name_1_0= 'TYPE' ) ) otherlv_2= 'NOTATION' otherlv_3= '::=' ( (lv_typeNotations_4_0= ruleTypeAssignment ) )+ ) ;
     public final EObject ruleTypeNotation() throws RecognitionException {
         EObject current = null;
 
@@ -3111,29 +3822,29 @@ public class InternalSmiParser extends AbstractInternalAntlrParser {
          enterRule(); 
             
         try {
-            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1074:28: ( ( (this_NEWLINE_0= RULE_NEWLINE )+ ( (lv_name_1_0= 'TYPE' ) ) otherlv_2= 'NOTATION' otherlv_3= '::=' ( (lv_typeNotations_4_0= ruleTypeAssignment ) )+ ) )
-            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1075:1: ( (this_NEWLINE_0= RULE_NEWLINE )+ ( (lv_name_1_0= 'TYPE' ) ) otherlv_2= 'NOTATION' otherlv_3= '::=' ( (lv_typeNotations_4_0= ruleTypeAssignment ) )+ )
+            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1283:28: ( ( (this_NEWLINE_0= RULE_NEWLINE )+ ( (lv_name_1_0= 'TYPE' ) ) otherlv_2= 'NOTATION' otherlv_3= '::=' ( (lv_typeNotations_4_0= ruleTypeAssignment ) )+ ) )
+            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1284:1: ( (this_NEWLINE_0= RULE_NEWLINE )+ ( (lv_name_1_0= 'TYPE' ) ) otherlv_2= 'NOTATION' otherlv_3= '::=' ( (lv_typeNotations_4_0= ruleTypeAssignment ) )+ )
             {
-            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1075:1: ( (this_NEWLINE_0= RULE_NEWLINE )+ ( (lv_name_1_0= 'TYPE' ) ) otherlv_2= 'NOTATION' otherlv_3= '::=' ( (lv_typeNotations_4_0= ruleTypeAssignment ) )+ )
-            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1075:2: (this_NEWLINE_0= RULE_NEWLINE )+ ( (lv_name_1_0= 'TYPE' ) ) otherlv_2= 'NOTATION' otherlv_3= '::=' ( (lv_typeNotations_4_0= ruleTypeAssignment ) )+
+            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1284:1: ( (this_NEWLINE_0= RULE_NEWLINE )+ ( (lv_name_1_0= 'TYPE' ) ) otherlv_2= 'NOTATION' otherlv_3= '::=' ( (lv_typeNotations_4_0= ruleTypeAssignment ) )+ )
+            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1284:2: (this_NEWLINE_0= RULE_NEWLINE )+ ( (lv_name_1_0= 'TYPE' ) ) otherlv_2= 'NOTATION' otherlv_3= '::=' ( (lv_typeNotations_4_0= ruleTypeAssignment ) )+
             {
-            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1075:2: (this_NEWLINE_0= RULE_NEWLINE )+
-            int cnt24=0;
-            loop24:
+            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1284:2: (this_NEWLINE_0= RULE_NEWLINE )+
+            int cnt30=0;
+            loop30:
             do {
-                int alt24=2;
-                int LA24_0 = input.LA(1);
+                int alt30=2;
+                int LA30_0 = input.LA(1);
 
-                if ( (LA24_0==RULE_NEWLINE) ) {
-                    alt24=1;
+                if ( (LA30_0==RULE_NEWLINE) ) {
+                    alt30=1;
                 }
 
 
-                switch (alt24) {
+                switch (alt30) {
             	case 1 :
-            	    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1075:3: this_NEWLINE_0= RULE_NEWLINE
+            	    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1284:3: this_NEWLINE_0= RULE_NEWLINE
             	    {
-            	    this_NEWLINE_0=(Token)match(input,RULE_NEWLINE,FOLLOW_RULE_NEWLINE_in_ruleTypeNotation2252); if (state.failed) return current;
+            	    this_NEWLINE_0=(Token)match(input,RULE_NEWLINE,FOLLOW_RULE_NEWLINE_in_ruleTypeNotation2723); if (state.failed) return current;
             	    if ( state.backtracking==0 ) {
             	       
             	          newLeafNode(this_NEWLINE_0, grammarAccess.getTypeNotationAccess().getNEWLINETerminalRuleCall_0()); 
@@ -3144,22 +3855,22 @@ public class InternalSmiParser extends AbstractInternalAntlrParser {
             	    break;
 
             	default :
-            	    if ( cnt24 >= 1 ) break loop24;
+            	    if ( cnt30 >= 1 ) break loop30;
             	    if (state.backtracking>0) {state.failed=true; return current;}
                         EarlyExitException eee =
-                            new EarlyExitException(24, input);
+                            new EarlyExitException(30, input);
                         throw eee;
                 }
-                cnt24++;
+                cnt30++;
             } while (true);
 
-            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1079:3: ( (lv_name_1_0= 'TYPE' ) )
-            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1080:1: (lv_name_1_0= 'TYPE' )
+            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1288:3: ( (lv_name_1_0= 'TYPE' ) )
+            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1289:1: (lv_name_1_0= 'TYPE' )
             {
-            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1080:1: (lv_name_1_0= 'TYPE' )
-            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1081:3: lv_name_1_0= 'TYPE'
+            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1289:1: (lv_name_1_0= 'TYPE' )
+            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1290:3: lv_name_1_0= 'TYPE'
             {
-            lv_name_1_0=(Token)match(input,28,FOLLOW_28_in_ruleTypeNotation2271); if (state.failed) return current;
+            lv_name_1_0=(Token)match(input,28,FOLLOW_28_in_ruleTypeNotation2742); if (state.failed) return current;
             if ( state.backtracking==0 ) {
 
                       newLeafNode(lv_name_1_0, grammarAccess.getTypeNotationAccess().getNameTYPEKeyword_1_0());
@@ -3179,37 +3890,37 @@ public class InternalSmiParser extends AbstractInternalAntlrParser {
 
             }
 
-            otherlv_2=(Token)match(input,29,FOLLOW_29_in_ruleTypeNotation2296); if (state.failed) return current;
+            otherlv_2=(Token)match(input,29,FOLLOW_29_in_ruleTypeNotation2767); if (state.failed) return current;
             if ( state.backtracking==0 ) {
 
                   	newLeafNode(otherlv_2, grammarAccess.getTypeNotationAccess().getNOTATIONKeyword_2());
                   
             }
-            otherlv_3=(Token)match(input,17,FOLLOW_17_in_ruleTypeNotation2308); if (state.failed) return current;
+            otherlv_3=(Token)match(input,17,FOLLOW_17_in_ruleTypeNotation2779); if (state.failed) return current;
             if ( state.backtracking==0 ) {
 
                   	newLeafNode(otherlv_3, grammarAccess.getTypeNotationAccess().getColonColonEqualsSignKeyword_3());
                   
             }
-            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1102:1: ( (lv_typeNotations_4_0= ruleTypeAssignment ) )+
-            int cnt25=0;
-            loop25:
+            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1311:1: ( (lv_typeNotations_4_0= ruleTypeAssignment ) )+
+            int cnt31=0;
+            loop31:
             do {
-                int alt25=2;
-                alt25 = dfa25.predict(input);
-                switch (alt25) {
+                int alt31=2;
+                alt31 = dfa31.predict(input);
+                switch (alt31) {
             	case 1 :
-            	    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1103:1: (lv_typeNotations_4_0= ruleTypeAssignment )
+            	    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1312:1: (lv_typeNotations_4_0= ruleTypeAssignment )
             	    {
-            	    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1103:1: (lv_typeNotations_4_0= ruleTypeAssignment )
-            	    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1104:3: lv_typeNotations_4_0= ruleTypeAssignment
+            	    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1312:1: (lv_typeNotations_4_0= ruleTypeAssignment )
+            	    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1313:3: lv_typeNotations_4_0= ruleTypeAssignment
             	    {
             	    if ( state.backtracking==0 ) {
             	       
             	      	        newCompositeNode(grammarAccess.getTypeNotationAccess().getTypeNotationsTypeAssignmentParserRuleCall_4_0()); 
             	      	    
             	    }
-            	    pushFollow(FOLLOW_ruleTypeAssignment_in_ruleTypeNotation2329);
+            	    pushFollow(FOLLOW_ruleTypeAssignment_in_ruleTypeNotation2800);
             	    lv_typeNotations_4_0=ruleTypeAssignment();
 
             	    state._fsp--;
@@ -3235,13 +3946,13 @@ public class InternalSmiParser extends AbstractInternalAntlrParser {
             	    break;
 
             	default :
-            	    if ( cnt25 >= 1 ) break loop25;
+            	    if ( cnt31 >= 1 ) break loop31;
             	    if (state.backtracking>0) {state.failed=true; return current;}
                         EarlyExitException eee =
-                            new EarlyExitException(25, input);
+                            new EarlyExitException(31, input);
                         throw eee;
                 }
-                cnt25++;
+                cnt31++;
             } while (true);
 
 
@@ -3267,7 +3978,7 @@ public class InternalSmiParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "entryRuleValueNotation"
-    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1128:1: entryRuleValueNotation returns [EObject current=null] : iv_ruleValueNotation= ruleValueNotation EOF ;
+    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1337:1: entryRuleValueNotation returns [EObject current=null] : iv_ruleValueNotation= ruleValueNotation EOF ;
     public final EObject entryRuleValueNotation() throws RecognitionException {
         EObject current = null;
 
@@ -3275,13 +3986,13 @@ public class InternalSmiParser extends AbstractInternalAntlrParser {
 
 
         try {
-            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1129:2: (iv_ruleValueNotation= ruleValueNotation EOF )
-            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1130:2: iv_ruleValueNotation= ruleValueNotation EOF
+            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1338:2: (iv_ruleValueNotation= ruleValueNotation EOF )
+            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1339:2: iv_ruleValueNotation= ruleValueNotation EOF
             {
             if ( state.backtracking==0 ) {
                newCompositeNode(grammarAccess.getValueNotationRule()); 
             }
-            pushFollow(FOLLOW_ruleValueNotation_in_entryRuleValueNotation2366);
+            pushFollow(FOLLOW_ruleValueNotation_in_entryRuleValueNotation2837);
             iv_ruleValueNotation=ruleValueNotation();
 
             state._fsp--;
@@ -3289,7 +4000,7 @@ public class InternalSmiParser extends AbstractInternalAntlrParser {
             if ( state.backtracking==0 ) {
                current =iv_ruleValueNotation; 
             }
-            match(input,EOF,FOLLOW_EOF_in_entryRuleValueNotation2376); if (state.failed) return current;
+            match(input,EOF,FOLLOW_EOF_in_entryRuleValueNotation2847); if (state.failed) return current;
 
             }
 
@@ -3307,7 +4018,7 @@ public class InternalSmiParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "ruleValueNotation"
-    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1137:1: ruleValueNotation returns [EObject current=null] : ( (this_NEWLINE_0= RULE_NEWLINE )+ ( (lv_name_1_0= 'VALUE' ) ) otherlv_2= 'NOTATION' otherlv_3= '::=' ( (lv_valueNotations_4_0= ruleValueAssignment ) )+ ) ;
+    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1346:1: ruleValueNotation returns [EObject current=null] : ( (this_NEWLINE_0= RULE_NEWLINE )+ ( (lv_name_1_0= 'VALUE' ) ) otherlv_2= 'NOTATION' otherlv_3= '::=' ( (lv_valueNotations_4_0= ruleValueAssignment ) )+ ) ;
     public final EObject ruleValueNotation() throws RecognitionException {
         EObject current = null;
 
@@ -3321,29 +4032,29 @@ public class InternalSmiParser extends AbstractInternalAntlrParser {
          enterRule(); 
             
         try {
-            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1140:28: ( ( (this_NEWLINE_0= RULE_NEWLINE )+ ( (lv_name_1_0= 'VALUE' ) ) otherlv_2= 'NOTATION' otherlv_3= '::=' ( (lv_valueNotations_4_0= ruleValueAssignment ) )+ ) )
-            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1141:1: ( (this_NEWLINE_0= RULE_NEWLINE )+ ( (lv_name_1_0= 'VALUE' ) ) otherlv_2= 'NOTATION' otherlv_3= '::=' ( (lv_valueNotations_4_0= ruleValueAssignment ) )+ )
+            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1349:28: ( ( (this_NEWLINE_0= RULE_NEWLINE )+ ( (lv_name_1_0= 'VALUE' ) ) otherlv_2= 'NOTATION' otherlv_3= '::=' ( (lv_valueNotations_4_0= ruleValueAssignment ) )+ ) )
+            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1350:1: ( (this_NEWLINE_0= RULE_NEWLINE )+ ( (lv_name_1_0= 'VALUE' ) ) otherlv_2= 'NOTATION' otherlv_3= '::=' ( (lv_valueNotations_4_0= ruleValueAssignment ) )+ )
             {
-            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1141:1: ( (this_NEWLINE_0= RULE_NEWLINE )+ ( (lv_name_1_0= 'VALUE' ) ) otherlv_2= 'NOTATION' otherlv_3= '::=' ( (lv_valueNotations_4_0= ruleValueAssignment ) )+ )
-            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1141:2: (this_NEWLINE_0= RULE_NEWLINE )+ ( (lv_name_1_0= 'VALUE' ) ) otherlv_2= 'NOTATION' otherlv_3= '::=' ( (lv_valueNotations_4_0= ruleValueAssignment ) )+
+            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1350:1: ( (this_NEWLINE_0= RULE_NEWLINE )+ ( (lv_name_1_0= 'VALUE' ) ) otherlv_2= 'NOTATION' otherlv_3= '::=' ( (lv_valueNotations_4_0= ruleValueAssignment ) )+ )
+            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1350:2: (this_NEWLINE_0= RULE_NEWLINE )+ ( (lv_name_1_0= 'VALUE' ) ) otherlv_2= 'NOTATION' otherlv_3= '::=' ( (lv_valueNotations_4_0= ruleValueAssignment ) )+
             {
-            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1141:2: (this_NEWLINE_0= RULE_NEWLINE )+
-            int cnt26=0;
-            loop26:
+            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1350:2: (this_NEWLINE_0= RULE_NEWLINE )+
+            int cnt32=0;
+            loop32:
             do {
-                int alt26=2;
-                int LA26_0 = input.LA(1);
+                int alt32=2;
+                int LA32_0 = input.LA(1);
 
-                if ( (LA26_0==RULE_NEWLINE) ) {
-                    alt26=1;
+                if ( (LA32_0==RULE_NEWLINE) ) {
+                    alt32=1;
                 }
 
 
-                switch (alt26) {
+                switch (alt32) {
             	case 1 :
-            	    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1141:3: this_NEWLINE_0= RULE_NEWLINE
+            	    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1350:3: this_NEWLINE_0= RULE_NEWLINE
             	    {
-            	    this_NEWLINE_0=(Token)match(input,RULE_NEWLINE,FOLLOW_RULE_NEWLINE_in_ruleValueNotation2413); if (state.failed) return current;
+            	    this_NEWLINE_0=(Token)match(input,RULE_NEWLINE,FOLLOW_RULE_NEWLINE_in_ruleValueNotation2884); if (state.failed) return current;
             	    if ( state.backtracking==0 ) {
             	       
             	          newLeafNode(this_NEWLINE_0, grammarAccess.getValueNotationAccess().getNEWLINETerminalRuleCall_0()); 
@@ -3354,22 +4065,22 @@ public class InternalSmiParser extends AbstractInternalAntlrParser {
             	    break;
 
             	default :
-            	    if ( cnt26 >= 1 ) break loop26;
+            	    if ( cnt32 >= 1 ) break loop32;
             	    if (state.backtracking>0) {state.failed=true; return current;}
                         EarlyExitException eee =
-                            new EarlyExitException(26, input);
+                            new EarlyExitException(32, input);
                         throw eee;
                 }
-                cnt26++;
+                cnt32++;
             } while (true);
 
-            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1145:3: ( (lv_name_1_0= 'VALUE' ) )
-            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1146:1: (lv_name_1_0= 'VALUE' )
+            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1354:3: ( (lv_name_1_0= 'VALUE' ) )
+            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1355:1: (lv_name_1_0= 'VALUE' )
             {
-            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1146:1: (lv_name_1_0= 'VALUE' )
-            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1147:3: lv_name_1_0= 'VALUE'
+            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1355:1: (lv_name_1_0= 'VALUE' )
+            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1356:3: lv_name_1_0= 'VALUE'
             {
-            lv_name_1_0=(Token)match(input,30,FOLLOW_30_in_ruleValueNotation2432); if (state.failed) return current;
+            lv_name_1_0=(Token)match(input,30,FOLLOW_30_in_ruleValueNotation2903); if (state.failed) return current;
             if ( state.backtracking==0 ) {
 
                       newLeafNode(lv_name_1_0, grammarAccess.getValueNotationAccess().getNameVALUEKeyword_1_0());
@@ -3389,52 +4100,52 @@ public class InternalSmiParser extends AbstractInternalAntlrParser {
 
             }
 
-            otherlv_2=(Token)match(input,29,FOLLOW_29_in_ruleValueNotation2457); if (state.failed) return current;
+            otherlv_2=(Token)match(input,29,FOLLOW_29_in_ruleValueNotation2928); if (state.failed) return current;
             if ( state.backtracking==0 ) {
 
                   	newLeafNode(otherlv_2, grammarAccess.getValueNotationAccess().getNOTATIONKeyword_2());
                   
             }
-            otherlv_3=(Token)match(input,17,FOLLOW_17_in_ruleValueNotation2469); if (state.failed) return current;
+            otherlv_3=(Token)match(input,17,FOLLOW_17_in_ruleValueNotation2940); if (state.failed) return current;
             if ( state.backtracking==0 ) {
 
                   	newLeafNode(otherlv_3, grammarAccess.getValueNotationAccess().getColonColonEqualsSignKeyword_3());
                   
             }
-            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1168:1: ( (lv_valueNotations_4_0= ruleValueAssignment ) )+
-            int cnt27=0;
-            loop27:
+            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1377:1: ( (lv_valueNotations_4_0= ruleValueAssignment ) )+
+            int cnt33=0;
+            loop33:
             do {
-                int alt27=2;
-                int LA27_0 = input.LA(1);
+                int alt33=2;
+                int LA33_0 = input.LA(1);
 
-                if ( (LA27_0==RULE_NEWLINE) ) {
-                    int LA27_1 = input.LA(2);
+                if ( (LA33_0==RULE_NEWLINE) ) {
+                    int LA33_1 = input.LA(2);
 
-                    if ( (LA27_1==37) ) {
-                        alt27=1;
+                    if ( (LA33_1==37) ) {
+                        alt33=1;
                     }
 
 
                 }
-                else if ( (LA27_0==37) ) {
-                    alt27=1;
+                else if ( (LA33_0==37) ) {
+                    alt33=1;
                 }
 
 
-                switch (alt27) {
+                switch (alt33) {
             	case 1 :
-            	    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1169:1: (lv_valueNotations_4_0= ruleValueAssignment )
+            	    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1378:1: (lv_valueNotations_4_0= ruleValueAssignment )
             	    {
-            	    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1169:1: (lv_valueNotations_4_0= ruleValueAssignment )
-            	    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1170:3: lv_valueNotations_4_0= ruleValueAssignment
+            	    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1378:1: (lv_valueNotations_4_0= ruleValueAssignment )
+            	    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1379:3: lv_valueNotations_4_0= ruleValueAssignment
             	    {
             	    if ( state.backtracking==0 ) {
             	       
             	      	        newCompositeNode(grammarAccess.getValueNotationAccess().getValueNotationsValueAssignmentParserRuleCall_4_0()); 
             	      	    
             	    }
-            	    pushFollow(FOLLOW_ruleValueAssignment_in_ruleValueNotation2490);
+            	    pushFollow(FOLLOW_ruleValueAssignment_in_ruleValueNotation2961);
             	    lv_valueNotations_4_0=ruleValueAssignment();
 
             	    state._fsp--;
@@ -3460,13 +4171,13 @@ public class InternalSmiParser extends AbstractInternalAntlrParser {
             	    break;
 
             	default :
-            	    if ( cnt27 >= 1 ) break loop27;
+            	    if ( cnt33 >= 1 ) break loop33;
             	    if (state.backtracking>0) {state.failed=true; return current;}
                         EarlyExitException eee =
-                            new EarlyExitException(27, input);
+                            new EarlyExitException(33, input);
                         throw eee;
                 }
-                cnt27++;
+                cnt33++;
             } while (true);
 
 
@@ -3492,7 +4203,7 @@ public class InternalSmiParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "entryRuleTypeAssignment"
-    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1194:1: entryRuleTypeAssignment returns [EObject current=null] : iv_ruleTypeAssignment= ruleTypeAssignment EOF ;
+    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1403:1: entryRuleTypeAssignment returns [EObject current=null] : iv_ruleTypeAssignment= ruleTypeAssignment EOF ;
     public final EObject entryRuleTypeAssignment() throws RecognitionException {
         EObject current = null;
 
@@ -3500,13 +4211,13 @@ public class InternalSmiParser extends AbstractInternalAntlrParser {
 
 
         try {
-            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1195:2: (iv_ruleTypeAssignment= ruleTypeAssignment EOF )
-            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1196:2: iv_ruleTypeAssignment= ruleTypeAssignment EOF
+            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1404:2: (iv_ruleTypeAssignment= ruleTypeAssignment EOF )
+            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1405:2: iv_ruleTypeAssignment= ruleTypeAssignment EOF
             {
             if ( state.backtracking==0 ) {
                newCompositeNode(grammarAccess.getTypeAssignmentRule()); 
             }
-            pushFollow(FOLLOW_ruleTypeAssignment_in_entryRuleTypeAssignment2527);
+            pushFollow(FOLLOW_ruleTypeAssignment_in_entryRuleTypeAssignment2998);
             iv_ruleTypeAssignment=ruleTypeAssignment();
 
             state._fsp--;
@@ -3514,7 +4225,7 @@ public class InternalSmiParser extends AbstractInternalAntlrParser {
             if ( state.backtracking==0 ) {
                current =iv_ruleTypeAssignment; 
             }
-            match(input,EOF,FOLLOW_EOF_in_entryRuleTypeAssignment2537); if (state.failed) return current;
+            match(input,EOF,FOLLOW_EOF_in_entryRuleTypeAssignment3008); if (state.failed) return current;
 
             }
 
@@ -3532,7 +4243,7 @@ public class InternalSmiParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "ruleTypeAssignment"
-    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1203:1: ruleTypeAssignment returns [EObject current=null] : ( (this_NEWLINE_0= RULE_NEWLINE )+ (this_ParamAssignment_1= ruleParamAssignment | this_TypeReference_2= ruleTypeReference | this_MacroValue_3= ruleMacroValue ) ) ;
+    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1412:1: ruleTypeAssignment returns [EObject current=null] : ( (this_NEWLINE_0= RULE_NEWLINE )+ (this_ParamAssignment_1= ruleParamAssignment | this_TypeReference_2= ruleTypeReference | this_MacroValue_3= ruleMacroValue ) ) ;
     public final EObject ruleTypeAssignment() throws RecognitionException {
         EObject current = null;
 
@@ -3547,29 +4258,29 @@ public class InternalSmiParser extends AbstractInternalAntlrParser {
          enterRule(); 
             
         try {
-            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1206:28: ( ( (this_NEWLINE_0= RULE_NEWLINE )+ (this_ParamAssignment_1= ruleParamAssignment | this_TypeReference_2= ruleTypeReference | this_MacroValue_3= ruleMacroValue ) ) )
-            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1207:1: ( (this_NEWLINE_0= RULE_NEWLINE )+ (this_ParamAssignment_1= ruleParamAssignment | this_TypeReference_2= ruleTypeReference | this_MacroValue_3= ruleMacroValue ) )
+            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1415:28: ( ( (this_NEWLINE_0= RULE_NEWLINE )+ (this_ParamAssignment_1= ruleParamAssignment | this_TypeReference_2= ruleTypeReference | this_MacroValue_3= ruleMacroValue ) ) )
+            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1416:1: ( (this_NEWLINE_0= RULE_NEWLINE )+ (this_ParamAssignment_1= ruleParamAssignment | this_TypeReference_2= ruleTypeReference | this_MacroValue_3= ruleMacroValue ) )
             {
-            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1207:1: ( (this_NEWLINE_0= RULE_NEWLINE )+ (this_ParamAssignment_1= ruleParamAssignment | this_TypeReference_2= ruleTypeReference | this_MacroValue_3= ruleMacroValue ) )
-            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1207:2: (this_NEWLINE_0= RULE_NEWLINE )+ (this_ParamAssignment_1= ruleParamAssignment | this_TypeReference_2= ruleTypeReference | this_MacroValue_3= ruleMacroValue )
+            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1416:1: ( (this_NEWLINE_0= RULE_NEWLINE )+ (this_ParamAssignment_1= ruleParamAssignment | this_TypeReference_2= ruleTypeReference | this_MacroValue_3= ruleMacroValue ) )
+            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1416:2: (this_NEWLINE_0= RULE_NEWLINE )+ (this_ParamAssignment_1= ruleParamAssignment | this_TypeReference_2= ruleTypeReference | this_MacroValue_3= ruleMacroValue )
             {
-            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1207:2: (this_NEWLINE_0= RULE_NEWLINE )+
-            int cnt28=0;
-            loop28:
+            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1416:2: (this_NEWLINE_0= RULE_NEWLINE )+
+            int cnt34=0;
+            loop34:
             do {
-                int alt28=2;
-                int LA28_0 = input.LA(1);
+                int alt34=2;
+                int LA34_0 = input.LA(1);
 
-                if ( (LA28_0==RULE_NEWLINE) ) {
-                    alt28=1;
+                if ( (LA34_0==RULE_NEWLINE) ) {
+                    alt34=1;
                 }
 
 
-                switch (alt28) {
+                switch (alt34) {
             	case 1 :
-            	    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1207:3: this_NEWLINE_0= RULE_NEWLINE
+            	    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1416:3: this_NEWLINE_0= RULE_NEWLINE
             	    {
-            	    this_NEWLINE_0=(Token)match(input,RULE_NEWLINE,FOLLOW_RULE_NEWLINE_in_ruleTypeAssignment2574); if (state.failed) return current;
+            	    this_NEWLINE_0=(Token)match(input,RULE_NEWLINE,FOLLOW_RULE_NEWLINE_in_ruleTypeAssignment3045); if (state.failed) return current;
             	    if ( state.backtracking==0 ) {
             	       
             	          newLeafNode(this_NEWLINE_0, grammarAccess.getTypeAssignmentAccess().getNEWLINETerminalRuleCall_0()); 
@@ -3580,52 +4291,52 @@ public class InternalSmiParser extends AbstractInternalAntlrParser {
             	    break;
 
             	default :
-            	    if ( cnt28 >= 1 ) break loop28;
+            	    if ( cnt34 >= 1 ) break loop34;
             	    if (state.backtracking>0) {state.failed=true; return current;}
                         EarlyExitException eee =
-                            new EarlyExitException(28, input);
+                            new EarlyExitException(34, input);
                         throw eee;
                 }
-                cnt28++;
+                cnt34++;
             } while (true);
 
-            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1211:3: (this_ParamAssignment_1= ruleParamAssignment | this_TypeReference_2= ruleTypeReference | this_MacroValue_3= ruleMacroValue )
-            int alt29=3;
+            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1420:3: (this_ParamAssignment_1= ruleParamAssignment | this_TypeReference_2= ruleTypeReference | this_MacroValue_3= ruleMacroValue )
+            int alt35=3;
             switch ( input.LA(1) ) {
             case RULE_PARAMETER:
                 {
-                alt29=1;
+                alt35=1;
                 }
                 break;
             case RULE_MODULE_ID:
             case 31:
                 {
-                alt29=2;
+                alt35=2;
                 }
                 break;
             case 37:
                 {
-                alt29=3;
+                alt35=3;
                 }
                 break;
             default:
                 if (state.backtracking>0) {state.failed=true; return current;}
                 NoViableAltException nvae =
-                    new NoViableAltException("", 29, 0, input);
+                    new NoViableAltException("", 35, 0, input);
 
                 throw nvae;
             }
 
-            switch (alt29) {
+            switch (alt35) {
                 case 1 :
-                    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1212:5: this_ParamAssignment_1= ruleParamAssignment
+                    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1421:5: this_ParamAssignment_1= ruleParamAssignment
                     {
                     if ( state.backtracking==0 ) {
                        
                               newCompositeNode(grammarAccess.getTypeAssignmentAccess().getParamAssignmentParserRuleCall_1_0()); 
                           
                     }
-                    pushFollow(FOLLOW_ruleParamAssignment_in_ruleTypeAssignment2598);
+                    pushFollow(FOLLOW_ruleParamAssignment_in_ruleTypeAssignment3069);
                     this_ParamAssignment_1=ruleParamAssignment();
 
                     state._fsp--;
@@ -3640,14 +4351,14 @@ public class InternalSmiParser extends AbstractInternalAntlrParser {
                     }
                     break;
                 case 2 :
-                    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1222:5: this_TypeReference_2= ruleTypeReference
+                    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1431:5: this_TypeReference_2= ruleTypeReference
                     {
                     if ( state.backtracking==0 ) {
                        
                               newCompositeNode(grammarAccess.getTypeAssignmentAccess().getTypeReferenceParserRuleCall_1_1()); 
                           
                     }
-                    pushFollow(FOLLOW_ruleTypeReference_in_ruleTypeAssignment2625);
+                    pushFollow(FOLLOW_ruleTypeReference_in_ruleTypeAssignment3096);
                     this_TypeReference_2=ruleTypeReference();
 
                     state._fsp--;
@@ -3662,14 +4373,14 @@ public class InternalSmiParser extends AbstractInternalAntlrParser {
                     }
                     break;
                 case 3 :
-                    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1232:5: this_MacroValue_3= ruleMacroValue
+                    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1441:5: this_MacroValue_3= ruleMacroValue
                     {
                     if ( state.backtracking==0 ) {
                        
                               newCompositeNode(grammarAccess.getTypeAssignmentAccess().getMacroValueParserRuleCall_1_2()); 
                           
                     }
-                    pushFollow(FOLLOW_ruleMacroValue_in_ruleTypeAssignment2652);
+                    pushFollow(FOLLOW_ruleMacroValue_in_ruleTypeAssignment3123);
                     this_MacroValue_3=ruleMacroValue();
 
                     state._fsp--;
@@ -3709,7 +4420,7 @@ public class InternalSmiParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "entryRuleParamAssignment"
-    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1248:1: entryRuleParamAssignment returns [EObject current=null] : iv_ruleParamAssignment= ruleParamAssignment EOF ;
+    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1457:1: entryRuleParamAssignment returns [EObject current=null] : iv_ruleParamAssignment= ruleParamAssignment EOF ;
     public final EObject entryRuleParamAssignment() throws RecognitionException {
         EObject current = null;
 
@@ -3717,13 +4428,13 @@ public class InternalSmiParser extends AbstractInternalAntlrParser {
 
 
         try {
-            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1249:2: (iv_ruleParamAssignment= ruleParamAssignment EOF )
-            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1250:2: iv_ruleParamAssignment= ruleParamAssignment EOF
+            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1458:2: (iv_ruleParamAssignment= ruleParamAssignment EOF )
+            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1459:2: iv_ruleParamAssignment= ruleParamAssignment EOF
             {
             if ( state.backtracking==0 ) {
                newCompositeNode(grammarAccess.getParamAssignmentRule()); 
             }
-            pushFollow(FOLLOW_ruleParamAssignment_in_entryRuleParamAssignment2688);
+            pushFollow(FOLLOW_ruleParamAssignment_in_entryRuleParamAssignment3159);
             iv_ruleParamAssignment=ruleParamAssignment();
 
             state._fsp--;
@@ -3731,7 +4442,7 @@ public class InternalSmiParser extends AbstractInternalAntlrParser {
             if ( state.backtracking==0 ) {
                current =iv_ruleParamAssignment; 
             }
-            match(input,EOF,FOLLOW_EOF_in_entryRuleParamAssignment2698); if (state.failed) return current;
+            match(input,EOF,FOLLOW_EOF_in_entryRuleParamAssignment3169); if (state.failed) return current;
 
             }
 
@@ -3749,7 +4460,7 @@ public class InternalSmiParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "ruleParamAssignment"
-    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1257:1: ruleParamAssignment returns [EObject current=null] : ( ( (lv_name_0_0= RULE_PARAMETER ) ) ( (lv_right_1_0= ruleTypeNotationRight ) ) ) ;
+    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1466:1: ruleParamAssignment returns [EObject current=null] : ( ( (lv_name_0_0= RULE_PARAMETER ) ) ( (lv_right_1_0= ruleTypeNotationRight ) ) ) ;
     public final EObject ruleParamAssignment() throws RecognitionException {
         EObject current = null;
 
@@ -3760,19 +4471,19 @@ public class InternalSmiParser extends AbstractInternalAntlrParser {
          enterRule(); 
             
         try {
-            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1260:28: ( ( ( (lv_name_0_0= RULE_PARAMETER ) ) ( (lv_right_1_0= ruleTypeNotationRight ) ) ) )
-            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1261:1: ( ( (lv_name_0_0= RULE_PARAMETER ) ) ( (lv_right_1_0= ruleTypeNotationRight ) ) )
+            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1469:28: ( ( ( (lv_name_0_0= RULE_PARAMETER ) ) ( (lv_right_1_0= ruleTypeNotationRight ) ) ) )
+            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1470:1: ( ( (lv_name_0_0= RULE_PARAMETER ) ) ( (lv_right_1_0= ruleTypeNotationRight ) ) )
             {
-            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1261:1: ( ( (lv_name_0_0= RULE_PARAMETER ) ) ( (lv_right_1_0= ruleTypeNotationRight ) ) )
-            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1261:2: ( (lv_name_0_0= RULE_PARAMETER ) ) ( (lv_right_1_0= ruleTypeNotationRight ) )
+            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1470:1: ( ( (lv_name_0_0= RULE_PARAMETER ) ) ( (lv_right_1_0= ruleTypeNotationRight ) ) )
+            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1470:2: ( (lv_name_0_0= RULE_PARAMETER ) ) ( (lv_right_1_0= ruleTypeNotationRight ) )
             {
-            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1261:2: ( (lv_name_0_0= RULE_PARAMETER ) )
-            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1262:1: (lv_name_0_0= RULE_PARAMETER )
+            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1470:2: ( (lv_name_0_0= RULE_PARAMETER ) )
+            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1471:1: (lv_name_0_0= RULE_PARAMETER )
             {
-            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1262:1: (lv_name_0_0= RULE_PARAMETER )
-            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1263:3: lv_name_0_0= RULE_PARAMETER
+            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1471:1: (lv_name_0_0= RULE_PARAMETER )
+            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1472:3: lv_name_0_0= RULE_PARAMETER
             {
-            lv_name_0_0=(Token)match(input,RULE_PARAMETER,FOLLOW_RULE_PARAMETER_in_ruleParamAssignment2740); if (state.failed) return current;
+            lv_name_0_0=(Token)match(input,RULE_PARAMETER,FOLLOW_RULE_PARAMETER_in_ruleParamAssignment3211); if (state.failed) return current;
             if ( state.backtracking==0 ) {
 
               			newLeafNode(lv_name_0_0, grammarAccess.getParamAssignmentAccess().getNamePARAMETERTerminalRuleCall_0_0()); 
@@ -3796,18 +4507,18 @@ public class InternalSmiParser extends AbstractInternalAntlrParser {
 
             }
 
-            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1279:2: ( (lv_right_1_0= ruleTypeNotationRight ) )
-            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1280:1: (lv_right_1_0= ruleTypeNotationRight )
+            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1488:2: ( (lv_right_1_0= ruleTypeNotationRight ) )
+            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1489:1: (lv_right_1_0= ruleTypeNotationRight )
             {
-            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1280:1: (lv_right_1_0= ruleTypeNotationRight )
-            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1281:3: lv_right_1_0= ruleTypeNotationRight
+            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1489:1: (lv_right_1_0= ruleTypeNotationRight )
+            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1490:3: lv_right_1_0= ruleTypeNotationRight
             {
             if ( state.backtracking==0 ) {
                
               	        newCompositeNode(grammarAccess.getParamAssignmentAccess().getRightTypeNotationRightParserRuleCall_1_0()); 
               	    
             }
-            pushFollow(FOLLOW_ruleTypeNotationRight_in_ruleParamAssignment2766);
+            pushFollow(FOLLOW_ruleTypeNotationRight_in_ruleParamAssignment3237);
             lv_right_1_0=ruleTypeNotationRight();
 
             state._fsp--;
@@ -3854,7 +4565,7 @@ public class InternalSmiParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "entryRuleTypeNotationRight"
-    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1305:1: entryRuleTypeNotationRight returns [EObject current=null] : iv_ruleTypeNotationRight= ruleTypeNotationRight EOF ;
+    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1514:1: entryRuleTypeNotationRight returns [EObject current=null] : iv_ruleTypeNotationRight= ruleTypeNotationRight EOF ;
     public final EObject entryRuleTypeNotationRight() throws RecognitionException {
         EObject current = null;
 
@@ -3862,13 +4573,13 @@ public class InternalSmiParser extends AbstractInternalAntlrParser {
 
 
         try {
-            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1306:2: (iv_ruleTypeNotationRight= ruleTypeNotationRight EOF )
-            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1307:2: iv_ruleTypeNotationRight= ruleTypeNotationRight EOF
+            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1515:2: (iv_ruleTypeNotationRight= ruleTypeNotationRight EOF )
+            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1516:2: iv_ruleTypeNotationRight= ruleTypeNotationRight EOF
             {
             if ( state.backtracking==0 ) {
                newCompositeNode(grammarAccess.getTypeNotationRightRule()); 
             }
-            pushFollow(FOLLOW_ruleTypeNotationRight_in_entryRuleTypeNotationRight2802);
+            pushFollow(FOLLOW_ruleTypeNotationRight_in_entryRuleTypeNotationRight3273);
             iv_ruleTypeNotationRight=ruleTypeNotationRight();
 
             state._fsp--;
@@ -3876,7 +4587,7 @@ public class InternalSmiParser extends AbstractInternalAntlrParser {
             if ( state.backtracking==0 ) {
                current =iv_ruleTypeNotationRight; 
             }
-            match(input,EOF,FOLLOW_EOF_in_entryRuleTypeNotationRight2812); if (state.failed) return current;
+            match(input,EOF,FOLLOW_EOF_in_entryRuleTypeNotationRight3283); if (state.failed) return current;
 
             }
 
@@ -3894,7 +4605,7 @@ public class InternalSmiParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "ruleTypeNotationRight"
-    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1314:1: ruleTypeNotationRight returns [EObject current=null] : (this_TypeReference_0= ruleTypeReference | ( (lv_value_1_0= ruleMacroValue ) ) ) ;
+    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1523:1: ruleTypeNotationRight returns [EObject current=null] : (this_TypeReference_0= ruleTypeReference | ( (lv_value_1_0= ruleMacroValue ) ) ) ;
     public final EObject ruleTypeNotationRight() throws RecognitionException {
         EObject current = null;
 
@@ -3906,36 +4617,36 @@ public class InternalSmiParser extends AbstractInternalAntlrParser {
          enterRule(); 
             
         try {
-            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1317:28: ( (this_TypeReference_0= ruleTypeReference | ( (lv_value_1_0= ruleMacroValue ) ) ) )
-            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1318:1: (this_TypeReference_0= ruleTypeReference | ( (lv_value_1_0= ruleMacroValue ) ) )
+            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1526:28: ( (this_TypeReference_0= ruleTypeReference | ( (lv_value_1_0= ruleMacroValue ) ) ) )
+            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1527:1: (this_TypeReference_0= ruleTypeReference | ( (lv_value_1_0= ruleMacroValue ) ) )
             {
-            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1318:1: (this_TypeReference_0= ruleTypeReference | ( (lv_value_1_0= ruleMacroValue ) ) )
-            int alt30=2;
-            int LA30_0 = input.LA(1);
+            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1527:1: (this_TypeReference_0= ruleTypeReference | ( (lv_value_1_0= ruleMacroValue ) ) )
+            int alt36=2;
+            int LA36_0 = input.LA(1);
 
-            if ( (LA30_0==RULE_MODULE_ID||LA30_0==31) ) {
-                alt30=1;
+            if ( (LA36_0==RULE_MODULE_ID||LA36_0==31) ) {
+                alt36=1;
             }
-            else if ( (LA30_0==37) ) {
-                alt30=2;
+            else if ( (LA36_0==37) ) {
+                alt36=2;
             }
             else {
                 if (state.backtracking>0) {state.failed=true; return current;}
                 NoViableAltException nvae =
-                    new NoViableAltException("", 30, 0, input);
+                    new NoViableAltException("", 36, 0, input);
 
                 throw nvae;
             }
-            switch (alt30) {
+            switch (alt36) {
                 case 1 :
-                    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1319:5: this_TypeReference_0= ruleTypeReference
+                    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1528:5: this_TypeReference_0= ruleTypeReference
                     {
                     if ( state.backtracking==0 ) {
                        
                               newCompositeNode(grammarAccess.getTypeNotationRightAccess().getTypeReferenceParserRuleCall_0()); 
                           
                     }
-                    pushFollow(FOLLOW_ruleTypeReference_in_ruleTypeNotationRight2859);
+                    pushFollow(FOLLOW_ruleTypeReference_in_ruleTypeNotationRight3330);
                     this_TypeReference_0=ruleTypeReference();
 
                     state._fsp--;
@@ -3950,20 +4661,20 @@ public class InternalSmiParser extends AbstractInternalAntlrParser {
                     }
                     break;
                 case 2 :
-                    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1328:6: ( (lv_value_1_0= ruleMacroValue ) )
+                    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1537:6: ( (lv_value_1_0= ruleMacroValue ) )
                     {
-                    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1328:6: ( (lv_value_1_0= ruleMacroValue ) )
-                    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1329:1: (lv_value_1_0= ruleMacroValue )
+                    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1537:6: ( (lv_value_1_0= ruleMacroValue ) )
+                    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1538:1: (lv_value_1_0= ruleMacroValue )
                     {
-                    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1329:1: (lv_value_1_0= ruleMacroValue )
-                    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1330:3: lv_value_1_0= ruleMacroValue
+                    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1538:1: (lv_value_1_0= ruleMacroValue )
+                    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1539:3: lv_value_1_0= ruleMacroValue
                     {
                     if ( state.backtracking==0 ) {
                        
                       	        newCompositeNode(grammarAccess.getTypeNotationRightAccess().getValueMacroValueParserRuleCall_1_0()); 
                       	    
                     }
-                    pushFollow(FOLLOW_ruleMacroValue_in_ruleTypeNotationRight2885);
+                    pushFollow(FOLLOW_ruleMacroValue_in_ruleTypeNotationRight3356);
                     lv_value_1_0=ruleMacroValue();
 
                     state._fsp--;
@@ -4013,7 +4724,7 @@ public class InternalSmiParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "entryRuleTypeReferenceExt"
-    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1354:1: entryRuleTypeReferenceExt returns [EObject current=null] : iv_ruleTypeReferenceExt= ruleTypeReferenceExt EOF ;
+    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1563:1: entryRuleTypeReferenceExt returns [EObject current=null] : iv_ruleTypeReferenceExt= ruleTypeReferenceExt EOF ;
     public final EObject entryRuleTypeReferenceExt() throws RecognitionException {
         EObject current = null;
 
@@ -4021,13 +4732,13 @@ public class InternalSmiParser extends AbstractInternalAntlrParser {
 
 
         try {
-            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1355:2: (iv_ruleTypeReferenceExt= ruleTypeReferenceExt EOF )
-            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1356:2: iv_ruleTypeReferenceExt= ruleTypeReferenceExt EOF
+            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1564:2: (iv_ruleTypeReferenceExt= ruleTypeReferenceExt EOF )
+            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1565:2: iv_ruleTypeReferenceExt= ruleTypeReferenceExt EOF
             {
             if ( state.backtracking==0 ) {
                newCompositeNode(grammarAccess.getTypeReferenceExtRule()); 
             }
-            pushFollow(FOLLOW_ruleTypeReferenceExt_in_entryRuleTypeReferenceExt2921);
+            pushFollow(FOLLOW_ruleTypeReferenceExt_in_entryRuleTypeReferenceExt3392);
             iv_ruleTypeReferenceExt=ruleTypeReferenceExt();
 
             state._fsp--;
@@ -4035,7 +4746,7 @@ public class InternalSmiParser extends AbstractInternalAntlrParser {
             if ( state.backtracking==0 ) {
                current =iv_ruleTypeReferenceExt; 
             }
-            match(input,EOF,FOLLOW_EOF_in_entryRuleTypeReferenceExt2931); if (state.failed) return current;
+            match(input,EOF,FOLLOW_EOF_in_entryRuleTypeReferenceExt3402); if (state.failed) return current;
 
             }
 
@@ -4053,7 +4764,7 @@ public class InternalSmiParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "ruleTypeReferenceExt"
-    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1363:1: ruleTypeReferenceExt returns [EObject current=null] : ( ( (lv_parentRef_0_0= ruleTypeReference ) ) ( ( ( ruleTypeReference ) )=> (lv_childRef_1_0= ruleTypeReference ) )? ) ;
+    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1572:1: ruleTypeReferenceExt returns [EObject current=null] : ( ( (lv_parentRef_0_0= ruleTypeReference ) ) ( ( ( ruleTypeReference ) )=> (lv_childRef_1_0= ruleTypeReference ) )? ) ;
     public final EObject ruleTypeReferenceExt() throws RecognitionException {
         EObject current = null;
 
@@ -4065,24 +4776,24 @@ public class InternalSmiParser extends AbstractInternalAntlrParser {
          enterRule(); 
             
         try {
-            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1366:28: ( ( ( (lv_parentRef_0_0= ruleTypeReference ) ) ( ( ( ruleTypeReference ) )=> (lv_childRef_1_0= ruleTypeReference ) )? ) )
-            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1367:1: ( ( (lv_parentRef_0_0= ruleTypeReference ) ) ( ( ( ruleTypeReference ) )=> (lv_childRef_1_0= ruleTypeReference ) )? )
+            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1575:28: ( ( ( (lv_parentRef_0_0= ruleTypeReference ) ) ( ( ( ruleTypeReference ) )=> (lv_childRef_1_0= ruleTypeReference ) )? ) )
+            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1576:1: ( ( (lv_parentRef_0_0= ruleTypeReference ) ) ( ( ( ruleTypeReference ) )=> (lv_childRef_1_0= ruleTypeReference ) )? )
             {
-            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1367:1: ( ( (lv_parentRef_0_0= ruleTypeReference ) ) ( ( ( ruleTypeReference ) )=> (lv_childRef_1_0= ruleTypeReference ) )? )
-            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1367:2: ( (lv_parentRef_0_0= ruleTypeReference ) ) ( ( ( ruleTypeReference ) )=> (lv_childRef_1_0= ruleTypeReference ) )?
+            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1576:1: ( ( (lv_parentRef_0_0= ruleTypeReference ) ) ( ( ( ruleTypeReference ) )=> (lv_childRef_1_0= ruleTypeReference ) )? )
+            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1576:2: ( (lv_parentRef_0_0= ruleTypeReference ) ) ( ( ( ruleTypeReference ) )=> (lv_childRef_1_0= ruleTypeReference ) )?
             {
-            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1367:2: ( (lv_parentRef_0_0= ruleTypeReference ) )
-            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1368:1: (lv_parentRef_0_0= ruleTypeReference )
+            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1576:2: ( (lv_parentRef_0_0= ruleTypeReference ) )
+            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1577:1: (lv_parentRef_0_0= ruleTypeReference )
             {
-            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1368:1: (lv_parentRef_0_0= ruleTypeReference )
-            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1369:3: lv_parentRef_0_0= ruleTypeReference
+            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1577:1: (lv_parentRef_0_0= ruleTypeReference )
+            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1578:3: lv_parentRef_0_0= ruleTypeReference
             {
             if ( state.backtracking==0 ) {
                
               	        newCompositeNode(grammarAccess.getTypeReferenceExtAccess().getParentRefTypeReferenceParserRuleCall_0_0()); 
               	    
             }
-            pushFollow(FOLLOW_ruleTypeReference_in_ruleTypeReferenceExt2977);
+            pushFollow(FOLLOW_ruleTypeReference_in_ruleTypeReferenceExt3448);
             lv_parentRef_0_0=ruleTypeReference();
 
             state._fsp--;
@@ -4106,22 +4817,22 @@ public class InternalSmiParser extends AbstractInternalAntlrParser {
 
             }
 
-            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1385:2: ( ( ( ruleTypeReference ) )=> (lv_childRef_1_0= ruleTypeReference ) )?
-            int alt31=2;
-            alt31 = dfa31.predict(input);
-            switch (alt31) {
+            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1594:2: ( ( ( ruleTypeReference ) )=> (lv_childRef_1_0= ruleTypeReference ) )?
+            int alt37=2;
+            alt37 = dfa37.predict(input);
+            switch (alt37) {
                 case 1 :
-                    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1385:3: ( ( ruleTypeReference ) )=> (lv_childRef_1_0= ruleTypeReference )
+                    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1594:3: ( ( ruleTypeReference ) )=> (lv_childRef_1_0= ruleTypeReference )
                     {
-                    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1390:1: (lv_childRef_1_0= ruleTypeReference )
-                    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1391:3: lv_childRef_1_0= ruleTypeReference
+                    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1599:1: (lv_childRef_1_0= ruleTypeReference )
+                    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1600:3: lv_childRef_1_0= ruleTypeReference
                     {
                     if ( state.backtracking==0 ) {
                        
                       	        newCompositeNode(grammarAccess.getTypeReferenceExtAccess().getChildRefTypeReferenceParserRuleCall_1_0()); 
                       	    
                     }
-                    pushFollow(FOLLOW_ruleTypeReference_in_ruleTypeReferenceExt3008);
+                    pushFollow(FOLLOW_ruleTypeReference_in_ruleTypeReferenceExt3479);
                     lv_childRef_1_0=ruleTypeReference();
 
                     state._fsp--;
@@ -4171,7 +4882,7 @@ public class InternalSmiParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "entryRuleTypeReference"
-    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1415:1: entryRuleTypeReference returns [EObject current=null] : iv_ruleTypeReference= ruleTypeReference EOF ;
+    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1624:1: entryRuleTypeReference returns [EObject current=null] : iv_ruleTypeReference= ruleTypeReference EOF ;
     public final EObject entryRuleTypeReference() throws RecognitionException {
         EObject current = null;
 
@@ -4179,13 +4890,13 @@ public class InternalSmiParser extends AbstractInternalAntlrParser {
 
 
         try {
-            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1416:2: (iv_ruleTypeReference= ruleTypeReference EOF )
-            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1417:2: iv_ruleTypeReference= ruleTypeReference EOF
+            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1625:2: (iv_ruleTypeReference= ruleTypeReference EOF )
+            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1626:2: iv_ruleTypeReference= ruleTypeReference EOF
             {
             if ( state.backtracking==0 ) {
                newCompositeNode(grammarAccess.getTypeReferenceRule()); 
             }
-            pushFollow(FOLLOW_ruleTypeReference_in_entryRuleTypeReference3045);
+            pushFollow(FOLLOW_ruleTypeReference_in_entryRuleTypeReference3516);
             iv_ruleTypeReference=ruleTypeReference();
 
             state._fsp--;
@@ -4193,7 +4904,7 @@ public class InternalSmiParser extends AbstractInternalAntlrParser {
             if ( state.backtracking==0 ) {
                current =iv_ruleTypeReference; 
             }
-            match(input,EOF,FOLLOW_EOF_in_entryRuleTypeReference3055); if (state.failed) return current;
+            match(input,EOF,FOLLOW_EOF_in_entryRuleTypeReference3526); if (state.failed) return current;
 
             }
 
@@ -4211,7 +4922,7 @@ public class InternalSmiParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "ruleTypeReference"
-    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1424:1: ruleTypeReference returns [EObject current=null] : ( ( (otherlv_0= RULE_MODULE_ID ) ) | this_BracedTypeReference_1= ruleBracedTypeReference ) ;
+    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1633:1: ruleTypeReference returns [EObject current=null] : ( ( (otherlv_0= RULE_MODULE_ID ) ) | this_BracedTypeReference_1= ruleBracedTypeReference ) ;
     public final EObject ruleTypeReference() throws RecognitionException {
         EObject current = null;
 
@@ -4222,35 +4933,35 @@ public class InternalSmiParser extends AbstractInternalAntlrParser {
          enterRule(); 
             
         try {
-            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1427:28: ( ( ( (otherlv_0= RULE_MODULE_ID ) ) | this_BracedTypeReference_1= ruleBracedTypeReference ) )
-            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1428:1: ( ( (otherlv_0= RULE_MODULE_ID ) ) | this_BracedTypeReference_1= ruleBracedTypeReference )
+            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1636:28: ( ( ( (otherlv_0= RULE_MODULE_ID ) ) | this_BracedTypeReference_1= ruleBracedTypeReference ) )
+            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1637:1: ( ( (otherlv_0= RULE_MODULE_ID ) ) | this_BracedTypeReference_1= ruleBracedTypeReference )
             {
-            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1428:1: ( ( (otherlv_0= RULE_MODULE_ID ) ) | this_BracedTypeReference_1= ruleBracedTypeReference )
-            int alt32=2;
-            int LA32_0 = input.LA(1);
+            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1637:1: ( ( (otherlv_0= RULE_MODULE_ID ) ) | this_BracedTypeReference_1= ruleBracedTypeReference )
+            int alt38=2;
+            int LA38_0 = input.LA(1);
 
-            if ( (LA32_0==RULE_MODULE_ID) ) {
-                alt32=1;
+            if ( (LA38_0==RULE_MODULE_ID) ) {
+                alt38=1;
             }
-            else if ( (LA32_0==31) ) {
-                alt32=2;
+            else if ( (LA38_0==31) ) {
+                alt38=2;
             }
             else {
                 if (state.backtracking>0) {state.failed=true; return current;}
                 NoViableAltException nvae =
-                    new NoViableAltException("", 32, 0, input);
+                    new NoViableAltException("", 38, 0, input);
 
                 throw nvae;
             }
-            switch (alt32) {
+            switch (alt38) {
                 case 1 :
-                    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1428:2: ( (otherlv_0= RULE_MODULE_ID ) )
+                    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1637:2: ( (otherlv_0= RULE_MODULE_ID ) )
                     {
-                    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1428:2: ( (otherlv_0= RULE_MODULE_ID ) )
-                    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1429:1: (otherlv_0= RULE_MODULE_ID )
+                    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1637:2: ( (otherlv_0= RULE_MODULE_ID ) )
+                    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1638:1: (otherlv_0= RULE_MODULE_ID )
                     {
-                    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1429:1: (otherlv_0= RULE_MODULE_ID )
-                    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1430:3: otherlv_0= RULE_MODULE_ID
+                    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1638:1: (otherlv_0= RULE_MODULE_ID )
+                    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1639:3: otherlv_0= RULE_MODULE_ID
                     {
                     if ( state.backtracking==0 ) {
 
@@ -4259,10 +4970,10 @@ public class InternalSmiParser extends AbstractInternalAntlrParser {
                       	        }
                               
                     }
-                    otherlv_0=(Token)match(input,RULE_MODULE_ID,FOLLOW_RULE_MODULE_ID_in_ruleTypeReference3100); if (state.failed) return current;
+                    otherlv_0=(Token)match(input,RULE_MODULE_ID,FOLLOW_RULE_MODULE_ID_in_ruleTypeReference3571); if (state.failed) return current;
                     if ( state.backtracking==0 ) {
 
-                      		newLeafNode(otherlv_0, grammarAccess.getTypeReferenceAccess().getTypeTypeDefinitionCrossReference_0_0()); 
+                      		newLeafNode(otherlv_0, grammarAccess.getTypeReferenceAccess().getTypeReferenceableCrossReference_0_0()); 
                       	
                     }
 
@@ -4275,14 +4986,14 @@ public class InternalSmiParser extends AbstractInternalAntlrParser {
                     }
                     break;
                 case 2 :
-                    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1443:5: this_BracedTypeReference_1= ruleBracedTypeReference
+                    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1652:5: this_BracedTypeReference_1= ruleBracedTypeReference
                     {
                     if ( state.backtracking==0 ) {
                        
                               newCompositeNode(grammarAccess.getTypeReferenceAccess().getBracedTypeReferenceParserRuleCall_1()); 
                           
                     }
-                    pushFollow(FOLLOW_ruleBracedTypeReference_in_ruleTypeReference3128);
+                    pushFollow(FOLLOW_ruleBracedTypeReference_in_ruleTypeReference3599);
                     this_BracedTypeReference_1=ruleBracedTypeReference();
 
                     state._fsp--;
@@ -4319,7 +5030,7 @@ public class InternalSmiParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "entryRuleBracedTypeReference"
-    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1459:1: entryRuleBracedTypeReference returns [EObject current=null] : iv_ruleBracedTypeReference= ruleBracedTypeReference EOF ;
+    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1668:1: entryRuleBracedTypeReference returns [EObject current=null] : iv_ruleBracedTypeReference= ruleBracedTypeReference EOF ;
     public final EObject entryRuleBracedTypeReference() throws RecognitionException {
         EObject current = null;
 
@@ -4327,13 +5038,13 @@ public class InternalSmiParser extends AbstractInternalAntlrParser {
 
 
         try {
-            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1460:2: (iv_ruleBracedTypeReference= ruleBracedTypeReference EOF )
-            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1461:2: iv_ruleBracedTypeReference= ruleBracedTypeReference EOF
+            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1669:2: (iv_ruleBracedTypeReference= ruleBracedTypeReference EOF )
+            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1670:2: iv_ruleBracedTypeReference= ruleBracedTypeReference EOF
             {
             if ( state.backtracking==0 ) {
                newCompositeNode(grammarAccess.getBracedTypeReferenceRule()); 
             }
-            pushFollow(FOLLOW_ruleBracedTypeReference_in_entryRuleBracedTypeReference3163);
+            pushFollow(FOLLOW_ruleBracedTypeReference_in_entryRuleBracedTypeReference3634);
             iv_ruleBracedTypeReference=ruleBracedTypeReference();
 
             state._fsp--;
@@ -4341,7 +5052,7 @@ public class InternalSmiParser extends AbstractInternalAntlrParser {
             if ( state.backtracking==0 ) {
                current =iv_ruleBracedTypeReference; 
             }
-            match(input,EOF,FOLLOW_EOF_in_entryRuleBracedTypeReference3173); if (state.failed) return current;
+            match(input,EOF,FOLLOW_EOF_in_entryRuleBracedTypeReference3644); if (state.failed) return current;
 
             }
 
@@ -4359,7 +5070,7 @@ public class InternalSmiParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "ruleBracedTypeReference"
-    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1468:1: ruleBracedTypeReference returns [EObject current=null] : (otherlv_0= '\"{\"' this_TypeReference_1= ruleTypeReference otherlv_2= '\"}\"' ) ;
+    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1677:1: ruleBracedTypeReference returns [EObject current=null] : (otherlv_0= '\"{\"' this_TypeReference_1= ruleTypeReference otherlv_2= '\"}\"' ) ;
     public final EObject ruleBracedTypeReference() throws RecognitionException {
         EObject current = null;
 
@@ -4371,13 +5082,13 @@ public class InternalSmiParser extends AbstractInternalAntlrParser {
          enterRule(); 
             
         try {
-            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1471:28: ( (otherlv_0= '\"{\"' this_TypeReference_1= ruleTypeReference otherlv_2= '\"}\"' ) )
-            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1472:1: (otherlv_0= '\"{\"' this_TypeReference_1= ruleTypeReference otherlv_2= '\"}\"' )
+            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1680:28: ( (otherlv_0= '\"{\"' this_TypeReference_1= ruleTypeReference otherlv_2= '\"}\"' ) )
+            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1681:1: (otherlv_0= '\"{\"' this_TypeReference_1= ruleTypeReference otherlv_2= '\"}\"' )
             {
-            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1472:1: (otherlv_0= '\"{\"' this_TypeReference_1= ruleTypeReference otherlv_2= '\"}\"' )
-            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1472:3: otherlv_0= '\"{\"' this_TypeReference_1= ruleTypeReference otherlv_2= '\"}\"'
+            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1681:1: (otherlv_0= '\"{\"' this_TypeReference_1= ruleTypeReference otherlv_2= '\"}\"' )
+            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1681:3: otherlv_0= '\"{\"' this_TypeReference_1= ruleTypeReference otherlv_2= '\"}\"'
             {
-            otherlv_0=(Token)match(input,31,FOLLOW_31_in_ruleBracedTypeReference3210); if (state.failed) return current;
+            otherlv_0=(Token)match(input,31,FOLLOW_31_in_ruleBracedTypeReference3681); if (state.failed) return current;
             if ( state.backtracking==0 ) {
 
                   	newLeafNode(otherlv_0, grammarAccess.getBracedTypeReferenceAccess().getQuotationMarkLeftCurlyBracketQuotationMarkKeyword_0());
@@ -4388,7 +5099,7 @@ public class InternalSmiParser extends AbstractInternalAntlrParser {
                       newCompositeNode(grammarAccess.getBracedTypeReferenceAccess().getTypeReferenceParserRuleCall_1()); 
                   
             }
-            pushFollow(FOLLOW_ruleTypeReference_in_ruleBracedTypeReference3232);
+            pushFollow(FOLLOW_ruleTypeReference_in_ruleBracedTypeReference3703);
             this_TypeReference_1=ruleTypeReference();
 
             state._fsp--;
@@ -4399,7 +5110,7 @@ public class InternalSmiParser extends AbstractInternalAntlrParser {
                       afterParserOrEnumRuleCall();
                   
             }
-            otherlv_2=(Token)match(input,32,FOLLOW_32_in_ruleBracedTypeReference3243); if (state.failed) return current;
+            otherlv_2=(Token)match(input,32,FOLLOW_32_in_ruleBracedTypeReference3714); if (state.failed) return current;
             if ( state.backtracking==0 ) {
 
                   	newLeafNode(otherlv_2, grammarAccess.getBracedTypeReferenceAccess().getQuotationMarkRightCurlyBracketQuotationMarkKeyword_2());
@@ -4428,7 +5139,7 @@ public class InternalSmiParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "entryRuleValueAssignment"
-    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1497:1: entryRuleValueAssignment returns [EObject current=null] : iv_ruleValueAssignment= ruleValueAssignment EOF ;
+    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1706:1: entryRuleValueAssignment returns [EObject current=null] : iv_ruleValueAssignment= ruleValueAssignment EOF ;
     public final EObject entryRuleValueAssignment() throws RecognitionException {
         EObject current = null;
 
@@ -4436,13 +5147,13 @@ public class InternalSmiParser extends AbstractInternalAntlrParser {
 
 
         try {
-            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1498:2: (iv_ruleValueAssignment= ruleValueAssignment EOF )
-            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1499:2: iv_ruleValueAssignment= ruleValueAssignment EOF
+            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1707:2: (iv_ruleValueAssignment= ruleValueAssignment EOF )
+            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1708:2: iv_ruleValueAssignment= ruleValueAssignment EOF
             {
             if ( state.backtracking==0 ) {
                newCompositeNode(grammarAccess.getValueAssignmentRule()); 
             }
-            pushFollow(FOLLOW_ruleValueAssignment_in_entryRuleValueAssignment3279);
+            pushFollow(FOLLOW_ruleValueAssignment_in_entryRuleValueAssignment3750);
             iv_ruleValueAssignment=ruleValueAssignment();
 
             state._fsp--;
@@ -4450,7 +5161,7 @@ public class InternalSmiParser extends AbstractInternalAntlrParser {
             if ( state.backtracking==0 ) {
                current =iv_ruleValueAssignment; 
             }
-            match(input,EOF,FOLLOW_EOF_in_entryRuleValueAssignment3289); if (state.failed) return current;
+            match(input,EOF,FOLLOW_EOF_in_entryRuleValueAssignment3760); if (state.failed) return current;
 
             }
 
@@ -4468,7 +5179,7 @@ public class InternalSmiParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "ruleValueAssignment"
-    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1506:1: ruleValueAssignment returns [EObject current=null] : ( (this_NEWLINE_0= RULE_NEWLINE )? ( (lv_valueNotation_1_0= ruleMacroValue ) ) ) ;
+    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1715:1: ruleValueAssignment returns [EObject current=null] : ( (this_NEWLINE_0= RULE_NEWLINE )? ( (lv_valueNotation_1_0= ruleMacroValue ) ) ) ;
     public final EObject ruleValueAssignment() throws RecognitionException {
         EObject current = null;
 
@@ -4479,24 +5190,24 @@ public class InternalSmiParser extends AbstractInternalAntlrParser {
          enterRule(); 
             
         try {
-            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1509:28: ( ( (this_NEWLINE_0= RULE_NEWLINE )? ( (lv_valueNotation_1_0= ruleMacroValue ) ) ) )
-            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1510:1: ( (this_NEWLINE_0= RULE_NEWLINE )? ( (lv_valueNotation_1_0= ruleMacroValue ) ) )
+            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1718:28: ( ( (this_NEWLINE_0= RULE_NEWLINE )? ( (lv_valueNotation_1_0= ruleMacroValue ) ) ) )
+            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1719:1: ( (this_NEWLINE_0= RULE_NEWLINE )? ( (lv_valueNotation_1_0= ruleMacroValue ) ) )
             {
-            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1510:1: ( (this_NEWLINE_0= RULE_NEWLINE )? ( (lv_valueNotation_1_0= ruleMacroValue ) ) )
-            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1510:2: (this_NEWLINE_0= RULE_NEWLINE )? ( (lv_valueNotation_1_0= ruleMacroValue ) )
+            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1719:1: ( (this_NEWLINE_0= RULE_NEWLINE )? ( (lv_valueNotation_1_0= ruleMacroValue ) ) )
+            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1719:2: (this_NEWLINE_0= RULE_NEWLINE )? ( (lv_valueNotation_1_0= ruleMacroValue ) )
             {
-            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1510:2: (this_NEWLINE_0= RULE_NEWLINE )?
-            int alt33=2;
-            int LA33_0 = input.LA(1);
+            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1719:2: (this_NEWLINE_0= RULE_NEWLINE )?
+            int alt39=2;
+            int LA39_0 = input.LA(1);
 
-            if ( (LA33_0==RULE_NEWLINE) ) {
-                alt33=1;
+            if ( (LA39_0==RULE_NEWLINE) ) {
+                alt39=1;
             }
-            switch (alt33) {
+            switch (alt39) {
                 case 1 :
-                    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1510:3: this_NEWLINE_0= RULE_NEWLINE
+                    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1719:3: this_NEWLINE_0= RULE_NEWLINE
                     {
-                    this_NEWLINE_0=(Token)match(input,RULE_NEWLINE,FOLLOW_RULE_NEWLINE_in_ruleValueAssignment3326); if (state.failed) return current;
+                    this_NEWLINE_0=(Token)match(input,RULE_NEWLINE,FOLLOW_RULE_NEWLINE_in_ruleValueAssignment3797); if (state.failed) return current;
                     if ( state.backtracking==0 ) {
                        
                           newLeafNode(this_NEWLINE_0, grammarAccess.getValueAssignmentAccess().getNEWLINETerminalRuleCall_0()); 
@@ -4508,18 +5219,18 @@ public class InternalSmiParser extends AbstractInternalAntlrParser {
 
             }
 
-            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1514:3: ( (lv_valueNotation_1_0= ruleMacroValue ) )
-            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1515:1: (lv_valueNotation_1_0= ruleMacroValue )
+            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1723:3: ( (lv_valueNotation_1_0= ruleMacroValue ) )
+            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1724:1: (lv_valueNotation_1_0= ruleMacroValue )
             {
-            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1515:1: (lv_valueNotation_1_0= ruleMacroValue )
-            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1516:3: lv_valueNotation_1_0= ruleMacroValue
+            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1724:1: (lv_valueNotation_1_0= ruleMacroValue )
+            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1725:3: lv_valueNotation_1_0= ruleMacroValue
             {
             if ( state.backtracking==0 ) {
                
               	        newCompositeNode(grammarAccess.getValueAssignmentAccess().getValueNotationMacroValueParserRuleCall_1_0()); 
               	    
             }
-            pushFollow(FOLLOW_ruleMacroValue_in_ruleValueAssignment3348);
+            pushFollow(FOLLOW_ruleMacroValue_in_ruleValueAssignment3819);
             lv_valueNotation_1_0=ruleMacroValue();
 
             state._fsp--;
@@ -4566,7 +5277,7 @@ public class InternalSmiParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "entryRuleValue"
-    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1540:1: entryRuleValue returns [EObject current=null] : iv_ruleValue= ruleValue EOF ;
+    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1749:1: entryRuleValue returns [EObject current=null] : iv_ruleValue= ruleValue EOF ;
     public final EObject entryRuleValue() throws RecognitionException {
         EObject current = null;
 
@@ -4574,13 +5285,13 @@ public class InternalSmiParser extends AbstractInternalAntlrParser {
 
 
         try {
-            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1541:2: (iv_ruleValue= ruleValue EOF )
-            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1542:2: iv_ruleValue= ruleValue EOF
+            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1750:2: (iv_ruleValue= ruleValue EOF )
+            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1751:2: iv_ruleValue= ruleValue EOF
             {
             if ( state.backtracking==0 ) {
                newCompositeNode(grammarAccess.getValueRule()); 
             }
-            pushFollow(FOLLOW_ruleValue_in_entryRuleValue3384);
+            pushFollow(FOLLOW_ruleValue_in_entryRuleValue3855);
             iv_ruleValue=ruleValue();
 
             state._fsp--;
@@ -4588,7 +5299,7 @@ public class InternalSmiParser extends AbstractInternalAntlrParser {
             if ( state.backtracking==0 ) {
                current =iv_ruleValue; 
             }
-            match(input,EOF,FOLLOW_EOF_in_entryRuleValue3394); if (state.failed) return current;
+            match(input,EOF,FOLLOW_EOF_in_entryRuleValue3865); if (state.failed) return current;
 
             }
 
@@ -4606,7 +5317,7 @@ public class InternalSmiParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "ruleValue"
-    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1549:1: ruleValue returns [EObject current=null] : ( ( (lv_tag_0_0= ruleTag ) )? (this_NEWLINE_1= RULE_NEWLINE )* ( (lv_implicit_2_0= 'IMPLICIT' ) )? ( (lv_valueTypes_3_0= ruleValueType ) ) ( (this_NEWLINE_4= RULE_NEWLINE )* otherlv_5= '|' ( (lv_valueTypes_6_0= ruleValueType ) ) )* ) ;
+    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1758:1: ruleValue returns [EObject current=null] : ( ( (lv_tag_0_0= ruleTag ) )? (this_NEWLINE_1= RULE_NEWLINE )* ( (lv_implicit_2_0= 'IMPLICIT' ) )? ( (lv_valueTypes_3_0= ruleValueType ) ) ( (this_NEWLINE_4= RULE_NEWLINE )* otherlv_5= '|' ( (lv_valueTypes_6_0= ruleValueType ) ) )* ) ;
     public final EObject ruleValue() throws RecognitionException {
         EObject current = null;
 
@@ -4624,39 +5335,39 @@ public class InternalSmiParser extends AbstractInternalAntlrParser {
          enterRule(); 
             
         try {
-            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1552:28: ( ( ( (lv_tag_0_0= ruleTag ) )? (this_NEWLINE_1= RULE_NEWLINE )* ( (lv_implicit_2_0= 'IMPLICIT' ) )? ( (lv_valueTypes_3_0= ruleValueType ) ) ( (this_NEWLINE_4= RULE_NEWLINE )* otherlv_5= '|' ( (lv_valueTypes_6_0= ruleValueType ) ) )* ) )
-            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1553:1: ( ( (lv_tag_0_0= ruleTag ) )? (this_NEWLINE_1= RULE_NEWLINE )* ( (lv_implicit_2_0= 'IMPLICIT' ) )? ( (lv_valueTypes_3_0= ruleValueType ) ) ( (this_NEWLINE_4= RULE_NEWLINE )* otherlv_5= '|' ( (lv_valueTypes_6_0= ruleValueType ) ) )* )
+            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1761:28: ( ( ( (lv_tag_0_0= ruleTag ) )? (this_NEWLINE_1= RULE_NEWLINE )* ( (lv_implicit_2_0= 'IMPLICIT' ) )? ( (lv_valueTypes_3_0= ruleValueType ) ) ( (this_NEWLINE_4= RULE_NEWLINE )* otherlv_5= '|' ( (lv_valueTypes_6_0= ruleValueType ) ) )* ) )
+            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1762:1: ( ( (lv_tag_0_0= ruleTag ) )? (this_NEWLINE_1= RULE_NEWLINE )* ( (lv_implicit_2_0= 'IMPLICIT' ) )? ( (lv_valueTypes_3_0= ruleValueType ) ) ( (this_NEWLINE_4= RULE_NEWLINE )* otherlv_5= '|' ( (lv_valueTypes_6_0= ruleValueType ) ) )* )
             {
-            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1553:1: ( ( (lv_tag_0_0= ruleTag ) )? (this_NEWLINE_1= RULE_NEWLINE )* ( (lv_implicit_2_0= 'IMPLICIT' ) )? ( (lv_valueTypes_3_0= ruleValueType ) ) ( (this_NEWLINE_4= RULE_NEWLINE )* otherlv_5= '|' ( (lv_valueTypes_6_0= ruleValueType ) ) )* )
-            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1553:2: ( (lv_tag_0_0= ruleTag ) )? (this_NEWLINE_1= RULE_NEWLINE )* ( (lv_implicit_2_0= 'IMPLICIT' ) )? ( (lv_valueTypes_3_0= ruleValueType ) ) ( (this_NEWLINE_4= RULE_NEWLINE )* otherlv_5= '|' ( (lv_valueTypes_6_0= ruleValueType ) ) )*
+            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1762:1: ( ( (lv_tag_0_0= ruleTag ) )? (this_NEWLINE_1= RULE_NEWLINE )* ( (lv_implicit_2_0= 'IMPLICIT' ) )? ( (lv_valueTypes_3_0= ruleValueType ) ) ( (this_NEWLINE_4= RULE_NEWLINE )* otherlv_5= '|' ( (lv_valueTypes_6_0= ruleValueType ) ) )* )
+            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1762:2: ( (lv_tag_0_0= ruleTag ) )? (this_NEWLINE_1= RULE_NEWLINE )* ( (lv_implicit_2_0= 'IMPLICIT' ) )? ( (lv_valueTypes_3_0= ruleValueType ) ) ( (this_NEWLINE_4= RULE_NEWLINE )* otherlv_5= '|' ( (lv_valueTypes_6_0= ruleValueType ) ) )*
             {
-            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1553:2: ( (lv_tag_0_0= ruleTag ) )?
-            int alt34=2;
-            int LA34_0 = input.LA(1);
+            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1762:2: ( (lv_tag_0_0= ruleTag ) )?
+            int alt40=2;
+            int LA40_0 = input.LA(1);
 
-            if ( (LA34_0==RULE_NEWLINE) ) {
-                int LA34_1 = input.LA(2);
+            if ( (LA40_0==RULE_NEWLINE) ) {
+                int LA40_1 = input.LA(2);
 
-                if ( (LA34_1==35) ) {
-                    alt34=1;
+                if ( (LA40_1==35) ) {
+                    alt40=1;
                 }
             }
-            else if ( (LA34_0==35) ) {
-                alt34=1;
+            else if ( (LA40_0==35) ) {
+                alt40=1;
             }
-            switch (alt34) {
+            switch (alt40) {
                 case 1 :
-                    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1554:1: (lv_tag_0_0= ruleTag )
+                    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1763:1: (lv_tag_0_0= ruleTag )
                     {
-                    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1554:1: (lv_tag_0_0= ruleTag )
-                    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1555:3: lv_tag_0_0= ruleTag
+                    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1763:1: (lv_tag_0_0= ruleTag )
+                    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1764:3: lv_tag_0_0= ruleTag
                     {
                     if ( state.backtracking==0 ) {
                        
                       	        newCompositeNode(grammarAccess.getValueAccess().getTagTagParserRuleCall_0_0()); 
                       	    
                     }
-                    pushFollow(FOLLOW_ruleTag_in_ruleValue3440);
+                    pushFollow(FOLLOW_ruleTag_in_ruleValue3911);
                     lv_tag_0_0=ruleTag();
 
                     state._fsp--;
@@ -4683,22 +5394,22 @@ public class InternalSmiParser extends AbstractInternalAntlrParser {
 
             }
 
-            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1571:3: (this_NEWLINE_1= RULE_NEWLINE )*
-            loop35:
+            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1780:3: (this_NEWLINE_1= RULE_NEWLINE )*
+            loop41:
             do {
-                int alt35=2;
-                int LA35_0 = input.LA(1);
+                int alt41=2;
+                int LA41_0 = input.LA(1);
 
-                if ( (LA35_0==RULE_NEWLINE) ) {
-                    alt35=1;
+                if ( (LA41_0==RULE_NEWLINE) ) {
+                    alt41=1;
                 }
 
 
-                switch (alt35) {
+                switch (alt41) {
             	case 1 :
-            	    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1571:4: this_NEWLINE_1= RULE_NEWLINE
+            	    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1780:4: this_NEWLINE_1= RULE_NEWLINE
             	    {
-            	    this_NEWLINE_1=(Token)match(input,RULE_NEWLINE,FOLLOW_RULE_NEWLINE_in_ruleValue3453); if (state.failed) return current;
+            	    this_NEWLINE_1=(Token)match(input,RULE_NEWLINE,FOLLOW_RULE_NEWLINE_in_ruleValue3924); if (state.failed) return current;
             	    if ( state.backtracking==0 ) {
             	       
             	          newLeafNode(this_NEWLINE_1, grammarAccess.getValueAccess().getNEWLINETerminalRuleCall_1()); 
@@ -4709,25 +5420,25 @@ public class InternalSmiParser extends AbstractInternalAntlrParser {
             	    break;
 
             	default :
-            	    break loop35;
+            	    break loop41;
                 }
             } while (true);
 
-            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1575:3: ( (lv_implicit_2_0= 'IMPLICIT' ) )?
-            int alt36=2;
-            int LA36_0 = input.LA(1);
+            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1784:3: ( (lv_implicit_2_0= 'IMPLICIT' ) )?
+            int alt42=2;
+            int LA42_0 = input.LA(1);
 
-            if ( (LA36_0==33) ) {
-                alt36=1;
+            if ( (LA42_0==33) ) {
+                alt42=1;
             }
-            switch (alt36) {
+            switch (alt42) {
                 case 1 :
-                    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1576:1: (lv_implicit_2_0= 'IMPLICIT' )
+                    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1785:1: (lv_implicit_2_0= 'IMPLICIT' )
                     {
-                    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1576:1: (lv_implicit_2_0= 'IMPLICIT' )
-                    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1577:3: lv_implicit_2_0= 'IMPLICIT'
+                    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1785:1: (lv_implicit_2_0= 'IMPLICIT' )
+                    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1786:3: lv_implicit_2_0= 'IMPLICIT'
                     {
-                    lv_implicit_2_0=(Token)match(input,33,FOLLOW_33_in_ruleValue3472); if (state.failed) return current;
+                    lv_implicit_2_0=(Token)match(input,33,FOLLOW_33_in_ruleValue3943); if (state.failed) return current;
                     if ( state.backtracking==0 ) {
 
                               newLeafNode(lv_implicit_2_0, grammarAccess.getValueAccess().getImplicitIMPLICITKeyword_2_0());
@@ -4750,18 +5461,18 @@ public class InternalSmiParser extends AbstractInternalAntlrParser {
 
             }
 
-            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1590:3: ( (lv_valueTypes_3_0= ruleValueType ) )
-            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1591:1: (lv_valueTypes_3_0= ruleValueType )
+            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1799:3: ( (lv_valueTypes_3_0= ruleValueType ) )
+            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1800:1: (lv_valueTypes_3_0= ruleValueType )
             {
-            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1591:1: (lv_valueTypes_3_0= ruleValueType )
-            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1592:3: lv_valueTypes_3_0= ruleValueType
+            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1800:1: (lv_valueTypes_3_0= ruleValueType )
+            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1801:3: lv_valueTypes_3_0= ruleValueType
             {
             if ( state.backtracking==0 ) {
                
               	        newCompositeNode(grammarAccess.getValueAccess().getValueTypesValueTypeParserRuleCall_3_0()); 
               	    
             }
-            pushFollow(FOLLOW_ruleValueType_in_ruleValue3507);
+            pushFollow(FOLLOW_ruleValueType_in_ruleValue3978);
             lv_valueTypes_3_0=ruleValueType();
 
             state._fsp--;
@@ -4785,31 +5496,31 @@ public class InternalSmiParser extends AbstractInternalAntlrParser {
 
             }
 
-            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1608:2: ( (this_NEWLINE_4= RULE_NEWLINE )* otherlv_5= '|' ( (lv_valueTypes_6_0= ruleValueType ) ) )*
-            loop38:
+            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1817:2: ( (this_NEWLINE_4= RULE_NEWLINE )* otherlv_5= '|' ( (lv_valueTypes_6_0= ruleValueType ) ) )*
+            loop44:
             do {
-                int alt38=2;
-                alt38 = dfa38.predict(input);
-                switch (alt38) {
+                int alt44=2;
+                alt44 = dfa44.predict(input);
+                switch (alt44) {
             	case 1 :
-            	    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1608:3: (this_NEWLINE_4= RULE_NEWLINE )* otherlv_5= '|' ( (lv_valueTypes_6_0= ruleValueType ) )
+            	    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1817:3: (this_NEWLINE_4= RULE_NEWLINE )* otherlv_5= '|' ( (lv_valueTypes_6_0= ruleValueType ) )
             	    {
-            	    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1608:3: (this_NEWLINE_4= RULE_NEWLINE )*
-            	    loop37:
+            	    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1817:3: (this_NEWLINE_4= RULE_NEWLINE )*
+            	    loop43:
             	    do {
-            	        int alt37=2;
-            	        int LA37_0 = input.LA(1);
+            	        int alt43=2;
+            	        int LA43_0 = input.LA(1);
 
-            	        if ( (LA37_0==RULE_NEWLINE) ) {
-            	            alt37=1;
+            	        if ( (LA43_0==RULE_NEWLINE) ) {
+            	            alt43=1;
             	        }
 
 
-            	        switch (alt37) {
+            	        switch (alt43) {
             	    	case 1 :
-            	    	    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1608:4: this_NEWLINE_4= RULE_NEWLINE
+            	    	    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1817:4: this_NEWLINE_4= RULE_NEWLINE
             	    	    {
-            	    	    this_NEWLINE_4=(Token)match(input,RULE_NEWLINE,FOLLOW_RULE_NEWLINE_in_ruleValue3520); if (state.failed) return current;
+            	    	    this_NEWLINE_4=(Token)match(input,RULE_NEWLINE,FOLLOW_RULE_NEWLINE_in_ruleValue3991); if (state.failed) return current;
             	    	    if ( state.backtracking==0 ) {
             	    	       
             	    	          newLeafNode(this_NEWLINE_4, grammarAccess.getValueAccess().getNEWLINETerminalRuleCall_4_0()); 
@@ -4820,28 +5531,28 @@ public class InternalSmiParser extends AbstractInternalAntlrParser {
             	    	    break;
 
             	    	default :
-            	    	    break loop37;
+            	    	    break loop43;
             	        }
             	    } while (true);
 
-            	    otherlv_5=(Token)match(input,34,FOLLOW_34_in_ruleValue3533); if (state.failed) return current;
+            	    otherlv_5=(Token)match(input,34,FOLLOW_34_in_ruleValue4004); if (state.failed) return current;
             	    if ( state.backtracking==0 ) {
 
             	          	newLeafNode(otherlv_5, grammarAccess.getValueAccess().getVerticalLineKeyword_4_1());
             	          
             	    }
-            	    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1616:1: ( (lv_valueTypes_6_0= ruleValueType ) )
-            	    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1617:1: (lv_valueTypes_6_0= ruleValueType )
+            	    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1825:1: ( (lv_valueTypes_6_0= ruleValueType ) )
+            	    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1826:1: (lv_valueTypes_6_0= ruleValueType )
             	    {
-            	    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1617:1: (lv_valueTypes_6_0= ruleValueType )
-            	    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1618:3: lv_valueTypes_6_0= ruleValueType
+            	    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1826:1: (lv_valueTypes_6_0= ruleValueType )
+            	    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1827:3: lv_valueTypes_6_0= ruleValueType
             	    {
             	    if ( state.backtracking==0 ) {
             	       
             	      	        newCompositeNode(grammarAccess.getValueAccess().getValueTypesValueTypeParserRuleCall_4_2_0()); 
             	      	    
             	    }
-            	    pushFollow(FOLLOW_ruleValueType_in_ruleValue3554);
+            	    pushFollow(FOLLOW_ruleValueType_in_ruleValue4025);
             	    lv_valueTypes_6_0=ruleValueType();
 
             	    state._fsp--;
@@ -4870,7 +5581,7 @@ public class InternalSmiParser extends AbstractInternalAntlrParser {
             	    break;
 
             	default :
-            	    break loop38;
+            	    break loop44;
                 }
             } while (true);
 
@@ -4897,7 +5608,7 @@ public class InternalSmiParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "entryRuleTag"
-    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1642:1: entryRuleTag returns [EObject current=null] : iv_ruleTag= ruleTag EOF ;
+    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1851:1: entryRuleTag returns [EObject current=null] : iv_ruleTag= ruleTag EOF ;
     public final EObject entryRuleTag() throws RecognitionException {
         EObject current = null;
 
@@ -4905,13 +5616,13 @@ public class InternalSmiParser extends AbstractInternalAntlrParser {
 
 
         try {
-            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1643:2: (iv_ruleTag= ruleTag EOF )
-            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1644:2: iv_ruleTag= ruleTag EOF
+            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1852:2: (iv_ruleTag= ruleTag EOF )
+            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1853:2: iv_ruleTag= ruleTag EOF
             {
             if ( state.backtracking==0 ) {
                newCompositeNode(grammarAccess.getTagRule()); 
             }
-            pushFollow(FOLLOW_ruleTag_in_entryRuleTag3592);
+            pushFollow(FOLLOW_ruleTag_in_entryRuleTag4063);
             iv_ruleTag=ruleTag();
 
             state._fsp--;
@@ -4919,7 +5630,7 @@ public class InternalSmiParser extends AbstractInternalAntlrParser {
             if ( state.backtracking==0 ) {
                current =iv_ruleTag; 
             }
-            match(input,EOF,FOLLOW_EOF_in_entryRuleTag3602); if (state.failed) return current;
+            match(input,EOF,FOLLOW_EOF_in_entryRuleTag4073); if (state.failed) return current;
 
             }
 
@@ -4937,7 +5648,7 @@ public class InternalSmiParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "ruleTag"
-    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1651:1: ruleTag returns [EObject current=null] : ( (this_NEWLINE_0= RULE_NEWLINE )? otherlv_1= '[APPLICATION' ( (lv_tagValue_2_0= RULE_BIG_INTEGER ) ) otherlv_3= ']' ) ;
+    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1860:1: ruleTag returns [EObject current=null] : ( (this_NEWLINE_0= RULE_NEWLINE )? otherlv_1= '[APPLICATION' ( (lv_tagValue_2_0= RULE_BIG_INTEGER ) ) otherlv_3= ']' ) ;
     public final EObject ruleTag() throws RecognitionException {
         EObject current = null;
 
@@ -4949,24 +5660,24 @@ public class InternalSmiParser extends AbstractInternalAntlrParser {
          enterRule(); 
             
         try {
-            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1654:28: ( ( (this_NEWLINE_0= RULE_NEWLINE )? otherlv_1= '[APPLICATION' ( (lv_tagValue_2_0= RULE_BIG_INTEGER ) ) otherlv_3= ']' ) )
-            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1655:1: ( (this_NEWLINE_0= RULE_NEWLINE )? otherlv_1= '[APPLICATION' ( (lv_tagValue_2_0= RULE_BIG_INTEGER ) ) otherlv_3= ']' )
+            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1863:28: ( ( (this_NEWLINE_0= RULE_NEWLINE )? otherlv_1= '[APPLICATION' ( (lv_tagValue_2_0= RULE_BIG_INTEGER ) ) otherlv_3= ']' ) )
+            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1864:1: ( (this_NEWLINE_0= RULE_NEWLINE )? otherlv_1= '[APPLICATION' ( (lv_tagValue_2_0= RULE_BIG_INTEGER ) ) otherlv_3= ']' )
             {
-            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1655:1: ( (this_NEWLINE_0= RULE_NEWLINE )? otherlv_1= '[APPLICATION' ( (lv_tagValue_2_0= RULE_BIG_INTEGER ) ) otherlv_3= ']' )
-            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1655:2: (this_NEWLINE_0= RULE_NEWLINE )? otherlv_1= '[APPLICATION' ( (lv_tagValue_2_0= RULE_BIG_INTEGER ) ) otherlv_3= ']'
+            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1864:1: ( (this_NEWLINE_0= RULE_NEWLINE )? otherlv_1= '[APPLICATION' ( (lv_tagValue_2_0= RULE_BIG_INTEGER ) ) otherlv_3= ']' )
+            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1864:2: (this_NEWLINE_0= RULE_NEWLINE )? otherlv_1= '[APPLICATION' ( (lv_tagValue_2_0= RULE_BIG_INTEGER ) ) otherlv_3= ']'
             {
-            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1655:2: (this_NEWLINE_0= RULE_NEWLINE )?
-            int alt39=2;
-            int LA39_0 = input.LA(1);
+            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1864:2: (this_NEWLINE_0= RULE_NEWLINE )?
+            int alt45=2;
+            int LA45_0 = input.LA(1);
 
-            if ( (LA39_0==RULE_NEWLINE) ) {
-                alt39=1;
+            if ( (LA45_0==RULE_NEWLINE) ) {
+                alt45=1;
             }
-            switch (alt39) {
+            switch (alt45) {
                 case 1 :
-                    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1655:3: this_NEWLINE_0= RULE_NEWLINE
+                    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1864:3: this_NEWLINE_0= RULE_NEWLINE
                     {
-                    this_NEWLINE_0=(Token)match(input,RULE_NEWLINE,FOLLOW_RULE_NEWLINE_in_ruleTag3639); if (state.failed) return current;
+                    this_NEWLINE_0=(Token)match(input,RULE_NEWLINE,FOLLOW_RULE_NEWLINE_in_ruleTag4110); if (state.failed) return current;
                     if ( state.backtracking==0 ) {
                        
                           newLeafNode(this_NEWLINE_0, grammarAccess.getTagAccess().getNEWLINETerminalRuleCall_0()); 
@@ -4978,19 +5689,19 @@ public class InternalSmiParser extends AbstractInternalAntlrParser {
 
             }
 
-            otherlv_1=(Token)match(input,35,FOLLOW_35_in_ruleTag3652); if (state.failed) return current;
+            otherlv_1=(Token)match(input,35,FOLLOW_35_in_ruleTag4123); if (state.failed) return current;
             if ( state.backtracking==0 ) {
 
                   	newLeafNode(otherlv_1, grammarAccess.getTagAccess().getAPPLICATIONKeyword_1());
                   
             }
-            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1663:1: ( (lv_tagValue_2_0= RULE_BIG_INTEGER ) )
-            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1664:1: (lv_tagValue_2_0= RULE_BIG_INTEGER )
+            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1872:1: ( (lv_tagValue_2_0= RULE_BIG_INTEGER ) )
+            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1873:1: (lv_tagValue_2_0= RULE_BIG_INTEGER )
             {
-            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1664:1: (lv_tagValue_2_0= RULE_BIG_INTEGER )
-            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1665:3: lv_tagValue_2_0= RULE_BIG_INTEGER
+            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1873:1: (lv_tagValue_2_0= RULE_BIG_INTEGER )
+            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1874:3: lv_tagValue_2_0= RULE_BIG_INTEGER
             {
-            lv_tagValue_2_0=(Token)match(input,RULE_BIG_INTEGER,FOLLOW_RULE_BIG_INTEGER_in_ruleTag3669); if (state.failed) return current;
+            lv_tagValue_2_0=(Token)match(input,RULE_BIG_INTEGER,FOLLOW_RULE_BIG_INTEGER_in_ruleTag4140); if (state.failed) return current;
             if ( state.backtracking==0 ) {
 
               			newLeafNode(lv_tagValue_2_0, grammarAccess.getTagAccess().getTagValueBIG_INTEGERTerminalRuleCall_2_0()); 
@@ -5014,7 +5725,7 @@ public class InternalSmiParser extends AbstractInternalAntlrParser {
 
             }
 
-            otherlv_3=(Token)match(input,36,FOLLOW_36_in_ruleTag3686); if (state.failed) return current;
+            otherlv_3=(Token)match(input,36,FOLLOW_36_in_ruleTag4157); if (state.failed) return current;
             if ( state.backtracking==0 ) {
 
                   	newLeafNode(otherlv_3, grammarAccess.getTagAccess().getRightSquareBracketKeyword_3());
@@ -5043,7 +5754,7 @@ public class InternalSmiParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "entryRuleValueType"
-    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1693:1: entryRuleValueType returns [EObject current=null] : iv_ruleValueType= ruleValueType EOF ;
+    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1902:1: entryRuleValueType returns [EObject current=null] : iv_ruleValueType= ruleValueType EOF ;
     public final EObject entryRuleValueType() throws RecognitionException {
         EObject current = null;
 
@@ -5051,13 +5762,13 @@ public class InternalSmiParser extends AbstractInternalAntlrParser {
 
 
         try {
-            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1694:2: (iv_ruleValueType= ruleValueType EOF )
-            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1695:2: iv_ruleValueType= ruleValueType EOF
+            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1903:2: (iv_ruleValueType= ruleValueType EOF )
+            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1904:2: iv_ruleValueType= ruleValueType EOF
             {
             if ( state.backtracking==0 ) {
                newCompositeNode(grammarAccess.getValueTypeRule()); 
             }
-            pushFollow(FOLLOW_ruleValueType_in_entryRuleValueType3722);
+            pushFollow(FOLLOW_ruleValueType_in_entryRuleValueType4193);
             iv_ruleValueType=ruleValueType();
 
             state._fsp--;
@@ -5065,7 +5776,7 @@ public class InternalSmiParser extends AbstractInternalAntlrParser {
             if ( state.backtracking==0 ) {
                current =iv_ruleValueType; 
             }
-            match(input,EOF,FOLLOW_EOF_in_entryRuleValueType3732); if (state.failed) return current;
+            match(input,EOF,FOLLOW_EOF_in_entryRuleValueType4203); if (state.failed) return current;
 
             }
 
@@ -5083,7 +5794,7 @@ public class InternalSmiParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "ruleValueType"
-    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1702:1: ruleValueType returns [EObject current=null] : ( ( (lv_param_0_0= ruleParamAssignment ) ) | ( (lv_id_1_0= RULE_ASN1_ID ) ) | ( (lv_types_2_0= ruleTypeReferenceExt ) ) | ( (lv_simpleType_3_0= ruleASN1_TYPE ) ) | ( (lv_macroValue_4_0= ruleMacroValue ) ) | ( () otherlv_6= 'OBJECT IDENTIFIER' ) ) ;
+    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1911:1: ruleValueType returns [EObject current=null] : ( ( (lv_param_0_0= ruleParamAssignment ) ) | ( (lv_id_1_0= RULE_ASN1_ID ) ) | ( (lv_types_2_0= ruleTypeReferenceExt ) ) | ( (lv_simpleType_3_0= ruleASN1_TYPE ) ) | ( (lv_macroValue_4_0= ruleMacroValue ) ) | ( () otherlv_6= 'OBJECT IDENTIFIER' ) ) ;
     public final EObject ruleValueType() throws RecognitionException {
         EObject current = null;
 
@@ -5101,26 +5812,26 @@ public class InternalSmiParser extends AbstractInternalAntlrParser {
          enterRule(); 
             
         try {
-            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1705:28: ( ( ( (lv_param_0_0= ruleParamAssignment ) ) | ( (lv_id_1_0= RULE_ASN1_ID ) ) | ( (lv_types_2_0= ruleTypeReferenceExt ) ) | ( (lv_simpleType_3_0= ruleASN1_TYPE ) ) | ( (lv_macroValue_4_0= ruleMacroValue ) ) | ( () otherlv_6= 'OBJECT IDENTIFIER' ) ) )
-            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1706:1: ( ( (lv_param_0_0= ruleParamAssignment ) ) | ( (lv_id_1_0= RULE_ASN1_ID ) ) | ( (lv_types_2_0= ruleTypeReferenceExt ) ) | ( (lv_simpleType_3_0= ruleASN1_TYPE ) ) | ( (lv_macroValue_4_0= ruleMacroValue ) ) | ( () otherlv_6= 'OBJECT IDENTIFIER' ) )
+            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1914:28: ( ( ( (lv_param_0_0= ruleParamAssignment ) ) | ( (lv_id_1_0= RULE_ASN1_ID ) ) | ( (lv_types_2_0= ruleTypeReferenceExt ) ) | ( (lv_simpleType_3_0= ruleASN1_TYPE ) ) | ( (lv_macroValue_4_0= ruleMacroValue ) ) | ( () otherlv_6= 'OBJECT IDENTIFIER' ) ) )
+            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1915:1: ( ( (lv_param_0_0= ruleParamAssignment ) ) | ( (lv_id_1_0= RULE_ASN1_ID ) ) | ( (lv_types_2_0= ruleTypeReferenceExt ) ) | ( (lv_simpleType_3_0= ruleASN1_TYPE ) ) | ( (lv_macroValue_4_0= ruleMacroValue ) ) | ( () otherlv_6= 'OBJECT IDENTIFIER' ) )
             {
-            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1706:1: ( ( (lv_param_0_0= ruleParamAssignment ) ) | ( (lv_id_1_0= RULE_ASN1_ID ) ) | ( (lv_types_2_0= ruleTypeReferenceExt ) ) | ( (lv_simpleType_3_0= ruleASN1_TYPE ) ) | ( (lv_macroValue_4_0= ruleMacroValue ) ) | ( () otherlv_6= 'OBJECT IDENTIFIER' ) )
-            int alt40=6;
+            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1915:1: ( ( (lv_param_0_0= ruleParamAssignment ) ) | ( (lv_id_1_0= RULE_ASN1_ID ) ) | ( (lv_types_2_0= ruleTypeReferenceExt ) ) | ( (lv_simpleType_3_0= ruleASN1_TYPE ) ) | ( (lv_macroValue_4_0= ruleMacroValue ) ) | ( () otherlv_6= 'OBJECT IDENTIFIER' ) )
+            int alt46=6;
             switch ( input.LA(1) ) {
             case RULE_PARAMETER:
                 {
-                alt40=1;
+                alt46=1;
                 }
                 break;
             case RULE_ASN1_ID:
                 {
-                alt40=2;
+                alt46=2;
                 }
                 break;
             case RULE_MODULE_ID:
             case 31:
                 {
-                alt40=3;
+                alt46=3;
                 }
                 break;
             case RULE_IA5STRING:
@@ -5128,44 +5839,45 @@ public class InternalSmiParser extends AbstractInternalAntlrParser {
             case 43:
             case 45:
             case 48:
+            case 49:
                 {
-                alt40=4;
+                alt46=4;
                 }
                 break;
             case 37:
                 {
-                alt40=5;
+                alt46=5;
                 }
                 break;
             case 24:
                 {
-                alt40=6;
+                alt46=6;
                 }
                 break;
             default:
                 if (state.backtracking>0) {state.failed=true; return current;}
                 NoViableAltException nvae =
-                    new NoViableAltException("", 40, 0, input);
+                    new NoViableAltException("", 46, 0, input);
 
                 throw nvae;
             }
 
-            switch (alt40) {
+            switch (alt46) {
                 case 1 :
-                    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1706:2: ( (lv_param_0_0= ruleParamAssignment ) )
+                    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1915:2: ( (lv_param_0_0= ruleParamAssignment ) )
                     {
-                    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1706:2: ( (lv_param_0_0= ruleParamAssignment ) )
-                    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1707:1: (lv_param_0_0= ruleParamAssignment )
+                    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1915:2: ( (lv_param_0_0= ruleParamAssignment ) )
+                    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1916:1: (lv_param_0_0= ruleParamAssignment )
                     {
-                    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1707:1: (lv_param_0_0= ruleParamAssignment )
-                    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1708:3: lv_param_0_0= ruleParamAssignment
+                    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1916:1: (lv_param_0_0= ruleParamAssignment )
+                    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1917:3: lv_param_0_0= ruleParamAssignment
                     {
                     if ( state.backtracking==0 ) {
                        
                       	        newCompositeNode(grammarAccess.getValueTypeAccess().getParamParamAssignmentParserRuleCall_0_0()); 
                       	    
                     }
-                    pushFollow(FOLLOW_ruleParamAssignment_in_ruleValueType3778);
+                    pushFollow(FOLLOW_ruleParamAssignment_in_ruleValueType4249);
                     lv_param_0_0=ruleParamAssignment();
 
                     state._fsp--;
@@ -5193,15 +5905,15 @@ public class InternalSmiParser extends AbstractInternalAntlrParser {
                     }
                     break;
                 case 2 :
-                    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1725:6: ( (lv_id_1_0= RULE_ASN1_ID ) )
+                    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1934:6: ( (lv_id_1_0= RULE_ASN1_ID ) )
                     {
-                    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1725:6: ( (lv_id_1_0= RULE_ASN1_ID ) )
-                    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1726:1: (lv_id_1_0= RULE_ASN1_ID )
+                    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1934:6: ( (lv_id_1_0= RULE_ASN1_ID ) )
+                    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1935:1: (lv_id_1_0= RULE_ASN1_ID )
                     {
-                    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1726:1: (lv_id_1_0= RULE_ASN1_ID )
-                    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1727:3: lv_id_1_0= RULE_ASN1_ID
+                    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1935:1: (lv_id_1_0= RULE_ASN1_ID )
+                    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1936:3: lv_id_1_0= RULE_ASN1_ID
                     {
-                    lv_id_1_0=(Token)match(input,RULE_ASN1_ID,FOLLOW_RULE_ASN1_ID_in_ruleValueType3801); if (state.failed) return current;
+                    lv_id_1_0=(Token)match(input,RULE_ASN1_ID,FOLLOW_RULE_ASN1_ID_in_ruleValueType4272); if (state.failed) return current;
                     if ( state.backtracking==0 ) {
 
                       			newLeafNode(lv_id_1_0, grammarAccess.getValueTypeAccess().getIdASN1_IDTerminalRuleCall_1_0()); 
@@ -5229,20 +5941,20 @@ public class InternalSmiParser extends AbstractInternalAntlrParser {
                     }
                     break;
                 case 3 :
-                    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1744:6: ( (lv_types_2_0= ruleTypeReferenceExt ) )
+                    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1953:6: ( (lv_types_2_0= ruleTypeReferenceExt ) )
                     {
-                    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1744:6: ( (lv_types_2_0= ruleTypeReferenceExt ) )
-                    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1745:1: (lv_types_2_0= ruleTypeReferenceExt )
+                    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1953:6: ( (lv_types_2_0= ruleTypeReferenceExt ) )
+                    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1954:1: (lv_types_2_0= ruleTypeReferenceExt )
                     {
-                    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1745:1: (lv_types_2_0= ruleTypeReferenceExt )
-                    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1746:3: lv_types_2_0= ruleTypeReferenceExt
+                    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1954:1: (lv_types_2_0= ruleTypeReferenceExt )
+                    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1955:3: lv_types_2_0= ruleTypeReferenceExt
                     {
                     if ( state.backtracking==0 ) {
                        
                       	        newCompositeNode(grammarAccess.getValueTypeAccess().getTypesTypeReferenceExtParserRuleCall_2_0()); 
                       	    
                     }
-                    pushFollow(FOLLOW_ruleTypeReferenceExt_in_ruleValueType3833);
+                    pushFollow(FOLLOW_ruleTypeReferenceExt_in_ruleValueType4304);
                     lv_types_2_0=ruleTypeReferenceExt();
 
                     state._fsp--;
@@ -5270,20 +5982,20 @@ public class InternalSmiParser extends AbstractInternalAntlrParser {
                     }
                     break;
                 case 4 :
-                    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1763:6: ( (lv_simpleType_3_0= ruleASN1_TYPE ) )
+                    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1972:6: ( (lv_simpleType_3_0= ruleASN1_TYPE ) )
                     {
-                    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1763:6: ( (lv_simpleType_3_0= ruleASN1_TYPE ) )
-                    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1764:1: (lv_simpleType_3_0= ruleASN1_TYPE )
+                    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1972:6: ( (lv_simpleType_3_0= ruleASN1_TYPE ) )
+                    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1973:1: (lv_simpleType_3_0= ruleASN1_TYPE )
                     {
-                    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1764:1: (lv_simpleType_3_0= ruleASN1_TYPE )
-                    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1765:3: lv_simpleType_3_0= ruleASN1_TYPE
+                    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1973:1: (lv_simpleType_3_0= ruleASN1_TYPE )
+                    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1974:3: lv_simpleType_3_0= ruleASN1_TYPE
                     {
                     if ( state.backtracking==0 ) {
                        
                       	        newCompositeNode(grammarAccess.getValueTypeAccess().getSimpleTypeASN1_TYPEParserRuleCall_3_0()); 
                       	    
                     }
-                    pushFollow(FOLLOW_ruleASN1_TYPE_in_ruleValueType3860);
+                    pushFollow(FOLLOW_ruleASN1_TYPE_in_ruleValueType4331);
                     lv_simpleType_3_0=ruleASN1_TYPE();
 
                     state._fsp--;
@@ -5311,20 +6023,20 @@ public class InternalSmiParser extends AbstractInternalAntlrParser {
                     }
                     break;
                 case 5 :
-                    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1782:6: ( (lv_macroValue_4_0= ruleMacroValue ) )
+                    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1991:6: ( (lv_macroValue_4_0= ruleMacroValue ) )
                     {
-                    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1782:6: ( (lv_macroValue_4_0= ruleMacroValue ) )
-                    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1783:1: (lv_macroValue_4_0= ruleMacroValue )
+                    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1991:6: ( (lv_macroValue_4_0= ruleMacroValue ) )
+                    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1992:1: (lv_macroValue_4_0= ruleMacroValue )
                     {
-                    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1783:1: (lv_macroValue_4_0= ruleMacroValue )
-                    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1784:3: lv_macroValue_4_0= ruleMacroValue
+                    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1992:1: (lv_macroValue_4_0= ruleMacroValue )
+                    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1993:3: lv_macroValue_4_0= ruleMacroValue
                     {
                     if ( state.backtracking==0 ) {
                        
                       	        newCompositeNode(grammarAccess.getValueTypeAccess().getMacroValueMacroValueParserRuleCall_4_0()); 
                       	    
                     }
-                    pushFollow(FOLLOW_ruleMacroValue_in_ruleValueType3887);
+                    pushFollow(FOLLOW_ruleMacroValue_in_ruleValueType4358);
                     lv_macroValue_4_0=ruleMacroValue();
 
                     state._fsp--;
@@ -5352,13 +6064,13 @@ public class InternalSmiParser extends AbstractInternalAntlrParser {
                     }
                     break;
                 case 6 :
-                    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1801:6: ( () otherlv_6= 'OBJECT IDENTIFIER' )
+                    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2010:6: ( () otherlv_6= 'OBJECT IDENTIFIER' )
                     {
-                    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1801:6: ( () otherlv_6= 'OBJECT IDENTIFIER' )
-                    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1801:7: () otherlv_6= 'OBJECT IDENTIFIER'
+                    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2010:6: ( () otherlv_6= 'OBJECT IDENTIFIER' )
+                    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2010:7: () otherlv_6= 'OBJECT IDENTIFIER'
                     {
-                    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1801:7: ()
-                    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1802:5: 
+                    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2010:7: ()
+                    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2011:5: 
                     {
                     if ( state.backtracking==0 ) {
 
@@ -5370,7 +6082,7 @@ public class InternalSmiParser extends AbstractInternalAntlrParser {
 
                     }
 
-                    otherlv_6=(Token)match(input,24,FOLLOW_24_in_ruleValueType3915); if (state.failed) return current;
+                    otherlv_6=(Token)match(input,24,FOLLOW_24_in_ruleValueType4386); if (state.failed) return current;
                     if ( state.backtracking==0 ) {
 
                           	newLeafNode(otherlv_6, grammarAccess.getValueTypeAccess().getOBJECTIDENTIFIERKeyword_5_1());
@@ -5405,7 +6117,7 @@ public class InternalSmiParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "entryRuleMacroValue"
-    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1819:1: entryRuleMacroValue returns [EObject current=null] : iv_ruleMacroValue= ruleMacroValue EOF ;
+    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2028:1: entryRuleMacroValue returns [EObject current=null] : iv_ruleMacroValue= ruleMacroValue EOF ;
     public final EObject entryRuleMacroValue() throws RecognitionException {
         EObject current = null;
 
@@ -5413,13 +6125,13 @@ public class InternalSmiParser extends AbstractInternalAntlrParser {
 
 
         try {
-            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1820:2: (iv_ruleMacroValue= ruleMacroValue EOF )
-            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1821:2: iv_ruleMacroValue= ruleMacroValue EOF
+            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2029:2: (iv_ruleMacroValue= ruleMacroValue EOF )
+            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2030:2: iv_ruleMacroValue= ruleMacroValue EOF
             {
             if ( state.backtracking==0 ) {
                newCompositeNode(grammarAccess.getMacroValueRule()); 
             }
-            pushFollow(FOLLOW_ruleMacroValue_in_entryRuleMacroValue3952);
+            pushFollow(FOLLOW_ruleMacroValue_in_entryRuleMacroValue4423);
             iv_ruleMacroValue=ruleMacroValue();
 
             state._fsp--;
@@ -5427,7 +6139,7 @@ public class InternalSmiParser extends AbstractInternalAntlrParser {
             if ( state.backtracking==0 ) {
                current =iv_ruleMacroValue; 
             }
-            match(input,EOF,FOLLOW_EOF_in_entryRuleMacroValue3962); if (state.failed) return current;
+            match(input,EOF,FOLLOW_EOF_in_entryRuleMacroValue4433); if (state.failed) return current;
 
             }
 
@@ -5445,7 +6157,7 @@ public class InternalSmiParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "ruleMacroValue"
-    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1828:1: ruleMacroValue returns [EObject current=null] : ( () otherlv_1= 'value' otherlv_2= '(' ( (lv_valueType_3_0= ruleMacroValueType ) ) otherlv_4= ')' ) ;
+    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2037:1: ruleMacroValue returns [EObject current=null] : ( () otherlv_1= 'value' otherlv_2= '(' ( (lv_valueType_3_0= ruleMacroValueType ) ) otherlv_4= ')' ) ;
     public final EObject ruleMacroValue() throws RecognitionException {
         EObject current = null;
 
@@ -5458,14 +6170,14 @@ public class InternalSmiParser extends AbstractInternalAntlrParser {
          enterRule(); 
             
         try {
-            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1831:28: ( ( () otherlv_1= 'value' otherlv_2= '(' ( (lv_valueType_3_0= ruleMacroValueType ) ) otherlv_4= ')' ) )
-            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1832:1: ( () otherlv_1= 'value' otherlv_2= '(' ( (lv_valueType_3_0= ruleMacroValueType ) ) otherlv_4= ')' )
+            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2040:28: ( ( () otherlv_1= 'value' otherlv_2= '(' ( (lv_valueType_3_0= ruleMacroValueType ) ) otherlv_4= ')' ) )
+            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2041:1: ( () otherlv_1= 'value' otherlv_2= '(' ( (lv_valueType_3_0= ruleMacroValueType ) ) otherlv_4= ')' )
             {
-            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1832:1: ( () otherlv_1= 'value' otherlv_2= '(' ( (lv_valueType_3_0= ruleMacroValueType ) ) otherlv_4= ')' )
-            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1832:2: () otherlv_1= 'value' otherlv_2= '(' ( (lv_valueType_3_0= ruleMacroValueType ) ) otherlv_4= ')'
+            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2041:1: ( () otherlv_1= 'value' otherlv_2= '(' ( (lv_valueType_3_0= ruleMacroValueType ) ) otherlv_4= ')' )
+            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2041:2: () otherlv_1= 'value' otherlv_2= '(' ( (lv_valueType_3_0= ruleMacroValueType ) ) otherlv_4= ')'
             {
-            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1832:2: ()
-            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1833:5: 
+            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2041:2: ()
+            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2042:5: 
             {
             if ( state.backtracking==0 ) {
 
@@ -5477,30 +6189,30 @@ public class InternalSmiParser extends AbstractInternalAntlrParser {
 
             }
 
-            otherlv_1=(Token)match(input,37,FOLLOW_37_in_ruleMacroValue4008); if (state.failed) return current;
+            otherlv_1=(Token)match(input,37,FOLLOW_37_in_ruleMacroValue4479); if (state.failed) return current;
             if ( state.backtracking==0 ) {
 
                   	newLeafNode(otherlv_1, grammarAccess.getMacroValueAccess().getValueKeyword_1());
                   
             }
-            otherlv_2=(Token)match(input,38,FOLLOW_38_in_ruleMacroValue4020); if (state.failed) return current;
+            otherlv_2=(Token)match(input,38,FOLLOW_38_in_ruleMacroValue4491); if (state.failed) return current;
             if ( state.backtracking==0 ) {
 
                   	newLeafNode(otherlv_2, grammarAccess.getMacroValueAccess().getLeftParenthesisKeyword_2());
                   
             }
-            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1846:1: ( (lv_valueType_3_0= ruleMacroValueType ) )
-            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1847:1: (lv_valueType_3_0= ruleMacroValueType )
+            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2055:1: ( (lv_valueType_3_0= ruleMacroValueType ) )
+            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2056:1: (lv_valueType_3_0= ruleMacroValueType )
             {
-            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1847:1: (lv_valueType_3_0= ruleMacroValueType )
-            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1848:3: lv_valueType_3_0= ruleMacroValueType
+            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2056:1: (lv_valueType_3_0= ruleMacroValueType )
+            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2057:3: lv_valueType_3_0= ruleMacroValueType
             {
             if ( state.backtracking==0 ) {
                
               	        newCompositeNode(grammarAccess.getMacroValueAccess().getValueTypeMacroValueTypeParserRuleCall_3_0()); 
               	    
             }
-            pushFollow(FOLLOW_ruleMacroValueType_in_ruleMacroValue4041);
+            pushFollow(FOLLOW_ruleMacroValueType_in_ruleMacroValue4512);
             lv_valueType_3_0=ruleMacroValueType();
 
             state._fsp--;
@@ -5524,7 +6236,7 @@ public class InternalSmiParser extends AbstractInternalAntlrParser {
 
             }
 
-            otherlv_4=(Token)match(input,39,FOLLOW_39_in_ruleMacroValue4053); if (state.failed) return current;
+            otherlv_4=(Token)match(input,39,FOLLOW_39_in_ruleMacroValue4524); if (state.failed) return current;
             if ( state.backtracking==0 ) {
 
                   	newLeafNode(otherlv_4, grammarAccess.getMacroValueAccess().getRightParenthesisKeyword_4());
@@ -5553,7 +6265,7 @@ public class InternalSmiParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "entryRuleMacroValueType"
-    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1876:1: entryRuleMacroValueType returns [EObject current=null] : iv_ruleMacroValueType= ruleMacroValueType EOF ;
+    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2085:1: entryRuleMacroValueType returns [EObject current=null] : iv_ruleMacroValueType= ruleMacroValueType EOF ;
     public final EObject entryRuleMacroValueType() throws RecognitionException {
         EObject current = null;
 
@@ -5561,13 +6273,13 @@ public class InternalSmiParser extends AbstractInternalAntlrParser {
 
 
         try {
-            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1877:2: (iv_ruleMacroValueType= ruleMacroValueType EOF )
-            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1878:2: iv_ruleMacroValueType= ruleMacroValueType EOF
+            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2086:2: (iv_ruleMacroValueType= ruleMacroValueType EOF )
+            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2087:2: iv_ruleMacroValueType= ruleMacroValueType EOF
             {
             if ( state.backtracking==0 ) {
                newCompositeNode(grammarAccess.getMacroValueTypeRule()); 
             }
-            pushFollow(FOLLOW_ruleMacroValueType_in_entryRuleMacroValueType4089);
+            pushFollow(FOLLOW_ruleMacroValueType_in_entryRuleMacroValueType4560);
             iv_ruleMacroValueType=ruleMacroValueType();
 
             state._fsp--;
@@ -5575,7 +6287,7 @@ public class InternalSmiParser extends AbstractInternalAntlrParser {
             if ( state.backtracking==0 ) {
                current =iv_ruleMacroValueType; 
             }
-            match(input,EOF,FOLLOW_EOF_in_entryRuleMacroValueType4099); if (state.failed) return current;
+            match(input,EOF,FOLLOW_EOF_in_entryRuleMacroValueType4570); if (state.failed) return current;
 
             }
 
@@ -5593,67 +6305,231 @@ public class InternalSmiParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "ruleMacroValueType"
-    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1885:1: ruleMacroValueType returns [EObject current=null] : ( ( (lv_update_0_0= ruleUpdateType ) ) | ( (lv_literal_1_0= ruleValueCapType ) ) | ( (lv_string_2_0= 'IA5String' ) ) ) ;
+    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2094:1: ruleMacroValueType returns [EObject current=null] : ( ( ( ( ( ({...}? => ( ({...}? => ( (lv_update_1_0= 'Update' ) ) ) ) ) | ({...}? => ( ({...}? => ( (lv_valueCAP_2_0= 'VALUE' ) ) ) ) ) )* ) ) ) ( ( (lv_ref_3_0= ruleTypeReference ) ) | ( (lv_oi_4_0= 'OBJECT IDENTIFIER' ) ) | ( (lv_string_5_0= 'IA5String' ) ) ) ) ;
     public final EObject ruleMacroValueType() throws RecognitionException {
         EObject current = null;
 
-        Token lv_string_2_0=null;
-        EObject lv_update_0_0 = null;
-
-        EObject lv_literal_1_0 = null;
+        Token lv_update_1_0=null;
+        Token lv_valueCAP_2_0=null;
+        Token lv_oi_4_0=null;
+        Token lv_string_5_0=null;
+        EObject lv_ref_3_0 = null;
 
 
          enterRule(); 
             
         try {
-            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1888:28: ( ( ( (lv_update_0_0= ruleUpdateType ) ) | ( (lv_literal_1_0= ruleValueCapType ) ) | ( (lv_string_2_0= 'IA5String' ) ) ) )
-            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1889:1: ( ( (lv_update_0_0= ruleUpdateType ) ) | ( (lv_literal_1_0= ruleValueCapType ) ) | ( (lv_string_2_0= 'IA5String' ) ) )
+            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2097:28: ( ( ( ( ( ( ({...}? => ( ({...}? => ( (lv_update_1_0= 'Update' ) ) ) ) ) | ({...}? => ( ({...}? => ( (lv_valueCAP_2_0= 'VALUE' ) ) ) ) ) )* ) ) ) ( ( (lv_ref_3_0= ruleTypeReference ) ) | ( (lv_oi_4_0= 'OBJECT IDENTIFIER' ) ) | ( (lv_string_5_0= 'IA5String' ) ) ) ) )
+            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2098:1: ( ( ( ( ( ({...}? => ( ({...}? => ( (lv_update_1_0= 'Update' ) ) ) ) ) | ({...}? => ( ({...}? => ( (lv_valueCAP_2_0= 'VALUE' ) ) ) ) ) )* ) ) ) ( ( (lv_ref_3_0= ruleTypeReference ) ) | ( (lv_oi_4_0= 'OBJECT IDENTIFIER' ) ) | ( (lv_string_5_0= 'IA5String' ) ) ) )
             {
-            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1889:1: ( ( (lv_update_0_0= ruleUpdateType ) ) | ( (lv_literal_1_0= ruleValueCapType ) ) | ( (lv_string_2_0= 'IA5String' ) ) )
-            int alt41=3;
+            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2098:1: ( ( ( ( ( ({...}? => ( ({...}? => ( (lv_update_1_0= 'Update' ) ) ) ) ) | ({...}? => ( ({...}? => ( (lv_valueCAP_2_0= 'VALUE' ) ) ) ) ) )* ) ) ) ( ( (lv_ref_3_0= ruleTypeReference ) ) | ( (lv_oi_4_0= 'OBJECT IDENTIFIER' ) ) | ( (lv_string_5_0= 'IA5String' ) ) ) )
+            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2098:2: ( ( ( ( ({...}? => ( ({...}? => ( (lv_update_1_0= 'Update' ) ) ) ) ) | ({...}? => ( ({...}? => ( (lv_valueCAP_2_0= 'VALUE' ) ) ) ) ) )* ) ) ) ( ( (lv_ref_3_0= ruleTypeReference ) ) | ( (lv_oi_4_0= 'OBJECT IDENTIFIER' ) ) | ( (lv_string_5_0= 'IA5String' ) ) )
+            {
+            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2098:2: ( ( ( ( ({...}? => ( ({...}? => ( (lv_update_1_0= 'Update' ) ) ) ) ) | ({...}? => ( ({...}? => ( (lv_valueCAP_2_0= 'VALUE' ) ) ) ) ) )* ) ) )
+            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2100:1: ( ( ( ({...}? => ( ({...}? => ( (lv_update_1_0= 'Update' ) ) ) ) ) | ({...}? => ( ({...}? => ( (lv_valueCAP_2_0= 'VALUE' ) ) ) ) ) )* ) )
+            {
+            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2100:1: ( ( ( ({...}? => ( ({...}? => ( (lv_update_1_0= 'Update' ) ) ) ) ) | ({...}? => ( ({...}? => ( (lv_valueCAP_2_0= 'VALUE' ) ) ) ) ) )* ) )
+            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2101:2: ( ( ({...}? => ( ({...}? => ( (lv_update_1_0= 'Update' ) ) ) ) ) | ({...}? => ( ({...}? => ( (lv_valueCAP_2_0= 'VALUE' ) ) ) ) ) )* )
+            {
+            getUnorderedGroupHelper().enter(grammarAccess.getMacroValueTypeAccess().getUnorderedGroup_0());
+            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2104:2: ( ( ({...}? => ( ({...}? => ( (lv_update_1_0= 'Update' ) ) ) ) ) | ({...}? => ( ({...}? => ( (lv_valueCAP_2_0= 'VALUE' ) ) ) ) ) )* )
+            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2105:3: ( ({...}? => ( ({...}? => ( (lv_update_1_0= 'Update' ) ) ) ) ) | ({...}? => ( ({...}? => ( (lv_valueCAP_2_0= 'VALUE' ) ) ) ) ) )*
+            {
+            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2105:3: ( ({...}? => ( ({...}? => ( (lv_update_1_0= 'Update' ) ) ) ) ) | ({...}? => ( ({...}? => ( (lv_valueCAP_2_0= 'VALUE' ) ) ) ) ) )*
+            loop47:
+            do {
+                int alt47=3;
+                int LA47_0 = input.LA(1);
+
+                if ( LA47_0 ==40 && getUnorderedGroupHelper().canSelect(grammarAccess.getMacroValueTypeAccess().getUnorderedGroup_0(), 0) ) {
+                    alt47=1;
+                }
+                else if ( LA47_0 ==30 && getUnorderedGroupHelper().canSelect(grammarAccess.getMacroValueTypeAccess().getUnorderedGroup_0(), 1) ) {
+                    alt47=2;
+                }
+
+
+                switch (alt47) {
+            	case 1 :
+            	    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2107:4: ({...}? => ( ({...}? => ( (lv_update_1_0= 'Update' ) ) ) ) )
+            	    {
+            	    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2107:4: ({...}? => ( ({...}? => ( (lv_update_1_0= 'Update' ) ) ) ) )
+            	    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2108:5: {...}? => ( ({...}? => ( (lv_update_1_0= 'Update' ) ) ) )
+            	    {
+            	    if ( ! getUnorderedGroupHelper().canSelect(grammarAccess.getMacroValueTypeAccess().getUnorderedGroup_0(), 0) ) {
+            	        if (state.backtracking>0) {state.failed=true; return current;}
+            	        throw new FailedPredicateException(input, "ruleMacroValueType", "getUnorderedGroupHelper().canSelect(grammarAccess.getMacroValueTypeAccess().getUnorderedGroup_0(), 0)");
+            	    }
+            	    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2108:111: ( ({...}? => ( (lv_update_1_0= 'Update' ) ) ) )
+            	    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2109:6: ({...}? => ( (lv_update_1_0= 'Update' ) ) )
+            	    {
+            	    getUnorderedGroupHelper().select(grammarAccess.getMacroValueTypeAccess().getUnorderedGroup_0(), 0);
+            	    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2112:6: ({...}? => ( (lv_update_1_0= 'Update' ) ) )
+            	    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2112:7: {...}? => ( (lv_update_1_0= 'Update' ) )
+            	    {
+            	    if ( !((true)) ) {
+            	        if (state.backtracking>0) {state.failed=true; return current;}
+            	        throw new FailedPredicateException(input, "ruleMacroValueType", "true");
+            	    }
+            	    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2112:16: ( (lv_update_1_0= 'Update' ) )
+            	    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2113:1: (lv_update_1_0= 'Update' )
+            	    {
+            	    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2113:1: (lv_update_1_0= 'Update' )
+            	    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2114:3: lv_update_1_0= 'Update'
+            	    {
+            	    lv_update_1_0=(Token)match(input,40,FOLLOW_40_in_ruleMacroValueType4658); if (state.failed) return current;
+            	    if ( state.backtracking==0 ) {
+
+            	              newLeafNode(lv_update_1_0, grammarAccess.getMacroValueTypeAccess().getUpdateUpdateKeyword_0_0_0());
+            	          
+            	    }
+            	    if ( state.backtracking==0 ) {
+
+            	      	        if (current==null) {
+            	      	            current = createModelElement(grammarAccess.getMacroValueTypeRule());
+            	      	        }
+            	             		setWithLastConsumed(current, "update", true, "Update");
+            	      	    
+            	    }
+
+            	    }
+
+
+            	    }
+
+
+            	    }
+
+            	    getUnorderedGroupHelper().returnFromSelection(grammarAccess.getMacroValueTypeAccess().getUnorderedGroup_0());
+
+            	    }
+
+
+            	    }
+
+
+            	    }
+            	    break;
+            	case 2 :
+            	    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2134:4: ({...}? => ( ({...}? => ( (lv_valueCAP_2_0= 'VALUE' ) ) ) ) )
+            	    {
+            	    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2134:4: ({...}? => ( ({...}? => ( (lv_valueCAP_2_0= 'VALUE' ) ) ) ) )
+            	    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2135:5: {...}? => ( ({...}? => ( (lv_valueCAP_2_0= 'VALUE' ) ) ) )
+            	    {
+            	    if ( ! getUnorderedGroupHelper().canSelect(grammarAccess.getMacroValueTypeAccess().getUnorderedGroup_0(), 1) ) {
+            	        if (state.backtracking>0) {state.failed=true; return current;}
+            	        throw new FailedPredicateException(input, "ruleMacroValueType", "getUnorderedGroupHelper().canSelect(grammarAccess.getMacroValueTypeAccess().getUnorderedGroup_0(), 1)");
+            	    }
+            	    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2135:111: ( ({...}? => ( (lv_valueCAP_2_0= 'VALUE' ) ) ) )
+            	    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2136:6: ({...}? => ( (lv_valueCAP_2_0= 'VALUE' ) ) )
+            	    {
+            	    getUnorderedGroupHelper().select(grammarAccess.getMacroValueTypeAccess().getUnorderedGroup_0(), 1);
+            	    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2139:6: ({...}? => ( (lv_valueCAP_2_0= 'VALUE' ) ) )
+            	    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2139:7: {...}? => ( (lv_valueCAP_2_0= 'VALUE' ) )
+            	    {
+            	    if ( !((true)) ) {
+            	        if (state.backtracking>0) {state.failed=true; return current;}
+            	        throw new FailedPredicateException(input, "ruleMacroValueType", "true");
+            	    }
+            	    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2139:16: ( (lv_valueCAP_2_0= 'VALUE' ) )
+            	    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2140:1: (lv_valueCAP_2_0= 'VALUE' )
+            	    {
+            	    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2140:1: (lv_valueCAP_2_0= 'VALUE' )
+            	    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2141:3: lv_valueCAP_2_0= 'VALUE'
+            	    {
+            	    lv_valueCAP_2_0=(Token)match(input,30,FOLLOW_30_in_ruleMacroValueType4743); if (state.failed) return current;
+            	    if ( state.backtracking==0 ) {
+
+            	              newLeafNode(lv_valueCAP_2_0, grammarAccess.getMacroValueTypeAccess().getValueCAPVALUEKeyword_0_1_0());
+            	          
+            	    }
+            	    if ( state.backtracking==0 ) {
+
+            	      	        if (current==null) {
+            	      	            current = createModelElement(grammarAccess.getMacroValueTypeRule());
+            	      	        }
+            	             		setWithLastConsumed(current, "valueCAP", true, "VALUE");
+            	      	    
+            	    }
+
+            	    }
+
+
+            	    }
+
+
+            	    }
+
+            	    getUnorderedGroupHelper().returnFromSelection(grammarAccess.getMacroValueTypeAccess().getUnorderedGroup_0());
+
+            	    }
+
+
+            	    }
+
+
+            	    }
+            	    break;
+
+            	default :
+            	    break loop47;
+                }
+            } while (true);
+
+
+            }
+
+
+            }
+
+            getUnorderedGroupHelper().leave(grammarAccess.getMacroValueTypeAccess().getUnorderedGroup_0());
+
+            }
+
+            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2168:2: ( ( (lv_ref_3_0= ruleTypeReference ) ) | ( (lv_oi_4_0= 'OBJECT IDENTIFIER' ) ) | ( (lv_string_5_0= 'IA5String' ) ) )
+            int alt48=3;
             switch ( input.LA(1) ) {
             case RULE_MODULE_ID:
             case 31:
+                {
+                alt48=1;
+                }
+                break;
+            case 24:
+                {
+                alt48=2;
+                }
+                break;
             case 41:
                 {
-                alt41=1;
-                }
-                break;
-            case 30:
-                {
-                alt41=2;
-                }
-                break;
-            case 40:
-                {
-                alt41=3;
+                alt48=3;
                 }
                 break;
             default:
                 if (state.backtracking>0) {state.failed=true; return current;}
                 NoViableAltException nvae =
-                    new NoViableAltException("", 41, 0, input);
+                    new NoViableAltException("", 48, 0, input);
 
                 throw nvae;
             }
 
-            switch (alt41) {
+            switch (alt48) {
                 case 1 :
-                    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1889:2: ( (lv_update_0_0= ruleUpdateType ) )
+                    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2168:3: ( (lv_ref_3_0= ruleTypeReference ) )
                     {
-                    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1889:2: ( (lv_update_0_0= ruleUpdateType ) )
-                    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1890:1: (lv_update_0_0= ruleUpdateType )
+                    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2168:3: ( (lv_ref_3_0= ruleTypeReference ) )
+                    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2169:1: (lv_ref_3_0= ruleTypeReference )
                     {
-                    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1890:1: (lv_update_0_0= ruleUpdateType )
-                    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1891:3: lv_update_0_0= ruleUpdateType
+                    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2169:1: (lv_ref_3_0= ruleTypeReference )
+                    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2170:3: lv_ref_3_0= ruleTypeReference
                     {
                     if ( state.backtracking==0 ) {
                        
-                      	        newCompositeNode(grammarAccess.getMacroValueTypeAccess().getUpdateUpdateTypeParserRuleCall_0_0()); 
+                      	        newCompositeNode(grammarAccess.getMacroValueTypeAccess().getRefTypeReferenceParserRuleCall_1_0_0()); 
                       	    
                     }
-                    pushFollow(FOLLOW_ruleUpdateType_in_ruleMacroValueType4145);
-                    lv_update_0_0=ruleUpdateType();
+                    pushFollow(FOLLOW_ruleTypeReference_in_ruleMacroValueType4818);
+                    lv_ref_3_0=ruleTypeReference();
 
                     state._fsp--;
                     if (state.failed) return current;
@@ -5664,9 +6540,9 @@ public class InternalSmiParser extends AbstractInternalAntlrParser {
                       	        }
                              		set(
                              			current, 
-                             			"update",
-                              		lv_update_0_0, 
-                              		"UpdateType");
+                             			"ref",
+                              		lv_ref_3_0, 
+                              		"TypeReference");
                       	        afterParserOrEnumRuleCall();
                       	    
                     }
@@ -5680,35 +6556,26 @@ public class InternalSmiParser extends AbstractInternalAntlrParser {
                     }
                     break;
                 case 2 :
-                    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1908:6: ( (lv_literal_1_0= ruleValueCapType ) )
+                    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2187:6: ( (lv_oi_4_0= 'OBJECT IDENTIFIER' ) )
                     {
-                    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1908:6: ( (lv_literal_1_0= ruleValueCapType ) )
-                    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1909:1: (lv_literal_1_0= ruleValueCapType )
+                    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2187:6: ( (lv_oi_4_0= 'OBJECT IDENTIFIER' ) )
+                    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2188:1: (lv_oi_4_0= 'OBJECT IDENTIFIER' )
                     {
-                    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1909:1: (lv_literal_1_0= ruleValueCapType )
-                    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1910:3: lv_literal_1_0= ruleValueCapType
+                    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2188:1: (lv_oi_4_0= 'OBJECT IDENTIFIER' )
+                    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2189:3: lv_oi_4_0= 'OBJECT IDENTIFIER'
                     {
+                    lv_oi_4_0=(Token)match(input,24,FOLLOW_24_in_ruleMacroValueType4842); if (state.failed) return current;
                     if ( state.backtracking==0 ) {
-                       
-                      	        newCompositeNode(grammarAccess.getMacroValueTypeAccess().getLiteralValueCapTypeParserRuleCall_1_0()); 
-                      	    
-                    }
-                    pushFollow(FOLLOW_ruleValueCapType_in_ruleMacroValueType4172);
-                    lv_literal_1_0=ruleValueCapType();
 
-                    state._fsp--;
-                    if (state.failed) return current;
+                              newLeafNode(lv_oi_4_0, grammarAccess.getMacroValueTypeAccess().getOiOBJECTIDENTIFIERKeyword_1_1_0());
+                          
+                    }
                     if ( state.backtracking==0 ) {
 
                       	        if (current==null) {
-                      	            current = createModelElementForParent(grammarAccess.getMacroValueTypeRule());
+                      	            current = createModelElement(grammarAccess.getMacroValueTypeRule());
                       	        }
-                             		set(
-                             			current, 
-                             			"literal",
-                              		lv_literal_1_0, 
-                              		"ValueCapType");
-                      	        afterParserOrEnumRuleCall();
+                             		setWithLastConsumed(current, "oi", lv_oi_4_0, "OBJECT IDENTIFIER");
                       	    
                     }
 
@@ -5721,18 +6588,18 @@ public class InternalSmiParser extends AbstractInternalAntlrParser {
                     }
                     break;
                 case 3 :
-                    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1927:6: ( (lv_string_2_0= 'IA5String' ) )
+                    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2203:6: ( (lv_string_5_0= 'IA5String' ) )
                     {
-                    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1927:6: ( (lv_string_2_0= 'IA5String' ) )
-                    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1928:1: (lv_string_2_0= 'IA5String' )
+                    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2203:6: ( (lv_string_5_0= 'IA5String' ) )
+                    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2204:1: (lv_string_5_0= 'IA5String' )
                     {
-                    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1928:1: (lv_string_2_0= 'IA5String' )
-                    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1929:3: lv_string_2_0= 'IA5String'
+                    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2204:1: (lv_string_5_0= 'IA5String' )
+                    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2205:3: lv_string_5_0= 'IA5String'
                     {
-                    lv_string_2_0=(Token)match(input,40,FOLLOW_40_in_ruleMacroValueType4196); if (state.failed) return current;
+                    lv_string_5_0=(Token)match(input,41,FOLLOW_41_in_ruleMacroValueType4879); if (state.failed) return current;
                     if ( state.backtracking==0 ) {
 
-                              newLeafNode(lv_string_2_0, grammarAccess.getMacroValueTypeAccess().getStringIA5StringKeyword_2_0());
+                              newLeafNode(lv_string_5_0, grammarAccess.getMacroValueTypeAccess().getStringIA5StringKeyword_1_2_0());
                           
                     }
                     if ( state.backtracking==0 ) {
@@ -5740,7 +6607,7 @@ public class InternalSmiParser extends AbstractInternalAntlrParser {
                       	        if (current==null) {
                       	            current = createModelElement(grammarAccess.getMacroValueTypeRule());
                       	        }
-                             		setWithLastConsumed(current, "string", lv_string_2_0, "IA5String");
+                             		setWithLastConsumed(current, "string", lv_string_5_0, "IA5String");
                       	    
                     }
 
@@ -5752,6 +6619,9 @@ public class InternalSmiParser extends AbstractInternalAntlrParser {
 
                     }
                     break;
+
+            }
+
 
             }
 
@@ -5774,334 +6644,8 @@ public class InternalSmiParser extends AbstractInternalAntlrParser {
     // $ANTLR end "ruleMacroValueType"
 
 
-    // $ANTLR start "entryRuleUpdateType"
-    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1950:1: entryRuleUpdateType returns [EObject current=null] : iv_ruleUpdateType= ruleUpdateType EOF ;
-    public final EObject entryRuleUpdateType() throws RecognitionException {
-        EObject current = null;
-
-        EObject iv_ruleUpdateType = null;
-
-
-        try {
-            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1951:2: (iv_ruleUpdateType= ruleUpdateType EOF )
-            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1952:2: iv_ruleUpdateType= ruleUpdateType EOF
-            {
-            if ( state.backtracking==0 ) {
-               newCompositeNode(grammarAccess.getUpdateTypeRule()); 
-            }
-            pushFollow(FOLLOW_ruleUpdateType_in_entryRuleUpdateType4245);
-            iv_ruleUpdateType=ruleUpdateType();
-
-            state._fsp--;
-            if (state.failed) return current;
-            if ( state.backtracking==0 ) {
-               current =iv_ruleUpdateType; 
-            }
-            match(input,EOF,FOLLOW_EOF_in_entryRuleUpdateType4255); if (state.failed) return current;
-
-            }
-
-        }
-         
-            catch (RecognitionException re) { 
-                recover(input,re); 
-                appendSkippedTokens();
-            } 
-        finally {
-        }
-        return current;
-    }
-    // $ANTLR end "entryRuleUpdateType"
-
-
-    // $ANTLR start "ruleUpdateType"
-    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1959:1: ruleUpdateType returns [EObject current=null] : ( ( (lv_update_0_0= 'Update' ) )? ( (lv_ref_1_0= ruleTypeReference ) ) ) ;
-    public final EObject ruleUpdateType() throws RecognitionException {
-        EObject current = null;
-
-        Token lv_update_0_0=null;
-        EObject lv_ref_1_0 = null;
-
-
-         enterRule(); 
-            
-        try {
-            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1962:28: ( ( ( (lv_update_0_0= 'Update' ) )? ( (lv_ref_1_0= ruleTypeReference ) ) ) )
-            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1963:1: ( ( (lv_update_0_0= 'Update' ) )? ( (lv_ref_1_0= ruleTypeReference ) ) )
-            {
-            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1963:1: ( ( (lv_update_0_0= 'Update' ) )? ( (lv_ref_1_0= ruleTypeReference ) ) )
-            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1963:2: ( (lv_update_0_0= 'Update' ) )? ( (lv_ref_1_0= ruleTypeReference ) )
-            {
-            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1963:2: ( (lv_update_0_0= 'Update' ) )?
-            int alt42=2;
-            int LA42_0 = input.LA(1);
-
-            if ( (LA42_0==41) ) {
-                alt42=1;
-            }
-            switch (alt42) {
-                case 1 :
-                    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1964:1: (lv_update_0_0= 'Update' )
-                    {
-                    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1964:1: (lv_update_0_0= 'Update' )
-                    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1965:3: lv_update_0_0= 'Update'
-                    {
-                    lv_update_0_0=(Token)match(input,41,FOLLOW_41_in_ruleUpdateType4298); if (state.failed) return current;
-                    if ( state.backtracking==0 ) {
-
-                              newLeafNode(lv_update_0_0, grammarAccess.getUpdateTypeAccess().getUpdateUpdateKeyword_0_0());
-                          
-                    }
-                    if ( state.backtracking==0 ) {
-
-                      	        if (current==null) {
-                      	            current = createModelElement(grammarAccess.getUpdateTypeRule());
-                      	        }
-                             		setWithLastConsumed(current, "update", true, "Update");
-                      	    
-                    }
-
-                    }
-
-
-                    }
-                    break;
-
-            }
-
-            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1978:3: ( (lv_ref_1_0= ruleTypeReference ) )
-            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1979:1: (lv_ref_1_0= ruleTypeReference )
-            {
-            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1979:1: (lv_ref_1_0= ruleTypeReference )
-            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1980:3: lv_ref_1_0= ruleTypeReference
-            {
-            if ( state.backtracking==0 ) {
-               
-              	        newCompositeNode(grammarAccess.getUpdateTypeAccess().getRefTypeReferenceParserRuleCall_1_0()); 
-              	    
-            }
-            pushFollow(FOLLOW_ruleTypeReference_in_ruleUpdateType4333);
-            lv_ref_1_0=ruleTypeReference();
-
-            state._fsp--;
-            if (state.failed) return current;
-            if ( state.backtracking==0 ) {
-
-              	        if (current==null) {
-              	            current = createModelElementForParent(grammarAccess.getUpdateTypeRule());
-              	        }
-                     		set(
-                     			current, 
-                     			"ref",
-                      		lv_ref_1_0, 
-                      		"TypeReference");
-              	        afterParserOrEnumRuleCall();
-              	    
-            }
-
-            }
-
-
-            }
-
-
-            }
-
-
-            }
-
-            if ( state.backtracking==0 ) {
-               leaveRule(); 
-            }
-        }
-         
-            catch (RecognitionException re) { 
-                recover(input,re); 
-                appendSkippedTokens();
-            } 
-        finally {
-        }
-        return current;
-    }
-    // $ANTLR end "ruleUpdateType"
-
-
-    // $ANTLR start "entryRuleValueCapType"
-    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2004:1: entryRuleValueCapType returns [EObject current=null] : iv_ruleValueCapType= ruleValueCapType EOF ;
-    public final EObject entryRuleValueCapType() throws RecognitionException {
-        EObject current = null;
-
-        EObject iv_ruleValueCapType = null;
-
-
-        try {
-            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2005:2: (iv_ruleValueCapType= ruleValueCapType EOF )
-            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2006:2: iv_ruleValueCapType= ruleValueCapType EOF
-            {
-            if ( state.backtracking==0 ) {
-               newCompositeNode(grammarAccess.getValueCapTypeRule()); 
-            }
-            pushFollow(FOLLOW_ruleValueCapType_in_entryRuleValueCapType4369);
-            iv_ruleValueCapType=ruleValueCapType();
-
-            state._fsp--;
-            if (state.failed) return current;
-            if ( state.backtracking==0 ) {
-               current =iv_ruleValueCapType; 
-            }
-            match(input,EOF,FOLLOW_EOF_in_entryRuleValueCapType4379); if (state.failed) return current;
-
-            }
-
-        }
-         
-            catch (RecognitionException re) { 
-                recover(input,re); 
-                appendSkippedTokens();
-            } 
-        finally {
-        }
-        return current;
-    }
-    // $ANTLR end "entryRuleValueCapType"
-
-
-    // $ANTLR start "ruleValueCapType"
-    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2013:1: ruleValueCapType returns [EObject current=null] : ( () otherlv_1= 'VALUE' (otherlv_2= 'OBJECT IDENTIFIER' | ( (lv_ref_3_0= ruleTypeReference ) ) ) ) ;
-    public final EObject ruleValueCapType() throws RecognitionException {
-        EObject current = null;
-
-        Token otherlv_1=null;
-        Token otherlv_2=null;
-        EObject lv_ref_3_0 = null;
-
-
-         enterRule(); 
-            
-        try {
-            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2016:28: ( ( () otherlv_1= 'VALUE' (otherlv_2= 'OBJECT IDENTIFIER' | ( (lv_ref_3_0= ruleTypeReference ) ) ) ) )
-            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2017:1: ( () otherlv_1= 'VALUE' (otherlv_2= 'OBJECT IDENTIFIER' | ( (lv_ref_3_0= ruleTypeReference ) ) ) )
-            {
-            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2017:1: ( () otherlv_1= 'VALUE' (otherlv_2= 'OBJECT IDENTIFIER' | ( (lv_ref_3_0= ruleTypeReference ) ) ) )
-            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2017:2: () otherlv_1= 'VALUE' (otherlv_2= 'OBJECT IDENTIFIER' | ( (lv_ref_3_0= ruleTypeReference ) ) )
-            {
-            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2017:2: ()
-            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2018:5: 
-            {
-            if ( state.backtracking==0 ) {
-
-                      current = forceCreateModelElement(
-                          grammarAccess.getValueCapTypeAccess().getMACRO_VALUE_CAPAction_0(),
-                          current);
-                  
-            }
-
-            }
-
-            otherlv_1=(Token)match(input,30,FOLLOW_30_in_ruleValueCapType4425); if (state.failed) return current;
-            if ( state.backtracking==0 ) {
-
-                  	newLeafNode(otherlv_1, grammarAccess.getValueCapTypeAccess().getVALUEKeyword_1());
-                  
-            }
-            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2027:1: (otherlv_2= 'OBJECT IDENTIFIER' | ( (lv_ref_3_0= ruleTypeReference ) ) )
-            int alt43=2;
-            int LA43_0 = input.LA(1);
-
-            if ( (LA43_0==24) ) {
-                alt43=1;
-            }
-            else if ( (LA43_0==RULE_MODULE_ID||LA43_0==31) ) {
-                alt43=2;
-            }
-            else {
-                if (state.backtracking>0) {state.failed=true; return current;}
-                NoViableAltException nvae =
-                    new NoViableAltException("", 43, 0, input);
-
-                throw nvae;
-            }
-            switch (alt43) {
-                case 1 :
-                    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2027:3: otherlv_2= 'OBJECT IDENTIFIER'
-                    {
-                    otherlv_2=(Token)match(input,24,FOLLOW_24_in_ruleValueCapType4438); if (state.failed) return current;
-                    if ( state.backtracking==0 ) {
-
-                          	newLeafNode(otherlv_2, grammarAccess.getValueCapTypeAccess().getOBJECTIDENTIFIERKeyword_2_0());
-                          
-                    }
-
-                    }
-                    break;
-                case 2 :
-                    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2032:6: ( (lv_ref_3_0= ruleTypeReference ) )
-                    {
-                    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2032:6: ( (lv_ref_3_0= ruleTypeReference ) )
-                    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2033:1: (lv_ref_3_0= ruleTypeReference )
-                    {
-                    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2033:1: (lv_ref_3_0= ruleTypeReference )
-                    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2034:3: lv_ref_3_0= ruleTypeReference
-                    {
-                    if ( state.backtracking==0 ) {
-                       
-                      	        newCompositeNode(grammarAccess.getValueCapTypeAccess().getRefTypeReferenceParserRuleCall_2_1_0()); 
-                      	    
-                    }
-                    pushFollow(FOLLOW_ruleTypeReference_in_ruleValueCapType4465);
-                    lv_ref_3_0=ruleTypeReference();
-
-                    state._fsp--;
-                    if (state.failed) return current;
-                    if ( state.backtracking==0 ) {
-
-                      	        if (current==null) {
-                      	            current = createModelElementForParent(grammarAccess.getValueCapTypeRule());
-                      	        }
-                             		set(
-                             			current, 
-                             			"ref",
-                              		lv_ref_3_0, 
-                              		"TypeReference");
-                      	        afterParserOrEnumRuleCall();
-                      	    
-                    }
-
-                    }
-
-
-                    }
-
-
-                    }
-                    break;
-
-            }
-
-
-            }
-
-
-            }
-
-            if ( state.backtracking==0 ) {
-               leaveRule(); 
-            }
-        }
-         
-            catch (RecognitionException re) { 
-                recover(input,re); 
-                appendSkippedTokens();
-            } 
-        finally {
-        }
-        return current;
-    }
-    // $ANTLR end "ruleValueCapType"
-
-
     // $ANTLR start "entryRuleASN1_TYPE"
-    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2058:1: entryRuleASN1_TYPE returns [EObject current=null] : iv_ruleASN1_TYPE= ruleASN1_TYPE EOF ;
+    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2226:1: entryRuleASN1_TYPE returns [EObject current=null] : iv_ruleASN1_TYPE= ruleASN1_TYPE EOF ;
     public final EObject entryRuleASN1_TYPE() throws RecognitionException {
         EObject current = null;
 
@@ -6109,13 +6653,13 @@ public class InternalSmiParser extends AbstractInternalAntlrParser {
 
 
         try {
-            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2059:2: (iv_ruleASN1_TYPE= ruleASN1_TYPE EOF )
-            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2060:2: iv_ruleASN1_TYPE= ruleASN1_TYPE EOF
+            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2227:2: (iv_ruleASN1_TYPE= ruleASN1_TYPE EOF )
+            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2228:2: iv_ruleASN1_TYPE= ruleASN1_TYPE EOF
             {
             if ( state.backtracking==0 ) {
                newCompositeNode(grammarAccess.getASN1_TYPERule()); 
             }
-            pushFollow(FOLLOW_ruleASN1_TYPE_in_entryRuleASN1_TYPE4502);
+            pushFollow(FOLLOW_ruleASN1_TYPE_in_entryRuleASN1_TYPE4929);
             iv_ruleASN1_TYPE=ruleASN1_TYPE();
 
             state._fsp--;
@@ -6123,7 +6667,7 @@ public class InternalSmiParser extends AbstractInternalAntlrParser {
             if ( state.backtracking==0 ) {
                current =iv_ruleASN1_TYPE; 
             }
-            match(input,EOF,FOLLOW_EOF_in_entryRuleASN1_TYPE4512); if (state.failed) return current;
+            match(input,EOF,FOLLOW_EOF_in_entryRuleASN1_TYPE4939); if (state.failed) return current;
 
             }
 
@@ -6141,7 +6685,7 @@ public class InternalSmiParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "ruleASN1_TYPE"
-    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2067:1: ruleASN1_TYPE returns [EObject current=null] : (this_ASN1_SIMPLE_0= ruleASN1_SIMPLE | this_ASN1_CHOICE_1= ruleASN1_CHOICE ) ;
+    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2235:1: ruleASN1_TYPE returns [EObject current=null] : (this_ASN1_SIMPLE_0= ruleASN1_SIMPLE | this_ASN1_CHOICE_1= ruleASN1_CHOICE | this_ASN1_SEQUENCE_2= ruleASN1_SEQUENCE ) ;
     public final EObject ruleASN1_TYPE() throws RecognitionException {
         EObject current = null;
 
@@ -6149,40 +6693,54 @@ public class InternalSmiParser extends AbstractInternalAntlrParser {
 
         EObject this_ASN1_CHOICE_1 = null;
 
+        EObject this_ASN1_SEQUENCE_2 = null;
+
 
          enterRule(); 
             
         try {
-            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2070:28: ( (this_ASN1_SIMPLE_0= ruleASN1_SIMPLE | this_ASN1_CHOICE_1= ruleASN1_CHOICE ) )
-            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2071:1: (this_ASN1_SIMPLE_0= ruleASN1_SIMPLE | this_ASN1_CHOICE_1= ruleASN1_CHOICE )
+            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2238:28: ( (this_ASN1_SIMPLE_0= ruleASN1_SIMPLE | this_ASN1_CHOICE_1= ruleASN1_CHOICE | this_ASN1_SEQUENCE_2= ruleASN1_SEQUENCE ) )
+            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2239:1: (this_ASN1_SIMPLE_0= ruleASN1_SIMPLE | this_ASN1_CHOICE_1= ruleASN1_CHOICE | this_ASN1_SEQUENCE_2= ruleASN1_SEQUENCE )
             {
-            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2071:1: (this_ASN1_SIMPLE_0= ruleASN1_SIMPLE | this_ASN1_CHOICE_1= ruleASN1_CHOICE )
-            int alt44=2;
-            int LA44_0 = input.LA(1);
-
-            if ( (LA44_0==RULE_IA5STRING||(LA44_0>=42 && LA44_0<=43)||LA44_0==45) ) {
-                alt44=1;
-            }
-            else if ( (LA44_0==48) ) {
-                alt44=2;
-            }
-            else {
+            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2239:1: (this_ASN1_SIMPLE_0= ruleASN1_SIMPLE | this_ASN1_CHOICE_1= ruleASN1_CHOICE | this_ASN1_SEQUENCE_2= ruleASN1_SEQUENCE )
+            int alt49=3;
+            switch ( input.LA(1) ) {
+            case RULE_IA5STRING:
+            case 42:
+            case 43:
+            case 45:
+                {
+                alt49=1;
+                }
+                break;
+            case 48:
+                {
+                alt49=2;
+                }
+                break;
+            case 49:
+                {
+                alt49=3;
+                }
+                break;
+            default:
                 if (state.backtracking>0) {state.failed=true; return current;}
                 NoViableAltException nvae =
-                    new NoViableAltException("", 44, 0, input);
+                    new NoViableAltException("", 49, 0, input);
 
                 throw nvae;
             }
-            switch (alt44) {
+
+            switch (alt49) {
                 case 1 :
-                    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2072:5: this_ASN1_SIMPLE_0= ruleASN1_SIMPLE
+                    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2240:5: this_ASN1_SIMPLE_0= ruleASN1_SIMPLE
                     {
                     if ( state.backtracking==0 ) {
                        
                               newCompositeNode(grammarAccess.getASN1_TYPEAccess().getASN1_SIMPLEParserRuleCall_0()); 
                           
                     }
-                    pushFollow(FOLLOW_ruleASN1_SIMPLE_in_ruleASN1_TYPE4559);
+                    pushFollow(FOLLOW_ruleASN1_SIMPLE_in_ruleASN1_TYPE4986);
                     this_ASN1_SIMPLE_0=ruleASN1_SIMPLE();
 
                     state._fsp--;
@@ -6197,14 +6755,14 @@ public class InternalSmiParser extends AbstractInternalAntlrParser {
                     }
                     break;
                 case 2 :
-                    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2082:5: this_ASN1_CHOICE_1= ruleASN1_CHOICE
+                    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2250:5: this_ASN1_CHOICE_1= ruleASN1_CHOICE
                     {
                     if ( state.backtracking==0 ) {
                        
                               newCompositeNode(grammarAccess.getASN1_TYPEAccess().getASN1_CHOICEParserRuleCall_1()); 
                           
                     }
-                    pushFollow(FOLLOW_ruleASN1_CHOICE_in_ruleASN1_TYPE4586);
+                    pushFollow(FOLLOW_ruleASN1_CHOICE_in_ruleASN1_TYPE5013);
                     this_ASN1_CHOICE_1=ruleASN1_CHOICE();
 
                     state._fsp--;
@@ -6212,6 +6770,28 @@ public class InternalSmiParser extends AbstractInternalAntlrParser {
                     if ( state.backtracking==0 ) {
                        
                               current = this_ASN1_CHOICE_1; 
+                              afterParserOrEnumRuleCall();
+                          
+                    }
+
+                    }
+                    break;
+                case 3 :
+                    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2260:5: this_ASN1_SEQUENCE_2= ruleASN1_SEQUENCE
+                    {
+                    if ( state.backtracking==0 ) {
+                       
+                              newCompositeNode(grammarAccess.getASN1_TYPEAccess().getASN1_SEQUENCEParserRuleCall_2()); 
+                          
+                    }
+                    pushFollow(FOLLOW_ruleASN1_SEQUENCE_in_ruleASN1_TYPE5040);
+                    this_ASN1_SEQUENCE_2=ruleASN1_SEQUENCE();
+
+                    state._fsp--;
+                    if (state.failed) return current;
+                    if ( state.backtracking==0 ) {
+                       
+                              current = this_ASN1_SEQUENCE_2; 
                               afterParserOrEnumRuleCall();
                           
                     }
@@ -6241,7 +6821,7 @@ public class InternalSmiParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "entryRuleASN1_SIMPLE"
-    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2098:1: entryRuleASN1_SIMPLE returns [EObject current=null] : iv_ruleASN1_SIMPLE= ruleASN1_SIMPLE EOF ;
+    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2276:1: entryRuleASN1_SIMPLE returns [EObject current=null] : iv_ruleASN1_SIMPLE= ruleASN1_SIMPLE EOF ;
     public final EObject entryRuleASN1_SIMPLE() throws RecognitionException {
         EObject current = null;
 
@@ -6249,13 +6829,13 @@ public class InternalSmiParser extends AbstractInternalAntlrParser {
 
 
         try {
-            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2099:2: (iv_ruleASN1_SIMPLE= ruleASN1_SIMPLE EOF )
-            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2100:2: iv_ruleASN1_SIMPLE= ruleASN1_SIMPLE EOF
+            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2277:2: (iv_ruleASN1_SIMPLE= ruleASN1_SIMPLE EOF )
+            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2278:2: iv_ruleASN1_SIMPLE= ruleASN1_SIMPLE EOF
             {
             if ( state.backtracking==0 ) {
                newCompositeNode(grammarAccess.getASN1_SIMPLERule()); 
             }
-            pushFollow(FOLLOW_ruleASN1_SIMPLE_in_entryRuleASN1_SIMPLE4621);
+            pushFollow(FOLLOW_ruleASN1_SIMPLE_in_entryRuleASN1_SIMPLE5075);
             iv_ruleASN1_SIMPLE=ruleASN1_SIMPLE();
 
             state._fsp--;
@@ -6263,7 +6843,7 @@ public class InternalSmiParser extends AbstractInternalAntlrParser {
             if ( state.backtracking==0 ) {
                current =iv_ruleASN1_SIMPLE; 
             }
-            match(input,EOF,FOLLOW_EOF_in_entryRuleASN1_SIMPLE4631); if (state.failed) return current;
+            match(input,EOF,FOLLOW_EOF_in_entryRuleASN1_SIMPLE5085); if (state.failed) return current;
 
             }
 
@@ -6281,7 +6861,7 @@ public class InternalSmiParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "ruleASN1_SIMPLE"
-    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2107:1: ruleASN1_SIMPLE returns [EObject current=null] : ( ( () otherlv_1= 'empty' ) | ( () this_IA5STRING_3= RULE_IA5STRING ) | (this_ASN1_OCTET_STRING_4= ruleASN1_OCTET_STRING ( (lv_constraint_5_0= ruleASN1_SUBTYPE ) )? ) | this_ASN1_INTEGER_6= ruleASN1_INTEGER ) ;
+    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2285:1: ruleASN1_SIMPLE returns [EObject current=null] : ( ( () otherlv_1= 'empty' ) | ( () this_IA5STRING_3= RULE_IA5STRING ) | (this_ASN1_OCTET_STRING_4= ruleASN1_OCTET_STRING ( (lv_constraint_5_0= ruleASN1_SUBTYPE ) )? ) | this_ASN1_INTEGER_6= ruleASN1_INTEGER ) ;
     public final EObject ruleASN1_SIMPLE() throws RecognitionException {
         EObject current = null;
 
@@ -6297,49 +6877,49 @@ public class InternalSmiParser extends AbstractInternalAntlrParser {
          enterRule(); 
             
         try {
-            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2110:28: ( ( ( () otherlv_1= 'empty' ) | ( () this_IA5STRING_3= RULE_IA5STRING ) | (this_ASN1_OCTET_STRING_4= ruleASN1_OCTET_STRING ( (lv_constraint_5_0= ruleASN1_SUBTYPE ) )? ) | this_ASN1_INTEGER_6= ruleASN1_INTEGER ) )
-            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2111:1: ( ( () otherlv_1= 'empty' ) | ( () this_IA5STRING_3= RULE_IA5STRING ) | (this_ASN1_OCTET_STRING_4= ruleASN1_OCTET_STRING ( (lv_constraint_5_0= ruleASN1_SUBTYPE ) )? ) | this_ASN1_INTEGER_6= ruleASN1_INTEGER )
+            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2288:28: ( ( ( () otherlv_1= 'empty' ) | ( () this_IA5STRING_3= RULE_IA5STRING ) | (this_ASN1_OCTET_STRING_4= ruleASN1_OCTET_STRING ( (lv_constraint_5_0= ruleASN1_SUBTYPE ) )? ) | this_ASN1_INTEGER_6= ruleASN1_INTEGER ) )
+            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2289:1: ( ( () otherlv_1= 'empty' ) | ( () this_IA5STRING_3= RULE_IA5STRING ) | (this_ASN1_OCTET_STRING_4= ruleASN1_OCTET_STRING ( (lv_constraint_5_0= ruleASN1_SUBTYPE ) )? ) | this_ASN1_INTEGER_6= ruleASN1_INTEGER )
             {
-            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2111:1: ( ( () otherlv_1= 'empty' ) | ( () this_IA5STRING_3= RULE_IA5STRING ) | (this_ASN1_OCTET_STRING_4= ruleASN1_OCTET_STRING ( (lv_constraint_5_0= ruleASN1_SUBTYPE ) )? ) | this_ASN1_INTEGER_6= ruleASN1_INTEGER )
-            int alt46=4;
+            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2289:1: ( ( () otherlv_1= 'empty' ) | ( () this_IA5STRING_3= RULE_IA5STRING ) | (this_ASN1_OCTET_STRING_4= ruleASN1_OCTET_STRING ( (lv_constraint_5_0= ruleASN1_SUBTYPE ) )? ) | this_ASN1_INTEGER_6= ruleASN1_INTEGER )
+            int alt51=4;
             switch ( input.LA(1) ) {
             case 42:
                 {
-                alt46=1;
+                alt51=1;
                 }
                 break;
             case RULE_IA5STRING:
                 {
-                alt46=2;
+                alt51=2;
                 }
                 break;
             case 43:
                 {
-                alt46=3;
+                alt51=3;
                 }
                 break;
             case 45:
                 {
-                alt46=4;
+                alt51=4;
                 }
                 break;
             default:
                 if (state.backtracking>0) {state.failed=true; return current;}
                 NoViableAltException nvae =
-                    new NoViableAltException("", 46, 0, input);
+                    new NoViableAltException("", 51, 0, input);
 
                 throw nvae;
             }
 
-            switch (alt46) {
+            switch (alt51) {
                 case 1 :
-                    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2111:2: ( () otherlv_1= 'empty' )
+                    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2289:2: ( () otherlv_1= 'empty' )
                     {
-                    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2111:2: ( () otherlv_1= 'empty' )
-                    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2111:3: () otherlv_1= 'empty'
+                    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2289:2: ( () otherlv_1= 'empty' )
+                    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2289:3: () otherlv_1= 'empty'
                     {
-                    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2111:3: ()
-                    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2112:5: 
+                    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2289:3: ()
+                    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2290:5: 
                     {
                     if ( state.backtracking==0 ) {
 
@@ -6351,7 +6931,7 @@ public class InternalSmiParser extends AbstractInternalAntlrParser {
 
                     }
 
-                    otherlv_1=(Token)match(input,42,FOLLOW_42_in_ruleASN1_SIMPLE4678); if (state.failed) return current;
+                    otherlv_1=(Token)match(input,42,FOLLOW_42_in_ruleASN1_SIMPLE5132); if (state.failed) return current;
                     if ( state.backtracking==0 ) {
 
                           	newLeafNode(otherlv_1, grammarAccess.getASN1_SIMPLEAccess().getEmptyKeyword_0_1());
@@ -6364,13 +6944,13 @@ public class InternalSmiParser extends AbstractInternalAntlrParser {
                     }
                     break;
                 case 2 :
-                    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2122:6: ( () this_IA5STRING_3= RULE_IA5STRING )
+                    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2300:6: ( () this_IA5STRING_3= RULE_IA5STRING )
                     {
-                    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2122:6: ( () this_IA5STRING_3= RULE_IA5STRING )
-                    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2122:7: () this_IA5STRING_3= RULE_IA5STRING
+                    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2300:6: ( () this_IA5STRING_3= RULE_IA5STRING )
+                    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2300:7: () this_IA5STRING_3= RULE_IA5STRING
                     {
-                    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2122:7: ()
-                    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2123:5: 
+                    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2300:7: ()
+                    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2301:5: 
                     {
                     if ( state.backtracking==0 ) {
 
@@ -6382,7 +6962,7 @@ public class InternalSmiParser extends AbstractInternalAntlrParser {
 
                     }
 
-                    this_IA5STRING_3=(Token)match(input,RULE_IA5STRING,FOLLOW_RULE_IA5STRING_in_ruleASN1_SIMPLE4706); if (state.failed) return current;
+                    this_IA5STRING_3=(Token)match(input,RULE_IA5STRING,FOLLOW_RULE_IA5STRING_in_ruleASN1_SIMPLE5160); if (state.failed) return current;
                     if ( state.backtracking==0 ) {
                        
                           newLeafNode(this_IA5STRING_3, grammarAccess.getASN1_SIMPLEAccess().getIA5STRINGTerminalRuleCall_1_1()); 
@@ -6395,17 +6975,17 @@ public class InternalSmiParser extends AbstractInternalAntlrParser {
                     }
                     break;
                 case 3 :
-                    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2133:6: (this_ASN1_OCTET_STRING_4= ruleASN1_OCTET_STRING ( (lv_constraint_5_0= ruleASN1_SUBTYPE ) )? )
+                    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2311:6: (this_ASN1_OCTET_STRING_4= ruleASN1_OCTET_STRING ( (lv_constraint_5_0= ruleASN1_SUBTYPE ) )? )
                     {
-                    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2133:6: (this_ASN1_OCTET_STRING_4= ruleASN1_OCTET_STRING ( (lv_constraint_5_0= ruleASN1_SUBTYPE ) )? )
-                    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2134:5: this_ASN1_OCTET_STRING_4= ruleASN1_OCTET_STRING ( (lv_constraint_5_0= ruleASN1_SUBTYPE ) )?
+                    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2311:6: (this_ASN1_OCTET_STRING_4= ruleASN1_OCTET_STRING ( (lv_constraint_5_0= ruleASN1_SUBTYPE ) )? )
+                    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2312:5: this_ASN1_OCTET_STRING_4= ruleASN1_OCTET_STRING ( (lv_constraint_5_0= ruleASN1_SUBTYPE ) )?
                     {
                     if ( state.backtracking==0 ) {
                        
                               newCompositeNode(grammarAccess.getASN1_SIMPLEAccess().getASN1_OCTET_STRINGParserRuleCall_2_0()); 
                           
                     }
-                    pushFollow(FOLLOW_ruleASN1_OCTET_STRING_in_ruleASN1_SIMPLE4735);
+                    pushFollow(FOLLOW_ruleASN1_OCTET_STRING_in_ruleASN1_SIMPLE5189);
                     this_ASN1_OCTET_STRING_4=ruleASN1_OCTET_STRING();
 
                     state._fsp--;
@@ -6416,26 +6996,26 @@ public class InternalSmiParser extends AbstractInternalAntlrParser {
                               afterParserOrEnumRuleCall();
                           
                     }
-                    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2142:1: ( (lv_constraint_5_0= ruleASN1_SUBTYPE ) )?
-                    int alt45=2;
-                    int LA45_0 = input.LA(1);
+                    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2320:1: ( (lv_constraint_5_0= ruleASN1_SUBTYPE ) )?
+                    int alt50=2;
+                    int LA50_0 = input.LA(1);
 
-                    if ( (LA45_0==38) ) {
-                        alt45=1;
+                    if ( (LA50_0==38) ) {
+                        alt50=1;
                     }
-                    switch (alt45) {
+                    switch (alt50) {
                         case 1 :
-                            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2143:1: (lv_constraint_5_0= ruleASN1_SUBTYPE )
+                            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2321:1: (lv_constraint_5_0= ruleASN1_SUBTYPE )
                             {
-                            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2143:1: (lv_constraint_5_0= ruleASN1_SUBTYPE )
-                            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2144:3: lv_constraint_5_0= ruleASN1_SUBTYPE
+                            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2321:1: (lv_constraint_5_0= ruleASN1_SUBTYPE )
+                            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2322:3: lv_constraint_5_0= ruleASN1_SUBTYPE
                             {
                             if ( state.backtracking==0 ) {
                                
                               	        newCompositeNode(grammarAccess.getASN1_SIMPLEAccess().getConstraintASN1_SUBTYPEParserRuleCall_2_1_0()); 
                               	    
                             }
-                            pushFollow(FOLLOW_ruleASN1_SUBTYPE_in_ruleASN1_SIMPLE4755);
+                            pushFollow(FOLLOW_ruleASN1_SUBTYPE_in_ruleASN1_SIMPLE5209);
                             lv_constraint_5_0=ruleASN1_SUBTYPE();
 
                             state._fsp--;
@@ -6469,14 +7049,14 @@ public class InternalSmiParser extends AbstractInternalAntlrParser {
                     }
                     break;
                 case 4 :
-                    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2162:5: this_ASN1_INTEGER_6= ruleASN1_INTEGER
+                    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2340:5: this_ASN1_INTEGER_6= ruleASN1_INTEGER
                     {
                     if ( state.backtracking==0 ) {
                        
                               newCompositeNode(grammarAccess.getASN1_SIMPLEAccess().getASN1_INTEGERParserRuleCall_3()); 
                           
                     }
-                    pushFollow(FOLLOW_ruleASN1_INTEGER_in_ruleASN1_SIMPLE4785);
+                    pushFollow(FOLLOW_ruleASN1_INTEGER_in_ruleASN1_SIMPLE5239);
                     this_ASN1_INTEGER_6=ruleASN1_INTEGER();
 
                     state._fsp--;
@@ -6513,7 +7093,7 @@ public class InternalSmiParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "entryRuleASN1_OCTET_STRING"
-    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2178:1: entryRuleASN1_OCTET_STRING returns [EObject current=null] : iv_ruleASN1_OCTET_STRING= ruleASN1_OCTET_STRING EOF ;
+    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2356:1: entryRuleASN1_OCTET_STRING returns [EObject current=null] : iv_ruleASN1_OCTET_STRING= ruleASN1_OCTET_STRING EOF ;
     public final EObject entryRuleASN1_OCTET_STRING() throws RecognitionException {
         EObject current = null;
 
@@ -6521,13 +7101,13 @@ public class InternalSmiParser extends AbstractInternalAntlrParser {
 
 
         try {
-            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2179:2: (iv_ruleASN1_OCTET_STRING= ruleASN1_OCTET_STRING EOF )
-            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2180:2: iv_ruleASN1_OCTET_STRING= ruleASN1_OCTET_STRING EOF
+            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2357:2: (iv_ruleASN1_OCTET_STRING= ruleASN1_OCTET_STRING EOF )
+            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2358:2: iv_ruleASN1_OCTET_STRING= ruleASN1_OCTET_STRING EOF
             {
             if ( state.backtracking==0 ) {
                newCompositeNode(grammarAccess.getASN1_OCTET_STRINGRule()); 
             }
-            pushFollow(FOLLOW_ruleASN1_OCTET_STRING_in_entryRuleASN1_OCTET_STRING4820);
+            pushFollow(FOLLOW_ruleASN1_OCTET_STRING_in_entryRuleASN1_OCTET_STRING5274);
             iv_ruleASN1_OCTET_STRING=ruleASN1_OCTET_STRING();
 
             state._fsp--;
@@ -6535,7 +7115,7 @@ public class InternalSmiParser extends AbstractInternalAntlrParser {
             if ( state.backtracking==0 ) {
                current =iv_ruleASN1_OCTET_STRING; 
             }
-            match(input,EOF,FOLLOW_EOF_in_entryRuleASN1_OCTET_STRING4830); if (state.failed) return current;
+            match(input,EOF,FOLLOW_EOF_in_entryRuleASN1_OCTET_STRING5284); if (state.failed) return current;
 
             }
 
@@ -6553,7 +7133,7 @@ public class InternalSmiParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "ruleASN1_OCTET_STRING"
-    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2187:1: ruleASN1_OCTET_STRING returns [EObject current=null] : ( () otherlv_1= 'OCTET' otherlv_2= 'STRING' ) ;
+    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2365:1: ruleASN1_OCTET_STRING returns [EObject current=null] : ( () otherlv_1= 'OCTET' otherlv_2= 'STRING' ) ;
     public final EObject ruleASN1_OCTET_STRING() throws RecognitionException {
         EObject current = null;
 
@@ -6563,14 +7143,14 @@ public class InternalSmiParser extends AbstractInternalAntlrParser {
          enterRule(); 
             
         try {
-            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2190:28: ( ( () otherlv_1= 'OCTET' otherlv_2= 'STRING' ) )
-            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2191:1: ( () otherlv_1= 'OCTET' otherlv_2= 'STRING' )
+            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2368:28: ( ( () otherlv_1= 'OCTET' otherlv_2= 'STRING' ) )
+            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2369:1: ( () otherlv_1= 'OCTET' otherlv_2= 'STRING' )
             {
-            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2191:1: ( () otherlv_1= 'OCTET' otherlv_2= 'STRING' )
-            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2191:2: () otherlv_1= 'OCTET' otherlv_2= 'STRING'
+            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2369:1: ( () otherlv_1= 'OCTET' otherlv_2= 'STRING' )
+            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2369:2: () otherlv_1= 'OCTET' otherlv_2= 'STRING'
             {
-            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2191:2: ()
-            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2192:5: 
+            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2369:2: ()
+            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2370:5: 
             {
             if ( state.backtracking==0 ) {
 
@@ -6582,13 +7162,13 @@ public class InternalSmiParser extends AbstractInternalAntlrParser {
 
             }
 
-            otherlv_1=(Token)match(input,43,FOLLOW_43_in_ruleASN1_OCTET_STRING4876); if (state.failed) return current;
+            otherlv_1=(Token)match(input,43,FOLLOW_43_in_ruleASN1_OCTET_STRING5330); if (state.failed) return current;
             if ( state.backtracking==0 ) {
 
                   	newLeafNode(otherlv_1, grammarAccess.getASN1_OCTET_STRINGAccess().getOCTETKeyword_1());
                   
             }
-            otherlv_2=(Token)match(input,44,FOLLOW_44_in_ruleASN1_OCTET_STRING4888); if (state.failed) return current;
+            otherlv_2=(Token)match(input,44,FOLLOW_44_in_ruleASN1_OCTET_STRING5342); if (state.failed) return current;
             if ( state.backtracking==0 ) {
 
                   	newLeafNode(otherlv_2, grammarAccess.getASN1_OCTET_STRINGAccess().getSTRINGKeyword_2());
@@ -6617,7 +7197,7 @@ public class InternalSmiParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "entryRuleASN1_INTEGER"
-    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2213:1: entryRuleASN1_INTEGER returns [EObject current=null] : iv_ruleASN1_INTEGER= ruleASN1_INTEGER EOF ;
+    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2391:1: entryRuleASN1_INTEGER returns [EObject current=null] : iv_ruleASN1_INTEGER= ruleASN1_INTEGER EOF ;
     public final EObject entryRuleASN1_INTEGER() throws RecognitionException {
         EObject current = null;
 
@@ -6625,13 +7205,13 @@ public class InternalSmiParser extends AbstractInternalAntlrParser {
 
 
         try {
-            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2214:2: (iv_ruleASN1_INTEGER= ruleASN1_INTEGER EOF )
-            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2215:2: iv_ruleASN1_INTEGER= ruleASN1_INTEGER EOF
+            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2392:2: (iv_ruleASN1_INTEGER= ruleASN1_INTEGER EOF )
+            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2393:2: iv_ruleASN1_INTEGER= ruleASN1_INTEGER EOF
             {
             if ( state.backtracking==0 ) {
                newCompositeNode(grammarAccess.getASN1_INTEGERRule()); 
             }
-            pushFollow(FOLLOW_ruleASN1_INTEGER_in_entryRuleASN1_INTEGER4924);
+            pushFollow(FOLLOW_ruleASN1_INTEGER_in_entryRuleASN1_INTEGER5378);
             iv_ruleASN1_INTEGER=ruleASN1_INTEGER();
 
             state._fsp--;
@@ -6639,7 +7219,7 @@ public class InternalSmiParser extends AbstractInternalAntlrParser {
             if ( state.backtracking==0 ) {
                current =iv_ruleASN1_INTEGER; 
             }
-            match(input,EOF,FOLLOW_EOF_in_entryRuleASN1_INTEGER4934); if (state.failed) return current;
+            match(input,EOF,FOLLOW_EOF_in_entryRuleASN1_INTEGER5388); if (state.failed) return current;
 
             }
 
@@ -6657,7 +7237,7 @@ public class InternalSmiParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "ruleASN1_INTEGER"
-    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2222:1: ruleASN1_INTEGER returns [EObject current=null] : ( ( (lv_name_0_0= 'INTEGER' ) ) (otherlv_1= '(' ( (lv_range_2_0= ruleASN1_RANGE ) ) otherlv_3= ')' )? ) ;
+    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2400:1: ruleASN1_INTEGER returns [EObject current=null] : ( ( (lv_name_0_0= 'INTEGER' ) ) (otherlv_1= '(' ( (lv_range_2_0= ruleASN1_RANGE ) ) otherlv_3= ')' )? ( (lv_refinement_4_0= ruleASN1_INTEGER_REFINEMENT ) )? ) ;
     public final EObject ruleASN1_INTEGER() throws RecognitionException {
         EObject current = null;
 
@@ -6666,23 +7246,25 @@ public class InternalSmiParser extends AbstractInternalAntlrParser {
         Token otherlv_3=null;
         EObject lv_range_2_0 = null;
 
+        EObject lv_refinement_4_0 = null;
+
 
          enterRule(); 
             
         try {
-            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2225:28: ( ( ( (lv_name_0_0= 'INTEGER' ) ) (otherlv_1= '(' ( (lv_range_2_0= ruleASN1_RANGE ) ) otherlv_3= ')' )? ) )
-            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2226:1: ( ( (lv_name_0_0= 'INTEGER' ) ) (otherlv_1= '(' ( (lv_range_2_0= ruleASN1_RANGE ) ) otherlv_3= ')' )? )
+            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2403:28: ( ( ( (lv_name_0_0= 'INTEGER' ) ) (otherlv_1= '(' ( (lv_range_2_0= ruleASN1_RANGE ) ) otherlv_3= ')' )? ( (lv_refinement_4_0= ruleASN1_INTEGER_REFINEMENT ) )? ) )
+            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2404:1: ( ( (lv_name_0_0= 'INTEGER' ) ) (otherlv_1= '(' ( (lv_range_2_0= ruleASN1_RANGE ) ) otherlv_3= ')' )? ( (lv_refinement_4_0= ruleASN1_INTEGER_REFINEMENT ) )? )
             {
-            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2226:1: ( ( (lv_name_0_0= 'INTEGER' ) ) (otherlv_1= '(' ( (lv_range_2_0= ruleASN1_RANGE ) ) otherlv_3= ')' )? )
-            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2226:2: ( (lv_name_0_0= 'INTEGER' ) ) (otherlv_1= '(' ( (lv_range_2_0= ruleASN1_RANGE ) ) otherlv_3= ')' )?
+            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2404:1: ( ( (lv_name_0_0= 'INTEGER' ) ) (otherlv_1= '(' ( (lv_range_2_0= ruleASN1_RANGE ) ) otherlv_3= ')' )? ( (lv_refinement_4_0= ruleASN1_INTEGER_REFINEMENT ) )? )
+            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2404:2: ( (lv_name_0_0= 'INTEGER' ) ) (otherlv_1= '(' ( (lv_range_2_0= ruleASN1_RANGE ) ) otherlv_3= ')' )? ( (lv_refinement_4_0= ruleASN1_INTEGER_REFINEMENT ) )?
             {
-            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2226:2: ( (lv_name_0_0= 'INTEGER' ) )
-            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2227:1: (lv_name_0_0= 'INTEGER' )
+            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2404:2: ( (lv_name_0_0= 'INTEGER' ) )
+            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2405:1: (lv_name_0_0= 'INTEGER' )
             {
-            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2227:1: (lv_name_0_0= 'INTEGER' )
-            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2228:3: lv_name_0_0= 'INTEGER'
+            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2405:1: (lv_name_0_0= 'INTEGER' )
+            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2406:3: lv_name_0_0= 'INTEGER'
             {
-            lv_name_0_0=(Token)match(input,45,FOLLOW_45_in_ruleASN1_INTEGER4977); if (state.failed) return current;
+            lv_name_0_0=(Token)match(input,45,FOLLOW_45_in_ruleASN1_INTEGER5431); if (state.failed) return current;
             if ( state.backtracking==0 ) {
 
                       newLeafNode(lv_name_0_0, grammarAccess.getASN1_INTEGERAccess().getNameINTEGERKeyword_0_0());
@@ -6702,35 +7284,35 @@ public class InternalSmiParser extends AbstractInternalAntlrParser {
 
             }
 
-            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2241:2: (otherlv_1= '(' ( (lv_range_2_0= ruleASN1_RANGE ) ) otherlv_3= ')' )?
-            int alt47=2;
-            int LA47_0 = input.LA(1);
+            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2419:2: (otherlv_1= '(' ( (lv_range_2_0= ruleASN1_RANGE ) ) otherlv_3= ')' )?
+            int alt52=2;
+            int LA52_0 = input.LA(1);
 
-            if ( (LA47_0==38) ) {
-                alt47=1;
+            if ( (LA52_0==38) ) {
+                alt52=1;
             }
-            switch (alt47) {
+            switch (alt52) {
                 case 1 :
-                    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2241:4: otherlv_1= '(' ( (lv_range_2_0= ruleASN1_RANGE ) ) otherlv_3= ')'
+                    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2419:4: otherlv_1= '(' ( (lv_range_2_0= ruleASN1_RANGE ) ) otherlv_3= ')'
                     {
-                    otherlv_1=(Token)match(input,38,FOLLOW_38_in_ruleASN1_INTEGER5003); if (state.failed) return current;
+                    otherlv_1=(Token)match(input,38,FOLLOW_38_in_ruleASN1_INTEGER5457); if (state.failed) return current;
                     if ( state.backtracking==0 ) {
 
                           	newLeafNode(otherlv_1, grammarAccess.getASN1_INTEGERAccess().getLeftParenthesisKeyword_1_0());
                           
                     }
-                    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2245:1: ( (lv_range_2_0= ruleASN1_RANGE ) )
-                    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2246:1: (lv_range_2_0= ruleASN1_RANGE )
+                    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2423:1: ( (lv_range_2_0= ruleASN1_RANGE ) )
+                    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2424:1: (lv_range_2_0= ruleASN1_RANGE )
                     {
-                    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2246:1: (lv_range_2_0= ruleASN1_RANGE )
-                    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2247:3: lv_range_2_0= ruleASN1_RANGE
+                    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2424:1: (lv_range_2_0= ruleASN1_RANGE )
+                    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2425:3: lv_range_2_0= ruleASN1_RANGE
                     {
                     if ( state.backtracking==0 ) {
                        
                       	        newCompositeNode(grammarAccess.getASN1_INTEGERAccess().getRangeASN1_RANGEParserRuleCall_1_1_0()); 
                       	    
                     }
-                    pushFollow(FOLLOW_ruleASN1_RANGE_in_ruleASN1_INTEGER5024);
+                    pushFollow(FOLLOW_ruleASN1_RANGE_in_ruleASN1_INTEGER5478);
                     lv_range_2_0=ruleASN1_RANGE();
 
                     state._fsp--;
@@ -6754,12 +7336,58 @@ public class InternalSmiParser extends AbstractInternalAntlrParser {
 
                     }
 
-                    otherlv_3=(Token)match(input,39,FOLLOW_39_in_ruleASN1_INTEGER5036); if (state.failed) return current;
+                    otherlv_3=(Token)match(input,39,FOLLOW_39_in_ruleASN1_INTEGER5490); if (state.failed) return current;
                     if ( state.backtracking==0 ) {
 
                           	newLeafNode(otherlv_3, grammarAccess.getASN1_INTEGERAccess().getRightParenthesisKeyword_1_2());
                           
                     }
+
+                    }
+                    break;
+
+            }
+
+            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2445:3: ( (lv_refinement_4_0= ruleASN1_INTEGER_REFINEMENT ) )?
+            int alt53=2;
+            int LA53_0 = input.LA(1);
+
+            if ( (LA53_0==25) ) {
+                alt53=1;
+            }
+            switch (alt53) {
+                case 1 :
+                    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2446:1: (lv_refinement_4_0= ruleASN1_INTEGER_REFINEMENT )
+                    {
+                    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2446:1: (lv_refinement_4_0= ruleASN1_INTEGER_REFINEMENT )
+                    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2447:3: lv_refinement_4_0= ruleASN1_INTEGER_REFINEMENT
+                    {
+                    if ( state.backtracking==0 ) {
+                       
+                      	        newCompositeNode(grammarAccess.getASN1_INTEGERAccess().getRefinementASN1_INTEGER_REFINEMENTParserRuleCall_2_0()); 
+                      	    
+                    }
+                    pushFollow(FOLLOW_ruleASN1_INTEGER_REFINEMENT_in_ruleASN1_INTEGER5513);
+                    lv_refinement_4_0=ruleASN1_INTEGER_REFINEMENT();
+
+                    state._fsp--;
+                    if (state.failed) return current;
+                    if ( state.backtracking==0 ) {
+
+                      	        if (current==null) {
+                      	            current = createModelElementForParent(grammarAccess.getASN1_INTEGERRule());
+                      	        }
+                             		set(
+                             			current, 
+                             			"refinement",
+                              		lv_refinement_4_0, 
+                              		"ASN1_INTEGER_REFINEMENT");
+                      	        afterParserOrEnumRuleCall();
+                      	    
+                    }
+
+                    }
+
 
                     }
                     break;
@@ -6788,8 +7416,381 @@ public class InternalSmiParser extends AbstractInternalAntlrParser {
     // $ANTLR end "ruleASN1_INTEGER"
 
 
+    // $ANTLR start "entryRuleASN1_INTEGER_REFINEMENT"
+    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2471:1: entryRuleASN1_INTEGER_REFINEMENT returns [EObject current=null] : iv_ruleASN1_INTEGER_REFINEMENT= ruleASN1_INTEGER_REFINEMENT EOF ;
+    public final EObject entryRuleASN1_INTEGER_REFINEMENT() throws RecognitionException {
+        EObject current = null;
+
+        EObject iv_ruleASN1_INTEGER_REFINEMENT = null;
+
+
+        try {
+            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2472:2: (iv_ruleASN1_INTEGER_REFINEMENT= ruleASN1_INTEGER_REFINEMENT EOF )
+            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2473:2: iv_ruleASN1_INTEGER_REFINEMENT= ruleASN1_INTEGER_REFINEMENT EOF
+            {
+            if ( state.backtracking==0 ) {
+               newCompositeNode(grammarAccess.getASN1_INTEGER_REFINEMENTRule()); 
+            }
+            pushFollow(FOLLOW_ruleASN1_INTEGER_REFINEMENT_in_entryRuleASN1_INTEGER_REFINEMENT5550);
+            iv_ruleASN1_INTEGER_REFINEMENT=ruleASN1_INTEGER_REFINEMENT();
+
+            state._fsp--;
+            if (state.failed) return current;
+            if ( state.backtracking==0 ) {
+               current =iv_ruleASN1_INTEGER_REFINEMENT; 
+            }
+            match(input,EOF,FOLLOW_EOF_in_entryRuleASN1_INTEGER_REFINEMENT5560); if (state.failed) return current;
+
+            }
+
+        }
+         
+            catch (RecognitionException re) { 
+                recover(input,re); 
+                appendSkippedTokens();
+            } 
+        finally {
+        }
+        return current;
+    }
+    // $ANTLR end "entryRuleASN1_INTEGER_REFINEMENT"
+
+
+    // $ANTLR start "ruleASN1_INTEGER_REFINEMENT"
+    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2480:1: ruleASN1_INTEGER_REFINEMENT returns [EObject current=null] : (otherlv_0= '{' ( (this_NEWLINE_1= RULE_NEWLINE )* ( (lv_refinements_2_0= RULE_ASN1_ID ) ) otherlv_3= '(' ( (lv_ints_4_0= RULE_BIG_INTEGER ) ) otherlv_5= ')' ) (otherlv_6= ',' (this_NEWLINE_7= RULE_NEWLINE )* ( (lv_refinements_8_0= RULE_ASN1_ID ) ) otherlv_9= '(' ( (lv_ints_10_0= RULE_BIG_INTEGER ) ) otherlv_11= ')' )* (this_NEWLINE_12= RULE_NEWLINE )* otherlv_13= '}' ) ;
+    public final EObject ruleASN1_INTEGER_REFINEMENT() throws RecognitionException {
+        EObject current = null;
+
+        Token otherlv_0=null;
+        Token this_NEWLINE_1=null;
+        Token lv_refinements_2_0=null;
+        Token otherlv_3=null;
+        Token lv_ints_4_0=null;
+        Token otherlv_5=null;
+        Token otherlv_6=null;
+        Token this_NEWLINE_7=null;
+        Token lv_refinements_8_0=null;
+        Token otherlv_9=null;
+        Token lv_ints_10_0=null;
+        Token otherlv_11=null;
+        Token this_NEWLINE_12=null;
+        Token otherlv_13=null;
+
+         enterRule(); 
+            
+        try {
+            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2483:28: ( (otherlv_0= '{' ( (this_NEWLINE_1= RULE_NEWLINE )* ( (lv_refinements_2_0= RULE_ASN1_ID ) ) otherlv_3= '(' ( (lv_ints_4_0= RULE_BIG_INTEGER ) ) otherlv_5= ')' ) (otherlv_6= ',' (this_NEWLINE_7= RULE_NEWLINE )* ( (lv_refinements_8_0= RULE_ASN1_ID ) ) otherlv_9= '(' ( (lv_ints_10_0= RULE_BIG_INTEGER ) ) otherlv_11= ')' )* (this_NEWLINE_12= RULE_NEWLINE )* otherlv_13= '}' ) )
+            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2484:1: (otherlv_0= '{' ( (this_NEWLINE_1= RULE_NEWLINE )* ( (lv_refinements_2_0= RULE_ASN1_ID ) ) otherlv_3= '(' ( (lv_ints_4_0= RULE_BIG_INTEGER ) ) otherlv_5= ')' ) (otherlv_6= ',' (this_NEWLINE_7= RULE_NEWLINE )* ( (lv_refinements_8_0= RULE_ASN1_ID ) ) otherlv_9= '(' ( (lv_ints_10_0= RULE_BIG_INTEGER ) ) otherlv_11= ')' )* (this_NEWLINE_12= RULE_NEWLINE )* otherlv_13= '}' )
+            {
+            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2484:1: (otherlv_0= '{' ( (this_NEWLINE_1= RULE_NEWLINE )* ( (lv_refinements_2_0= RULE_ASN1_ID ) ) otherlv_3= '(' ( (lv_ints_4_0= RULE_BIG_INTEGER ) ) otherlv_5= ')' ) (otherlv_6= ',' (this_NEWLINE_7= RULE_NEWLINE )* ( (lv_refinements_8_0= RULE_ASN1_ID ) ) otherlv_9= '(' ( (lv_ints_10_0= RULE_BIG_INTEGER ) ) otherlv_11= ')' )* (this_NEWLINE_12= RULE_NEWLINE )* otherlv_13= '}' )
+            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2484:3: otherlv_0= '{' ( (this_NEWLINE_1= RULE_NEWLINE )* ( (lv_refinements_2_0= RULE_ASN1_ID ) ) otherlv_3= '(' ( (lv_ints_4_0= RULE_BIG_INTEGER ) ) otherlv_5= ')' ) (otherlv_6= ',' (this_NEWLINE_7= RULE_NEWLINE )* ( (lv_refinements_8_0= RULE_ASN1_ID ) ) otherlv_9= '(' ( (lv_ints_10_0= RULE_BIG_INTEGER ) ) otherlv_11= ')' )* (this_NEWLINE_12= RULE_NEWLINE )* otherlv_13= '}'
+            {
+            otherlv_0=(Token)match(input,25,FOLLOW_25_in_ruleASN1_INTEGER_REFINEMENT5597); if (state.failed) return current;
+            if ( state.backtracking==0 ) {
+
+                  	newLeafNode(otherlv_0, grammarAccess.getASN1_INTEGER_REFINEMENTAccess().getLeftCurlyBracketKeyword_0());
+                  
+            }
+            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2488:1: ( (this_NEWLINE_1= RULE_NEWLINE )* ( (lv_refinements_2_0= RULE_ASN1_ID ) ) otherlv_3= '(' ( (lv_ints_4_0= RULE_BIG_INTEGER ) ) otherlv_5= ')' )
+            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2488:2: (this_NEWLINE_1= RULE_NEWLINE )* ( (lv_refinements_2_0= RULE_ASN1_ID ) ) otherlv_3= '(' ( (lv_ints_4_0= RULE_BIG_INTEGER ) ) otherlv_5= ')'
+            {
+            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2488:2: (this_NEWLINE_1= RULE_NEWLINE )*
+            loop54:
+            do {
+                int alt54=2;
+                int LA54_0 = input.LA(1);
+
+                if ( (LA54_0==RULE_NEWLINE) ) {
+                    alt54=1;
+                }
+
+
+                switch (alt54) {
+            	case 1 :
+            	    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2488:3: this_NEWLINE_1= RULE_NEWLINE
+            	    {
+            	    this_NEWLINE_1=(Token)match(input,RULE_NEWLINE,FOLLOW_RULE_NEWLINE_in_ruleASN1_INTEGER_REFINEMENT5610); if (state.failed) return current;
+            	    if ( state.backtracking==0 ) {
+            	       
+            	          newLeafNode(this_NEWLINE_1, grammarAccess.getASN1_INTEGER_REFINEMENTAccess().getNEWLINETerminalRuleCall_1_0()); 
+            	          
+            	    }
+
+            	    }
+            	    break;
+
+            	default :
+            	    break loop54;
+                }
+            } while (true);
+
+            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2492:3: ( (lv_refinements_2_0= RULE_ASN1_ID ) )
+            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2493:1: (lv_refinements_2_0= RULE_ASN1_ID )
+            {
+            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2493:1: (lv_refinements_2_0= RULE_ASN1_ID )
+            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2494:3: lv_refinements_2_0= RULE_ASN1_ID
+            {
+            lv_refinements_2_0=(Token)match(input,RULE_ASN1_ID,FOLLOW_RULE_ASN1_ID_in_ruleASN1_INTEGER_REFINEMENT5628); if (state.failed) return current;
+            if ( state.backtracking==0 ) {
+
+              			newLeafNode(lv_refinements_2_0, grammarAccess.getASN1_INTEGER_REFINEMENTAccess().getRefinementsASN1_IDTerminalRuleCall_1_1_0()); 
+              		
+            }
+            if ( state.backtracking==0 ) {
+
+              	        if (current==null) {
+              	            current = createModelElement(grammarAccess.getASN1_INTEGER_REFINEMENTRule());
+              	        }
+                     		addWithLastConsumed(
+                     			current, 
+                     			"refinements",
+                      		lv_refinements_2_0, 
+                      		"ASN1_ID");
+              	    
+            }
+
+            }
+
+
+            }
+
+            otherlv_3=(Token)match(input,38,FOLLOW_38_in_ruleASN1_INTEGER_REFINEMENT5645); if (state.failed) return current;
+            if ( state.backtracking==0 ) {
+
+                  	newLeafNode(otherlv_3, grammarAccess.getASN1_INTEGER_REFINEMENTAccess().getLeftParenthesisKeyword_1_2());
+                  
+            }
+            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2514:1: ( (lv_ints_4_0= RULE_BIG_INTEGER ) )
+            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2515:1: (lv_ints_4_0= RULE_BIG_INTEGER )
+            {
+            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2515:1: (lv_ints_4_0= RULE_BIG_INTEGER )
+            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2516:3: lv_ints_4_0= RULE_BIG_INTEGER
+            {
+            lv_ints_4_0=(Token)match(input,RULE_BIG_INTEGER,FOLLOW_RULE_BIG_INTEGER_in_ruleASN1_INTEGER_REFINEMENT5662); if (state.failed) return current;
+            if ( state.backtracking==0 ) {
+
+              			newLeafNode(lv_ints_4_0, grammarAccess.getASN1_INTEGER_REFINEMENTAccess().getIntsBIG_INTEGERTerminalRuleCall_1_3_0()); 
+              		
+            }
+            if ( state.backtracking==0 ) {
+
+              	        if (current==null) {
+              	            current = createModelElement(grammarAccess.getASN1_INTEGER_REFINEMENTRule());
+              	        }
+                     		addWithLastConsumed(
+                     			current, 
+                     			"ints",
+                      		lv_ints_4_0, 
+                      		"BIG_INTEGER");
+              	    
+            }
+
+            }
+
+
+            }
+
+            otherlv_5=(Token)match(input,39,FOLLOW_39_in_ruleASN1_INTEGER_REFINEMENT5679); if (state.failed) return current;
+            if ( state.backtracking==0 ) {
+
+                  	newLeafNode(otherlv_5, grammarAccess.getASN1_INTEGER_REFINEMENTAccess().getRightParenthesisKeyword_1_4());
+                  
+            }
+
+            }
+
+            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2536:2: (otherlv_6= ',' (this_NEWLINE_7= RULE_NEWLINE )* ( (lv_refinements_8_0= RULE_ASN1_ID ) ) otherlv_9= '(' ( (lv_ints_10_0= RULE_BIG_INTEGER ) ) otherlv_11= ')' )*
+            loop56:
+            do {
+                int alt56=2;
+                int LA56_0 = input.LA(1);
+
+                if ( (LA56_0==23) ) {
+                    alt56=1;
+                }
+
+
+                switch (alt56) {
+            	case 1 :
+            	    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2536:4: otherlv_6= ',' (this_NEWLINE_7= RULE_NEWLINE )* ( (lv_refinements_8_0= RULE_ASN1_ID ) ) otherlv_9= '(' ( (lv_ints_10_0= RULE_BIG_INTEGER ) ) otherlv_11= ')'
+            	    {
+            	    otherlv_6=(Token)match(input,23,FOLLOW_23_in_ruleASN1_INTEGER_REFINEMENT5693); if (state.failed) return current;
+            	    if ( state.backtracking==0 ) {
+
+            	          	newLeafNode(otherlv_6, grammarAccess.getASN1_INTEGER_REFINEMENTAccess().getCommaKeyword_2_0());
+            	          
+            	    }
+            	    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2540:1: (this_NEWLINE_7= RULE_NEWLINE )*
+            	    loop55:
+            	    do {
+            	        int alt55=2;
+            	        int LA55_0 = input.LA(1);
+
+            	        if ( (LA55_0==RULE_NEWLINE) ) {
+            	            alt55=1;
+            	        }
+
+
+            	        switch (alt55) {
+            	    	case 1 :
+            	    	    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2540:2: this_NEWLINE_7= RULE_NEWLINE
+            	    	    {
+            	    	    this_NEWLINE_7=(Token)match(input,RULE_NEWLINE,FOLLOW_RULE_NEWLINE_in_ruleASN1_INTEGER_REFINEMENT5705); if (state.failed) return current;
+            	    	    if ( state.backtracking==0 ) {
+            	    	       
+            	    	          newLeafNode(this_NEWLINE_7, grammarAccess.getASN1_INTEGER_REFINEMENTAccess().getNEWLINETerminalRuleCall_2_1()); 
+            	    	          
+            	    	    }
+
+            	    	    }
+            	    	    break;
+
+            	    	default :
+            	    	    break loop55;
+            	        }
+            	    } while (true);
+
+            	    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2544:3: ( (lv_refinements_8_0= RULE_ASN1_ID ) )
+            	    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2545:1: (lv_refinements_8_0= RULE_ASN1_ID )
+            	    {
+            	    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2545:1: (lv_refinements_8_0= RULE_ASN1_ID )
+            	    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2546:3: lv_refinements_8_0= RULE_ASN1_ID
+            	    {
+            	    lv_refinements_8_0=(Token)match(input,RULE_ASN1_ID,FOLLOW_RULE_ASN1_ID_in_ruleASN1_INTEGER_REFINEMENT5723); if (state.failed) return current;
+            	    if ( state.backtracking==0 ) {
+
+            	      			newLeafNode(lv_refinements_8_0, grammarAccess.getASN1_INTEGER_REFINEMENTAccess().getRefinementsASN1_IDTerminalRuleCall_2_2_0()); 
+            	      		
+            	    }
+            	    if ( state.backtracking==0 ) {
+
+            	      	        if (current==null) {
+            	      	            current = createModelElement(grammarAccess.getASN1_INTEGER_REFINEMENTRule());
+            	      	        }
+            	             		addWithLastConsumed(
+            	             			current, 
+            	             			"refinements",
+            	              		lv_refinements_8_0, 
+            	              		"ASN1_ID");
+            	      	    
+            	    }
+
+            	    }
+
+
+            	    }
+
+            	    otherlv_9=(Token)match(input,38,FOLLOW_38_in_ruleASN1_INTEGER_REFINEMENT5740); if (state.failed) return current;
+            	    if ( state.backtracking==0 ) {
+
+            	          	newLeafNode(otherlv_9, grammarAccess.getASN1_INTEGER_REFINEMENTAccess().getLeftParenthesisKeyword_2_3());
+            	          
+            	    }
+            	    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2566:1: ( (lv_ints_10_0= RULE_BIG_INTEGER ) )
+            	    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2567:1: (lv_ints_10_0= RULE_BIG_INTEGER )
+            	    {
+            	    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2567:1: (lv_ints_10_0= RULE_BIG_INTEGER )
+            	    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2568:3: lv_ints_10_0= RULE_BIG_INTEGER
+            	    {
+            	    lv_ints_10_0=(Token)match(input,RULE_BIG_INTEGER,FOLLOW_RULE_BIG_INTEGER_in_ruleASN1_INTEGER_REFINEMENT5757); if (state.failed) return current;
+            	    if ( state.backtracking==0 ) {
+
+            	      			newLeafNode(lv_ints_10_0, grammarAccess.getASN1_INTEGER_REFINEMENTAccess().getIntsBIG_INTEGERTerminalRuleCall_2_4_0()); 
+            	      		
+            	    }
+            	    if ( state.backtracking==0 ) {
+
+            	      	        if (current==null) {
+            	      	            current = createModelElement(grammarAccess.getASN1_INTEGER_REFINEMENTRule());
+            	      	        }
+            	             		addWithLastConsumed(
+            	             			current, 
+            	             			"ints",
+            	              		lv_ints_10_0, 
+            	              		"BIG_INTEGER");
+            	      	    
+            	    }
+
+            	    }
+
+
+            	    }
+
+            	    otherlv_11=(Token)match(input,39,FOLLOW_39_in_ruleASN1_INTEGER_REFINEMENT5774); if (state.failed) return current;
+            	    if ( state.backtracking==0 ) {
+
+            	          	newLeafNode(otherlv_11, grammarAccess.getASN1_INTEGER_REFINEMENTAccess().getRightParenthesisKeyword_2_5());
+            	          
+            	    }
+
+            	    }
+            	    break;
+
+            	default :
+            	    break loop56;
+                }
+            } while (true);
+
+            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2588:3: (this_NEWLINE_12= RULE_NEWLINE )*
+            loop57:
+            do {
+                int alt57=2;
+                int LA57_0 = input.LA(1);
+
+                if ( (LA57_0==RULE_NEWLINE) ) {
+                    alt57=1;
+                }
+
+
+                switch (alt57) {
+            	case 1 :
+            	    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2588:4: this_NEWLINE_12= RULE_NEWLINE
+            	    {
+            	    this_NEWLINE_12=(Token)match(input,RULE_NEWLINE,FOLLOW_RULE_NEWLINE_in_ruleASN1_INTEGER_REFINEMENT5788); if (state.failed) return current;
+            	    if ( state.backtracking==0 ) {
+            	       
+            	          newLeafNode(this_NEWLINE_12, grammarAccess.getASN1_INTEGER_REFINEMENTAccess().getNEWLINETerminalRuleCall_3()); 
+            	          
+            	    }
+
+            	    }
+            	    break;
+
+            	default :
+            	    break loop57;
+                }
+            } while (true);
+
+            otherlv_13=(Token)match(input,26,FOLLOW_26_in_ruleASN1_INTEGER_REFINEMENT5801); if (state.failed) return current;
+            if ( state.backtracking==0 ) {
+
+                  	newLeafNode(otherlv_13, grammarAccess.getASN1_INTEGER_REFINEMENTAccess().getRightCurlyBracketKeyword_4());
+                  
+            }
+
+            }
+
+
+            }
+
+            if ( state.backtracking==0 ) {
+               leaveRule(); 
+            }
+        }
+         
+            catch (RecognitionException re) { 
+                recover(input,re); 
+                appendSkippedTokens();
+            } 
+        finally {
+        }
+        return current;
+    }
+    // $ANTLR end "ruleASN1_INTEGER_REFINEMENT"
+
+
     // $ANTLR start "entryRuleASN1_SUBTYPE"
-    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2275:1: entryRuleASN1_SUBTYPE returns [EObject current=null] : iv_ruleASN1_SUBTYPE= ruleASN1_SUBTYPE EOF ;
+    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2604:1: entryRuleASN1_SUBTYPE returns [EObject current=null] : iv_ruleASN1_SUBTYPE= ruleASN1_SUBTYPE EOF ;
     public final EObject entryRuleASN1_SUBTYPE() throws RecognitionException {
         EObject current = null;
 
@@ -6797,13 +7798,13 @@ public class InternalSmiParser extends AbstractInternalAntlrParser {
 
 
         try {
-            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2276:2: (iv_ruleASN1_SUBTYPE= ruleASN1_SUBTYPE EOF )
-            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2277:2: iv_ruleASN1_SUBTYPE= ruleASN1_SUBTYPE EOF
+            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2605:2: (iv_ruleASN1_SUBTYPE= ruleASN1_SUBTYPE EOF )
+            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2606:2: iv_ruleASN1_SUBTYPE= ruleASN1_SUBTYPE EOF
             {
             if ( state.backtracking==0 ) {
                newCompositeNode(grammarAccess.getASN1_SUBTYPERule()); 
             }
-            pushFollow(FOLLOW_ruleASN1_SUBTYPE_in_entryRuleASN1_SUBTYPE5074);
+            pushFollow(FOLLOW_ruleASN1_SUBTYPE_in_entryRuleASN1_SUBTYPE5837);
             iv_ruleASN1_SUBTYPE=ruleASN1_SUBTYPE();
 
             state._fsp--;
@@ -6811,7 +7812,7 @@ public class InternalSmiParser extends AbstractInternalAntlrParser {
             if ( state.backtracking==0 ) {
                current =iv_ruleASN1_SUBTYPE; 
             }
-            match(input,EOF,FOLLOW_EOF_in_entryRuleASN1_SUBTYPE5084); if (state.failed) return current;
+            match(input,EOF,FOLLOW_EOF_in_entryRuleASN1_SUBTYPE5847); if (state.failed) return current;
 
             }
 
@@ -6829,7 +7830,7 @@ public class InternalSmiParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "ruleASN1_SUBTYPE"
-    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2284:1: ruleASN1_SUBTYPE returns [EObject current=null] : (otherlv_0= '(' otherlv_1= 'SIZE' otherlv_2= '(' ( (lv_ranges_3_0= ruleASN1_RANGE ) ) (otherlv_4= '|' ( (lv_ranges_5_0= ruleASN1_RANGE ) ) )* otherlv_6= ')' otherlv_7= ')' ) ;
+    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2613:1: ruleASN1_SUBTYPE returns [EObject current=null] : (otherlv_0= '(' otherlv_1= 'SIZE' otherlv_2= '(' ( (lv_ranges_3_0= ruleASN1_RANGE ) ) (otherlv_4= '|' ( (lv_ranges_5_0= ruleASN1_RANGE ) ) )* otherlv_6= ')' otherlv_7= ')' ) ;
     public final EObject ruleASN1_SUBTYPE() throws RecognitionException {
         EObject current = null;
 
@@ -6847,42 +7848,42 @@ public class InternalSmiParser extends AbstractInternalAntlrParser {
          enterRule(); 
             
         try {
-            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2287:28: ( (otherlv_0= '(' otherlv_1= 'SIZE' otherlv_2= '(' ( (lv_ranges_3_0= ruleASN1_RANGE ) ) (otherlv_4= '|' ( (lv_ranges_5_0= ruleASN1_RANGE ) ) )* otherlv_6= ')' otherlv_7= ')' ) )
-            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2288:1: (otherlv_0= '(' otherlv_1= 'SIZE' otherlv_2= '(' ( (lv_ranges_3_0= ruleASN1_RANGE ) ) (otherlv_4= '|' ( (lv_ranges_5_0= ruleASN1_RANGE ) ) )* otherlv_6= ')' otherlv_7= ')' )
+            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2616:28: ( (otherlv_0= '(' otherlv_1= 'SIZE' otherlv_2= '(' ( (lv_ranges_3_0= ruleASN1_RANGE ) ) (otherlv_4= '|' ( (lv_ranges_5_0= ruleASN1_RANGE ) ) )* otherlv_6= ')' otherlv_7= ')' ) )
+            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2617:1: (otherlv_0= '(' otherlv_1= 'SIZE' otherlv_2= '(' ( (lv_ranges_3_0= ruleASN1_RANGE ) ) (otherlv_4= '|' ( (lv_ranges_5_0= ruleASN1_RANGE ) ) )* otherlv_6= ')' otherlv_7= ')' )
             {
-            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2288:1: (otherlv_0= '(' otherlv_1= 'SIZE' otherlv_2= '(' ( (lv_ranges_3_0= ruleASN1_RANGE ) ) (otherlv_4= '|' ( (lv_ranges_5_0= ruleASN1_RANGE ) ) )* otherlv_6= ')' otherlv_7= ')' )
-            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2288:3: otherlv_0= '(' otherlv_1= 'SIZE' otherlv_2= '(' ( (lv_ranges_3_0= ruleASN1_RANGE ) ) (otherlv_4= '|' ( (lv_ranges_5_0= ruleASN1_RANGE ) ) )* otherlv_6= ')' otherlv_7= ')'
+            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2617:1: (otherlv_0= '(' otherlv_1= 'SIZE' otherlv_2= '(' ( (lv_ranges_3_0= ruleASN1_RANGE ) ) (otherlv_4= '|' ( (lv_ranges_5_0= ruleASN1_RANGE ) ) )* otherlv_6= ')' otherlv_7= ')' )
+            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2617:3: otherlv_0= '(' otherlv_1= 'SIZE' otherlv_2= '(' ( (lv_ranges_3_0= ruleASN1_RANGE ) ) (otherlv_4= '|' ( (lv_ranges_5_0= ruleASN1_RANGE ) ) )* otherlv_6= ')' otherlv_7= ')'
             {
-            otherlv_0=(Token)match(input,38,FOLLOW_38_in_ruleASN1_SUBTYPE5121); if (state.failed) return current;
+            otherlv_0=(Token)match(input,38,FOLLOW_38_in_ruleASN1_SUBTYPE5884); if (state.failed) return current;
             if ( state.backtracking==0 ) {
 
                   	newLeafNode(otherlv_0, grammarAccess.getASN1_SUBTYPEAccess().getLeftParenthesisKeyword_0());
                   
             }
-            otherlv_1=(Token)match(input,46,FOLLOW_46_in_ruleASN1_SUBTYPE5133); if (state.failed) return current;
+            otherlv_1=(Token)match(input,46,FOLLOW_46_in_ruleASN1_SUBTYPE5896); if (state.failed) return current;
             if ( state.backtracking==0 ) {
 
                   	newLeafNode(otherlv_1, grammarAccess.getASN1_SUBTYPEAccess().getSIZEKeyword_1());
                   
             }
-            otherlv_2=(Token)match(input,38,FOLLOW_38_in_ruleASN1_SUBTYPE5145); if (state.failed) return current;
+            otherlv_2=(Token)match(input,38,FOLLOW_38_in_ruleASN1_SUBTYPE5908); if (state.failed) return current;
             if ( state.backtracking==0 ) {
 
                   	newLeafNode(otherlv_2, grammarAccess.getASN1_SUBTYPEAccess().getLeftParenthesisKeyword_2());
                   
             }
-            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2300:1: ( (lv_ranges_3_0= ruleASN1_RANGE ) )
-            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2301:1: (lv_ranges_3_0= ruleASN1_RANGE )
+            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2629:1: ( (lv_ranges_3_0= ruleASN1_RANGE ) )
+            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2630:1: (lv_ranges_3_0= ruleASN1_RANGE )
             {
-            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2301:1: (lv_ranges_3_0= ruleASN1_RANGE )
-            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2302:3: lv_ranges_3_0= ruleASN1_RANGE
+            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2630:1: (lv_ranges_3_0= ruleASN1_RANGE )
+            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2631:3: lv_ranges_3_0= ruleASN1_RANGE
             {
             if ( state.backtracking==0 ) {
                
               	        newCompositeNode(grammarAccess.getASN1_SUBTYPEAccess().getRangesASN1_RANGEParserRuleCall_3_0()); 
               	    
             }
-            pushFollow(FOLLOW_ruleASN1_RANGE_in_ruleASN1_SUBTYPE5166);
+            pushFollow(FOLLOW_ruleASN1_RANGE_in_ruleASN1_SUBTYPE5929);
             lv_ranges_3_0=ruleASN1_RANGE();
 
             state._fsp--;
@@ -6906,39 +7907,39 @@ public class InternalSmiParser extends AbstractInternalAntlrParser {
 
             }
 
-            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2318:2: (otherlv_4= '|' ( (lv_ranges_5_0= ruleASN1_RANGE ) ) )*
-            loop48:
+            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2647:2: (otherlv_4= '|' ( (lv_ranges_5_0= ruleASN1_RANGE ) ) )*
+            loop58:
             do {
-                int alt48=2;
-                int LA48_0 = input.LA(1);
+                int alt58=2;
+                int LA58_0 = input.LA(1);
 
-                if ( (LA48_0==34) ) {
-                    alt48=1;
+                if ( (LA58_0==34) ) {
+                    alt58=1;
                 }
 
 
-                switch (alt48) {
+                switch (alt58) {
             	case 1 :
-            	    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2318:4: otherlv_4= '|' ( (lv_ranges_5_0= ruleASN1_RANGE ) )
+            	    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2647:4: otherlv_4= '|' ( (lv_ranges_5_0= ruleASN1_RANGE ) )
             	    {
-            	    otherlv_4=(Token)match(input,34,FOLLOW_34_in_ruleASN1_SUBTYPE5179); if (state.failed) return current;
+            	    otherlv_4=(Token)match(input,34,FOLLOW_34_in_ruleASN1_SUBTYPE5942); if (state.failed) return current;
             	    if ( state.backtracking==0 ) {
 
             	          	newLeafNode(otherlv_4, grammarAccess.getASN1_SUBTYPEAccess().getVerticalLineKeyword_4_0());
             	          
             	    }
-            	    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2322:1: ( (lv_ranges_5_0= ruleASN1_RANGE ) )
-            	    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2323:1: (lv_ranges_5_0= ruleASN1_RANGE )
+            	    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2651:1: ( (lv_ranges_5_0= ruleASN1_RANGE ) )
+            	    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2652:1: (lv_ranges_5_0= ruleASN1_RANGE )
             	    {
-            	    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2323:1: (lv_ranges_5_0= ruleASN1_RANGE )
-            	    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2324:3: lv_ranges_5_0= ruleASN1_RANGE
+            	    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2652:1: (lv_ranges_5_0= ruleASN1_RANGE )
+            	    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2653:3: lv_ranges_5_0= ruleASN1_RANGE
             	    {
             	    if ( state.backtracking==0 ) {
             	       
             	      	        newCompositeNode(grammarAccess.getASN1_SUBTYPEAccess().getRangesASN1_RANGEParserRuleCall_4_1_0()); 
             	      	    
             	    }
-            	    pushFollow(FOLLOW_ruleASN1_RANGE_in_ruleASN1_SUBTYPE5200);
+            	    pushFollow(FOLLOW_ruleASN1_RANGE_in_ruleASN1_SUBTYPE5963);
             	    lv_ranges_5_0=ruleASN1_RANGE();
 
             	    state._fsp--;
@@ -6967,17 +7968,17 @@ public class InternalSmiParser extends AbstractInternalAntlrParser {
             	    break;
 
             	default :
-            	    break loop48;
+            	    break loop58;
                 }
             } while (true);
 
-            otherlv_6=(Token)match(input,39,FOLLOW_39_in_ruleASN1_SUBTYPE5214); if (state.failed) return current;
+            otherlv_6=(Token)match(input,39,FOLLOW_39_in_ruleASN1_SUBTYPE5977); if (state.failed) return current;
             if ( state.backtracking==0 ) {
 
                   	newLeafNode(otherlv_6, grammarAccess.getASN1_SUBTYPEAccess().getRightParenthesisKeyword_5());
                   
             }
-            otherlv_7=(Token)match(input,39,FOLLOW_39_in_ruleASN1_SUBTYPE5226); if (state.failed) return current;
+            otherlv_7=(Token)match(input,39,FOLLOW_39_in_ruleASN1_SUBTYPE5989); if (state.failed) return current;
             if ( state.backtracking==0 ) {
 
                   	newLeafNode(otherlv_7, grammarAccess.getASN1_SUBTYPEAccess().getRightParenthesisKeyword_6());
@@ -7006,7 +8007,7 @@ public class InternalSmiParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "entryRuleASN1_RANGE"
-    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2356:1: entryRuleASN1_RANGE returns [EObject current=null] : iv_ruleASN1_RANGE= ruleASN1_RANGE EOF ;
+    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2685:1: entryRuleASN1_RANGE returns [EObject current=null] : iv_ruleASN1_RANGE= ruleASN1_RANGE EOF ;
     public final EObject entryRuleASN1_RANGE() throws RecognitionException {
         EObject current = null;
 
@@ -7014,13 +8015,13 @@ public class InternalSmiParser extends AbstractInternalAntlrParser {
 
 
         try {
-            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2357:2: (iv_ruleASN1_RANGE= ruleASN1_RANGE EOF )
-            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2358:2: iv_ruleASN1_RANGE= ruleASN1_RANGE EOF
+            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2686:2: (iv_ruleASN1_RANGE= ruleASN1_RANGE EOF )
+            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2687:2: iv_ruleASN1_RANGE= ruleASN1_RANGE EOF
             {
             if ( state.backtracking==0 ) {
                newCompositeNode(grammarAccess.getASN1_RANGERule()); 
             }
-            pushFollow(FOLLOW_ruleASN1_RANGE_in_entryRuleASN1_RANGE5262);
+            pushFollow(FOLLOW_ruleASN1_RANGE_in_entryRuleASN1_RANGE6025);
             iv_ruleASN1_RANGE=ruleASN1_RANGE();
 
             state._fsp--;
@@ -7028,7 +8029,7 @@ public class InternalSmiParser extends AbstractInternalAntlrParser {
             if ( state.backtracking==0 ) {
                current =iv_ruleASN1_RANGE; 
             }
-            match(input,EOF,FOLLOW_EOF_in_entryRuleASN1_RANGE5272); if (state.failed) return current;
+            match(input,EOF,FOLLOW_EOF_in_entryRuleASN1_RANGE6035); if (state.failed) return current;
 
             }
 
@@ -7046,7 +8047,7 @@ public class InternalSmiParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "ruleASN1_RANGE"
-    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2365:1: ruleASN1_RANGE returns [EObject current=null] : ( ( () ( (lv_value_1_0= RULE_BIG_INTEGER ) ) ) | ( ( (lv_start_2_0= RULE_BIG_INTEGER ) ) otherlv_3= '..' ( (lv_end_4_0= RULE_BIG_INTEGER ) ) ) ) ;
+    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2694:1: ruleASN1_RANGE returns [EObject current=null] : ( ( () ( (lv_value_1_0= RULE_BIG_INTEGER ) ) ) | ( ( (lv_start_2_0= RULE_BIG_INTEGER ) ) otherlv_3= '..' ( (lv_end_4_0= RULE_BIG_INTEGER ) ) ) ) ;
     public final EObject ruleASN1_RANGE() throws RecognitionException {
         EObject current = null;
 
@@ -7058,26 +8059,26 @@ public class InternalSmiParser extends AbstractInternalAntlrParser {
          enterRule(); 
             
         try {
-            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2368:28: ( ( ( () ( (lv_value_1_0= RULE_BIG_INTEGER ) ) ) | ( ( (lv_start_2_0= RULE_BIG_INTEGER ) ) otherlv_3= '..' ( (lv_end_4_0= RULE_BIG_INTEGER ) ) ) ) )
-            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2369:1: ( ( () ( (lv_value_1_0= RULE_BIG_INTEGER ) ) ) | ( ( (lv_start_2_0= RULE_BIG_INTEGER ) ) otherlv_3= '..' ( (lv_end_4_0= RULE_BIG_INTEGER ) ) ) )
+            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2697:28: ( ( ( () ( (lv_value_1_0= RULE_BIG_INTEGER ) ) ) | ( ( (lv_start_2_0= RULE_BIG_INTEGER ) ) otherlv_3= '..' ( (lv_end_4_0= RULE_BIG_INTEGER ) ) ) ) )
+            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2698:1: ( ( () ( (lv_value_1_0= RULE_BIG_INTEGER ) ) ) | ( ( (lv_start_2_0= RULE_BIG_INTEGER ) ) otherlv_3= '..' ( (lv_end_4_0= RULE_BIG_INTEGER ) ) ) )
             {
-            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2369:1: ( ( () ( (lv_value_1_0= RULE_BIG_INTEGER ) ) ) | ( ( (lv_start_2_0= RULE_BIG_INTEGER ) ) otherlv_3= '..' ( (lv_end_4_0= RULE_BIG_INTEGER ) ) ) )
-            int alt49=2;
-            int LA49_0 = input.LA(1);
+            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2698:1: ( ( () ( (lv_value_1_0= RULE_BIG_INTEGER ) ) ) | ( ( (lv_start_2_0= RULE_BIG_INTEGER ) ) otherlv_3= '..' ( (lv_end_4_0= RULE_BIG_INTEGER ) ) ) )
+            int alt59=2;
+            int LA59_0 = input.LA(1);
 
-            if ( (LA49_0==RULE_BIG_INTEGER) ) {
-                int LA49_1 = input.LA(2);
+            if ( (LA59_0==RULE_BIG_INTEGER) ) {
+                int LA59_1 = input.LA(2);
 
-                if ( (LA49_1==EOF||LA49_1==34||LA49_1==39) ) {
-                    alt49=1;
+                if ( (LA59_1==47) ) {
+                    alt59=2;
                 }
-                else if ( (LA49_1==47) ) {
-                    alt49=2;
+                else if ( (LA59_1==EOF||LA59_1==34||LA59_1==39) ) {
+                    alt59=1;
                 }
                 else {
                     if (state.backtracking>0) {state.failed=true; return current;}
                     NoViableAltException nvae =
-                        new NoViableAltException("", 49, 1, input);
+                        new NoViableAltException("", 59, 1, input);
 
                     throw nvae;
                 }
@@ -7085,19 +8086,19 @@ public class InternalSmiParser extends AbstractInternalAntlrParser {
             else {
                 if (state.backtracking>0) {state.failed=true; return current;}
                 NoViableAltException nvae =
-                    new NoViableAltException("", 49, 0, input);
+                    new NoViableAltException("", 59, 0, input);
 
                 throw nvae;
             }
-            switch (alt49) {
+            switch (alt59) {
                 case 1 :
-                    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2369:2: ( () ( (lv_value_1_0= RULE_BIG_INTEGER ) ) )
+                    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2698:2: ( () ( (lv_value_1_0= RULE_BIG_INTEGER ) ) )
                     {
-                    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2369:2: ( () ( (lv_value_1_0= RULE_BIG_INTEGER ) ) )
-                    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2369:3: () ( (lv_value_1_0= RULE_BIG_INTEGER ) )
+                    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2698:2: ( () ( (lv_value_1_0= RULE_BIG_INTEGER ) ) )
+                    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2698:3: () ( (lv_value_1_0= RULE_BIG_INTEGER ) )
                     {
-                    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2369:3: ()
-                    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2370:5: 
+                    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2698:3: ()
+                    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2699:5: 
                     {
                     if ( state.backtracking==0 ) {
 
@@ -7109,13 +8110,13 @@ public class InternalSmiParser extends AbstractInternalAntlrParser {
 
                     }
 
-                    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2375:2: ( (lv_value_1_0= RULE_BIG_INTEGER ) )
-                    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2376:1: (lv_value_1_0= RULE_BIG_INTEGER )
+                    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2704:2: ( (lv_value_1_0= RULE_BIG_INTEGER ) )
+                    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2705:1: (lv_value_1_0= RULE_BIG_INTEGER )
                     {
-                    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2376:1: (lv_value_1_0= RULE_BIG_INTEGER )
-                    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2377:3: lv_value_1_0= RULE_BIG_INTEGER
+                    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2705:1: (lv_value_1_0= RULE_BIG_INTEGER )
+                    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2706:3: lv_value_1_0= RULE_BIG_INTEGER
                     {
-                    lv_value_1_0=(Token)match(input,RULE_BIG_INTEGER,FOLLOW_RULE_BIG_INTEGER_in_ruleASN1_RANGE5324); if (state.failed) return current;
+                    lv_value_1_0=(Token)match(input,RULE_BIG_INTEGER,FOLLOW_RULE_BIG_INTEGER_in_ruleASN1_RANGE6087); if (state.failed) return current;
                     if ( state.backtracking==0 ) {
 
                       			newLeafNode(lv_value_1_0, grammarAccess.getASN1_RANGEAccess().getValueBIG_INTEGERTerminalRuleCall_0_1_0()); 
@@ -7146,18 +8147,18 @@ public class InternalSmiParser extends AbstractInternalAntlrParser {
                     }
                     break;
                 case 2 :
-                    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2394:6: ( ( (lv_start_2_0= RULE_BIG_INTEGER ) ) otherlv_3= '..' ( (lv_end_4_0= RULE_BIG_INTEGER ) ) )
+                    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2723:6: ( ( (lv_start_2_0= RULE_BIG_INTEGER ) ) otherlv_3= '..' ( (lv_end_4_0= RULE_BIG_INTEGER ) ) )
                     {
-                    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2394:6: ( ( (lv_start_2_0= RULE_BIG_INTEGER ) ) otherlv_3= '..' ( (lv_end_4_0= RULE_BIG_INTEGER ) ) )
-                    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2394:7: ( (lv_start_2_0= RULE_BIG_INTEGER ) ) otherlv_3= '..' ( (lv_end_4_0= RULE_BIG_INTEGER ) )
+                    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2723:6: ( ( (lv_start_2_0= RULE_BIG_INTEGER ) ) otherlv_3= '..' ( (lv_end_4_0= RULE_BIG_INTEGER ) ) )
+                    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2723:7: ( (lv_start_2_0= RULE_BIG_INTEGER ) ) otherlv_3= '..' ( (lv_end_4_0= RULE_BIG_INTEGER ) )
                     {
-                    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2394:7: ( (lv_start_2_0= RULE_BIG_INTEGER ) )
-                    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2395:1: (lv_start_2_0= RULE_BIG_INTEGER )
+                    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2723:7: ( (lv_start_2_0= RULE_BIG_INTEGER ) )
+                    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2724:1: (lv_start_2_0= RULE_BIG_INTEGER )
                     {
-                    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2395:1: (lv_start_2_0= RULE_BIG_INTEGER )
-                    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2396:3: lv_start_2_0= RULE_BIG_INTEGER
+                    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2724:1: (lv_start_2_0= RULE_BIG_INTEGER )
+                    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2725:3: lv_start_2_0= RULE_BIG_INTEGER
                     {
-                    lv_start_2_0=(Token)match(input,RULE_BIG_INTEGER,FOLLOW_RULE_BIG_INTEGER_in_ruleASN1_RANGE5354); if (state.failed) return current;
+                    lv_start_2_0=(Token)match(input,RULE_BIG_INTEGER,FOLLOW_RULE_BIG_INTEGER_in_ruleASN1_RANGE6117); if (state.failed) return current;
                     if ( state.backtracking==0 ) {
 
                       			newLeafNode(lv_start_2_0, grammarAccess.getASN1_RANGEAccess().getStartBIG_INTEGERTerminalRuleCall_1_0_0()); 
@@ -7181,19 +8182,19 @@ public class InternalSmiParser extends AbstractInternalAntlrParser {
 
                     }
 
-                    otherlv_3=(Token)match(input,47,FOLLOW_47_in_ruleASN1_RANGE5371); if (state.failed) return current;
+                    otherlv_3=(Token)match(input,47,FOLLOW_47_in_ruleASN1_RANGE6134); if (state.failed) return current;
                     if ( state.backtracking==0 ) {
 
                           	newLeafNode(otherlv_3, grammarAccess.getASN1_RANGEAccess().getFullStopFullStopKeyword_1_1());
                           
                     }
-                    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2416:1: ( (lv_end_4_0= RULE_BIG_INTEGER ) )
-                    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2417:1: (lv_end_4_0= RULE_BIG_INTEGER )
+                    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2745:1: ( (lv_end_4_0= RULE_BIG_INTEGER ) )
+                    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2746:1: (lv_end_4_0= RULE_BIG_INTEGER )
                     {
-                    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2417:1: (lv_end_4_0= RULE_BIG_INTEGER )
-                    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2418:3: lv_end_4_0= RULE_BIG_INTEGER
+                    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2746:1: (lv_end_4_0= RULE_BIG_INTEGER )
+                    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2747:3: lv_end_4_0= RULE_BIG_INTEGER
                     {
-                    lv_end_4_0=(Token)match(input,RULE_BIG_INTEGER,FOLLOW_RULE_BIG_INTEGER_in_ruleASN1_RANGE5388); if (state.failed) return current;
+                    lv_end_4_0=(Token)match(input,RULE_BIG_INTEGER,FOLLOW_RULE_BIG_INTEGER_in_ruleASN1_RANGE6151); if (state.failed) return current;
                     if ( state.backtracking==0 ) {
 
                       			newLeafNode(lv_end_4_0, grammarAccess.getASN1_RANGEAccess().getEndBIG_INTEGERTerminalRuleCall_1_2_0()); 
@@ -7246,7 +8247,7 @@ public class InternalSmiParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "entryRuleASN1_CHOICE"
-    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2442:1: entryRuleASN1_CHOICE returns [EObject current=null] : iv_ruleASN1_CHOICE= ruleASN1_CHOICE EOF ;
+    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2771:1: entryRuleASN1_CHOICE returns [EObject current=null] : iv_ruleASN1_CHOICE= ruleASN1_CHOICE EOF ;
     public final EObject entryRuleASN1_CHOICE() throws RecognitionException {
         EObject current = null;
 
@@ -7254,13 +8255,13 @@ public class InternalSmiParser extends AbstractInternalAntlrParser {
 
 
         try {
-            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2443:2: (iv_ruleASN1_CHOICE= ruleASN1_CHOICE EOF )
-            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2444:2: iv_ruleASN1_CHOICE= ruleASN1_CHOICE EOF
+            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2772:2: (iv_ruleASN1_CHOICE= ruleASN1_CHOICE EOF )
+            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2773:2: iv_ruleASN1_CHOICE= ruleASN1_CHOICE EOF
             {
             if ( state.backtracking==0 ) {
                newCompositeNode(grammarAccess.getASN1_CHOICERule()); 
             }
-            pushFollow(FOLLOW_ruleASN1_CHOICE_in_entryRuleASN1_CHOICE5430);
+            pushFollow(FOLLOW_ruleASN1_CHOICE_in_entryRuleASN1_CHOICE6193);
             iv_ruleASN1_CHOICE=ruleASN1_CHOICE();
 
             state._fsp--;
@@ -7268,7 +8269,7 @@ public class InternalSmiParser extends AbstractInternalAntlrParser {
             if ( state.backtracking==0 ) {
                current =iv_ruleASN1_CHOICE; 
             }
-            match(input,EOF,FOLLOW_EOF_in_entryRuleASN1_CHOICE5440); if (state.failed) return current;
+            match(input,EOF,FOLLOW_EOF_in_entryRuleASN1_CHOICE6203); if (state.failed) return current;
 
             }
 
@@ -7286,7 +8287,7 @@ public class InternalSmiParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "ruleASN1_CHOICE"
-    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2451:1: ruleASN1_CHOICE returns [EObject current=null] : (otherlv_0= 'CHOICE' otherlv_1= '{' (this_NEWLINE_2= RULE_NEWLINE )+ ( (lv_choiceType_3_0= ruleASN1_CHOICE_ENTRY ) ) (otherlv_4= ',' (this_NEWLINE_5= RULE_NEWLINE )+ ( (lv_choiceType_6_0= ruleASN1_CHOICE_ENTRY ) ) )* (this_NEWLINE_7= RULE_NEWLINE )+ otherlv_8= '}' ) ;
+    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2780:1: ruleASN1_CHOICE returns [EObject current=null] : (otherlv_0= 'CHOICE' otherlv_1= '{' (this_NEWLINE_2= RULE_NEWLINE )+ ( (lv_choiceType_3_0= ruleASN1_CHOICE_ENTRY ) ) (otherlv_4= ',' (this_NEWLINE_5= RULE_NEWLINE )+ ( (lv_choiceType_6_0= ruleASN1_CHOICE_ENTRY ) ) )* (this_NEWLINE_7= RULE_NEWLINE )+ otherlv_8= '}' ) ;
     public final EObject ruleASN1_CHOICE() throws RecognitionException {
         EObject current = null;
 
@@ -7305,41 +8306,41 @@ public class InternalSmiParser extends AbstractInternalAntlrParser {
          enterRule(); 
             
         try {
-            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2454:28: ( (otherlv_0= 'CHOICE' otherlv_1= '{' (this_NEWLINE_2= RULE_NEWLINE )+ ( (lv_choiceType_3_0= ruleASN1_CHOICE_ENTRY ) ) (otherlv_4= ',' (this_NEWLINE_5= RULE_NEWLINE )+ ( (lv_choiceType_6_0= ruleASN1_CHOICE_ENTRY ) ) )* (this_NEWLINE_7= RULE_NEWLINE )+ otherlv_8= '}' ) )
-            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2455:1: (otherlv_0= 'CHOICE' otherlv_1= '{' (this_NEWLINE_2= RULE_NEWLINE )+ ( (lv_choiceType_3_0= ruleASN1_CHOICE_ENTRY ) ) (otherlv_4= ',' (this_NEWLINE_5= RULE_NEWLINE )+ ( (lv_choiceType_6_0= ruleASN1_CHOICE_ENTRY ) ) )* (this_NEWLINE_7= RULE_NEWLINE )+ otherlv_8= '}' )
+            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2783:28: ( (otherlv_0= 'CHOICE' otherlv_1= '{' (this_NEWLINE_2= RULE_NEWLINE )+ ( (lv_choiceType_3_0= ruleASN1_CHOICE_ENTRY ) ) (otherlv_4= ',' (this_NEWLINE_5= RULE_NEWLINE )+ ( (lv_choiceType_6_0= ruleASN1_CHOICE_ENTRY ) ) )* (this_NEWLINE_7= RULE_NEWLINE )+ otherlv_8= '}' ) )
+            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2784:1: (otherlv_0= 'CHOICE' otherlv_1= '{' (this_NEWLINE_2= RULE_NEWLINE )+ ( (lv_choiceType_3_0= ruleASN1_CHOICE_ENTRY ) ) (otherlv_4= ',' (this_NEWLINE_5= RULE_NEWLINE )+ ( (lv_choiceType_6_0= ruleASN1_CHOICE_ENTRY ) ) )* (this_NEWLINE_7= RULE_NEWLINE )+ otherlv_8= '}' )
             {
-            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2455:1: (otherlv_0= 'CHOICE' otherlv_1= '{' (this_NEWLINE_2= RULE_NEWLINE )+ ( (lv_choiceType_3_0= ruleASN1_CHOICE_ENTRY ) ) (otherlv_4= ',' (this_NEWLINE_5= RULE_NEWLINE )+ ( (lv_choiceType_6_0= ruleASN1_CHOICE_ENTRY ) ) )* (this_NEWLINE_7= RULE_NEWLINE )+ otherlv_8= '}' )
-            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2455:3: otherlv_0= 'CHOICE' otherlv_1= '{' (this_NEWLINE_2= RULE_NEWLINE )+ ( (lv_choiceType_3_0= ruleASN1_CHOICE_ENTRY ) ) (otherlv_4= ',' (this_NEWLINE_5= RULE_NEWLINE )+ ( (lv_choiceType_6_0= ruleASN1_CHOICE_ENTRY ) ) )* (this_NEWLINE_7= RULE_NEWLINE )+ otherlv_8= '}'
+            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2784:1: (otherlv_0= 'CHOICE' otherlv_1= '{' (this_NEWLINE_2= RULE_NEWLINE )+ ( (lv_choiceType_3_0= ruleASN1_CHOICE_ENTRY ) ) (otherlv_4= ',' (this_NEWLINE_5= RULE_NEWLINE )+ ( (lv_choiceType_6_0= ruleASN1_CHOICE_ENTRY ) ) )* (this_NEWLINE_7= RULE_NEWLINE )+ otherlv_8= '}' )
+            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2784:3: otherlv_0= 'CHOICE' otherlv_1= '{' (this_NEWLINE_2= RULE_NEWLINE )+ ( (lv_choiceType_3_0= ruleASN1_CHOICE_ENTRY ) ) (otherlv_4= ',' (this_NEWLINE_5= RULE_NEWLINE )+ ( (lv_choiceType_6_0= ruleASN1_CHOICE_ENTRY ) ) )* (this_NEWLINE_7= RULE_NEWLINE )+ otherlv_8= '}'
             {
-            otherlv_0=(Token)match(input,48,FOLLOW_48_in_ruleASN1_CHOICE5477); if (state.failed) return current;
+            otherlv_0=(Token)match(input,48,FOLLOW_48_in_ruleASN1_CHOICE6240); if (state.failed) return current;
             if ( state.backtracking==0 ) {
 
                   	newLeafNode(otherlv_0, grammarAccess.getASN1_CHOICEAccess().getCHOICEKeyword_0());
                   
             }
-            otherlv_1=(Token)match(input,25,FOLLOW_25_in_ruleASN1_CHOICE5489); if (state.failed) return current;
+            otherlv_1=(Token)match(input,25,FOLLOW_25_in_ruleASN1_CHOICE6252); if (state.failed) return current;
             if ( state.backtracking==0 ) {
 
                   	newLeafNode(otherlv_1, grammarAccess.getASN1_CHOICEAccess().getLeftCurlyBracketKeyword_1());
                   
             }
-            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2463:1: (this_NEWLINE_2= RULE_NEWLINE )+
-            int cnt50=0;
-            loop50:
+            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2792:1: (this_NEWLINE_2= RULE_NEWLINE )+
+            int cnt60=0;
+            loop60:
             do {
-                int alt50=2;
-                int LA50_0 = input.LA(1);
+                int alt60=2;
+                int LA60_0 = input.LA(1);
 
-                if ( (LA50_0==RULE_NEWLINE) ) {
-                    alt50=1;
+                if ( (LA60_0==RULE_NEWLINE) ) {
+                    alt60=1;
                 }
 
 
-                switch (alt50) {
+                switch (alt60) {
             	case 1 :
-            	    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2463:2: this_NEWLINE_2= RULE_NEWLINE
+            	    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2792:2: this_NEWLINE_2= RULE_NEWLINE
             	    {
-            	    this_NEWLINE_2=(Token)match(input,RULE_NEWLINE,FOLLOW_RULE_NEWLINE_in_ruleASN1_CHOICE5501); if (state.failed) return current;
+            	    this_NEWLINE_2=(Token)match(input,RULE_NEWLINE,FOLLOW_RULE_NEWLINE_in_ruleASN1_CHOICE6264); if (state.failed) return current;
             	    if ( state.backtracking==0 ) {
             	       
             	          newLeafNode(this_NEWLINE_2, grammarAccess.getASN1_CHOICEAccess().getNEWLINETerminalRuleCall_2()); 
@@ -7350,27 +8351,27 @@ public class InternalSmiParser extends AbstractInternalAntlrParser {
             	    break;
 
             	default :
-            	    if ( cnt50 >= 1 ) break loop50;
+            	    if ( cnt60 >= 1 ) break loop60;
             	    if (state.backtracking>0) {state.failed=true; return current;}
                         EarlyExitException eee =
-                            new EarlyExitException(50, input);
+                            new EarlyExitException(60, input);
                         throw eee;
                 }
-                cnt50++;
+                cnt60++;
             } while (true);
 
-            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2467:3: ( (lv_choiceType_3_0= ruleASN1_CHOICE_ENTRY ) )
-            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2468:1: (lv_choiceType_3_0= ruleASN1_CHOICE_ENTRY )
+            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2796:3: ( (lv_choiceType_3_0= ruleASN1_CHOICE_ENTRY ) )
+            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2797:1: (lv_choiceType_3_0= ruleASN1_CHOICE_ENTRY )
             {
-            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2468:1: (lv_choiceType_3_0= ruleASN1_CHOICE_ENTRY )
-            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2469:3: lv_choiceType_3_0= ruleASN1_CHOICE_ENTRY
+            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2797:1: (lv_choiceType_3_0= ruleASN1_CHOICE_ENTRY )
+            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2798:3: lv_choiceType_3_0= ruleASN1_CHOICE_ENTRY
             {
             if ( state.backtracking==0 ) {
                
               	        newCompositeNode(grammarAccess.getASN1_CHOICEAccess().getChoiceTypeASN1_CHOICE_ENTRYParserRuleCall_3_0()); 
               	    
             }
-            pushFollow(FOLLOW_ruleASN1_CHOICE_ENTRY_in_ruleASN1_CHOICE5523);
+            pushFollow(FOLLOW_ruleASN1_CHOICE_ENTRY_in_ruleASN1_CHOICE6286);
             lv_choiceType_3_0=ruleASN1_CHOICE_ENTRY();
 
             state._fsp--;
@@ -7394,44 +8395,44 @@ public class InternalSmiParser extends AbstractInternalAntlrParser {
 
             }
 
-            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2485:2: (otherlv_4= ',' (this_NEWLINE_5= RULE_NEWLINE )+ ( (lv_choiceType_6_0= ruleASN1_CHOICE_ENTRY ) ) )*
-            loop52:
+            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2814:2: (otherlv_4= ',' (this_NEWLINE_5= RULE_NEWLINE )+ ( (lv_choiceType_6_0= ruleASN1_CHOICE_ENTRY ) ) )*
+            loop62:
             do {
-                int alt52=2;
-                int LA52_0 = input.LA(1);
+                int alt62=2;
+                int LA62_0 = input.LA(1);
 
-                if ( (LA52_0==23) ) {
-                    alt52=1;
+                if ( (LA62_0==23) ) {
+                    alt62=1;
                 }
 
 
-                switch (alt52) {
+                switch (alt62) {
             	case 1 :
-            	    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2485:4: otherlv_4= ',' (this_NEWLINE_5= RULE_NEWLINE )+ ( (lv_choiceType_6_0= ruleASN1_CHOICE_ENTRY ) )
+            	    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2814:4: otherlv_4= ',' (this_NEWLINE_5= RULE_NEWLINE )+ ( (lv_choiceType_6_0= ruleASN1_CHOICE_ENTRY ) )
             	    {
-            	    otherlv_4=(Token)match(input,23,FOLLOW_23_in_ruleASN1_CHOICE5536); if (state.failed) return current;
+            	    otherlv_4=(Token)match(input,23,FOLLOW_23_in_ruleASN1_CHOICE6299); if (state.failed) return current;
             	    if ( state.backtracking==0 ) {
 
             	          	newLeafNode(otherlv_4, grammarAccess.getASN1_CHOICEAccess().getCommaKeyword_4_0());
             	          
             	    }
-            	    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2489:1: (this_NEWLINE_5= RULE_NEWLINE )+
-            	    int cnt51=0;
-            	    loop51:
+            	    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2818:1: (this_NEWLINE_5= RULE_NEWLINE )+
+            	    int cnt61=0;
+            	    loop61:
             	    do {
-            	        int alt51=2;
-            	        int LA51_0 = input.LA(1);
+            	        int alt61=2;
+            	        int LA61_0 = input.LA(1);
 
-            	        if ( (LA51_0==RULE_NEWLINE) ) {
-            	            alt51=1;
+            	        if ( (LA61_0==RULE_NEWLINE) ) {
+            	            alt61=1;
             	        }
 
 
-            	        switch (alt51) {
+            	        switch (alt61) {
             	    	case 1 :
-            	    	    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2489:2: this_NEWLINE_5= RULE_NEWLINE
+            	    	    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2818:2: this_NEWLINE_5= RULE_NEWLINE
             	    	    {
-            	    	    this_NEWLINE_5=(Token)match(input,RULE_NEWLINE,FOLLOW_RULE_NEWLINE_in_ruleASN1_CHOICE5548); if (state.failed) return current;
+            	    	    this_NEWLINE_5=(Token)match(input,RULE_NEWLINE,FOLLOW_RULE_NEWLINE_in_ruleASN1_CHOICE6311); if (state.failed) return current;
             	    	    if ( state.backtracking==0 ) {
             	    	       
             	    	          newLeafNode(this_NEWLINE_5, grammarAccess.getASN1_CHOICEAccess().getNEWLINETerminalRuleCall_4_1()); 
@@ -7442,27 +8443,27 @@ public class InternalSmiParser extends AbstractInternalAntlrParser {
             	    	    break;
 
             	    	default :
-            	    	    if ( cnt51 >= 1 ) break loop51;
+            	    	    if ( cnt61 >= 1 ) break loop61;
             	    	    if (state.backtracking>0) {state.failed=true; return current;}
             	                EarlyExitException eee =
-            	                    new EarlyExitException(51, input);
+            	                    new EarlyExitException(61, input);
             	                throw eee;
             	        }
-            	        cnt51++;
+            	        cnt61++;
             	    } while (true);
 
-            	    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2493:3: ( (lv_choiceType_6_0= ruleASN1_CHOICE_ENTRY ) )
-            	    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2494:1: (lv_choiceType_6_0= ruleASN1_CHOICE_ENTRY )
+            	    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2822:3: ( (lv_choiceType_6_0= ruleASN1_CHOICE_ENTRY ) )
+            	    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2823:1: (lv_choiceType_6_0= ruleASN1_CHOICE_ENTRY )
             	    {
-            	    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2494:1: (lv_choiceType_6_0= ruleASN1_CHOICE_ENTRY )
-            	    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2495:3: lv_choiceType_6_0= ruleASN1_CHOICE_ENTRY
+            	    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2823:1: (lv_choiceType_6_0= ruleASN1_CHOICE_ENTRY )
+            	    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2824:3: lv_choiceType_6_0= ruleASN1_CHOICE_ENTRY
             	    {
             	    if ( state.backtracking==0 ) {
             	       
             	      	        newCompositeNode(grammarAccess.getASN1_CHOICEAccess().getChoiceTypeASN1_CHOICE_ENTRYParserRuleCall_4_2_0()); 
             	      	    
             	    }
-            	    pushFollow(FOLLOW_ruleASN1_CHOICE_ENTRY_in_ruleASN1_CHOICE5570);
+            	    pushFollow(FOLLOW_ruleASN1_CHOICE_ENTRY_in_ruleASN1_CHOICE6333);
             	    lv_choiceType_6_0=ruleASN1_CHOICE_ENTRY();
 
             	    state._fsp--;
@@ -7491,27 +8492,27 @@ public class InternalSmiParser extends AbstractInternalAntlrParser {
             	    break;
 
             	default :
-            	    break loop52;
+            	    break loop62;
                 }
             } while (true);
 
-            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2511:4: (this_NEWLINE_7= RULE_NEWLINE )+
-            int cnt53=0;
-            loop53:
+            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2840:4: (this_NEWLINE_7= RULE_NEWLINE )+
+            int cnt63=0;
+            loop63:
             do {
-                int alt53=2;
-                int LA53_0 = input.LA(1);
+                int alt63=2;
+                int LA63_0 = input.LA(1);
 
-                if ( (LA53_0==RULE_NEWLINE) ) {
-                    alt53=1;
+                if ( (LA63_0==RULE_NEWLINE) ) {
+                    alt63=1;
                 }
 
 
-                switch (alt53) {
+                switch (alt63) {
             	case 1 :
-            	    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2511:5: this_NEWLINE_7= RULE_NEWLINE
+            	    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2840:5: this_NEWLINE_7= RULE_NEWLINE
             	    {
-            	    this_NEWLINE_7=(Token)match(input,RULE_NEWLINE,FOLLOW_RULE_NEWLINE_in_ruleASN1_CHOICE5584); if (state.failed) return current;
+            	    this_NEWLINE_7=(Token)match(input,RULE_NEWLINE,FOLLOW_RULE_NEWLINE_in_ruleASN1_CHOICE6347); if (state.failed) return current;
             	    if ( state.backtracking==0 ) {
             	       
             	          newLeafNode(this_NEWLINE_7, grammarAccess.getASN1_CHOICEAccess().getNEWLINETerminalRuleCall_5()); 
@@ -7522,16 +8523,16 @@ public class InternalSmiParser extends AbstractInternalAntlrParser {
             	    break;
 
             	default :
-            	    if ( cnt53 >= 1 ) break loop53;
+            	    if ( cnt63 >= 1 ) break loop63;
             	    if (state.backtracking>0) {state.failed=true; return current;}
                         EarlyExitException eee =
-                            new EarlyExitException(53, input);
+                            new EarlyExitException(63, input);
                         throw eee;
                 }
-                cnt53++;
+                cnt63++;
             } while (true);
 
-            otherlv_8=(Token)match(input,26,FOLLOW_26_in_ruleASN1_CHOICE5597); if (state.failed) return current;
+            otherlv_8=(Token)match(input,26,FOLLOW_26_in_ruleASN1_CHOICE6360); if (state.failed) return current;
             if ( state.backtracking==0 ) {
 
                   	newLeafNode(otherlv_8, grammarAccess.getASN1_CHOICEAccess().getRightCurlyBracketKeyword_6());
@@ -7559,8 +8560,450 @@ public class InternalSmiParser extends AbstractInternalAntlrParser {
     // $ANTLR end "ruleASN1_CHOICE"
 
 
+    // $ANTLR start "entryRuleASN1_SEQUENCE"
+    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2856:1: entryRuleASN1_SEQUENCE returns [EObject current=null] : iv_ruleASN1_SEQUENCE= ruleASN1_SEQUENCE EOF ;
+    public final EObject entryRuleASN1_SEQUENCE() throws RecognitionException {
+        EObject current = null;
+
+        EObject iv_ruleASN1_SEQUENCE = null;
+
+
+        try {
+            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2857:2: (iv_ruleASN1_SEQUENCE= ruleASN1_SEQUENCE EOF )
+            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2858:2: iv_ruleASN1_SEQUENCE= ruleASN1_SEQUENCE EOF
+            {
+            if ( state.backtracking==0 ) {
+               newCompositeNode(grammarAccess.getASN1_SEQUENCERule()); 
+            }
+            pushFollow(FOLLOW_ruleASN1_SEQUENCE_in_entryRuleASN1_SEQUENCE6396);
+            iv_ruleASN1_SEQUENCE=ruleASN1_SEQUENCE();
+
+            state._fsp--;
+            if (state.failed) return current;
+            if ( state.backtracking==0 ) {
+               current =iv_ruleASN1_SEQUENCE; 
+            }
+            match(input,EOF,FOLLOW_EOF_in_entryRuleASN1_SEQUENCE6406); if (state.failed) return current;
+
+            }
+
+        }
+         
+            catch (RecognitionException re) { 
+                recover(input,re); 
+                appendSkippedTokens();
+            } 
+        finally {
+        }
+        return current;
+    }
+    // $ANTLR end "entryRuleASN1_SEQUENCE"
+
+
+    // $ANTLR start "ruleASN1_SEQUENCE"
+    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2865:1: ruleASN1_SEQUENCE returns [EObject current=null] : (otherlv_0= 'SEQUENCE' otherlv_1= '{' (this_NEWLINE_2= RULE_NEWLINE )+ ( (lv_choiceType_3_0= ruleASN1_CHOICE_ENTRY ) ) (otherlv_4= ',' (this_NEWLINE_5= RULE_NEWLINE )+ ( (lv_choiceType_6_0= ruleASN1_CHOICE_ENTRY ) ) )* (this_NEWLINE_7= RULE_NEWLINE )+ otherlv_8= '}' ) ;
+    public final EObject ruleASN1_SEQUENCE() throws RecognitionException {
+        EObject current = null;
+
+        Token otherlv_0=null;
+        Token otherlv_1=null;
+        Token this_NEWLINE_2=null;
+        Token otherlv_4=null;
+        Token this_NEWLINE_5=null;
+        Token this_NEWLINE_7=null;
+        Token otherlv_8=null;
+        EObject lv_choiceType_3_0 = null;
+
+        EObject lv_choiceType_6_0 = null;
+
+
+         enterRule(); 
+            
+        try {
+            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2868:28: ( (otherlv_0= 'SEQUENCE' otherlv_1= '{' (this_NEWLINE_2= RULE_NEWLINE )+ ( (lv_choiceType_3_0= ruleASN1_CHOICE_ENTRY ) ) (otherlv_4= ',' (this_NEWLINE_5= RULE_NEWLINE )+ ( (lv_choiceType_6_0= ruleASN1_CHOICE_ENTRY ) ) )* (this_NEWLINE_7= RULE_NEWLINE )+ otherlv_8= '}' ) )
+            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2869:1: (otherlv_0= 'SEQUENCE' otherlv_1= '{' (this_NEWLINE_2= RULE_NEWLINE )+ ( (lv_choiceType_3_0= ruleASN1_CHOICE_ENTRY ) ) (otherlv_4= ',' (this_NEWLINE_5= RULE_NEWLINE )+ ( (lv_choiceType_6_0= ruleASN1_CHOICE_ENTRY ) ) )* (this_NEWLINE_7= RULE_NEWLINE )+ otherlv_8= '}' )
+            {
+            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2869:1: (otherlv_0= 'SEQUENCE' otherlv_1= '{' (this_NEWLINE_2= RULE_NEWLINE )+ ( (lv_choiceType_3_0= ruleASN1_CHOICE_ENTRY ) ) (otherlv_4= ',' (this_NEWLINE_5= RULE_NEWLINE )+ ( (lv_choiceType_6_0= ruleASN1_CHOICE_ENTRY ) ) )* (this_NEWLINE_7= RULE_NEWLINE )+ otherlv_8= '}' )
+            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2869:3: otherlv_0= 'SEQUENCE' otherlv_1= '{' (this_NEWLINE_2= RULE_NEWLINE )+ ( (lv_choiceType_3_0= ruleASN1_CHOICE_ENTRY ) ) (otherlv_4= ',' (this_NEWLINE_5= RULE_NEWLINE )+ ( (lv_choiceType_6_0= ruleASN1_CHOICE_ENTRY ) ) )* (this_NEWLINE_7= RULE_NEWLINE )+ otherlv_8= '}'
+            {
+            otherlv_0=(Token)match(input,49,FOLLOW_49_in_ruleASN1_SEQUENCE6443); if (state.failed) return current;
+            if ( state.backtracking==0 ) {
+
+                  	newLeafNode(otherlv_0, grammarAccess.getASN1_SEQUENCEAccess().getSEQUENCEKeyword_0());
+                  
+            }
+            otherlv_1=(Token)match(input,25,FOLLOW_25_in_ruleASN1_SEQUENCE6455); if (state.failed) return current;
+            if ( state.backtracking==0 ) {
+
+                  	newLeafNode(otherlv_1, grammarAccess.getASN1_SEQUENCEAccess().getLeftCurlyBracketKeyword_1());
+                  
+            }
+            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2877:1: (this_NEWLINE_2= RULE_NEWLINE )+
+            int cnt64=0;
+            loop64:
+            do {
+                int alt64=2;
+                int LA64_0 = input.LA(1);
+
+                if ( (LA64_0==RULE_NEWLINE) ) {
+                    alt64=1;
+                }
+
+
+                switch (alt64) {
+            	case 1 :
+            	    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2877:2: this_NEWLINE_2= RULE_NEWLINE
+            	    {
+            	    this_NEWLINE_2=(Token)match(input,RULE_NEWLINE,FOLLOW_RULE_NEWLINE_in_ruleASN1_SEQUENCE6467); if (state.failed) return current;
+            	    if ( state.backtracking==0 ) {
+            	       
+            	          newLeafNode(this_NEWLINE_2, grammarAccess.getASN1_SEQUENCEAccess().getNEWLINETerminalRuleCall_2()); 
+            	          
+            	    }
+
+            	    }
+            	    break;
+
+            	default :
+            	    if ( cnt64 >= 1 ) break loop64;
+            	    if (state.backtracking>0) {state.failed=true; return current;}
+                        EarlyExitException eee =
+                            new EarlyExitException(64, input);
+                        throw eee;
+                }
+                cnt64++;
+            } while (true);
+
+            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2881:3: ( (lv_choiceType_3_0= ruleASN1_CHOICE_ENTRY ) )
+            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2882:1: (lv_choiceType_3_0= ruleASN1_CHOICE_ENTRY )
+            {
+            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2882:1: (lv_choiceType_3_0= ruleASN1_CHOICE_ENTRY )
+            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2883:3: lv_choiceType_3_0= ruleASN1_CHOICE_ENTRY
+            {
+            if ( state.backtracking==0 ) {
+               
+              	        newCompositeNode(grammarAccess.getASN1_SEQUENCEAccess().getChoiceTypeASN1_CHOICE_ENTRYParserRuleCall_3_0()); 
+              	    
+            }
+            pushFollow(FOLLOW_ruleASN1_CHOICE_ENTRY_in_ruleASN1_SEQUENCE6489);
+            lv_choiceType_3_0=ruleASN1_CHOICE_ENTRY();
+
+            state._fsp--;
+            if (state.failed) return current;
+            if ( state.backtracking==0 ) {
+
+              	        if (current==null) {
+              	            current = createModelElementForParent(grammarAccess.getASN1_SEQUENCERule());
+              	        }
+                     		add(
+                     			current, 
+                     			"choiceType",
+                      		lv_choiceType_3_0, 
+                      		"ASN1_CHOICE_ENTRY");
+              	        afterParserOrEnumRuleCall();
+              	    
+            }
+
+            }
+
+
+            }
+
+            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2899:2: (otherlv_4= ',' (this_NEWLINE_5= RULE_NEWLINE )+ ( (lv_choiceType_6_0= ruleASN1_CHOICE_ENTRY ) ) )*
+            loop66:
+            do {
+                int alt66=2;
+                int LA66_0 = input.LA(1);
+
+                if ( (LA66_0==23) ) {
+                    alt66=1;
+                }
+
+
+                switch (alt66) {
+            	case 1 :
+            	    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2899:4: otherlv_4= ',' (this_NEWLINE_5= RULE_NEWLINE )+ ( (lv_choiceType_6_0= ruleASN1_CHOICE_ENTRY ) )
+            	    {
+            	    otherlv_4=(Token)match(input,23,FOLLOW_23_in_ruleASN1_SEQUENCE6502); if (state.failed) return current;
+            	    if ( state.backtracking==0 ) {
+
+            	          	newLeafNode(otherlv_4, grammarAccess.getASN1_SEQUENCEAccess().getCommaKeyword_4_0());
+            	          
+            	    }
+            	    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2903:1: (this_NEWLINE_5= RULE_NEWLINE )+
+            	    int cnt65=0;
+            	    loop65:
+            	    do {
+            	        int alt65=2;
+            	        int LA65_0 = input.LA(1);
+
+            	        if ( (LA65_0==RULE_NEWLINE) ) {
+            	            alt65=1;
+            	        }
+
+
+            	        switch (alt65) {
+            	    	case 1 :
+            	    	    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2903:2: this_NEWLINE_5= RULE_NEWLINE
+            	    	    {
+            	    	    this_NEWLINE_5=(Token)match(input,RULE_NEWLINE,FOLLOW_RULE_NEWLINE_in_ruleASN1_SEQUENCE6514); if (state.failed) return current;
+            	    	    if ( state.backtracking==0 ) {
+            	    	       
+            	    	          newLeafNode(this_NEWLINE_5, grammarAccess.getASN1_SEQUENCEAccess().getNEWLINETerminalRuleCall_4_1()); 
+            	    	          
+            	    	    }
+
+            	    	    }
+            	    	    break;
+
+            	    	default :
+            	    	    if ( cnt65 >= 1 ) break loop65;
+            	    	    if (state.backtracking>0) {state.failed=true; return current;}
+            	                EarlyExitException eee =
+            	                    new EarlyExitException(65, input);
+            	                throw eee;
+            	        }
+            	        cnt65++;
+            	    } while (true);
+
+            	    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2907:3: ( (lv_choiceType_6_0= ruleASN1_CHOICE_ENTRY ) )
+            	    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2908:1: (lv_choiceType_6_0= ruleASN1_CHOICE_ENTRY )
+            	    {
+            	    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2908:1: (lv_choiceType_6_0= ruleASN1_CHOICE_ENTRY )
+            	    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2909:3: lv_choiceType_6_0= ruleASN1_CHOICE_ENTRY
+            	    {
+            	    if ( state.backtracking==0 ) {
+            	       
+            	      	        newCompositeNode(grammarAccess.getASN1_SEQUENCEAccess().getChoiceTypeASN1_CHOICE_ENTRYParserRuleCall_4_2_0()); 
+            	      	    
+            	    }
+            	    pushFollow(FOLLOW_ruleASN1_CHOICE_ENTRY_in_ruleASN1_SEQUENCE6536);
+            	    lv_choiceType_6_0=ruleASN1_CHOICE_ENTRY();
+
+            	    state._fsp--;
+            	    if (state.failed) return current;
+            	    if ( state.backtracking==0 ) {
+
+            	      	        if (current==null) {
+            	      	            current = createModelElementForParent(grammarAccess.getASN1_SEQUENCERule());
+            	      	        }
+            	             		add(
+            	             			current, 
+            	             			"choiceType",
+            	              		lv_choiceType_6_0, 
+            	              		"ASN1_CHOICE_ENTRY");
+            	      	        afterParserOrEnumRuleCall();
+            	      	    
+            	    }
+
+            	    }
+
+
+            	    }
+
+
+            	    }
+            	    break;
+
+            	default :
+            	    break loop66;
+                }
+            } while (true);
+
+            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2925:4: (this_NEWLINE_7= RULE_NEWLINE )+
+            int cnt67=0;
+            loop67:
+            do {
+                int alt67=2;
+                int LA67_0 = input.LA(1);
+
+                if ( (LA67_0==RULE_NEWLINE) ) {
+                    alt67=1;
+                }
+
+
+                switch (alt67) {
+            	case 1 :
+            	    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2925:5: this_NEWLINE_7= RULE_NEWLINE
+            	    {
+            	    this_NEWLINE_7=(Token)match(input,RULE_NEWLINE,FOLLOW_RULE_NEWLINE_in_ruleASN1_SEQUENCE6550); if (state.failed) return current;
+            	    if ( state.backtracking==0 ) {
+            	       
+            	          newLeafNode(this_NEWLINE_7, grammarAccess.getASN1_SEQUENCEAccess().getNEWLINETerminalRuleCall_5()); 
+            	          
+            	    }
+
+            	    }
+            	    break;
+
+            	default :
+            	    if ( cnt67 >= 1 ) break loop67;
+            	    if (state.backtracking>0) {state.failed=true; return current;}
+                        EarlyExitException eee =
+                            new EarlyExitException(67, input);
+                        throw eee;
+                }
+                cnt67++;
+            } while (true);
+
+            otherlv_8=(Token)match(input,26,FOLLOW_26_in_ruleASN1_SEQUENCE6563); if (state.failed) return current;
+            if ( state.backtracking==0 ) {
+
+                  	newLeafNode(otherlv_8, grammarAccess.getASN1_SEQUENCEAccess().getRightCurlyBracketKeyword_6());
+                  
+            }
+
+            }
+
+
+            }
+
+            if ( state.backtracking==0 ) {
+               leaveRule(); 
+            }
+        }
+         
+            catch (RecognitionException re) { 
+                recover(input,re); 
+                appendSkippedTokens();
+            } 
+        finally {
+        }
+        return current;
+    }
+    // $ANTLR end "ruleASN1_SEQUENCE"
+
+
+    // $ANTLR start "entryRuleASN1_SEQUENCE_OF"
+    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2941:1: entryRuleASN1_SEQUENCE_OF returns [EObject current=null] : iv_ruleASN1_SEQUENCE_OF= ruleASN1_SEQUENCE_OF EOF ;
+    public final EObject entryRuleASN1_SEQUENCE_OF() throws RecognitionException {
+        EObject current = null;
+
+        EObject iv_ruleASN1_SEQUENCE_OF = null;
+
+
+        try {
+            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2942:2: (iv_ruleASN1_SEQUENCE_OF= ruleASN1_SEQUENCE_OF EOF )
+            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2943:2: iv_ruleASN1_SEQUENCE_OF= ruleASN1_SEQUENCE_OF EOF
+            {
+            if ( state.backtracking==0 ) {
+               newCompositeNode(grammarAccess.getASN1_SEQUENCE_OFRule()); 
+            }
+            pushFollow(FOLLOW_ruleASN1_SEQUENCE_OF_in_entryRuleASN1_SEQUENCE_OF6599);
+            iv_ruleASN1_SEQUENCE_OF=ruleASN1_SEQUENCE_OF();
+
+            state._fsp--;
+            if (state.failed) return current;
+            if ( state.backtracking==0 ) {
+               current =iv_ruleASN1_SEQUENCE_OF; 
+            }
+            match(input,EOF,FOLLOW_EOF_in_entryRuleASN1_SEQUENCE_OF6609); if (state.failed) return current;
+
+            }
+
+        }
+         
+            catch (RecognitionException re) { 
+                recover(input,re); 
+                appendSkippedTokens();
+            } 
+        finally {
+        }
+        return current;
+    }
+    // $ANTLR end "entryRuleASN1_SEQUENCE_OF"
+
+
+    // $ANTLR start "ruleASN1_SEQUENCE_OF"
+    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2950:1: ruleASN1_SEQUENCE_OF returns [EObject current=null] : (otherlv_0= 'SEQUENCE' otherlv_1= 'OF' ( (lv_ref_2_0= ruleTypeReference ) ) ) ;
+    public final EObject ruleASN1_SEQUENCE_OF() throws RecognitionException {
+        EObject current = null;
+
+        Token otherlv_0=null;
+        Token otherlv_1=null;
+        EObject lv_ref_2_0 = null;
+
+
+         enterRule(); 
+            
+        try {
+            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2953:28: ( (otherlv_0= 'SEQUENCE' otherlv_1= 'OF' ( (lv_ref_2_0= ruleTypeReference ) ) ) )
+            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2954:1: (otherlv_0= 'SEQUENCE' otherlv_1= 'OF' ( (lv_ref_2_0= ruleTypeReference ) ) )
+            {
+            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2954:1: (otherlv_0= 'SEQUENCE' otherlv_1= 'OF' ( (lv_ref_2_0= ruleTypeReference ) ) )
+            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2954:3: otherlv_0= 'SEQUENCE' otherlv_1= 'OF' ( (lv_ref_2_0= ruleTypeReference ) )
+            {
+            otherlv_0=(Token)match(input,49,FOLLOW_49_in_ruleASN1_SEQUENCE_OF6646); if (state.failed) return current;
+            if ( state.backtracking==0 ) {
+
+                  	newLeafNode(otherlv_0, grammarAccess.getASN1_SEQUENCE_OFAccess().getSEQUENCEKeyword_0());
+                  
+            }
+            otherlv_1=(Token)match(input,50,FOLLOW_50_in_ruleASN1_SEQUENCE_OF6658); if (state.failed) return current;
+            if ( state.backtracking==0 ) {
+
+                  	newLeafNode(otherlv_1, grammarAccess.getASN1_SEQUENCE_OFAccess().getOFKeyword_1());
+                  
+            }
+            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2962:1: ( (lv_ref_2_0= ruleTypeReference ) )
+            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2963:1: (lv_ref_2_0= ruleTypeReference )
+            {
+            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2963:1: (lv_ref_2_0= ruleTypeReference )
+            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2964:3: lv_ref_2_0= ruleTypeReference
+            {
+            if ( state.backtracking==0 ) {
+               
+              	        newCompositeNode(grammarAccess.getASN1_SEQUENCE_OFAccess().getRefTypeReferenceParserRuleCall_2_0()); 
+              	    
+            }
+            pushFollow(FOLLOW_ruleTypeReference_in_ruleASN1_SEQUENCE_OF6679);
+            lv_ref_2_0=ruleTypeReference();
+
+            state._fsp--;
+            if (state.failed) return current;
+            if ( state.backtracking==0 ) {
+
+              	        if (current==null) {
+              	            current = createModelElementForParent(grammarAccess.getASN1_SEQUENCE_OFRule());
+              	        }
+                     		set(
+                     			current, 
+                     			"ref",
+                      		lv_ref_2_0, 
+                      		"TypeReference");
+              	        afterParserOrEnumRuleCall();
+              	    
+            }
+
+            }
+
+
+            }
+
+
+            }
+
+
+            }
+
+            if ( state.backtracking==0 ) {
+               leaveRule(); 
+            }
+        }
+         
+            catch (RecognitionException re) { 
+                recover(input,re); 
+                appendSkippedTokens();
+            } 
+        finally {
+        }
+        return current;
+    }
+    // $ANTLR end "ruleASN1_SEQUENCE_OF"
+
+
     // $ANTLR start "entryRuleASN1_CHOICE_ENTRY"
-    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2527:1: entryRuleASN1_CHOICE_ENTRY returns [EObject current=null] : iv_ruleASN1_CHOICE_ENTRY= ruleASN1_CHOICE_ENTRY EOF ;
+    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2988:1: entryRuleASN1_CHOICE_ENTRY returns [EObject current=null] : iv_ruleASN1_CHOICE_ENTRY= ruleASN1_CHOICE_ENTRY EOF ;
     public final EObject entryRuleASN1_CHOICE_ENTRY() throws RecognitionException {
         EObject current = null;
 
@@ -7568,13 +9011,13 @@ public class InternalSmiParser extends AbstractInternalAntlrParser {
 
 
         try {
-            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2528:2: (iv_ruleASN1_CHOICE_ENTRY= ruleASN1_CHOICE_ENTRY EOF )
-            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2529:2: iv_ruleASN1_CHOICE_ENTRY= ruleASN1_CHOICE_ENTRY EOF
+            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2989:2: (iv_ruleASN1_CHOICE_ENTRY= ruleASN1_CHOICE_ENTRY EOF )
+            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2990:2: iv_ruleASN1_CHOICE_ENTRY= ruleASN1_CHOICE_ENTRY EOF
             {
             if ( state.backtracking==0 ) {
                newCompositeNode(grammarAccess.getASN1_CHOICE_ENTRYRule()); 
             }
-            pushFollow(FOLLOW_ruleASN1_CHOICE_ENTRY_in_entryRuleASN1_CHOICE_ENTRY5633);
+            pushFollow(FOLLOW_ruleASN1_CHOICE_ENTRY_in_entryRuleASN1_CHOICE_ENTRY6715);
             iv_ruleASN1_CHOICE_ENTRY=ruleASN1_CHOICE_ENTRY();
 
             state._fsp--;
@@ -7582,7 +9025,7 @@ public class InternalSmiParser extends AbstractInternalAntlrParser {
             if ( state.backtracking==0 ) {
                current =iv_ruleASN1_CHOICE_ENTRY; 
             }
-            match(input,EOF,FOLLOW_EOF_in_entryRuleASN1_CHOICE_ENTRY5643); if (state.failed) return current;
+            match(input,EOF,FOLLOW_EOF_in_entryRuleASN1_CHOICE_ENTRY6725); if (state.failed) return current;
 
             }
 
@@ -7600,7 +9043,7 @@ public class InternalSmiParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "ruleASN1_CHOICE_ENTRY"
-    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2536:1: ruleASN1_CHOICE_ENTRY returns [EObject current=null] : ( ( (lv_id_0_0= RULE_ASN1_ID ) ) (this_NEWLINE_1= RULE_NEWLINE )? ( (lv_valueType_2_0= ruleChoiceType ) ) ) ;
+    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2997:1: ruleASN1_CHOICE_ENTRY returns [EObject current=null] : ( ( (lv_id_0_0= RULE_ASN1_ID ) ) (this_NEWLINE_1= RULE_NEWLINE )? ( (lv_valueType_2_0= ruleChoiceType ) ) ) ;
     public final EObject ruleASN1_CHOICE_ENTRY() throws RecognitionException {
         EObject current = null;
 
@@ -7612,19 +9055,19 @@ public class InternalSmiParser extends AbstractInternalAntlrParser {
          enterRule(); 
             
         try {
-            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2539:28: ( ( ( (lv_id_0_0= RULE_ASN1_ID ) ) (this_NEWLINE_1= RULE_NEWLINE )? ( (lv_valueType_2_0= ruleChoiceType ) ) ) )
-            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2540:1: ( ( (lv_id_0_0= RULE_ASN1_ID ) ) (this_NEWLINE_1= RULE_NEWLINE )? ( (lv_valueType_2_0= ruleChoiceType ) ) )
+            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:3000:28: ( ( ( (lv_id_0_0= RULE_ASN1_ID ) ) (this_NEWLINE_1= RULE_NEWLINE )? ( (lv_valueType_2_0= ruleChoiceType ) ) ) )
+            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:3001:1: ( ( (lv_id_0_0= RULE_ASN1_ID ) ) (this_NEWLINE_1= RULE_NEWLINE )? ( (lv_valueType_2_0= ruleChoiceType ) ) )
             {
-            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2540:1: ( ( (lv_id_0_0= RULE_ASN1_ID ) ) (this_NEWLINE_1= RULE_NEWLINE )? ( (lv_valueType_2_0= ruleChoiceType ) ) )
-            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2540:2: ( (lv_id_0_0= RULE_ASN1_ID ) ) (this_NEWLINE_1= RULE_NEWLINE )? ( (lv_valueType_2_0= ruleChoiceType ) )
+            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:3001:1: ( ( (lv_id_0_0= RULE_ASN1_ID ) ) (this_NEWLINE_1= RULE_NEWLINE )? ( (lv_valueType_2_0= ruleChoiceType ) ) )
+            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:3001:2: ( (lv_id_0_0= RULE_ASN1_ID ) ) (this_NEWLINE_1= RULE_NEWLINE )? ( (lv_valueType_2_0= ruleChoiceType ) )
             {
-            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2540:2: ( (lv_id_0_0= RULE_ASN1_ID ) )
-            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2541:1: (lv_id_0_0= RULE_ASN1_ID )
+            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:3001:2: ( (lv_id_0_0= RULE_ASN1_ID ) )
+            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:3002:1: (lv_id_0_0= RULE_ASN1_ID )
             {
-            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2541:1: (lv_id_0_0= RULE_ASN1_ID )
-            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2542:3: lv_id_0_0= RULE_ASN1_ID
+            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:3002:1: (lv_id_0_0= RULE_ASN1_ID )
+            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:3003:3: lv_id_0_0= RULE_ASN1_ID
             {
-            lv_id_0_0=(Token)match(input,RULE_ASN1_ID,FOLLOW_RULE_ASN1_ID_in_ruleASN1_CHOICE_ENTRY5685); if (state.failed) return current;
+            lv_id_0_0=(Token)match(input,RULE_ASN1_ID,FOLLOW_RULE_ASN1_ID_in_ruleASN1_CHOICE_ENTRY6767); if (state.failed) return current;
             if ( state.backtracking==0 ) {
 
               			newLeafNode(lv_id_0_0, grammarAccess.getASN1_CHOICE_ENTRYAccess().getIdASN1_IDTerminalRuleCall_0_0()); 
@@ -7648,18 +9091,18 @@ public class InternalSmiParser extends AbstractInternalAntlrParser {
 
             }
 
-            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2558:2: (this_NEWLINE_1= RULE_NEWLINE )?
-            int alt54=2;
-            int LA54_0 = input.LA(1);
+            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:3019:2: (this_NEWLINE_1= RULE_NEWLINE )?
+            int alt68=2;
+            int LA68_0 = input.LA(1);
 
-            if ( (LA54_0==RULE_NEWLINE) ) {
-                alt54=1;
+            if ( (LA68_0==RULE_NEWLINE) ) {
+                alt68=1;
             }
-            switch (alt54) {
+            switch (alt68) {
                 case 1 :
-                    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2558:3: this_NEWLINE_1= RULE_NEWLINE
+                    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:3019:3: this_NEWLINE_1= RULE_NEWLINE
                     {
-                    this_NEWLINE_1=(Token)match(input,RULE_NEWLINE,FOLLOW_RULE_NEWLINE_in_ruleASN1_CHOICE_ENTRY5702); if (state.failed) return current;
+                    this_NEWLINE_1=(Token)match(input,RULE_NEWLINE,FOLLOW_RULE_NEWLINE_in_ruleASN1_CHOICE_ENTRY6784); if (state.failed) return current;
                     if ( state.backtracking==0 ) {
                        
                           newLeafNode(this_NEWLINE_1, grammarAccess.getASN1_CHOICE_ENTRYAccess().getNEWLINETerminalRuleCall_1()); 
@@ -7671,18 +9114,18 @@ public class InternalSmiParser extends AbstractInternalAntlrParser {
 
             }
 
-            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2562:3: ( (lv_valueType_2_0= ruleChoiceType ) )
-            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2563:1: (lv_valueType_2_0= ruleChoiceType )
+            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:3023:3: ( (lv_valueType_2_0= ruleChoiceType ) )
+            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:3024:1: (lv_valueType_2_0= ruleChoiceType )
             {
-            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2563:1: (lv_valueType_2_0= ruleChoiceType )
-            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2564:3: lv_valueType_2_0= ruleChoiceType
+            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:3024:1: (lv_valueType_2_0= ruleChoiceType )
+            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:3025:3: lv_valueType_2_0= ruleChoiceType
             {
             if ( state.backtracking==0 ) {
                
               	        newCompositeNode(grammarAccess.getASN1_CHOICE_ENTRYAccess().getValueTypeChoiceTypeParserRuleCall_2_0()); 
               	    
             }
-            pushFollow(FOLLOW_ruleChoiceType_in_ruleASN1_CHOICE_ENTRY5724);
+            pushFollow(FOLLOW_ruleChoiceType_in_ruleASN1_CHOICE_ENTRY6806);
             lv_valueType_2_0=ruleChoiceType();
 
             state._fsp--;
@@ -7729,7 +9172,7 @@ public class InternalSmiParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "entryRuleChoiceType"
-    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2588:1: entryRuleChoiceType returns [EObject current=null] : iv_ruleChoiceType= ruleChoiceType EOF ;
+    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:3049:1: entryRuleChoiceType returns [EObject current=null] : iv_ruleChoiceType= ruleChoiceType EOF ;
     public final EObject entryRuleChoiceType() throws RecognitionException {
         EObject current = null;
 
@@ -7737,13 +9180,13 @@ public class InternalSmiParser extends AbstractInternalAntlrParser {
 
 
         try {
-            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2589:2: (iv_ruleChoiceType= ruleChoiceType EOF )
-            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2590:2: iv_ruleChoiceType= ruleChoiceType EOF
+            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:3050:2: (iv_ruleChoiceType= ruleChoiceType EOF )
+            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:3051:2: iv_ruleChoiceType= ruleChoiceType EOF
             {
             if ( state.backtracking==0 ) {
                newCompositeNode(grammarAccess.getChoiceTypeRule()); 
             }
-            pushFollow(FOLLOW_ruleChoiceType_in_entryRuleChoiceType5760);
+            pushFollow(FOLLOW_ruleChoiceType_in_entryRuleChoiceType6842);
             iv_ruleChoiceType=ruleChoiceType();
 
             state._fsp--;
@@ -7751,7 +9194,7 @@ public class InternalSmiParser extends AbstractInternalAntlrParser {
             if ( state.backtracking==0 ) {
                current =iv_ruleChoiceType; 
             }
-            match(input,EOF,FOLLOW_EOF_in_entryRuleChoiceType5770); if (state.failed) return current;
+            match(input,EOF,FOLLOW_EOF_in_entryRuleChoiceType6852); if (state.failed) return current;
 
             }
 
@@ -7769,7 +9212,7 @@ public class InternalSmiParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "ruleChoiceType"
-    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2597:1: ruleChoiceType returns [EObject current=null] : ( () ( ( (lv_typeRef_1_0= ruleTypeReference ) ) | ( (lv_simpleType_2_0= ruleASN1_TYPE ) ) | otherlv_3= 'OBJECT IDENTIFIER' ) ) ;
+    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:3058:1: ruleChoiceType returns [EObject current=null] : ( () ( ( (lv_typeRef_1_0= ruleTypeReference ) ) | ( (lv_simpleType_2_0= ruleASN1_TYPE ) ) | otherlv_3= 'OBJECT IDENTIFIER' ) ) ;
     public final EObject ruleChoiceType() throws RecognitionException {
         EObject current = null;
 
@@ -7782,14 +9225,14 @@ public class InternalSmiParser extends AbstractInternalAntlrParser {
          enterRule(); 
             
         try {
-            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2600:28: ( ( () ( ( (lv_typeRef_1_0= ruleTypeReference ) ) | ( (lv_simpleType_2_0= ruleASN1_TYPE ) ) | otherlv_3= 'OBJECT IDENTIFIER' ) ) )
-            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2601:1: ( () ( ( (lv_typeRef_1_0= ruleTypeReference ) ) | ( (lv_simpleType_2_0= ruleASN1_TYPE ) ) | otherlv_3= 'OBJECT IDENTIFIER' ) )
+            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:3061:28: ( ( () ( ( (lv_typeRef_1_0= ruleTypeReference ) ) | ( (lv_simpleType_2_0= ruleASN1_TYPE ) ) | otherlv_3= 'OBJECT IDENTIFIER' ) ) )
+            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:3062:1: ( () ( ( (lv_typeRef_1_0= ruleTypeReference ) ) | ( (lv_simpleType_2_0= ruleASN1_TYPE ) ) | otherlv_3= 'OBJECT IDENTIFIER' ) )
             {
-            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2601:1: ( () ( ( (lv_typeRef_1_0= ruleTypeReference ) ) | ( (lv_simpleType_2_0= ruleASN1_TYPE ) ) | otherlv_3= 'OBJECT IDENTIFIER' ) )
-            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2601:2: () ( ( (lv_typeRef_1_0= ruleTypeReference ) ) | ( (lv_simpleType_2_0= ruleASN1_TYPE ) ) | otherlv_3= 'OBJECT IDENTIFIER' )
+            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:3062:1: ( () ( ( (lv_typeRef_1_0= ruleTypeReference ) ) | ( (lv_simpleType_2_0= ruleASN1_TYPE ) ) | otherlv_3= 'OBJECT IDENTIFIER' ) )
+            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:3062:2: () ( ( (lv_typeRef_1_0= ruleTypeReference ) ) | ( (lv_simpleType_2_0= ruleASN1_TYPE ) ) | otherlv_3= 'OBJECT IDENTIFIER' )
             {
-            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2601:2: ()
-            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2602:5: 
+            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:3062:2: ()
+            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:3063:5: 
             {
             if ( state.backtracking==0 ) {
 
@@ -7801,13 +9244,13 @@ public class InternalSmiParser extends AbstractInternalAntlrParser {
 
             }
 
-            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2607:2: ( ( (lv_typeRef_1_0= ruleTypeReference ) ) | ( (lv_simpleType_2_0= ruleASN1_TYPE ) ) | otherlv_3= 'OBJECT IDENTIFIER' )
-            int alt55=3;
+            // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:3068:2: ( ( (lv_typeRef_1_0= ruleTypeReference ) ) | ( (lv_simpleType_2_0= ruleASN1_TYPE ) ) | otherlv_3= 'OBJECT IDENTIFIER' )
+            int alt69=3;
             switch ( input.LA(1) ) {
             case RULE_MODULE_ID:
             case 31:
                 {
-                alt55=1;
+                alt69=1;
                 }
                 break;
             case RULE_IA5STRING:
@@ -7815,39 +9258,40 @@ public class InternalSmiParser extends AbstractInternalAntlrParser {
             case 43:
             case 45:
             case 48:
+            case 49:
                 {
-                alt55=2;
+                alt69=2;
                 }
                 break;
             case 24:
                 {
-                alt55=3;
+                alt69=3;
                 }
                 break;
             default:
                 if (state.backtracking>0) {state.failed=true; return current;}
                 NoViableAltException nvae =
-                    new NoViableAltException("", 55, 0, input);
+                    new NoViableAltException("", 69, 0, input);
 
                 throw nvae;
             }
 
-            switch (alt55) {
+            switch (alt69) {
                 case 1 :
-                    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2607:3: ( (lv_typeRef_1_0= ruleTypeReference ) )
+                    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:3068:3: ( (lv_typeRef_1_0= ruleTypeReference ) )
                     {
-                    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2607:3: ( (lv_typeRef_1_0= ruleTypeReference ) )
-                    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2608:1: (lv_typeRef_1_0= ruleTypeReference )
+                    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:3068:3: ( (lv_typeRef_1_0= ruleTypeReference ) )
+                    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:3069:1: (lv_typeRef_1_0= ruleTypeReference )
                     {
-                    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2608:1: (lv_typeRef_1_0= ruleTypeReference )
-                    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2609:3: lv_typeRef_1_0= ruleTypeReference
+                    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:3069:1: (lv_typeRef_1_0= ruleTypeReference )
+                    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:3070:3: lv_typeRef_1_0= ruleTypeReference
                     {
                     if ( state.backtracking==0 ) {
                        
                       	        newCompositeNode(grammarAccess.getChoiceTypeAccess().getTypeRefTypeReferenceParserRuleCall_1_0_0()); 
                       	    
                     }
-                    pushFollow(FOLLOW_ruleTypeReference_in_ruleChoiceType5826);
+                    pushFollow(FOLLOW_ruleTypeReference_in_ruleChoiceType6908);
                     lv_typeRef_1_0=ruleTypeReference();
 
                     state._fsp--;
@@ -7875,20 +9319,20 @@ public class InternalSmiParser extends AbstractInternalAntlrParser {
                     }
                     break;
                 case 2 :
-                    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2626:6: ( (lv_simpleType_2_0= ruleASN1_TYPE ) )
+                    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:3087:6: ( (lv_simpleType_2_0= ruleASN1_TYPE ) )
                     {
-                    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2626:6: ( (lv_simpleType_2_0= ruleASN1_TYPE ) )
-                    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2627:1: (lv_simpleType_2_0= ruleASN1_TYPE )
+                    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:3087:6: ( (lv_simpleType_2_0= ruleASN1_TYPE ) )
+                    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:3088:1: (lv_simpleType_2_0= ruleASN1_TYPE )
                     {
-                    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2627:1: (lv_simpleType_2_0= ruleASN1_TYPE )
-                    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2628:3: lv_simpleType_2_0= ruleASN1_TYPE
+                    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:3088:1: (lv_simpleType_2_0= ruleASN1_TYPE )
+                    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:3089:3: lv_simpleType_2_0= ruleASN1_TYPE
                     {
                     if ( state.backtracking==0 ) {
                        
                       	        newCompositeNode(grammarAccess.getChoiceTypeAccess().getSimpleTypeASN1_TYPEParserRuleCall_1_1_0()); 
                       	    
                     }
-                    pushFollow(FOLLOW_ruleASN1_TYPE_in_ruleChoiceType5853);
+                    pushFollow(FOLLOW_ruleASN1_TYPE_in_ruleChoiceType6935);
                     lv_simpleType_2_0=ruleASN1_TYPE();
 
                     state._fsp--;
@@ -7916,9 +9360,9 @@ public class InternalSmiParser extends AbstractInternalAntlrParser {
                     }
                     break;
                 case 3 :
-                    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:2645:7: otherlv_3= 'OBJECT IDENTIFIER'
+                    // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:3106:7: otherlv_3= 'OBJECT IDENTIFIER'
                     {
-                    otherlv_3=(Token)match(input,24,FOLLOW_24_in_ruleChoiceType5871); if (state.failed) return current;
+                    otherlv_3=(Token)match(input,24,FOLLOW_24_in_ruleChoiceType6953); if (state.failed) return current;
                     if ( state.backtracking==0 ) {
 
                           	newLeafNode(otherlv_3, grammarAccess.getChoiceTypeAccess().getOBJECTIDENTIFIERKeyword_1_2());
@@ -7953,13 +9397,13 @@ public class InternalSmiParser extends AbstractInternalAntlrParser {
 
     // $ANTLR start synpred1_InternalSmi
     public final void synpred1_InternalSmi_fragment() throws RecognitionException {   
-        // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:558:7: ( ( RULE_ASN1_ID ) )
-        // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:559:1: ( RULE_ASN1_ID )
+        // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:581:7: ( ( RULE_ASN1_ID ) )
+        // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:582:1: ( RULE_ASN1_ID )
         {
-        // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:559:1: ( RULE_ASN1_ID )
-        // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:560:2: RULE_ASN1_ID
+        // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:582:1: ( RULE_ASN1_ID )
+        // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:583:1: RULE_ASN1_ID
         {
-        match(input,RULE_ASN1_ID,FOLLOW_RULE_ASN1_ID_in_synpred1_InternalSmi1150); if (state.failed) return ;
+        match(input,RULE_ASN1_ID,FOLLOW_RULE_ASN1_ID_in_synpred1_InternalSmi1252); if (state.failed) return ;
 
         }
 
@@ -7970,13 +9414,13 @@ public class InternalSmiParser extends AbstractInternalAntlrParser {
 
     // $ANTLR start synpred2_InternalSmi
     public final void synpred2_InternalSmi_fragment() throws RecognitionException {   
-        // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1385:3: ( ( ruleTypeReference ) )
-        // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1386:1: ( ruleTypeReference )
+        // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1594:3: ( ( ruleTypeReference ) )
+        // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1595:1: ( ruleTypeReference )
         {
-        // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1386:1: ( ruleTypeReference )
-        // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1387:1: ruleTypeReference
+        // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1595:1: ( ruleTypeReference )
+        // ../com.netxforge.smi/src-gen/com/netxforge/parser/antlr/internal/InternalSmi.g:1596:1: ruleTypeReference
         {
-        pushFollow(FOLLOW_ruleTypeReference_in_synpred2_InternalSmi2991);
+        pushFollow(FOLLOW_ruleTypeReference_in_synpred2_InternalSmi3462);
         ruleTypeReference();
 
         state._fsp--;
@@ -8023,12 +9467,13 @@ public class InternalSmiParser extends AbstractInternalAntlrParser {
 
     protected DFA1 dfa1 = new DFA1(this);
     protected DFA2 dfa2 = new DFA2(this);
-    protected DFA13 dfa13 = new DFA13(this);
-    protected DFA15 dfa15 = new DFA15(this);
-    protected DFA22 dfa22 = new DFA22(this);
-    protected DFA25 dfa25 = new DFA25(this);
+    protected DFA12 dfa12 = new DFA12(this);
+    protected DFA17 dfa17 = new DFA17(this);
+    protected DFA19 dfa19 = new DFA19(this);
+    protected DFA28 dfa28 = new DFA28(this);
     protected DFA31 dfa31 = new DFA31(this);
-    protected DFA38 dfa38 = new DFA38(this);
+    protected DFA37 dfa37 = new DFA37(this);
+    protected DFA44 dfa44 = new DFA44(this);
     static final String DFA1_eotS =
         "\4\uffff";
     static final String DFA1_eofS =
@@ -8038,12 +9483,12 @@ public class InternalSmiParser extends AbstractInternalAntlrParser {
     static final String DFA1_maxS =
         "\1\5\1\24\2\uffff";
     static final String DFA1_acceptS =
-        "\2\uffff\1\2\1\1";
+        "\2\uffff\1\1\1\2";
     static final String DFA1_specialS =
         "\4\uffff}>";
     static final String[] DFA1_transitionS = {
             "\1\1",
-            "\1\2\1\1\1\2\15\uffff\1\3",
+            "\1\3\1\1\1\3\15\uffff\1\2",
             "",
             ""
     };
@@ -8082,23 +9527,21 @@ public class InternalSmiParser extends AbstractInternalAntlrParser {
         }
     }
     static final String DFA2_eotS =
-        "\11\uffff";
+        "\7\uffff";
     static final String DFA2_eofS =
-        "\11\uffff";
+        "\7\uffff";
     static final String DFA2_minS =
-        "\1\5\2\4\1\21\5\uffff";
+        "\1\5\2\4\4\uffff";
     static final String DFA2_maxS =
-        "\1\5\1\23\1\30\1\33\5\uffff";
+        "\1\5\1\23\1\30\4\uffff";
     static final String DFA2_acceptS =
-        "\4\uffff\1\5\1\2\1\1\1\3\1\4";
+        "\3\uffff\1\3\1\4\1\1\1\2";
     static final String DFA2_specialS =
-        "\11\uffff}>";
+        "\7\uffff}>";
     static final String[] DFA2_transitionS = {
             "\1\1",
             "\1\3\1\1\1\2\14\uffff\1\4",
-            "\1\6\23\uffff\1\5",
-            "\1\7\11\uffff\1\10",
-            "",
+            "\1\5\23\uffff\1\6",
             "",
             "",
             "",
@@ -8135,287 +9578,310 @@ public class InternalSmiParser extends AbstractInternalAntlrParser {
             this.transition = DFA2_transition;
         }
         public String getDescription() {
-            return "()+ loopback of 128:3: ( ( (lv_objects_5_0= ruleObject ) ) | ( (lv_identifiers_6_0= ruleObjectIdentifier ) ) | ( (lv_types_7_0= ruleTypeDefinition ) ) | ( (lv_macros_8_0= ruleMacro ) ) )+";
+            return "()+ loopback of 128:3: ( ( (lv_objects_5_0= ruleObject ) ) | ( (lv_identifiers_6_0= ruleObjectIdentifier ) ) | ( (lv_types_7_0= ruleReferenceable ) ) )+";
         }
     }
-    static final String DFA13_eotS =
-        "\22\uffff";
-    static final String DFA13_eofS =
-        "\1\2\3\uffff\2\3\1\uffff\2\3\1\uffff\1\3\2\uffff\3\3\2\uffff";
-    static final String DFA13_minS =
-        "\2\4\2\uffff\16\4";
-    static final String DFA13_maxS =
-        "\2\60\2\uffff\16\60";
-    static final String DFA13_acceptS =
-        "\2\uffff\1\2\1\1\16\uffff";
-    static final String DFA13_specialS =
-        "\22\uffff}>";
-    static final String[] DFA13_transitionS = {
-            "\1\3\1\1\1\3\1\uffff\2\3\16\uffff\1\3\6\uffff\1\3\1\uffff\1"+
-            "\3\1\uffff\1\3\1\uffff\1\3\4\uffff\2\3\1\uffff\1\3\2\uffff\1"+
-            "\3",
-            "\1\5\1\6\1\4\1\uffff\2\3\11\uffff\1\2\4\uffff\1\3\6\uffff\1"+
-            "\3\1\uffff\1\3\1\uffff\1\3\1\uffff\1\3\4\uffff\2\3\1\uffff\1"+
-            "\3\2\uffff\1\3",
+    static final String DFA12_eotS =
+        "\5\uffff";
+    static final String DFA12_eofS =
+        "\5\uffff";
+    static final String DFA12_minS =
+        "\1\5\1\4\1\21\2\uffff";
+    static final String DFA12_maxS =
+        "\2\5\1\33\2\uffff";
+    static final String DFA12_acceptS =
+        "\3\uffff\1\1\1\2";
+    static final String DFA12_specialS =
+        "\5\uffff}>";
+    static final String[] DFA12_transitionS = {
+            "\1\1",
+            "\1\2\1\1",
+            "\1\4\11\uffff\1\3",
             "",
-            "",
-            "\1\7\2\3\1\uffff\2\3\16\uffff\1\10\6\uffff\1\3\1\uffff\3\3"+
-            "\1\uffff\1\3\4\uffff\2\3\1\uffff\1\3\2\uffff\1\3",
-            "\3\3\1\uffff\2\3\7\uffff\1\2\6\uffff\1\3\2\uffff\1\2\3\uffff"+
-            "\1\3\1\uffff\3\3\1\uffff\1\3\4\uffff\2\3\1\uffff\1\3\2\uffff"+
-            "\1\3",
-            "\1\5\1\6\1\4\1\uffff\2\3\11\uffff\1\2\4\uffff\1\3\6\uffff\1"+
-            "\3\1\uffff\1\3\3\uffff\1\3\4\uffff\2\3\1\uffff\1\3\2\uffff\1"+
-            "\3",
-            "\1\3\1\11\1\3\1\uffff\2\3\16\uffff\1\3\6\uffff\1\3\1\uffff"+
-            "\3\3\1\uffff\1\3\4\uffff\2\3\1\uffff\1\3\2\uffff\1\3",
-            "\3\3\1\uffff\2\3\7\uffff\1\2\6\uffff\1\3\6\uffff\1\3\1\uffff"+
-            "\3\3\1\uffff\1\3\4\uffff\2\3\1\uffff\1\3\2\uffff\1\3",
-            "\1\12\1\13\1\3\1\uffff\2\3\11\uffff\1\3\4\uffff\1\3\6\uffff"+
-            "\1\3\1\uffff\3\3\1\uffff\1\3\4\uffff\2\3\1\uffff\1\3\2\uffff"+
-            "\1\3",
-            "\1\3\1\14\1\15\1\uffff\1\16\1\3\7\uffff\1\3\6\uffff\1\3\2\uffff"+
-            "\1\3\3\uffff\1\3\1\uffff\3\3\1\uffff\1\3\4\uffff\2\3\1\uffff"+
-            "\1\3\2\uffff\1\3",
-            "\1\12\1\13\1\3\1\uffff\2\3\11\uffff\1\3\4\uffff\1\3\6\uffff"+
-            "\1\3\1\uffff\2\3\2\uffff\1\3\4\uffff\2\3\1\uffff\1\3\2\uffff"+
-            "\1\3",
-            "\2\3\1\17\1\uffff\1\16\1\3\11\uffff\1\3\4\uffff\1\3\6\uffff"+
-            "\1\3\1\uffff\3\3\1\uffff\1\3\4\uffff\2\3\1\uffff\1\3\2\uffff"+
-            "\1\3",
-            "\1\3\1\20\1\3\1\uffff\2\3\16\uffff\1\3\6\uffff\1\3\1\uffff"+
-            "\3\3\1\uffff\1\3\4\uffff\2\3\1\uffff\1\3\2\uffff\1\3",
-            "\1\3\1\20\1\3\1\uffff\2\3\16\uffff\1\3\6\uffff\1\3\1\uffff"+
-            "\3\3\1\uffff\1\3\4\uffff\2\3\1\uffff\1\3\2\uffff\1\3",
-            "\1\3\1\20\1\3\1\uffff\2\3\16\uffff\1\3\6\uffff\1\3\1\uffff"+
-            "\3\3\1\uffff\1\3\4\uffff\2\3\1\uffff\1\3\2\uffff\1\3",
-            "\1\12\1\21\1\3\1\uffff\2\3\7\uffff\1\2\1\uffff\1\3\4\uffff"+
-            "\1\3\6\uffff\1\3\1\uffff\3\3\1\uffff\1\3\4\uffff\2\3\1\uffff"+
-            "\1\3\2\uffff\1\3",
-            "\1\12\1\21\1\3\1\uffff\2\3\7\uffff\1\2\1\uffff\1\3\4\uffff"+
-            "\1\3\6\uffff\1\3\1\uffff\2\3\2\uffff\1\3\4\uffff\2\3\1\uffff"+
-            "\1\3\2\uffff\1\3"
+            ""
     };
 
-    static final short[] DFA13_eot = DFA.unpackEncodedString(DFA13_eotS);
-    static final short[] DFA13_eof = DFA.unpackEncodedString(DFA13_eofS);
-    static final char[] DFA13_min = DFA.unpackEncodedStringToUnsignedChars(DFA13_minS);
-    static final char[] DFA13_max = DFA.unpackEncodedStringToUnsignedChars(DFA13_maxS);
-    static final short[] DFA13_accept = DFA.unpackEncodedString(DFA13_acceptS);
-    static final short[] DFA13_special = DFA.unpackEncodedString(DFA13_specialS);
-    static final short[][] DFA13_transition;
+    static final short[] DFA12_eot = DFA.unpackEncodedString(DFA12_eotS);
+    static final short[] DFA12_eof = DFA.unpackEncodedString(DFA12_eofS);
+    static final char[] DFA12_min = DFA.unpackEncodedStringToUnsignedChars(DFA12_minS);
+    static final char[] DFA12_max = DFA.unpackEncodedStringToUnsignedChars(DFA12_maxS);
+    static final short[] DFA12_accept = DFA.unpackEncodedString(DFA12_acceptS);
+    static final short[] DFA12_special = DFA.unpackEncodedString(DFA12_specialS);
+    static final short[][] DFA12_transition;
 
     static {
-        int numStates = DFA13_transitionS.length;
-        DFA13_transition = new short[numStates][];
+        int numStates = DFA12_transitionS.length;
+        DFA12_transition = new short[numStates][];
         for (int i=0; i<numStates; i++) {
-            DFA13_transition[i] = DFA.unpackEncodedString(DFA13_transitionS[i]);
+            DFA12_transition[i] = DFA.unpackEncodedString(DFA12_transitionS[i]);
         }
     }
 
-    class DFA13 extends DFA {
+    class DFA12 extends DFA {
 
-        public DFA13(BaseRecognizer recognizer) {
+        public DFA12(BaseRecognizer recognizer) {
             this.recognizer = recognizer;
-            this.decisionNumber = 13;
-            this.eot = DFA13_eot;
-            this.eof = DFA13_eof;
-            this.min = DFA13_min;
-            this.max = DFA13_max;
-            this.accept = DFA13_accept;
-            this.special = DFA13_special;
-            this.transition = DFA13_transition;
+            this.decisionNumber = 12;
+            this.eot = DFA12_eot;
+            this.eof = DFA12_eof;
+            this.min = DFA12_min;
+            this.max = DFA12_max;
+            this.accept = DFA12_accept;
+            this.special = DFA12_special;
+            this.transition = DFA12_transition;
         }
         public String getDescription() {
-            return "()+ loopback of 659:1: ( (lv_values_3_0= ruleValue ) )+";
+            return "450:1: (this_Macro_0= ruleMacro | this_TypeDefinition_1= ruleTypeDefinition )";
         }
     }
-    static final String DFA15_eotS =
+    static final String DFA17_eotS =
+        "\53\uffff";
+    static final String DFA17_eofS =
+        "\1\2\4\uffff\4\3\1\uffff\1\3\1\uffff\1\3\1\uffff\3\3\1\uffff\1\3"+
+        "\2\uffff\2\3\7\uffff\1\3\6\uffff\1\3\5\uffff";
+    static final String DFA17_minS =
+        "\2\4\2\uffff\15\4\1\31\5\4\1\7\1\5\1\4\1\47\1\5\1\46\1\7\1\4\1\7"+
+        "\2\47\3\5\1\4\1\5\1\46\1\7\1\47\1\5";
+    static final String DFA17_maxS =
+        "\2\61\2\uffff\15\61\1\62\5\61\1\7\1\6\1\61\1\57\1\6\1\46\1\7\1\61"+
+        "\1\7\2\47\1\32\1\6\1\32\1\61\1\6\1\46\1\7\1\47\1\32";
+    static final String DFA17_acceptS =
+        "\2\uffff\1\2\1\1\47\uffff";
+    static final String DFA17_specialS =
+        "\53\uffff}>";
+    static final String[] DFA17_transitionS = {
+            "\1\3\1\1\1\3\1\uffff\2\3\16\uffff\1\3\6\uffff\1\3\1\uffff\1"+
+            "\3\1\uffff\1\3\1\uffff\1\3\4\uffff\2\3\1\uffff\1\3\2\uffff\2"+
+            "\3",
+            "\1\5\1\4\1\6\1\uffff\2\3\11\uffff\1\2\4\uffff\1\3\6\uffff\1"+
+            "\3\1\uffff\1\3\1\uffff\1\3\1\uffff\1\3\4\uffff\2\3\1\uffff\1"+
+            "\3\2\uffff\2\3",
+            "",
+            "",
+            "\1\5\1\4\1\6\1\uffff\2\3\11\uffff\1\2\4\uffff\1\3\6\uffff\1"+
+            "\3\1\uffff\1\3\3\uffff\1\3\4\uffff\2\3\1\uffff\1\3\2\uffff\2"+
+            "\3",
+            "\3\3\1\uffff\2\3\7\uffff\1\2\6\uffff\1\3\2\uffff\1\2\3\uffff"+
+            "\1\3\1\uffff\3\3\1\uffff\1\3\4\uffff\2\3\1\uffff\1\3\2\uffff"+
+            "\2\3",
+            "\1\7\2\3\1\uffff\2\3\16\uffff\1\10\6\uffff\1\3\1\uffff\3\3"+
+            "\1\uffff\1\3\4\uffff\2\3\1\uffff\1\3\2\uffff\2\3",
+            "\1\3\1\11\1\3\1\uffff\2\3\16\uffff\1\3\6\uffff\1\3\1\uffff"+
+            "\3\3\1\uffff\1\3\4\uffff\2\3\1\uffff\1\3\2\uffff\2\3",
+            "\3\3\1\uffff\2\3\7\uffff\1\2\6\uffff\1\3\6\uffff\1\3\1\uffff"+
+            "\3\3\1\uffff\1\3\4\uffff\2\3\1\uffff\1\3\2\uffff\2\3",
+            "\1\12\1\13\1\3\1\uffff\2\3\11\uffff\1\3\4\uffff\1\3\6\uffff"+
+            "\1\3\1\uffff\3\3\1\uffff\1\3\4\uffff\2\3\1\uffff\1\3\2\uffff"+
+            "\2\3",
+            "\1\14\1\15\1\16\1\uffff\1\17\1\3\7\uffff\1\3\6\uffff\1\22\1"+
+            "\2\1\uffff\1\3\3\uffff\1\3\1\uffff\3\3\1\uffff\1\3\4\uffff\2"+
+            "\3\1\uffff\1\20\2\uffff\1\3\1\21",
+            "\1\12\1\13\1\3\1\uffff\2\3\11\uffff\1\3\4\uffff\1\3\6\uffff"+
+            "\1\3\1\uffff\2\3\2\uffff\1\3\4\uffff\2\3\1\uffff\1\3\2\uffff"+
+            "\2\3",
+            "\1\3\1\23\1\3\1\uffff\2\3\16\uffff\1\3\6\uffff\1\3\1\uffff"+
+            "\3\3\1\uffff\1\3\1\2\3\uffff\2\3\1\uffff\1\3\2\uffff\2\3",
+            "\1\26\1\24\1\25\1\uffff\1\17\1\3\11\uffff\1\3\4\uffff\1\3\6"+
+            "\uffff\1\3\1\uffff\3\3\1\uffff\1\3\4\uffff\2\3\1\uffff\1\3\2"+
+            "\uffff\2\3",
+            "\1\3\1\23\1\3\1\uffff\2\3\16\uffff\1\3\6\uffff\1\3\1\uffff"+
+            "\3\3\1\uffff\1\3\4\uffff\2\3\1\uffff\1\3\2\uffff\2\3",
+            "\1\3\1\23\1\3\1\uffff\2\3\16\uffff\1\3\6\uffff\1\3\1\uffff"+
+            "\3\3\1\uffff\1\3\4\uffff\2\3\1\uffff\1\3\2\uffff\2\3",
+            "\1\3\1\23\1\3\1\uffff\2\3\16\uffff\1\3\1\30\5\uffff\1\3\1\uffff"+
+            "\3\3\1\uffff\1\3\1\27\3\uffff\2\3\1\uffff\1\3\2\uffff\2\3",
+            "\1\3\30\uffff\1\2",
+            "\1\3\1\23\1\3\1\uffff\2\3\16\uffff\1\3\6\uffff\1\3\1\uffff"+
+            "\3\3\1\uffff\1\3\4\uffff\2\3\1\uffff\1\3\2\uffff\2\3",
+            "\1\12\1\31\1\3\1\uffff\2\3\7\uffff\1\2\1\uffff\1\3\4\uffff"+
+            "\1\3\6\uffff\1\3\1\uffff\3\3\1\uffff\1\3\4\uffff\2\3\1\uffff"+
+            "\1\3\2\uffff\2\3",
+            "\1\26\1\24\1\25\1\uffff\1\17\1\3\11\uffff\1\3\4\uffff\1\3\6"+
+            "\uffff\1\3\1\uffff\2\3\2\uffff\1\3\4\uffff\2\3\1\uffff\1\3\2"+
+            "\uffff\2\3",
+            "\1\3\1\23\1\3\1\uffff\2\3\16\uffff\1\3\6\uffff\1\3\1\uffff"+
+            "\3\3\1\uffff\1\3\4\uffff\2\3\1\uffff\1\3\2\uffff\2\3",
+            "\1\3\1\23\1\3\1\uffff\2\3\7\uffff\1\3\6\uffff\1\3\2\uffff\1"+
+            "\3\3\uffff\1\3\1\uffff\3\3\1\uffff\1\3\1\2\3\uffff\2\3\1\uffff"+
+            "\1\3\2\uffff\2\3",
+            "\1\32",
+            "\1\33\1\34",
+            "\1\12\1\31\1\3\1\uffff\2\3\7\uffff\1\2\1\uffff\1\3\4\uffff"+
+            "\1\3\6\uffff\1\3\1\uffff\2\3\2\uffff\1\3\4\uffff\2\3\1\uffff"+
+            "\1\3\2\uffff\2\3",
+            "\1\36\7\uffff\1\35",
+            "\1\33\1\34",
+            "\1\37",
+            "\1\40",
+            "\1\3\1\23\1\3\1\uffff\2\3\16\uffff\1\3\1\30\5\uffff\1\3\1\uffff"+
+            "\3\3\1\uffff\1\3\4\uffff\2\3\1\uffff\1\3\2\uffff\2\3",
+            "\1\41",
+            "\1\36",
+            "\1\42",
+            "\1\44\21\uffff\1\43\2\uffff\1\45",
+            "\1\46\1\47",
+            "\1\44\24\uffff\1\45",
+            "\1\3\1\23\1\3\1\uffff\2\3\16\uffff\1\3\6\uffff\1\3\1\uffff"+
+            "\3\3\1\uffff\1\3\4\uffff\2\3\1\uffff\1\3\2\uffff\2\3",
+            "\1\46\1\47",
+            "\1\50",
+            "\1\51",
+            "\1\52",
+            "\1\44\21\uffff\1\43\2\uffff\1\45"
+    };
+
+    static final short[] DFA17_eot = DFA.unpackEncodedString(DFA17_eotS);
+    static final short[] DFA17_eof = DFA.unpackEncodedString(DFA17_eofS);
+    static final char[] DFA17_min = DFA.unpackEncodedStringToUnsignedChars(DFA17_minS);
+    static final char[] DFA17_max = DFA.unpackEncodedStringToUnsignedChars(DFA17_maxS);
+    static final short[] DFA17_accept = DFA.unpackEncodedString(DFA17_acceptS);
+    static final short[] DFA17_special = DFA.unpackEncodedString(DFA17_specialS);
+    static final short[][] DFA17_transition;
+
+    static {
+        int numStates = DFA17_transitionS.length;
+        DFA17_transition = new short[numStates][];
+        for (int i=0; i<numStates; i++) {
+            DFA17_transition[i] = DFA.unpackEncodedString(DFA17_transitionS[i]);
+        }
+    }
+
+    class DFA17 extends DFA {
+
+        public DFA17(BaseRecognizer recognizer) {
+            this.recognizer = recognizer;
+            this.decisionNumber = 17;
+            this.eot = DFA17_eot;
+            this.eof = DFA17_eof;
+            this.min = DFA17_min;
+            this.max = DFA17_max;
+            this.accept = DFA17_accept;
+            this.special = DFA17_special;
+            this.transition = DFA17_transition;
+        }
+        public String getDescription() {
+            return "()+ loopback of 687:1: ( (lv_values_3_0= ruleValue ) )+";
+        }
+    }
+    static final String DFA19_eotS =
         "\4\uffff";
-    static final String DFA15_eofS =
+    static final String DFA19_eofS =
         "\4\uffff";
-    static final String DFA15_minS =
+    static final String DFA19_minS =
         "\1\5\1\4\2\uffff";
-    static final String DFA15_maxS =
+    static final String DFA19_maxS =
         "\1\5\1\21\2\uffff";
-    static final String DFA15_acceptS =
+    static final String DFA19_acceptS =
         "\2\uffff\1\1\1\2";
-    static final String DFA15_specialS =
+    static final String DFA19_specialS =
         "\4\uffff}>";
-    static final String[] DFA15_transitionS = {
+    static final String[] DFA19_transitionS = {
             "\1\1",
             "\1\2\1\1\13\uffff\1\3",
             "",
             ""
     };
 
-    static final short[] DFA15_eot = DFA.unpackEncodedString(DFA15_eotS);
-    static final short[] DFA15_eof = DFA.unpackEncodedString(DFA15_eofS);
-    static final char[] DFA15_min = DFA.unpackEncodedStringToUnsignedChars(DFA15_minS);
-    static final char[] DFA15_max = DFA.unpackEncodedStringToUnsignedChars(DFA15_maxS);
-    static final short[] DFA15_accept = DFA.unpackEncodedString(DFA15_acceptS);
-    static final short[] DFA15_special = DFA.unpackEncodedString(DFA15_specialS);
-    static final short[][] DFA15_transition;
+    static final short[] DFA19_eot = DFA.unpackEncodedString(DFA19_eotS);
+    static final short[] DFA19_eof = DFA.unpackEncodedString(DFA19_eofS);
+    static final char[] DFA19_min = DFA.unpackEncodedStringToUnsignedChars(DFA19_minS);
+    static final char[] DFA19_max = DFA.unpackEncodedStringToUnsignedChars(DFA19_maxS);
+    static final short[] DFA19_accept = DFA.unpackEncodedString(DFA19_acceptS);
+    static final short[] DFA19_special = DFA.unpackEncodedString(DFA19_specialS);
+    static final short[][] DFA19_transition;
 
     static {
-        int numStates = DFA15_transitionS.length;
-        DFA15_transition = new short[numStates][];
+        int numStates = DFA19_transitionS.length;
+        DFA19_transition = new short[numStates][];
         for (int i=0; i<numStates; i++) {
-            DFA15_transition[i] = DFA.unpackEncodedString(DFA15_transitionS[i]);
+            DFA19_transition[i] = DFA.unpackEncodedString(DFA19_transitionS[i]);
         }
     }
 
-    class DFA15 extends DFA {
+    class DFA19 extends DFA {
 
-        public DFA15(BaseRecognizer recognizer) {
+        public DFA19(BaseRecognizer recognizer) {
             this.recognizer = recognizer;
-            this.decisionNumber = 15;
-            this.eot = DFA15_eot;
-            this.eof = DFA15_eof;
-            this.min = DFA15_min;
-            this.max = DFA15_max;
-            this.accept = DFA15_accept;
-            this.special = DFA15_special;
-            this.transition = DFA15_transition;
+            this.decisionNumber = 19;
+            this.eot = DFA19_eot;
+            this.eof = DFA19_eof;
+            this.min = DFA19_min;
+            this.max = DFA19_max;
+            this.accept = DFA19_accept;
+            this.special = DFA19_special;
+            this.transition = DFA19_transition;
         }
         public String getDescription() {
-            return "()+ loopback of 733:2: ( (lv_attributes_3_0= ruleAttribute ) )+";
+            return "()+ loopback of 761:2: ( (lv_attributes_3_0= ruleAttribute ) )+";
         }
     }
-    static final String DFA22_eotS =
+    static final String DFA28_eotS =
         "\4\uffff";
-    static final String DFA22_eofS =
+    static final String DFA28_eofS =
         "\4\uffff";
-    static final String DFA22_minS =
+    static final String DFA28_minS =
         "\1\5\1\4\2\uffff";
-    static final String DFA22_maxS =
+    static final String DFA28_maxS =
         "\1\5\1\23\2\uffff";
-    static final String DFA22_acceptS =
-        "\2\uffff\1\1\1\2";
-    static final String DFA22_specialS =
-        "\4\uffff}>";
-    static final String[] DFA22_transitionS = {
-            "\1\1",
-            "\1\2\1\1\15\uffff\1\3",
-            "",
-            ""
-    };
-
-    static final short[] DFA22_eot = DFA.unpackEncodedString(DFA22_eotS);
-    static final short[] DFA22_eof = DFA.unpackEncodedString(DFA22_eofS);
-    static final char[] DFA22_min = DFA.unpackEncodedStringToUnsignedChars(DFA22_minS);
-    static final char[] DFA22_max = DFA.unpackEncodedStringToUnsignedChars(DFA22_maxS);
-    static final short[] DFA22_accept = DFA.unpackEncodedString(DFA22_acceptS);
-    static final short[] DFA22_special = DFA.unpackEncodedString(DFA22_specialS);
-    static final short[][] DFA22_transition;
-
-    static {
-        int numStates = DFA22_transitionS.length;
-        DFA22_transition = new short[numStates][];
-        for (int i=0; i<numStates; i++) {
-            DFA22_transition[i] = DFA.unpackEncodedString(DFA22_transitionS[i]);
-        }
-    }
-
-    class DFA22 extends DFA {
-
-        public DFA22(BaseRecognizer recognizer) {
-            this.recognizer = recognizer;
-            this.decisionNumber = 22;
-            this.eot = DFA22_eot;
-            this.eof = DFA22_eof;
-            this.min = DFA22_min;
-            this.max = DFA22_max;
-            this.accept = DFA22_accept;
-            this.special = DFA22_special;
-            this.transition = DFA22_transition;
-        }
-        public String getDescription() {
-            return "()+ loopback of 1028:2: ( (lv_innerTypes_8_0= ruleTypeDefinition ) )+";
-        }
-    }
-    static final String DFA25_eotS =
-        "\4\uffff";
-    static final String DFA25_eofS =
-        "\1\2\3\uffff";
-    static final String DFA25_minS =
-        "\1\5\1\4\2\uffff";
-    static final String DFA25_maxS =
-        "\1\5\1\45\2\uffff";
-    static final String DFA25_acceptS =
+    static final String DFA28_acceptS =
         "\2\uffff\1\2\1\1";
-    static final String DFA25_specialS =
+    static final String DFA28_specialS =
         "\4\uffff}>";
-    static final String[] DFA25_transitionS = {
+    static final String[] DFA28_transitionS = {
             "\1\1",
-            "\1\3\1\1\3\uffff\1\3\24\uffff\1\2\1\3\5\uffff\1\3",
+            "\1\3\1\1\15\uffff\1\2",
             "",
             ""
     };
 
-    static final short[] DFA25_eot = DFA.unpackEncodedString(DFA25_eotS);
-    static final short[] DFA25_eof = DFA.unpackEncodedString(DFA25_eofS);
-    static final char[] DFA25_min = DFA.unpackEncodedStringToUnsignedChars(DFA25_minS);
-    static final char[] DFA25_max = DFA.unpackEncodedStringToUnsignedChars(DFA25_maxS);
-    static final short[] DFA25_accept = DFA.unpackEncodedString(DFA25_acceptS);
-    static final short[] DFA25_special = DFA.unpackEncodedString(DFA25_specialS);
-    static final short[][] DFA25_transition;
+    static final short[] DFA28_eot = DFA.unpackEncodedString(DFA28_eotS);
+    static final short[] DFA28_eof = DFA.unpackEncodedString(DFA28_eofS);
+    static final char[] DFA28_min = DFA.unpackEncodedStringToUnsignedChars(DFA28_minS);
+    static final char[] DFA28_max = DFA.unpackEncodedStringToUnsignedChars(DFA28_maxS);
+    static final short[] DFA28_accept = DFA.unpackEncodedString(DFA28_acceptS);
+    static final short[] DFA28_special = DFA.unpackEncodedString(DFA28_specialS);
+    static final short[][] DFA28_transition;
 
     static {
-        int numStates = DFA25_transitionS.length;
-        DFA25_transition = new short[numStates][];
+        int numStates = DFA28_transitionS.length;
+        DFA28_transition = new short[numStates][];
         for (int i=0; i<numStates; i++) {
-            DFA25_transition[i] = DFA.unpackEncodedString(DFA25_transitionS[i]);
+            DFA28_transition[i] = DFA.unpackEncodedString(DFA28_transitionS[i]);
         }
     }
 
-    class DFA25 extends DFA {
+    class DFA28 extends DFA {
 
-        public DFA25(BaseRecognizer recognizer) {
+        public DFA28(BaseRecognizer recognizer) {
             this.recognizer = recognizer;
-            this.decisionNumber = 25;
-            this.eot = DFA25_eot;
-            this.eof = DFA25_eof;
-            this.min = DFA25_min;
-            this.max = DFA25_max;
-            this.accept = DFA25_accept;
-            this.special = DFA25_special;
-            this.transition = DFA25_transition;
+            this.decisionNumber = 28;
+            this.eot = DFA28_eot;
+            this.eof = DFA28_eof;
+            this.min = DFA28_min;
+            this.max = DFA28_max;
+            this.accept = DFA28_accept;
+            this.special = DFA28_special;
+            this.transition = DFA28_transition;
         }
         public String getDescription() {
-            return "()+ loopback of 1102:1: ( (lv_typeNotations_4_0= ruleTypeAssignment ) )+";
+            return "()+ loopback of 1237:2: ( (lv_innerTypes_8_0= ruleTypeDefinition ) )+";
         }
     }
     static final String DFA31_eotS =
-        "\22\uffff";
+        "\4\uffff";
     static final String DFA31_eofS =
-        "\1\3\21\uffff";
+        "\1\2\3\uffff";
     static final String DFA31_minS =
-        "\1\4\2\0\17\uffff";
+        "\1\5\1\4\2\uffff";
     static final String DFA31_maxS =
-        "\1\60\2\0\17\uffff";
+        "\1\5\1\45\2\uffff";
     static final String DFA31_acceptS =
-        "\3\uffff\1\2\15\uffff\1\1";
+        "\2\uffff\1\2\1\1";
     static final String DFA31_specialS =
-        "\1\uffff\1\0\1\1\17\uffff}>";
+        "\4\uffff}>";
     static final String[] DFA31_transitionS = {
-            "\1\1\2\3\1\uffff\2\3\16\uffff\1\3\6\uffff\1\2\1\uffff\3\3\1"+
-            "\uffff\1\3\4\uffff\2\3\1\uffff\1\3\2\uffff\1\3",
-            "\1\uffff",
-            "\1\uffff",
-            "",
-            "",
-            "",
-            "",
-            "",
-            "",
-            "",
-            "",
-            "",
-            "",
-            "",
-            "",
-            "",
+            "\1\1",
+            "\1\3\1\1\3\uffff\1\3\24\uffff\1\2\1\3\5\uffff\1\3",
             "",
             ""
     };
@@ -8450,106 +9916,174 @@ public class InternalSmiParser extends AbstractInternalAntlrParser {
             this.transition = DFA31_transition;
         }
         public String getDescription() {
-            return "1385:2: ( ( ( ruleTypeReference ) )=> (lv_childRef_1_0= ruleTypeReference ) )?";
+            return "()+ loopback of 1311:1: ( (lv_typeNotations_4_0= ruleTypeAssignment ) )+";
+        }
+    }
+    static final String DFA37_eotS =
+        "\23\uffff";
+    static final String DFA37_eofS =
+        "\1\3\22\uffff";
+    static final String DFA37_minS =
+        "\1\4\2\0\20\uffff";
+    static final String DFA37_maxS =
+        "\1\61\2\0\20\uffff";
+    static final String DFA37_acceptS =
+        "\3\uffff\1\2\16\uffff\1\1";
+    static final String DFA37_specialS =
+        "\1\uffff\1\0\1\1\20\uffff}>";
+    static final String[] DFA37_transitionS = {
+            "\1\1\2\3\1\uffff\2\3\16\uffff\1\3\6\uffff\1\2\1\uffff\3\3\1"+
+            "\uffff\1\3\4\uffff\2\3\1\uffff\1\3\2\uffff\2\3",
+            "\1\uffff",
+            "\1\uffff",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            ""
+    };
+
+    static final short[] DFA37_eot = DFA.unpackEncodedString(DFA37_eotS);
+    static final short[] DFA37_eof = DFA.unpackEncodedString(DFA37_eofS);
+    static final char[] DFA37_min = DFA.unpackEncodedStringToUnsignedChars(DFA37_minS);
+    static final char[] DFA37_max = DFA.unpackEncodedStringToUnsignedChars(DFA37_maxS);
+    static final short[] DFA37_accept = DFA.unpackEncodedString(DFA37_acceptS);
+    static final short[] DFA37_special = DFA.unpackEncodedString(DFA37_specialS);
+    static final short[][] DFA37_transition;
+
+    static {
+        int numStates = DFA37_transitionS.length;
+        DFA37_transition = new short[numStates][];
+        for (int i=0; i<numStates; i++) {
+            DFA37_transition[i] = DFA.unpackEncodedString(DFA37_transitionS[i]);
+        }
+    }
+
+    class DFA37 extends DFA {
+
+        public DFA37(BaseRecognizer recognizer) {
+            this.recognizer = recognizer;
+            this.decisionNumber = 37;
+            this.eot = DFA37_eot;
+            this.eof = DFA37_eof;
+            this.min = DFA37_min;
+            this.max = DFA37_max;
+            this.accept = DFA37_accept;
+            this.special = DFA37_special;
+            this.transition = DFA37_transition;
+        }
+        public String getDescription() {
+            return "1594:2: ( ( ( ruleTypeReference ) )=> (lv_childRef_1_0= ruleTypeReference ) )?";
         }
         public int specialStateTransition(int s, IntStream _input) throws NoViableAltException {
             TokenStream input = (TokenStream)_input;
         	int _s = s;
             switch ( s ) {
                     case 0 : 
-                        int LA31_1 = input.LA(1);
+                        int LA37_1 = input.LA(1);
 
                          
-                        int index31_1 = input.index();
+                        int index37_1 = input.index();
                         input.rewind();
                         s = -1;
-                        if ( (synpred2_InternalSmi()) ) {s = 17;}
+                        if ( (synpred2_InternalSmi()) ) {s = 18;}
 
                         else if ( (true) ) {s = 3;}
 
                          
-                        input.seek(index31_1);
+                        input.seek(index37_1);
                         if ( s>=0 ) return s;
                         break;
                     case 1 : 
-                        int LA31_2 = input.LA(1);
+                        int LA37_2 = input.LA(1);
 
                          
-                        int index31_2 = input.index();
+                        int index37_2 = input.index();
                         input.rewind();
                         s = -1;
-                        if ( (synpred2_InternalSmi()) ) {s = 17;}
+                        if ( (synpred2_InternalSmi()) ) {s = 18;}
 
                         else if ( (true) ) {s = 3;}
 
                          
-                        input.seek(index31_2);
+                        input.seek(index37_2);
                         if ( s>=0 ) return s;
                         break;
             }
             if (state.backtracking>0) {state.failed=true; return -1;}
             NoViableAltException nvae =
-                new NoViableAltException(getDescription(), 31, _s, input);
+                new NoViableAltException(getDescription(), 37, _s, input);
             error(nvae);
             throw nvae;
         }
     }
-    static final String DFA38_eotS =
+    static final String DFA44_eotS =
         "\5\uffff";
-    static final String DFA38_eofS =
+    static final String DFA44_eofS =
         "\1\2\4\uffff";
-    static final String DFA38_minS =
+    static final String DFA44_minS =
         "\2\4\2\uffff\1\4";
-    static final String DFA38_maxS =
-        "\2\60\2\uffff\1\60";
-    static final String DFA38_acceptS =
+    static final String DFA44_maxS =
+        "\2\61\2\uffff\1\61";
+    static final String DFA44_acceptS =
         "\2\uffff\1\2\1\1\1\uffff";
-    static final String DFA38_specialS =
+    static final String DFA44_specialS =
         "\5\uffff}>";
-    static final String[] DFA38_transitionS = {
+    static final String[] DFA44_transitionS = {
             "\1\2\1\1\1\2\1\uffff\2\2\16\uffff\1\2\6\uffff\1\2\1\uffff\1"+
-            "\2\1\3\1\2\1\uffff\1\2\4\uffff\2\2\1\uffff\1\2\2\uffff\1\2",
+            "\2\1\3\1\2\1\uffff\1\2\4\uffff\2\2\1\uffff\1\2\2\uffff\2\2",
             "\1\2\1\4\1\2\1\uffff\2\2\11\uffff\1\2\4\uffff\1\2\6\uffff\1"+
             "\2\1\uffff\1\2\1\3\1\2\1\uffff\1\2\4\uffff\2\2\1\uffff\1\2\2"+
-            "\uffff\1\2",
+            "\uffff\2\2",
             "",
             "",
             "\1\2\1\4\1\2\1\uffff\2\2\11\uffff\1\2\4\uffff\1\2\6\uffff\1"+
             "\2\1\uffff\1\2\1\3\2\uffff\1\2\4\uffff\2\2\1\uffff\1\2\2\uffff"+
-            "\1\2"
+            "\2\2"
     };
 
-    static final short[] DFA38_eot = DFA.unpackEncodedString(DFA38_eotS);
-    static final short[] DFA38_eof = DFA.unpackEncodedString(DFA38_eofS);
-    static final char[] DFA38_min = DFA.unpackEncodedStringToUnsignedChars(DFA38_minS);
-    static final char[] DFA38_max = DFA.unpackEncodedStringToUnsignedChars(DFA38_maxS);
-    static final short[] DFA38_accept = DFA.unpackEncodedString(DFA38_acceptS);
-    static final short[] DFA38_special = DFA.unpackEncodedString(DFA38_specialS);
-    static final short[][] DFA38_transition;
+    static final short[] DFA44_eot = DFA.unpackEncodedString(DFA44_eotS);
+    static final short[] DFA44_eof = DFA.unpackEncodedString(DFA44_eofS);
+    static final char[] DFA44_min = DFA.unpackEncodedStringToUnsignedChars(DFA44_minS);
+    static final char[] DFA44_max = DFA.unpackEncodedStringToUnsignedChars(DFA44_maxS);
+    static final short[] DFA44_accept = DFA.unpackEncodedString(DFA44_acceptS);
+    static final short[] DFA44_special = DFA.unpackEncodedString(DFA44_specialS);
+    static final short[][] DFA44_transition;
 
     static {
-        int numStates = DFA38_transitionS.length;
-        DFA38_transition = new short[numStates][];
+        int numStates = DFA44_transitionS.length;
+        DFA44_transition = new short[numStates][];
         for (int i=0; i<numStates; i++) {
-            DFA38_transition[i] = DFA.unpackEncodedString(DFA38_transitionS[i]);
+            DFA44_transition[i] = DFA.unpackEncodedString(DFA44_transitionS[i]);
         }
     }
 
-    class DFA38 extends DFA {
+    class DFA44 extends DFA {
 
-        public DFA38(BaseRecognizer recognizer) {
+        public DFA44(BaseRecognizer recognizer) {
             this.recognizer = recognizer;
-            this.decisionNumber = 38;
-            this.eot = DFA38_eot;
-            this.eof = DFA38_eof;
-            this.min = DFA38_min;
-            this.max = DFA38_max;
-            this.accept = DFA38_accept;
-            this.special = DFA38_special;
-            this.transition = DFA38_transition;
+            this.decisionNumber = 44;
+            this.eot = DFA44_eot;
+            this.eof = DFA44_eof;
+            this.min = DFA44_min;
+            this.max = DFA44_max;
+            this.accept = DFA44_accept;
+            this.special = DFA44_special;
+            this.transition = DFA44_transition;
         }
         public String getDescription() {
-            return "()* loopback of 1608:2: ( (this_NEWLINE_4= RULE_NEWLINE )* otherlv_5= '|' ( (lv_valueTypes_6_0= ruleValueType ) ) )*";
+            return "()* loopback of 1817:2: ( (this_NEWLINE_4= RULE_NEWLINE )* otherlv_5= '|' ( (lv_valueTypes_6_0= ruleValueType ) ) )*";
         }
     }
  
@@ -8563,237 +10097,283 @@ public class InternalSmiParser extends AbstractInternalAntlrParser {
     public static final BitSet FOLLOW_ruleImports_in_ruleModule189 = new BitSet(new long[]{0x0000000000000020L});
     public static final BitSet FOLLOW_ruleObject_in_ruleModule212 = new BitSet(new long[]{0x0000000000000020L});
     public static final BitSet FOLLOW_ruleObjectIdentifier_in_ruleModule239 = new BitSet(new long[]{0x0000000000000020L});
-    public static final BitSet FOLLOW_ruleTypeDefinition_in_ruleModule266 = new BitSet(new long[]{0x0000000000000020L});
-    public static final BitSet FOLLOW_ruleMacro_in_ruleModule293 = new BitSet(new long[]{0x0000000000000020L});
-    public static final BitSet FOLLOW_RULE_NEWLINE_in_ruleModule307 = new BitSet(new long[]{0x0000000000080020L});
-    public static final BitSet FOLLOW_19_in_ruleModule320 = new BitSet(new long[]{0x0000000000000022L});
-    public static final BitSet FOLLOW_RULE_NEWLINE_in_ruleModule332 = new BitSet(new long[]{0x0000000000000022L});
-    public static final BitSet FOLLOW_ruleImports_in_entryRuleImports369 = new BitSet(new long[]{0x0000000000000000L});
-    public static final BitSet FOLLOW_EOF_in_entryRuleImports379 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_RULE_NEWLINE_in_ruleImports416 = new BitSet(new long[]{0x0000000000100020L});
-    public static final BitSet FOLLOW_20_in_ruleImports429 = new BitSet(new long[]{0x0000000000000020L});
-    public static final BitSet FOLLOW_ruleImportClosure_in_ruleImports451 = new BitSet(new long[]{0x0000000000200000L});
-    public static final BitSet FOLLOW_21_in_ruleImports462 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_ruleImportClosure_in_entryRuleImportClosure498 = new BitSet(new long[]{0x0000000000000000L});
-    public static final BitSet FOLLOW_EOF_in_entryRuleImportClosure508 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_ruleImportRefs_in_ruleImportClosure554 = new BitSet(new long[]{0x0000000000400000L});
-    public static final BitSet FOLLOW_22_in_ruleImportClosure566 = new BitSet(new long[]{0x0000000000000010L});
-    public static final BitSet FOLLOW_RULE_MODULE_ID_in_ruleImportClosure583 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_ruleImportRefs_in_entryRuleImportRefs624 = new BitSet(new long[]{0x0000000000000000L});
-    public static final BitSet FOLLOW_EOF_in_entryRuleImportRefs634 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_RULE_NEWLINE_in_ruleImportRefs671 = new BitSet(new long[]{0x0000000000000070L});
-    public static final BitSet FOLLOW_ruleImportRef_in_ruleImportRefs693 = new BitSet(new long[]{0x0000000000800002L});
-    public static final BitSet FOLLOW_23_in_ruleImportRefs706 = new BitSet(new long[]{0x0000000000000050L});
+    public static final BitSet FOLLOW_ruleReferenceable_in_ruleModule266 = new BitSet(new long[]{0x0000000000000020L});
+    public static final BitSet FOLLOW_RULE_NEWLINE_in_ruleModule280 = new BitSet(new long[]{0x0000000000080020L});
+    public static final BitSet FOLLOW_19_in_ruleModule293 = new BitSet(new long[]{0x0000000000000022L});
+    public static final BitSet FOLLOW_RULE_NEWLINE_in_ruleModule305 = new BitSet(new long[]{0x0000000000000022L});
+    public static final BitSet FOLLOW_ruleImports_in_entryRuleImports342 = new BitSet(new long[]{0x0000000000000000L});
+    public static final BitSet FOLLOW_EOF_in_entryRuleImports352 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_RULE_NEWLINE_in_ruleImports389 = new BitSet(new long[]{0x0000000000100020L});
+    public static final BitSet FOLLOW_20_in_ruleImports402 = new BitSet(new long[]{0x0000000000000070L});
+    public static final BitSet FOLLOW_ruleImportClosure_in_ruleImports423 = new BitSet(new long[]{0x0000000000200070L});
+    public static final BitSet FOLLOW_21_in_ruleImports436 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_ruleImportClosure_in_entryRuleImportClosure472 = new BitSet(new long[]{0x0000000000000000L});
+    public static final BitSet FOLLOW_EOF_in_entryRuleImportClosure482 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_ruleImportRefs_in_ruleImportClosure528 = new BitSet(new long[]{0x0000000000400020L});
+    public static final BitSet FOLLOW_RULE_NEWLINE_in_ruleImportClosure540 = new BitSet(new long[]{0x0000000000400020L});
+    public static final BitSet FOLLOW_22_in_ruleImportClosure553 = new BitSet(new long[]{0x0000000000000010L});
+    public static final BitSet FOLLOW_RULE_MODULE_ID_in_ruleImportClosure570 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_ruleImportRefs_in_entryRuleImportRefs611 = new BitSet(new long[]{0x0000000000000000L});
+    public static final BitSet FOLLOW_EOF_in_entryRuleImportRefs621 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_RULE_NEWLINE_in_ruleImportRefs658 = new BitSet(new long[]{0x0000000000000070L});
+    public static final BitSet FOLLOW_ruleImportRef_in_ruleImportRefs680 = new BitSet(new long[]{0x0000000000800002L});
+    public static final BitSet FOLLOW_23_in_ruleImportRefs693 = new BitSet(new long[]{0x0000000000000070L});
+    public static final BitSet FOLLOW_RULE_NEWLINE_in_ruleImportRefs705 = new BitSet(new long[]{0x0000000000000070L});
     public static final BitSet FOLLOW_ruleImportRef_in_ruleImportRefs727 = new BitSet(new long[]{0x0000000000800002L});
     public static final BitSet FOLLOW_ruleImportRef_in_entryRuleImportRef765 = new BitSet(new long[]{0x0000000000000000L});
     public static final BitSet FOLLOW_EOF_in_entryRuleImportRef775 = new BitSet(new long[]{0x0000000000000002L});
     public static final BitSet FOLLOW_RULE_ASN1_ID_in_ruleImportRef820 = new BitSet(new long[]{0x0000000000000002L});
     public static final BitSet FOLLOW_RULE_MODULE_ID_in_ruleImportRef846 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_ruleObjectIdentifier_in_entryRuleObjectIdentifier888 = new BitSet(new long[]{0x0000000000000000L});
-    public static final BitSet FOLLOW_EOF_in_entryRuleObjectIdentifier898 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_RULE_NEWLINE_in_ruleObjectIdentifier939 = new BitSet(new long[]{0x0000000000000060L});
-    public static final BitSet FOLLOW_RULE_ASN1_ID_in_ruleObjectIdentifier957 = new BitSet(new long[]{0x0000000001000000L});
-    public static final BitSet FOLLOW_24_in_ruleObjectIdentifier974 = new BitSet(new long[]{0x0000000000020000L});
-    public static final BitSet FOLLOW_17_in_ruleObjectIdentifier986 = new BitSet(new long[]{0x0000000002000000L});
-    public static final BitSet FOLLOW_25_in_ruleObjectIdentifier998 = new BitSet(new long[]{0x00000000000000C0L});
-    public static final BitSet FOLLOW_ruleObjectIdentifierValue_in_ruleObjectIdentifier1019 = new BitSet(new long[]{0x0000000004000000L});
-    public static final BitSet FOLLOW_26_in_ruleObjectIdentifier1031 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_ruleObjectIdentifierValue_in_entryRuleObjectIdentifierValue1071 = new BitSet(new long[]{0x0000000000000000L});
-    public static final BitSet FOLLOW_EOF_in_entryRuleObjectIdentifierValue1081 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_RULE_ASN1_ID_in_ruleObjectIdentifierValue1124 = new BitSet(new long[]{0x0000000000000080L});
-    public static final BitSet FOLLOW_RULE_ASN1_ID_in_ruleObjectIdentifierValue1167 = new BitSet(new long[]{0x0000000000000080L});
-    public static final BitSet FOLLOW_RULE_BIG_INTEGER_in_ruleObjectIdentifierValue1186 = new BitSet(new long[]{0x0000000000000082L});
-    public static final BitSet FOLLOW_RULE_BIG_INTEGER_in_ruleObjectIdentifierValue1208 = new BitSet(new long[]{0x0000000000000082L});
-    public static final BitSet FOLLOW_ruleTypeDefinition_in_entryRuleTypeDefinition1250 = new BitSet(new long[]{0x0000000000000000L});
-    public static final BitSet FOLLOW_EOF_in_entryRuleTypeDefinition1260 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_RULE_NEWLINE_in_ruleTypeDefinition1297 = new BitSet(new long[]{0x0000000000000030L});
-    public static final BitSet FOLLOW_RULE_MODULE_ID_in_ruleTypeDefinition1315 = new BitSet(new long[]{0x0000000000020000L});
-    public static final BitSet FOLLOW_17_in_ruleTypeDefinition1332 = new BitSet(new long[]{0x00012C2A81000370L});
-    public static final BitSet FOLLOW_ruleValue_in_ruleTypeDefinition1353 = new BitSet(new long[]{0x00012C2A81000372L});
-    public static final BitSet FOLLOW_ruleObject_in_entryRuleObject1390 = new BitSet(new long[]{0x0000000000000000L});
-    public static final BitSet FOLLOW_EOF_in_entryRuleObject1400 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_RULE_NEWLINE_in_ruleObject1437 = new BitSet(new long[]{0x0000000000000060L});
-    public static final BitSet FOLLOW_RULE_ASN1_ID_in_ruleObject1455 = new BitSet(new long[]{0x0000000000000010L});
-    public static final BitSet FOLLOW_RULE_MODULE_ID_in_ruleObject1480 = new BitSet(new long[]{0x0000000000000020L});
-    public static final BitSet FOLLOW_ruleAttribute_in_ruleObject1501 = new BitSet(new long[]{0x0000000000000020L});
-    public static final BitSet FOLLOW_RULE_NEWLINE_in_ruleObject1514 = new BitSet(new long[]{0x0000000000020020L});
-    public static final BitSet FOLLOW_17_in_ruleObject1527 = new BitSet(new long[]{0x0000000002000000L});
-    public static final BitSet FOLLOW_ruleObjectValue_in_ruleObject1548 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_ruleAttribute_in_entryRuleAttribute1584 = new BitSet(new long[]{0x0000000000000000L});
-    public static final BitSet FOLLOW_EOF_in_entryRuleAttribute1594 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_RULE_NEWLINE_in_ruleAttribute1631 = new BitSet(new long[]{0x0000000000000030L});
-    public static final BitSet FOLLOW_RULE_MODULE_ID_in_ruleAttribute1652 = new BitSet(new long[]{0x0000000000000160L});
-    public static final BitSet FOLLOW_ruleAttributeValue_in_ruleAttribute1673 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_ruleAttributeValue_in_entryRuleAttributeValue1709 = new BitSet(new long[]{0x0000000000000000L});
-    public static final BitSet FOLLOW_EOF_in_entryRuleAttributeValue1719 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_RULE_NEWLINE_in_ruleAttributeValue1756 = new BitSet(new long[]{0x0000000000000140L});
-    public static final BitSet FOLLOW_RULE_ASN1_ID_in_ruleAttributeValue1775 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_RULE_IA5STRING_in_ruleAttributeValue1803 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_ruleObjectValue_in_entryRuleObjectValue1845 = new BitSet(new long[]{0x0000000000000000L});
-    public static final BitSet FOLLOW_EOF_in_entryRuleObjectValue1855 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_25_in_ruleObjectValue1892 = new BitSet(new long[]{0x00000000000000C0L});
-    public static final BitSet FOLLOW_ruleObjectIdentifierValue_in_ruleObjectValue1914 = new BitSet(new long[]{0x0000000004000000L});
-    public static final BitSet FOLLOW_26_in_ruleObjectValue1925 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_ruleMacro_in_entryRuleMacro1961 = new BitSet(new long[]{0x0000000000000000L});
-    public static final BitSet FOLLOW_EOF_in_entryRuleMacro1971 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_RULE_NEWLINE_in_ruleMacro2008 = new BitSet(new long[]{0x0000000000000030L});
-    public static final BitSet FOLLOW_RULE_MODULE_ID_in_ruleMacro2026 = new BitSet(new long[]{0x0000000008000000L});
-    public static final BitSet FOLLOW_27_in_ruleMacro2043 = new BitSet(new long[]{0x0000000000020000L});
-    public static final BitSet FOLLOW_17_in_ruleMacro2055 = new BitSet(new long[]{0x0000000000000020L});
-    public static final BitSet FOLLOW_RULE_NEWLINE_in_ruleMacro2067 = new BitSet(new long[]{0x0000000000040020L});
-    public static final BitSet FOLLOW_18_in_ruleMacro2080 = new BitSet(new long[]{0x0000000000000020L});
-    public static final BitSet FOLLOW_ruleTypeNotation_in_ruleMacro2101 = new BitSet(new long[]{0x0000000000000020L});
-    public static final BitSet FOLLOW_ruleValueNotation_in_ruleMacro2122 = new BitSet(new long[]{0x0000000000000020L});
-    public static final BitSet FOLLOW_ruleTypeDefinition_in_ruleMacro2143 = new BitSet(new long[]{0x0000000000000020L});
-    public static final BitSet FOLLOW_RULE_NEWLINE_in_ruleMacro2156 = new BitSet(new long[]{0x0000000000080020L});
-    public static final BitSet FOLLOW_19_in_ruleMacro2169 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_ruleTypeNotation_in_entryRuleTypeNotation2205 = new BitSet(new long[]{0x0000000000000000L});
-    public static final BitSet FOLLOW_EOF_in_entryRuleTypeNotation2215 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_RULE_NEWLINE_in_ruleTypeNotation2252 = new BitSet(new long[]{0x0000000010000020L});
-    public static final BitSet FOLLOW_28_in_ruleTypeNotation2271 = new BitSet(new long[]{0x0000000020000000L});
-    public static final BitSet FOLLOW_29_in_ruleTypeNotation2296 = new BitSet(new long[]{0x0000000000020000L});
-    public static final BitSet FOLLOW_17_in_ruleTypeNotation2308 = new BitSet(new long[]{0x0000000000000020L});
-    public static final BitSet FOLLOW_ruleTypeAssignment_in_ruleTypeNotation2329 = new BitSet(new long[]{0x0000000000000022L});
-    public static final BitSet FOLLOW_ruleValueNotation_in_entryRuleValueNotation2366 = new BitSet(new long[]{0x0000000000000000L});
-    public static final BitSet FOLLOW_EOF_in_entryRuleValueNotation2376 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_RULE_NEWLINE_in_ruleValueNotation2413 = new BitSet(new long[]{0x0000000040000020L});
-    public static final BitSet FOLLOW_30_in_ruleValueNotation2432 = new BitSet(new long[]{0x0000000020000000L});
-    public static final BitSet FOLLOW_29_in_ruleValueNotation2457 = new BitSet(new long[]{0x0000000000020000L});
-    public static final BitSet FOLLOW_17_in_ruleValueNotation2469 = new BitSet(new long[]{0x0000002000000020L});
-    public static final BitSet FOLLOW_ruleValueAssignment_in_ruleValueNotation2490 = new BitSet(new long[]{0x0000002000000022L});
-    public static final BitSet FOLLOW_ruleTypeAssignment_in_entryRuleTypeAssignment2527 = new BitSet(new long[]{0x0000000000000000L});
-    public static final BitSet FOLLOW_EOF_in_entryRuleTypeAssignment2537 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_RULE_NEWLINE_in_ruleTypeAssignment2574 = new BitSet(new long[]{0x0000002080000230L});
-    public static final BitSet FOLLOW_ruleParamAssignment_in_ruleTypeAssignment2598 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_ruleTypeReference_in_ruleTypeAssignment2625 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_ruleMacroValue_in_ruleTypeAssignment2652 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_ruleParamAssignment_in_entryRuleParamAssignment2688 = new BitSet(new long[]{0x0000000000000000L});
-    public static final BitSet FOLLOW_EOF_in_entryRuleParamAssignment2698 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_RULE_PARAMETER_in_ruleParamAssignment2740 = new BitSet(new long[]{0x0000002080000010L});
-    public static final BitSet FOLLOW_ruleTypeNotationRight_in_ruleParamAssignment2766 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_ruleTypeNotationRight_in_entryRuleTypeNotationRight2802 = new BitSet(new long[]{0x0000000000000000L});
-    public static final BitSet FOLLOW_EOF_in_entryRuleTypeNotationRight2812 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_ruleTypeReference_in_ruleTypeNotationRight2859 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_ruleMacroValue_in_ruleTypeNotationRight2885 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_ruleTypeReferenceExt_in_entryRuleTypeReferenceExt2921 = new BitSet(new long[]{0x0000000000000000L});
-    public static final BitSet FOLLOW_EOF_in_entryRuleTypeReferenceExt2931 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_ruleTypeReference_in_ruleTypeReferenceExt2977 = new BitSet(new long[]{0x0000000080000012L});
-    public static final BitSet FOLLOW_ruleTypeReference_in_ruleTypeReferenceExt3008 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_ruleTypeReference_in_entryRuleTypeReference3045 = new BitSet(new long[]{0x0000000000000000L});
-    public static final BitSet FOLLOW_EOF_in_entryRuleTypeReference3055 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_RULE_MODULE_ID_in_ruleTypeReference3100 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_ruleBracedTypeReference_in_ruleTypeReference3128 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_ruleBracedTypeReference_in_entryRuleBracedTypeReference3163 = new BitSet(new long[]{0x0000000000000000L});
-    public static final BitSet FOLLOW_EOF_in_entryRuleBracedTypeReference3173 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_31_in_ruleBracedTypeReference3210 = new BitSet(new long[]{0x0000000080000010L});
-    public static final BitSet FOLLOW_ruleTypeReference_in_ruleBracedTypeReference3232 = new BitSet(new long[]{0x0000000100000000L});
-    public static final BitSet FOLLOW_32_in_ruleBracedTypeReference3243 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_ruleValueAssignment_in_entryRuleValueAssignment3279 = new BitSet(new long[]{0x0000000000000000L});
-    public static final BitSet FOLLOW_EOF_in_entryRuleValueAssignment3289 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_RULE_NEWLINE_in_ruleValueAssignment3326 = new BitSet(new long[]{0x0000002000000000L});
-    public static final BitSet FOLLOW_ruleMacroValue_in_ruleValueAssignment3348 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_ruleValue_in_entryRuleValue3384 = new BitSet(new long[]{0x0000000000000000L});
-    public static final BitSet FOLLOW_EOF_in_entryRuleValue3394 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_ruleTag_in_ruleValue3440 = new BitSet(new long[]{0x00012C2A81000370L});
-    public static final BitSet FOLLOW_RULE_NEWLINE_in_ruleValue3453 = new BitSet(new long[]{0x00012C2A81000370L});
-    public static final BitSet FOLLOW_33_in_ruleValue3472 = new BitSet(new long[]{0x00012C2A81000370L});
-    public static final BitSet FOLLOW_ruleValueType_in_ruleValue3507 = new BitSet(new long[]{0x0000000400000022L});
-    public static final BitSet FOLLOW_RULE_NEWLINE_in_ruleValue3520 = new BitSet(new long[]{0x0000000400000020L});
-    public static final BitSet FOLLOW_34_in_ruleValue3533 = new BitSet(new long[]{0x00012C2A81000370L});
-    public static final BitSet FOLLOW_ruleValueType_in_ruleValue3554 = new BitSet(new long[]{0x0000000400000022L});
-    public static final BitSet FOLLOW_ruleTag_in_entryRuleTag3592 = new BitSet(new long[]{0x0000000000000000L});
-    public static final BitSet FOLLOW_EOF_in_entryRuleTag3602 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_RULE_NEWLINE_in_ruleTag3639 = new BitSet(new long[]{0x0000000800000000L});
-    public static final BitSet FOLLOW_35_in_ruleTag3652 = new BitSet(new long[]{0x0000000000000080L});
-    public static final BitSet FOLLOW_RULE_BIG_INTEGER_in_ruleTag3669 = new BitSet(new long[]{0x0000001000000000L});
-    public static final BitSet FOLLOW_36_in_ruleTag3686 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_ruleValueType_in_entryRuleValueType3722 = new BitSet(new long[]{0x0000000000000000L});
-    public static final BitSet FOLLOW_EOF_in_entryRuleValueType3732 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_ruleParamAssignment_in_ruleValueType3778 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_RULE_ASN1_ID_in_ruleValueType3801 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_ruleTypeReferenceExt_in_ruleValueType3833 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_ruleASN1_TYPE_in_ruleValueType3860 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_ruleMacroValue_in_ruleValueType3887 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_24_in_ruleValueType3915 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_ruleMacroValue_in_entryRuleMacroValue3952 = new BitSet(new long[]{0x0000000000000000L});
-    public static final BitSet FOLLOW_EOF_in_entryRuleMacroValue3962 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_37_in_ruleMacroValue4008 = new BitSet(new long[]{0x0000004000000000L});
-    public static final BitSet FOLLOW_38_in_ruleMacroValue4020 = new BitSet(new long[]{0x00000300C0000010L});
-    public static final BitSet FOLLOW_ruleMacroValueType_in_ruleMacroValue4041 = new BitSet(new long[]{0x0000008000000000L});
-    public static final BitSet FOLLOW_39_in_ruleMacroValue4053 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_ruleMacroValueType_in_entryRuleMacroValueType4089 = new BitSet(new long[]{0x0000000000000000L});
-    public static final BitSet FOLLOW_EOF_in_entryRuleMacroValueType4099 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_ruleUpdateType_in_ruleMacroValueType4145 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_ruleValueCapType_in_ruleMacroValueType4172 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_40_in_ruleMacroValueType4196 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_ruleUpdateType_in_entryRuleUpdateType4245 = new BitSet(new long[]{0x0000000000000000L});
-    public static final BitSet FOLLOW_EOF_in_entryRuleUpdateType4255 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_41_in_ruleUpdateType4298 = new BitSet(new long[]{0x0000000080000010L});
-    public static final BitSet FOLLOW_ruleTypeReference_in_ruleUpdateType4333 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_ruleValueCapType_in_entryRuleValueCapType4369 = new BitSet(new long[]{0x0000000000000000L});
-    public static final BitSet FOLLOW_EOF_in_entryRuleValueCapType4379 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_30_in_ruleValueCapType4425 = new BitSet(new long[]{0x0000000081000010L});
-    public static final BitSet FOLLOW_24_in_ruleValueCapType4438 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_ruleTypeReference_in_ruleValueCapType4465 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_ruleASN1_TYPE_in_entryRuleASN1_TYPE4502 = new BitSet(new long[]{0x0000000000000000L});
-    public static final BitSet FOLLOW_EOF_in_entryRuleASN1_TYPE4512 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_ruleASN1_SIMPLE_in_ruleASN1_TYPE4559 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_ruleASN1_CHOICE_in_ruleASN1_TYPE4586 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_ruleASN1_SIMPLE_in_entryRuleASN1_SIMPLE4621 = new BitSet(new long[]{0x0000000000000000L});
-    public static final BitSet FOLLOW_EOF_in_entryRuleASN1_SIMPLE4631 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_42_in_ruleASN1_SIMPLE4678 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_RULE_IA5STRING_in_ruleASN1_SIMPLE4706 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_ruleASN1_OCTET_STRING_in_ruleASN1_SIMPLE4735 = new BitSet(new long[]{0x0000004000000002L});
-    public static final BitSet FOLLOW_ruleASN1_SUBTYPE_in_ruleASN1_SIMPLE4755 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_ruleASN1_INTEGER_in_ruleASN1_SIMPLE4785 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_ruleASN1_OCTET_STRING_in_entryRuleASN1_OCTET_STRING4820 = new BitSet(new long[]{0x0000000000000000L});
-    public static final BitSet FOLLOW_EOF_in_entryRuleASN1_OCTET_STRING4830 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_43_in_ruleASN1_OCTET_STRING4876 = new BitSet(new long[]{0x0000100000000000L});
-    public static final BitSet FOLLOW_44_in_ruleASN1_OCTET_STRING4888 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_ruleASN1_INTEGER_in_entryRuleASN1_INTEGER4924 = new BitSet(new long[]{0x0000000000000000L});
-    public static final BitSet FOLLOW_EOF_in_entryRuleASN1_INTEGER4934 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_45_in_ruleASN1_INTEGER4977 = new BitSet(new long[]{0x0000004000000002L});
-    public static final BitSet FOLLOW_38_in_ruleASN1_INTEGER5003 = new BitSet(new long[]{0x0000000000000080L});
-    public static final BitSet FOLLOW_ruleASN1_RANGE_in_ruleASN1_INTEGER5024 = new BitSet(new long[]{0x0000008000000000L});
-    public static final BitSet FOLLOW_39_in_ruleASN1_INTEGER5036 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_ruleASN1_SUBTYPE_in_entryRuleASN1_SUBTYPE5074 = new BitSet(new long[]{0x0000000000000000L});
-    public static final BitSet FOLLOW_EOF_in_entryRuleASN1_SUBTYPE5084 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_38_in_ruleASN1_SUBTYPE5121 = new BitSet(new long[]{0x0000400000000000L});
-    public static final BitSet FOLLOW_46_in_ruleASN1_SUBTYPE5133 = new BitSet(new long[]{0x0000004000000000L});
-    public static final BitSet FOLLOW_38_in_ruleASN1_SUBTYPE5145 = new BitSet(new long[]{0x0000000000000080L});
-    public static final BitSet FOLLOW_ruleASN1_RANGE_in_ruleASN1_SUBTYPE5166 = new BitSet(new long[]{0x0000008400000000L});
-    public static final BitSet FOLLOW_34_in_ruleASN1_SUBTYPE5179 = new BitSet(new long[]{0x0000000000000080L});
-    public static final BitSet FOLLOW_ruleASN1_RANGE_in_ruleASN1_SUBTYPE5200 = new BitSet(new long[]{0x0000008400000000L});
-    public static final BitSet FOLLOW_39_in_ruleASN1_SUBTYPE5214 = new BitSet(new long[]{0x0000008000000000L});
-    public static final BitSet FOLLOW_39_in_ruleASN1_SUBTYPE5226 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_ruleASN1_RANGE_in_entryRuleASN1_RANGE5262 = new BitSet(new long[]{0x0000000000000000L});
-    public static final BitSet FOLLOW_EOF_in_entryRuleASN1_RANGE5272 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_RULE_BIG_INTEGER_in_ruleASN1_RANGE5324 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_RULE_BIG_INTEGER_in_ruleASN1_RANGE5354 = new BitSet(new long[]{0x0000800000000000L});
-    public static final BitSet FOLLOW_47_in_ruleASN1_RANGE5371 = new BitSet(new long[]{0x0000000000000080L});
-    public static final BitSet FOLLOW_RULE_BIG_INTEGER_in_ruleASN1_RANGE5388 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_ruleASN1_CHOICE_in_entryRuleASN1_CHOICE5430 = new BitSet(new long[]{0x0000000000000000L});
-    public static final BitSet FOLLOW_EOF_in_entryRuleASN1_CHOICE5440 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_48_in_ruleASN1_CHOICE5477 = new BitSet(new long[]{0x0000000002000000L});
-    public static final BitSet FOLLOW_25_in_ruleASN1_CHOICE5489 = new BitSet(new long[]{0x0000000000000020L});
-    public static final BitSet FOLLOW_RULE_NEWLINE_in_ruleASN1_CHOICE5501 = new BitSet(new long[]{0x0000000000000060L});
-    public static final BitSet FOLLOW_ruleASN1_CHOICE_ENTRY_in_ruleASN1_CHOICE5523 = new BitSet(new long[]{0x0000000000800020L});
-    public static final BitSet FOLLOW_23_in_ruleASN1_CHOICE5536 = new BitSet(new long[]{0x0000000000000020L});
-    public static final BitSet FOLLOW_RULE_NEWLINE_in_ruleASN1_CHOICE5548 = new BitSet(new long[]{0x0000000000000060L});
-    public static final BitSet FOLLOW_ruleASN1_CHOICE_ENTRY_in_ruleASN1_CHOICE5570 = new BitSet(new long[]{0x0000000000800020L});
-    public static final BitSet FOLLOW_RULE_NEWLINE_in_ruleASN1_CHOICE5584 = new BitSet(new long[]{0x0000000004000020L});
-    public static final BitSet FOLLOW_26_in_ruleASN1_CHOICE5597 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_ruleASN1_CHOICE_ENTRY_in_entryRuleASN1_CHOICE_ENTRY5633 = new BitSet(new long[]{0x0000000000000000L});
-    public static final BitSet FOLLOW_EOF_in_entryRuleASN1_CHOICE_ENTRY5643 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_RULE_ASN1_ID_in_ruleASN1_CHOICE_ENTRY5685 = new BitSet(new long[]{0x00012C0081000130L});
-    public static final BitSet FOLLOW_RULE_NEWLINE_in_ruleASN1_CHOICE_ENTRY5702 = new BitSet(new long[]{0x00012C0081000130L});
-    public static final BitSet FOLLOW_ruleChoiceType_in_ruleASN1_CHOICE_ENTRY5724 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_ruleChoiceType_in_entryRuleChoiceType5760 = new BitSet(new long[]{0x0000000000000000L});
-    public static final BitSet FOLLOW_EOF_in_entryRuleChoiceType5770 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_ruleTypeReference_in_ruleChoiceType5826 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_ruleASN1_TYPE_in_ruleChoiceType5853 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_24_in_ruleChoiceType5871 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_RULE_ASN1_ID_in_synpred1_InternalSmi1150 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_ruleTypeReference_in_synpred2_InternalSmi2991 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_ruleReferenceable_in_entryRuleReferenceable882 = new BitSet(new long[]{0x0000000000000000L});
+    public static final BitSet FOLLOW_EOF_in_entryRuleReferenceable892 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_ruleMacro_in_ruleReferenceable939 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_ruleTypeDefinition_in_ruleReferenceable966 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_ruleObjectIdentifier_in_entryRuleObjectIdentifier1001 = new BitSet(new long[]{0x0000000000000000L});
+    public static final BitSet FOLLOW_EOF_in_entryRuleObjectIdentifier1011 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_RULE_NEWLINE_in_ruleObjectIdentifier1048 = new BitSet(new long[]{0x0000000000000060L});
+    public static final BitSet FOLLOW_RULE_ASN1_ID_in_ruleObjectIdentifier1066 = new BitSet(new long[]{0x0000000001000000L});
+    public static final BitSet FOLLOW_24_in_ruleObjectIdentifier1083 = new BitSet(new long[]{0x0000000000020000L});
+    public static final BitSet FOLLOW_17_in_ruleObjectIdentifier1095 = new BitSet(new long[]{0x0000000002000000L});
+    public static final BitSet FOLLOW_25_in_ruleObjectIdentifier1107 = new BitSet(new long[]{0x00000000000000C0L});
+    public static final BitSet FOLLOW_ruleObjectIdentifierValue_in_ruleObjectIdentifier1128 = new BitSet(new long[]{0x0000000004000000L});
+    public static final BitSet FOLLOW_26_in_ruleObjectIdentifier1140 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_ruleObjectIdentifierValue_in_entryRuleObjectIdentifierValue1176 = new BitSet(new long[]{0x0000000000000000L});
+    public static final BitSet FOLLOW_EOF_in_entryRuleObjectIdentifierValue1186 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_RULE_ASN1_ID_in_ruleObjectIdentifierValue1232 = new BitSet(new long[]{0x0000000000000080L});
+    public static final BitSet FOLLOW_RULE_ASN1_ID_in_ruleObjectIdentifierValue1266 = new BitSet(new long[]{0x0000000000000080L});
+    public static final BitSet FOLLOW_RULE_BIG_INTEGER_in_ruleObjectIdentifierValue1290 = new BitSet(new long[]{0x0000000000000082L});
+    public static final BitSet FOLLOW_RULE_BIG_INTEGER_in_ruleObjectIdentifierValue1312 = new BitSet(new long[]{0x0000000000000082L});
+    public static final BitSet FOLLOW_ruleTypeDefinition_in_entryRuleTypeDefinition1354 = new BitSet(new long[]{0x0000000000000000L});
+    public static final BitSet FOLLOW_EOF_in_entryRuleTypeDefinition1364 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_RULE_NEWLINE_in_ruleTypeDefinition1401 = new BitSet(new long[]{0x0000000000000030L});
+    public static final BitSet FOLLOW_RULE_MODULE_ID_in_ruleTypeDefinition1419 = new BitSet(new long[]{0x0000000000020000L});
+    public static final BitSet FOLLOW_17_in_ruleTypeDefinition1436 = new BitSet(new long[]{0x00032C2A81000370L});
+    public static final BitSet FOLLOW_ruleValue_in_ruleTypeDefinition1457 = new BitSet(new long[]{0x00032C2A81000372L});
+    public static final BitSet FOLLOW_ruleObject_in_entryRuleObject1494 = new BitSet(new long[]{0x0000000000000000L});
+    public static final BitSet FOLLOW_EOF_in_entryRuleObject1504 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_RULE_NEWLINE_in_ruleObject1541 = new BitSet(new long[]{0x0000000000000060L});
+    public static final BitSet FOLLOW_RULE_ASN1_ID_in_ruleObject1559 = new BitSet(new long[]{0x0000000000000010L});
+    public static final BitSet FOLLOW_RULE_MODULE_ID_in_ruleObject1584 = new BitSet(new long[]{0x0000000000000020L});
+    public static final BitSet FOLLOW_ruleAttribute_in_ruleObject1605 = new BitSet(new long[]{0x0000000000000020L});
+    public static final BitSet FOLLOW_RULE_NEWLINE_in_ruleObject1618 = new BitSet(new long[]{0x0000000000020020L});
+    public static final BitSet FOLLOW_17_in_ruleObject1631 = new BitSet(new long[]{0x0000000002000000L});
+    public static final BitSet FOLLOW_ruleObjectValue_in_ruleObject1652 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_ruleAttribute_in_entryRuleAttribute1688 = new BitSet(new long[]{0x0000000000000000L});
+    public static final BitSet FOLLOW_EOF_in_entryRuleAttribute1698 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_RULE_NEWLINE_in_ruleAttribute1735 = new BitSet(new long[]{0x0000000000000030L});
+    public static final BitSet FOLLOW_RULE_MODULE_ID_in_ruleAttribute1756 = new BitSet(new long[]{0x00022C0003000170L});
+    public static final BitSet FOLLOW_ruleAttributeValue_in_ruleAttribute1777 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_ruleAttributeValue_in_entryRuleAttributeValue1813 = new BitSet(new long[]{0x0000000000000000L});
+    public static final BitSet FOLLOW_EOF_in_entryRuleAttributeValue1823 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_RULE_NEWLINE_in_ruleAttributeValue1861 = new BitSet(new long[]{0x0000000000000170L});
+    public static final BitSet FOLLOW_ruleIdentifier_in_ruleAttributeValue1884 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_RULE_IA5STRING_in_ruleAttributeValue1907 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_RULE_MODULE_ID_in_ruleAttributeValue1939 = new BitSet(new long[]{0x0000004000000002L});
+    public static final BitSet FOLLOW_ruleASN1_SUBTYPE_in_ruleAttributeValue1960 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_ruleBracedObjectReference_in_ruleAttributeValue1991 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_ruleASN1_INTEGER_in_ruleAttributeValue2018 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_ruleASN1_SEQUENCE_OF_in_ruleAttributeValue2045 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_24_in_ruleAttributeValue2073 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_ruleIdentifier_in_entryRuleIdentifier2110 = new BitSet(new long[]{0x0000000000000000L});
+    public static final BitSet FOLLOW_EOF_in_entryRuleIdentifier2120 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_RULE_ASN1_ID_in_ruleIdentifier2161 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_ruleBracedObjectReference_in_entryRuleBracedObjectReference2201 = new BitSet(new long[]{0x0000000000000000L});
+    public static final BitSet FOLLOW_EOF_in_entryRuleBracedObjectReference2211 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_25_in_ruleBracedObjectReference2248 = new BitSet(new long[]{0x0000000000000040L});
+    public static final BitSet FOLLOW_RULE_ASN1_ID_in_ruleBracedObjectReference2268 = new BitSet(new long[]{0x0000000004000000L});
+    public static final BitSet FOLLOW_26_in_ruleBracedObjectReference2280 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_ruleObjectValue_in_entryRuleObjectValue2316 = new BitSet(new long[]{0x0000000000000000L});
+    public static final BitSet FOLLOW_EOF_in_entryRuleObjectValue2326 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_25_in_ruleObjectValue2363 = new BitSet(new long[]{0x00000000000000C0L});
+    public static final BitSet FOLLOW_ruleObjectIdentifierValue_in_ruleObjectValue2385 = new BitSet(new long[]{0x0000000004000000L});
+    public static final BitSet FOLLOW_26_in_ruleObjectValue2396 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_ruleMacro_in_entryRuleMacro2432 = new BitSet(new long[]{0x0000000000000000L});
+    public static final BitSet FOLLOW_EOF_in_entryRuleMacro2442 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_RULE_NEWLINE_in_ruleMacro2479 = new BitSet(new long[]{0x0000000000000030L});
+    public static final BitSet FOLLOW_RULE_MODULE_ID_in_ruleMacro2497 = new BitSet(new long[]{0x0000000008000000L});
+    public static final BitSet FOLLOW_27_in_ruleMacro2514 = new BitSet(new long[]{0x0000000000020000L});
+    public static final BitSet FOLLOW_17_in_ruleMacro2526 = new BitSet(new long[]{0x0000000000000020L});
+    public static final BitSet FOLLOW_RULE_NEWLINE_in_ruleMacro2538 = new BitSet(new long[]{0x0000000000040020L});
+    public static final BitSet FOLLOW_18_in_ruleMacro2551 = new BitSet(new long[]{0x0000000000000020L});
+    public static final BitSet FOLLOW_ruleTypeNotation_in_ruleMacro2572 = new BitSet(new long[]{0x0000000000000020L});
+    public static final BitSet FOLLOW_ruleValueNotation_in_ruleMacro2593 = new BitSet(new long[]{0x0000000000000020L});
+    public static final BitSet FOLLOW_ruleTypeDefinition_in_ruleMacro2614 = new BitSet(new long[]{0x0000000000000020L});
+    public static final BitSet FOLLOW_RULE_NEWLINE_in_ruleMacro2627 = new BitSet(new long[]{0x0000000000080020L});
+    public static final BitSet FOLLOW_19_in_ruleMacro2640 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_ruleTypeNotation_in_entryRuleTypeNotation2676 = new BitSet(new long[]{0x0000000000000000L});
+    public static final BitSet FOLLOW_EOF_in_entryRuleTypeNotation2686 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_RULE_NEWLINE_in_ruleTypeNotation2723 = new BitSet(new long[]{0x0000000010000020L});
+    public static final BitSet FOLLOW_28_in_ruleTypeNotation2742 = new BitSet(new long[]{0x0000000020000000L});
+    public static final BitSet FOLLOW_29_in_ruleTypeNotation2767 = new BitSet(new long[]{0x0000000000020000L});
+    public static final BitSet FOLLOW_17_in_ruleTypeNotation2779 = new BitSet(new long[]{0x0000000000000020L});
+    public static final BitSet FOLLOW_ruleTypeAssignment_in_ruleTypeNotation2800 = new BitSet(new long[]{0x0000000000000022L});
+    public static final BitSet FOLLOW_ruleValueNotation_in_entryRuleValueNotation2837 = new BitSet(new long[]{0x0000000000000000L});
+    public static final BitSet FOLLOW_EOF_in_entryRuleValueNotation2847 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_RULE_NEWLINE_in_ruleValueNotation2884 = new BitSet(new long[]{0x0000000040000020L});
+    public static final BitSet FOLLOW_30_in_ruleValueNotation2903 = new BitSet(new long[]{0x0000000020000000L});
+    public static final BitSet FOLLOW_29_in_ruleValueNotation2928 = new BitSet(new long[]{0x0000000000020000L});
+    public static final BitSet FOLLOW_17_in_ruleValueNotation2940 = new BitSet(new long[]{0x0000002000000020L});
+    public static final BitSet FOLLOW_ruleValueAssignment_in_ruleValueNotation2961 = new BitSet(new long[]{0x0000002000000022L});
+    public static final BitSet FOLLOW_ruleTypeAssignment_in_entryRuleTypeAssignment2998 = new BitSet(new long[]{0x0000000000000000L});
+    public static final BitSet FOLLOW_EOF_in_entryRuleTypeAssignment3008 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_RULE_NEWLINE_in_ruleTypeAssignment3045 = new BitSet(new long[]{0x0000002080000230L});
+    public static final BitSet FOLLOW_ruleParamAssignment_in_ruleTypeAssignment3069 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_ruleTypeReference_in_ruleTypeAssignment3096 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_ruleMacroValue_in_ruleTypeAssignment3123 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_ruleParamAssignment_in_entryRuleParamAssignment3159 = new BitSet(new long[]{0x0000000000000000L});
+    public static final BitSet FOLLOW_EOF_in_entryRuleParamAssignment3169 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_RULE_PARAMETER_in_ruleParamAssignment3211 = new BitSet(new long[]{0x0000002080000010L});
+    public static final BitSet FOLLOW_ruleTypeNotationRight_in_ruleParamAssignment3237 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_ruleTypeNotationRight_in_entryRuleTypeNotationRight3273 = new BitSet(new long[]{0x0000000000000000L});
+    public static final BitSet FOLLOW_EOF_in_entryRuleTypeNotationRight3283 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_ruleTypeReference_in_ruleTypeNotationRight3330 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_ruleMacroValue_in_ruleTypeNotationRight3356 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_ruleTypeReferenceExt_in_entryRuleTypeReferenceExt3392 = new BitSet(new long[]{0x0000000000000000L});
+    public static final BitSet FOLLOW_EOF_in_entryRuleTypeReferenceExt3402 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_ruleTypeReference_in_ruleTypeReferenceExt3448 = new BitSet(new long[]{0x0000000080000012L});
+    public static final BitSet FOLLOW_ruleTypeReference_in_ruleTypeReferenceExt3479 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_ruleTypeReference_in_entryRuleTypeReference3516 = new BitSet(new long[]{0x0000000000000000L});
+    public static final BitSet FOLLOW_EOF_in_entryRuleTypeReference3526 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_RULE_MODULE_ID_in_ruleTypeReference3571 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_ruleBracedTypeReference_in_ruleTypeReference3599 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_ruleBracedTypeReference_in_entryRuleBracedTypeReference3634 = new BitSet(new long[]{0x0000000000000000L});
+    public static final BitSet FOLLOW_EOF_in_entryRuleBracedTypeReference3644 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_31_in_ruleBracedTypeReference3681 = new BitSet(new long[]{0x0000000080000010L});
+    public static final BitSet FOLLOW_ruleTypeReference_in_ruleBracedTypeReference3703 = new BitSet(new long[]{0x0000000100000000L});
+    public static final BitSet FOLLOW_32_in_ruleBracedTypeReference3714 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_ruleValueAssignment_in_entryRuleValueAssignment3750 = new BitSet(new long[]{0x0000000000000000L});
+    public static final BitSet FOLLOW_EOF_in_entryRuleValueAssignment3760 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_RULE_NEWLINE_in_ruleValueAssignment3797 = new BitSet(new long[]{0x0000002000000000L});
+    public static final BitSet FOLLOW_ruleMacroValue_in_ruleValueAssignment3819 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_ruleValue_in_entryRuleValue3855 = new BitSet(new long[]{0x0000000000000000L});
+    public static final BitSet FOLLOW_EOF_in_entryRuleValue3865 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_ruleTag_in_ruleValue3911 = new BitSet(new long[]{0x00032C2A81000370L});
+    public static final BitSet FOLLOW_RULE_NEWLINE_in_ruleValue3924 = new BitSet(new long[]{0x00032C2A81000370L});
+    public static final BitSet FOLLOW_33_in_ruleValue3943 = new BitSet(new long[]{0x00032C2A81000370L});
+    public static final BitSet FOLLOW_ruleValueType_in_ruleValue3978 = new BitSet(new long[]{0x0000000400000022L});
+    public static final BitSet FOLLOW_RULE_NEWLINE_in_ruleValue3991 = new BitSet(new long[]{0x0000000400000020L});
+    public static final BitSet FOLLOW_34_in_ruleValue4004 = new BitSet(new long[]{0x00032C2A81000370L});
+    public static final BitSet FOLLOW_ruleValueType_in_ruleValue4025 = new BitSet(new long[]{0x0000000400000022L});
+    public static final BitSet FOLLOW_ruleTag_in_entryRuleTag4063 = new BitSet(new long[]{0x0000000000000000L});
+    public static final BitSet FOLLOW_EOF_in_entryRuleTag4073 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_RULE_NEWLINE_in_ruleTag4110 = new BitSet(new long[]{0x0000000800000000L});
+    public static final BitSet FOLLOW_35_in_ruleTag4123 = new BitSet(new long[]{0x0000000000000080L});
+    public static final BitSet FOLLOW_RULE_BIG_INTEGER_in_ruleTag4140 = new BitSet(new long[]{0x0000001000000000L});
+    public static final BitSet FOLLOW_36_in_ruleTag4157 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_ruleValueType_in_entryRuleValueType4193 = new BitSet(new long[]{0x0000000000000000L});
+    public static final BitSet FOLLOW_EOF_in_entryRuleValueType4203 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_ruleParamAssignment_in_ruleValueType4249 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_RULE_ASN1_ID_in_ruleValueType4272 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_ruleTypeReferenceExt_in_ruleValueType4304 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_ruleASN1_TYPE_in_ruleValueType4331 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_ruleMacroValue_in_ruleValueType4358 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_24_in_ruleValueType4386 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_ruleMacroValue_in_entryRuleMacroValue4423 = new BitSet(new long[]{0x0000000000000000L});
+    public static final BitSet FOLLOW_EOF_in_entryRuleMacroValue4433 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_37_in_ruleMacroValue4479 = new BitSet(new long[]{0x0000004000000000L});
+    public static final BitSet FOLLOW_38_in_ruleMacroValue4491 = new BitSet(new long[]{0x00000300C1000010L});
+    public static final BitSet FOLLOW_ruleMacroValueType_in_ruleMacroValue4512 = new BitSet(new long[]{0x0000008000000000L});
+    public static final BitSet FOLLOW_39_in_ruleMacroValue4524 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_ruleMacroValueType_in_entryRuleMacroValueType4560 = new BitSet(new long[]{0x0000000000000000L});
+    public static final BitSet FOLLOW_EOF_in_entryRuleMacroValueType4570 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_40_in_ruleMacroValueType4658 = new BitSet(new long[]{0x00000300C1000010L});
+    public static final BitSet FOLLOW_30_in_ruleMacroValueType4743 = new BitSet(new long[]{0x00000300C1000010L});
+    public static final BitSet FOLLOW_ruleTypeReference_in_ruleMacroValueType4818 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_24_in_ruleMacroValueType4842 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_41_in_ruleMacroValueType4879 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_ruleASN1_TYPE_in_entryRuleASN1_TYPE4929 = new BitSet(new long[]{0x0000000000000000L});
+    public static final BitSet FOLLOW_EOF_in_entryRuleASN1_TYPE4939 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_ruleASN1_SIMPLE_in_ruleASN1_TYPE4986 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_ruleASN1_CHOICE_in_ruleASN1_TYPE5013 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_ruleASN1_SEQUENCE_in_ruleASN1_TYPE5040 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_ruleASN1_SIMPLE_in_entryRuleASN1_SIMPLE5075 = new BitSet(new long[]{0x0000000000000000L});
+    public static final BitSet FOLLOW_EOF_in_entryRuleASN1_SIMPLE5085 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_42_in_ruleASN1_SIMPLE5132 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_RULE_IA5STRING_in_ruleASN1_SIMPLE5160 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_ruleASN1_OCTET_STRING_in_ruleASN1_SIMPLE5189 = new BitSet(new long[]{0x0000004000000002L});
+    public static final BitSet FOLLOW_ruleASN1_SUBTYPE_in_ruleASN1_SIMPLE5209 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_ruleASN1_INTEGER_in_ruleASN1_SIMPLE5239 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_ruleASN1_OCTET_STRING_in_entryRuleASN1_OCTET_STRING5274 = new BitSet(new long[]{0x0000000000000000L});
+    public static final BitSet FOLLOW_EOF_in_entryRuleASN1_OCTET_STRING5284 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_43_in_ruleASN1_OCTET_STRING5330 = new BitSet(new long[]{0x0000100000000000L});
+    public static final BitSet FOLLOW_44_in_ruleASN1_OCTET_STRING5342 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_ruleASN1_INTEGER_in_entryRuleASN1_INTEGER5378 = new BitSet(new long[]{0x0000000000000000L});
+    public static final BitSet FOLLOW_EOF_in_entryRuleASN1_INTEGER5388 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_45_in_ruleASN1_INTEGER5431 = new BitSet(new long[]{0x0000004002000002L});
+    public static final BitSet FOLLOW_38_in_ruleASN1_INTEGER5457 = new BitSet(new long[]{0x0000000000000080L});
+    public static final BitSet FOLLOW_ruleASN1_RANGE_in_ruleASN1_INTEGER5478 = new BitSet(new long[]{0x0000008000000000L});
+    public static final BitSet FOLLOW_39_in_ruleASN1_INTEGER5490 = new BitSet(new long[]{0x0000000002000002L});
+    public static final BitSet FOLLOW_ruleASN1_INTEGER_REFINEMENT_in_ruleASN1_INTEGER5513 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_ruleASN1_INTEGER_REFINEMENT_in_entryRuleASN1_INTEGER_REFINEMENT5550 = new BitSet(new long[]{0x0000000000000000L});
+    public static final BitSet FOLLOW_EOF_in_entryRuleASN1_INTEGER_REFINEMENT5560 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_25_in_ruleASN1_INTEGER_REFINEMENT5597 = new BitSet(new long[]{0x0000000000000060L});
+    public static final BitSet FOLLOW_RULE_NEWLINE_in_ruleASN1_INTEGER_REFINEMENT5610 = new BitSet(new long[]{0x0000000000000060L});
+    public static final BitSet FOLLOW_RULE_ASN1_ID_in_ruleASN1_INTEGER_REFINEMENT5628 = new BitSet(new long[]{0x0000004000000000L});
+    public static final BitSet FOLLOW_38_in_ruleASN1_INTEGER_REFINEMENT5645 = new BitSet(new long[]{0x0000000000000080L});
+    public static final BitSet FOLLOW_RULE_BIG_INTEGER_in_ruleASN1_INTEGER_REFINEMENT5662 = new BitSet(new long[]{0x0000008000000000L});
+    public static final BitSet FOLLOW_39_in_ruleASN1_INTEGER_REFINEMENT5679 = new BitSet(new long[]{0x0000000004800020L});
+    public static final BitSet FOLLOW_23_in_ruleASN1_INTEGER_REFINEMENT5693 = new BitSet(new long[]{0x0000000000000060L});
+    public static final BitSet FOLLOW_RULE_NEWLINE_in_ruleASN1_INTEGER_REFINEMENT5705 = new BitSet(new long[]{0x0000000000000060L});
+    public static final BitSet FOLLOW_RULE_ASN1_ID_in_ruleASN1_INTEGER_REFINEMENT5723 = new BitSet(new long[]{0x0000004000000000L});
+    public static final BitSet FOLLOW_38_in_ruleASN1_INTEGER_REFINEMENT5740 = new BitSet(new long[]{0x0000000000000080L});
+    public static final BitSet FOLLOW_RULE_BIG_INTEGER_in_ruleASN1_INTEGER_REFINEMENT5757 = new BitSet(new long[]{0x0000008000000000L});
+    public static final BitSet FOLLOW_39_in_ruleASN1_INTEGER_REFINEMENT5774 = new BitSet(new long[]{0x0000000004800020L});
+    public static final BitSet FOLLOW_RULE_NEWLINE_in_ruleASN1_INTEGER_REFINEMENT5788 = new BitSet(new long[]{0x0000000004000020L});
+    public static final BitSet FOLLOW_26_in_ruleASN1_INTEGER_REFINEMENT5801 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_ruleASN1_SUBTYPE_in_entryRuleASN1_SUBTYPE5837 = new BitSet(new long[]{0x0000000000000000L});
+    public static final BitSet FOLLOW_EOF_in_entryRuleASN1_SUBTYPE5847 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_38_in_ruleASN1_SUBTYPE5884 = new BitSet(new long[]{0x0000400000000000L});
+    public static final BitSet FOLLOW_46_in_ruleASN1_SUBTYPE5896 = new BitSet(new long[]{0x0000004000000000L});
+    public static final BitSet FOLLOW_38_in_ruleASN1_SUBTYPE5908 = new BitSet(new long[]{0x0000000000000080L});
+    public static final BitSet FOLLOW_ruleASN1_RANGE_in_ruleASN1_SUBTYPE5929 = new BitSet(new long[]{0x0000008400000000L});
+    public static final BitSet FOLLOW_34_in_ruleASN1_SUBTYPE5942 = new BitSet(new long[]{0x0000000000000080L});
+    public static final BitSet FOLLOW_ruleASN1_RANGE_in_ruleASN1_SUBTYPE5963 = new BitSet(new long[]{0x0000008400000000L});
+    public static final BitSet FOLLOW_39_in_ruleASN1_SUBTYPE5977 = new BitSet(new long[]{0x0000008000000000L});
+    public static final BitSet FOLLOW_39_in_ruleASN1_SUBTYPE5989 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_ruleASN1_RANGE_in_entryRuleASN1_RANGE6025 = new BitSet(new long[]{0x0000000000000000L});
+    public static final BitSet FOLLOW_EOF_in_entryRuleASN1_RANGE6035 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_RULE_BIG_INTEGER_in_ruleASN1_RANGE6087 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_RULE_BIG_INTEGER_in_ruleASN1_RANGE6117 = new BitSet(new long[]{0x0000800000000000L});
+    public static final BitSet FOLLOW_47_in_ruleASN1_RANGE6134 = new BitSet(new long[]{0x0000000000000080L});
+    public static final BitSet FOLLOW_RULE_BIG_INTEGER_in_ruleASN1_RANGE6151 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_ruleASN1_CHOICE_in_entryRuleASN1_CHOICE6193 = new BitSet(new long[]{0x0000000000000000L});
+    public static final BitSet FOLLOW_EOF_in_entryRuleASN1_CHOICE6203 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_48_in_ruleASN1_CHOICE6240 = new BitSet(new long[]{0x0000000002000000L});
+    public static final BitSet FOLLOW_25_in_ruleASN1_CHOICE6252 = new BitSet(new long[]{0x0000000000000020L});
+    public static final BitSet FOLLOW_RULE_NEWLINE_in_ruleASN1_CHOICE6264 = new BitSet(new long[]{0x0000000000000060L});
+    public static final BitSet FOLLOW_ruleASN1_CHOICE_ENTRY_in_ruleASN1_CHOICE6286 = new BitSet(new long[]{0x0000000000800020L});
+    public static final BitSet FOLLOW_23_in_ruleASN1_CHOICE6299 = new BitSet(new long[]{0x0000000000000020L});
+    public static final BitSet FOLLOW_RULE_NEWLINE_in_ruleASN1_CHOICE6311 = new BitSet(new long[]{0x0000000000000060L});
+    public static final BitSet FOLLOW_ruleASN1_CHOICE_ENTRY_in_ruleASN1_CHOICE6333 = new BitSet(new long[]{0x0000000000800020L});
+    public static final BitSet FOLLOW_RULE_NEWLINE_in_ruleASN1_CHOICE6347 = new BitSet(new long[]{0x0000000004000020L});
+    public static final BitSet FOLLOW_26_in_ruleASN1_CHOICE6360 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_ruleASN1_SEQUENCE_in_entryRuleASN1_SEQUENCE6396 = new BitSet(new long[]{0x0000000000000000L});
+    public static final BitSet FOLLOW_EOF_in_entryRuleASN1_SEQUENCE6406 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_49_in_ruleASN1_SEQUENCE6443 = new BitSet(new long[]{0x0000000002000000L});
+    public static final BitSet FOLLOW_25_in_ruleASN1_SEQUENCE6455 = new BitSet(new long[]{0x0000000000000020L});
+    public static final BitSet FOLLOW_RULE_NEWLINE_in_ruleASN1_SEQUENCE6467 = new BitSet(new long[]{0x0000000000000060L});
+    public static final BitSet FOLLOW_ruleASN1_CHOICE_ENTRY_in_ruleASN1_SEQUENCE6489 = new BitSet(new long[]{0x0000000000800020L});
+    public static final BitSet FOLLOW_23_in_ruleASN1_SEQUENCE6502 = new BitSet(new long[]{0x0000000000000020L});
+    public static final BitSet FOLLOW_RULE_NEWLINE_in_ruleASN1_SEQUENCE6514 = new BitSet(new long[]{0x0000000000000060L});
+    public static final BitSet FOLLOW_ruleASN1_CHOICE_ENTRY_in_ruleASN1_SEQUENCE6536 = new BitSet(new long[]{0x0000000000800020L});
+    public static final BitSet FOLLOW_RULE_NEWLINE_in_ruleASN1_SEQUENCE6550 = new BitSet(new long[]{0x0000000004000020L});
+    public static final BitSet FOLLOW_26_in_ruleASN1_SEQUENCE6563 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_ruleASN1_SEQUENCE_OF_in_entryRuleASN1_SEQUENCE_OF6599 = new BitSet(new long[]{0x0000000000000000L});
+    public static final BitSet FOLLOW_EOF_in_entryRuleASN1_SEQUENCE_OF6609 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_49_in_ruleASN1_SEQUENCE_OF6646 = new BitSet(new long[]{0x0004000000000000L});
+    public static final BitSet FOLLOW_50_in_ruleASN1_SEQUENCE_OF6658 = new BitSet(new long[]{0x0000000080000010L});
+    public static final BitSet FOLLOW_ruleTypeReference_in_ruleASN1_SEQUENCE_OF6679 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_ruleASN1_CHOICE_ENTRY_in_entryRuleASN1_CHOICE_ENTRY6715 = new BitSet(new long[]{0x0000000000000000L});
+    public static final BitSet FOLLOW_EOF_in_entryRuleASN1_CHOICE_ENTRY6725 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_RULE_ASN1_ID_in_ruleASN1_CHOICE_ENTRY6767 = new BitSet(new long[]{0x00032C0081000130L});
+    public static final BitSet FOLLOW_RULE_NEWLINE_in_ruleASN1_CHOICE_ENTRY6784 = new BitSet(new long[]{0x00032C0081000130L});
+    public static final BitSet FOLLOW_ruleChoiceType_in_ruleASN1_CHOICE_ENTRY6806 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_ruleChoiceType_in_entryRuleChoiceType6842 = new BitSet(new long[]{0x0000000000000000L});
+    public static final BitSet FOLLOW_EOF_in_entryRuleChoiceType6852 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_ruleTypeReference_in_ruleChoiceType6908 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_ruleASN1_TYPE_in_ruleChoiceType6935 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_24_in_ruleChoiceType6953 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_RULE_ASN1_ID_in_synpred1_InternalSmi1252 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_ruleTypeReference_in_synpred2_InternalSmi3462 = new BitSet(new long[]{0x0000000000000002L});
 
 }

@@ -3,9 +3,9 @@
 package com.netxforge.smi.impl;
 
 import com.netxforge.smi.ImportRef;
-import com.netxforge.smi.ObjectIdentifier;
+import com.netxforge.smi.ObjectReferenceable;
+import com.netxforge.smi.Referenceable;
 import com.netxforge.smi.SmiPackage;
-import com.netxforge.smi.TypeDefinition;
 
 import org.eclipse.emf.common.notify.Notification;
 
@@ -39,7 +39,7 @@ public class ImportRefImpl extends MinimalEObjectImpl.Container implements Impor
    * @generated
    * @ordered
    */
-  protected ObjectIdentifier oiRef;
+  protected ObjectReferenceable oiRef;
 
   /**
    * The cached value of the '{@link #getTypeRef() <em>Type Ref</em>}' reference.
@@ -49,7 +49,7 @@ public class ImportRefImpl extends MinimalEObjectImpl.Container implements Impor
    * @generated
    * @ordered
    */
-  protected TypeDefinition typeRef;
+  protected Referenceable typeRef;
 
   /**
    * <!-- begin-user-doc -->
@@ -77,12 +77,12 @@ public class ImportRefImpl extends MinimalEObjectImpl.Container implements Impor
    * <!-- end-user-doc -->
    * @generated
    */
-  public ObjectIdentifier getOiRef()
+  public ObjectReferenceable getOiRef()
   {
     if (oiRef != null && oiRef.eIsProxy())
     {
       InternalEObject oldOiRef = (InternalEObject)oiRef;
-      oiRef = (ObjectIdentifier)eResolveProxy(oldOiRef);
+      oiRef = (ObjectReferenceable)eResolveProxy(oldOiRef);
       if (oiRef != oldOiRef)
       {
         if (eNotificationRequired())
@@ -97,7 +97,7 @@ public class ImportRefImpl extends MinimalEObjectImpl.Container implements Impor
    * <!-- end-user-doc -->
    * @generated
    */
-  public ObjectIdentifier basicGetOiRef()
+  public ObjectReferenceable basicGetOiRef()
   {
     return oiRef;
   }
@@ -107,9 +107,9 @@ public class ImportRefImpl extends MinimalEObjectImpl.Container implements Impor
    * <!-- end-user-doc -->
    * @generated
    */
-  public void setOiRef(ObjectIdentifier newOiRef)
+  public void setOiRef(ObjectReferenceable newOiRef)
   {
-    ObjectIdentifier oldOiRef = oiRef;
+    ObjectReferenceable oldOiRef = oiRef;
     oiRef = newOiRef;
     if (eNotificationRequired())
       eNotify(new ENotificationImpl(this, Notification.SET, SmiPackage.IMPORT_REF__OI_REF, oldOiRef, oiRef));
@@ -120,12 +120,12 @@ public class ImportRefImpl extends MinimalEObjectImpl.Container implements Impor
    * <!-- end-user-doc -->
    * @generated
    */
-  public TypeDefinition getTypeRef()
+  public Referenceable getTypeRef()
   {
     if (typeRef != null && typeRef.eIsProxy())
     {
       InternalEObject oldTypeRef = (InternalEObject)typeRef;
-      typeRef = (TypeDefinition)eResolveProxy(oldTypeRef);
+      typeRef = (Referenceable)eResolveProxy(oldTypeRef);
       if (typeRef != oldTypeRef)
       {
         if (eNotificationRequired())
@@ -140,7 +140,7 @@ public class ImportRefImpl extends MinimalEObjectImpl.Container implements Impor
    * <!-- end-user-doc -->
    * @generated
    */
-  public TypeDefinition basicGetTypeRef()
+  public Referenceable basicGetTypeRef()
   {
     return typeRef;
   }
@@ -150,9 +150,9 @@ public class ImportRefImpl extends MinimalEObjectImpl.Container implements Impor
    * <!-- end-user-doc -->
    * @generated
    */
-  public void setTypeRef(TypeDefinition newTypeRef)
+  public void setTypeRef(Referenceable newTypeRef)
   {
-    TypeDefinition oldTypeRef = typeRef;
+    Referenceable oldTypeRef = typeRef;
     typeRef = newTypeRef;
     if (eNotificationRequired())
       eNotify(new ENotificationImpl(this, Notification.SET, SmiPackage.IMPORT_REF__TYPE_REF, oldTypeRef, typeRef));
@@ -189,10 +189,10 @@ public class ImportRefImpl extends MinimalEObjectImpl.Container implements Impor
     switch (featureID)
     {
       case SmiPackage.IMPORT_REF__OI_REF:
-        setOiRef((ObjectIdentifier)newValue);
+        setOiRef((ObjectReferenceable)newValue);
         return;
       case SmiPackage.IMPORT_REF__TYPE_REF:
-        setTypeRef((TypeDefinition)newValue);
+        setTypeRef((Referenceable)newValue);
         return;
     }
     super.eSet(featureID, newValue);
@@ -209,10 +209,10 @@ public class ImportRefImpl extends MinimalEObjectImpl.Container implements Impor
     switch (featureID)
     {
       case SmiPackage.IMPORT_REF__OI_REF:
-        setOiRef((ObjectIdentifier)null);
+        setOiRef((ObjectReferenceable)null);
         return;
       case SmiPackage.IMPORT_REF__TYPE_REF:
-        setTypeRef((TypeDefinition)null);
+        setTypeRef((Referenceable)null);
         return;
     }
     super.eUnset(featureID);

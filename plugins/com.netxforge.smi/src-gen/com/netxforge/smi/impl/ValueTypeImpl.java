@@ -3,7 +3,7 @@
 package com.netxforge.smi.impl;
 
 import com.netxforge.smi.ASN1_TYPE;
-import com.netxforge.smi.ParamAssignment;
+import com.netxforge.smi.Referenceable;
 import com.netxforge.smi.SmiPackage;
 import com.netxforge.smi.TypeAssignment;
 import com.netxforge.smi.Value;
@@ -45,7 +45,7 @@ public class ValueTypeImpl extends MinimalEObjectImpl.Container implements Value
    * @generated
    * @ordered
    */
-  protected ParamAssignment param;
+  protected Referenceable param;
 
   /**
    * The default value of the '{@link #getId() <em>Id</em>}' attribute.
@@ -123,7 +123,7 @@ public class ValueTypeImpl extends MinimalEObjectImpl.Container implements Value
    * <!-- end-user-doc -->
    * @generated
    */
-  public ParamAssignment getParam()
+  public Referenceable getParam()
   {
     return param;
   }
@@ -133,9 +133,9 @@ public class ValueTypeImpl extends MinimalEObjectImpl.Container implements Value
    * <!-- end-user-doc -->
    * @generated
    */
-  public NotificationChain basicSetParam(ParamAssignment newParam, NotificationChain msgs)
+  public NotificationChain basicSetParam(Referenceable newParam, NotificationChain msgs)
   {
-    ParamAssignment oldParam = param;
+    Referenceable oldParam = param;
     param = newParam;
     if (eNotificationRequired())
     {
@@ -150,7 +150,7 @@ public class ValueTypeImpl extends MinimalEObjectImpl.Container implements Value
    * <!-- end-user-doc -->
    * @generated
    */
-  public void setParam(ParamAssignment newParam)
+  public void setParam(Referenceable newParam)
   {
     if (newParam != param)
     {
@@ -390,7 +390,7 @@ public class ValueTypeImpl extends MinimalEObjectImpl.Container implements Value
     switch (featureID)
     {
       case SmiPackage.VALUE_TYPE__PARAM:
-        setParam((ParamAssignment)newValue);
+        setParam((Referenceable)newValue);
         return;
       case SmiPackage.VALUE_TYPE__ID:
         setId((String)newValue);
@@ -419,7 +419,7 @@ public class ValueTypeImpl extends MinimalEObjectImpl.Container implements Value
     switch (featureID)
     {
       case SmiPackage.VALUE_TYPE__PARAM:
-        setParam((ParamAssignment)null);
+        setParam((Referenceable)null);
         return;
       case SmiPackage.VALUE_TYPE__ID:
         setId(ID_EDEFAULT);

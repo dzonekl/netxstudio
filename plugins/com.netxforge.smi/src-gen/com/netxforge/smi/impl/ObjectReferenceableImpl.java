@@ -3,8 +3,10 @@
 package com.netxforge.smi.impl;
 
 import com.netxforge.smi.Attribute;
-import com.netxforge.smi.Macro;
+import com.netxforge.smi.ObjectIdentifierValue;
+import com.netxforge.smi.ObjectReferenceable;
 import com.netxforge.smi.ObjectValue;
+import com.netxforge.smi.Referenceable;
 import com.netxforge.smi.SmiPackage;
 
 import java.util.Collection;
@@ -25,21 +27,22 @@ import org.eclipse.emf.ecore.util.InternalEList;
 
 /**
  * <!-- begin-user-doc -->
- * An implementation of the model object '<em><b>Object</b></em>'.
+ * An implementation of the model object '<em><b>Object Referenceable</b></em>'.
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
  * <ul>
- *   <li>{@link com.netxforge.smi.impl.ObjectImpl#getName <em>Name</em>}</li>
- *   <li>{@link com.netxforge.smi.impl.ObjectImpl#getMacroRef <em>Macro Ref</em>}</li>
- *   <li>{@link com.netxforge.smi.impl.ObjectImpl#getAttributes <em>Attributes</em>}</li>
- *   <li>{@link com.netxforge.smi.impl.ObjectImpl#getObjectValue <em>Object Value</em>}</li>
+ *   <li>{@link com.netxforge.smi.impl.ObjectReferenceableImpl#getName <em>Name</em>}</li>
+ *   <li>{@link com.netxforge.smi.impl.ObjectReferenceableImpl#getOidValue <em>Oid Value</em>}</li>
+ *   <li>{@link com.netxforge.smi.impl.ObjectReferenceableImpl#getMacroRef <em>Macro Ref</em>}</li>
+ *   <li>{@link com.netxforge.smi.impl.ObjectReferenceableImpl#getAttributes <em>Attributes</em>}</li>
+ *   <li>{@link com.netxforge.smi.impl.ObjectReferenceableImpl#getObjectValue <em>Object Value</em>}</li>
  * </ul>
  * </p>
  *
  * @generated
  */
-public class ObjectImpl extends MinimalEObjectImpl.Container implements com.netxforge.smi.Object
+public class ObjectReferenceableImpl extends MinimalEObjectImpl.Container implements ObjectReferenceable
 {
   /**
    * The default value of the '{@link #getName() <em>Name</em>}' attribute.
@@ -62,6 +65,16 @@ public class ObjectImpl extends MinimalEObjectImpl.Container implements com.netx
   protected String name = NAME_EDEFAULT;
 
   /**
+   * The cached value of the '{@link #getOidValue() <em>Oid Value</em>}' containment reference.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see #getOidValue()
+   * @generated
+   * @ordered
+   */
+  protected ObjectIdentifierValue oidValue;
+
+  /**
    * The cached value of the '{@link #getMacroRef() <em>Macro Ref</em>}' reference.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -69,7 +82,7 @@ public class ObjectImpl extends MinimalEObjectImpl.Container implements com.netx
    * @generated
    * @ordered
    */
-  protected Macro macroRef;
+  protected Referenceable macroRef;
 
   /**
    * The cached value of the '{@link #getAttributes() <em>Attributes</em>}' containment reference list.
@@ -96,7 +109,7 @@ public class ObjectImpl extends MinimalEObjectImpl.Container implements com.netx
    * <!-- end-user-doc -->
    * @generated
    */
-  protected ObjectImpl()
+  protected ObjectReferenceableImpl()
   {
     super();
   }
@@ -109,7 +122,7 @@ public class ObjectImpl extends MinimalEObjectImpl.Container implements com.netx
   @Override
   protected EClass eStaticClass()
   {
-    return SmiPackage.Literals.OBJECT;
+    return SmiPackage.Literals.OBJECT_REFERENCEABLE;
   }
 
   /**
@@ -132,7 +145,7 @@ public class ObjectImpl extends MinimalEObjectImpl.Container implements com.netx
     String oldName = name;
     name = newName;
     if (eNotificationRequired())
-      eNotify(new ENotificationImpl(this, Notification.SET, SmiPackage.OBJECT__NAME, oldName, name));
+      eNotify(new ENotificationImpl(this, Notification.SET, SmiPackage.OBJECT_REFERENCEABLE__NAME, oldName, name));
   }
 
   /**
@@ -140,16 +153,64 @@ public class ObjectImpl extends MinimalEObjectImpl.Container implements com.netx
    * <!-- end-user-doc -->
    * @generated
    */
-  public Macro getMacroRef()
+  public ObjectIdentifierValue getOidValue()
+  {
+    return oidValue;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public NotificationChain basicSetOidValue(ObjectIdentifierValue newOidValue, NotificationChain msgs)
+  {
+    ObjectIdentifierValue oldOidValue = oidValue;
+    oidValue = newOidValue;
+    if (eNotificationRequired())
+    {
+      ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, SmiPackage.OBJECT_REFERENCEABLE__OID_VALUE, oldOidValue, newOidValue);
+      if (msgs == null) msgs = notification; else msgs.add(notification);
+    }
+    return msgs;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public void setOidValue(ObjectIdentifierValue newOidValue)
+  {
+    if (newOidValue != oidValue)
+    {
+      NotificationChain msgs = null;
+      if (oidValue != null)
+        msgs = ((InternalEObject)oidValue).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - SmiPackage.OBJECT_REFERENCEABLE__OID_VALUE, null, msgs);
+      if (newOidValue != null)
+        msgs = ((InternalEObject)newOidValue).eInverseAdd(this, EOPPOSITE_FEATURE_BASE - SmiPackage.OBJECT_REFERENCEABLE__OID_VALUE, null, msgs);
+      msgs = basicSetOidValue(newOidValue, msgs);
+      if (msgs != null) msgs.dispatch();
+    }
+    else if (eNotificationRequired())
+      eNotify(new ENotificationImpl(this, Notification.SET, SmiPackage.OBJECT_REFERENCEABLE__OID_VALUE, newOidValue, newOidValue));
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public Referenceable getMacroRef()
   {
     if (macroRef != null && macroRef.eIsProxy())
     {
       InternalEObject oldMacroRef = (InternalEObject)macroRef;
-      macroRef = (Macro)eResolveProxy(oldMacroRef);
+      macroRef = (Referenceable)eResolveProxy(oldMacroRef);
       if (macroRef != oldMacroRef)
       {
         if (eNotificationRequired())
-          eNotify(new ENotificationImpl(this, Notification.RESOLVE, SmiPackage.OBJECT__MACRO_REF, oldMacroRef, macroRef));
+          eNotify(new ENotificationImpl(this, Notification.RESOLVE, SmiPackage.OBJECT_REFERENCEABLE__MACRO_REF, oldMacroRef, macroRef));
       }
     }
     return macroRef;
@@ -160,7 +221,7 @@ public class ObjectImpl extends MinimalEObjectImpl.Container implements com.netx
    * <!-- end-user-doc -->
    * @generated
    */
-  public Macro basicGetMacroRef()
+  public Referenceable basicGetMacroRef()
   {
     return macroRef;
   }
@@ -170,12 +231,12 @@ public class ObjectImpl extends MinimalEObjectImpl.Container implements com.netx
    * <!-- end-user-doc -->
    * @generated
    */
-  public void setMacroRef(Macro newMacroRef)
+  public void setMacroRef(Referenceable newMacroRef)
   {
-    Macro oldMacroRef = macroRef;
+    Referenceable oldMacroRef = macroRef;
     macroRef = newMacroRef;
     if (eNotificationRequired())
-      eNotify(new ENotificationImpl(this, Notification.SET, SmiPackage.OBJECT__MACRO_REF, oldMacroRef, macroRef));
+      eNotify(new ENotificationImpl(this, Notification.SET, SmiPackage.OBJECT_REFERENCEABLE__MACRO_REF, oldMacroRef, macroRef));
   }
 
   /**
@@ -187,7 +248,7 @@ public class ObjectImpl extends MinimalEObjectImpl.Container implements com.netx
   {
     if (attributes == null)
     {
-      attributes = new EObjectContainmentEList<Attribute>(Attribute.class, this, SmiPackage.OBJECT__ATTRIBUTES);
+      attributes = new EObjectContainmentEList<Attribute>(Attribute.class, this, SmiPackage.OBJECT_REFERENCEABLE__ATTRIBUTES);
     }
     return attributes;
   }
@@ -213,7 +274,7 @@ public class ObjectImpl extends MinimalEObjectImpl.Container implements com.netx
     objectValue = newObjectValue;
     if (eNotificationRequired())
     {
-      ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, SmiPackage.OBJECT__OBJECT_VALUE, oldObjectValue, newObjectValue);
+      ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, SmiPackage.OBJECT_REFERENCEABLE__OBJECT_VALUE, oldObjectValue, newObjectValue);
       if (msgs == null) msgs = notification; else msgs.add(notification);
     }
     return msgs;
@@ -230,14 +291,14 @@ public class ObjectImpl extends MinimalEObjectImpl.Container implements com.netx
     {
       NotificationChain msgs = null;
       if (objectValue != null)
-        msgs = ((InternalEObject)objectValue).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - SmiPackage.OBJECT__OBJECT_VALUE, null, msgs);
+        msgs = ((InternalEObject)objectValue).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - SmiPackage.OBJECT_REFERENCEABLE__OBJECT_VALUE, null, msgs);
       if (newObjectValue != null)
-        msgs = ((InternalEObject)newObjectValue).eInverseAdd(this, EOPPOSITE_FEATURE_BASE - SmiPackage.OBJECT__OBJECT_VALUE, null, msgs);
+        msgs = ((InternalEObject)newObjectValue).eInverseAdd(this, EOPPOSITE_FEATURE_BASE - SmiPackage.OBJECT_REFERENCEABLE__OBJECT_VALUE, null, msgs);
       msgs = basicSetObjectValue(newObjectValue, msgs);
       if (msgs != null) msgs.dispatch();
     }
     else if (eNotificationRequired())
-      eNotify(new ENotificationImpl(this, Notification.SET, SmiPackage.OBJECT__OBJECT_VALUE, newObjectValue, newObjectValue));
+      eNotify(new ENotificationImpl(this, Notification.SET, SmiPackage.OBJECT_REFERENCEABLE__OBJECT_VALUE, newObjectValue, newObjectValue));
   }
 
   /**
@@ -250,9 +311,11 @@ public class ObjectImpl extends MinimalEObjectImpl.Container implements com.netx
   {
     switch (featureID)
     {
-      case SmiPackage.OBJECT__ATTRIBUTES:
+      case SmiPackage.OBJECT_REFERENCEABLE__OID_VALUE:
+        return basicSetOidValue(null, msgs);
+      case SmiPackage.OBJECT_REFERENCEABLE__ATTRIBUTES:
         return ((InternalEList<?>)getAttributes()).basicRemove(otherEnd, msgs);
-      case SmiPackage.OBJECT__OBJECT_VALUE:
+      case SmiPackage.OBJECT_REFERENCEABLE__OBJECT_VALUE:
         return basicSetObjectValue(null, msgs);
     }
     return super.eInverseRemove(otherEnd, featureID, msgs);
@@ -268,14 +331,16 @@ public class ObjectImpl extends MinimalEObjectImpl.Container implements com.netx
   {
     switch (featureID)
     {
-      case SmiPackage.OBJECT__NAME:
+      case SmiPackage.OBJECT_REFERENCEABLE__NAME:
         return getName();
-      case SmiPackage.OBJECT__MACRO_REF:
+      case SmiPackage.OBJECT_REFERENCEABLE__OID_VALUE:
+        return getOidValue();
+      case SmiPackage.OBJECT_REFERENCEABLE__MACRO_REF:
         if (resolve) return getMacroRef();
         return basicGetMacroRef();
-      case SmiPackage.OBJECT__ATTRIBUTES:
+      case SmiPackage.OBJECT_REFERENCEABLE__ATTRIBUTES:
         return getAttributes();
-      case SmiPackage.OBJECT__OBJECT_VALUE:
+      case SmiPackage.OBJECT_REFERENCEABLE__OBJECT_VALUE:
         return getObjectValue();
     }
     return super.eGet(featureID, resolve, coreType);
@@ -292,17 +357,20 @@ public class ObjectImpl extends MinimalEObjectImpl.Container implements com.netx
   {
     switch (featureID)
     {
-      case SmiPackage.OBJECT__NAME:
+      case SmiPackage.OBJECT_REFERENCEABLE__NAME:
         setName((String)newValue);
         return;
-      case SmiPackage.OBJECT__MACRO_REF:
-        setMacroRef((Macro)newValue);
+      case SmiPackage.OBJECT_REFERENCEABLE__OID_VALUE:
+        setOidValue((ObjectIdentifierValue)newValue);
         return;
-      case SmiPackage.OBJECT__ATTRIBUTES:
+      case SmiPackage.OBJECT_REFERENCEABLE__MACRO_REF:
+        setMacroRef((Referenceable)newValue);
+        return;
+      case SmiPackage.OBJECT_REFERENCEABLE__ATTRIBUTES:
         getAttributes().clear();
         getAttributes().addAll((Collection<? extends Attribute>)newValue);
         return;
-      case SmiPackage.OBJECT__OBJECT_VALUE:
+      case SmiPackage.OBJECT_REFERENCEABLE__OBJECT_VALUE:
         setObjectValue((ObjectValue)newValue);
         return;
     }
@@ -319,16 +387,19 @@ public class ObjectImpl extends MinimalEObjectImpl.Container implements com.netx
   {
     switch (featureID)
     {
-      case SmiPackage.OBJECT__NAME:
+      case SmiPackage.OBJECT_REFERENCEABLE__NAME:
         setName(NAME_EDEFAULT);
         return;
-      case SmiPackage.OBJECT__MACRO_REF:
-        setMacroRef((Macro)null);
+      case SmiPackage.OBJECT_REFERENCEABLE__OID_VALUE:
+        setOidValue((ObjectIdentifierValue)null);
         return;
-      case SmiPackage.OBJECT__ATTRIBUTES:
+      case SmiPackage.OBJECT_REFERENCEABLE__MACRO_REF:
+        setMacroRef((Referenceable)null);
+        return;
+      case SmiPackage.OBJECT_REFERENCEABLE__ATTRIBUTES:
         getAttributes().clear();
         return;
-      case SmiPackage.OBJECT__OBJECT_VALUE:
+      case SmiPackage.OBJECT_REFERENCEABLE__OBJECT_VALUE:
         setObjectValue((ObjectValue)null);
         return;
     }
@@ -345,13 +416,15 @@ public class ObjectImpl extends MinimalEObjectImpl.Container implements com.netx
   {
     switch (featureID)
     {
-      case SmiPackage.OBJECT__NAME:
+      case SmiPackage.OBJECT_REFERENCEABLE__NAME:
         return NAME_EDEFAULT == null ? name != null : !NAME_EDEFAULT.equals(name);
-      case SmiPackage.OBJECT__MACRO_REF:
+      case SmiPackage.OBJECT_REFERENCEABLE__OID_VALUE:
+        return oidValue != null;
+      case SmiPackage.OBJECT_REFERENCEABLE__MACRO_REF:
         return macroRef != null;
-      case SmiPackage.OBJECT__ATTRIBUTES:
+      case SmiPackage.OBJECT_REFERENCEABLE__ATTRIBUTES:
         return attributes != null && !attributes.isEmpty();
-      case SmiPackage.OBJECT__OBJECT_VALUE:
+      case SmiPackage.OBJECT_REFERENCEABLE__OBJECT_VALUE:
         return objectValue != null;
     }
     return super.eIsSet(featureID);
@@ -374,4 +447,4 @@ public class ObjectImpl extends MinimalEObjectImpl.Container implements com.netx
     return result.toString();
   }
 
-} //ObjectImpl
+} //ObjectReferenceableImpl

@@ -68,13 +68,22 @@ public interface SmiFactory extends EFactory
   ImportRef createImportRef();
 
   /**
-   * Returns a new object of class '<em>Object Identifier</em>'.
+   * Returns a new object of class '<em>Referenceable</em>'.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @return a new object of class '<em>Object Identifier</em>'.
+   * @return a new object of class '<em>Referenceable</em>'.
    * @generated
    */
-  ObjectIdentifier createObjectIdentifier();
+  Referenceable createReferenceable();
+
+  /**
+   * Returns a new object of class '<em>Object Referenceable</em>'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return a new object of class '<em>Object Referenceable</em>'.
+   * @generated
+   */
+  ObjectReferenceable createObjectReferenceable();
 
   /**
    * Returns a new object of class '<em>Object Identifier Value</em>'.
@@ -84,24 +93,6 @@ public interface SmiFactory extends EFactory
    * @generated
    */
   ObjectIdentifierValue createObjectIdentifierValue();
-
-  /**
-   * Returns a new object of class '<em>Type Definition</em>'.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @return a new object of class '<em>Type Definition</em>'.
-   * @generated
-   */
-  TypeDefinition createTypeDefinition();
-
-  /**
-   * Returns a new object of class '<em>Object</em>'.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @return a new object of class '<em>Object</em>'.
-   * @generated
-   */
-  Object createObject();
 
   /**
    * Returns a new object of class '<em>Attribute</em>'.
@@ -122,6 +113,24 @@ public interface SmiFactory extends EFactory
   AttributeValue createAttributeValue();
 
   /**
+   * Returns a new object of class '<em>Identifier</em>'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return a new object of class '<em>Identifier</em>'.
+   * @generated
+   */
+  Identifier createIdentifier();
+
+  /**
+   * Returns a new object of class '<em>Braced Object Reference</em>'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return a new object of class '<em>Braced Object Reference</em>'.
+   * @generated
+   */
+  BracedObjectReference createBracedObjectReference();
+
+  /**
    * Returns a new object of class '<em>Object Value</em>'.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -129,15 +138,6 @@ public interface SmiFactory extends EFactory
    * @generated
    */
   ObjectValue createObjectValue();
-
-  /**
-   * Returns a new object of class '<em>Macro</em>'.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @return a new object of class '<em>Macro</em>'.
-   * @generated
-   */
-  Macro createMacro();
 
   /**
    * Returns a new object of class '<em>Type Notation</em>'.
@@ -165,15 +165,6 @@ public interface SmiFactory extends EFactory
    * @generated
    */
   TypeAssignment createTypeAssignment();
-
-  /**
-   * Returns a new object of class '<em>Param Assignment</em>'.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @return a new object of class '<em>Param Assignment</em>'.
-   * @generated
-   */
-  ParamAssignment createParamAssignment();
 
   /**
    * Returns a new object of class '<em>Type Notation Right</em>'.
@@ -230,24 +221,6 @@ public interface SmiFactory extends EFactory
   MacroValueType createMacroValueType();
 
   /**
-   * Returns a new object of class '<em>Update Type</em>'.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @return a new object of class '<em>Update Type</em>'.
-   * @generated
-   */
-  UpdateType createUpdateType();
-
-  /**
-   * Returns a new object of class '<em>Value Cap Type</em>'.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @return a new object of class '<em>Value Cap Type</em>'.
-   * @generated
-   */
-  ValueCapType createValueCapType();
-
-  /**
    * Returns a new object of class '<em>ASN1 TYPE</em>'.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -266,6 +239,15 @@ public interface SmiFactory extends EFactory
   ASN1_SIMPLE createASN1_SIMPLE();
 
   /**
+   * Returns a new object of class '<em>ASN1 INTEGER REFINEMENT</em>'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return a new object of class '<em>ASN1 INTEGER REFINEMENT</em>'.
+   * @generated
+   */
+  ASN1_INTEGER_REFINEMENT createASN1_INTEGER_REFINEMENT();
+
+  /**
    * Returns a new object of class '<em>ASN1 RANGE</em>'.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -282,6 +264,24 @@ public interface SmiFactory extends EFactory
    * @generated
    */
   ASN1_CHOICE createASN1_CHOICE();
+
+  /**
+   * Returns a new object of class '<em>ASN1 SEQUENCE</em>'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return a new object of class '<em>ASN1 SEQUENCE</em>'.
+   * @generated
+   */
+  ASN1_SEQUENCE createASN1_SEQUENCE();
+
+  /**
+   * Returns a new object of class '<em>ASN1 SEQUENCE OF</em>'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return a new object of class '<em>ASN1 SEQUENCE OF</em>'.
+   * @generated
+   */
+  ASN1_SEQUENCE_OF createASN1_SEQUENCE_OF();
 
   /**
    * Returns a new object of class '<em>ASN1 CHOICE ENTRY</em>'.
@@ -309,15 +309,6 @@ public interface SmiFactory extends EFactory
    * @generated
    */
   MacroValue createMacroValue();
-
-  /**
-   * Returns a new object of class '<em>MACRO VALUE CAP</em>'.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @return a new object of class '<em>MACRO VALUE CAP</em>'.
-   * @generated
-   */
-  MACRO_VALUE_CAP createMACRO_VALUE_CAP();
 
   /**
    * Returns a new object of class '<em>ASN1 OCTET STRING</em>'.

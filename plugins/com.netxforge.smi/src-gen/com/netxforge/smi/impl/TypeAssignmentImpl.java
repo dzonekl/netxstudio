@@ -2,9 +2,9 @@
  */
 package com.netxforge.smi.impl;
 
+import com.netxforge.smi.Referenceable;
 import com.netxforge.smi.SmiPackage;
 import com.netxforge.smi.TypeAssignment;
-import com.netxforge.smi.TypeDefinition;
 
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
@@ -59,7 +59,7 @@ public class TypeAssignmentImpl extends TypeNotationRightImpl implements TypeAss
    * @generated
    * @ordered
    */
-  protected TypeDefinition type;
+  protected Referenceable type;
 
   /**
    * <!-- begin-user-doc -->
@@ -183,12 +183,12 @@ public class TypeAssignmentImpl extends TypeNotationRightImpl implements TypeAss
    * <!-- end-user-doc -->
    * @generated
    */
-  public TypeDefinition getType()
+  public Referenceable getType()
   {
     if (type != null && type.eIsProxy())
     {
       InternalEObject oldType = (InternalEObject)type;
-      type = (TypeDefinition)eResolveProxy(oldType);
+      type = (Referenceable)eResolveProxy(oldType);
       if (type != oldType)
       {
         if (eNotificationRequired())
@@ -203,7 +203,7 @@ public class TypeAssignmentImpl extends TypeNotationRightImpl implements TypeAss
    * <!-- end-user-doc -->
    * @generated
    */
-  public TypeDefinition basicGetType()
+  public Referenceable basicGetType()
   {
     return type;
   }
@@ -213,9 +213,9 @@ public class TypeAssignmentImpl extends TypeNotationRightImpl implements TypeAss
    * <!-- end-user-doc -->
    * @generated
    */
-  public void setType(TypeDefinition newType)
+  public void setType(Referenceable newType)
   {
-    TypeDefinition oldType = type;
+    Referenceable oldType = type;
     type = newType;
     if (eNotificationRequired())
       eNotify(new ENotificationImpl(this, Notification.SET, SmiPackage.TYPE_ASSIGNMENT__TYPE, oldType, type));
@@ -277,7 +277,7 @@ public class TypeAssignmentImpl extends TypeNotationRightImpl implements TypeAss
         setChildRef((TypeAssignment)newValue);
         return;
       case SmiPackage.TYPE_ASSIGNMENT__TYPE:
-        setType((TypeDefinition)newValue);
+        setType((Referenceable)newValue);
         return;
     }
     super.eSet(featureID, newValue);
@@ -300,7 +300,7 @@ public class TypeAssignmentImpl extends TypeNotationRightImpl implements TypeAss
         setChildRef((TypeAssignment)null);
         return;
       case SmiPackage.TYPE_ASSIGNMENT__TYPE:
-        setType((TypeDefinition)null);
+        setType((Referenceable)null);
         return;
     }
     super.eUnset(featureID);

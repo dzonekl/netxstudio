@@ -19,7 +19,6 @@ import org.eclipse.emf.ecore.EObject;
  *   <li>{@link com.netxforge.smi.Module#getObjects <em>Objects</em>}</li>
  *   <li>{@link com.netxforge.smi.Module#getIdentifiers <em>Identifiers</em>}</li>
  *   <li>{@link com.netxforge.smi.Module#getTypes <em>Types</em>}</li>
- *   <li>{@link com.netxforge.smi.Module#getMacros <em>Macros</em>}</li>
  * </ul>
  * </p>
  *
@@ -83,7 +82,7 @@ public interface Module extends EObject
 
   /**
    * Returns the value of the '<em><b>Objects</b></em>' containment reference list.
-   * The list contents are of type {@link com.netxforge.smi.Object}.
+   * The list contents are of type {@link com.netxforge.smi.ObjectReferenceable}.
    * <!-- begin-user-doc -->
    * <p>
    * If the meaning of the '<em>Objects</em>' containment reference list isn't clear,
@@ -95,11 +94,11 @@ public interface Module extends EObject
    * @model containment="true"
    * @generated
    */
-  EList<com.netxforge.smi.Object> getObjects();
+  EList<ObjectReferenceable> getObjects();
 
   /**
    * Returns the value of the '<em><b>Identifiers</b></em>' containment reference list.
-   * The list contents are of type {@link com.netxforge.smi.ObjectIdentifier}.
+   * The list contents are of type {@link com.netxforge.smi.ObjectReferenceable}.
    * <!-- begin-user-doc -->
    * <p>
    * If the meaning of the '<em>Identifiers</em>' containment reference list isn't clear,
@@ -111,11 +110,11 @@ public interface Module extends EObject
    * @model containment="true"
    * @generated
    */
-  EList<ObjectIdentifier> getIdentifiers();
+  EList<ObjectReferenceable> getIdentifiers();
 
   /**
    * Returns the value of the '<em><b>Types</b></em>' containment reference list.
-   * The list contents are of type {@link com.netxforge.smi.TypeDefinition}.
+   * The list contents are of type {@link com.netxforge.smi.Referenceable}.
    * <!-- begin-user-doc -->
    * <p>
    * If the meaning of the '<em>Types</em>' containment reference list isn't clear,
@@ -127,22 +126,6 @@ public interface Module extends EObject
    * @model containment="true"
    * @generated
    */
-  EList<TypeDefinition> getTypes();
-
-  /**
-   * Returns the value of the '<em><b>Macros</b></em>' containment reference list.
-   * The list contents are of type {@link com.netxforge.smi.Macro}.
-   * <!-- begin-user-doc -->
-   * <p>
-   * If the meaning of the '<em>Macros</em>' containment reference list isn't clear,
-   * there really should be more of a description here...
-   * </p>
-   * <!-- end-user-doc -->
-   * @return the value of the '<em>Macros</em>' containment reference list.
-   * @see com.netxforge.smi.SmiPackage#getModule_Macros()
-   * @model containment="true"
-   * @generated
-   */
-  EList<Macro> getMacros();
+  EList<Referenceable> getTypes();
 
 } // Module

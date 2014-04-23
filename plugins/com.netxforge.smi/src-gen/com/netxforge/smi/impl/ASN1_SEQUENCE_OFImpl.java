@@ -2,9 +2,9 @@
  */
 package com.netxforge.smi.impl;
 
+import com.netxforge.smi.ASN1_SEQUENCE_OF;
 import com.netxforge.smi.SmiPackage;
 import com.netxforge.smi.TypeAssignment;
-import com.netxforge.smi.UpdateType;
 
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
@@ -17,40 +17,19 @@ import org.eclipse.emf.ecore.impl.MinimalEObjectImpl;
 
 /**
  * <!-- begin-user-doc -->
- * An implementation of the model object '<em><b>Update Type</b></em>'.
+ * An implementation of the model object '<em><b>ASN1 SEQUENCE OF</b></em>'.
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
  * <ul>
- *   <li>{@link com.netxforge.smi.impl.UpdateTypeImpl#isUpdate <em>Update</em>}</li>
- *   <li>{@link com.netxforge.smi.impl.UpdateTypeImpl#getRef <em>Ref</em>}</li>
+ *   <li>{@link com.netxforge.smi.impl.ASN1_SEQUENCE_OFImpl#getRef <em>Ref</em>}</li>
  * </ul>
  * </p>
  *
  * @generated
  */
-public class UpdateTypeImpl extends MinimalEObjectImpl.Container implements UpdateType
+public class ASN1_SEQUENCE_OFImpl extends MinimalEObjectImpl.Container implements ASN1_SEQUENCE_OF
 {
-  /**
-   * The default value of the '{@link #isUpdate() <em>Update</em>}' attribute.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @see #isUpdate()
-   * @generated
-   * @ordered
-   */
-  protected static final boolean UPDATE_EDEFAULT = false;
-
-  /**
-   * The cached value of the '{@link #isUpdate() <em>Update</em>}' attribute.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @see #isUpdate()
-   * @generated
-   * @ordered
-   */
-  protected boolean update = UPDATE_EDEFAULT;
-
   /**
    * The cached value of the '{@link #getRef() <em>Ref</em>}' containment reference.
    * <!-- begin-user-doc -->
@@ -66,7 +45,7 @@ public class UpdateTypeImpl extends MinimalEObjectImpl.Container implements Upda
    * <!-- end-user-doc -->
    * @generated
    */
-  protected UpdateTypeImpl()
+  protected ASN1_SEQUENCE_OFImpl()
   {
     super();
   }
@@ -79,30 +58,7 @@ public class UpdateTypeImpl extends MinimalEObjectImpl.Container implements Upda
   @Override
   protected EClass eStaticClass()
   {
-    return SmiPackage.Literals.UPDATE_TYPE;
-  }
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  public boolean isUpdate()
-  {
-    return update;
-  }
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  public void setUpdate(boolean newUpdate)
-  {
-    boolean oldUpdate = update;
-    update = newUpdate;
-    if (eNotificationRequired())
-      eNotify(new ENotificationImpl(this, Notification.SET, SmiPackage.UPDATE_TYPE__UPDATE, oldUpdate, update));
+    return SmiPackage.Literals.ASN1_SEQUENCE_OF;
   }
 
   /**
@@ -126,7 +82,7 @@ public class UpdateTypeImpl extends MinimalEObjectImpl.Container implements Upda
     ref = newRef;
     if (eNotificationRequired())
     {
-      ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, SmiPackage.UPDATE_TYPE__REF, oldRef, newRef);
+      ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, SmiPackage.ASN1_SEQUENCE_OF__REF, oldRef, newRef);
       if (msgs == null) msgs = notification; else msgs.add(notification);
     }
     return msgs;
@@ -143,14 +99,14 @@ public class UpdateTypeImpl extends MinimalEObjectImpl.Container implements Upda
     {
       NotificationChain msgs = null;
       if (ref != null)
-        msgs = ((InternalEObject)ref).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - SmiPackage.UPDATE_TYPE__REF, null, msgs);
+        msgs = ((InternalEObject)ref).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - SmiPackage.ASN1_SEQUENCE_OF__REF, null, msgs);
       if (newRef != null)
-        msgs = ((InternalEObject)newRef).eInverseAdd(this, EOPPOSITE_FEATURE_BASE - SmiPackage.UPDATE_TYPE__REF, null, msgs);
+        msgs = ((InternalEObject)newRef).eInverseAdd(this, EOPPOSITE_FEATURE_BASE - SmiPackage.ASN1_SEQUENCE_OF__REF, null, msgs);
       msgs = basicSetRef(newRef, msgs);
       if (msgs != null) msgs.dispatch();
     }
     else if (eNotificationRequired())
-      eNotify(new ENotificationImpl(this, Notification.SET, SmiPackage.UPDATE_TYPE__REF, newRef, newRef));
+      eNotify(new ENotificationImpl(this, Notification.SET, SmiPackage.ASN1_SEQUENCE_OF__REF, newRef, newRef));
   }
 
   /**
@@ -163,7 +119,7 @@ public class UpdateTypeImpl extends MinimalEObjectImpl.Container implements Upda
   {
     switch (featureID)
     {
-      case SmiPackage.UPDATE_TYPE__REF:
+      case SmiPackage.ASN1_SEQUENCE_OF__REF:
         return basicSetRef(null, msgs);
     }
     return super.eInverseRemove(otherEnd, featureID, msgs);
@@ -179,9 +135,7 @@ public class UpdateTypeImpl extends MinimalEObjectImpl.Container implements Upda
   {
     switch (featureID)
     {
-      case SmiPackage.UPDATE_TYPE__UPDATE:
-        return isUpdate();
-      case SmiPackage.UPDATE_TYPE__REF:
+      case SmiPackage.ASN1_SEQUENCE_OF__REF:
         return getRef();
     }
     return super.eGet(featureID, resolve, coreType);
@@ -197,10 +151,7 @@ public class UpdateTypeImpl extends MinimalEObjectImpl.Container implements Upda
   {
     switch (featureID)
     {
-      case SmiPackage.UPDATE_TYPE__UPDATE:
-        setUpdate((Boolean)newValue);
-        return;
-      case SmiPackage.UPDATE_TYPE__REF:
+      case SmiPackage.ASN1_SEQUENCE_OF__REF:
         setRef((TypeAssignment)newValue);
         return;
     }
@@ -217,10 +168,7 @@ public class UpdateTypeImpl extends MinimalEObjectImpl.Container implements Upda
   {
     switch (featureID)
     {
-      case SmiPackage.UPDATE_TYPE__UPDATE:
-        setUpdate(UPDATE_EDEFAULT);
-        return;
-      case SmiPackage.UPDATE_TYPE__REF:
+      case SmiPackage.ASN1_SEQUENCE_OF__REF:
         setRef((TypeAssignment)null);
         return;
     }
@@ -237,29 +185,10 @@ public class UpdateTypeImpl extends MinimalEObjectImpl.Container implements Upda
   {
     switch (featureID)
     {
-      case SmiPackage.UPDATE_TYPE__UPDATE:
-        return update != UPDATE_EDEFAULT;
-      case SmiPackage.UPDATE_TYPE__REF:
+      case SmiPackage.ASN1_SEQUENCE_OF__REF:
         return ref != null;
     }
     return super.eIsSet(featureID);
   }
 
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  @Override
-  public String toString()
-  {
-    if (eIsProxy()) return super.toString();
-
-    StringBuffer result = new StringBuffer(super.toString());
-    result.append(" (update: ");
-    result.append(update);
-    result.append(')');
-    return result.toString();
-  }
-
-} //UpdateTypeImpl
+} //ASN1_SEQUENCE_OFImpl

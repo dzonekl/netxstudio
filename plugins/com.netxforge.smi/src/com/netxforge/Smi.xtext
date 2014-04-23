@@ -38,45 +38,57 @@ generate smi "http://www.netxforge.com/Smi"
 Module:
 	name=MODULE_ID 'DEFINITIONS' '::=' 'BEGIN'
 	imports=Imports? (objects+=Object | identifiers+=ObjectIdentifier |
-	types+=TypeDefinition |
-	macros+=Macro)+
+	types+=Referenceable)+
 	NEWLINE+ 'END' NEWLINE*;
 
 Imports:
-	NEWLINE+ 'IMPORTS' ImportClosure ';';
+	NEWLINE+ 'IMPORTS' imports+=ImportClosure+ ';';
 
 	//ImportClosure:
 //	'FROM' importURI=MODULE_ID;
 ImportClosure:
-	refs=ImportRefs 'FROM' importURI=MODULE_ID;
+	refs=ImportRefs NEWLINE* 'FROM' importURI=MODULE_ID;
 
 	// Consists of OID, Macro, Type usage Refs. 
 ImportRefs:
-	NEWLINE+ refs+=ImportRef (',' refs+=ImportRef)*;
+	NEWLINE* refs+=ImportRef (',' NEWLINE* refs+=ImportRef)*;
 
 ImportRef:
-	oiRef=[ObjectIdentifier|ASN1_ID] | typeRef=[TypeDefinition|MODULE_ID];
+	oiRef=[ObjectReferenceable|ASN1_ID] | typeRef=[Referenceable|MODULE_ID];
+
+Referenceable:
+	Macro | TypeDefinition;
 
 	// An ASN.1 Object Identifier
-ObjectIdentifier hidden(WS, SL_ASN1_COMMENT):
+ObjectIdentifier returns ObjectReferenceable:
 	NEWLINE+ name=ASN1_ID 'OBJECT IDENTIFIER' '::=' '{' oidValue=ObjectIdentifierValue '}';
 
 	// The value of the Object identifier	
 ObjectIdentifierValue:
-	(name=ASN1_ID | => descriptorReference=[ObjectIdentifier|ASN1_ID])? subIds+=BIG_INTEGER (subIds+=BIG_INTEGER)*;
+	(descriptorRef=[ObjectReferenceable|ASN1_ID] | => name=ASN1_ID)? subIds+=BIG_INTEGER (subIds+=BIG_INTEGER)*;
 
 	// An ASN.1 Value assignment. 
-TypeDefinition:
-	NEWLINE+ name=(MODULE_ID) '::=' values+=Value+;
+TypeDefinition returns Referenceable:
+	NEWLINE+ name=MODULE_ID '::=' values+=Value+;
 
-Object:
-	NEWLINE+ name=ASN1_ID macroRef=[Macro|MODULE_ID] attributes+=Attribute+ NEWLINE+ '::=' objectValue=ObjectValue;
+Object returns ObjectReferenceable:
+	NEWLINE+ name=ASN1_ID macroRef=[Referenceable|MODULE_ID] attributes+=Attribute+ NEWLINE+ '::='
+	objectValue=ObjectValue;
 
 Attribute:
-	NEWLINE+ paramRef=[ParamAssignment|MODULE_ID] value=AttributeValue;
+	NEWLINE+ paramRef=[Referenceable|MODULE_ID] value=AttributeValue;
 
+// The Identifier is very often an enum
 AttributeValue:
-	NEWLINE? (id=ASN1_ID | text=IA5STRING);
+	NEWLINE* (identifier=Identifier | text=IA5STRING | typeRef=[Referenceable|MODULE_ID] (subType=ASN1_SUBTYPE)?) |
+	objectRef=BracedObjectReference | integer=ASN1_INTEGER |
+	sequenceOf=ASN1_SEQUENCE_OF | {AttributeValue} 'OBJECT IDENTIFIER';
+
+Identifier:
+	id=ASN1_ID;
+
+BracedObjectReference:
+	'{' objectRef=[ObjectReferenceable|ASN1_ID] '}';
 
 	// An ASN.1 Object value is of type defined by 'VALUE NOTATION'
 // can be an OBJECT IDENTIFIER the value will be i.e: {0 0}
@@ -84,7 +96,7 @@ ObjectValue:
 	'{' ObjectIdentifierValue '}';
 
 	// An ASN.1 Macro structure
-Macro:
+Macro returns Referenceable:
 	NEWLINE+ name=MODULE_ID 'MACRO' '::=' NEWLINE+ 'BEGIN' typeNotation=TypeNotation valueNotation=ValueNotation
 	innerTypes+=TypeDefinition+ // Define 1 or more type definitions
 	NEWLINE+ 'END';
@@ -102,18 +114,19 @@ TypeAssignment:
 	NEWLINE+ (ParamAssignment | TypeReference | MacroValue);
 
 	// An ASN.1 Parameter assignment
-ParamAssignment:
+ParamAssignment returns Referenceable:
 	name=PARAMETER right=TypeNotationRight;
 
 TypeNotationRight:
 	TypeReference | value=MacroValue;
 
-	// Types can be referred once or twice. The right side is named a child reference. 
+	// Types can be referred once or twice. The right side is named a child reference.
+// The Right-hand side can also be a 
 TypeReferenceExt returns TypeAssignment:
 	parentRef=TypeReference (=> childRef=TypeReference)?;
 
 TypeReference returns TypeAssignment:
-	type=[TypeDefinition|MODULE_ID] | BracedTypeReference;
+	type=[Referenceable|MODULE_ID] | BracedTypeReference;
 
 	// A Type reference which is enclosed with "{" "}" 
 BracedTypeReference returns TypeAssignment:
@@ -131,24 +144,20 @@ Tag:
 	NEWLINE? '[APPLICATION' tagValue=BIG_INTEGER ']';
 
 ValueType:
-	(param=ParamAssignment | id=ASN1_ID | types=TypeReferenceExt | simpleType=ASN1_TYPE | macroValue=MacroValue |
+	(param=ParamAssignment | id=ASN1_ID | types=TypeReferenceExt | simpleType=ASN1_TYPE |
+	macroValue=MacroValue |
 	{ValueType} 'OBJECT IDENTIFIER');
 
 MacroValue returns Value:
 	{MacroValue} 'value' '(' valueType=MacroValueType ')';
 
+	// Note: Grammar should be 'Update' OR 'VALUE' but this gives a llc error.  
 MacroValueType:
-	update=UpdateType | literal=ValueCapType | string='IA5String';
-
-UpdateType:
-	update?='Update'? ref=TypeReference;
-
-ValueCapType:
-	{MACRO_VALUE_CAP} 'VALUE' ('OBJECT IDENTIFIER' | ref=TypeReference);
+	(update?='Update'? & valueCAP?='VALUE'?) (ref=TypeReference | oi='OBJECT IDENTIFIER' | string='IA5String');
 
 	// Simple and structured types. 
 ASN1_TYPE:
-	ASN1_SIMPLE | ASN1_CHOICE;
+	ASN1_SIMPLE | ASN1_CHOICE | ASN1_SEQUENCE;
 
 	// -- the "base types" defined here are:
 // --   3 built-in ASN.1 types: INTEGER, OCTET STRING, OBJECT IDENTIFIER
@@ -158,8 +167,13 @@ ASN1_SIMPLE returns ASN1_TYPE:
 ASN1_OCTET_STRING returns ASN1_SIMPLE:
 	{ASN1_OCTET_STRING} 'OCTET' 'STRING';
 
+	// Support for Type refinement, like in TEXTUAL-CONVENTION, SYNTAX type definition 
 ASN1_INTEGER returns ASN1_SIMPLE:
-	name='INTEGER' ('(' range=ASN1_RANGE ')')?;
+	name='INTEGER' ('(' range=ASN1_RANGE ')')?  refinement=ASN1_INTEGER_REFINEMENT?;
+
+ASN1_INTEGER_REFINEMENT:
+	'{' (NEWLINE* refinements+=ASN1_ID '(' ints+=BIG_INTEGER ')') (',' NEWLINE* refinements+=ASN1_ID '(' ints+=BIG_INTEGER
+	')')* NEWLINE* '}';
 
 	// Is this needed? 
 //	'{' (valuePairs+=ASN1_VALUEPAIR)+ '}';
@@ -176,6 +190,13 @@ ASN1_RANGE:
 ASN1_CHOICE:
 	'CHOICE' '{' NEWLINE+ choiceType+=ASN1_CHOICE_ENTRY (',' NEWLINE+ choiceType+=ASN1_CHOICE_ENTRY)*
 	NEWLINE+ '}';
+
+ASN1_SEQUENCE:
+	'SEQUENCE' '{' NEWLINE+ choiceType+=ASN1_CHOICE_ENTRY (',' NEWLINE+ choiceType+=ASN1_CHOICE_ENTRY)*
+	NEWLINE+ '}';
+
+ASN1_SEQUENCE_OF:
+	'SEQUENCE' 'OF' ref=TypeReference;
 
 	// TODO1 The reference to a ValueType is indented by 4 WS on the next line. 
 //  

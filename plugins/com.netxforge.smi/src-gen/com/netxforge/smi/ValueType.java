@@ -35,12 +35,12 @@ public interface ValueType extends EObject
    * </p>
    * <!-- end-user-doc -->
    * @return the value of the '<em>Param</em>' containment reference.
-   * @see #setParam(ParamAssignment)
+   * @see #setParam(Referenceable)
    * @see com.netxforge.smi.SmiPackage#getValueType_Param()
    * @model containment="true"
    * @generated
    */
-  ParamAssignment getParam();
+  Referenceable getParam();
 
   /**
    * Sets the value of the '{@link com.netxforge.smi.ValueType#getParam <em>Param</em>}' containment reference.
@@ -50,7 +50,7 @@ public interface ValueType extends EObject
    * @see #getParam()
    * @generated
    */
-  void setParam(ParamAssignment value);
+  void setParam(Referenceable value);
 
   /**
    * Returns the value of the '<em><b>Id</b></em>' attribute.

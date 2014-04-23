@@ -32,12 +32,12 @@ public interface ImportRef extends EObject
    * </p>
    * <!-- end-user-doc -->
    * @return the value of the '<em>Oi Ref</em>' reference.
-   * @see #setOiRef(ObjectIdentifier)
+   * @see #setOiRef(ObjectReferenceable)
    * @see com.netxforge.smi.SmiPackage#getImportRef_OiRef()
    * @model
    * @generated
    */
-  ObjectIdentifier getOiRef();
+  ObjectReferenceable getOiRef();
 
   /**
    * Sets the value of the '{@link com.netxforge.smi.ImportRef#getOiRef <em>Oi Ref</em>}' reference.
@@ -47,7 +47,7 @@ public interface ImportRef extends EObject
    * @see #getOiRef()
    * @generated
    */
-  void setOiRef(ObjectIdentifier value);
+  void setOiRef(ObjectReferenceable value);
 
   /**
    * Returns the value of the '<em><b>Type Ref</b></em>' reference.
@@ -58,12 +58,12 @@ public interface ImportRef extends EObject
    * </p>
    * <!-- end-user-doc -->
    * @return the value of the '<em>Type Ref</em>' reference.
-   * @see #setTypeRef(TypeDefinition)
+   * @see #setTypeRef(Referenceable)
    * @see com.netxforge.smi.SmiPackage#getImportRef_TypeRef()
    * @model
    * @generated
    */
-  TypeDefinition getTypeRef();
+  Referenceable getTypeRef();
 
   /**
    * Sets the value of the '{@link com.netxforge.smi.ImportRef#getTypeRef <em>Type Ref</em>}' reference.
@@ -73,6 +73,6 @@ public interface ImportRef extends EObject
    * @see #getTypeRef()
    * @generated
    */
-  void setTypeRef(TypeDefinition value);
+  void setTypeRef(Referenceable value);
 
 } // ImportRef

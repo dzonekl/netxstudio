@@ -112,22 +112,13 @@ public interface SmiPackage extends EPackage
   int MODULE__TYPES = 4;
 
   /**
-   * The feature id for the '<em><b>Macros</b></em>' containment reference list.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   * @ordered
-   */
-  int MODULE__MACROS = 5;
-
-  /**
    * The number of structural features of the '<em>Module</em>' class.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
    * @ordered
    */
-  int MODULE_FEATURE_COUNT = 6;
+  int MODULE_FEATURE_COUNT = 5;
 
   /**
    * The meta object id for the '{@link com.netxforge.smi.impl.ImportsImpl <em>Imports</em>}' class.
@@ -140,13 +131,22 @@ public interface SmiPackage extends EPackage
   int IMPORTS = 1;
 
   /**
+   * The feature id for the '<em><b>Imports</b></em>' containment reference list.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int IMPORTS__IMPORTS = 0;
+
+  /**
    * The number of structural features of the '<em>Imports</em>' class.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
    * @ordered
    */
-  int IMPORTS_FEATURE_COUNT = 0;
+  int IMPORTS_FEATURE_COUNT = 1;
 
   /**
    * The meta object id for the '{@link com.netxforge.smi.impl.ImportClosureImpl <em>Import Closure</em>}' class.
@@ -165,7 +165,7 @@ public interface SmiPackage extends EPackage
    * @generated
    * @ordered
    */
-  int IMPORT_CLOSURE__REFS = IMPORTS_FEATURE_COUNT + 0;
+  int IMPORT_CLOSURE__REFS = 0;
 
   /**
    * The feature id for the '<em><b>Import URI</b></em>' attribute.
@@ -174,7 +174,7 @@ public interface SmiPackage extends EPackage
    * @generated
    * @ordered
    */
-  int IMPORT_CLOSURE__IMPORT_URI = IMPORTS_FEATURE_COUNT + 1;
+  int IMPORT_CLOSURE__IMPORT_URI = 1;
 
   /**
    * The number of structural features of the '<em>Import Closure</em>' class.
@@ -183,7 +183,7 @@ public interface SmiPackage extends EPackage
    * @generated
    * @ordered
    */
-  int IMPORT_CLOSURE_FEATURE_COUNT = IMPORTS_FEATURE_COUNT + 2;
+  int IMPORT_CLOSURE_FEATURE_COUNT = 2;
 
   /**
    * The meta object id for the '{@link com.netxforge.smi.impl.ImportRefsImpl <em>Import Refs</em>}' class.
@@ -251,14 +251,133 @@ public interface SmiPackage extends EPackage
   int IMPORT_REF_FEATURE_COUNT = 2;
 
   /**
-   * The meta object id for the '{@link com.netxforge.smi.impl.ObjectIdentifierImpl <em>Object Identifier</em>}' class.
+   * The meta object id for the '{@link com.netxforge.smi.impl.TypeNotationRightImpl <em>Type Notation Right</em>}' class.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @see com.netxforge.smi.impl.ObjectIdentifierImpl
-   * @see com.netxforge.smi.impl.SmiPackageImpl#getObjectIdentifier()
+   * @see com.netxforge.smi.impl.TypeNotationRightImpl
+   * @see com.netxforge.smi.impl.SmiPackageImpl#getTypeNotationRight()
    * @generated
    */
-  int OBJECT_IDENTIFIER = 5;
+  int TYPE_NOTATION_RIGHT = 16;
+
+  /**
+   * The feature id for the '<em><b>Value</b></em>' containment reference.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int TYPE_NOTATION_RIGHT__VALUE = 0;
+
+  /**
+   * The number of structural features of the '<em>Type Notation Right</em>' class.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int TYPE_NOTATION_RIGHT_FEATURE_COUNT = 1;
+
+  /**
+   * The meta object id for the '{@link com.netxforge.smi.impl.TypeAssignmentImpl <em>Type Assignment</em>}' class.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see com.netxforge.smi.impl.TypeAssignmentImpl
+   * @see com.netxforge.smi.impl.SmiPackageImpl#getTypeAssignment()
+   * @generated
+   */
+  int TYPE_ASSIGNMENT = 15;
+
+  /**
+   * The feature id for the '<em><b>Value</b></em>' containment reference.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int TYPE_ASSIGNMENT__VALUE = TYPE_NOTATION_RIGHT__VALUE;
+
+  /**
+   * The feature id for the '<em><b>Parent Ref</b></em>' containment reference.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int TYPE_ASSIGNMENT__PARENT_REF = TYPE_NOTATION_RIGHT_FEATURE_COUNT + 0;
+
+  /**
+   * The feature id for the '<em><b>Child Ref</b></em>' containment reference.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int TYPE_ASSIGNMENT__CHILD_REF = TYPE_NOTATION_RIGHT_FEATURE_COUNT + 1;
+
+  /**
+   * The feature id for the '<em><b>Type</b></em>' reference.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int TYPE_ASSIGNMENT__TYPE = TYPE_NOTATION_RIGHT_FEATURE_COUNT + 2;
+
+  /**
+   * The number of structural features of the '<em>Type Assignment</em>' class.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int TYPE_ASSIGNMENT_FEATURE_COUNT = TYPE_NOTATION_RIGHT_FEATURE_COUNT + 3;
+
+  /**
+   * The meta object id for the '{@link com.netxforge.smi.impl.ReferenceableImpl <em>Referenceable</em>}' class.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see com.netxforge.smi.impl.ReferenceableImpl
+   * @see com.netxforge.smi.impl.SmiPackageImpl#getReferenceable()
+   * @generated
+   */
+  int REFERENCEABLE = 5;
+
+  /**
+   * The feature id for the '<em><b>Value</b></em>' containment reference.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int REFERENCEABLE__VALUE = TYPE_ASSIGNMENT__VALUE;
+
+  /**
+   * The feature id for the '<em><b>Parent Ref</b></em>' containment reference.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int REFERENCEABLE__PARENT_REF = TYPE_ASSIGNMENT__PARENT_REF;
+
+  /**
+   * The feature id for the '<em><b>Child Ref</b></em>' containment reference.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int REFERENCEABLE__CHILD_REF = TYPE_ASSIGNMENT__CHILD_REF;
+
+  /**
+   * The feature id for the '<em><b>Type</b></em>' reference.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int REFERENCEABLE__TYPE = TYPE_ASSIGNMENT__TYPE;
 
   /**
    * The feature id for the '<em><b>Name</b></em>' attribute.
@@ -267,7 +386,80 @@ public interface SmiPackage extends EPackage
    * @generated
    * @ordered
    */
-  int OBJECT_IDENTIFIER__NAME = 0;
+  int REFERENCEABLE__NAME = TYPE_ASSIGNMENT_FEATURE_COUNT + 0;
+
+  /**
+   * The feature id for the '<em><b>Values</b></em>' containment reference list.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int REFERENCEABLE__VALUES = TYPE_ASSIGNMENT_FEATURE_COUNT + 1;
+
+  /**
+   * The feature id for the '<em><b>Type Notation</b></em>' containment reference.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int REFERENCEABLE__TYPE_NOTATION = TYPE_ASSIGNMENT_FEATURE_COUNT + 2;
+
+  /**
+   * The feature id for the '<em><b>Value Notation</b></em>' containment reference.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int REFERENCEABLE__VALUE_NOTATION = TYPE_ASSIGNMENT_FEATURE_COUNT + 3;
+
+  /**
+   * The feature id for the '<em><b>Inner Types</b></em>' containment reference list.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int REFERENCEABLE__INNER_TYPES = TYPE_ASSIGNMENT_FEATURE_COUNT + 4;
+
+  /**
+   * The feature id for the '<em><b>Right</b></em>' containment reference.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int REFERENCEABLE__RIGHT = TYPE_ASSIGNMENT_FEATURE_COUNT + 5;
+
+  /**
+   * The number of structural features of the '<em>Referenceable</em>' class.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int REFERENCEABLE_FEATURE_COUNT = TYPE_ASSIGNMENT_FEATURE_COUNT + 6;
+
+  /**
+   * The meta object id for the '{@link com.netxforge.smi.impl.ObjectReferenceableImpl <em>Object Referenceable</em>}' class.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see com.netxforge.smi.impl.ObjectReferenceableImpl
+   * @see com.netxforge.smi.impl.SmiPackageImpl#getObjectReferenceable()
+   * @generated
+   */
+  int OBJECT_REFERENCEABLE = 6;
+
+  /**
+   * The feature id for the '<em><b>Name</b></em>' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int OBJECT_REFERENCEABLE__NAME = 0;
 
   /**
    * The feature id for the '<em><b>Oid Value</b></em>' containment reference.
@@ -276,16 +468,43 @@ public interface SmiPackage extends EPackage
    * @generated
    * @ordered
    */
-  int OBJECT_IDENTIFIER__OID_VALUE = 1;
+  int OBJECT_REFERENCEABLE__OID_VALUE = 1;
 
   /**
-   * The number of structural features of the '<em>Object Identifier</em>' class.
+   * The feature id for the '<em><b>Macro Ref</b></em>' reference.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
    * @ordered
    */
-  int OBJECT_IDENTIFIER_FEATURE_COUNT = 2;
+  int OBJECT_REFERENCEABLE__MACRO_REF = 2;
+
+  /**
+   * The feature id for the '<em><b>Attributes</b></em>' containment reference list.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int OBJECT_REFERENCEABLE__ATTRIBUTES = 3;
+
+  /**
+   * The feature id for the '<em><b>Object Value</b></em>' containment reference.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int OBJECT_REFERENCEABLE__OBJECT_VALUE = 4;
+
+  /**
+   * The number of structural features of the '<em>Object Referenceable</em>' class.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int OBJECT_REFERENCEABLE_FEATURE_COUNT = 5;
 
   /**
    * The meta object id for the '{@link com.netxforge.smi.impl.ObjectValueImpl <em>Object Value</em>}' class.
@@ -295,7 +514,7 @@ public interface SmiPackage extends EPackage
    * @see com.netxforge.smi.impl.SmiPackageImpl#getObjectValue()
    * @generated
    */
-  int OBJECT_VALUE = 11;
+  int OBJECT_VALUE = 12;
 
   /**
    * The number of structural features of the '<em>Object Value</em>' class.
@@ -314,7 +533,16 @@ public interface SmiPackage extends EPackage
    * @see com.netxforge.smi.impl.SmiPackageImpl#getObjectIdentifierValue()
    * @generated
    */
-  int OBJECT_IDENTIFIER_VALUE = 6;
+  int OBJECT_IDENTIFIER_VALUE = 7;
+
+  /**
+   * The feature id for the '<em><b>Descriptor Ref</b></em>' reference.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int OBJECT_IDENTIFIER_VALUE__DESCRIPTOR_REF = OBJECT_VALUE_FEATURE_COUNT + 0;
 
   /**
    * The feature id for the '<em><b>Name</b></em>' attribute.
@@ -323,16 +551,7 @@ public interface SmiPackage extends EPackage
    * @generated
    * @ordered
    */
-  int OBJECT_IDENTIFIER_VALUE__NAME = OBJECT_VALUE_FEATURE_COUNT + 0;
-
-  /**
-   * The feature id for the '<em><b>Descriptor Reference</b></em>' reference.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   * @ordered
-   */
-  int OBJECT_IDENTIFIER_VALUE__DESCRIPTOR_REFERENCE = OBJECT_VALUE_FEATURE_COUNT + 1;
+  int OBJECT_IDENTIFIER_VALUE__NAME = OBJECT_VALUE_FEATURE_COUNT + 1;
 
   /**
    * The feature id for the '<em><b>Sub Ids</b></em>' attribute list.
@@ -353,98 +572,6 @@ public interface SmiPackage extends EPackage
   int OBJECT_IDENTIFIER_VALUE_FEATURE_COUNT = OBJECT_VALUE_FEATURE_COUNT + 3;
 
   /**
-   * The meta object id for the '{@link com.netxforge.smi.impl.TypeDefinitionImpl <em>Type Definition</em>}' class.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @see com.netxforge.smi.impl.TypeDefinitionImpl
-   * @see com.netxforge.smi.impl.SmiPackageImpl#getTypeDefinition()
-   * @generated
-   */
-  int TYPE_DEFINITION = 7;
-
-  /**
-   * The feature id for the '<em><b>Name</b></em>' attribute.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   * @ordered
-   */
-  int TYPE_DEFINITION__NAME = 0;
-
-  /**
-   * The feature id for the '<em><b>Values</b></em>' containment reference list.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   * @ordered
-   */
-  int TYPE_DEFINITION__VALUES = 1;
-
-  /**
-   * The number of structural features of the '<em>Type Definition</em>' class.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   * @ordered
-   */
-  int TYPE_DEFINITION_FEATURE_COUNT = 2;
-
-  /**
-   * The meta object id for the '{@link com.netxforge.smi.impl.ObjectImpl <em>Object</em>}' class.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @see com.netxforge.smi.impl.ObjectImpl
-   * @see com.netxforge.smi.impl.SmiPackageImpl#getObject()
-   * @generated
-   */
-  int OBJECT = 8;
-
-  /**
-   * The feature id for the '<em><b>Name</b></em>' attribute.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   * @ordered
-   */
-  int OBJECT__NAME = 0;
-
-  /**
-   * The feature id for the '<em><b>Macro Ref</b></em>' reference.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   * @ordered
-   */
-  int OBJECT__MACRO_REF = 1;
-
-  /**
-   * The feature id for the '<em><b>Attributes</b></em>' containment reference list.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   * @ordered
-   */
-  int OBJECT__ATTRIBUTES = 2;
-
-  /**
-   * The feature id for the '<em><b>Object Value</b></em>' containment reference.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   * @ordered
-   */
-  int OBJECT__OBJECT_VALUE = 3;
-
-  /**
-   * The number of structural features of the '<em>Object</em>' class.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   * @ordered
-   */
-  int OBJECT_FEATURE_COUNT = 4;
-
-  /**
    * The meta object id for the '{@link com.netxforge.smi.impl.AttributeImpl <em>Attribute</em>}' class.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -452,7 +579,7 @@ public interface SmiPackage extends EPackage
    * @see com.netxforge.smi.impl.SmiPackageImpl#getAttribute()
    * @generated
    */
-  int ATTRIBUTE = 9;
+  int ATTRIBUTE = 8;
 
   /**
    * The feature id for the '<em><b>Param Ref</b></em>' reference.
@@ -489,16 +616,16 @@ public interface SmiPackage extends EPackage
    * @see com.netxforge.smi.impl.SmiPackageImpl#getAttributeValue()
    * @generated
    */
-  int ATTRIBUTE_VALUE = 10;
+  int ATTRIBUTE_VALUE = 9;
 
   /**
-   * The feature id for the '<em><b>Id</b></em>' attribute.
+   * The feature id for the '<em><b>Identifier</b></em>' containment reference.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
    * @ordered
    */
-  int ATTRIBUTE_VALUE__ID = 0;
+  int ATTRIBUTE_VALUE__IDENTIFIER = 0;
 
   /**
    * The feature id for the '<em><b>Text</b></em>' attribute.
@@ -510,68 +637,114 @@ public interface SmiPackage extends EPackage
   int ATTRIBUTE_VALUE__TEXT = 1;
 
   /**
+   * The feature id for the '<em><b>Type Ref</b></em>' reference.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int ATTRIBUTE_VALUE__TYPE_REF = 2;
+
+  /**
+   * The feature id for the '<em><b>Sub Type</b></em>' containment reference.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int ATTRIBUTE_VALUE__SUB_TYPE = 3;
+
+  /**
+   * The feature id for the '<em><b>Object Ref</b></em>' containment reference.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int ATTRIBUTE_VALUE__OBJECT_REF = 4;
+
+  /**
+   * The feature id for the '<em><b>Integer</b></em>' containment reference.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int ATTRIBUTE_VALUE__INTEGER = 5;
+
+  /**
+   * The feature id for the '<em><b>Sequence Of</b></em>' containment reference.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int ATTRIBUTE_VALUE__SEQUENCE_OF = 6;
+
+  /**
    * The number of structural features of the '<em>Attribute Value</em>' class.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
    * @ordered
    */
-  int ATTRIBUTE_VALUE_FEATURE_COUNT = 2;
+  int ATTRIBUTE_VALUE_FEATURE_COUNT = 7;
 
   /**
-   * The meta object id for the '{@link com.netxforge.smi.impl.MacroImpl <em>Macro</em>}' class.
+   * The meta object id for the '{@link com.netxforge.smi.impl.IdentifierImpl <em>Identifier</em>}' class.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @see com.netxforge.smi.impl.MacroImpl
-   * @see com.netxforge.smi.impl.SmiPackageImpl#getMacro()
+   * @see com.netxforge.smi.impl.IdentifierImpl
+   * @see com.netxforge.smi.impl.SmiPackageImpl#getIdentifier()
    * @generated
    */
-  int MACRO = 12;
+  int IDENTIFIER = 10;
 
   /**
-   * The feature id for the '<em><b>Name</b></em>' attribute.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   * @ordered
-   */
-  int MACRO__NAME = 0;
-
-  /**
-   * The feature id for the '<em><b>Type Notation</b></em>' containment reference.
+   * The feature id for the '<em><b>Id</b></em>' attribute.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
    * @ordered
    */
-  int MACRO__TYPE_NOTATION = 1;
+  int IDENTIFIER__ID = 0;
 
   /**
-   * The feature id for the '<em><b>Value Notation</b></em>' containment reference.
+   * The number of structural features of the '<em>Identifier</em>' class.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
    * @ordered
    */
-  int MACRO__VALUE_NOTATION = 2;
+  int IDENTIFIER_FEATURE_COUNT = 1;
 
   /**
-   * The feature id for the '<em><b>Inner Types</b></em>' containment reference list.
+   * The meta object id for the '{@link com.netxforge.smi.impl.BracedObjectReferenceImpl <em>Braced Object Reference</em>}' class.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see com.netxforge.smi.impl.BracedObjectReferenceImpl
+   * @see com.netxforge.smi.impl.SmiPackageImpl#getBracedObjectReference()
+   * @generated
+   */
+  int BRACED_OBJECT_REFERENCE = 11;
+
+  /**
+   * The feature id for the '<em><b>Object Ref</b></em>' reference.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
    * @ordered
    */
-  int MACRO__INNER_TYPES = 3;
+  int BRACED_OBJECT_REFERENCE__OBJECT_REF = 0;
 
   /**
-   * The number of structural features of the '<em>Macro</em>' class.
+   * The number of structural features of the '<em>Braced Object Reference</em>' class.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
    * @ordered
    */
-  int MACRO_FEATURE_COUNT = 4;
+  int BRACED_OBJECT_REFERENCE_FEATURE_COUNT = 1;
 
   /**
    * The meta object id for the '{@link com.netxforge.smi.impl.TypeNotationImpl <em>Type Notation</em>}' class.
@@ -648,162 +821,6 @@ public interface SmiPackage extends EPackage
   int VALUE_NOTATION_FEATURE_COUNT = 2;
 
   /**
-   * The meta object id for the '{@link com.netxforge.smi.impl.TypeNotationRightImpl <em>Type Notation Right</em>}' class.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @see com.netxforge.smi.impl.TypeNotationRightImpl
-   * @see com.netxforge.smi.impl.SmiPackageImpl#getTypeNotationRight()
-   * @generated
-   */
-  int TYPE_NOTATION_RIGHT = 17;
-
-  /**
-   * The feature id for the '<em><b>Value</b></em>' containment reference.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   * @ordered
-   */
-  int TYPE_NOTATION_RIGHT__VALUE = 0;
-
-  /**
-   * The number of structural features of the '<em>Type Notation Right</em>' class.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   * @ordered
-   */
-  int TYPE_NOTATION_RIGHT_FEATURE_COUNT = 1;
-
-  /**
-   * The meta object id for the '{@link com.netxforge.smi.impl.TypeAssignmentImpl <em>Type Assignment</em>}' class.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @see com.netxforge.smi.impl.TypeAssignmentImpl
-   * @see com.netxforge.smi.impl.SmiPackageImpl#getTypeAssignment()
-   * @generated
-   */
-  int TYPE_ASSIGNMENT = 15;
-
-  /**
-   * The feature id for the '<em><b>Value</b></em>' containment reference.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   * @ordered
-   */
-  int TYPE_ASSIGNMENT__VALUE = TYPE_NOTATION_RIGHT__VALUE;
-
-  /**
-   * The feature id for the '<em><b>Parent Ref</b></em>' containment reference.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   * @ordered
-   */
-  int TYPE_ASSIGNMENT__PARENT_REF = TYPE_NOTATION_RIGHT_FEATURE_COUNT + 0;
-
-  /**
-   * The feature id for the '<em><b>Child Ref</b></em>' containment reference.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   * @ordered
-   */
-  int TYPE_ASSIGNMENT__CHILD_REF = TYPE_NOTATION_RIGHT_FEATURE_COUNT + 1;
-
-  /**
-   * The feature id for the '<em><b>Type</b></em>' reference.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   * @ordered
-   */
-  int TYPE_ASSIGNMENT__TYPE = TYPE_NOTATION_RIGHT_FEATURE_COUNT + 2;
-
-  /**
-   * The number of structural features of the '<em>Type Assignment</em>' class.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   * @ordered
-   */
-  int TYPE_ASSIGNMENT_FEATURE_COUNT = TYPE_NOTATION_RIGHT_FEATURE_COUNT + 3;
-
-  /**
-   * The meta object id for the '{@link com.netxforge.smi.impl.ParamAssignmentImpl <em>Param Assignment</em>}' class.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @see com.netxforge.smi.impl.ParamAssignmentImpl
-   * @see com.netxforge.smi.impl.SmiPackageImpl#getParamAssignment()
-   * @generated
-   */
-  int PARAM_ASSIGNMENT = 16;
-
-  /**
-   * The feature id for the '<em><b>Value</b></em>' containment reference.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   * @ordered
-   */
-  int PARAM_ASSIGNMENT__VALUE = TYPE_ASSIGNMENT__VALUE;
-
-  /**
-   * The feature id for the '<em><b>Parent Ref</b></em>' containment reference.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   * @ordered
-   */
-  int PARAM_ASSIGNMENT__PARENT_REF = TYPE_ASSIGNMENT__PARENT_REF;
-
-  /**
-   * The feature id for the '<em><b>Child Ref</b></em>' containment reference.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   * @ordered
-   */
-  int PARAM_ASSIGNMENT__CHILD_REF = TYPE_ASSIGNMENT__CHILD_REF;
-
-  /**
-   * The feature id for the '<em><b>Type</b></em>' reference.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   * @ordered
-   */
-  int PARAM_ASSIGNMENT__TYPE = TYPE_ASSIGNMENT__TYPE;
-
-  /**
-   * The feature id for the '<em><b>Name</b></em>' attribute.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   * @ordered
-   */
-  int PARAM_ASSIGNMENT__NAME = TYPE_ASSIGNMENT_FEATURE_COUNT + 0;
-
-  /**
-   * The feature id for the '<em><b>Right</b></em>' containment reference.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   * @ordered
-   */
-  int PARAM_ASSIGNMENT__RIGHT = TYPE_ASSIGNMENT_FEATURE_COUNT + 1;
-
-  /**
-   * The number of structural features of the '<em>Param Assignment</em>' class.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   * @ordered
-   */
-  int PARAM_ASSIGNMENT_FEATURE_COUNT = TYPE_ASSIGNMENT_FEATURE_COUNT + 2;
-
-  /**
    * The meta object id for the '{@link com.netxforge.smi.impl.ValueAssignmentImpl <em>Value Assignment</em>}' class.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -811,7 +828,7 @@ public interface SmiPackage extends EPackage
    * @see com.netxforge.smi.impl.SmiPackageImpl#getValueAssignment()
    * @generated
    */
-  int VALUE_ASSIGNMENT = 18;
+  int VALUE_ASSIGNMENT = 17;
 
   /**
    * The feature id for the '<em><b>Value Notation</b></em>' containment reference.
@@ -839,7 +856,7 @@ public interface SmiPackage extends EPackage
    * @see com.netxforge.smi.impl.SmiPackageImpl#getValue()
    * @generated
    */
-  int VALUE = 19;
+  int VALUE = 18;
 
   /**
    * The feature id for the '<em><b>Value</b></em>' containment reference.
@@ -921,7 +938,7 @@ public interface SmiPackage extends EPackage
    * @see com.netxforge.smi.impl.SmiPackageImpl#getTag()
    * @generated
    */
-  int TAG = 20;
+  int TAG = 19;
 
   /**
    * The feature id for the '<em><b>Tag Value</b></em>' attribute.
@@ -949,7 +966,7 @@ public interface SmiPackage extends EPackage
    * @see com.netxforge.smi.impl.SmiPackageImpl#getValueType()
    * @generated
    */
-  int VALUE_TYPE = 21;
+  int VALUE_TYPE = 20;
 
   /**
    * The feature id for the '<em><b>Param</b></em>' containment reference.
@@ -1013,53 +1030,7 @@ public interface SmiPackage extends EPackage
    * @see com.netxforge.smi.impl.SmiPackageImpl#getMacroValueType()
    * @generated
    */
-  int MACRO_VALUE_TYPE = 22;
-
-  /**
-   * The feature id for the '<em><b>Update</b></em>' containment reference.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   * @ordered
-   */
-  int MACRO_VALUE_TYPE__UPDATE = 0;
-
-  /**
-   * The feature id for the '<em><b>Literal</b></em>' containment reference.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   * @ordered
-   */
-  int MACRO_VALUE_TYPE__LITERAL = 1;
-
-  /**
-   * The feature id for the '<em><b>String</b></em>' attribute.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   * @ordered
-   */
-  int MACRO_VALUE_TYPE__STRING = 2;
-
-  /**
-   * The number of structural features of the '<em>Macro Value Type</em>' class.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   * @ordered
-   */
-  int MACRO_VALUE_TYPE_FEATURE_COUNT = 3;
-
-  /**
-   * The meta object id for the '{@link com.netxforge.smi.impl.UpdateTypeImpl <em>Update Type</em>}' class.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @see com.netxforge.smi.impl.UpdateTypeImpl
-   * @see com.netxforge.smi.impl.SmiPackageImpl#getUpdateType()
-   * @generated
-   */
-  int UPDATE_TYPE = 23;
+  int MACRO_VALUE_TYPE = 21;
 
   /**
    * The feature id for the '<em><b>Update</b></em>' attribute.
@@ -1068,7 +1039,16 @@ public interface SmiPackage extends EPackage
    * @generated
    * @ordered
    */
-  int UPDATE_TYPE__UPDATE = 0;
+  int MACRO_VALUE_TYPE__UPDATE = 0;
+
+  /**
+   * The feature id for the '<em><b>Value CAP</b></em>' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int MACRO_VALUE_TYPE__VALUE_CAP = 1;
 
   /**
    * The feature id for the '<em><b>Ref</b></em>' containment reference.
@@ -1077,35 +1057,34 @@ public interface SmiPackage extends EPackage
    * @generated
    * @ordered
    */
-  int UPDATE_TYPE__REF = 1;
+  int MACRO_VALUE_TYPE__REF = 2;
 
   /**
-   * The number of structural features of the '<em>Update Type</em>' class.
+   * The feature id for the '<em><b>Oi</b></em>' attribute.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
    * @ordered
    */
-  int UPDATE_TYPE_FEATURE_COUNT = 2;
+  int MACRO_VALUE_TYPE__OI = 3;
 
   /**
-   * The meta object id for the '{@link com.netxforge.smi.impl.ValueCapTypeImpl <em>Value Cap Type</em>}' class.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @see com.netxforge.smi.impl.ValueCapTypeImpl
-   * @see com.netxforge.smi.impl.SmiPackageImpl#getValueCapType()
-   * @generated
-   */
-  int VALUE_CAP_TYPE = 24;
-
-  /**
-   * The number of structural features of the '<em>Value Cap Type</em>' class.
+   * The feature id for the '<em><b>String</b></em>' attribute.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
    * @ordered
    */
-  int VALUE_CAP_TYPE_FEATURE_COUNT = 0;
+  int MACRO_VALUE_TYPE__STRING = 4;
+
+  /**
+   * The number of structural features of the '<em>Macro Value Type</em>' class.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int MACRO_VALUE_TYPE_FEATURE_COUNT = 5;
 
   /**
    * The meta object id for the '{@link com.netxforge.smi.impl.ASN1_TYPEImpl <em>ASN1 TYPE</em>}' class.
@@ -1115,7 +1094,7 @@ public interface SmiPackage extends EPackage
    * @see com.netxforge.smi.impl.SmiPackageImpl#getASN1_TYPE()
    * @generated
    */
-  int ASN1_TYPE = 25;
+  int ASN1_TYPE = 22;
 
   /**
    * The number of structural features of the '<em>ASN1 TYPE</em>' class.
@@ -1134,7 +1113,7 @@ public interface SmiPackage extends EPackage
    * @see com.netxforge.smi.impl.SmiPackageImpl#getASN1_SIMPLE()
    * @generated
    */
-  int ASN1_SIMPLE = 26;
+  int ASN1_SIMPLE = 23;
 
   /**
    * The feature id for the '<em><b>Constraint</b></em>' containment reference.
@@ -1164,13 +1143,22 @@ public interface SmiPackage extends EPackage
   int ASN1_SIMPLE__RANGE = ASN1_TYPE_FEATURE_COUNT + 2;
 
   /**
+   * The feature id for the '<em><b>Refinement</b></em>' containment reference.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int ASN1_SIMPLE__REFINEMENT = ASN1_TYPE_FEATURE_COUNT + 3;
+
+  /**
    * The feature id for the '<em><b>Ranges</b></em>' containment reference list.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
    * @ordered
    */
-  int ASN1_SIMPLE__RANGES = ASN1_TYPE_FEATURE_COUNT + 3;
+  int ASN1_SIMPLE__RANGES = ASN1_TYPE_FEATURE_COUNT + 4;
 
   /**
    * The number of structural features of the '<em>ASN1 SIMPLE</em>' class.
@@ -1179,7 +1167,44 @@ public interface SmiPackage extends EPackage
    * @generated
    * @ordered
    */
-  int ASN1_SIMPLE_FEATURE_COUNT = ASN1_TYPE_FEATURE_COUNT + 4;
+  int ASN1_SIMPLE_FEATURE_COUNT = ASN1_TYPE_FEATURE_COUNT + 5;
+
+  /**
+   * The meta object id for the '{@link com.netxforge.smi.impl.ASN1_INTEGER_REFINEMENTImpl <em>ASN1 INTEGER REFINEMENT</em>}' class.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see com.netxforge.smi.impl.ASN1_INTEGER_REFINEMENTImpl
+   * @see com.netxforge.smi.impl.SmiPackageImpl#getASN1_INTEGER_REFINEMENT()
+   * @generated
+   */
+  int ASN1_INTEGER_REFINEMENT = 24;
+
+  /**
+   * The feature id for the '<em><b>Refinements</b></em>' attribute list.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int ASN1_INTEGER_REFINEMENT__REFINEMENTS = 0;
+
+  /**
+   * The feature id for the '<em><b>Ints</b></em>' attribute list.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int ASN1_INTEGER_REFINEMENT__INTS = 1;
+
+  /**
+   * The number of structural features of the '<em>ASN1 INTEGER REFINEMENT</em>' class.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int ASN1_INTEGER_REFINEMENT_FEATURE_COUNT = 2;
 
   /**
    * The meta object id for the '{@link com.netxforge.smi.impl.ASN1_RANGEImpl <em>ASN1 RANGE</em>}' class.
@@ -1189,7 +1214,7 @@ public interface SmiPackage extends EPackage
    * @see com.netxforge.smi.impl.SmiPackageImpl#getASN1_RANGE()
    * @generated
    */
-  int ASN1_RANGE = 27;
+  int ASN1_RANGE = 25;
 
   /**
    * The feature id for the '<em><b>Value</b></em>' attribute.
@@ -1235,7 +1260,7 @@ public interface SmiPackage extends EPackage
    * @see com.netxforge.smi.impl.SmiPackageImpl#getASN1_CHOICE()
    * @generated
    */
-  int ASN1_CHOICE = 28;
+  int ASN1_CHOICE = 26;
 
   /**
    * The feature id for the '<em><b>Choice Type</b></em>' containment reference list.
@@ -1254,6 +1279,62 @@ public interface SmiPackage extends EPackage
    * @ordered
    */
   int ASN1_CHOICE_FEATURE_COUNT = ASN1_TYPE_FEATURE_COUNT + 1;
+
+  /**
+   * The meta object id for the '{@link com.netxforge.smi.impl.ASN1_SEQUENCEImpl <em>ASN1 SEQUENCE</em>}' class.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see com.netxforge.smi.impl.ASN1_SEQUENCEImpl
+   * @see com.netxforge.smi.impl.SmiPackageImpl#getASN1_SEQUENCE()
+   * @generated
+   */
+  int ASN1_SEQUENCE = 27;
+
+  /**
+   * The feature id for the '<em><b>Choice Type</b></em>' containment reference list.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int ASN1_SEQUENCE__CHOICE_TYPE = ASN1_TYPE_FEATURE_COUNT + 0;
+
+  /**
+   * The number of structural features of the '<em>ASN1 SEQUENCE</em>' class.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int ASN1_SEQUENCE_FEATURE_COUNT = ASN1_TYPE_FEATURE_COUNT + 1;
+
+  /**
+   * The meta object id for the '{@link com.netxforge.smi.impl.ASN1_SEQUENCE_OFImpl <em>ASN1 SEQUENCE OF</em>}' class.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see com.netxforge.smi.impl.ASN1_SEQUENCE_OFImpl
+   * @see com.netxforge.smi.impl.SmiPackageImpl#getASN1_SEQUENCE_OF()
+   * @generated
+   */
+  int ASN1_SEQUENCE_OF = 28;
+
+  /**
+   * The feature id for the '<em><b>Ref</b></em>' containment reference.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int ASN1_SEQUENCE_OF__REF = 0;
+
+  /**
+   * The number of structural features of the '<em>ASN1 SEQUENCE OF</em>' class.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int ASN1_SEQUENCE_OF_FEATURE_COUNT = 1;
 
   /**
    * The meta object id for the '{@link com.netxforge.smi.impl.ASN1_CHOICE_ENTRYImpl <em>ASN1 CHOICE ENTRY</em>}' class.
@@ -1421,34 +1502,6 @@ public interface SmiPackage extends EPackage
   int MACRO_VALUE_FEATURE_COUNT = VALUE_FEATURE_COUNT + 1;
 
   /**
-   * The meta object id for the '{@link com.netxforge.smi.impl.MACRO_VALUE_CAPImpl <em>MACRO VALUE CAP</em>}' class.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @see com.netxforge.smi.impl.MACRO_VALUE_CAPImpl
-   * @see com.netxforge.smi.impl.SmiPackageImpl#getMACRO_VALUE_CAP()
-   * @generated
-   */
-  int MACRO_VALUE_CAP = 32;
-
-  /**
-   * The feature id for the '<em><b>Ref</b></em>' containment reference.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   * @ordered
-   */
-  int MACRO_VALUE_CAP__REF = VALUE_CAP_TYPE_FEATURE_COUNT + 0;
-
-  /**
-   * The number of structural features of the '<em>MACRO VALUE CAP</em>' class.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   * @ordered
-   */
-  int MACRO_VALUE_CAP_FEATURE_COUNT = VALUE_CAP_TYPE_FEATURE_COUNT + 1;
-
-  /**
    * The meta object id for the '{@link com.netxforge.smi.impl.ASN1_OCTET_STRINGImpl <em>ASN1 OCTET STRING</em>}' class.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -1456,7 +1509,7 @@ public interface SmiPackage extends EPackage
    * @see com.netxforge.smi.impl.SmiPackageImpl#getASN1_OCTET_STRING()
    * @generated
    */
-  int ASN1_OCTET_STRING = 33;
+  int ASN1_OCTET_STRING = 32;
 
   /**
    * The feature id for the '<em><b>Constraint</b></em>' containment reference.
@@ -1484,6 +1537,15 @@ public interface SmiPackage extends EPackage
    * @ordered
    */
   int ASN1_OCTET_STRING__RANGE = ASN1_SIMPLE__RANGE;
+
+  /**
+   * The feature id for the '<em><b>Refinement</b></em>' containment reference.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int ASN1_OCTET_STRING__REFINEMENT = ASN1_SIMPLE__REFINEMENT;
 
   /**
    * The feature id for the '<em><b>Ranges</b></em>' containment reference list.
@@ -1570,17 +1632,6 @@ public interface SmiPackage extends EPackage
   EReference getModule_Types();
 
   /**
-   * Returns the meta object for the containment reference list '{@link com.netxforge.smi.Module#getMacros <em>Macros</em>}'.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @return the meta object for the containment reference list '<em>Macros</em>'.
-   * @see com.netxforge.smi.Module#getMacros()
-   * @see #getModule()
-   * @generated
-   */
-  EReference getModule_Macros();
-
-  /**
    * Returns the meta object for class '{@link com.netxforge.smi.Imports <em>Imports</em>}'.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -1589,6 +1640,17 @@ public interface SmiPackage extends EPackage
    * @generated
    */
   EClass getImports();
+
+  /**
+   * Returns the meta object for the containment reference list '{@link com.netxforge.smi.Imports#getImports <em>Imports</em>}'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for the containment reference list '<em>Imports</em>'.
+   * @see com.netxforge.smi.Imports#getImports()
+   * @see #getImports()
+   * @generated
+   */
+  EReference getImports_Imports();
 
   /**
    * Returns the meta object for class '{@link com.netxforge.smi.ImportClosure <em>Import Closure</em>}'.
@@ -1676,36 +1738,145 @@ public interface SmiPackage extends EPackage
   EReference getImportRef_TypeRef();
 
   /**
-   * Returns the meta object for class '{@link com.netxforge.smi.ObjectIdentifier <em>Object Identifier</em>}'.
+   * Returns the meta object for class '{@link com.netxforge.smi.Referenceable <em>Referenceable</em>}'.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @return the meta object for class '<em>Object Identifier</em>'.
-   * @see com.netxforge.smi.ObjectIdentifier
+   * @return the meta object for class '<em>Referenceable</em>'.
+   * @see com.netxforge.smi.Referenceable
    * @generated
    */
-  EClass getObjectIdentifier();
+  EClass getReferenceable();
 
   /**
-   * Returns the meta object for the attribute '{@link com.netxforge.smi.ObjectIdentifier#getName <em>Name</em>}'.
+   * Returns the meta object for the attribute '{@link com.netxforge.smi.Referenceable#getName <em>Name</em>}'.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @return the meta object for the attribute '<em>Name</em>'.
-   * @see com.netxforge.smi.ObjectIdentifier#getName()
-   * @see #getObjectIdentifier()
+   * @see com.netxforge.smi.Referenceable#getName()
+   * @see #getReferenceable()
    * @generated
    */
-  EAttribute getObjectIdentifier_Name();
+  EAttribute getReferenceable_Name();
 
   /**
-   * Returns the meta object for the containment reference '{@link com.netxforge.smi.ObjectIdentifier#getOidValue <em>Oid Value</em>}'.
+   * Returns the meta object for the containment reference list '{@link com.netxforge.smi.Referenceable#getValues <em>Values</em>}'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for the containment reference list '<em>Values</em>'.
+   * @see com.netxforge.smi.Referenceable#getValues()
+   * @see #getReferenceable()
+   * @generated
+   */
+  EReference getReferenceable_Values();
+
+  /**
+   * Returns the meta object for the containment reference '{@link com.netxforge.smi.Referenceable#getTypeNotation <em>Type Notation</em>}'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for the containment reference '<em>Type Notation</em>'.
+   * @see com.netxforge.smi.Referenceable#getTypeNotation()
+   * @see #getReferenceable()
+   * @generated
+   */
+  EReference getReferenceable_TypeNotation();
+
+  /**
+   * Returns the meta object for the containment reference '{@link com.netxforge.smi.Referenceable#getValueNotation <em>Value Notation</em>}'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for the containment reference '<em>Value Notation</em>'.
+   * @see com.netxforge.smi.Referenceable#getValueNotation()
+   * @see #getReferenceable()
+   * @generated
+   */
+  EReference getReferenceable_ValueNotation();
+
+  /**
+   * Returns the meta object for the containment reference list '{@link com.netxforge.smi.Referenceable#getInnerTypes <em>Inner Types</em>}'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for the containment reference list '<em>Inner Types</em>'.
+   * @see com.netxforge.smi.Referenceable#getInnerTypes()
+   * @see #getReferenceable()
+   * @generated
+   */
+  EReference getReferenceable_InnerTypes();
+
+  /**
+   * Returns the meta object for the containment reference '{@link com.netxforge.smi.Referenceable#getRight <em>Right</em>}'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for the containment reference '<em>Right</em>'.
+   * @see com.netxforge.smi.Referenceable#getRight()
+   * @see #getReferenceable()
+   * @generated
+   */
+  EReference getReferenceable_Right();
+
+  /**
+   * Returns the meta object for class '{@link com.netxforge.smi.ObjectReferenceable <em>Object Referenceable</em>}'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for class '<em>Object Referenceable</em>'.
+   * @see com.netxforge.smi.ObjectReferenceable
+   * @generated
+   */
+  EClass getObjectReferenceable();
+
+  /**
+   * Returns the meta object for the attribute '{@link com.netxforge.smi.ObjectReferenceable#getName <em>Name</em>}'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for the attribute '<em>Name</em>'.
+   * @see com.netxforge.smi.ObjectReferenceable#getName()
+   * @see #getObjectReferenceable()
+   * @generated
+   */
+  EAttribute getObjectReferenceable_Name();
+
+  /**
+   * Returns the meta object for the containment reference '{@link com.netxforge.smi.ObjectReferenceable#getOidValue <em>Oid Value</em>}'.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @return the meta object for the containment reference '<em>Oid Value</em>'.
-   * @see com.netxforge.smi.ObjectIdentifier#getOidValue()
-   * @see #getObjectIdentifier()
+   * @see com.netxforge.smi.ObjectReferenceable#getOidValue()
+   * @see #getObjectReferenceable()
    * @generated
    */
-  EReference getObjectIdentifier_OidValue();
+  EReference getObjectReferenceable_OidValue();
+
+  /**
+   * Returns the meta object for the reference '{@link com.netxforge.smi.ObjectReferenceable#getMacroRef <em>Macro Ref</em>}'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for the reference '<em>Macro Ref</em>'.
+   * @see com.netxforge.smi.ObjectReferenceable#getMacroRef()
+   * @see #getObjectReferenceable()
+   * @generated
+   */
+  EReference getObjectReferenceable_MacroRef();
+
+  /**
+   * Returns the meta object for the containment reference list '{@link com.netxforge.smi.ObjectReferenceable#getAttributes <em>Attributes</em>}'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for the containment reference list '<em>Attributes</em>'.
+   * @see com.netxforge.smi.ObjectReferenceable#getAttributes()
+   * @see #getObjectReferenceable()
+   * @generated
+   */
+  EReference getObjectReferenceable_Attributes();
+
+  /**
+   * Returns the meta object for the containment reference '{@link com.netxforge.smi.ObjectReferenceable#getObjectValue <em>Object Value</em>}'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for the containment reference '<em>Object Value</em>'.
+   * @see com.netxforge.smi.ObjectReferenceable#getObjectValue()
+   * @see #getObjectReferenceable()
+   * @generated
+   */
+  EReference getObjectReferenceable_ObjectValue();
 
   /**
    * Returns the meta object for class '{@link com.netxforge.smi.ObjectIdentifierValue <em>Object Identifier Value</em>}'.
@@ -1716,6 +1887,17 @@ public interface SmiPackage extends EPackage
    * @generated
    */
   EClass getObjectIdentifierValue();
+
+  /**
+   * Returns the meta object for the reference '{@link com.netxforge.smi.ObjectIdentifierValue#getDescriptorRef <em>Descriptor Ref</em>}'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for the reference '<em>Descriptor Ref</em>'.
+   * @see com.netxforge.smi.ObjectIdentifierValue#getDescriptorRef()
+   * @see #getObjectIdentifierValue()
+   * @generated
+   */
+  EReference getObjectIdentifierValue_DescriptorRef();
 
   /**
    * Returns the meta object for the attribute '{@link com.netxforge.smi.ObjectIdentifierValue#getName <em>Name</em>}'.
@@ -1729,17 +1911,6 @@ public interface SmiPackage extends EPackage
   EAttribute getObjectIdentifierValue_Name();
 
   /**
-   * Returns the meta object for the reference '{@link com.netxforge.smi.ObjectIdentifierValue#getDescriptorReference <em>Descriptor Reference</em>}'.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @return the meta object for the reference '<em>Descriptor Reference</em>'.
-   * @see com.netxforge.smi.ObjectIdentifierValue#getDescriptorReference()
-   * @see #getObjectIdentifierValue()
-   * @generated
-   */
-  EReference getObjectIdentifierValue_DescriptorReference();
-
-  /**
    * Returns the meta object for the attribute list '{@link com.netxforge.smi.ObjectIdentifierValue#getSubIds <em>Sub Ids</em>}'.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -1749,92 +1920,6 @@ public interface SmiPackage extends EPackage
    * @generated
    */
   EAttribute getObjectIdentifierValue_SubIds();
-
-  /**
-   * Returns the meta object for class '{@link com.netxforge.smi.TypeDefinition <em>Type Definition</em>}'.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @return the meta object for class '<em>Type Definition</em>'.
-   * @see com.netxforge.smi.TypeDefinition
-   * @generated
-   */
-  EClass getTypeDefinition();
-
-  /**
-   * Returns the meta object for the attribute '{@link com.netxforge.smi.TypeDefinition#getName <em>Name</em>}'.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @return the meta object for the attribute '<em>Name</em>'.
-   * @see com.netxforge.smi.TypeDefinition#getName()
-   * @see #getTypeDefinition()
-   * @generated
-   */
-  EAttribute getTypeDefinition_Name();
-
-  /**
-   * Returns the meta object for the containment reference list '{@link com.netxforge.smi.TypeDefinition#getValues <em>Values</em>}'.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @return the meta object for the containment reference list '<em>Values</em>'.
-   * @see com.netxforge.smi.TypeDefinition#getValues()
-   * @see #getTypeDefinition()
-   * @generated
-   */
-  EReference getTypeDefinition_Values();
-
-  /**
-   * Returns the meta object for class '{@link com.netxforge.smi.Object <em>Object</em>}'.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @return the meta object for class '<em>Object</em>'.
-   * @see com.netxforge.smi.Object
-   * @generated
-   */
-  EClass getObject();
-
-  /**
-   * Returns the meta object for the attribute '{@link com.netxforge.smi.Object#getName <em>Name</em>}'.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @return the meta object for the attribute '<em>Name</em>'.
-   * @see com.netxforge.smi.Object#getName()
-   * @see #getObject()
-   * @generated
-   */
-  EAttribute getObject_Name();
-
-  /**
-   * Returns the meta object for the reference '{@link com.netxforge.smi.Object#getMacroRef <em>Macro Ref</em>}'.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @return the meta object for the reference '<em>Macro Ref</em>'.
-   * @see com.netxforge.smi.Object#getMacroRef()
-   * @see #getObject()
-   * @generated
-   */
-  EReference getObject_MacroRef();
-
-  /**
-   * Returns the meta object for the containment reference list '{@link com.netxforge.smi.Object#getAttributes <em>Attributes</em>}'.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @return the meta object for the containment reference list '<em>Attributes</em>'.
-   * @see com.netxforge.smi.Object#getAttributes()
-   * @see #getObject()
-   * @generated
-   */
-  EReference getObject_Attributes();
-
-  /**
-   * Returns the meta object for the containment reference '{@link com.netxforge.smi.Object#getObjectValue <em>Object Value</em>}'.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @return the meta object for the containment reference '<em>Object Value</em>'.
-   * @see com.netxforge.smi.Object#getObjectValue()
-   * @see #getObject()
-   * @generated
-   */
-  EReference getObject_ObjectValue();
 
   /**
    * Returns the meta object for class '{@link com.netxforge.smi.Attribute <em>Attribute</em>}'.
@@ -1879,15 +1964,15 @@ public interface SmiPackage extends EPackage
   EClass getAttributeValue();
 
   /**
-   * Returns the meta object for the attribute '{@link com.netxforge.smi.AttributeValue#getId <em>Id</em>}'.
+   * Returns the meta object for the containment reference '{@link com.netxforge.smi.AttributeValue#getIdentifier <em>Identifier</em>}'.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @return the meta object for the attribute '<em>Id</em>'.
-   * @see com.netxforge.smi.AttributeValue#getId()
+   * @return the meta object for the containment reference '<em>Identifier</em>'.
+   * @see com.netxforge.smi.AttributeValue#getIdentifier()
    * @see #getAttributeValue()
    * @generated
    */
-  EAttribute getAttributeValue_Id();
+  EReference getAttributeValue_Identifier();
 
   /**
    * Returns the meta object for the attribute '{@link com.netxforge.smi.AttributeValue#getText <em>Text</em>}'.
@@ -1901,6 +1986,103 @@ public interface SmiPackage extends EPackage
   EAttribute getAttributeValue_Text();
 
   /**
+   * Returns the meta object for the reference '{@link com.netxforge.smi.AttributeValue#getTypeRef <em>Type Ref</em>}'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for the reference '<em>Type Ref</em>'.
+   * @see com.netxforge.smi.AttributeValue#getTypeRef()
+   * @see #getAttributeValue()
+   * @generated
+   */
+  EReference getAttributeValue_TypeRef();
+
+  /**
+   * Returns the meta object for the containment reference '{@link com.netxforge.smi.AttributeValue#getSubType <em>Sub Type</em>}'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for the containment reference '<em>Sub Type</em>'.
+   * @see com.netxforge.smi.AttributeValue#getSubType()
+   * @see #getAttributeValue()
+   * @generated
+   */
+  EReference getAttributeValue_SubType();
+
+  /**
+   * Returns the meta object for the containment reference '{@link com.netxforge.smi.AttributeValue#getObjectRef <em>Object Ref</em>}'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for the containment reference '<em>Object Ref</em>'.
+   * @see com.netxforge.smi.AttributeValue#getObjectRef()
+   * @see #getAttributeValue()
+   * @generated
+   */
+  EReference getAttributeValue_ObjectRef();
+
+  /**
+   * Returns the meta object for the containment reference '{@link com.netxforge.smi.AttributeValue#getInteger <em>Integer</em>}'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for the containment reference '<em>Integer</em>'.
+   * @see com.netxforge.smi.AttributeValue#getInteger()
+   * @see #getAttributeValue()
+   * @generated
+   */
+  EReference getAttributeValue_Integer();
+
+  /**
+   * Returns the meta object for the containment reference '{@link com.netxforge.smi.AttributeValue#getSequenceOf <em>Sequence Of</em>}'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for the containment reference '<em>Sequence Of</em>'.
+   * @see com.netxforge.smi.AttributeValue#getSequenceOf()
+   * @see #getAttributeValue()
+   * @generated
+   */
+  EReference getAttributeValue_SequenceOf();
+
+  /**
+   * Returns the meta object for class '{@link com.netxforge.smi.Identifier <em>Identifier</em>}'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for class '<em>Identifier</em>'.
+   * @see com.netxforge.smi.Identifier
+   * @generated
+   */
+  EClass getIdentifier();
+
+  /**
+   * Returns the meta object for the attribute '{@link com.netxforge.smi.Identifier#getId <em>Id</em>}'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for the attribute '<em>Id</em>'.
+   * @see com.netxforge.smi.Identifier#getId()
+   * @see #getIdentifier()
+   * @generated
+   */
+  EAttribute getIdentifier_Id();
+
+  /**
+   * Returns the meta object for class '{@link com.netxforge.smi.BracedObjectReference <em>Braced Object Reference</em>}'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for class '<em>Braced Object Reference</em>'.
+   * @see com.netxforge.smi.BracedObjectReference
+   * @generated
+   */
+  EClass getBracedObjectReference();
+
+  /**
+   * Returns the meta object for the reference '{@link com.netxforge.smi.BracedObjectReference#getObjectRef <em>Object Ref</em>}'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for the reference '<em>Object Ref</em>'.
+   * @see com.netxforge.smi.BracedObjectReference#getObjectRef()
+   * @see #getBracedObjectReference()
+   * @generated
+   */
+  EReference getBracedObjectReference_ObjectRef();
+
+  /**
    * Returns the meta object for class '{@link com.netxforge.smi.ObjectValue <em>Object Value</em>}'.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -1909,60 +2091,6 @@ public interface SmiPackage extends EPackage
    * @generated
    */
   EClass getObjectValue();
-
-  /**
-   * Returns the meta object for class '{@link com.netxforge.smi.Macro <em>Macro</em>}'.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @return the meta object for class '<em>Macro</em>'.
-   * @see com.netxforge.smi.Macro
-   * @generated
-   */
-  EClass getMacro();
-
-  /**
-   * Returns the meta object for the attribute '{@link com.netxforge.smi.Macro#getName <em>Name</em>}'.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @return the meta object for the attribute '<em>Name</em>'.
-   * @see com.netxforge.smi.Macro#getName()
-   * @see #getMacro()
-   * @generated
-   */
-  EAttribute getMacro_Name();
-
-  /**
-   * Returns the meta object for the containment reference '{@link com.netxforge.smi.Macro#getTypeNotation <em>Type Notation</em>}'.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @return the meta object for the containment reference '<em>Type Notation</em>'.
-   * @see com.netxforge.smi.Macro#getTypeNotation()
-   * @see #getMacro()
-   * @generated
-   */
-  EReference getMacro_TypeNotation();
-
-  /**
-   * Returns the meta object for the containment reference '{@link com.netxforge.smi.Macro#getValueNotation <em>Value Notation</em>}'.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @return the meta object for the containment reference '<em>Value Notation</em>'.
-   * @see com.netxforge.smi.Macro#getValueNotation()
-   * @see #getMacro()
-   * @generated
-   */
-  EReference getMacro_ValueNotation();
-
-  /**
-   * Returns the meta object for the containment reference list '{@link com.netxforge.smi.Macro#getInnerTypes <em>Inner Types</em>}'.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @return the meta object for the containment reference list '<em>Inner Types</em>'.
-   * @see com.netxforge.smi.Macro#getInnerTypes()
-   * @see #getMacro()
-   * @generated
-   */
-  EReference getMacro_InnerTypes();
 
   /**
    * Returns the meta object for class '{@link com.netxforge.smi.TypeNotation <em>Type Notation</em>}'.
@@ -2070,38 +2198,6 @@ public interface SmiPackage extends EPackage
    * @generated
    */
   EReference getTypeAssignment_Type();
-
-  /**
-   * Returns the meta object for class '{@link com.netxforge.smi.ParamAssignment <em>Param Assignment</em>}'.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @return the meta object for class '<em>Param Assignment</em>'.
-   * @see com.netxforge.smi.ParamAssignment
-   * @generated
-   */
-  EClass getParamAssignment();
-
-  /**
-   * Returns the meta object for the attribute '{@link com.netxforge.smi.ParamAssignment#getName <em>Name</em>}'.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @return the meta object for the attribute '<em>Name</em>'.
-   * @see com.netxforge.smi.ParamAssignment#getName()
-   * @see #getParamAssignment()
-   * @generated
-   */
-  EAttribute getParamAssignment_Name();
-
-  /**
-   * Returns the meta object for the containment reference '{@link com.netxforge.smi.ParamAssignment#getRight <em>Right</em>}'.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @return the meta object for the containment reference '<em>Right</em>'.
-   * @see com.netxforge.smi.ParamAssignment#getRight()
-   * @see #getParamAssignment()
-   * @generated
-   */
-  EReference getParamAssignment_Right();
 
   /**
    * Returns the meta object for class '{@link com.netxforge.smi.TypeNotationRight <em>Type Notation Right</em>}'.
@@ -2285,26 +2381,48 @@ public interface SmiPackage extends EPackage
   EClass getMacroValueType();
 
   /**
-   * Returns the meta object for the containment reference '{@link com.netxforge.smi.MacroValueType#getUpdate <em>Update</em>}'.
+   * Returns the meta object for the attribute '{@link com.netxforge.smi.MacroValueType#isUpdate <em>Update</em>}'.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @return the meta object for the containment reference '<em>Update</em>'.
-   * @see com.netxforge.smi.MacroValueType#getUpdate()
+   * @return the meta object for the attribute '<em>Update</em>'.
+   * @see com.netxforge.smi.MacroValueType#isUpdate()
    * @see #getMacroValueType()
    * @generated
    */
-  EReference getMacroValueType_Update();
+  EAttribute getMacroValueType_Update();
 
   /**
-   * Returns the meta object for the containment reference '{@link com.netxforge.smi.MacroValueType#getLiteral <em>Literal</em>}'.
+   * Returns the meta object for the attribute '{@link com.netxforge.smi.MacroValueType#isValueCAP <em>Value CAP</em>}'.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @return the meta object for the containment reference '<em>Literal</em>'.
-   * @see com.netxforge.smi.MacroValueType#getLiteral()
+   * @return the meta object for the attribute '<em>Value CAP</em>'.
+   * @see com.netxforge.smi.MacroValueType#isValueCAP()
    * @see #getMacroValueType()
    * @generated
    */
-  EReference getMacroValueType_Literal();
+  EAttribute getMacroValueType_ValueCAP();
+
+  /**
+   * Returns the meta object for the containment reference '{@link com.netxforge.smi.MacroValueType#getRef <em>Ref</em>}'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for the containment reference '<em>Ref</em>'.
+   * @see com.netxforge.smi.MacroValueType#getRef()
+   * @see #getMacroValueType()
+   * @generated
+   */
+  EReference getMacroValueType_Ref();
+
+  /**
+   * Returns the meta object for the attribute '{@link com.netxforge.smi.MacroValueType#getOi <em>Oi</em>}'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for the attribute '<em>Oi</em>'.
+   * @see com.netxforge.smi.MacroValueType#getOi()
+   * @see #getMacroValueType()
+   * @generated
+   */
+  EAttribute getMacroValueType_Oi();
 
   /**
    * Returns the meta object for the attribute '{@link com.netxforge.smi.MacroValueType#getString <em>String</em>}'.
@@ -2316,48 +2434,6 @@ public interface SmiPackage extends EPackage
    * @generated
    */
   EAttribute getMacroValueType_String();
-
-  /**
-   * Returns the meta object for class '{@link com.netxforge.smi.UpdateType <em>Update Type</em>}'.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @return the meta object for class '<em>Update Type</em>'.
-   * @see com.netxforge.smi.UpdateType
-   * @generated
-   */
-  EClass getUpdateType();
-
-  /**
-   * Returns the meta object for the attribute '{@link com.netxforge.smi.UpdateType#isUpdate <em>Update</em>}'.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @return the meta object for the attribute '<em>Update</em>'.
-   * @see com.netxforge.smi.UpdateType#isUpdate()
-   * @see #getUpdateType()
-   * @generated
-   */
-  EAttribute getUpdateType_Update();
-
-  /**
-   * Returns the meta object for the containment reference '{@link com.netxforge.smi.UpdateType#getRef <em>Ref</em>}'.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @return the meta object for the containment reference '<em>Ref</em>'.
-   * @see com.netxforge.smi.UpdateType#getRef()
-   * @see #getUpdateType()
-   * @generated
-   */
-  EReference getUpdateType_Ref();
-
-  /**
-   * Returns the meta object for class '{@link com.netxforge.smi.ValueCapType <em>Value Cap Type</em>}'.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @return the meta object for class '<em>Value Cap Type</em>'.
-   * @see com.netxforge.smi.ValueCapType
-   * @generated
-   */
-  EClass getValueCapType();
 
   /**
    * Returns the meta object for class '{@link com.netxforge.smi.ASN1_TYPE <em>ASN1 TYPE</em>}'.
@@ -2413,6 +2489,17 @@ public interface SmiPackage extends EPackage
   EReference getASN1_SIMPLE_Range();
 
   /**
+   * Returns the meta object for the containment reference '{@link com.netxforge.smi.ASN1_SIMPLE#getRefinement <em>Refinement</em>}'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for the containment reference '<em>Refinement</em>'.
+   * @see com.netxforge.smi.ASN1_SIMPLE#getRefinement()
+   * @see #getASN1_SIMPLE()
+   * @generated
+   */
+  EReference getASN1_SIMPLE_Refinement();
+
+  /**
    * Returns the meta object for the containment reference list '{@link com.netxforge.smi.ASN1_SIMPLE#getRanges <em>Ranges</em>}'.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -2422,6 +2509,38 @@ public interface SmiPackage extends EPackage
    * @generated
    */
   EReference getASN1_SIMPLE_Ranges();
+
+  /**
+   * Returns the meta object for class '{@link com.netxforge.smi.ASN1_INTEGER_REFINEMENT <em>ASN1 INTEGER REFINEMENT</em>}'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for class '<em>ASN1 INTEGER REFINEMENT</em>'.
+   * @see com.netxforge.smi.ASN1_INTEGER_REFINEMENT
+   * @generated
+   */
+  EClass getASN1_INTEGER_REFINEMENT();
+
+  /**
+   * Returns the meta object for the attribute list '{@link com.netxforge.smi.ASN1_INTEGER_REFINEMENT#getRefinements <em>Refinements</em>}'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for the attribute list '<em>Refinements</em>'.
+   * @see com.netxforge.smi.ASN1_INTEGER_REFINEMENT#getRefinements()
+   * @see #getASN1_INTEGER_REFINEMENT()
+   * @generated
+   */
+  EAttribute getASN1_INTEGER_REFINEMENT_Refinements();
+
+  /**
+   * Returns the meta object for the attribute list '{@link com.netxforge.smi.ASN1_INTEGER_REFINEMENT#getInts <em>Ints</em>}'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for the attribute list '<em>Ints</em>'.
+   * @see com.netxforge.smi.ASN1_INTEGER_REFINEMENT#getInts()
+   * @see #getASN1_INTEGER_REFINEMENT()
+   * @generated
+   */
+  EAttribute getASN1_INTEGER_REFINEMENT_Ints();
 
   /**
    * Returns the meta object for class '{@link com.netxforge.smi.ASN1_RANGE <em>ASN1 RANGE</em>}'.
@@ -2486,6 +2605,48 @@ public interface SmiPackage extends EPackage
    * @generated
    */
   EReference getASN1_CHOICE_ChoiceType();
+
+  /**
+   * Returns the meta object for class '{@link com.netxforge.smi.ASN1_SEQUENCE <em>ASN1 SEQUENCE</em>}'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for class '<em>ASN1 SEQUENCE</em>'.
+   * @see com.netxforge.smi.ASN1_SEQUENCE
+   * @generated
+   */
+  EClass getASN1_SEQUENCE();
+
+  /**
+   * Returns the meta object for the containment reference list '{@link com.netxforge.smi.ASN1_SEQUENCE#getChoiceType <em>Choice Type</em>}'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for the containment reference list '<em>Choice Type</em>'.
+   * @see com.netxforge.smi.ASN1_SEQUENCE#getChoiceType()
+   * @see #getASN1_SEQUENCE()
+   * @generated
+   */
+  EReference getASN1_SEQUENCE_ChoiceType();
+
+  /**
+   * Returns the meta object for class '{@link com.netxforge.smi.ASN1_SEQUENCE_OF <em>ASN1 SEQUENCE OF</em>}'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for class '<em>ASN1 SEQUENCE OF</em>'.
+   * @see com.netxforge.smi.ASN1_SEQUENCE_OF
+   * @generated
+   */
+  EClass getASN1_SEQUENCE_OF();
+
+  /**
+   * Returns the meta object for the containment reference '{@link com.netxforge.smi.ASN1_SEQUENCE_OF#getRef <em>Ref</em>}'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for the containment reference '<em>Ref</em>'.
+   * @see com.netxforge.smi.ASN1_SEQUENCE_OF#getRef()
+   * @see #getASN1_SEQUENCE_OF()
+   * @generated
+   */
+  EReference getASN1_SEQUENCE_OF_Ref();
 
   /**
    * Returns the meta object for class '{@link com.netxforge.smi.ASN1_CHOICE_ENTRY <em>ASN1 CHOICE ENTRY</em>}'.
@@ -2573,27 +2734,6 @@ public interface SmiPackage extends EPackage
   EReference getMacroValue_ValueType();
 
   /**
-   * Returns the meta object for class '{@link com.netxforge.smi.MACRO_VALUE_CAP <em>MACRO VALUE CAP</em>}'.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @return the meta object for class '<em>MACRO VALUE CAP</em>'.
-   * @see com.netxforge.smi.MACRO_VALUE_CAP
-   * @generated
-   */
-  EClass getMACRO_VALUE_CAP();
-
-  /**
-   * Returns the meta object for the containment reference '{@link com.netxforge.smi.MACRO_VALUE_CAP#getRef <em>Ref</em>}'.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @return the meta object for the containment reference '<em>Ref</em>'.
-   * @see com.netxforge.smi.MACRO_VALUE_CAP#getRef()
-   * @see #getMACRO_VALUE_CAP()
-   * @generated
-   */
-  EReference getMACRO_VALUE_CAP_Ref();
-
-  /**
    * Returns the meta object for class '{@link com.netxforge.smi.ASN1_OCTET_STRING <em>ASN1 OCTET STRING</em>}'.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -2677,14 +2817,6 @@ public interface SmiPackage extends EPackage
     EReference MODULE__TYPES = eINSTANCE.getModule_Types();
 
     /**
-     * The meta object literal for the '<em><b>Macros</b></em>' containment reference list feature.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     */
-    EReference MODULE__MACROS = eINSTANCE.getModule_Macros();
-
-    /**
      * The meta object literal for the '{@link com.netxforge.smi.impl.ImportsImpl <em>Imports</em>}' class.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -2693,6 +2825,14 @@ public interface SmiPackage extends EPackage
      * @generated
      */
     EClass IMPORTS = eINSTANCE.getImports();
+
+    /**
+     * The meta object literal for the '<em><b>Imports</b></em>' containment reference list feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EReference IMPORTS__IMPORTS = eINSTANCE.getImports_Imports();
 
     /**
      * The meta object literal for the '{@link com.netxforge.smi.impl.ImportClosureImpl <em>Import Closure</em>}' class.
@@ -2765,14 +2905,14 @@ public interface SmiPackage extends EPackage
     EReference IMPORT_REF__TYPE_REF = eINSTANCE.getImportRef_TypeRef();
 
     /**
-     * The meta object literal for the '{@link com.netxforge.smi.impl.ObjectIdentifierImpl <em>Object Identifier</em>}' class.
+     * The meta object literal for the '{@link com.netxforge.smi.impl.ReferenceableImpl <em>Referenceable</em>}' class.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @see com.netxforge.smi.impl.ObjectIdentifierImpl
-     * @see com.netxforge.smi.impl.SmiPackageImpl#getObjectIdentifier()
+     * @see com.netxforge.smi.impl.ReferenceableImpl
+     * @see com.netxforge.smi.impl.SmiPackageImpl#getReferenceable()
      * @generated
      */
-    EClass OBJECT_IDENTIFIER = eINSTANCE.getObjectIdentifier();
+    EClass REFERENCEABLE = eINSTANCE.getReferenceable();
 
     /**
      * The meta object literal for the '<em><b>Name</b></em>' attribute feature.
@@ -2780,7 +2920,65 @@ public interface SmiPackage extends EPackage
      * <!-- end-user-doc -->
      * @generated
      */
-    EAttribute OBJECT_IDENTIFIER__NAME = eINSTANCE.getObjectIdentifier_Name();
+    EAttribute REFERENCEABLE__NAME = eINSTANCE.getReferenceable_Name();
+
+    /**
+     * The meta object literal for the '<em><b>Values</b></em>' containment reference list feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EReference REFERENCEABLE__VALUES = eINSTANCE.getReferenceable_Values();
+
+    /**
+     * The meta object literal for the '<em><b>Type Notation</b></em>' containment reference feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EReference REFERENCEABLE__TYPE_NOTATION = eINSTANCE.getReferenceable_TypeNotation();
+
+    /**
+     * The meta object literal for the '<em><b>Value Notation</b></em>' containment reference feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EReference REFERENCEABLE__VALUE_NOTATION = eINSTANCE.getReferenceable_ValueNotation();
+
+    /**
+     * The meta object literal for the '<em><b>Inner Types</b></em>' containment reference list feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EReference REFERENCEABLE__INNER_TYPES = eINSTANCE.getReferenceable_InnerTypes();
+
+    /**
+     * The meta object literal for the '<em><b>Right</b></em>' containment reference feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EReference REFERENCEABLE__RIGHT = eINSTANCE.getReferenceable_Right();
+
+    /**
+     * The meta object literal for the '{@link com.netxforge.smi.impl.ObjectReferenceableImpl <em>Object Referenceable</em>}' class.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see com.netxforge.smi.impl.ObjectReferenceableImpl
+     * @see com.netxforge.smi.impl.SmiPackageImpl#getObjectReferenceable()
+     * @generated
+     */
+    EClass OBJECT_REFERENCEABLE = eINSTANCE.getObjectReferenceable();
+
+    /**
+     * The meta object literal for the '<em><b>Name</b></em>' attribute feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute OBJECT_REFERENCEABLE__NAME = eINSTANCE.getObjectReferenceable_Name();
 
     /**
      * The meta object literal for the '<em><b>Oid Value</b></em>' containment reference feature.
@@ -2788,7 +2986,31 @@ public interface SmiPackage extends EPackage
      * <!-- end-user-doc -->
      * @generated
      */
-    EReference OBJECT_IDENTIFIER__OID_VALUE = eINSTANCE.getObjectIdentifier_OidValue();
+    EReference OBJECT_REFERENCEABLE__OID_VALUE = eINSTANCE.getObjectReferenceable_OidValue();
+
+    /**
+     * The meta object literal for the '<em><b>Macro Ref</b></em>' reference feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EReference OBJECT_REFERENCEABLE__MACRO_REF = eINSTANCE.getObjectReferenceable_MacroRef();
+
+    /**
+     * The meta object literal for the '<em><b>Attributes</b></em>' containment reference list feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EReference OBJECT_REFERENCEABLE__ATTRIBUTES = eINSTANCE.getObjectReferenceable_Attributes();
+
+    /**
+     * The meta object literal for the '<em><b>Object Value</b></em>' containment reference feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EReference OBJECT_REFERENCEABLE__OBJECT_VALUE = eINSTANCE.getObjectReferenceable_ObjectValue();
 
     /**
      * The meta object literal for the '{@link com.netxforge.smi.impl.ObjectIdentifierValueImpl <em>Object Identifier Value</em>}' class.
@@ -2801,6 +3023,14 @@ public interface SmiPackage extends EPackage
     EClass OBJECT_IDENTIFIER_VALUE = eINSTANCE.getObjectIdentifierValue();
 
     /**
+     * The meta object literal for the '<em><b>Descriptor Ref</b></em>' reference feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EReference OBJECT_IDENTIFIER_VALUE__DESCRIPTOR_REF = eINSTANCE.getObjectIdentifierValue_DescriptorRef();
+
+    /**
      * The meta object literal for the '<em><b>Name</b></em>' attribute feature.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -2809,88 +3039,12 @@ public interface SmiPackage extends EPackage
     EAttribute OBJECT_IDENTIFIER_VALUE__NAME = eINSTANCE.getObjectIdentifierValue_Name();
 
     /**
-     * The meta object literal for the '<em><b>Descriptor Reference</b></em>' reference feature.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     */
-    EReference OBJECT_IDENTIFIER_VALUE__DESCRIPTOR_REFERENCE = eINSTANCE.getObjectIdentifierValue_DescriptorReference();
-
-    /**
      * The meta object literal for the '<em><b>Sub Ids</b></em>' attribute list feature.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @generated
      */
     EAttribute OBJECT_IDENTIFIER_VALUE__SUB_IDS = eINSTANCE.getObjectIdentifierValue_SubIds();
-
-    /**
-     * The meta object literal for the '{@link com.netxforge.smi.impl.TypeDefinitionImpl <em>Type Definition</em>}' class.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @see com.netxforge.smi.impl.TypeDefinitionImpl
-     * @see com.netxforge.smi.impl.SmiPackageImpl#getTypeDefinition()
-     * @generated
-     */
-    EClass TYPE_DEFINITION = eINSTANCE.getTypeDefinition();
-
-    /**
-     * The meta object literal for the '<em><b>Name</b></em>' attribute feature.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     */
-    EAttribute TYPE_DEFINITION__NAME = eINSTANCE.getTypeDefinition_Name();
-
-    /**
-     * The meta object literal for the '<em><b>Values</b></em>' containment reference list feature.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     */
-    EReference TYPE_DEFINITION__VALUES = eINSTANCE.getTypeDefinition_Values();
-
-    /**
-     * The meta object literal for the '{@link com.netxforge.smi.impl.ObjectImpl <em>Object</em>}' class.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @see com.netxforge.smi.impl.ObjectImpl
-     * @see com.netxforge.smi.impl.SmiPackageImpl#getObject()
-     * @generated
-     */
-    EClass OBJECT = eINSTANCE.getObject();
-
-    /**
-     * The meta object literal for the '<em><b>Name</b></em>' attribute feature.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     */
-    EAttribute OBJECT__NAME = eINSTANCE.getObject_Name();
-
-    /**
-     * The meta object literal for the '<em><b>Macro Ref</b></em>' reference feature.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     */
-    EReference OBJECT__MACRO_REF = eINSTANCE.getObject_MacroRef();
-
-    /**
-     * The meta object literal for the '<em><b>Attributes</b></em>' containment reference list feature.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     */
-    EReference OBJECT__ATTRIBUTES = eINSTANCE.getObject_Attributes();
-
-    /**
-     * The meta object literal for the '<em><b>Object Value</b></em>' containment reference feature.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     */
-    EReference OBJECT__OBJECT_VALUE = eINSTANCE.getObject_ObjectValue();
 
     /**
      * The meta object literal for the '{@link com.netxforge.smi.impl.AttributeImpl <em>Attribute</em>}' class.
@@ -2929,12 +3083,12 @@ public interface SmiPackage extends EPackage
     EClass ATTRIBUTE_VALUE = eINSTANCE.getAttributeValue();
 
     /**
-     * The meta object literal for the '<em><b>Id</b></em>' attribute feature.
+     * The meta object literal for the '<em><b>Identifier</b></em>' containment reference feature.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @generated
      */
-    EAttribute ATTRIBUTE_VALUE__ID = eINSTANCE.getAttributeValue_Id();
+    EReference ATTRIBUTE_VALUE__IDENTIFIER = eINSTANCE.getAttributeValue_Identifier();
 
     /**
      * The meta object literal for the '<em><b>Text</b></em>' attribute feature.
@@ -2945,6 +3099,82 @@ public interface SmiPackage extends EPackage
     EAttribute ATTRIBUTE_VALUE__TEXT = eINSTANCE.getAttributeValue_Text();
 
     /**
+     * The meta object literal for the '<em><b>Type Ref</b></em>' reference feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EReference ATTRIBUTE_VALUE__TYPE_REF = eINSTANCE.getAttributeValue_TypeRef();
+
+    /**
+     * The meta object literal for the '<em><b>Sub Type</b></em>' containment reference feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EReference ATTRIBUTE_VALUE__SUB_TYPE = eINSTANCE.getAttributeValue_SubType();
+
+    /**
+     * The meta object literal for the '<em><b>Object Ref</b></em>' containment reference feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EReference ATTRIBUTE_VALUE__OBJECT_REF = eINSTANCE.getAttributeValue_ObjectRef();
+
+    /**
+     * The meta object literal for the '<em><b>Integer</b></em>' containment reference feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EReference ATTRIBUTE_VALUE__INTEGER = eINSTANCE.getAttributeValue_Integer();
+
+    /**
+     * The meta object literal for the '<em><b>Sequence Of</b></em>' containment reference feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EReference ATTRIBUTE_VALUE__SEQUENCE_OF = eINSTANCE.getAttributeValue_SequenceOf();
+
+    /**
+     * The meta object literal for the '{@link com.netxforge.smi.impl.IdentifierImpl <em>Identifier</em>}' class.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see com.netxforge.smi.impl.IdentifierImpl
+     * @see com.netxforge.smi.impl.SmiPackageImpl#getIdentifier()
+     * @generated
+     */
+    EClass IDENTIFIER = eINSTANCE.getIdentifier();
+
+    /**
+     * The meta object literal for the '<em><b>Id</b></em>' attribute feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute IDENTIFIER__ID = eINSTANCE.getIdentifier_Id();
+
+    /**
+     * The meta object literal for the '{@link com.netxforge.smi.impl.BracedObjectReferenceImpl <em>Braced Object Reference</em>}' class.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see com.netxforge.smi.impl.BracedObjectReferenceImpl
+     * @see com.netxforge.smi.impl.SmiPackageImpl#getBracedObjectReference()
+     * @generated
+     */
+    EClass BRACED_OBJECT_REFERENCE = eINSTANCE.getBracedObjectReference();
+
+    /**
+     * The meta object literal for the '<em><b>Object Ref</b></em>' reference feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EReference BRACED_OBJECT_REFERENCE__OBJECT_REF = eINSTANCE.getBracedObjectReference_ObjectRef();
+
+    /**
      * The meta object literal for the '{@link com.netxforge.smi.impl.ObjectValueImpl <em>Object Value</em>}' class.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -2953,48 +3183,6 @@ public interface SmiPackage extends EPackage
      * @generated
      */
     EClass OBJECT_VALUE = eINSTANCE.getObjectValue();
-
-    /**
-     * The meta object literal for the '{@link com.netxforge.smi.impl.MacroImpl <em>Macro</em>}' class.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @see com.netxforge.smi.impl.MacroImpl
-     * @see com.netxforge.smi.impl.SmiPackageImpl#getMacro()
-     * @generated
-     */
-    EClass MACRO = eINSTANCE.getMacro();
-
-    /**
-     * The meta object literal for the '<em><b>Name</b></em>' attribute feature.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     */
-    EAttribute MACRO__NAME = eINSTANCE.getMacro_Name();
-
-    /**
-     * The meta object literal for the '<em><b>Type Notation</b></em>' containment reference feature.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     */
-    EReference MACRO__TYPE_NOTATION = eINSTANCE.getMacro_TypeNotation();
-
-    /**
-     * The meta object literal for the '<em><b>Value Notation</b></em>' containment reference feature.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     */
-    EReference MACRO__VALUE_NOTATION = eINSTANCE.getMacro_ValueNotation();
-
-    /**
-     * The meta object literal for the '<em><b>Inner Types</b></em>' containment reference list feature.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     */
-    EReference MACRO__INNER_TYPES = eINSTANCE.getMacro_InnerTypes();
 
     /**
      * The meta object literal for the '{@link com.netxforge.smi.impl.TypeNotationImpl <em>Type Notation</em>}' class.
@@ -3081,32 +3269,6 @@ public interface SmiPackage extends EPackage
      * @generated
      */
     EReference TYPE_ASSIGNMENT__TYPE = eINSTANCE.getTypeAssignment_Type();
-
-    /**
-     * The meta object literal for the '{@link com.netxforge.smi.impl.ParamAssignmentImpl <em>Param Assignment</em>}' class.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @see com.netxforge.smi.impl.ParamAssignmentImpl
-     * @see com.netxforge.smi.impl.SmiPackageImpl#getParamAssignment()
-     * @generated
-     */
-    EClass PARAM_ASSIGNMENT = eINSTANCE.getParamAssignment();
-
-    /**
-     * The meta object literal for the '<em><b>Name</b></em>' attribute feature.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     */
-    EAttribute PARAM_ASSIGNMENT__NAME = eINSTANCE.getParamAssignment_Name();
-
-    /**
-     * The meta object literal for the '<em><b>Right</b></em>' containment reference feature.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     */
-    EReference PARAM_ASSIGNMENT__RIGHT = eINSTANCE.getParamAssignment_Right();
 
     /**
      * The meta object literal for the '{@link com.netxforge.smi.impl.TypeNotationRightImpl <em>Type Notation Right</em>}' class.
@@ -3257,20 +3419,36 @@ public interface SmiPackage extends EPackage
     EClass MACRO_VALUE_TYPE = eINSTANCE.getMacroValueType();
 
     /**
-     * The meta object literal for the '<em><b>Update</b></em>' containment reference feature.
+     * The meta object literal for the '<em><b>Update</b></em>' attribute feature.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @generated
      */
-    EReference MACRO_VALUE_TYPE__UPDATE = eINSTANCE.getMacroValueType_Update();
+    EAttribute MACRO_VALUE_TYPE__UPDATE = eINSTANCE.getMacroValueType_Update();
 
     /**
-     * The meta object literal for the '<em><b>Literal</b></em>' containment reference feature.
+     * The meta object literal for the '<em><b>Value CAP</b></em>' attribute feature.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @generated
      */
-    EReference MACRO_VALUE_TYPE__LITERAL = eINSTANCE.getMacroValueType_Literal();
+    EAttribute MACRO_VALUE_TYPE__VALUE_CAP = eINSTANCE.getMacroValueType_ValueCAP();
+
+    /**
+     * The meta object literal for the '<em><b>Ref</b></em>' containment reference feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EReference MACRO_VALUE_TYPE__REF = eINSTANCE.getMacroValueType_Ref();
+
+    /**
+     * The meta object literal for the '<em><b>Oi</b></em>' attribute feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute MACRO_VALUE_TYPE__OI = eINSTANCE.getMacroValueType_Oi();
 
     /**
      * The meta object literal for the '<em><b>String</b></em>' attribute feature.
@@ -3279,42 +3457,6 @@ public interface SmiPackage extends EPackage
      * @generated
      */
     EAttribute MACRO_VALUE_TYPE__STRING = eINSTANCE.getMacroValueType_String();
-
-    /**
-     * The meta object literal for the '{@link com.netxforge.smi.impl.UpdateTypeImpl <em>Update Type</em>}' class.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @see com.netxforge.smi.impl.UpdateTypeImpl
-     * @see com.netxforge.smi.impl.SmiPackageImpl#getUpdateType()
-     * @generated
-     */
-    EClass UPDATE_TYPE = eINSTANCE.getUpdateType();
-
-    /**
-     * The meta object literal for the '<em><b>Update</b></em>' attribute feature.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     */
-    EAttribute UPDATE_TYPE__UPDATE = eINSTANCE.getUpdateType_Update();
-
-    /**
-     * The meta object literal for the '<em><b>Ref</b></em>' containment reference feature.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     */
-    EReference UPDATE_TYPE__REF = eINSTANCE.getUpdateType_Ref();
-
-    /**
-     * The meta object literal for the '{@link com.netxforge.smi.impl.ValueCapTypeImpl <em>Value Cap Type</em>}' class.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @see com.netxforge.smi.impl.ValueCapTypeImpl
-     * @see com.netxforge.smi.impl.SmiPackageImpl#getValueCapType()
-     * @generated
-     */
-    EClass VALUE_CAP_TYPE = eINSTANCE.getValueCapType();
 
     /**
      * The meta object literal for the '{@link com.netxforge.smi.impl.ASN1_TYPEImpl <em>ASN1 TYPE</em>}' class.
@@ -3361,12 +3503,46 @@ public interface SmiPackage extends EPackage
     EReference ASN1_SIMPLE__RANGE = eINSTANCE.getASN1_SIMPLE_Range();
 
     /**
+     * The meta object literal for the '<em><b>Refinement</b></em>' containment reference feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EReference ASN1_SIMPLE__REFINEMENT = eINSTANCE.getASN1_SIMPLE_Refinement();
+
+    /**
      * The meta object literal for the '<em><b>Ranges</b></em>' containment reference list feature.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @generated
      */
     EReference ASN1_SIMPLE__RANGES = eINSTANCE.getASN1_SIMPLE_Ranges();
+
+    /**
+     * The meta object literal for the '{@link com.netxforge.smi.impl.ASN1_INTEGER_REFINEMENTImpl <em>ASN1 INTEGER REFINEMENT</em>}' class.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see com.netxforge.smi.impl.ASN1_INTEGER_REFINEMENTImpl
+     * @see com.netxforge.smi.impl.SmiPackageImpl#getASN1_INTEGER_REFINEMENT()
+     * @generated
+     */
+    EClass ASN1_INTEGER_REFINEMENT = eINSTANCE.getASN1_INTEGER_REFINEMENT();
+
+    /**
+     * The meta object literal for the '<em><b>Refinements</b></em>' attribute list feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute ASN1_INTEGER_REFINEMENT__REFINEMENTS = eINSTANCE.getASN1_INTEGER_REFINEMENT_Refinements();
+
+    /**
+     * The meta object literal for the '<em><b>Ints</b></em>' attribute list feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute ASN1_INTEGER_REFINEMENT__INTS = eINSTANCE.getASN1_INTEGER_REFINEMENT_Ints();
 
     /**
      * The meta object literal for the '{@link com.netxforge.smi.impl.ASN1_RANGEImpl <em>ASN1 RANGE</em>}' class.
@@ -3419,6 +3595,42 @@ public interface SmiPackage extends EPackage
      * @generated
      */
     EReference ASN1_CHOICE__CHOICE_TYPE = eINSTANCE.getASN1_CHOICE_ChoiceType();
+
+    /**
+     * The meta object literal for the '{@link com.netxforge.smi.impl.ASN1_SEQUENCEImpl <em>ASN1 SEQUENCE</em>}' class.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see com.netxforge.smi.impl.ASN1_SEQUENCEImpl
+     * @see com.netxforge.smi.impl.SmiPackageImpl#getASN1_SEQUENCE()
+     * @generated
+     */
+    EClass ASN1_SEQUENCE = eINSTANCE.getASN1_SEQUENCE();
+
+    /**
+     * The meta object literal for the '<em><b>Choice Type</b></em>' containment reference list feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EReference ASN1_SEQUENCE__CHOICE_TYPE = eINSTANCE.getASN1_SEQUENCE_ChoiceType();
+
+    /**
+     * The meta object literal for the '{@link com.netxforge.smi.impl.ASN1_SEQUENCE_OFImpl <em>ASN1 SEQUENCE OF</em>}' class.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see com.netxforge.smi.impl.ASN1_SEQUENCE_OFImpl
+     * @see com.netxforge.smi.impl.SmiPackageImpl#getASN1_SEQUENCE_OF()
+     * @generated
+     */
+    EClass ASN1_SEQUENCE_OF = eINSTANCE.getASN1_SEQUENCE_OF();
+
+    /**
+     * The meta object literal for the '<em><b>Ref</b></em>' containment reference feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EReference ASN1_SEQUENCE_OF__REF = eINSTANCE.getASN1_SEQUENCE_OF_Ref();
 
     /**
      * The meta object literal for the '{@link com.netxforge.smi.impl.ASN1_CHOICE_ENTRYImpl <em>ASN1 CHOICE ENTRY</em>}' class.
@@ -3489,24 +3701,6 @@ public interface SmiPackage extends EPackage
      * @generated
      */
     EReference MACRO_VALUE__VALUE_TYPE = eINSTANCE.getMacroValue_ValueType();
-
-    /**
-     * The meta object literal for the '{@link com.netxforge.smi.impl.MACRO_VALUE_CAPImpl <em>MACRO VALUE CAP</em>}' class.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @see com.netxforge.smi.impl.MACRO_VALUE_CAPImpl
-     * @see com.netxforge.smi.impl.SmiPackageImpl#getMACRO_VALUE_CAP()
-     * @generated
-     */
-    EClass MACRO_VALUE_CAP = eINSTANCE.getMACRO_VALUE_CAP();
-
-    /**
-     * The meta object literal for the '<em><b>Ref</b></em>' containment reference feature.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     */
-    EReference MACRO_VALUE_CAP__REF = eINSTANCE.getMACRO_VALUE_CAP_Ref();
 
     /**
      * The meta object literal for the '{@link com.netxforge.smi.impl.ASN1_OCTET_STRINGImpl <em>ASN1 OCTET STRING</em>}' class.

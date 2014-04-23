@@ -2,55 +2,57 @@
  */
 package com.netxforge.smi.impl;
 
-import com.netxforge.smi.ImportClosure;
-import com.netxforge.smi.Imports;
+import com.netxforge.smi.Identifier;
 import com.netxforge.smi.SmiPackage;
 
-import java.util.Collection;
-
-import org.eclipse.emf.common.notify.NotificationChain;
-
-import org.eclipse.emf.common.util.EList;
+import org.eclipse.emf.common.notify.Notification;
 
 import org.eclipse.emf.ecore.EClass;
-import org.eclipse.emf.ecore.InternalEObject;
 
+import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.impl.MinimalEObjectImpl;
-
-import org.eclipse.emf.ecore.util.EObjectContainmentEList;
-import org.eclipse.emf.ecore.util.InternalEList;
 
 /**
  * <!-- begin-user-doc -->
- * An implementation of the model object '<em><b>Imports</b></em>'.
+ * An implementation of the model object '<em><b>Identifier</b></em>'.
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
  * <ul>
- *   <li>{@link com.netxforge.smi.impl.ImportsImpl#getImports <em>Imports</em>}</li>
+ *   <li>{@link com.netxforge.smi.impl.IdentifierImpl#getId <em>Id</em>}</li>
  * </ul>
  * </p>
  *
  * @generated
  */
-public class ImportsImpl extends MinimalEObjectImpl.Container implements Imports
+public class IdentifierImpl extends MinimalEObjectImpl.Container implements Identifier
 {
   /**
-   * The cached value of the '{@link #getImports() <em>Imports</em>}' containment reference list.
+   * The default value of the '{@link #getId() <em>Id</em>}' attribute.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @see #getImports()
+   * @see #getId()
    * @generated
    * @ordered
    */
-  protected EList<ImportClosure> imports;
+  protected static final String ID_EDEFAULT = null;
+
+  /**
+   * The cached value of the '{@link #getId() <em>Id</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see #getId()
+   * @generated
+   * @ordered
+   */
+  protected String id = ID_EDEFAULT;
 
   /**
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
    */
-  protected ImportsImpl()
+  protected IdentifierImpl()
   {
     super();
   }
@@ -63,7 +65,7 @@ public class ImportsImpl extends MinimalEObjectImpl.Container implements Imports
   @Override
   protected EClass eStaticClass()
   {
-    return SmiPackage.Literals.IMPORTS;
+    return SmiPackage.Literals.IDENTIFIER;
   }
 
   /**
@@ -71,13 +73,9 @@ public class ImportsImpl extends MinimalEObjectImpl.Container implements Imports
    * <!-- end-user-doc -->
    * @generated
    */
-  public EList<ImportClosure> getImports()
+  public String getId()
   {
-    if (imports == null)
-    {
-      imports = new EObjectContainmentEList<ImportClosure>(ImportClosure.class, this, SmiPackage.IMPORTS__IMPORTS);
-    }
-    return imports;
+    return id;
   }
 
   /**
@@ -85,15 +83,12 @@ public class ImportsImpl extends MinimalEObjectImpl.Container implements Imports
    * <!-- end-user-doc -->
    * @generated
    */
-  @Override
-  public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs)
+  public void setId(String newId)
   {
-    switch (featureID)
-    {
-      case SmiPackage.IMPORTS__IMPORTS:
-        return ((InternalEList<?>)getImports()).basicRemove(otherEnd, msgs);
-    }
-    return super.eInverseRemove(otherEnd, featureID, msgs);
+    String oldId = id;
+    id = newId;
+    if (eNotificationRequired())
+      eNotify(new ENotificationImpl(this, Notification.SET, SmiPackage.IDENTIFIER__ID, oldId, id));
   }
 
   /**
@@ -106,8 +101,8 @@ public class ImportsImpl extends MinimalEObjectImpl.Container implements Imports
   {
     switch (featureID)
     {
-      case SmiPackage.IMPORTS__IMPORTS:
-        return getImports();
+      case SmiPackage.IDENTIFIER__ID:
+        return getId();
     }
     return super.eGet(featureID, resolve, coreType);
   }
@@ -117,15 +112,13 @@ public class ImportsImpl extends MinimalEObjectImpl.Container implements Imports
    * <!-- end-user-doc -->
    * @generated
    */
-  @SuppressWarnings("unchecked")
   @Override
   public void eSet(int featureID, Object newValue)
   {
     switch (featureID)
     {
-      case SmiPackage.IMPORTS__IMPORTS:
-        getImports().clear();
-        getImports().addAll((Collection<? extends ImportClosure>)newValue);
+      case SmiPackage.IDENTIFIER__ID:
+        setId((String)newValue);
         return;
     }
     super.eSet(featureID, newValue);
@@ -141,8 +134,8 @@ public class ImportsImpl extends MinimalEObjectImpl.Container implements Imports
   {
     switch (featureID)
     {
-      case SmiPackage.IMPORTS__IMPORTS:
-        getImports().clear();
+      case SmiPackage.IDENTIFIER__ID:
+        setId(ID_EDEFAULT);
         return;
     }
     super.eUnset(featureID);
@@ -158,10 +151,27 @@ public class ImportsImpl extends MinimalEObjectImpl.Container implements Imports
   {
     switch (featureID)
     {
-      case SmiPackage.IMPORTS__IMPORTS:
-        return imports != null && !imports.isEmpty();
+      case SmiPackage.IDENTIFIER__ID:
+        return ID_EDEFAULT == null ? id != null : !ID_EDEFAULT.equals(id);
     }
     return super.eIsSet(featureID);
   }
 
-} //ImportsImpl
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  @Override
+  public String toString()
+  {
+    if (eIsProxy()) return super.toString();
+
+    StringBuffer result = new StringBuffer(super.toString());
+    result.append(" (id: ");
+    result.append(id);
+    result.append(')');
+    return result.toString();
+  }
+
+} //IdentifierImpl
