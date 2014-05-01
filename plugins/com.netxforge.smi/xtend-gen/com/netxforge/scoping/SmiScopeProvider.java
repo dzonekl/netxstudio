@@ -49,19 +49,13 @@ public class SmiScopeProvider extends AbstractDeclarativeScopeProvider {
         IScope _scope = super.getScope(ref, Literals.REFERENCEABLE__RIGHT);
         _xifexpression = _scope;
       } else {
-        IScope _xblockexpression_1 = null;
-        {
-          Object _eGet = ref.eGet(Literals.REFERENCEABLE__VALUES);
-          final List<? extends Object> values = ((List<?>) _eGet);
-          IScope _xifexpression_1 = null;
-          boolean _isEmpty = values.isEmpty();
-          boolean _not = (!_isEmpty);
-          if (_not) {
-            return super.getScope(ref, Literals.REFERENCEABLE__VALUES);
-          }
-          _xblockexpression_1 = (_xifexpression_1);
+        Object _eGet = ref.eGet(Literals.REFERENCEABLE__VALUES);
+        final List<?> values = ((List<?>) _eGet);
+        boolean _isEmpty = values.isEmpty();
+        boolean _not = (!_isEmpty);
+        if (_not) {
+          return super.getScope(ref, Literals.REFERENCEABLE__VALUES);
         }
-        _xifexpression = _xblockexpression_1;
       }
       _xblockexpression = (_xifexpression);
     }

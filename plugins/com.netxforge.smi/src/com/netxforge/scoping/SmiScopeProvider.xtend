@@ -24,28 +24,29 @@ class SmiScopeProvider extends AbstractDeclarativeScopeProvider {
 
 	def IScope scope_Attribute_paramRef(Attribute attr, EReference eRef) {
 		val ObjectReferenceable o = attr.eContainer as ObjectReferenceable;
-		super.getScope(o.object.macroRef.typeNotation, SmiPackage.Literals.TYPE_NOTATION__TYPE_NOTATIONS);
-	}
-
-	// Scoping rule for the reference of an AttributeValue if the parent Attribute 
-	def IScope scope_AttributeValue_ref(AttributeValue attrValue, EReference eRef) {
-		val Attribute attr = attrValue.eContainer as Attribute // The Attribute.
-		val Referenceable ref = attr.paramRef;
-
-		// Check which feature of the Referenceable is set. 
-		//  SmiPackage.Literals.REFERENCEABLE__RIGHT it's a Parameter. 
-		//
-		if (ref.eIsSet(SmiPackage.Literals.REFERENCEABLE__RIGHT)) {
-			super.getScope(ref, SmiPackage.Literals.REFERENCEABLE__RIGHT)
-		} else {
-
-			// Check if  SmiPackage.Literals.REFERENCEABLE__VALUES is populated. Then we likely dealing with a TypeDefinition. 
-			val values = ref.eGet(SmiPackage.Literals.REFERENCEABLE__VALUES) as List<?>
-			if (!values.isEmpty()) {
-				return super.getScope(ref, SmiPackage.Literals.REFERENCEABLE__VALUES)
-
-			}
+		super.getScope(o.object.macroRef.typeNotation, SmiPackage$Literals::TYPE_NOTATION__TYPE_NOTATIONS);
 		}
-				
+
+		// Scoping rule for the reference of an AttributeValue if the parent Attribute 
+		def IScope scope_AttributeValue_ref(AttributeValue attrValue, EReference eRef) {
+			val Attribute attr = attrValue.eContainer as Attribute // The Attribute.
+			val Referenceable ref = attr.paramRef;
+
+			// Check which feature of the Referenceable is set. 
+			//  SmiPackage.Literals.REFERENCEABLE__RIGHT it's a Parameter. 
+			//
+			if (ref.eIsSet(SmiPackage$Literals::REFERENCEABLE__RIGHT)) {
+				super.getScope(ref, SmiPackage$Literals::REFERENCEABLE__RIGHT)
+			} else {
+
+				// Check if  SmiPackage.Literals.REFERENCEABLE__VALUES is populated. Then we likely dealing with a TypeDefinition. 
+				val values = ref.eGet(SmiPackage$Literals::REFERENCEABLE__VALUES) as List<?>
+				if (!values.isEmpty()) {
+					return super.getScope(ref, SmiPackage$Literals::REFERENCEABLE__VALUES)
+
+				}
+			}
+
+		}
 	}
-}
+	
