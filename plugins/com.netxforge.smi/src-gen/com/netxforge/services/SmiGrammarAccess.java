@@ -403,14 +403,14 @@ public class SmiGrammarAccess extends AbstractGrammarElementFinder {
 		private final Assignment cParamRefAssignment_1 = (Assignment)cGroup.eContents().get(1);
 		private final CrossReference cParamRefReferenceableCrossReference_1_0 = (CrossReference)cParamRefAssignment_1.eContents().get(0);
 		private final RuleCall cParamRefReferenceableMODULE_IDTerminalRuleCall_1_0_1 = (RuleCall)cParamRefReferenceableCrossReference_1_0.eContents().get(1);
-		private final Assignment cValueAssignment_2 = (Assignment)cGroup.eContents().get(2);
-		private final RuleCall cValueAttributeValueParserRuleCall_2_0 = (RuleCall)cValueAssignment_2.eContents().get(0);
+		private final Assignment cValuesAssignment_2 = (Assignment)cGroup.eContents().get(2);
+		private final RuleCall cValuesAttributeValueParserRuleCall_2_0 = (RuleCall)cValuesAssignment_2.eContents().get(0);
 		
 		//Attribute:
-		//	NEWLINE+ paramRef=[Referenceable|MODULE_ID] value=AttributeValue;
+		//	NEWLINE+ paramRef=[Referenceable|MODULE_ID] values=AttributeValue;
 		public ParserRule getRule() { return rule; }
 
-		//NEWLINE+ paramRef=[Referenceable|MODULE_ID] value=AttributeValue
+		//NEWLINE+ paramRef=[Referenceable|MODULE_ID] values=AttributeValue
 		public Group getGroup() { return cGroup; }
 
 		//NEWLINE+
@@ -425,11 +425,11 @@ public class SmiGrammarAccess extends AbstractGrammarElementFinder {
 		//MODULE_ID
 		public RuleCall getParamRefReferenceableMODULE_IDTerminalRuleCall_1_0_1() { return cParamRefReferenceableMODULE_IDTerminalRuleCall_1_0_1; }
 
-		//value=AttributeValue
-		public Assignment getValueAssignment_2() { return cValueAssignment_2; }
+		//values=AttributeValue
+		public Assignment getValuesAssignment_2() { return cValuesAssignment_2; }
 
 		//AttributeValue
-		public RuleCall getValueAttributeValueParserRuleCall_2_0() { return cValueAttributeValueParserRuleCall_2_0; }
+		public RuleCall getValuesAttributeValueParserRuleCall_2_0() { return cValuesAttributeValueParserRuleCall_2_0; }
 	}
 
 	public class AttributeValueElements extends AbstractParserRuleElementFinder {
@@ -955,7 +955,8 @@ public class SmiGrammarAccess extends AbstractGrammarElementFinder {
 		private final RuleCall cTypeReferenceParserRuleCall_1 = (RuleCall)cGroup.eContents().get(1);
 		private final Keyword cQuotationMarkRightCurlyBracketQuotationMarkKeyword_2 = (Keyword)cGroup.eContents().get(2);
 		
-		//// A Type reference which is enclosed with "{" "}" 
+		//// A Type reference which is enclosed with "{" "}"
+		//// TODO, Use this in local scoping...
 		//BracedTypeReference returns TypeAssignment:
 		//	"\"{\"" TypeReference "\"}\"";
 		public ParserRule getRule() { return rule; }
@@ -2010,7 +2011,7 @@ public class SmiGrammarAccess extends AbstractGrammarElementFinder {
 	}
 
 	//Attribute:
-	//	NEWLINE+ paramRef=[Referenceable|MODULE_ID] value=AttributeValue;
+	//	NEWLINE+ paramRef=[Referenceable|MODULE_ID] values=AttributeValue;
 	public AttributeElements getAttributeAccess() {
 		return (pAttribute != null) ? pAttribute : (pAttribute = new AttributeElements());
 	}
@@ -2161,7 +2162,8 @@ public class SmiGrammarAccess extends AbstractGrammarElementFinder {
 		return getTypeReferenceAccess().getRule();
 	}
 
-	//// A Type reference which is enclosed with "{" "}" 
+	//// A Type reference which is enclosed with "{" "}"
+	//// TODO, Use this in local scoping...
 	//BracedTypeReference returns TypeAssignment:
 	//	"\"{\"" TypeReference "\"}\"";
 	public BracedTypeReferenceElements getBracedTypeReferenceAccess() {

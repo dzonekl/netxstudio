@@ -622,7 +622,7 @@ public class SmiPackageImpl extends EPackageImpl implements SmiPackage
    * <!-- end-user-doc -->
    * @generated
    */
-  public EReference getAttribute_Value()
+  public EReference getAttribute_Values()
   {
     return (EReference)attributeEClass.getEStructuralFeatures().get(1);
   }
@@ -1493,7 +1493,7 @@ public class SmiPackageImpl extends EPackageImpl implements SmiPackage
 
     attributeEClass = createEClass(ATTRIBUTE);
     createEReference(attributeEClass, ATTRIBUTE__PARAM_REF);
-    createEReference(attributeEClass, ATTRIBUTE__VALUE);
+    createEReference(attributeEClass, ATTRIBUTE__VALUES);
 
     attributeValueEClass = createEClass(ATTRIBUTE_VALUE);
     createEReference(attributeValueEClass, ATTRIBUTE_VALUE__IDENTIFIER);
@@ -1675,7 +1675,7 @@ public class SmiPackageImpl extends EPackageImpl implements SmiPackage
 
     initEClass(attributeEClass, Attribute.class, "Attribute", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
     initEReference(getAttribute_ParamRef(), this.getReferenceable(), null, "paramRef", null, 0, 1, Attribute.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-    initEReference(getAttribute_Value(), this.getAttributeValue(), null, "value", null, 0, 1, Attribute.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEReference(getAttribute_Values(), this.getAttributeValue(), null, "values", null, 0, 1, Attribute.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
     initEClass(attributeValueEClass, AttributeValue.class, "AttributeValue", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
     initEReference(getAttributeValue_Identifier(), this.getIdentifier(), null, "identifier", null, 0, 1, AttributeValue.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);

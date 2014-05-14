@@ -18,7 +18,8 @@ Require-Bundle: org.eclipse.xtext;visibility:=reexport,
  org.antlr.runtime,
  com.google.guava,
  org.eclipse.xtext.xbase.lib,
- com.netxforge.base;bundle-version="1.0.0"
+ com.netxforge.base;bundle-version="1.0.0",
+ org.eclipse.xtext.common.types
 Import-Package: org.apache.log4j,
  org.eclipse.xtext.xbase.lib
 Bundle-RequiredExecutionEnvironment: J2SE-1.5

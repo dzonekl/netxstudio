@@ -13,7 +13,7 @@ import org.eclipse.emf.ecore.EObject;
  * The following features are supported:
  * <ul>
  *   <li>{@link com.netxforge.smi.Attribute#getParamRef <em>Param Ref</em>}</li>
- *   <li>{@link com.netxforge.smi.Attribute#getValue <em>Value</em>}</li>
+ *   <li>{@link com.netxforge.smi.Attribute#getValues <em>Values</em>}</li>
  * </ul>
  * </p>
  *
@@ -50,29 +50,29 @@ public interface Attribute extends EObject
   void setParamRef(Referenceable value);
 
   /**
-   * Returns the value of the '<em><b>Value</b></em>' containment reference.
+   * Returns the value of the '<em><b>Values</b></em>' containment reference.
    * <!-- begin-user-doc -->
    * <p>
-   * If the meaning of the '<em>Value</em>' containment reference isn't clear,
+   * If the meaning of the '<em>Values</em>' containment reference isn't clear,
    * there really should be more of a description here...
    * </p>
    * <!-- end-user-doc -->
-   * @return the value of the '<em>Value</em>' containment reference.
-   * @see #setValue(AttributeValue)
-   * @see com.netxforge.smi.SmiPackage#getAttribute_Value()
+   * @return the value of the '<em>Values</em>' containment reference.
+   * @see #setValues(AttributeValue)
+   * @see com.netxforge.smi.SmiPackage#getAttribute_Values()
    * @model containment="true"
    * @generated
    */
-  AttributeValue getValue();
+  AttributeValue getValues();
 
   /**
-   * Sets the value of the '{@link com.netxforge.smi.Attribute#getValue <em>Value</em>}' containment reference.
+   * Sets the value of the '{@link com.netxforge.smi.Attribute#getValues <em>Values</em>}' containment reference.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @param value the new value of the '<em>Value</em>' containment reference.
-   * @see #getValue()
+   * @param value the new value of the '<em>Values</em>' containment reference.
+   * @see #getValues()
    * @generated
    */
-  void setValue(AttributeValue value);
+  void setValues(AttributeValue value);
 
 } // Attribute

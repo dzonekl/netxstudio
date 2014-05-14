@@ -2933,9 +2933,9 @@ rule__Attribute__Group__2__Impl
     }
 :
 (
-{ before(grammarAccess.getAttributeAccess().getValueAssignment_2()); }
-(rule__Attribute__ValueAssignment_2)
-{ after(grammarAccess.getAttributeAccess().getValueAssignment_2()); }
+{ before(grammarAccess.getAttributeAccess().getValuesAssignment_2()); }
+(rule__Attribute__ValuesAssignment_2)
+{ after(grammarAccess.getAttributeAccess().getValuesAssignment_2()); }
 )
 
 ;
@@ -7887,14 +7887,14 @@ finally {
 	restoreStackSize(stackSize);
 }
 
-rule__Attribute__ValueAssignment_2
+rule__Attribute__ValuesAssignment_2
     @init {
 		int stackSize = keepStackSize();
     }
 :
 (
-{ before(grammarAccess.getAttributeAccess().getValueAttributeValueParserRuleCall_2_0()); }
-	ruleAttributeValue{ after(grammarAccess.getAttributeAccess().getValueAttributeValueParserRuleCall_2_0()); }
+{ before(grammarAccess.getAttributeAccess().getValuesAttributeValueParserRuleCall_2_0()); }
+	ruleAttributeValue{ after(grammarAccess.getAttributeAccess().getValuesAttributeValueParserRuleCall_2_0()); }
 )
 
 ;

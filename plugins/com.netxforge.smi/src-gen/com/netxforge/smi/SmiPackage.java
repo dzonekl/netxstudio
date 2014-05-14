@@ -390,13 +390,13 @@ public interface SmiPackage extends EPackage
   int ATTRIBUTE__PARAM_REF = 0;
 
   /**
-   * The feature id for the '<em><b>Value</b></em>' containment reference.
+   * The feature id for the '<em><b>Values</b></em>' containment reference.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
    * @ordered
    */
-  int ATTRIBUTE__VALUE = 1;
+  int ATTRIBUTE__VALUES = 1;
 
   /**
    * The number of structural features of the '<em>Attribute</em>' class.
@@ -1857,15 +1857,15 @@ public interface SmiPackage extends EPackage
   EReference getAttribute_ParamRef();
 
   /**
-   * Returns the meta object for the containment reference '{@link com.netxforge.smi.Attribute#getValue <em>Value</em>}'.
+   * Returns the meta object for the containment reference '{@link com.netxforge.smi.Attribute#getValues <em>Values</em>}'.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @return the meta object for the containment reference '<em>Value</em>'.
-   * @see com.netxforge.smi.Attribute#getValue()
+   * @return the meta object for the containment reference '<em>Values</em>'.
+   * @see com.netxforge.smi.Attribute#getValues()
    * @see #getAttribute()
    * @generated
    */
-  EReference getAttribute_Value();
+  EReference getAttribute_Values();
 
   /**
    * Returns the meta object for class '{@link com.netxforge.smi.AttributeValue <em>Attribute Value</em>}'.
@@ -2989,12 +2989,12 @@ public interface SmiPackage extends EPackage
     EReference ATTRIBUTE__PARAM_REF = eINSTANCE.getAttribute_ParamRef();
 
     /**
-     * The meta object literal for the '<em><b>Value</b></em>' containment reference feature.
+     * The meta object literal for the '<em><b>Values</b></em>' containment reference feature.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @generated
      */
-    EReference ATTRIBUTE__VALUE = eINSTANCE.getAttribute_Value();
+    EReference ATTRIBUTE__VALUES = eINSTANCE.getAttribute_Values();
 
     /**
      * The meta object literal for the '{@link com.netxforge.smi.impl.AttributeValueImpl <em>Attribute Value</em>}' class.

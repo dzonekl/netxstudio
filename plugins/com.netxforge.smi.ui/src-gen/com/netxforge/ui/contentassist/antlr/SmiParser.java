@@ -122,7 +122,7 @@ public class SmiParser extends AbstractContentAssistParser {
 					put(grammarAccess.getObjectReferenceAccess().getSubIdsAssignment_1(), "rule__ObjectReference__SubIdsAssignment_1");
 					put(grammarAccess.getObjectReferenceAccess().getSubIdsAssignment_2(), "rule__ObjectReference__SubIdsAssignment_2");
 					put(grammarAccess.getAttributeAccess().getParamRefAssignment_1(), "rule__Attribute__ParamRefAssignment_1");
-					put(grammarAccess.getAttributeAccess().getValueAssignment_2(), "rule__Attribute__ValueAssignment_2");
+					put(grammarAccess.getAttributeAccess().getValuesAssignment_2(), "rule__Attribute__ValuesAssignment_2");
 					put(grammarAccess.getAttributeValueAccess().getIdentifierAssignment_0_1_0(), "rule__AttributeValue__IdentifierAssignment_0_1_0");
 					put(grammarAccess.getAttributeValueAccess().getTextAssignment_0_1_1(), "rule__AttributeValue__TextAssignment_0_1_1");
 					put(grammarAccess.getAttributeValueAccess().getTypeRefAssignment_0_1_2_0(), "rule__AttributeValue__TypeRefAssignment_0_1_2_0");

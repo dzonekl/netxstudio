@@ -1,0 +1,168 @@
+Consists of: 
+
+1. Devise
+2. Forem
+
+
+1. Install Devise
+--------------
+
+gem 'devise'
+
+rails generate devise:install
+
+===============================================================================
+
+Some setup you must do manually if you haven't yet:
+
+  1. Ensure you have defined default url options in your environments files. Here
+     is an example of default_url_options appropriate for a development environment
+     in config/environments/development.rb:
+
+       config.action_mailer.default_url_options = { host: 'localhost:3000' }
+
+     In production, :host should be set to the actual host of your application.
+
+  2. Ensure you have defined root_url to *something* in your config/routes.rb.
+     For example:
+
+       root to: "home#index"
+
+  3. Ensure you have flash messages in app/views/layouts/application.html.erb.
+     For example:
+
+       <p class="notice"><%= notice %></p>
+       <p class="alert"><%= alert %></p>
+
+  4. If you are deploying on Heroku with Rails 3.2 only, you may want to set:
+
+       config.assets.initialize_on_precompile = false
+
+     On config/application.rb forcing your application to not access the DB
+     or load models when precompiling your assets.
+
+  5. You can copy Devise views (for customization) to your app by running:
+
+       rails g devise:views
+
+
+Generate the model
+------------------
+
+rails generate devise User
+
+  invoke  active_record
+      create    db/migrate/20140506011500_devise_create_users.rb
+      create    app/models/user.rb
+      invoke    test_unit
+      create      test/unit/user_test.rb
+      create      test/fixtures/users.yml
+      insert    app/models/user.rb
+       route  devise_for :users
+
+
+rake db:migrate
+
+
+==  DeviseCreateUsers: migrating ==============================================
+-- create_table(:users)
+   -> 0.0236s
+-- add_index(:users, :email, {:unique=>true})
+   -> 0.0012s
+-- add_index(:users, :reset_password_token, {:unique=>true})
+   -> 0.0004s
+==  DeviseCreateUsers: migrated (0.0255s) =====================================
+
+Various other options in Devise
+-------------------------------
+
+(Skip for now). 
+
+
+Run the forem installer
+-----------------------
+
+*****************************************************
+Done! Forem has been successfully installed. Yaaaaay!
+
+Here's what happened:
+
+1) Forem's migrations were copied over into db/migrate.
+
+2) We created a new migration called AddForemAdminToTable.
+   This creates a new field called "forem_admin" on your User model's table.
+
+3) A new method called `forem_user` was inserted into your ApplicationController.
+   This lets Forem know what the current user of your application is.
+
+4) A new file was created at config/initializers/forem.rb
+   This is where you put Forem's configuration settings.
+
+5) `rake db:migrate` was run, running all the migrations against your database.
+
+6) Seed forum and topic were loaded into your database.
+
+7) New asset files for Forem were placed (gently) into vendor/assets/javascripts and vendor/assets/stylesheets.
+8) The engine was mounted in your config/routes.rb file using this line:
+
+   mount Forem::Engine, :at => "/forums"
+
+   If you want to change where the forums are located, just change the "/forums" path at the end of this line to whatever you want.
+
+And finally:
+
+9) We told you that Forem has been successfully installed and walked you through the steps.
+
+
+Not yet!
+------
+1. The styles and javascripts need to be addeded, 
+2. Oops, now the instiki styles stopped working! 
+
+Fixed, by making sure asset pipeline syntax is used properly with
+/*
+*=
+*=
+*/
+
+And now? Go to /forums , but no entries, no styling etc...
+----------------------------------------------------------
+
+So let's make it possible to register, sign-in etc... with Devis, which is what Radar/forem needs. 
+
+
+rails generate devise:views
+
+
+ invoke  Devise::Generators::SharedViewsGenerator
+      create    app/views/devise/shared
+      create    app/views/devise/shared/_links.erb
+      invoke  simple_form_for
+      create    app/views/devise/confirmations
+      create    app/views/devise/confirmations/new.html.erb
+      create    app/views/devise/passwords
+      create    app/views/devise/passwords/edit.html.erb
+      create    app/views/devise/passwords/new.html.erb
+      create    app/views/devise/registrations
+      create    app/views/devise/registrations/edit.html.erb
+      create    app/views/devise/registrations/new.html.erb
+      create    app/views/devise/sessions
+      create    app/views/devise/sessions/new.html.erb
+      create    app/views/devise/unlocks
+      create    app/views/devise/unlocks/new.html.erb
+      invoke  erb
+      create    app/views/devise/mailer
+      create    app/views/devise/mailer/confirmation_instructions.html.erb
+      create    app/views/devise/mailer/reset_password_instructions.html.erb
+      create    app/views/devise/mailer/unlock_instructions.html.erb
+
+
+
+
+
+
+
+
+
+
+       

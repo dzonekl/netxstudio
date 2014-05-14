@@ -9,8 +9,8 @@ import org.eclipse.xtext.junit4.util.ParseHelper;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-@InjectWith(value = SmiInjectorProvider.class)
-@RunWith(value = XtextRunner.class)
+@InjectWith(SmiInjectorProvider.class)
+@RunWith(XtextRunner.class)
 @SuppressWarnings("all")
 public class SMIBasicTest {
   @Inject

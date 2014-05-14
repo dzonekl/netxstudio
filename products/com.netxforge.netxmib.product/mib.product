@@ -33,6 +33,7 @@
       <feature id="org.eclipse.ltk.artifacts.feature" version="1.0.0.qualifier"/>
       <feature id="com.netxforge.base.feature" version="1.0.0.qualifier"/>
       <feature id="com.netxforge.todo.sdk" version="1.0.0.qualifier"/>
+      <feature id="com.netxforge.netxtest.sdk" version="1.0.0.qualifier"/>
    </features>
 
    <configurations>

@@ -43,7 +43,7 @@
     </genClasses>
     <genClasses ecoreClass="Smi.ecore#//Attribute">
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference Smi.ecore#//Attribute/paramRef"/>
-      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference Smi.ecore#//Attribute/value"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference Smi.ecore#//Attribute/values"/>
     </genClasses>
     <genClasses ecoreClass="Smi.ecore#//AttributeValue">
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference Smi.ecore#//AttributeValue/identifier"/>

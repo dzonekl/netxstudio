@@ -24,7 +24,7 @@ import org.eclipse.emf.ecore.impl.MinimalEObjectImpl;
  * The following features are implemented:
  * <ul>
  *   <li>{@link com.netxforge.smi.impl.AttributeImpl#getParamRef <em>Param Ref</em>}</li>
- *   <li>{@link com.netxforge.smi.impl.AttributeImpl#getValue <em>Value</em>}</li>
+ *   <li>{@link com.netxforge.smi.impl.AttributeImpl#getValues <em>Values</em>}</li>
  * </ul>
  * </p>
  *
@@ -43,14 +43,14 @@ public class AttributeImpl extends MinimalEObjectImpl.Container implements Attri
   protected Referenceable paramRef;
 
   /**
-   * The cached value of the '{@link #getValue() <em>Value</em>}' containment reference.
+   * The cached value of the '{@link #getValues() <em>Values</em>}' containment reference.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @see #getValue()
+   * @see #getValues()
    * @generated
    * @ordered
    */
-  protected AttributeValue value;
+  protected AttributeValue values;
 
   /**
    * <!-- begin-user-doc -->
@@ -121,9 +121,9 @@ public class AttributeImpl extends MinimalEObjectImpl.Container implements Attri
    * <!-- end-user-doc -->
    * @generated
    */
-  public AttributeValue getValue()
+  public AttributeValue getValues()
   {
-    return value;
+    return values;
   }
 
   /**
@@ -131,13 +131,13 @@ public class AttributeImpl extends MinimalEObjectImpl.Container implements Attri
    * <!-- end-user-doc -->
    * @generated
    */
-  public NotificationChain basicSetValue(AttributeValue newValue, NotificationChain msgs)
+  public NotificationChain basicSetValues(AttributeValue newValues, NotificationChain msgs)
   {
-    AttributeValue oldValue = value;
-    value = newValue;
+    AttributeValue oldValues = values;
+    values = newValues;
     if (eNotificationRequired())
     {
-      ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, SmiPackage.ATTRIBUTE__VALUE, oldValue, newValue);
+      ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, SmiPackage.ATTRIBUTE__VALUES, oldValues, newValues);
       if (msgs == null) msgs = notification; else msgs.add(notification);
     }
     return msgs;
@@ -148,20 +148,20 @@ public class AttributeImpl extends MinimalEObjectImpl.Container implements Attri
    * <!-- end-user-doc -->
    * @generated
    */
-  public void setValue(AttributeValue newValue)
+  public void setValues(AttributeValue newValues)
   {
-    if (newValue != value)
+    if (newValues != values)
     {
       NotificationChain msgs = null;
-      if (value != null)
-        msgs = ((InternalEObject)value).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - SmiPackage.ATTRIBUTE__VALUE, null, msgs);
-      if (newValue != null)
-        msgs = ((InternalEObject)newValue).eInverseAdd(this, EOPPOSITE_FEATURE_BASE - SmiPackage.ATTRIBUTE__VALUE, null, msgs);
-      msgs = basicSetValue(newValue, msgs);
+      if (values != null)
+        msgs = ((InternalEObject)values).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - SmiPackage.ATTRIBUTE__VALUES, null, msgs);
+      if (newValues != null)
+        msgs = ((InternalEObject)newValues).eInverseAdd(this, EOPPOSITE_FEATURE_BASE - SmiPackage.ATTRIBUTE__VALUES, null, msgs);
+      msgs = basicSetValues(newValues, msgs);
       if (msgs != null) msgs.dispatch();
     }
     else if (eNotificationRequired())
-      eNotify(new ENotificationImpl(this, Notification.SET, SmiPackage.ATTRIBUTE__VALUE, newValue, newValue));
+      eNotify(new ENotificationImpl(this, Notification.SET, SmiPackage.ATTRIBUTE__VALUES, newValues, newValues));
   }
 
   /**
@@ -174,8 +174,8 @@ public class AttributeImpl extends MinimalEObjectImpl.Container implements Attri
   {
     switch (featureID)
     {
-      case SmiPackage.ATTRIBUTE__VALUE:
-        return basicSetValue(null, msgs);
+      case SmiPackage.ATTRIBUTE__VALUES:
+        return basicSetValues(null, msgs);
     }
     return super.eInverseRemove(otherEnd, featureID, msgs);
   }
@@ -193,8 +193,8 @@ public class AttributeImpl extends MinimalEObjectImpl.Container implements Attri
       case SmiPackage.ATTRIBUTE__PARAM_REF:
         if (resolve) return getParamRef();
         return basicGetParamRef();
-      case SmiPackage.ATTRIBUTE__VALUE:
-        return getValue();
+      case SmiPackage.ATTRIBUTE__VALUES:
+        return getValues();
     }
     return super.eGet(featureID, resolve, coreType);
   }
@@ -212,8 +212,8 @@ public class AttributeImpl extends MinimalEObjectImpl.Container implements Attri
       case SmiPackage.ATTRIBUTE__PARAM_REF:
         setParamRef((Referenceable)newValue);
         return;
-      case SmiPackage.ATTRIBUTE__VALUE:
-        setValue((AttributeValue)newValue);
+      case SmiPackage.ATTRIBUTE__VALUES:
+        setValues((AttributeValue)newValue);
         return;
     }
     super.eSet(featureID, newValue);
@@ -232,8 +232,8 @@ public class AttributeImpl extends MinimalEObjectImpl.Container implements Attri
       case SmiPackage.ATTRIBUTE__PARAM_REF:
         setParamRef((Referenceable)null);
         return;
-      case SmiPackage.ATTRIBUTE__VALUE:
-        setValue((AttributeValue)null);
+      case SmiPackage.ATTRIBUTE__VALUES:
+        setValues((AttributeValue)null);
         return;
     }
     super.eUnset(featureID);
@@ -251,8 +251,8 @@ public class AttributeImpl extends MinimalEObjectImpl.Container implements Attri
     {
       case SmiPackage.ATTRIBUTE__PARAM_REF:
         return paramRef != null;
-      case SmiPackage.ATTRIBUTE__VALUE:
-        return value != null;
+      case SmiPackage.ATTRIBUTE__VALUES:
+        return values != null;
     }
     return super.eIsSet(featureID);
   }

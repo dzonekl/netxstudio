@@ -698,16 +698,16 @@ ruleAttribute returns [EObject current=null]
 )(
 (
 		{ 
-	        newCompositeNode(grammarAccess.getAttributeAccess().getValueAttributeValueParserRuleCall_2_0()); 
+	        newCompositeNode(grammarAccess.getAttributeAccess().getValuesAttributeValueParserRuleCall_2_0()); 
 	    }
-		lv_value_2_0=ruleAttributeValue		{
+		lv_values_2_0=ruleAttributeValue		{
 	        if ($current==null) {
 	            $current = createModelElementForParent(grammarAccess.getAttributeRule());
 	        }
        		set(
        			$current, 
-       			"value",
-        		lv_value_2_0, 
+       			"values",
+        		lv_values_2_0, 
         		"AttributeValue");
 	        afterParserOrEnumRuleCall();
 	    }

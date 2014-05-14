@@ -403,19 +403,19 @@ public class SmiSemanticSequencer extends AbstractDelegatingSemanticSequencer {
 	
 	/**
 	 * Constraint:
-	 *     (paramRef=[Referenceable|MODULE_ID] value=AttributeValue)
+	 *     (paramRef=[Referenceable|MODULE_ID] values=AttributeValue)
 	 */
 	protected void sequence_Attribute(EObject context, Attribute semanticObject) {
 		if(errorAcceptor != null) {
 			if(transientValues.isValueTransient(semanticObject, SmiPackage.Literals.ATTRIBUTE__PARAM_REF) == ValueTransient.YES)
 				errorAcceptor.accept(diagnosticProvider.createFeatureValueMissing(semanticObject, SmiPackage.Literals.ATTRIBUTE__PARAM_REF));
-			if(transientValues.isValueTransient(semanticObject, SmiPackage.Literals.ATTRIBUTE__VALUE) == ValueTransient.YES)
-				errorAcceptor.accept(diagnosticProvider.createFeatureValueMissing(semanticObject, SmiPackage.Literals.ATTRIBUTE__VALUE));
+			if(transientValues.isValueTransient(semanticObject, SmiPackage.Literals.ATTRIBUTE__VALUES) == ValueTransient.YES)
+				errorAcceptor.accept(diagnosticProvider.createFeatureValueMissing(semanticObject, SmiPackage.Literals.ATTRIBUTE__VALUES));
 		}
 		INodesForEObjectProvider nodes = createNodeProvider(semanticObject);
 		SequenceFeeder feeder = createSequencerFeeder(semanticObject, nodes);
 		feeder.accept(grammarAccess.getAttributeAccess().getParamRefReferenceableMODULE_IDTerminalRuleCall_1_0_1(), semanticObject.getParamRef());
-		feeder.accept(grammarAccess.getAttributeAccess().getValueAttributeValueParserRuleCall_2_0(), semanticObject.getValue());
+		feeder.accept(grammarAccess.getAttributeAccess().getValuesAttributeValueParserRuleCall_2_0(), semanticObject.getValues());
 		feeder.finish();
 	}
 	

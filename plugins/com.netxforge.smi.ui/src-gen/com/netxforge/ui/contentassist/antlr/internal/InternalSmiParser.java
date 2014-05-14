@@ -9410,26 +9410,26 @@ public class InternalSmiParser extends AbstractInternalContentAssistParser {
 
 
     // $ANTLR start "rule__Attribute__Group__2__Impl"
-    // ../com.netxforge.smi.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalSmi.g:2930:1: rule__Attribute__Group__2__Impl : ( ( rule__Attribute__ValueAssignment_2 ) ) ;
+    // ../com.netxforge.smi.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalSmi.g:2930:1: rule__Attribute__Group__2__Impl : ( ( rule__Attribute__ValuesAssignment_2 ) ) ;
     public final void rule__Attribute__Group__2__Impl() throws RecognitionException {
 
         		int stackSize = keepStackSize();
             
         try {
-            // ../com.netxforge.smi.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalSmi.g:2934:1: ( ( ( rule__Attribute__ValueAssignment_2 ) ) )
-            // ../com.netxforge.smi.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalSmi.g:2935:1: ( ( rule__Attribute__ValueAssignment_2 ) )
+            // ../com.netxforge.smi.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalSmi.g:2934:1: ( ( ( rule__Attribute__ValuesAssignment_2 ) ) )
+            // ../com.netxforge.smi.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalSmi.g:2935:1: ( ( rule__Attribute__ValuesAssignment_2 ) )
             {
-            // ../com.netxforge.smi.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalSmi.g:2935:1: ( ( rule__Attribute__ValueAssignment_2 ) )
-            // ../com.netxforge.smi.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalSmi.g:2936:1: ( rule__Attribute__ValueAssignment_2 )
+            // ../com.netxforge.smi.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalSmi.g:2935:1: ( ( rule__Attribute__ValuesAssignment_2 ) )
+            // ../com.netxforge.smi.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalSmi.g:2936:1: ( rule__Attribute__ValuesAssignment_2 )
             {
             if ( state.backtracking==0 ) {
-               before(grammarAccess.getAttributeAccess().getValueAssignment_2()); 
+               before(grammarAccess.getAttributeAccess().getValuesAssignment_2()); 
             }
-            // ../com.netxforge.smi.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalSmi.g:2937:1: ( rule__Attribute__ValueAssignment_2 )
-            // ../com.netxforge.smi.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalSmi.g:2937:2: rule__Attribute__ValueAssignment_2
+            // ../com.netxforge.smi.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalSmi.g:2937:1: ( rule__Attribute__ValuesAssignment_2 )
+            // ../com.netxforge.smi.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalSmi.g:2937:2: rule__Attribute__ValuesAssignment_2
             {
-            pushFollow(FOLLOW_rule__Attribute__ValueAssignment_2_in_rule__Attribute__Group__2__Impl6177);
-            rule__Attribute__ValueAssignment_2();
+            pushFollow(FOLLOW_rule__Attribute__ValuesAssignment_2_in_rule__Attribute__Group__2__Impl6177);
+            rule__Attribute__ValuesAssignment_2();
 
             state._fsp--;
             if (state.failed) return ;
@@ -9437,7 +9437,7 @@ public class InternalSmiParser extends AbstractInternalContentAssistParser {
             }
 
             if ( state.backtracking==0 ) {
-               after(grammarAccess.getAttributeAccess().getValueAssignment_2()); 
+               after(grammarAccess.getAttributeAccess().getValuesAssignment_2()); 
             }
 
             }
@@ -23242,9 +23242,9 @@ public class InternalSmiParser extends AbstractInternalContentAssistParser {
     // $ANTLR end "rule__Attribute__ParamRefAssignment_1"
 
 
-    // $ANTLR start "rule__Attribute__ValueAssignment_2"
-    // ../com.netxforge.smi.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalSmi.g:7890:1: rule__Attribute__ValueAssignment_2 : ( ruleAttributeValue ) ;
-    public final void rule__Attribute__ValueAssignment_2() throws RecognitionException {
+    // $ANTLR start "rule__Attribute__ValuesAssignment_2"
+    // ../com.netxforge.smi.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalSmi.g:7890:1: rule__Attribute__ValuesAssignment_2 : ( ruleAttributeValue ) ;
+    public final void rule__Attribute__ValuesAssignment_2() throws RecognitionException {
 
         		int stackSize = keepStackSize();
             
@@ -23256,15 +23256,15 @@ public class InternalSmiParser extends AbstractInternalContentAssistParser {
             // ../com.netxforge.smi.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalSmi.g:7896:1: ruleAttributeValue
             {
             if ( state.backtracking==0 ) {
-               before(grammarAccess.getAttributeAccess().getValueAttributeValueParserRuleCall_2_0()); 
+               before(grammarAccess.getAttributeAccess().getValuesAttributeValueParserRuleCall_2_0()); 
             }
-            pushFollow(FOLLOW_ruleAttributeValue_in_rule__Attribute__ValueAssignment_216153);
+            pushFollow(FOLLOW_ruleAttributeValue_in_rule__Attribute__ValuesAssignment_216153);
             ruleAttributeValue();
 
             state._fsp--;
             if (state.failed) return ;
             if ( state.backtracking==0 ) {
-               after(grammarAccess.getAttributeAccess().getValueAttributeValueParserRuleCall_2_0()); 
+               after(grammarAccess.getAttributeAccess().getValuesAttributeValueParserRuleCall_2_0()); 
             }
 
             }
@@ -23284,7 +23284,7 @@ public class InternalSmiParser extends AbstractInternalContentAssistParser {
         }
         return ;
     }
-    // $ANTLR end "rule__Attribute__ValueAssignment_2"
+    // $ANTLR end "rule__Attribute__ValuesAssignment_2"
 
 
     // $ANTLR start "rule__AttributeValue__IdentifierAssignment_0_1_0"
@@ -27494,7 +27494,7 @@ public class InternalSmiParser extends AbstractInternalContentAssistParser {
     public static final BitSet FOLLOW_rule__Attribute__Group__2_in_rule__Attribute__Group__16093 = new BitSet(new long[]{0x0000000000000002L});
     public static final BitSet FOLLOW_rule__Attribute__ParamRefAssignment_1_in_rule__Attribute__Group__1__Impl6120 = new BitSet(new long[]{0x0000000000000002L});
     public static final BitSet FOLLOW_rule__Attribute__Group__2__Impl_in_rule__Attribute__Group__26150 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_rule__Attribute__ValueAssignment_2_in_rule__Attribute__Group__2__Impl6177 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_rule__Attribute__ValuesAssignment_2_in_rule__Attribute__Group__2__Impl6177 = new BitSet(new long[]{0x0000000000000002L});
     public static final BitSet FOLLOW_rule__AttributeValue__Group_0__0__Impl_in_rule__AttributeValue__Group_0__06213 = new BitSet(new long[]{0x00000000000000F0L});
     public static final BitSet FOLLOW_rule__AttributeValue__Group_0__1_in_rule__AttributeValue__Group_0__06216 = new BitSet(new long[]{0x0000000000000002L});
     public static final BitSet FOLLOW_RULE_NEWLINE_in_rule__AttributeValue__Group_0__0__Impl6244 = new BitSet(new long[]{0x0000000000000012L});
@@ -27909,7 +27909,7 @@ public class InternalSmiParser extends AbstractInternalContentAssistParser {
     public static final BitSet FOLLOW_RULE_BIG_INTEGER_in_rule__ObjectReference__SubIdsAssignment_116052 = new BitSet(new long[]{0x0000000000000002L});
     public static final BitSet FOLLOW_RULE_BIG_INTEGER_in_rule__ObjectReference__SubIdsAssignment_216083 = new BitSet(new long[]{0x0000000000000002L});
     public static final BitSet FOLLOW_RULE_MODULE_ID_in_rule__Attribute__ParamRefAssignment_116118 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_ruleAttributeValue_in_rule__Attribute__ValueAssignment_216153 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_ruleAttributeValue_in_rule__Attribute__ValuesAssignment_216153 = new BitSet(new long[]{0x0000000000000002L});
     public static final BitSet FOLLOW_ruleIdentifier_in_rule__AttributeValue__IdentifierAssignment_0_1_016184 = new BitSet(new long[]{0x0000000000000002L});
     public static final BitSet FOLLOW_RULE_IA5STRING_in_rule__AttributeValue__TextAssignment_0_1_116215 = new BitSet(new long[]{0x0000000000000002L});
     public static final BitSet FOLLOW_RULE_MODULE_ID_in_rule__AttributeValue__TypeRefAssignment_0_1_2_016250 = new BitSet(new long[]{0x0000000000000002L});

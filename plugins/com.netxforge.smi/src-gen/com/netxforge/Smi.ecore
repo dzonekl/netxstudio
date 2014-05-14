@@ -47,7 +47,7 @@
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Attribute">
     <eStructuralFeatures xsi:type="ecore:EReference" name="paramRef" eType="#//Referenceable"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="value" eType="#//AttributeValue"
+    <eStructuralFeatures xsi:type="ecore:EReference" name="values" eType="#//AttributeValue"
         containment="true"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="AttributeValue">

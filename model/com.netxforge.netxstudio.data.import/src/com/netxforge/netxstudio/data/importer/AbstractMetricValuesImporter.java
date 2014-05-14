@@ -309,7 +309,7 @@ public abstract class AbstractMetricValuesImporter implements IImporterHelper,
 							ImportActivator.TRACE
 									.trace(ImportActivator.TRACE_IMPORT_OPTION,
 											"Importer instructed to abort the import process");
-						}
+	}
 						break;
 					}
 

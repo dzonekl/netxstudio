@@ -67,7 +67,7 @@ ObjectReference:
 	(name=ASN1_ID | => descriptorRef=[ObjectReferenceable|ASN1_ID] )? subIds+=BIG_INTEGER (subIds+=BIG_INTEGER)*;
 
 Attribute:
-	NEWLINE+ paramRef=[Referenceable|MODULE_ID] value=AttributeValue;
+	NEWLINE+ paramRef=[Referenceable|MODULE_ID] values=AttributeValue;
 
 	// The Identifier is very often an enum
 AttributeValue:
@@ -121,7 +121,8 @@ TypeReferenceExt returns TypeAssignment:
 TypeReference returns TypeAssignment:
 	type=[Referenceable|MODULE_ID] | BracedTypeReference;
 
-	// A Type reference which is enclosed with "{" "}" 
+	// A Type reference which is enclosed with "{" "}"
+	// TODO, Use this in local scoping...
 BracedTypeReference returns TypeAssignment:
 	'"{"' TypeReference '"}"';
 
