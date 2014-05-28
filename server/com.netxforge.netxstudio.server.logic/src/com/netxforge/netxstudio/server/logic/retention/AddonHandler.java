@@ -7,24 +7,31 @@ import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.Set;
 
+import org.eclipse.emf.cdo.CDOObjectReference;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.resource.Resource;
 
 import com.google.common.base.Predicate;
 import com.google.common.collect.Iterables;
+import com.google.common.collect.Lists;
 import com.google.common.collect.Ordering;
+import com.google.common.collect.Sets;
 import com.google.inject.Inject;
 import com.netxforge.base.NonModelUtils;
 import com.netxforge.base.properties.IPropertiesProvider;
 import com.netxforge.base.properties.PropertiesUtil;
 import com.netxforge.netxstudio.common.model.StudioUtils;
 import com.netxforge.netxstudio.data.IExternalDataProvider;
+import com.netxforge.netxstudio.data.ReferenceHelper;
 import com.netxforge.netxstudio.delta16042013.metrics.Addon;
 import com.netxforge.netxstudio.delta16042013.metrics.FixedMetricRetentionPeriod;
+import com.netxforge.netxstudio.delta16042013.metrics.MetricAggregationRule;
 import com.netxforge.netxstudio.delta16042013.metrics.MetricRetentionRules;
 import com.netxforge.netxstudio.generics.DateTimeRange;
 import com.netxforge.netxstudio.generics.GenericsFactory;
+import com.netxforge.netxstudio.library.Component;
 import com.netxforge.netxstudio.metrics.Metric;
 import com.netxforge.netxstudio.metrics.MetricRetentionPeriod;
 import com.netxforge.netxstudio.metrics.MetricRetentionRule;
@@ -186,6 +193,67 @@ public class AddonHandler {
 
 		}
 		return null;
+	}
+
+	/**
+	 * Matches the given list of {@link Metric} with
+	 * {@link com.netxforge.netxstudio.delta16042013.metrics.MetricsPackage
+	 * addon} {@link com.netxforge.netxstudio.delta16042013.metrics.Metric}
+	 * </br> Note: we do not check if the addon metric has a
+	 * {@link com.netxforge.netxstudio.delta16042013.metrics.MetricRetentionRule}
+	 * or {@link MetricAggregationRule}, clients using this method to process
+	 * the components in Aggregation or Retention should consider this
+	 * constraint.
+	 * 
+	 * @param metrics
+	 * @return
+	 */
+	public List<Component> addonComponents(List<Metric> metrics) {
+
+		final Set<Component> addonComponents = Sets.newHashSet();
+
+		// As we deal with an addon model, we need to get all the metrics and
+		// match them first.
+
+		List<Metric> addOnMetrics = Lists.newArrayList();
+
+		for (Metric m : metrics) {
+			try {
+				com.netxforge.netxstudio.delta16042013.metrics.Metric matchAddOnMetric = matchAddOnMetric(m);
+				if (matchAddOnMetric != null) {
+					addOnMetrics.add(m);
+				}
+			} catch (NoSuchElementException nsee) {
+			}
+		}
+
+		// Do a CDO Crosss reference.
+		if (!addOnMetrics.isEmpty()) {
+
+			for (Metric m : addOnMetrics) {
+
+				List<CDOObjectReference> xRefs = ReferenceHelper
+						.findReferencesGlobally(Lists.newArrayList(m));
+
+				new ReferenceHelper.CollectionFor<Component>() {
+					@Override
+					public void delegateSelf(Component referencingEObject) {
+						if (referencingEObject instanceof Component) {
+
+							// As we are a set, no duplication should occure.
+							addonComponents.addAll(StudioUtils
+									.componentsForComponent(
+											(Component) referencingEObject,
+											true));
+						}
+					}
+
+				}.collectionSelf(xRefs);
+
+			}
+		}
+
+		return Lists.newArrayList(addonComponents);
 	}
 
 	/**
@@ -436,6 +504,10 @@ public class AddonHandler {
 		dtr.setBegin(NonModelUtils.toXMLDate(begin));
 
 		return dtr;
+	}
+
+	public List<com.netxforge.netxstudio.delta16042013.metrics.Metric> getAddOnMetrics() {
+		return addOnMetrics;
 	}
 
 }

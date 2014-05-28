@@ -41,7 +41,9 @@ import com.netxforge.netxstudio.server.logic.reporting.RFSServiceReportingJobImp
 import com.netxforge.netxstudio.server.logic.reporting.RFSServiceSummaryReportingLogic;
 import com.netxforge.netxstudio.server.logic.reporting.RFSServiceUserReportingLogic;
 import com.netxforge.netxstudio.server.logic.reporting.ReportingEngine;
+import com.netxforge.netxstudio.server.logic.retention.AddonAggregationLogic;
 import com.netxforge.netxstudio.server.logic.retention.AddonHandler;
+import com.netxforge.netxstudio.server.logic.retention.AddonRetentionLogic;
 import com.netxforge.netxstudio.server.logic.retention.AggregationEngine;
 import com.netxforge.netxstudio.server.logic.retention.AggregationLogic;
 import com.netxforge.netxstudio.server.logic.retention.RetentionEngine;
@@ -94,6 +96,8 @@ public class LogicModule extends AbstractModule {
 		// Logic Retention & Aggregation
 		this.bind(RetentionLogic.class);
 		this.bind(AggregationLogic.class);
+		this.bind(AddonAggregationLogic.class);
+		this.bind(AddonRetentionLogic.class);
 
 		// Engines
 

@@ -511,4 +511,8 @@ public class RetentionEngine extends BaseComponentEngine {
 		}
 	}
 
+	public AddonHandler getAddonHandler() {
+		return addonHandler;
+	}
+
 }

@@ -391,4 +391,8 @@ public class AggregationEngine extends BaseComponentEngine {
 
 	}
 
+	public AddonHandler getAddonHandler() {
+		return addonHandler;
+	}
+
 }

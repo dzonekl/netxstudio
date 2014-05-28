@@ -70,9 +70,9 @@ public class RetentionJobImplementation extends JobImplementation {
 					.getContents().get(0);
 
 			// Aggregation
-			final AggregationLogic aggregationLogic = LogicActivator
+			final AddonAggregationLogic aggregationLogic = LogicActivator
 					.getInstance().getInjector()
-					.getInstance(AggregationLogic.class);
+					.getInstance(AddonAggregationLogic.class);
 			
 			aggregationLogic.setPeriodStrategy(this.getAggregationStrategy());
 
@@ -95,10 +95,11 @@ public class RetentionJobImplementation extends JobImplementation {
 			this.getRunMonitor().setWorkDone(0);
 
 			// Retention.
-			final RetentionLogic retentionLogic = LogicActivator.getInstance()
-					.getInjector().getInstance(RetentionLogic.class);
+			final AddonRetentionLogic retentionLogic = LogicActivator.getInstance()
+					.getInjector().getInstance(AddonRetentionLogic.class);
 
 			retentionLogic.setJobMonitor(getRunMonitor());
+			retentionLogic.setInterruptable(quartzInterruptableLogic);
 
 			{
 				retentionLogic.setRules(rules);
