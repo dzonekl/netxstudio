@@ -1525,6 +1525,9 @@ public class InterpreterTypeless implements IInterpreter, IExternalContextAware 
 						 * extracts the last written value from the assignment
 						 * range, winds back to the start of the period and sets
 						 * the period start for this value.
+						 * 
+						 * When no target range exists, this means, there is no
+						 * need to optimize the period, as no history exists.
 						 */
 						if (contextualPeriodStrategy instanceof LatestTimestampForRangeStrategy) {
 
@@ -1533,23 +1536,36 @@ public class InterpreterTypeless implements IInterpreter, IExternalContextAware 
 											targetRangeKind,
 											targetRangeInterval);
 
-							List<Value> values = CDOQueryService.mvrValueLastFirstLimitOne(
-									resource.cdoView(), assignmentMVR,
-									CDOQueryUtil.QUERY_MYSQL);
-
-							if (values.size() == 1) {
-
-								DateTimeRange optimizedPeriod = StudioUtils
-										.period(values.get(0).getTimeStamp(),
-												targetRangeInterval);
-								optimizedPeriod.setEnd(contextPeriod.getEnd());
-
-								v = CDOQueryService.mvrValues(
-										resource.cdoView(), mvr,
-										CDOQueryUtil.QUERY_MYSQL,
-										optimizedPeriod);
+							if (assignmentMVR == null) {
+								// Query the source based for a given period
+								v = CDOQueryService
+										.mvrValues(resource.cdoView(), mvr,
+												CDOQueryUtil.QUERY_MYSQL,
+												contextPeriod);
 							} else {
 
+								List<Value> values = CDOQueryService
+										.mvrValueLastFirstLimitOne(
+												resource.cdoView(),
+												assignmentMVR,
+												CDOQueryUtil.QUERY_MYSQL);
+
+								if (values.size() == 1) {
+
+									DateTimeRange optimizedPeriod = StudioUtils
+											.period(values.get(0)
+													.getTimeStamp(),
+													targetRangeInterval);
+									optimizedPeriod.setEnd(contextPeriod
+											.getEnd());
+
+									v = CDOQueryService.mvrValues(
+											resource.cdoView(), mvr,
+											CDOQueryUtil.QUERY_MYSQL,
+											optimizedPeriod);
+								} else {
+
+								}
 							}
 
 						} else {
