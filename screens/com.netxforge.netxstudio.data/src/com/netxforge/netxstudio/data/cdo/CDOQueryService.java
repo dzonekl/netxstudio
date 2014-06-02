@@ -373,9 +373,6 @@ public class CDOQueryService {
 			}
 			if (cdoQuery != null) {
 				result = cdoQuery.getResult(XMLGregorianCalendar.class);
-				for(Object r : result){
-					System.out.println(r);
-				}
 			}
 		}
 		return result;
@@ -435,10 +432,6 @@ public class CDOQueryService {
 			}
 			if (cdoQuery != null) {
 				result = cdoQuery.getResult(Value.class);
-				for(Object o : result){
-					System.out.println(o);
-				}
-				
 			}
 		}
 		return result;
@@ -660,43 +653,6 @@ public class CDOQueryService {
 		}
 		return result;
 	}
-
-	// public List<Value> getSortedValues(MetricValueRange mvr) {
-	//
-	// DateTimeRange createDateTimeRange = GenericsFactory.eINSTANCE
-	// .createDateTimeRange();
-	// Calendar cal = Calendar.getInstance();
-	// cal.set(2012, 5, 1);
-	// System.out.println(modelUtils.dateAndTime(cal.getTime()));
-	// createDateTimeRange.setBegin(modelUtils.toXMLDate(cal.getTime()));
-	// cal.add(Calendar.MONTH, 1);
-	// createDateTimeRange.setEnd(modelUtils.toXMLDate(cal.getTime()));
-	//
-	// CDOTransaction openTransaction = provider.getSession()
-	// .openTransaction();
-	//
-	// final CDOQuery cdoQuery = openTransaction
-	// .createQuery(
-	// "sql",
-	// "select val.cdo_id"
-	// + " from TM.metrics_metricvaluerange as mvr"
-	// + " join TM.metrics_metricvaluerange_metricvalues_list as val_list"
-	// + " on val_list.cdo_source = mvr.cdo_id"
-	// + " join TM.generics_value as val"
-	// + " on val_list.cdo_value = val.cdo_id"
-	// + " where mvr.cdo_id = :cdoid"
-	// + " order by val.timeStamp0 DESC;");
-	//
-	// Long longValue = ((AbstractCDOIDLong) mvr.cdoID()).getLongValue();
-	// cdoQuery.setParameter("cdoid", longValue.toString());
-	// // cdoQuery.setParameter("dateFrom",
-	// // dateString(createDateTimeRange.getBegin()));
-	// // cdoQuery.setParameter("dateTo",
-	// // dateString(createDateTimeRange.getEnd()));
-	//
-	// List<Value> result = cdoQuery.getResult(Value.class);
-	// return result;
-	// }
 
 	/**
 	 * 

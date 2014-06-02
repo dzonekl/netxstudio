@@ -290,14 +290,6 @@ public class ValueProcessor {
 			}
 		}
 
-		// System.out.println(" Result filler =" + values.size());
-		// for (Value v : resultValues) {
-		// System.out.println(" Orignal value =" + v.getTimeStamp());
-		// }
-		//
-		// for (Value v : values) {
-		// System.out.println(" Derived values =" + v.getTimeStamp());
-		// }
 		return values;
 
 	}
