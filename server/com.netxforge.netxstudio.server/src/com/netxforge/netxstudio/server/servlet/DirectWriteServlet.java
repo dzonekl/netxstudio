@@ -20,6 +20,8 @@ package com.netxforge.netxstudio.server.servlet;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.net.URL;
 import java.net.URLConnection;
 
@@ -47,6 +49,8 @@ public class DirectWriteServlet implements Servlet {
 	private static final String IF_MODIFIED_SINCE = "If-Modified-Since"; //$NON-NLS-1$
 	private static final String IF_NONE_MATCH = "If-None-Match"; //$NON-NLS-1$
 	private static final String ETAG = "ETag"; //$NON-NLS-1$
+	private static final String EXPORT_PATH = "export_path";
+	private static final String WORKSPACE_PATH = "workspace_path";
 
 	private String internalName;
 	private ServletConfig config;
@@ -85,7 +89,8 @@ public class DirectWriteServlet implements Servlet {
 		String method = httpRequest.getMethod();
 		if (method.equals("GET") || method.equals("POST") || method.equals("HEAD")) { //$NON-NLS-1$//$NON-NLS-2$ //$NON-NLS-3$
 			String resourcePath = internalName + httpRequest.getPathInfo();
-			if (!writeResource(httpRequest, httpResponse, resourcePath)) {
+			String queryString = httpRequest.getQueryString();
+			if (!writeResource(httpRequest, httpResponse, resourcePath, queryString)) {
 				httpResponse.setStatus(HttpServletResponse.SC_NOT_FOUND);
 			}
 		} else
@@ -115,19 +120,36 @@ public class DirectWriteServlet implements Servlet {
 	}
 
 	
-	private boolean writeResource(final HttpServletRequest req, final HttpServletResponse resp, final String resourcePath) throws IOException {
+	private boolean writeResource(final HttpServletRequest req, final HttpServletResponse resp, final String resourcePath, String queryString) throws IOException {
 		ServletContext servletContext = config.getServletContext();
 		
 		if(settings == null){
 			setSettings();
 		}
 		
+		URL url = null;
+		if(queryString.equals(EXPORT_PATH)){
+			// TODO, No check on the URL here! 
+			String expPath = settings.getExportPath();
+			// Hack this, combine the expPath with the resource path.  
+			url = new URL("file://" + expPath + resourcePath);
+		}else if(queryString.equals(WORKSPACE_PATH)){
+			
+			String workspacePath = System.getProperty("osgi.instance.area");
+			
+			// Hack this, combine the expPath with the resource path.  
+			URI uri;
+			try {
+				uri = new URI(workspacePath + resourcePath);
+				url = uri.toURL();
+			} catch (URISyntaxException e) {
+				e.printStackTrace();
+			}
+		}
 		
-		// TODO, No check on the URL here! 
-		String expPath = settings.getExportPath();
-		// Hack this, combine the expPath with the resource path.  
-		URL url = new URL("file://" + expPath + resourcePath);
-		
+		if(url == null){
+			return false;
+		}
 		
 		URLConnection connection = url.openConnection();
 		long lastModified = connection.getLastModified();

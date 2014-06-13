@@ -55,6 +55,7 @@ public class Reports extends AbstractScreen implements IDataServiceInjection {
 
 	@Inject
 	ServerRequest serverActions;
+	
 	private Browser browser;
 
 	/**

@@ -60,6 +60,7 @@ public class JobModule extends AbstractModule {
 		bind(IServerUtils.class).toProvider(
 				service(IServerUtils.class).single());
 
+		// {@link ServerModule}
 		bind(IPropertiesProvider.class).toProvider(
 				service(IPropertiesProvider.class).single());
 

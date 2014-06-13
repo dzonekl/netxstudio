@@ -95,9 +95,10 @@
 <body>
 <%
 	ListFolder lf = new util.ListFolder();
-	lf.initMonitors();
+	lf.initWorkspace();
+	
 %>
-<a href="/remote/monitors/monitors.jsp">Home</a> (<%= lf.getPath() %>)
+<a href="/remote/files/files.jsp">Home</a> (<%= lf.getPath() %>)
 <table>
 <%
 	String path = request.getContextPath();
@@ -108,10 +109,10 @@
     for ( File f : files) {
         %>
         <tr>
-        	<td><%= f.isDirectory() ? "Service Run" : "Report" %></td>
+        	<td><%= f.isDirectory() ? "Directory" : "File" %></td>
         	<td>
-        	<a href=<%=  f.isDirectory() ? "/remote/monitors/monitors.jsp?" + f.getName(): 
-        		"/netxforge/files/" + ( request.getQueryString() == null ? "" : request.getQueryString() + "/")  + f.getName() %>>
+        	<a href=<%=  f.isDirectory() ? "/remote/files/files.jsp?" + f.getName(): 
+        		"/netxforge/files/" + ( request.getQueryString() == null ? "" : request.getQueryString() + "/")  + f.getName() + "?workspace_path" %>>
         		<%= f.getName() %>
         	</a></td>
         </tr>

@@ -89,6 +89,8 @@ public class CDOQueryService {
 
 	private static final String VALUE_TS = " and val.timeStamp0 = :date";
 
+	private static final String VALUE_TO_TS = " and val.timeStamp0 < :date";
+
 	/**
 	 * SQL Databases need the statements to be in a certain style.
 	 * 
@@ -108,12 +110,15 @@ public class CDOQueryService {
 	 * @return
 	 */
 	public static List<Value> capacityValues(CDOView view,
-			NetXResource netXResource, String dialect, DateTimeRange period) {
-		return capacityValues(view, netXResource, dialect, period, null,
+			NetXResource netXResource, String dialect, XMLGregorianCalendar date) {
+		return capacityValues(view, netXResource, dialect, null, date,
 				STYLE.CAMEL_CASE);
 	}
 
 	/**
+	 * Get a {@link List collection} of values from
+	 * {@link LibraryPackage.Literals#NET_XRESOURCE__CAPACITY_VALUES capacity
+	 * range} for the given period or upto the given date.
 	 * 
 	 * @param view
 	 * @param netXResource
@@ -164,7 +169,7 @@ public class CDOQueryService {
 			if (period != null) {
 				sb.append(" and val.timeStamp0 >= :dateFrom and val.timeStamp0 < :dateTo");
 			} else if (date != null) {
-				sb.append(VALUE_TS);
+				sb.append(VALUE_TO_TS);
 			}
 
 			sb.append(" order by val.timeStamp0 DESC;");
@@ -219,12 +224,15 @@ public class CDOQueryService {
 	 * @return
 	 */
 	public static List<Value> utilizationValues(CDOView view,
-			NetXResource netXResource, String dialect, DateTimeRange period) {
-		return utilizationValues(view, netXResource, dialect, period, null,
+			NetXResource netXResource, String dialect, XMLGregorianCalendar date) {
+		return utilizationValues(view, netXResource, dialect, null, date,
 				STYLE.CAMEL_CASE);
 	}
 
 	/**
+	 * Get a {@link List collection} of values from
+	 * {@link LibraryPackage.Literals#NET_XRESOURCE__UTILIZATION_VALUES capacity
+	 * range} for the given period or upto the given date.
 	 * 
 	 * @param view
 	 * @param netXResource
@@ -395,7 +403,8 @@ public class CDOQueryService {
 	}
 
 	/**
-	 * Creates a query which looks like this:
+	 * Return a {@link List collection} of one {@link Value} which is the most
+	 * recent value in the the {@link MetricValueRange range}.
 	 * 
 	 * @param view
 	 * @param mvr
@@ -439,22 +448,30 @@ public class CDOQueryService {
 
 	public static List<Value> mvrValues(CDOView view, MetricValueRange mvr,
 			String dialect) {
-		return mvrValues(view, mvr, dialect, null, null, STYLE.CAMEL_CASE);
+		return mvrValues(view, mvr, dialect, null, null, STYLE.CAMEL_CASE,
+				false);
 	}
 
 	public static List<Value> mvrValues(CDOView view, MetricValueRange mvr,
 			String dialect, XMLGregorianCalendar date) {
-		return mvrValues(view, mvr, dialect, null, date, STYLE.CAMEL_CASE);
+		return mvrValues(view, mvr, dialect, null, date, STYLE.CAMEL_CASE,
+				false);
+	}
+
+	public static List<Value> mvrValuesPriortoDate(CDOView view,
+			MetricValueRange mvr, String dialect, XMLGregorianCalendar date) {
+		return mvrValues(view, mvr, dialect, null, date, STYLE.CAMEL_CASE, true);
 	}
 
 	public static List<Value> mvrValues(CDOView view, MetricValueRange mvr,
 			String dialect, DateTimeRange period) {
-		return mvrValues(view, mvr, dialect, period, null, STYLE.CAMEL_CASE);
+		return mvrValues(view, mvr, dialect, period, null, STYLE.CAMEL_CASE,
+				false);
 	}
 
 	public static List<Value> mvrValues(CDOView view, MetricValueRange mvr,
 			String dialect, DateTimeRange period, XMLGregorianCalendar date,
-			STYLE style) {
+			STYLE style, boolean allPriorToDate) {
 
 		List<Value> result = null; // Might become assigned.
 
@@ -466,7 +483,12 @@ public class CDOQueryService {
 							: SELECT_MVR_CAMEL);
 			queryString = queryString
 					.concat(period != null ? VALUE_PERIOD : "");
-			queryString = queryString.concat(date != null ? VALUE_TS : "");
+
+			if (date != null) {
+				queryString = queryString.concat(allPriorToDate ? VALUE_TO_TS
+						: VALUE_TS);
+			}
+
 			queryString = queryString.concat(ORDER_BY_VAL_TIME_STAMP0_ASC);
 
 		} else if (dialect.equals(CDOQueryUtil.QUERY_OCL)) {

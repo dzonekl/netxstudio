@@ -54,10 +54,10 @@ public class AggregationLogic extends BaseComponentLogic implements
 
 	/**
 	 * The number of years to consider in the aggregation and retention of
-	 * values. It could be requested to i.e. keep one month of data evaluation a
+	 * values. It could be requested to i.e. keep one month of data evaluating a
 	 * period of n years.
 	 */
-	private static final int YEARS_TO_EVALUATE = 2;
+	private static final int YEARS_TO_EVALUATE = 10;
 
 	private RFSService rfsService;
 

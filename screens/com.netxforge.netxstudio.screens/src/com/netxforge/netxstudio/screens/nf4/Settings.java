@@ -9,6 +9,7 @@ import org.eclipse.core.databinding.observable.value.IObservableValue;
 import org.eclipse.core.databinding.validation.IValidator;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
+import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.databinding.EMFDataBindingContext;
 import org.eclipse.emf.databinding.EMFUpdateValueStrategy;
 import org.eclipse.emf.databinding.FeaturePath;
@@ -18,6 +19,7 @@ import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.jface.databinding.swt.SWTObservables;
 import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.browser.Browser;
 import org.eclipse.swt.events.DisposeEvent;
 import org.eclipse.swt.events.DisposeListener;
 import org.eclipse.swt.layout.FillLayout;
@@ -32,8 +34,10 @@ import org.eclipse.ui.forms.widgets.Form;
 import org.eclipse.ui.forms.widgets.FormToolkit;
 import org.eclipse.ui.forms.widgets.Section;
 
+import com.google.inject.Inject;
 import com.netxforge.netxstudio.NetxstudioPackage;
 import com.netxforge.netxstudio.ServerSettings;
+import com.netxforge.netxstudio.data.actions.ServerRequest;
 import com.netxforge.netxstudio.generics.GenericsPackage;
 import com.netxforge.netxstudio.screens.AbstractScreen;
 import com.netxforge.screens.editing.base.IDataServiceInjection;
@@ -42,6 +46,9 @@ public class Settings extends AbstractScreen implements IDataServiceInjection {
 
 	private final FormToolkit toolkit = new FormToolkit(Display.getCurrent());
 	private Form frmSettings;
+
+	// URL fragment for the JSP page showing the reports.
+	public static final String WORKSPACE_JSP = "/remote/files/files.jsp";
 
 	private ServerSettings settings;
 	private Text txtImportDirectory;
@@ -52,11 +59,12 @@ public class Settings extends AbstractScreen implements IDataServiceInjection {
 	private Text txtLong;
 	private DecimalFormat df = new DecimalFormat("###,##0");
 
-	// private FormattedText quickFormatedText;
-	// private NumberFormatter numberFormatter;
-	// private FormattedText shortFormatedText;
-	// private FormattedText mediumFormatedText;
-	// private FormattedText longFormatedText;
+	// A browser for showing server side files.
+
+	private Browser browser;
+
+	@Inject
+	ServerRequest serverActions;
 
 	/**
 	 * Create the composite.
@@ -157,14 +165,6 @@ public class Settings extends AbstractScreen implements IDataServiceInjection {
 		lblQuick.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false,
 				false, 1, 1));
 
-		// numberFormatter = new NumberFormatter("###,##0");
-		// numberFormatter.setDecimalSeparatorAlwaysShown(false);
-		//
-		// quickFormatedText = new FormattedText(expansionDurationComposite,
-		// SWT.BORDER | SWT.RIGHT);
-		// quickFormatedText.setFormatter(numberFormatter);
-		// txtQuick = quickFormatedText.getControl();
-
 		txtQuick = toolkit.createText(expansionDurationComposite, "New Text",
 				SWT.NONE);
 		txtQuick.setText("");
@@ -175,11 +175,6 @@ public class Settings extends AbstractScreen implements IDataServiceInjection {
 				"SHORT:", SWT.NONE);
 		lblShort.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false,
 				false, 1, 1));
-
-		// shortFormatedText = new FormattedText(expansionDurationComposite,
-		// SWT.BORDER | SWT.RIGHT);
-		// shortFormatedText.setFormatter(numberFormatter);
-		// txtShort = shortFormatedText.getControl();
 
 		txtShort = toolkit.createText(expansionDurationComposite, "New Text",
 				SWT.NONE);
@@ -192,11 +187,6 @@ public class Settings extends AbstractScreen implements IDataServiceInjection {
 		lblMedium.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false,
 				false, 1, 1));
 
-		// mediumFormatedText = new FormattedText(expansionDurationComposite,
-		// SWT.BORDER | SWT.RIGHT);
-		// mediumFormatedText.setFormatter(numberFormatter);
-		// txtMedium = mediumFormatedText.getControl();
-
 		txtMedium = toolkit.createText(expansionDurationComposite, "New Text",
 				SWT.NONE);
 		txtMedium.setText("");
@@ -208,16 +198,19 @@ public class Settings extends AbstractScreen implements IDataServiceInjection {
 		lblLong.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false, false,
 				1, 1));
 
-		// longFormatedText = new FormattedText(expansionDurationComposite,
-		// SWT.BORDER | SWT.RIGHT);
-		// longFormatedText.setFormatter(numberFormatter);
-		// txtLong = longFormatedText.getControl();
-
 		txtLong = toolkit.createText(expansionDurationComposite, "New Text",
 				SWT.NONE);
 		txtLong.setText("");
 		txtLong.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false,
 				1, 1));
+
+		browser = new Browser(composite, SWT.BORDER);
+		GridData browserGridData = new GridData(SWT.FILL, SWT.FILL, true, true,
+				2, 1);
+		browserGridData.heightHint = 500;
+		browser.setLayoutData(browserGridData);
+		toolkit.adapt(browser);
+		toolkit.paintBordersFor(browser);
 
 	}
 
@@ -302,37 +295,32 @@ public class Settings extends AbstractScreen implements IDataServiceInjection {
 		EMFUpdateValueStrategy dayToTargetStrategy = new EMFUpdateValueStrategy();
 		dayToTargetStrategy.setConverter(new DayToTargetConverter());
 
-		// bindingContext.bindValue(quickDurationObservable,
-		// quickDurationProperty.observe(settings), null,
-		// dayToTargetStrategy);
-
 		bindingContext.bindValue(quickDurationObservable,
 				quickDurationProperty.observe(settings), targetToDayStrategy,
 				dayToTargetStrategy);
-
-		// bindingContext.bindValue(shortDurationObservable,
-		// shortDurationProperty.observe(settings), null,
-		// dayToTargetStrategy);
 
 		bindingContext.bindValue(shortDurationObservable,
 				shortDurationProperty.observe(settings), targetToDayStrategy,
 				dayToTargetStrategy);
 
-		// bindingContext.bindValue(mediumDurationObservable,
-		// mediumDurationProperty.observe(settings), null,
-		// dayToTargetStrategy);
-
 		bindingContext.bindValue(mediumDurationObservable,
 				mediumDurationProperty.observe(settings), targetToDayStrategy,
 				dayToTargetStrategy);
 
-		// bindingContext.bindValue(longDurationObservable,
-		// longDurationProperty.observe(settings), null,
-		// dayToTargetStrategy);
-
 		bindingContext.bindValue(longDurationObservable,
 				longDurationProperty.observe(settings), targetToDayStrategy,
 				dayToTargetStrategy);
+
+		// init for the browser.
+		String current = browser.getUrl();
+
+		String serverPath = serverActions.setServer();
+		URI uri = URI.createURI(serverPath + WORKSPACE_JSP);
+		if (uri.toString().equals(current)) {
+			browser.refresh();
+		} else {
+			browser.setUrl(uri.toString());
+		}
 
 		return bindingContext;
 	}
@@ -341,7 +329,7 @@ public class Settings extends AbstractScreen implements IDataServiceInjection {
 
 		public IStatus validate(Object value) {
 
-			if(value == null){
+			if (value == null) {
 				return Status.CANCEL_STATUS;
 			}
 			if (value instanceof String) {

@@ -245,6 +245,8 @@ public class RetentionEngine extends BaseComponentEngine {
 		for (com.netxforge.netxstudio.delta16042013.metrics.MetricRetentionRule rule : customRuleSet) {
 			int intervalHint = rule.getIntervalHint();
 
+			// How far back to retend data is historical infinity, as the query
+			// will not apply the begin period.
 			final DateTimeRange period = addonHandler.getDTRForRetentionRule(
 					rule,
 					NonModelUtils.fromXMLDate(this.getPeriod().getBegin()));
@@ -349,11 +351,18 @@ public class RetentionEngine extends BaseComponentEngine {
 	}
 
 	/**
+	 * Clear the value ranges
+	 * {@link LibraryPackage.Literals#NET_XRESOURCE__CAPACITY_VALUES Capacity
+	 * range}, {@link LibraryPackage.Literals#NET_XRESOURCE__UTILIZATION_VALUES
+	 * Utilization range} &
+	 * {@link LibraryPackage.Literals#NET_XRESOURCE__METRIC_VALUE_RANGES Metric
+	 * ranges} with the given intervalHint for the given period. Note the period
+	 * end is considered only, the start is historical infinity.
+	 * 
 	 * @param netXResource
-	 * @param mvrsCleared
-	 * @param rule
-	 * @return
-	 * @return
+	 * @param period
+	 * @param intervalHint
+	 * @return A collection of cleared {@link MetricValueRange metric ranges}
 	 */
 	private List<MetricValueRange> clear(final NetXResource netXResource,
 			DateTimeRange period, int intervalHint) {
@@ -376,7 +385,7 @@ public class RetentionEngine extends BaseComponentEngine {
 		if (intervalHint == 15) {
 			final List<Value> capacityValues = CDOQueryService.capacityValues(
 					netXResource.cdoView(), netXResource,
-					CDOQueryUtil.QUERY_MYSQL, period);
+					CDOQueryUtil.QUERY_MYSQL, period.getEnd());
 
 			if (!capacityValues.isEmpty()) {
 				valueProcessor.removeValues(netXResource.getCapacityValues(),
@@ -385,16 +394,13 @@ public class RetentionEngine extends BaseComponentEngine {
 
 			final List<Value> utilizationValues = CDOQueryService
 					.utilizationValues(netXResource.cdoView(), netXResource,
-							CDOQueryUtil.QUERY_MYSQL, period);
+							CDOQueryUtil.QUERY_MYSQL, period.getEnd());
 
 			if (!utilizationValues.isEmpty()) {
 				valueProcessor.removeValues(
 						netXResource.getUtilizationValues(), utilizationValues);
 			}
 		}
-
-		// final MetricValueRange mvr = this.getModelUtils()
-		// .valueRangeForInterval(netXResource, intervalHint);
 
 		final List<MetricValueRange> valueRangesForInterval = StudioUtils
 				.valueRangesForInterval(netXResource, intervalHint);
@@ -419,8 +425,9 @@ public class RetentionEngine extends BaseComponentEngine {
 								+ StudioUtils.periodToStringMore(period));
 
 				// // Do we get a List or ELis?
-				final List<Value> mvrValues = CDOQueryService.mvrValues(
-						mvr.cdoView(), mvr, CDOQueryUtil.QUERY_MYSQL, period);
+				final List<Value> mvrValues = CDOQueryService
+						.mvrValuesPriortoDate(mvr.cdoView(), mvr,
+								CDOQueryUtil.QUERY_MYSQL, period.getEnd());
 
 				if (!valueProcessor.removeValues(mvr, mvrValues)) {
 					LogicActivator.TRACE.trace(

@@ -18,6 +18,9 @@
 package util;
 
 import java.io.File;
+import java.net.MalformedURLException;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.Collections;
 import java.util.List;
 
@@ -37,19 +40,20 @@ import com.netxforge.netxstudio.server.data.IServerDataProvider;
 import com.netxforge.netxstudio.server.data.Server;
 import com.netxforge.netxstudio.server.jsp.JSPActivator;
 
-
 /**
  * 
  * @author Christophe Bouhier
- *
+ * 
  */
 public final class ListFolder {
 
 	@Inject
 	@Server
 	private IServerDataProvider dpProvider;
-	
+
 	private ServerSettings settings;
+
+	private String workspacePath;
 
 	private static final ListFolder INSTANCE = new ListFolder();
 
@@ -59,6 +63,12 @@ public final class ListFolder {
 
 	public ListFolder() {
 		JSPActivator.getInstance().getInjector().injectMembers(this);
+	}
+
+	/**
+	 * 
+	 */
+	public void initMonitors() {
 		ICDOData dataProvider = dpProvider.get();
 		dataProvider.openSession();
 		Resource res = dataProvider
@@ -66,27 +76,56 @@ public final class ListFolder {
 		if (res.getContents().size() == 1) {
 			settings = (ServerSettings) res.getContents().get(0);
 		}
+	}
+
+	/**
+	 * 
+	 */
+	public void initWorkspace() {
+		workspacePath = System.getProperty("osgi.instance.area");
 
 	}
 
 	public String getPath() {
-		return settings.getExportPath();
+		if (settings != null) {
+			return settings.getExportPath();
+		} else if (workspacePath != null) {
+			return workspacePath;
+		}
+		return "unknown path...";
 	}
 
 	public List<File> getFiles(String contextPath) {
 
 		// Compare to base context path.
-		String exportPath = settings.getExportPath();
+		File path = null;
+		if (settings != null) {
+			String exportPath = settings.getExportPath();
 			exportPath += contextPath;
-		File path = new File(exportPath);
-		if (path.exists() && path.isDirectory()) {
+			path = new File(exportPath);
+
+		} else if (workspacePath != null) {
+			String exportPath = workspacePath;
+			exportPath += contextPath;
+			try {
+				URI uri = new URI(exportPath);
+				path = new File(uri);
+			} catch (URISyntaxException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+
+		if (path != null && path.exists() && path.isDirectory()) {
 			File[] files = path.listFiles();
 			List<File> filesList = Lists.newArrayList(files);
-			Collections
-					.sort(filesList, NonModelUtils.fileLastModifiedComparator());
+			Collections.sort(filesList,
+					NonModelUtils.fileLastModifiedComparator());
 			UnmodifiableIterator<File> filter = Iterators.filter(
 					filesList.iterator(), NonModelUtils.nonHiddenFile());
 			return Lists.newArrayList(filter);
+		}else if(path.isFile()){
+			
 		}
 		return Lists.newArrayList();
 	}
@@ -110,14 +149,14 @@ public final class ListFolder {
 		if (path.exists() && path.isDirectory()) {
 			File[] files = path.listFiles();
 			List<File> filesList = Lists.newArrayList(files);
-			Collections
-					.sort(filesList, NonModelUtils.fileLastModifiedComparator());
+			Collections.sort(filesList,
+					NonModelUtils.fileLastModifiedComparator());
 
 			Predicate<File> fileExtensionPredicate = null;
 			switch (type) {
-			
+
 			case NOT_PROCESSED: {
-				// All non DONE, and non DONE_WITH_FAILURES. 
+				// All non DONE, and non DONE_WITH_FAILURES.
 				fileExtensionPredicate = NonModelUtils.extensionFile(true,
 						StudioUtils.EXTENSION_DONE,
 						StudioUtils.EXTENSION_DONE_WITH_FAILURES);
@@ -138,7 +177,7 @@ public final class ListFolder {
 
 			UnmodifiableIterator<File> filter = Iterators.filter(
 					filesList.iterator(), NonModelUtils.nonHiddenFile());
-			// Check to see, if we have a predicate to filter. 
+			// Check to see, if we have a predicate to filter.
 			if (fileExtensionPredicate != null) {
 				filter = Iterators.filter(filter, fileExtensionPredicate);
 			}

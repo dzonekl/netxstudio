@@ -26,6 +26,7 @@ import org.osgi.framework.BundleContext;
 
 import com.google.inject.AbstractModule;
 import com.google.inject.Injector;
+import com.netxforge.base.properties.IPropertiesProvider;
 import com.netxforge.netxstudio.server.data.IServerDataProvider;
 import com.netxforge.netxstudio.server.data.Server;
 
@@ -50,8 +51,13 @@ public class JSPActivator implements BundleActivator {
 			protected void configure() {
 
 				// {@link ServerModule}
-				bind(IServerDataProvider.class).annotatedWith(Server.class).toProvider(
-						service(IServerDataProvider.class).single());
+				bind(IServerDataProvider.class)
+						.annotatedWith(Server.class)
+						.toProvider(service(IServerDataProvider.class).single());
+
+				// {@link ServerModule}
+				bind(IPropertiesProvider.class).toProvider(
+						service(IPropertiesProvider.class).single());
 
 			}
 
