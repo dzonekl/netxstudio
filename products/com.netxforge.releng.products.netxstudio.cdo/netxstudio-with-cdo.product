@@ -55,7 +55,6 @@
       <feature id="com.netxforge.netxstudio.models.import.feature" version="1.0.0.qualifier"/>
       <feature id="com.netxforge.netxstudio.models.import.ui.feature" version="1.0.0.qualifier"/>
       <feature id="com.netxforge.netxstudio.screens.editing.feature" version="1.0.0.qualifier"/>
-      <feature id="com.netxstudio.models16040213_delta.feature" version="1.0.0.qualifier"/>
    </features>
 
    <configurations>
