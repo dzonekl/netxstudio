@@ -1,5 +1,4 @@
 NetXStudio Change log.
-
 2.5.0
 http://work.netxforge.com/issues/441
 http://work.netxforge.com/issues/440
