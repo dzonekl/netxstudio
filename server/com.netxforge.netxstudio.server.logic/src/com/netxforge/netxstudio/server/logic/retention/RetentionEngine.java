@@ -250,19 +250,27 @@ public class RetentionEngine extends BaseComponentEngine {
 			final DateTimeRange period = addonHandler.getDTRForRetentionRule(
 					rule,
 					NonModelUtils.fromXMLDate(this.getPeriod().getBegin()));
+
 			LogicActivator.TRACE.trace(
 					LogicActivator.TRACE_RETENTION_DETAILS_OPTION,
-					"Applying custom rule: " + rule.getName() + " interval: "
-							+ rule.getIntervalHint() + " clear for: "
-							+ StudioUtils.periodToStringMore(period));
+					"Applying custom rule: "
+							+ rule.getName()
+							+ " interval: "
+							+ rule.getIntervalHint()
+							+ " clear upto: "
+							+ NonModelUtils.date(NonModelUtils
+									.fromXMLDate(period.getBegin())));
 
 			mvrsCleared.addAll(clear(netXResource, period, intervalHint));
 
 		}
 		// Log the result.
 		logClearingResult(netXResource, mvrsCleared);
+
 		// Clear the ranges from the resource.
-		clearRanges(netXResource, mvrsCleared);
+		if (!mvrsCleared.isEmpty()) {
+			clearRanges(netXResource, mvrsCleared);
+		}
 	}
 
 	/**
@@ -309,7 +317,8 @@ public class RetentionEngine extends BaseComponentEngine {
 						new Predicate<MetricValueRange>() {
 
 							public boolean apply(MetricValueRange mvr) {
-								return mvr.getMetricValues().isEmpty();
+								boolean empty = mvr.getMetricValues().isEmpty();
+								return empty;
 							}
 
 						}));
@@ -413,7 +422,7 @@ public class RetentionEngine extends BaseComponentEngine {
 		}
 
 		for (MetricValueRange mvr : valueRangesForInterval) {
-			if (!mvr.getMetricValues().isEmpty() && FSMUtil.isClean(mvr)) {
+			if (FSMUtil.isClean(mvr)) {
 
 				LogicActivator.TRACE.trace(
 						LogicActivator.TRACE_RETENTION_OPTION,
@@ -421,22 +430,24 @@ public class RetentionEngine extends BaseComponentEngine {
 								+ StudioUtils.printModelObject(netXResource)
 								+ " interval= "
 								+ NonModelUtils.fromMinutes(mvr
-										.getIntervalHint()) + ", period: "
-								+ StudioUtils.periodToStringMore(period));
+										.getIntervalHint()) + " clear upto: "
+												+ NonModelUtils.date(NonModelUtils
+														.fromXMLDate(period.getBegin())));
 
 				// // Do we get a List or ELis?
 				final List<Value> mvrValues = CDOQueryService
 						.mvrValuesPriortoDate(mvr.cdoView(), mvr,
 								CDOQueryUtil.QUERY_MYSQL, period.getEnd());
 
-				if (!valueProcessor.removeValues(mvr, mvrValues)) {
-					LogicActivator.TRACE.trace(
-							LogicActivator.TRACE_RETENTION_OPTION,
-							"values not removed: " + mvrValues);
-				} else {
-					mvrsCleared.add(mvr);
-				}
+				if (!mvrValues.isEmpty()) {
 
+					if (!valueProcessor.removeValues(mvr, mvrValues)) {
+						LogicActivator.TRACE.trace(
+								LogicActivator.TRACE_RETENTION_OPTION,
+								"values not removed: " + mvrValues);
+					}
+				}
+				mvrsCleared.add(mvr);
 				commitInbetween(netXResource.cdoView());
 
 			} else {
