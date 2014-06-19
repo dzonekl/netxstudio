@@ -28,6 +28,7 @@ import com.netxforge.netxstudio.data.ReferenceHelper;
 import com.netxforge.netxstudio.delta16042013.metrics.Addon;
 import com.netxforge.netxstudio.delta16042013.metrics.FixedMetricRetentionPeriod;
 import com.netxforge.netxstudio.delta16042013.metrics.MetricAggregationRule;
+import com.netxforge.netxstudio.delta16042013.metrics.MetricAggregationRules;
 import com.netxforge.netxstudio.delta16042013.metrics.MetricRetentionRules;
 import com.netxforge.netxstudio.generics.DateTimeRange;
 import com.netxforge.netxstudio.generics.GenericsFactory;
@@ -304,7 +305,12 @@ public class AddonHandler {
 
 			if (addOnMetric
 					.eIsSet(com.netxforge.netxstudio.delta16042013.metrics.MetricsPackage.Literals.ADDON__METRIC_AGGREGATION_RULE_SETS)) {
-
+				
+				MetricAggregationRules metricAggregationRuleSet = addOnMetric.getMetricAggregationRuleSet();
+				if(metricAggregationRuleSet == null){
+					return null;
+				}
+				
 				List<com.netxforge.netxstudio.delta16042013.metrics.MetricAggregationRule> sortedCopy = Ordering
 						.from(new MetricAggregationRuleComparator())
 						.sortedCopy(
