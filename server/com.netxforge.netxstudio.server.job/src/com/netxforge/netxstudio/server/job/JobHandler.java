@@ -318,6 +318,15 @@ public class JobHandler {
 	 */
 	private String listJobs() {
 
+		List<Job> sortedJobs = null;
+
+		try {
+			sortedJobs = sortedJobs(view);
+		} catch (IllegalStateException ise) {
+			// It's not possible to get the jobs, exit.
+			return ise.getMessage();
+		}
+
 		final StringBuffer sb = new StringBuffer();
 
 		// Append the header.
@@ -333,7 +342,6 @@ public class JobHandler {
 
 		final CDOResource jobRunContainerResource = (CDOResource) dataProvider
 				.getResource(view, SchedulingPackage.Literals.JOB_RUN_CONTAINER);
-		final List<Job> sortedJobs = sortedJobs(view);
 
 		for (final Job job : sortedJobs) {
 			sb.append(NonModelUtils.fixedLenthString(
@@ -406,7 +414,7 @@ public class JobHandler {
 				}
 			} else {
 				initialize(null);
-				return "The scheduler is now initializing, but this could fail, try again starting it";
+				return "The scheduler is now initializing, but this could fail, check with command: job status";
 			}
 		} catch (SchedulerException e) {
 			e.printStackTrace();
@@ -422,11 +430,10 @@ public class JobHandler {
 		StringBuffer sb = new StringBuffer();
 		try {
 			if (scheduler != null && scheduler.isStarted()) {
-				
-				
-				// Interrupt running job. 
-				// Note: Needs support in a running logic. See AggregationLogic, 
-				// which supports this now. 
+
+				// Interrupt running job.
+				// Note: Needs support in a running logic. See AggregationLogic,
+				// which supports this now.
 				for (JobExecutionContext context : scheduler
 						.getCurrentlyExecutingJobs()) {
 					JobKey key = context.getJobDetail().getKey();
@@ -653,9 +660,9 @@ public class JobHandler {
 
 			final Resource jobResource = dataProvider.getResource(view,
 					SchedulingPackage.eINSTANCE.getJob());
-
+			
 			if (jobResource == null) {
-				return;
+				throw new IllegalStateException("The Job model data is not available... exiting");
 			}
 
 			relevantIds.clear();
@@ -1188,6 +1195,12 @@ public class JobHandler {
 	private List<Job> sortedJobs(CDOView v) {
 		CDOResource jobResource = (CDOResource) dataProvider.getResource(v,
 				SchedulingPackage.eINSTANCE.getJob());
+
+		if (jobResource == null) {
+			throw new IllegalStateException(
+					"The Job model data is not available... exiting");
+		}
+
 		List<EObject> sortedJobs = Ordering
 				.from(NonModelUtils
 						.eFeatureComparator(SchedulingPackage.Literals.JOB__NAME))
