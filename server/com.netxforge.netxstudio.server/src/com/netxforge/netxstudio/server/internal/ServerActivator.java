@@ -28,6 +28,7 @@ import java.util.TimeZone;
 import org.apache.log4j.Logger;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.Platform;
+import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.osgi.framework.console.CommandInterpreter;
 import org.eclipse.osgi.framework.console.CommandProvider;
 import org.eclipse.osgi.service.datalocation.Location;
@@ -43,6 +44,7 @@ import com.google.inject.Inject;
 import com.google.inject.Injector;
 import com.netxforge.base.properties.IPropertiesProvider;
 import com.netxforge.netxstudio.server.IServerUtils;
+import com.netxforge.netxstudio.server.ServerDataPackages;
 import com.netxforge.netxstudio.server.ServerIntegrity;
 import com.netxforge.netxstudio.server.ServerUtils;
 import com.netxforge.netxstudio.server.data.IServerDataProvider;
@@ -76,6 +78,9 @@ public class ServerActivator implements BundleActivator, DebugOptionsListener,
 	public static boolean DEBUG = false;
 	public static DebugTrace TRACE = null;
 
+	@Inject
+	private IServerUtils serverUtils;
+
 	public void optionsChanged(DebugOptions options) {
 		DEBUG = options.getBooleanOption(PLUGIN_ID + DEBUG_OPTION, false);
 		TRACE = options.newDebugTrace(PLUGIN_ID);
@@ -93,7 +98,7 @@ public class ServerActivator implements BundleActivator, DebugOptionsListener,
 
 	// Export our services.
 	@Inject
-	Export<IServerUtils> serverUtils;
+	Export<IServerUtils> serverUtilsService;
 
 	@Inject
 	@Server
@@ -228,6 +233,52 @@ public class ServerActivator implements BundleActivator, DebugOptionsListener,
 	public Object _server(CommandInterpreter interpreter) {
 		try {
 			String cmd = interpreter.nextArgument();
+			if ("cdo".equals(cmd)) {
+				String nextArgument = interpreter.nextArgument();
+
+				// Process Actions:
+				if ("packages".equals(nextArgument)) {
+					return ServerDataPackages.INSTANCE.getRegisteredPackages();
+				} else if ("package".equals(nextArgument)) {
+					String nextNextArgument = interpreter.nextArgument();
+
+					if ("show".equals(nextNextArgument)) {
+						String next3Argument = interpreter.nextArgument();
+						try {
+							Integer integer = new Integer(next3Argument);
+							EPackage epack = ServerDataPackages.INSTANCE
+									.getPackageForIndex(integer.intValue());
+							if (epack != null) {
+								return epack.toString();
+							}
+						} catch (NumberFormatException nfe) {
+							return "expected an index for the package registry";
+						}
+					} else if ("load".equals(nextNextArgument)) {
+						String next3Argument = interpreter.nextArgument();
+						try {
+							Integer integer = new Integer(next3Argument);
+							EPackage epack = ServerDataPackages.INSTANCE
+									.getPackageForIndex(integer.intValue());
+							if (epack != null) {
+								if (serverUtils.isLoaded(epack)) {
+									return "this package is already loaded";
+								} else {
+									if (serverUtils.load(epack)) {
+										return "loaded: " + epack.toString();
+									} else {
+										return "this package is already loaded";
+									}
+								}
+
+							}
+						} catch (NumberFormatException nfe) {
+							return "expected an index for the package registry";
+						}
+					}
+				}
+
+			}
 			if ("report".equals(cmd)) {
 				String nextArgument = interpreter.nextArgument();
 
@@ -268,5 +319,4 @@ public class ServerActivator implements BundleActivator, DebugOptionsListener,
 
 		return null;
 	}
-
 }
