@@ -19,11 +19,14 @@
 package com.netxforge.netxstudio.server;
 
 import org.eclipse.emf.cdo.common.commit.handler.AsyncCommitInfoHandler;
+import org.eclipse.emf.cdo.common.model.CDOPackageInfo;
+import org.eclipse.emf.cdo.common.model.CDOPackageRegistry;
 import org.eclipse.emf.cdo.common.revision.CDORevisionCache;
 import org.eclipse.emf.cdo.common.revision.CDORevisionUtil;
 import org.eclipse.emf.cdo.net4j.CDONet4jSession;
 import org.eclipse.emf.cdo.net4j.CDONet4jSessionConfiguration;
 import org.eclipse.emf.cdo.net4j.CDONet4jUtil;
+import org.eclipse.emf.cdo.server.CDOServerUtil;
 import org.eclipse.emf.cdo.server.IRepository;
 import org.eclipse.emf.cdo.server.ISession;
 import org.eclipse.emf.cdo.server.IStore;
@@ -235,29 +238,27 @@ public class ServerUtils implements IServerUtils {
 	 * .emf.cdo.server.IRepository)
 	 */
 	public synchronized void initializeServer(IRepository repository) {
-		
-		
+
 		if (initServerDone) {
 			return;
 		}
 		isInitializing = true;
-		
-		// Set based on setting of NetXStudio server debugging. 
+
+		// Set based on setting of NetXStudio server debugging.
 		OMPlatform.INSTANCE.setDebugging(true);
-		
-		
+
 		// TODO, Find out the DB schema name and table name to create queries.
-		
+
 		IStore store = repository.getStore();
 		if (store instanceof IDBStore) {
 			@SuppressWarnings("unused")
 			IDBStore dbStore = (IDBStore) store;
-//			IDBAdapter dbAdapter = dbStore.getDBAdapter();
-//			Map<String, String> properties = dbStore.getProperties();
-//			IDBSchema dbSchema = dbStore.getDBSchema();
-//			String fullName = dbSchema.getFullName();
-//			System.out.println("Our Schema name (To use in Queries)"
-//					+ dbSchema.getName());
+			// IDBAdapter dbAdapter = dbStore.getDBAdapter();
+			// Map<String, String> properties = dbStore.getProperties();
+			// IDBSchema dbSchema = dbStore.getDBSchema();
+			// String fullName = dbSchema.getFullName();
+			// System.out.println("Our Schema name (To use in Queries)"
+			// + dbSchema.getName());
 		}
 
 		// Increase the signal timeout.
@@ -404,11 +405,52 @@ public class ServerUtils implements IServerUtils {
 						}
 					}
 				});
-
 			}
-
 			return element;
 		}
 	}
+
+	public boolean isLoaded(EPackage epack) {
+		IPluginContainer instance = IPluginContainer.INSTANCE;
+		IRepository repository = CDOServerUtil.getRepository(instance, REPO_NAME);
+		CDOPackageInfo packageInfo = repository.getPackageRegistry()
+				.getPackageInfo(epack);
+		return packageInfo != null;
+	}
+
+	public boolean load(EPackage epack) {
+		
+		LocalSession localSession = new LocalSession();
+		ServerActivator.getInstance().getInjector().injectMembers(localSession);
+		
+		localSession.getDataProvider().openSession();
+		CDOPackageRegistry packageRegistry = localSession.getDataProvider().getSession().getPackageRegistry();
+		
+		CDOPackageInfo packageInfo = packageRegistry
+				.getPackageInfo(epack);
+		if (packageInfo == null) {
+			packageRegistry.putEPackage(epack);
+			localSession.getDataProvider().closeSession();
+			return true;
+		}
+		return false;
+		
+	}
+	
+	
+	class LocalSession{
+		
+		@Inject
+		@Server
+		private ICDOData dataProvider;
+		
+		public ICDOData getDataProvider() {
+			return dataProvider;
+		}
+		
+	}
+	
+	
+	
 
 }
