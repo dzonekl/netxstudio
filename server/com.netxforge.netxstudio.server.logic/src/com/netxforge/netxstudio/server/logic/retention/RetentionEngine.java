@@ -259,7 +259,7 @@ public class RetentionEngine extends BaseComponentEngine {
 							+ rule.getIntervalHint()
 							+ " clear upto: "
 							+ NonModelUtils.date(NonModelUtils
-									.fromXMLDate(period.getBegin())));
+									.fromXMLDate(period.getEnd())));
 
 			mvrsCleared.addAll(clear(netXResource, period, intervalHint));
 
@@ -430,9 +430,10 @@ public class RetentionEngine extends BaseComponentEngine {
 								+ StudioUtils.printModelObject(netXResource)
 								+ " interval= "
 								+ NonModelUtils.fromMinutes(mvr
-										.getIntervalHint()) + " clear upto: "
-												+ NonModelUtils.date(NonModelUtils
-														.fromXMLDate(period.getBegin())));
+										.getIntervalHint())
+								+ " clear upto: "
+								+ NonModelUtils.date(NonModelUtils
+										.fromXMLDate(period.getEnd())));
 
 				// // Do we get a List or ELis?
 				final List<Value> mvrValues = CDOQueryService

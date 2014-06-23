@@ -77,7 +77,6 @@ public class ValueProcessor {
 	 */
 	public static final int INDIFFERENT_VALUES_IN_INTERVAL_MODE = 200;
 
-	
 	/**
 	 * Remove {@link Value} objects and potential references to them. Currently
 	 * only {@link Marker} objects reference the <code>Value</code> object, so
@@ -133,11 +132,7 @@ public class ValueProcessor {
 		removeValueReferences(values);
 
 		for (Value v : values) {
-
-			if (mvr.getMetricValues().contains(v)) {
-				mvr.getMetricValues().remove(v);
-			}
-
+			mvr.getMetricValues().remove(v);
 		}
 		// Assume these are contained here.
 		return mvr.getMetricValues().size() != size;
@@ -159,10 +154,7 @@ public class ValueProcessor {
 		removeValueReferences(values);
 
 		for (Value v : values) {
-
-			if (targetRange.contains(v)) {
-				targetRange.remove(v);
-			}
+			targetRange.remove(v);
 		}
 
 		// Assume these are contained here.
@@ -392,7 +384,7 @@ public class ValueProcessor {
 	 * @param mvr
 	 * @param newValues
 	 * @param intervalHint
-	 * @deprecated 
+	 * @deprecated
 	 */
 	public void addToValues(EList<Value> values, List<Value> newValues,
 			int intervalHint) {
@@ -548,19 +540,19 @@ public class ValueProcessor {
 					if (sortedValues.size() > 1) {
 						int duplicates = sortedValues.size() - 1;
 						if (DataActivator.DEBUG) {
-							DataActivator.TRACE.trace(
-									DataActivator.TRACE_RESULT_VALUE_DUPLICATE_OPTION,
-									"-- found duplicates values:"
-											+ duplicates
-											+ " ("
-											+ intervalHint
-											+ " min.), while storing value="
-											+ " , original timestamp="
-											+ NonModelUtils.dateAndTime(value
-													.getTimeStamp()));
-							DataActivator.TRACE.trace(
-									DataActivator.TRACE_RESULT_VALUE_DUPLICATE_OPTION,
-									"-- cleaning duplicates");
+							DataActivator.TRACE
+									.trace(DataActivator.TRACE_RESULT_VALUE_DUPLICATE_OPTION,
+											"-- found duplicates values:"
+													+ duplicates
+													+ " ("
+													+ intervalHint
+													+ " min.), while storing value="
+													+ " , original timestamp="
+													+ NonModelUtils.dateAndTime(value
+															.getTimeStamp()));
+							DataActivator.TRACE
+									.trace(DataActivator.TRACE_RESULT_VALUE_DUPLICATE_OPTION,
+											"-- cleaning duplicates");
 
 						}
 
