@@ -43,7 +43,7 @@
 							<groupId>${project.groupId}</groupId>
 							<artifactId>${project.artifactId}</artifactId>
 							<version>${project.version}</version>
-							<classifier>../../releng.tycho/com.netxforge.releng.target/netxstudio_kepler_xtext23_cdo42</classifier>
+							<classifier>../../releng.tycho/com.netxforge.releng.target/netxstudio_kepler_xtext23_cdo42SR2</classifier>
 						</artifact>
 					</target>
 					<environments>
