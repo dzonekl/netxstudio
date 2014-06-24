@@ -33,7 +33,6 @@ import org.eclipse.emf.cdo.CDOObject;
 import org.eclipse.emf.cdo.common.id.CDOID;
 import org.eclipse.emf.cdo.common.id.CDOIDUtil;
 import org.eclipse.emf.cdo.common.model.CDOClassifierRef;
-import org.eclipse.emf.cdo.spi.common.id.AbstractCDOIDLong;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.xml.type.XMLTypeFactory;
@@ -41,8 +40,7 @@ import org.junit.After;
 import org.junit.Before;
 
 import com.google.inject.Inject;
-import com.netxforge.netxstudio.common.model.ModelUtils;
-import com.netxforge.netxstudio.data.IData;
+import com.netxforge.base.cdo.ICDOData;
 import com.netxforge.netxstudio.data.cdo.NonStatic;
 import com.netxforge.netxstudio.operators.Network;
 import com.netxforge.netxstudio.operators.Node;
@@ -70,14 +68,11 @@ public abstract class BaseRemoteActionTest extends AbstractInjectedTestJUnit4 {
 
 	@Inject
 	@NonStatic
-	private IData dataProvider;
+	private ICDOData dataProvider;
 
 	@Inject
 	@NonStatic
-	private IData anotherDataProvider;
-
-	@Inject
-	private ModelUtils modelUtils;
+	private ICDOData anotherDataProvider;
 
 	@Before
 	protected void setUp() throws Exception {

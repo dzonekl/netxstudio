@@ -28,10 +28,10 @@ import org.eclipse.ui.IWorkbench;
 
 import com.google.inject.Inject;
 import com.netxforge.netxstudio.common.model.StudioUtils;
-import com.netxforge.netxstudio.data.actions.ServerRequest;
 import com.netxforge.netxstudio.generics.DateTimeRange;
 import com.netxforge.netxstudio.screens.editing.ICDOEditingService;
 import com.netxforge.netxstudio.screens.internal.ScreensActivator;
+import com.netxforge.netxstudio.webservice.actions.ServerRequest;
 
 public class MonitoringWizard extends Wizard implements INewWizard {
 

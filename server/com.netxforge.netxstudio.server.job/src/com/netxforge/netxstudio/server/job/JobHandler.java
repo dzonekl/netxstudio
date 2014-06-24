@@ -70,7 +70,6 @@ import com.google.inject.Inject;
 import com.netxforge.base.NonModelUtils;
 import com.netxforge.base.cdo.ICDOData;
 import com.netxforge.base.properties.IPropertiesProvider;
-import com.netxforge.netxstudio.data.actions.ServerRequest;
 import com.netxforge.netxstudio.scheduling.Job;
 import com.netxforge.netxstudio.scheduling.JobRunContainer;
 import com.netxforge.netxstudio.scheduling.JobState;
@@ -80,6 +79,7 @@ import com.netxforge.netxstudio.server.IServerUtils;
 import com.netxforge.netxstudio.server.data.IServerDataProvider;
 import com.netxforge.netxstudio.server.data.Server;
 import com.netxforge.netxstudio.server.job.internal.JobActivator;
+import com.netxforge.netxstudio.webservice.actions.ServerRequest;
 
 /**
  * Handles jobs, reads the jobs from the database, initializes quartz and

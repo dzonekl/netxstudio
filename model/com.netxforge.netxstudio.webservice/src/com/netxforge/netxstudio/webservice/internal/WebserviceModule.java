@@ -15,7 +15,7 @@
  * Contributors: Christophe Bouhier - initial API and implementation and/or
  * initial documentation
  *******************************************************************************/
-package com.netxforge.netxstudio.data.internal;
+package com.netxforge.netxstudio.webservice.internal;
 
 import static org.ops4j.peaberry.Peaberry.service;
 import static org.ops4j.peaberry.util.Attributes.objectClass;
@@ -23,7 +23,7 @@ import static org.ops4j.peaberry.util.TypeLiterals.export;
 
 import com.google.inject.AbstractModule;
 import com.netxforge.netxstudio.data.ICDODataService;
-import com.netxforge.netxstudio.data.actions.ServerRequest;
+import com.netxforge.netxstudio.webservice.actions.ServerRequest;
 
 public class WebserviceModule extends AbstractModule {
 

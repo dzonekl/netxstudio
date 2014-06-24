@@ -15,7 +15,7 @@
  * Contributors: Christophe Bouhier - initial API and implementation and/or
  * initial documentation
  *******************************************************************************/ 
-package com.netxforge.netxstudio.data.job;
+package com.netxforge.netxstudio.webservice.job;
 
 import java.util.List;
 

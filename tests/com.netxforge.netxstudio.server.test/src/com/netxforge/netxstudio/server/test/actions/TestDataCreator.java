@@ -37,8 +37,8 @@ import org.eclipse.emf.ecore.util.EcoreUtil;
 import com.google.common.collect.Lists;
 import com.google.inject.Guice;
 import com.google.inject.Inject;
-import com.netxforge.netxstudio.common.model.ModelUtils;
-import com.netxforge.netxstudio.data.IData;
+import com.netxforge.base.NonModelUtils;
+import com.netxforge.base.cdo.ICDOData;
 import com.netxforge.netxstudio.data.cdo.NonStatic;
 import com.netxforge.netxstudio.generics.GenericsPackage;
 import com.netxforge.netxstudio.geo.GeoPackage;
@@ -110,10 +110,7 @@ public class TestDataCreator implements NetxForgeService {
 
 	@Inject
 	@NonStatic
-	private IData dataProvider;
-
-	@Inject
-	private ModelUtils modelUtils;
+	private ICDOData dataProvider;
 
 	private List<Tolerance> tl = Lists.newArrayList();
 	private List<Tolerance> serviceTolerances = Lists.newArrayList();
@@ -229,7 +226,7 @@ public class TestDataCreator implements NetxForgeService {
 				.createRFSServiceMonitoringJob();
 		job.setRFSService(rfsService);
 		job.setJobState(JobState.IN_ACTIVE);
-		job.setStartTime(modelUtils.toXMLDate(new Date(System
+		job.setStartTime(NonModelUtils.toXMLDate(new Date(System
 				.currentTimeMillis() + 2 * MINUTE)));
 		job.setInterval(600);
 		job.setName(rfsService.getServiceName());
@@ -241,7 +238,7 @@ public class TestDataCreator implements NetxForgeService {
 		final RetentionJob retentionJob = SchedulingFactory.eINSTANCE
 				.createRetentionJob();
 		retentionJob.setJobState(JobState.IN_ACTIVE);
-		retentionJob.setStartTime(modelUtils.toXMLDate(new Date(System
+		retentionJob.setStartTime(NonModelUtils.toXMLDate(new Date(System
 				.currentTimeMillis() + 2 * MINUTE)));
 		retentionJob.setInterval(600);
 		retentionJob.setName(rfsService.getServiceName() + "Retention");
@@ -318,7 +315,7 @@ public class TestDataCreator implements NetxForgeService {
 		msJob.setInterval(600);
 		msJob.setJobState(JobState.IN_ACTIVE);
 		msJob.setName(MS_CSV_NAME);
-		msJob.setStartTime(modelUtils.toXMLDate(new Date(System
+		msJob.setStartTime(NonModelUtils.toXMLDate(new Date(System
 				.currentTimeMillis() + 2 * MINUTE)));
 		msJob.getMetricSources().add(metricSource);
 
@@ -356,7 +353,7 @@ public class TestDataCreator implements NetxForgeService {
 		msJob.setInterval(600);
 		msJob.setJobState(JobState.IN_ACTIVE);
 		msJob.setName(MS_DB_PG_NAME);
-		msJob.setStartTime(modelUtils.toXMLDate(new Date(System
+		msJob.setStartTime(NonModelUtils.toXMLDate(new Date(System
 				.currentTimeMillis() + 2 * MINUTE)));
 		msJob.getMetricSources().add(metricSource);
 
@@ -394,7 +391,7 @@ public class TestDataCreator implements NetxForgeService {
 		msJob.setInterval(600);
 		msJob.setJobState(JobState.IN_ACTIVE);
 		msJob.setName(MS_DB_ORACLE_NAME);
-		msJob.setStartTime(modelUtils.toXMLDate(new Date(System
+		msJob.setStartTime(NonModelUtils.toXMLDate(new Date(System
 				.currentTimeMillis() + 2 * MINUTE)));
 		msJob.getMetricSources().add(metricSource);
 
@@ -426,7 +423,7 @@ public class TestDataCreator implements NetxForgeService {
 		msJob.setInterval(600);
 		msJob.setJobState(JobState.IN_ACTIVE);
 		msJob.setName(MS_XLS_NAME);
-		msJob.setStartTime(modelUtils.toXMLDate(new Date(System
+		msJob.setStartTime(NonModelUtils.toXMLDate(new Date(System
 				.currentTimeMillis() + 2 * MINUTE)));
 		msJob.getMetricSources().add(metricSource);
 
@@ -1124,16 +1121,12 @@ public class TestDataCreator implements NetxForgeService {
 		return f;
 	}
 
-	public IData getDataProvider() {
+	public ICDOData getDataProvider() {
 		return dataProvider;
 	}
 
-	public void setDataProvider(IData dataProvider) {
+	public void setDataProvider(ICDOData dataProvider) {
 		this.dataProvider = dataProvider;
-	}
-
-	public void setModelUtils(ModelUtils modelUtils) {
-		this.modelUtils = modelUtils;
 	}
 
 }

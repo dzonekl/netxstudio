@@ -30,7 +30,6 @@ import org.eclipse.emf.ecore.xml.type.XMLTypeFactory;
 import com.google.inject.Inject;
 import com.netxforge.base.cdo.CDO;
 import com.netxforge.base.cdo.ICDOData;
-import com.netxforge.netxstudio.data.job.IRunMonitor;
 import com.netxforge.netxstudio.library.LibraryPackage;
 import com.netxforge.netxstudio.operators.OperatorsPackage;
 import com.netxforge.netxstudio.scheduling.SchedulingFactory;
@@ -43,6 +42,7 @@ import com.netxforge.netxstudio.server.logic.internal.LogicActivator;
 import com.netxforge.netxstudio.server.logic.profile.RFSServiceProfileLogic;
 import com.netxforge.netxstudio.server.service.NetxForgeService;
 import com.netxforge.netxstudio.services.ServicesPackage;
+import com.netxforge.netxstudio.webservice.job.IRunMonitor;
 
 /**
  * Starts a netxforge service

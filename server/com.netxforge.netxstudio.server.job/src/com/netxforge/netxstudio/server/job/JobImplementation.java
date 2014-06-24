@@ -23,13 +23,13 @@ import java.util.Map;
 
 import com.google.inject.Inject;
 import com.netxforge.base.cdo.ICDOData;
-import com.netxforge.netxstudio.data.job.IRunMonitor;
 import com.netxforge.netxstudio.scheduling.Job;
 import com.netxforge.netxstudio.scheduling.JobRunState;
 import com.netxforge.netxstudio.scheduling.SchedulingFactory;
 import com.netxforge.netxstudio.scheduling.WorkFlowRun;
 import com.netxforge.netxstudio.server.data.IServerNoCacheDataProvider;
 import com.netxforge.netxstudio.server.data.ServerNoCache;
+import com.netxforge.netxstudio.webservice.job.IRunMonitor;
 
 /**
  * Defines the JobImplementation which can be implemented by other plugins.

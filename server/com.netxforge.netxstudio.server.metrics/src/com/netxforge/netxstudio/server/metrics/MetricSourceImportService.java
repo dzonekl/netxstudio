@@ -34,7 +34,6 @@ import com.netxforge.netxstudio.data.importer.CSVMetricValuesImporter;
 import com.netxforge.netxstudio.data.importer.IImporterHelper;
 import com.netxforge.netxstudio.data.importer.RDBMSMetricValuesImporter;
 import com.netxforge.netxstudio.data.importer.HSSFMetricValuesImporter;
-import com.netxforge.netxstudio.data.job.IRunMonitor;
 import com.netxforge.netxstudio.metrics.MappingCSV;
 import com.netxforge.netxstudio.metrics.MappingRDBMS;
 import com.netxforge.netxstudio.metrics.MappingXLS;
@@ -48,6 +47,7 @@ import com.netxforge.netxstudio.server.data.Server;
 import com.netxforge.netxstudio.server.job.ServerWorkFlowRunMonitor;
 import com.netxforge.netxstudio.server.metrics.internal.MetricsActivator;
 import com.netxforge.netxstudio.server.service.NetxForgeService;
+import com.netxforge.netxstudio.webservice.job.IRunMonitor;
 
 /**
  * Runs import for a metric source.

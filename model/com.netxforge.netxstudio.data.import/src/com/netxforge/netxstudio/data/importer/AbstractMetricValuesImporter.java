@@ -54,7 +54,6 @@ import com.netxforge.netxstudio.data.index.IComponentLocator;
 import com.netxforge.netxstudio.data.index.IComponentLocator.IdentifierDescriptor;
 import com.netxforge.netxstudio.data.index.IComponentLocator.MetricDescriptor;
 import com.netxforge.netxstudio.data.internal.ImportActivator;
-import com.netxforge.netxstudio.data.job.IRunMonitor;
 import com.netxforge.netxstudio.data.services.ResultProcessor;
 import com.netxforge.netxstudio.generics.DateTimeRange;
 import com.netxforge.netxstudio.generics.GenericsFactory;
@@ -76,6 +75,7 @@ import com.netxforge.netxstudio.metrics.ValueDataKind;
 import com.netxforge.netxstudio.metrics.ValueKindType;
 import com.netxforge.netxstudio.scheduling.JobRunState;
 import com.netxforge.netxstudio.scheduling.SchedulingPackage;
+import com.netxforge.netxstudio.webservice.job.IRunMonitor;
 
 /**
  * The main entry class for the Metrics importing. Uses a delegation pattern so

@@ -51,7 +51,6 @@ import com.google.common.collect.Lists;
 import com.google.inject.Inject;
 import com.netxforge.base.NonModelUtils;
 import com.netxforge.netxstudio.common.model.StudioUtils;
-import com.netxforge.netxstudio.data.actions.ServerRequest;
 import com.netxforge.netxstudio.library.NetXResource;
 import com.netxforge.netxstudio.metrics.MetricSource;
 import com.netxforge.netxstudio.metrics.MetricsFactory;
@@ -67,6 +66,7 @@ import com.netxforge.netxstudio.screens.f4.MappingStatistics;
 import com.netxforge.netxstudio.screens.f4.MetricSourceLabelProvider;
 import com.netxforge.netxstudio.screens.f4.NewEditJob;
 import com.netxforge.netxstudio.screens.f4.NewEditMetricSource;
+import com.netxforge.netxstudio.webservice.actions.ServerRequest;
 import com.netxforge.screens.editing.base.ScreenUtil;
 import com.netxforge.screens.editing.base.actions.SeparatorAction;
 
