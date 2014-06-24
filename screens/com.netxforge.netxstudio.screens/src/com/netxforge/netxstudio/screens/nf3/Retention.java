@@ -71,7 +71,6 @@ import org.eclipse.wb.swt.ResourceManager;
 import com.google.inject.Inject;
 import com.netxforge.base.NonModelUtils;
 import com.netxforge.base.cdo.ICDOData;
-import com.netxforge.netxstudio.data.actions.ServerRequest;
 import com.netxforge.netxstudio.data.fixtures.Fixtures;
 import com.netxforge.netxstudio.data.fixtures.IFixtures;
 import com.netxforge.netxstudio.library.Expression;
@@ -84,6 +83,7 @@ import com.netxforge.netxstudio.metrics.MetricsFactory;
 import com.netxforge.netxstudio.metrics.MetricsPackage;
 import com.netxforge.netxstudio.screens.AbstractScreen;
 import com.netxforge.netxstudio.screens.ch9.NewEditExpression;
+import com.netxforge.netxstudio.webservice.actions.ServerRequest;
 import com.netxforge.screens.editing.base.IDataServiceInjection;
 import com.netxforge.screens.editing.base.ScreenUtil;
 

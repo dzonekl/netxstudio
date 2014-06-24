@@ -19,8 +19,8 @@ package com.netxforge.netxstudio.server.job;
 
 import java.util.Map;
 
-import com.netxforge.netxstudio.data.actions.ServerRequest;
 import com.netxforge.netxstudio.server.service.NetxForgeService;
+import com.netxforge.netxstudio.webservice.actions.ServerRequest;
 
 /**
  * Run a command for our Jobs API.

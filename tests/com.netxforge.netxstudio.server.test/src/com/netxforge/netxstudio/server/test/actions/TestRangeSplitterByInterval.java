@@ -28,8 +28,8 @@ import org.junit.Before;
 import org.junit.Test;
 
 import com.google.common.collect.Lists;
-import com.google.inject.Inject;
-import com.netxforge.netxstudio.common.model.ModelUtils;
+import com.netxforge.base.NonModelUtils;
+import com.netxforge.netxstudio.common.model.StudioUtils;
 import com.netxforge.netxstudio.generics.GenericsFactory;
 import com.netxforge.netxstudio.generics.Value;
 import com.netxforge.tests.AbstractInjectedTestJUnit4;
@@ -47,9 +47,6 @@ public class TestRangeSplitterByInterval extends AbstractInjectedTestJUnit4 {
 	List<Value> monthValues;
 	List<Value> weekValues;
 
-	@Inject
-	private ModelUtils modelUtils;
-
 	@Before
 	public void up() {
 		
@@ -58,14 +55,14 @@ public class TestRangeSplitterByInterval extends AbstractInjectedTestJUnit4 {
 		_15minValues = Lists.newArrayList();
 
 		{ // start 1 week from now, increase one hour each time.
-			Date oneWeekAgo = modelUtils.oneWeekAgo();
-			oneWeekAgo = modelUtils.adjustToDayStart(oneWeekAgo);
+			Date oneWeekAgo = NonModelUtils.oneWeekAgo();
+			oneWeekAgo = NonModelUtils.adjustToDayStart(oneWeekAgo);
 			Calendar instance = Calendar.getInstance();
 			instance.setTime(oneWeekAgo);
 			for (int i = 0; i < 672; i++) {
 				Value v = GenericsFactory.eINSTANCE.createValue();
 				instance.add(Calendar.MINUTE, 15);
-				v.setTimeStamp(modelUtils.toXMLDate(instance.getTime()));
+				v.setTimeStamp(NonModelUtils.toXMLDate(instance.getTime()));
 				v.setValue(i);
 				_15minValues.add(v);
 			}
@@ -74,14 +71,14 @@ public class TestRangeSplitterByInterval extends AbstractInjectedTestJUnit4 {
 		hourValues = Lists.newArrayList();
 
 		{
-			Date oneWeekAgo = modelUtils.oneWeekAgo();
-			oneWeekAgo = modelUtils.adjustToDayStart(oneWeekAgo);
+			Date oneWeekAgo = NonModelUtils.oneWeekAgo();
+			oneWeekAgo = NonModelUtils.adjustToDayStart(oneWeekAgo);
 			Calendar instance = Calendar.getInstance();
 			instance.setTime(oneWeekAgo);
 			for (int i = 0; i < 100; i++) {
 				Value v = GenericsFactory.eINSTANCE.createValue();
 				instance.add(Calendar.HOUR_OF_DAY, 1);
-				v.setTimeStamp(modelUtils.toXMLDate(instance.getTime()));
+				v.setTimeStamp(NonModelUtils.toXMLDate(instance.getTime()));
 				v.setValue(i);
 				hourValues.add(v);
 			}
@@ -89,14 +86,14 @@ public class TestRangeSplitterByInterval extends AbstractInjectedTestJUnit4 {
 		dayValues = Lists.newArrayList();
 		// start 365 days from now, increase one day each time.
 		{
-			Date today = modelUtils.todayAndNow();
-			today = modelUtils.adjustToDayStart(today);
+			Date today = NonModelUtils.todayAndNow();
+			today = NonModelUtils.adjustToDayStart(today);
 			Calendar instance = Calendar.getInstance();
 			instance.setTime(today);
 			for (int i = 0; i < 365; i++) {
 				Value v = GenericsFactory.eINSTANCE.createValue();
 				instance.add(Calendar.DAY_OF_YEAR, -1);
-				v.setTimeStamp(modelUtils.toXMLDate(instance.getTime()));
+				v.setTimeStamp(NonModelUtils.toXMLDate(instance.getTime()));
 				v.setValue(i);
 				dayValues.add(v);
 			}
@@ -105,14 +102,14 @@ public class TestRangeSplitterByInterval extends AbstractInjectedTestJUnit4 {
 		weekValues = Lists.newArrayList();
 		// start today, decrease one year, one week each time.
 		{
-			Date today = modelUtils.todayAndNow();
-			today = modelUtils.adjustToDayStart(today);
+			Date today = NonModelUtils.todayAndNow();
+			today = NonModelUtils.adjustToDayStart(today);
 			Calendar instance = Calendar.getInstance();
 			instance.setTime(today);
 			for (int i = 0; i < 52; i++) {
 				Value v = GenericsFactory.eINSTANCE.createValue();
 				instance.add(Calendar.WEEK_OF_YEAR, -1);
-				v.setTimeStamp(modelUtils.toXMLDate(instance.getTime()));
+				v.setTimeStamp(NonModelUtils.toXMLDate(instance.getTime()));
 				v.setValue(i);
 				weekValues.add(v);
 			}
@@ -120,15 +117,15 @@ public class TestRangeSplitterByInterval extends AbstractInjectedTestJUnit4 {
 
 		monthValues = Lists.newArrayList();
 		// start 3 months from now, increase one day each time.
-		Date manyDaysAgo = modelUtils.daysAgo(500);
-		manyDaysAgo = modelUtils.adjustToDayStart(manyDaysAgo);
+		Date manyDaysAgo = NonModelUtils.daysAgo(500);
+		manyDaysAgo = NonModelUtils.adjustToDayStart(manyDaysAgo);
 		{
 			Calendar instance = Calendar.getInstance();
 			instance.setTime(manyDaysAgo);
 			for (int i = 0; i < 24; i++) {
 				Value v = GenericsFactory.eINSTANCE.createValue();
 				instance.add(Calendar.MONTH, 1);
-				v.setTimeStamp(modelUtils.toXMLDate(instance.getTime()));
+				v.setTimeStamp(NonModelUtils.toXMLDate(instance.getTime()));
 				v.setValue(i);
 				monthValues.add(v);
 			}
@@ -141,8 +138,8 @@ public class TestRangeSplitterByInterval extends AbstractInjectedTestJUnit4 {
 		System.out.println("Split 15 min by hour (One week values)");
 		{
 			int size = _15minValues.size();
-			List<List<Value>> splitValueRange = modelUtils.values_(
-					_15minValues, ModelUtils.MINUTES_IN_AN_HOUR);
+			List<List<Value>> splitValueRange = StudioUtils.values_(
+					_15minValues, NonModelUtils.MINUTES_IN_AN_HOUR);
 			int subRangesSize = 0;
 			for (List<Value> seq : splitValueRange) {
 				subRangesSize += seq.size();
@@ -164,8 +161,8 @@ public class TestRangeSplitterByInterval extends AbstractInjectedTestJUnit4 {
 		System.out.println("Split 15 min by day (One week values)");
 		{
 			int size = _15minValues.size();
-			List<List<Value>> splitValueRange = modelUtils.values_(
-					_15minValues, ModelUtils.MINUTES_IN_A_DAY);
+			List<List<Value>> splitValueRange = StudioUtils.values_(
+					_15minValues, NonModelUtils.MINUTES_IN_A_DAY);
 			int subRangesSize = 0;
 			for (List<Value> seq : splitValueRange) {
 				subRangesSize += seq.size();
@@ -186,8 +183,8 @@ public class TestRangeSplitterByInterval extends AbstractInjectedTestJUnit4 {
 		System.out.println("Split 15 min by week (One week values)");
 		{
 			int size = _15minValues.size();
-			List<List<Value>> splitValueRange = modelUtils.values_(
-					_15minValues, ModelUtils.MINUTES_IN_A_WEEK);
+			List<List<Value>> splitValueRange = StudioUtils.values_(
+					_15minValues, NonModelUtils.MINUTES_IN_A_WEEK);
 			int subRangesSize = 0;
 			for (List<Value> seq : splitValueRange) {
 				subRangesSize += seq.size();
@@ -208,8 +205,8 @@ public class TestRangeSplitterByInterval extends AbstractInjectedTestJUnit4 {
 		System.out.println("Split hour by day (100 hours)");
 		{
 			int size = hourValues.size();
-			List<List<Value>> splitValueRange = modelUtils.values_(hourValues,
-					ModelUtils.MINUTES_IN_A_DAY);
+			List<List<Value>> splitValueRange = StudioUtils.values_(hourValues,
+					NonModelUtils.MINUTES_IN_A_DAY);
 			int subRangesSize = 0;
 			for (List<Value> seq : splitValueRange) {
 				subRangesSize += seq.size();
@@ -225,8 +222,8 @@ public class TestRangeSplitterByInterval extends AbstractInjectedTestJUnit4 {
 		System.out.println("Split day by day (1 Year)");
 		{
 			int size = dayValues.size();
-			List<List<Value>> splitValueRange = modelUtils.values_(dayValues,
-					ModelUtils.MINUTES_IN_A_DAY);
+			List<List<Value>> splitValueRange = StudioUtils.values_(dayValues,
+					NonModelUtils.MINUTES_IN_A_DAY);
 			int subRangesSize = 0;
 			for (List<Value> seq : splitValueRange) {
 				subRangesSize += seq.size();
@@ -242,8 +239,8 @@ public class TestRangeSplitterByInterval extends AbstractInjectedTestJUnit4 {
 
 			System.out.println("Split day by week (1 year)");
 			int size = dayValues.size();
-			List<List<Value>> splitValueRange = modelUtils.values_(dayValues,
-					ModelUtils.MINUTES_IN_A_WEEK);
+			List<List<Value>> splitValueRange = StudioUtils.values_(dayValues,
+					NonModelUtils.MINUTES_IN_A_WEEK);
 			int subRangesSize = 0;
 			for (List<Value> seq : splitValueRange) {
 				subRangesSize += seq.size();
@@ -262,8 +259,8 @@ public class TestRangeSplitterByInterval extends AbstractInjectedTestJUnit4 {
 		System.out.println("Split weeks by month (3 Months)");
 		{
 			int size = weekValues.size();
-			List<List<Value>> splitValueRange = modelUtils.values_(weekValues,
-					ModelUtils.MINUTES_IN_A_MONTH);
+			List<List<Value>> splitValueRange = StudioUtils.values_(weekValues,
+					NonModelUtils.MINUTES_IN_A_MONTH);
 			int subRangesSize = 0;
 			for (List<Value> seq : splitValueRange) {
 				subRangesSize += seq.size();
@@ -281,8 +278,8 @@ public class TestRangeSplitterByInterval extends AbstractInjectedTestJUnit4 {
 		System.out.println("Split month by month (24 months)");
 		{
 			int size = monthValues.size();
-			List<List<Value>> splitValueRange = modelUtils.values_(monthValues,
-					ModelUtils.MINUTES_IN_A_MONTH);
+			List<List<Value>> splitValueRange = StudioUtils.values_(monthValues,
+					NonModelUtils.MINUTES_IN_A_MONTH);
 			int subRangesSize = 0;
 			for (List<Value> seq : splitValueRange) {
 				subRangesSize += seq.size();

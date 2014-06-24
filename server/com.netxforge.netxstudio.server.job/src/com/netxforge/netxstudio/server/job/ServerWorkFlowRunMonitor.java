@@ -29,7 +29,6 @@ import org.eclipse.emf.cdo.session.CDOSession;
 import com.google.inject.Inject;
 import com.netxforge.base.NonModelUtils;
 import com.netxforge.base.cdo.ICDOData;
-import com.netxforge.netxstudio.data.job.WorkFlowRunMonitor;
 import com.netxforge.netxstudio.scheduling.ComponentWorkFlowRun;
 import com.netxforge.netxstudio.scheduling.Failure;
 import com.netxforge.netxstudio.scheduling.JobRunState;
@@ -37,6 +36,7 @@ import com.netxforge.netxstudio.scheduling.WorkFlowRun;
 import com.netxforge.netxstudio.server.data.IServerDataProvider;
 import com.netxforge.netxstudio.server.data.Server;
 import com.netxforge.netxstudio.server.job.internal.JobActivator;
+import com.netxforge.netxstudio.webservice.job.WorkFlowRunMonitor;
 
 /**
  * The work flow monitor used on the server side. Exceptions (Related to CDO

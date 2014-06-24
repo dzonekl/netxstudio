@@ -36,7 +36,6 @@ import com.google.inject.Inject;
 import com.netxforge.base.cdo.ICDOData;
 import com.netxforge.base.properties.IPropertiesProvider;
 import com.netxforge.netxstudio.common.model.StudioUtils;
-import com.netxforge.netxstudio.data.job.IRunMonitor;
 import com.netxforge.netxstudio.scheduling.Job;
 import com.netxforge.netxstudio.scheduling.JobRunContainer;
 import com.netxforge.netxstudio.scheduling.SchedulingFactory;
@@ -45,6 +44,7 @@ import com.netxforge.netxstudio.scheduling.WorkFlowRun;
 import com.netxforge.netxstudio.server.data.IServerDataProvider;
 import com.netxforge.netxstudio.server.data.Server;
 import com.netxforge.netxstudio.server.job.internal.JobActivator;
+import com.netxforge.netxstudio.webservice.job.IRunMonitor;
 
 /**
  * Represents a Quartz job, will update job results etc.

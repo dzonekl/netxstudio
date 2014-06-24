@@ -24,10 +24,10 @@ import java.util.List;
 
 import com.netxforge.base.NonModelUtils;
 import com.netxforge.base.cdo.ICDOData;
-import com.netxforge.netxstudio.data.job.IRunMonitor;
 import com.netxforge.netxstudio.generics.DateTimeRange;
 import com.netxforge.netxstudio.scheduling.Failure;
 import com.netxforge.netxstudio.server.job.ServerWorkFlowRunMonitor;
+import com.netxforge.netxstudio.webservice.job.IRunMonitor;
 
 /**
  * Holds several attributes like {@link ModelUtils} and the current

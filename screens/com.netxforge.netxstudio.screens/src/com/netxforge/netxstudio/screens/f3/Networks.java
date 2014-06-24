@@ -73,7 +73,6 @@ import org.eclipse.wb.swt.ResourceManager;
 
 import com.google.common.collect.Lists;
 import com.google.inject.Inject;
-import com.netxforge.netxstudio.data.actions.ServerRequest;
 import com.netxforge.netxstudio.generics.GenericsPackage;
 import com.netxforge.netxstudio.library.Equipment;
 import com.netxforge.netxstudio.library.Function;
@@ -108,6 +107,7 @@ import com.netxforge.netxstudio.screens.f3.support.NetworkTreeFactoryImpl;
 import com.netxforge.netxstudio.screens.f3.support.NetworkTreeLabelProvider;
 import com.netxforge.netxstudio.screens.f3.support.NetworkTreeStructureAdvisorImpl;
 import com.netxforge.netxstudio.screens.f4.NewEditJob;
+import com.netxforge.netxstudio.webservice.actions.ServerRequest;
 import com.netxforge.screens.editing.base.IDataServiceInjection;
 import com.netxforge.screens.editing.base.ScreenUtil;
 import com.netxforge.screens.editing.base.WizardUtil;

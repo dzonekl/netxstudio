@@ -37,9 +37,9 @@ import org.eclipse.ui.forms.widgets.Section;
 import com.google.inject.Inject;
 import com.netxforge.netxstudio.NetxstudioPackage;
 import com.netxforge.netxstudio.ServerSettings;
-import com.netxforge.netxstudio.data.actions.ServerRequest;
 import com.netxforge.netxstudio.generics.GenericsPackage;
 import com.netxforge.netxstudio.screens.AbstractScreen;
+import com.netxforge.netxstudio.webservice.actions.ServerRequest;
 import com.netxforge.screens.editing.base.IDataServiceInjection;
 
 public class Settings extends AbstractScreen implements IDataServiceInjection {

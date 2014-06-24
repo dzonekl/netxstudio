@@ -15,7 +15,7 @@
  * Contributors: Christophe Bouhier - initial API and implementation and/or
  * initial documentation
  *******************************************************************************/
-package com.netxforge.netxstudio.data.internal;
+package com.netxforge.netxstudio.webservice.internal;
 
 import static org.ops4j.peaberry.Peaberry.osgiModule;
 
@@ -33,7 +33,7 @@ import com.google.inject.Guice;
 import com.google.inject.Inject;
 import com.google.inject.Injector;
 import com.google.inject.Module;
-import com.netxforge.netxstudio.data.actions.ServerRequest;
+import com.netxforge.netxstudio.webservice.actions.ServerRequest;
 
 /**
  * @author Christophe Bouhier

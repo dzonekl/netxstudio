@@ -248,8 +248,14 @@ public class ServerActivator implements BundleActivator, DebugOptionsListener,
 							Integer integer = new Integer(next3Argument);
 							EPackage epack = ServerDataPackages.INSTANCE
 									.getPackageForIndex(integer.intValue());
-							if (epack != null) {
+
+							if (serverUtils.isLoaded(epack)) {
+								// Get package info from the repo?
 								return epack.toString();
+							} else {
+								return "Sorry package ["
+										+ integer
+										+ "], not loaded in our package store :-(";
 							}
 						} catch (NumberFormatException nfe) {
 							return "expected an index for the package registry";

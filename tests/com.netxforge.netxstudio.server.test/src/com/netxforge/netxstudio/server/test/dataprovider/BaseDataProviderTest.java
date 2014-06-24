@@ -9,13 +9,13 @@ import org.junit.Test;
 
 import com.google.inject.Inject;
 import com.netxforge.netxstudio.NetxstudioPackage;
-import com.netxforge.netxstudio.data.IDataService;
+import com.netxforge.netxstudio.data.ICDODataService;
 import com.netxforge.tests.AbstractInjectedTestJUnit4;
 
 public class BaseDataProviderTest extends AbstractInjectedTestJUnit4 {
 
 	@Inject
-	IDataService service;
+	ICDODataService service;
 
 	@Before
 	public void setUp() throws Exception {
@@ -25,16 +25,16 @@ public class BaseDataProviderTest extends AbstractInjectedTestJUnit4 {
 	@Test
 	public void testConnection() throws Exception {
 		// Open and close the session with an admin user.
-		service.getProvider().openSession("admin", "admin");
-		service.getProvider().closeSession();
+		service.getCDOData().openSession("admin", "admin");
+		service.getCDOData().closeSession();
 	}
 
 	@Test
 	public void testFeatureAccessWithoutResourceSet() throws Exception {
 		// Open and close the session with an admin user.
-		service.getProvider().openSession("admin", "admin");
+		service.getCDOData().openSession("admin", "admin");
 
-		Resource res = service.getProvider().getResource(
+		Resource res = service.getCDOData().getResource(
 				NetxstudioPackage.Literals.NETXSTUDIO);
 
 		Assert.assertNotNull(res);
@@ -42,7 +42,7 @@ public class BaseDataProviderTest extends AbstractInjectedTestJUnit4 {
 
 		URI uri = res.getURI();
 		System.out.println(uri.toString());
-		service.getProvider().closeSession();
+		service.getCDOData().closeSession();
 	}
 
 }

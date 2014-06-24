@@ -30,7 +30,6 @@ import com.netxforge.base.cdo.ICDOData;
 import com.netxforge.netxstudio.NetxstudioPackage;
 import com.netxforge.netxstudio.ServerSettings;
 import com.netxforge.netxstudio.common.model.StudioUtils;
-import com.netxforge.netxstudio.data.job.IRunMonitor;
 import com.netxforge.netxstudio.library.Component;
 import com.netxforge.netxstudio.library.Expression;
 import com.netxforge.netxstudio.scheduling.ComponentFailure;
@@ -41,6 +40,7 @@ import com.netxforge.netxstudio.server.data.IServerDataProvider;
 import com.netxforge.netxstudio.server.data.Server;
 import com.netxforge.netxstudio.server.job.ServerWorkFlowRunMonitor;
 import com.netxforge.netxstudio.server.logic.internal.LogicActivator;
+import com.netxforge.netxstudio.webservice.job.IRunMonitor;
 
 /**
  * Common code for all logic implementations. The Base Logic can be run once or

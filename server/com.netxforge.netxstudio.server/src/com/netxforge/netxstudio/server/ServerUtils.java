@@ -26,7 +26,6 @@ import org.eclipse.emf.cdo.common.revision.CDORevisionUtil;
 import org.eclipse.emf.cdo.net4j.CDONet4jSession;
 import org.eclipse.emf.cdo.net4j.CDONet4jSessionConfiguration;
 import org.eclipse.emf.cdo.net4j.CDONet4jUtil;
-import org.eclipse.emf.cdo.server.CDOServerUtil;
 import org.eclipse.emf.cdo.server.IRepository;
 import org.eclipse.emf.cdo.server.ISession;
 import org.eclipse.emf.cdo.server.IStore;
@@ -34,6 +33,9 @@ import org.eclipse.emf.cdo.server.db.IDBStore;
 import org.eclipse.emf.cdo.session.CDOSession;
 import org.eclipse.emf.cdo.session.CDOSession.ExceptionHandler;
 import org.eclipse.emf.cdo.spi.server.ISessionProtocol;
+import org.eclipse.emf.cdo.transaction.CDOTransaction;
+import org.eclipse.emf.cdo.util.CommitException;
+import org.eclipse.emf.cdo.util.ConcurrentAccessException;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EClassifier;
 import org.eclipse.emf.ecore.EPackage;
@@ -411,46 +413,58 @@ public class ServerUtils implements IServerUtils {
 	}
 
 	public boolean isLoaded(EPackage epack) {
-		IPluginContainer instance = IPluginContainer.INSTANCE;
-		IRepository repository = CDOServerUtil.getRepository(instance, REPO_NAME);
-		CDOPackageInfo packageInfo = repository.getPackageRegistry()
+		LocalSession localSession = new LocalSession();
+		CDOSession session = localSession.getDataProvider().openSession();
+
+		CDOPackageInfo packageInfo = session.getPackageRegistry()
 				.getPackageInfo(epack);
+		session.close();
 		return packageInfo != null;
 	}
 
 	public boolean load(EPackage epack) {
-		
+
 		LocalSession localSession = new LocalSession();
-		ServerActivator.getInstance().getInjector().injectMembers(localSession);
-		
 		localSession.getDataProvider().openSession();
-		CDOPackageRegistry packageRegistry = localSession.getDataProvider().getSession().getPackageRegistry();
-		
-		CDOPackageInfo packageInfo = packageRegistry
-				.getPackageInfo(epack);
+
+		CDOPackageRegistry packageRegistry = localSession.getDataProvider()
+				.getSession().getPackageRegistry();
+
+		CDOPackageInfo packageInfo = packageRegistry.getPackageInfo(epack);
 		if (packageInfo == null) {
+			CDOTransaction transaction = localSession.getDataProvider()
+					.getTransaction();
 			packageRegistry.putEPackage(epack);
+			try {
+				
+				transaction.commit();
+				transaction.close();
+			} catch (ConcurrentAccessException e) {
+				e.printStackTrace();
+			} catch (CommitException e) {
+				e.printStackTrace();
+			}
 			localSession.getDataProvider().closeSession();
 			return true;
 		}
 		return false;
-		
+
 	}
-	
-	
-	class LocalSession{
-		
+
+	class LocalSession {
+
 		@Inject
 		@Server
 		private ICDOData dataProvider;
-		
+
+		public LocalSession() {
+			ServerActivator.getInstance().getInjector().injectMembers(this);
+		}
+
 		public ICDOData getDataProvider() {
 			return dataProvider;
 		}
-		
+
 	}
-	
-	
-	
 
 }

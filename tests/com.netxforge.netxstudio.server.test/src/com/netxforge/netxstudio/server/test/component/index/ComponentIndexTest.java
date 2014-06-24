@@ -10,8 +10,9 @@ import org.junit.Before;
 import org.junit.Test;
 
 import com.google.inject.Inject;
-import com.netxforge.netxstudio.common.model.ModelUtils;
-import com.netxforge.netxstudio.data.IData;
+import com.netxforge.base.NonModelUtils;
+import com.netxforge.base.cdo.ICDOData;
+import com.netxforge.netxstudio.common.model.StudioUtils;
 import com.netxforge.netxstudio.data.index.ComponentMappingIndex;
 import com.netxforge.netxstudio.data.index.IComponentMappingIndex;
 import com.netxforge.netxstudio.library.Equipment;
@@ -36,10 +37,7 @@ public class ComponentIndexTest extends AbstractInjectedTestJUnit4 {
 	private IComponentMappingIndex index;
 
 	@Inject
-	private ModelUtils modelUtils;
-
-	@Inject
-	private IData provider;
+	private ICDOData provider;
 
 	// TEST NETWORK, Freely create, change etc.. nodes, functions etc..
 	private static String TESTNETWORK_OID = "2636154";
@@ -65,7 +63,7 @@ public class ComponentIndexTest extends AbstractInjectedTestJUnit4 {
 		waitForIndexing();
 
 		System.out.println("index creation took "
-				+ modelUtils.timeDurationNanoFromStart(nanoTime));
+				+ NonModelUtils.timeDurationNanoFromStart(nanoTime));
 
 		int size = index.size();
 
@@ -172,7 +170,7 @@ public class ComponentIndexTest extends AbstractInjectedTestJUnit4 {
 				.createIdentifierDataKind();
 		// Set the default identifier.
 		idk.setObjectKind(ObjectKindType.NODE);
-		idk.setObjectProperty(ModelUtils.NODE_ID);
+		idk.setObjectProperty(StudioUtils.NODE_ID);
 		return idk;
 	}
 

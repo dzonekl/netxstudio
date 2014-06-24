@@ -39,8 +39,10 @@ import org.junit.Before;
 import org.junit.Test;
 
 import com.google.inject.Inject;
+import com.netxforge.base.NonModelUtils;
 import com.netxforge.netxstudio.common.model.ModelUtils;
 import com.netxforge.netxstudio.data.IQueryService;
+import com.netxforge.netxstudio.data.cdo.CDOQueryService;
 import com.netxforge.netxstudio.generics.DateTimeRange;
 import com.netxforge.netxstudio.generics.GenericsFactory;
 import com.netxforge.netxstudio.generics.Value;
@@ -51,28 +53,20 @@ import com.netxforge.netxstudio.metrics.MetricsPackage;
 
 public class QueryTest extends AbstractDataServiceTest4 {
 
-	@Inject
-	private ModelUtils modelUtils;
-	
-	@Before
-	public void before(){
-		this.getClientInjector().injectMembers(this);
-	}
-	
 	
 	@Test
 	public void test1_CDO_SQL_QUERY() {
 
-		service.getProvider().openSession("admin", "admin");
+		service.getCDOData().openSession("admin", "admin");
 
 		// Resolve the object from an existing resource.
 
 		// Use a new view to execute the query.
-		CDOView cdoView = service.getProvider().getSession().openView();
+		CDOView cdoView = service.getCDOData().getSession().openView();
 
 		// Find a single value in for a date. (Hard coded OID and date!).
 		System.out.println(doQuerySingleValue(cdoView,
-				IQueryService.QUERY_MYSQL));
+				CDO.QUERY_MYSQL));
 
 		cdoView.close();
 	}
@@ -195,9 +189,9 @@ public class QueryTest extends AbstractDataServiceTest4 {
 		// Get the period.
 		Calendar cal = Calendar.getInstance();
 		cal.set(2012, 4, 13);
-		modelUtils.adjustToDayStart(cal);
+		NonModelUtils.adjustToDayStart(cal);
 
-		XMLGregorianCalendar xmlDate = modelUtils.toXMLDate(cal.getTime());
+		XMLGregorianCalendar xmlDate = NonModelUtils.toXMLDate(cal.getTime());
 
 		String objectID = "46639";
 
@@ -207,17 +201,14 @@ public class QueryTest extends AbstractDataServiceTest4 {
 						.parseLong(objectID));
 
 		// This should be a MetricValueRange object.
-
 		CDOObject object = cdoView.getObject(createLongWithClassifier);
 
-		IQueryService queryService = service.getQueryService();
-
-		List<Value> sortedValues = queryService.mvrValues(cdoView,
+		List<Value> sortedValues = CDOQueryService.mvrValues(cdoView,
 				(MetricValueRange) object, dialect, xmlDate);
 
 		return " found " + sortedValues.size() + " for object: "
 				+ object.cdoRevision() + " for date "
-				+ modelUtils.dateAndTime(xmlDate);
+				+ NonModelUtils.dateAndTime(xmlDate);
 
 	}
 

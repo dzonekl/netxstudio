@@ -29,11 +29,11 @@ import org.eclipse.ui.IWorkbench;
 import com.google.inject.Inject;
 import com.netxforge.netxstudio.common.model.StudioUtils;
 import com.netxforge.netxstudio.data.ICDODataService;
-import com.netxforge.netxstudio.data.actions.ServerRequest;
 import com.netxforge.netxstudio.generics.DateTimeRange;
 import com.netxforge.netxstudio.library.NodeType;
 import com.netxforge.netxstudio.operators.Node;
 import com.netxforge.netxstudio.screens.internal.ScreensActivator;
+import com.netxforge.netxstudio.webservice.actions.ServerRequest;
 import com.netxforge.screens.editing.base.IEditingService;
 
 public class ReportWizard extends Wizard implements INewWizard {

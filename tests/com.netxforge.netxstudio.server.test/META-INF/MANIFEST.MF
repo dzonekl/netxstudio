@@ -25,6 +25,8 @@ Require-Bundle: com.netxforge.netxstudio.models;bundle-version="1.0.0",
  com.google.collect;bundle-version="1.0.0",
  org.snmp4j;bundle-version="1.0.0",
  org.junit;bundle-version="4.8.2",
+ com.netxforge.netxstudio.webservice;bundle-version="1.0.0",
+ com.netxforge.base.cdo;bundle-version="1.0.0",
  com.netxforge.netxstudio.server.job;bundle-version="1.0.0",
  com.netxforge.tests;bundle-version="1.0.0"
 Bundle-RequiredExecutionEnvironment: J2SE-1.5
