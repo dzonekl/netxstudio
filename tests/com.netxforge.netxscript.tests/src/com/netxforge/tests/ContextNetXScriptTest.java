@@ -20,6 +20,7 @@ import com.netxforge.NetxscriptStandaloneSetup;
 import com.netxforge.base.NonModelUtils;
 import com.netxforge.base.cdo.ICDOData;
 import com.netxforge.base.context.IComputationContext;
+import com.netxforge.base.context.IExternalContextAware;
 import com.netxforge.interpreter.IInterpreter;
 import com.netxforge.interpreter.IInterpreterContextFactory;
 import com.netxforge.netxscript.Mod;
@@ -33,7 +34,6 @@ import com.netxforge.netxstudio.library.Component;
 import com.netxforge.netxstudio.library.ExpressionResult;
 import com.netxforge.netxstudio.library.NetXResource;
 import com.netxforge.netxstudio.operators.Node;
-import com.netxforge.scoping.IExternalContextAware;
 
 /**
  * FIXME, Should target test repository.
