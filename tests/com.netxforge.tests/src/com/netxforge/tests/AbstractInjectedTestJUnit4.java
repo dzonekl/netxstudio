@@ -21,17 +21,18 @@ import com.google.inject.Guice;
 import com.google.inject.Injector;
 
 /**
- * Gives access to multiple Guice injectors. The first injector is for a Server
- * setup.
+ * Gives access to multiple Guice injectors. Dude can choose between a client or
+ * server injector. See {@link ClientTestModule} for the client injector and
+ * {@link ServerTestModule} for the server DI bindings.
  * 
  */
 public abstract class AbstractInjectedTestJUnit4 {
 
 	private Injector injector;
 	private Injector serverInjector;
-	
+
 	protected Injector createInjector() {
-		return Guice.createInjector(new TestModule());
+		return Guice.createInjector(new ClientTestModule());
 	}
 
 	protected Injector createServerInjector() {

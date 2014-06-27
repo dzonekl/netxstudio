@@ -24,61 +24,81 @@ import org.eclipse.emf.cdo.eresource.CDOResource;
 import org.eclipse.emf.cdo.session.CDOSession;
 import org.eclipse.emf.cdo.transaction.CDOTransaction;
 import org.eclipse.emf.ecore.EObject;
+import org.junit.Assert;
+import org.junit.Before;
+import org.junit.Test;
 
-import com.netxforge.netxstudio.server.test.base.BaseTest;
+import com.google.inject.Inject;
+import com.netxforge.netxstudio.data.ICDODataService;
+import com.netxforge.tests.AbstractInjectedTestJUnit4;
 
 /**
  * Generates test data for the available epackages.
- *
+ * 
  * @author Martin Taal
  */
-public class DataGenerationTest extends BaseTest
-{
+public class DataGenerationTest extends AbstractInjectedTestJUnit4 {
 
-  /**
-   * Generates data and persists it.
-   */
-  public void testGenerateData() throws Exception
-  {
-	int persistedSize = 0;
-    {
-      final CDOSession session = openSession();
-      final CDOTransaction transaction = session.openTransaction();
+	@Inject
+	private ICDODataService dataService;
 
-      // get/create a resource
-      final CDOResource resource = transaction.getOrCreateResource("/test1"); //$NON-NLS-1$
+	@Before
+	public void before() {
+		this.getClientInjector().injectMembers(this);
+	}
 
-      // clear any previous data
-      resource.getContents().clear();
+	/**
+	 * Generates data and persists it.
+	 */
+	@Test
+	public void testGenerateData() throws Exception {
 
-      resource.getContents().addAll(getTestData());      
-      transaction.commit();
-      persistedSize = resource.getContents().size();
-    }
+		this.dataService.getCDOData().openSession("admin", "admin");
+		final CDOSession session = this.dataService.getCDOData().getSession();
 
-    // read back and do some tests
-    {
-      final CDOSession session = openSession();
-      final CDOTransaction transaction = session.openTransaction();
-      final CDOResource resource = transaction.getResource("/test1"); //$NON-NLS-1$
-      assertEquals(persistedSize, resource.getContents().size());
-      transaction.commit();
-    }
-  }
-  
-  private List<EObject> getTestData() {
-	  throw new IllegalStateException("Need to add dependency on datagenerator");
-//	  final ModelDataGenerator modelDataGenerator = new ModelDataGenerator();
-//	  modelDataGenerator.setStartEClasses(getAllEClasses());
-//	  modelDataGenerator.setMaxDepth(3);
-//	  modelDataGenerator.setUseDynamicEnums(false);
-//	  modelDataGenerator.setCollectionSize(5);
-//	  modelDataGenerator.setDataSize(5);
-//	  modelDataGenerator.setMaxObjects(1000);
-//	  modelDataGenerator.setEPackages(getEPackages());
-//	  modelDataGenerator.generateTestData();
-//	  System.err.println("Generated " + modelDataGenerator.getTotalObjectCount() + " objects ");
-//	  final List<EObject> result = modelDataGenerator.getResult();
-//	  return result;
-  }
+		int persistedSize = 0;
+		{
+
+			final CDOTransaction transaction = session.openTransaction();
+
+			// get/create a resource
+			final CDOResource resource = transaction
+					.getOrCreateResource("/test1"); //$NON-NLS-1$
+
+			// clear any previous data
+			resource.getContents().clear();
+
+			resource.getContents().addAll(getTestData());
+			transaction.commit();
+			persistedSize = resource.getContents().size();
+		}
+
+		// read back and do some tests
+		{
+			final CDOTransaction transaction = session.openTransaction();
+			final CDOResource resource = transaction.getResource("/test1"); //$NON-NLS-1$
+			Assert.assertEquals(persistedSize, resource.getContents().size());
+			transaction.commit();
+		}
+		session.close();
+	}
+
+	private List<EObject> getTestData() {
+		throw new IllegalStateException(
+				"Need to add dependency on datagenerator");
+		// final ModelDataGenerator modelDataGenerator = new
+		// ModelDataGenerator();
+		// modelDataGenerator.setStartEClasses(getAllEClasses());
+		// modelDataGenerator.setMaxDepth(3);
+		// modelDataGenerator.setUseDynamicEnums(false);
+		// modelDataGenerator.setCollectionSize(5);
+		// modelDataGenerator.setDataSize(5);
+		// modelDataGenerator.setMaxObjects(1000);
+		// modelDataGenerator.setEPackages(getEPackages());
+		// modelDataGenerator.generateTestData();
+		// System.err.println("Generated " +
+		// modelDataGenerator.getTotalObjectCount() + " objects ");
+		// final List<EObject> result = modelDataGenerator.getResult();
+		// return result;
+	}
 }

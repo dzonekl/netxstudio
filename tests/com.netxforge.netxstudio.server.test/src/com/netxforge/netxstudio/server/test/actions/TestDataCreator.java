@@ -85,7 +85,7 @@ import com.netxforge.netxstudio.services.ServiceProfile;
 import com.netxforge.netxstudio.services.ServiceUser;
 import com.netxforge.netxstudio.services.ServicesFactory;
 import com.netxforge.netxstudio.services.ServicesPackage;
-import com.netxforge.tests.TestModule;
+import com.netxforge.tests.ClientTestModule;
 
 /**
  * Creates test data. Steps:
@@ -122,7 +122,7 @@ public class TestDataCreator implements NetxForgeService {
 
 	public Object run(Map<String, String> parameters) {
 		try {
-			Guice.createInjector(new TestModule()).injectMembers(this);
+			Guice.createInjector(new ClientTestModule()).injectMembers(this);
 
 			dataProvider.setDoGetResourceFromOwnTransaction(false);
 			dataProvider.openSession("admin", "admin");

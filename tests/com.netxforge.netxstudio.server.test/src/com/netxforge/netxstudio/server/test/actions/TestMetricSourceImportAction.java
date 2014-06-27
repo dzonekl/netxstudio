@@ -29,9 +29,6 @@ import javax.xml.datatype.XMLGregorianCalendar;
 
 import org.eclipse.emf.cdo.CDOObject;
 import org.eclipse.emf.cdo.common.id.CDOID;
-import org.eclipse.emf.cdo.common.id.CDOIDUtil;
-import org.eclipse.emf.cdo.common.model.CDOClassifierRef;
-import org.eclipse.emf.cdo.spi.common.id.AbstractCDOIDLong;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.xml.type.XMLTypeFactory;
@@ -40,12 +37,12 @@ import org.junit.Assert;
 import org.junit.Before;
 
 import com.google.inject.Inject;
-import com.netxforge.netxstudio.common.model.ModelUtils;
-import com.netxforge.netxstudio.data.IData;
+import com.netxforge.base.NonModelUtils;
+import com.netxforge.base.cdo.CDO;
+import com.netxforge.base.cdo.ICDOData;
 import com.netxforge.netxstudio.data.cdo.NonStatic;
 import com.netxforge.netxstudio.metrics.MetricsPackage;
 import com.netxforge.netxstudio.scheduling.JobRunState;
-import com.netxforge.netxstudio.scheduling.SchedulingPackage;
 import com.netxforge.netxstudio.scheduling.WorkFlowRun;
 import com.netxforge.netxstudio.server.metrics.MetricSourceImportService;
 import com.netxforge.netxstudio.server.service.NetxForgeService;
@@ -60,14 +57,11 @@ public class TestMetricSourceImportAction extends AbstractInjectedTestJUnit4 {
 
 	@Inject
 	@NonStatic
-	private IData dataProvider;
+	private ICDOData dataProvider;
 
 	@Inject
 	@NonStatic
-	private IData anotherDataProvider;
-
-	@Inject
-	private ModelUtils modelUtils;
+	private ICDOData anotherDataProvider;
 
 	@Before
 	public void setUp() throws Exception {
@@ -94,7 +88,7 @@ public class TestMetricSourceImportAction extends AbstractInjectedTestJUnit4 {
 
 	public void callAction(final String paramName, final CDOObject cdoObject)
 			throws Exception {
-		if (((AbstractCDOIDLong) cdoObject.cdoID()).getLongValue() == 741) {
+		if (CDO.cdoLongIDAslong(cdoObject.cdoID()) == 741) {
 			return;
 		}
 
@@ -127,14 +121,11 @@ public class TestMetricSourceImportAction extends AbstractInjectedTestJUnit4 {
 		url.append("http://localhost:8080/netxforge/service");
 		url.append("?" + NetxForgeService.SERVICE_PARAM_NAME + "="
 				+ MetricSourceImportService.class.getName());
-		url.append("&" + parameterName + "="
-				+ ((AbstractCDOIDLong) cdoId).getLongValue());
+		url.append("&" + parameterName + "=" + CDO.cdoLongIDAsString(cdoId));
 
 		System.err.println(url.toString());
 		final String result = doRequest(url.toString());
-		final CDOID resultCDOID = CDOIDUtil.createLongWithClassifier(
-				new CDOClassifierRef(SchedulingPackage.Literals.WORK_FLOW_RUN),
-				Long.parseLong(result));
+		final CDOID resultCDOID = CDO.cdoLongIDFromString(result);
 		return (WorkFlowRun) dataProvider.getTransaction().getObject(
 				resultCDOID);
 	}
@@ -174,7 +165,7 @@ public class TestMetricSourceImportAction extends AbstractInjectedTestJUnit4 {
 
 	@SuppressWarnings("unused")
 	private String getDateParamValue(long offset) {
-		final XMLGregorianCalendar xmlDate = modelUtils.toXMLDate(new Date(
+		final XMLGregorianCalendar xmlDate = NonModelUtils.toXMLDate(new Date(
 				System.currentTimeMillis() + offset));
 		return XMLTypeFactory.eINSTANCE.convertDateTime(xmlDate);
 	}

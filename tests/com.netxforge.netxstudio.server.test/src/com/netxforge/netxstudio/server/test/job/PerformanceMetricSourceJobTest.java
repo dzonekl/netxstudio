@@ -5,9 +5,8 @@ import org.eclipse.emf.ecore.EObject;
 import org.junit.Before;
 import org.junit.Test;
 
-import com.google.inject.Inject;
-import com.netxforge.netxstudio.data.IData;
-import com.netxforge.netxstudio.data.IDataService;
+import com.netxforge.base.cdo.ICDOData;
+import com.netxforge.netxstudio.data.ICDODataService;
 import com.netxforge.netxstudio.scheduling.Job;
 import com.netxforge.netxstudio.scheduling.JobState;
 import com.netxforge.netxstudio.scheduling.SchedulingPackage;
@@ -15,15 +14,15 @@ import com.netxforge.tests.AbstractInjectedTestJUnit4;
 
 public class PerformanceMetricSourceJobTest extends AbstractInjectedTestJUnit4 {
 
-	@Inject
-	private IDataService dataService;
+	private ICDODataService dataService;
 
 	// Names of jobs to activate.
 	String[] jobNames = new String[] { "T_systot-stp" };
 
 	@Before
 	public void setUp() throws Exception {
-		dataService = super.getClientInjector().getInstance(IDataService.class);
+		dataService = super.getClientInjector().getInstance(
+				ICDODataService.class);
 	}
 
 	/**
@@ -42,7 +41,7 @@ public class PerformanceMetricSourceJobTest extends AbstractInjectedTestJUnit4 {
 	}
 
 	private void stateForJob(String jobName, JobState state) {
-		final IData provider = dataService.getProvider();
+		final ICDOData provider = dataService.getCDOData();
 		provider.openSession("admin", "admin");
 		provider.getTransaction();
 

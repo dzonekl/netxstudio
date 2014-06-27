@@ -24,8 +24,6 @@ import javax.xml.datatype.XMLGregorianCalendar;
 
 import org.eclipse.emf.cdo.CDOObject;
 import org.eclipse.emf.cdo.common.id.CDOID;
-import org.eclipse.emf.cdo.common.id.CDOIDUtil;
-import org.eclipse.emf.cdo.common.model.CDOClassifierRef;
 import org.eclipse.emf.cdo.eresource.CDOResource;
 import org.eclipse.emf.cdo.eresource.CDOResourceFolder;
 import org.eclipse.emf.cdo.eresource.CDOResourceNode;
@@ -35,25 +33,23 @@ import org.eclipse.emf.cdo.view.CDOQuery;
 import org.eclipse.emf.cdo.view.CDOView;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.xml.type.XMLTypeFactory;
-import org.junit.Before;
 import org.junit.Test;
 
-import com.google.inject.Inject;
 import com.netxforge.base.NonModelUtils;
-import com.netxforge.netxstudio.common.model.ModelUtils;
-import com.netxforge.netxstudio.data.IQueryService;
+import com.netxforge.base.cdo.CDO;
+import com.netxforge.base.cdo.ICDOData;
+import com.netxforge.netxstudio.common.model.StudioUtils;
 import com.netxforge.netxstudio.data.cdo.CDOQueryService;
+import com.netxforge.netxstudio.data.cdo.CDOQueryUtil;
 import com.netxforge.netxstudio.generics.DateTimeRange;
 import com.netxforge.netxstudio.generics.GenericsFactory;
 import com.netxforge.netxstudio.generics.Value;
 import com.netxforge.netxstudio.library.Component;
 import com.netxforge.netxstudio.library.NetXResource;
 import com.netxforge.netxstudio.metrics.MetricValueRange;
-import com.netxforge.netxstudio.metrics.MetricsPackage;
 
 public class QueryTest extends AbstractDataServiceTest4 {
 
-	
 	@Test
 	public void test1_CDO_SQL_QUERY() {
 
@@ -65,8 +61,8 @@ public class QueryTest extends AbstractDataServiceTest4 {
 		CDOView cdoView = service.getCDOData().getSession().openView();
 
 		// Find a single value in for a date. (Hard coded OID and date!).
-		System.out.println(doQuerySingleValue(cdoView,
-				CDO.QUERY_MYSQL));
+		System.out
+				.println(doQuerySingleValue(cdoView, CDOQueryUtil.QUERY_MYSQL));
 
 		cdoView.close();
 	}
@@ -74,18 +70,20 @@ public class QueryTest extends AbstractDataServiceTest4 {
 	@Test
 	public void test2_CDO_SQL_QUERY() {
 
-		service.getProvider().openSession("admin", "admin");
+		ICDOData cdoData = service.getCDOData();
+
+		cdoData.openSession("admin", "admin");
 
 		// Resolve the object from an existing resource.
 
 		// Use a new view to execute the query.
-		CDOView cdoView = service.getProvider().getSession().openView();
+		CDOView cdoView = cdoData.getSession().openView();
 
 		// Find values in a period. (Hard coded OID and period!).
-		System.out.println(doQueryValues(cdoView, IQueryService.QUERY_MYSQL));
+		System.out.println(doQueryValues(cdoView, CDOQueryUtil.QUERY_MYSQL));
 
 		// Perform twice.
-		System.out.println(doQueryValues(cdoView, IQueryService.QUERY_MYSQL));
+		System.out.println(doQueryValues(cdoView, CDOQueryUtil.QUERY_MYSQL));
 
 		cdoView.close();
 
@@ -94,17 +92,17 @@ public class QueryTest extends AbstractDataServiceTest4 {
 	// @Test
 	public void test3_CDO_SQL_QUERY() {
 
-		service.getProvider().openSession("admin", "admin");
+		service.getCDOData().openSession("admin", "admin");
 
 		// Resolve the object from an existing resource.
 
 		// Use a new view to execute the query.
-		CDOView cdoView = service.getProvider().getSession().openView();
+		CDOView cdoView = service.getCDOData().getSession().openView();
 
 		// Perform twice to see effect of caching.
 		// Query Syntax wrong.
-		doQueryAllResourcesAllRanges(cdoView, IQueryService.QUERY_OCL, true);
-		doQueryAllResourcesAllRanges(cdoView, IQueryService.QUERY_OCL, true);
+		doQueryAllResourcesAllRanges(cdoView, CDOQueryUtil.QUERY_OCL, true);
+		doQueryAllResourcesAllRanges(cdoView, CDOQueryUtil.QUERY_OCL, true);
 
 		cdoView.close();
 
@@ -113,11 +111,11 @@ public class QueryTest extends AbstractDataServiceTest4 {
 	@Test
 	public void test4_CDO_SQL_QUERY() {
 
-		service.getProvider().openSession("admin", "admin");
+		service.getCDOData().openSession("admin", "admin");
 		// Use a new view to execute the query.
-		CDOView cdoView = service.getProvider().getSession().openView();
+		CDOView cdoView = service.getCDOData().getSession().openView();
 		// Resolve the object from an existing resource.
-		doQueryValues_CS(cdoView, IQueryService.QUERY_OCL);
+		doQueryValues_CS(cdoView, CDOQueryUtil.QUERY_OCL);
 
 		cdoView.close();
 
@@ -145,40 +143,34 @@ public class QueryTest extends AbstractDataServiceTest4 {
 		// Get the period.
 		Calendar cal = Calendar.getInstance();
 		cal.set(2012, 4, 13);
-		modelUtils.adjustToDayStart(cal);
+		NonModelUtils.adjustToDayStart(cal);
 
-		dtr.setBegin(modelUtils.toXMLDate(cal.getTime()));
+		dtr.setBegin(NonModelUtils.toXMLDate(cal.getTime()));
 
 		cal.add(Calendar.HOUR_OF_DAY, 24);
-		modelUtils.adjustToDayStart(cal);
-		dtr.setEnd(modelUtils.toXMLDate(cal.getTime()));
+		NonModelUtils.adjustToDayStart(cal);
+		dtr.setEnd(NonModelUtils.toXMLDate(cal.getTime()));
 
 		String objectID = "46639";
 
-		CDOID createLongWithClassifier = CDOIDUtil
-				.createLongWithClassifier(new CDOClassifierRef(
-						MetricsPackage.Literals.METRIC_VALUE_RANGE), Long
-						.parseLong(objectID));
+		CDOID createLongWithClassifier = CDO.cdoLongIDFromString(objectID);
 
 		// This should be a MetricValueRange object.
 
 		CDOObject object = cdoView.getObject(createLongWithClassifier);
 
-		IQueryService queryService = service.getQueryService();
-
-		List<Value> sortedValues = queryService.mvrValues(cdoView,
+		List<Value> sortedValues = CDOQueryService.mvrValues(cdoView,
 				(MetricValueRange) object, dialect, dtr);
 
 		return " found " + sortedValues.size() + " for object: "
 				+ object.cdoRevision() + " in period "
-				+ modelUtils.dateAndTime(dtr.getBegin()) + " to "
-				+ modelUtils.dateAndTime(dtr.getEnd());
+				+ NonModelUtils.dateAndTime(dtr.getBegin()) + " to "
+				+ NonModelUtils.dateAndTime(dtr.getEnd());
 
 	}
-	
-	
+
 	/**
-	 * Uses an OBJECTID, WRONG TEST.  
+	 * Uses an OBJECTID, WRONG TEST.
 	 * 
 	 * @param cdoView
 	 * @param dialect
@@ -195,10 +187,7 @@ public class QueryTest extends AbstractDataServiceTest4 {
 
 		String objectID = "46639";
 
-		CDOID createLongWithClassifier = CDOIDUtil
-				.createLongWithClassifier(new CDOClassifierRef(
-						MetricsPackage.Literals.METRIC_VALUE_RANGE), Long
-						.parseLong(objectID));
+		CDOID createLongWithClassifier = CDO.cdoLongIDFromString(objectID);
 
 		// This should be a MetricValueRange object.
 		CDOObject object = cdoView.getObject(createLongWithClassifier);
@@ -260,7 +249,7 @@ public class QueryTest extends AbstractDataServiceTest4 {
 												+ res.getExpressionName()
 												+ " cdo: " + res.cdoRevision()
 												+ componentRef != null ? " from component"
-												+ modelUtils
+												+ StudioUtils
 														.printModelObject(componentRef)
 												: "");
 							}
@@ -274,16 +263,14 @@ public class QueryTest extends AbstractDataServiceTest4 {
 											+ mvr.cdoRevision());
 								}
 								sumRanges++;
-								IQueryService queryService = service
-										.getQueryService();
 
 								// determine the duration of the query.
 								long startTime = System.nanoTime();
 
-								List<Value> sortedValues = queryService
+								List<Value> sortedValues = CDOQueryService
 										.mvrValues(cdoView, mvr, dialect);
 
-								String timeDurationNano = modelUtils
+								String timeDurationNano = NonModelUtils
 										.timeDurationNanoElapsed(startTime);
 
 								if (sortedValues != null) {
@@ -300,7 +287,7 @@ public class QueryTest extends AbstractDataServiceTest4 {
 													+ " last value ("
 													+ (sortedValues.size() - 1)
 													+ ") "
-													+ this.modelUtils
+													+ StudioUtils
 															.value(lastValue)
 													+ " cdo: "
 													+ lastValue.cdoRevision()
@@ -324,14 +311,15 @@ public class QueryTest extends AbstractDataServiceTest4 {
 			}
 		}
 
-		String timeDurationNano = modelUtils.timeDurationNanoElapsed(totalTime);
+		String timeDurationNano = NonModelUtils
+				.timeDurationNanoElapsed(totalTime);
 
 		return " NetXResource: " + sumResources + ", MetricValueRange: "
 				+ sumRanges + " Value: " + sumValues + " in: "
 				+ timeDurationNano;
 	}
 
-	 @Test
+	@Test
 	public void testValueQuery() {
 
 		String funtionName = "Mobility";
@@ -340,13 +328,13 @@ public class QueryTest extends AbstractDataServiceTest4 {
 
 		Calendar cal = Calendar.getInstance();
 		cal.set(2012, 5, 1);
-		System.out.println(modelUtils.dateAndTime(cal.getTime()));
-		createDateTimeRange.setBegin(modelUtils.toXMLDate(cal.getTime()));
+		System.out.println(NonModelUtils.dateAndTime(cal.getTime()));
+		createDateTimeRange.setBegin(NonModelUtils.toXMLDate(cal.getTime()));
 		cal.add(Calendar.MONTH, 1);
-		createDateTimeRange.setEnd(modelUtils.toXMLDate(cal.getTime()));
+		createDateTimeRange.setEnd(NonModelUtils.toXMLDate(cal.getTime()));
 
-		service.getProvider().openSession("admin", "admin");
-		CDOTransaction openTransaction = service.getProvider().getSession()
+		service.getCDOData().openSession("admin", "admin");
+		CDOTransaction openTransaction = service.getCDOData().getSession()
 				.openTransaction();
 		final CDOQuery cdoQuery = openTransaction
 				.createQuery(
@@ -379,10 +367,10 @@ public class QueryTest extends AbstractDataServiceTest4 {
 
 		List<Value> result = cdoQuery.getResult(Value.class);
 		for (Value v : result) {
-			System.out.println(modelUtils.value(v));
+			System.out.println(StudioUtils.value(v));
 		}
 		openTransaction.close();
-		service.getProvider().closeSession();
+		service.getCDOData().closeSession();
 	}
 
 	public void testResourceQuery() {
@@ -398,8 +386,8 @@ public class QueryTest extends AbstractDataServiceTest4 {
 		// cal.add(Calendar.MONTH, 1);
 		// createDateTimeRange.setEnd(modelUtils.toXMLDate(cal.getTime()));
 		//
-		service.getProvider().openSession("admin", "admin");
-		CDOTransaction openTransaction = service.getProvider().getSession()
+		service.getCDOData().openSession("admin", "admin");
+		CDOTransaction openTransaction = service.getCDOData().getSession()
 				.openTransaction();
 		final CDOQuery cdoQuery = openTransaction
 				.createQuery(
@@ -422,11 +410,11 @@ public class QueryTest extends AbstractDataServiceTest4 {
 		List<NetXResource> result = cdoQuery.getResult(NetXResource.class);
 
 		for (NetXResource res : result) {
-			String printModelObject = modelUtils.printModelObject(res);
+			String printModelObject = StudioUtils.printModelObject(res);
 			System.out.println(printModelObject);
 		}
 		openTransaction.close();
-		service.getProvider().closeSession();
+		service.getCDOData().closeSession();
 	}
 
 	private String dateString(XMLGregorianCalendar date) {

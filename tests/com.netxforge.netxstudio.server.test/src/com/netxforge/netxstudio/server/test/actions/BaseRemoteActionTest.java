@@ -27,19 +27,18 @@ import java.util.Date;
 
 import javax.xml.datatype.XMLGregorianCalendar;
 
-import junit.framework.Assert;
-
 import org.eclipse.emf.cdo.CDOObject;
 import org.eclipse.emf.cdo.common.id.CDOID;
-import org.eclipse.emf.cdo.common.id.CDOIDUtil;
-import org.eclipse.emf.cdo.common.model.CDOClassifierRef;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.xml.type.XMLTypeFactory;
 import org.junit.After;
+import org.junit.Assert;
 import org.junit.Before;
 
 import com.google.inject.Inject;
+import com.netxforge.base.NonModelUtils;
+import com.netxforge.base.cdo.CDO;
 import com.netxforge.base.cdo.ICDOData;
 import com.netxforge.netxstudio.data.cdo.NonStatic;
 import com.netxforge.netxstudio.operators.Network;
@@ -48,7 +47,6 @@ import com.netxforge.netxstudio.operators.Operator;
 import com.netxforge.netxstudio.operators.OperatorsPackage;
 import com.netxforge.netxstudio.scheduling.ComponentWorkFlowRun;
 import com.netxforge.netxstudio.scheduling.JobRunState;
-import com.netxforge.netxstudio.scheduling.SchedulingPackage;
 import com.netxforge.netxstudio.scheduling.WorkFlowRun;
 import com.netxforge.netxstudio.server.logic.monitoring.MonitoringService;
 import com.netxforge.netxstudio.server.logic.retention.RetentionService;
@@ -172,14 +170,12 @@ public abstract class BaseRemoteActionTest extends AbstractInjectedTestJUnit4 {
 				+ getDateParamValue(-1000 * ONE_DAY));
 		url.append("&" + RetentionService.END_TIME_PARAM + "="
 				+ getDateParamValue(ONE_DAY));
-		url.append("&" + parameterName + "="
-				+ ((AbstractCDOIDLong) cdoId).getLongValue());
+		url.append("&" + parameterName + "=" + cdoId);
 
 		System.err.println(url.toString());
 		final String result = doRequest(url.toString());
-		final CDOID resultCDOID = CDOIDUtil.createLongWithClassifier(
-				new CDOClassifierRef(SchedulingPackage.Literals.WORK_FLOW_RUN),
-				Long.parseLong(result));
+
+		final CDOID resultCDOID = CDO.cdoLongIDFromString(result);
 		return (WorkFlowRun) dataProvider.getTransaction().getObject(
 				resultCDOID);
 	}
@@ -220,7 +216,7 @@ public abstract class BaseRemoteActionTest extends AbstractInjectedTestJUnit4 {
 	}
 
 	private String getDateParamValue(long offset) {
-		final XMLGregorianCalendar xmlDate = modelUtils.toXMLDate(new Date(
+		final XMLGregorianCalendar xmlDate = NonModelUtils.toXMLDate(new Date(
 				System.currentTimeMillis() + offset));
 		return XMLTypeFactory.eINSTANCE.convertDateTime(xmlDate);
 	}

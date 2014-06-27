@@ -22,8 +22,9 @@ import org.junit.Before;
 import org.junit.Test;
 
 import com.google.inject.Inject;
-import com.netxforge.netxstudio.common.model.ModelUtils;
-import com.netxforge.netxstudio.data.IData;
+import com.netxforge.base.NonModelUtils;
+import com.netxforge.base.cdo.ICDOData;
+import com.netxforge.netxstudio.common.model.StudioUtils;
 import com.netxforge.netxstudio.scheduling.Job;
 import com.netxforge.netxstudio.scheduling.JobRunContainer;
 import com.netxforge.netxstudio.scheduling.JobState;
@@ -41,17 +42,12 @@ import com.netxforge.tests.AbstractInjectedTestJUnit4;
 public class TestMonitoring extends AbstractInjectedTestJUnit4 {
 
 	private static final String METRICSOURCE_TEST_JOB = "metricsource_test_job";
-	
-	
-	@Inject
-	private IData dataProvider;
-	
-	@Inject
-	private ModelUtils modelUtils;
 
-	
+	@Inject
+	private ICDOData dataProvider;
+
 	@Before
-	public void before(){
+	public void before() {
 		this.getClientInjector().injectMembers(this);
 	}
 
@@ -63,9 +59,6 @@ public class TestMonitoring extends AbstractInjectedTestJUnit4 {
 				.createMetricSourceJob();
 
 		setJobParameters(job, METRICSOURCE_TEST_JOB);
-
-		// TODO
-		// job.getMetricSources().add(ms);
 
 		JobRunContainer container = SchedulingFactory.eINSTANCE
 				.createJobRunContainer();
@@ -93,14 +86,14 @@ public class TestMonitoring extends AbstractInjectedTestJUnit4 {
 			Resource jobsResource = dataProvider
 					.getResource(SchedulingPackage.Literals.JOB);
 
-			Job jobWithName = modelUtils.jobWithName(METRICSOURCE_TEST_JOB,
+			Job jobWithName = StudioUtils.jobWithName(METRICSOURCE_TEST_JOB,
 					jobsResource);
 
 			Resource containerResource = dataProvider
 					.getResource(SchedulingPackage.Literals.JOB_RUN_CONTAINER);
 
-			JobRunContainer jobContainerForJob = modelUtils.jobContainerForJob(
-					job, containerResource);
+			JobRunContainer jobContainerForJob = StudioUtils
+					.jobContainerForJob(job, containerResource);
 
 			jobsResource.getContents().remove(jobWithName);
 			containerResource.getContents().remove(jobContainerForJob);
@@ -116,8 +109,8 @@ public class TestMonitoring extends AbstractInjectedTestJUnit4 {
 	 */
 	private void setJobParameters(MetricSourceJob job, String name) {
 		job.setName(name);
-		job.setInterval(ModelUtils.SECONDS_IN_A_MINUTE);
-		job.setStartTime(modelUtils.toXMLDate(modelUtils.todayAndNow()));
+		job.setInterval(NonModelUtils.SECONDS_IN_A_MINUTE);
+		job.setStartTime(NonModelUtils.toXMLDate(NonModelUtils.todayAndNow()));
 		job.setJobState(JobState.ACTIVE);
 	}
 

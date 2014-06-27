@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 29 jan. 2013 NetXForge.
+ * Copyright (c) 25 jun. 2014 NetXForge.
  * 
  * This program is free software: you can redistribute it and/or modify it under
  * the terms of the GNU General Public License as published by the Free Software
@@ -15,39 +15,40 @@
  * Contributors: Christophe Bouhier - initial API and implementation and/or
  * initial documentation
  *******************************************************************************/
-package com.netxforge.netxstudio.common.model;
+package com.netxforge.tests;
 
-/**
- * A Monitoring State Event, used in call backs.
- * 
- * @author Christophe Bouhier
- * 
- */
-public class MonitoringStateEvent {
-	
-	
-	/**
-	 * The result of the event.
-	 * 
-	 */
-	private Object result;
+import org.junit.Assert;
+import org.junit.Before;
+import org.junit.Test;
 
-	/**
-	 * Stores the result.
-	 * 
-	 * @param monitoringSummary
-	 */
-	public void setResult(Object result) {
-		this.result = result;
+import com.google.inject.Inject;
+import com.netxforge.netxstudio.data.ICDODataService;
+import com.netxforge.netxstudio.data.index.IComponentLocator;
+import com.netxforge.netxstudio.data.index.IComponentMappingIndex;
+
+public class ClientInjectionTest extends AbstractInjectedTestJUnit4 {
+
+	@Inject
+	private ICDODataService dataService;
+
+	@Inject
+	private IComponentMappingIndex mappingIndex;
+
+	@Inject
+	private IComponentLocator locator;
+
+	@Before
+	public void setup() {
+		this.getClientInjector().injectMembers(this);
 	}
 
-	/**
-	 * Retrieve the result object for this event.
-	 * 
-	 * @return
-	 */
-	public Object getResult() {
-		return result;
+	@Test
+	public void testCommonServices() {
+		Assert.assertNotNull(dataService);
+		Assert.assertNotNull(dataService.getCDOData());
+		Assert.assertNotNull(mappingIndex);
+		Assert.assertNotNull(locator);
+
 	}
 
 }
