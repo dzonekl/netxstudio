@@ -22,7 +22,7 @@ import org.junit.After;
 import org.junit.Before;
 
 import com.google.inject.Inject;
-import com.netxforge.netxstudio.data.IData;
+import com.netxforge.base.cdo.ICDOData;
 import com.netxforge.netxstudio.data.cdo.NonStatic;
 import com.netxforge.tests.AbstractInjectedTestJUnit4;
 
@@ -43,7 +43,7 @@ public class CreateTestData extends AbstractInjectedTestJUnit4 {
 
 	@Inject
 	@NonStatic
-	private IData dataProvider;
+	private ICDOData dataProvider;
 
 	@Before
 	public void setUp() throws Exception {

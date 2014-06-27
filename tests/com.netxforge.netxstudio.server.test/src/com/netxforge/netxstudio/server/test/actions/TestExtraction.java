@@ -35,9 +35,6 @@ public class TestExtraction {
 		
 		String testString = "=SGSN";
 		assertTrue(testString.matches("=."));
-		
-		
-		
 	}
 	
 }

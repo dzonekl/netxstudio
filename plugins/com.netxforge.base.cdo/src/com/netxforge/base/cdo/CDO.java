@@ -166,6 +166,17 @@ public class CDO {
 	}
 
 	/**
+	 * returns the long version of a {@link CDOID}
+	 * 
+	 * @param cdoID
+	 * @return
+	 */
+	public static long cdoLongIDAslong(CDOID cdoID) {
+		long lValue = CDOIDUtil.getLong(cdoID);
+		return lValue;
+	}
+
+	/**
 	 * 
 	 * @param eClass
 	 * @param cdoString

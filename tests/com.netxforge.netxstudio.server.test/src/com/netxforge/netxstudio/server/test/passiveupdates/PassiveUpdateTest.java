@@ -25,7 +25,7 @@ import org.junit.Before;
 
 import com.google.inject.Inject;
 import com.netxforge.netxstudio.NetxstudioPackage;
-import com.netxforge.netxstudio.data.IDataService;
+import com.netxforge.netxstudio.data.ICDODataService;
 import com.netxforge.tests.AbstractInjectedTestJUnit4;
 
 /**
@@ -38,24 +38,24 @@ import com.netxforge.tests.AbstractInjectedTestJUnit4;
 public class PassiveUpdateTest extends AbstractInjectedTestJUnit4 {
 
 	@Inject
-	IDataService service;
+	ICDODataService service;
 
 	@Before
 	protected void setUp() throws Exception {
-		service = super.getClientInjector().getInstance(IDataService.class);
+		service = super.getClientInjector().getInstance(ICDODataService.class);
 	}
 
 	public void testConnection() throws Exception {
 		// Open and close the session with an admin user.
-		service.getProvider().openSession("admin", "admin");
-		service.getProvider().closeSession();
+		service.getCDOData().openSession("admin", "admin");
+		service.getCDOData().closeSession();
 	}
 
 	public void testFeatureAccessWithoutResourceSet() throws Exception {
 		// Open and close the session with an admin user.
-		service.getProvider().openSession("admin", "admin");
+		service.getCDOData().openSession("admin", "admin");
 
-		Resource res = service.getProvider().getResource(
+		Resource res = service.getCDOData().getResource(
 				NetxstudioPackage.Literals.NETXSTUDIO);
 
 		Assert.assertNotNull(res);
@@ -63,7 +63,7 @@ public class PassiveUpdateTest extends AbstractInjectedTestJUnit4 {
 
 		URI uri = res.getURI();
 		System.out.println(uri.toString());
-		service.getProvider().closeSession();
+		service.getCDOData().closeSession();
 	}
 
 }

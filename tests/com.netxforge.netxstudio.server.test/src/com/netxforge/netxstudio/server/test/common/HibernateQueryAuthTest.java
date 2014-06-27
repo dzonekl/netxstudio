@@ -29,122 +29,124 @@ import org.eclipse.emf.cdo.view.CDOQuery;
 import com.netxforge.netxstudio.library.Equipment;
 import com.netxforge.netxstudio.library.StateType;
 import com.netxforge.netxstudio.server.test.base.BaseAuthTest;
+import com.netxforge.tests.AbstractInjectedTestJUnit4;
 
 /**
  * Test different aspects of HQL querying using the CDO query api.
  * 
  * @author Martin Taal
  */
-public class HibernateQueryAuthTest extends BaseAuthTest
-{
+public class HibernateQueryAuthTest extends AbstractInjectedTestJUnit4 {
 
-  public void testSimpleQuery() throws Exception
-  {
-    final CDOSession session = openSession();
-    final CDOTransaction transaction = session.openTransaction();
+	public void testSimpleQuery() throws Exception {
+		final CDOSession session = openSession();
+		final CDOTransaction transaction = session.openTransaction();
 
-    {
-      final CDOQuery cdoQuery = transaction.createQuery("hql", "from Equipment");
-      addCacheParameter(cdoQuery);
-      final List<Equipment> equipments = cdoQuery.getResult(Equipment.class);
-      for (final Equipment equipment : equipments) {
-    	  System.err.println(equipment);
-      }
-    }
+		{
+			final CDOQuery cdoQuery = transaction.createQuery("hql",
+					"from Equipment");
+			addCacheParameter(cdoQuery);
+			final List<Equipment> equipments = cdoQuery
+					.getResult(Equipment.class);
+			for (final Equipment equipment : equipments) {
+				System.err.println(equipment);
+			}
+		}
 
-    {
-      final CDOQuery cdoQuery = transaction.createQuery("hql", "from Equipment where state=:state");
-      cdoQuery.setParameter("state", StateType.ACTIVE);
-      addCacheParameter(cdoQuery);
-      final List<Equipment> equipments = cdoQuery.getResult(Equipment.class);
-      assertTrue(!equipments.isEmpty());
-      for (final Equipment equipment : equipments) {
-    	  assertEquals(equipment.getState(), StateType.ACTIVE);
-      }
-    }
+		{
+			final CDOQuery cdoQuery = transaction.createQuery("hql",
+					"from Equipment where state=:state");
+			cdoQuery.setParameter("state", StateType.ACTIVE);
+			addCacheParameter(cdoQuery);
+			final List<Equipment> equipments = cdoQuery
+					.getResult(Equipment.class);
+			assertTrue(!equipments.isEmpty());
+			for (final Equipment equipment : equipments) {
+				assertEquals(equipment.getState(), StateType.ACTIVE);
+			}
+		}
 
-    transaction.commit();
-  }
-  
-  public void testFunctions() throws Exception
-  {
-    final CDOSession session = openSession();
-    final CDOTransaction transaction = session.openTransaction();
+		transaction.commit();
+	}
 
-    {
-      final CDOQuery cdoQuery = transaction.createQuery("hql", "select count(*) from Equipment");
-      addCacheParameter(cdoQuery);
-      final List<Long> counts = cdoQuery.getResult(Long.class);
-      assertEquals(counts.size(), 1);
-      System.err.println(counts.get(0));
-    }
+	public void testFunctions() throws Exception {
+		final CDOSession session = openSession();
+		final CDOTransaction transaction = session.openTransaction();
 
-    {
-      // result with arrays are tested below
-      // CDOQuery cdoQuery = transaction.createQuery("hql",
-      // "select so.id, sum(od.price) from SalesOrder so, OrderDetail od where od.order=so group by so.id");
-//      CDOQuery cdoQuery = transaction.createQuery("hql",
-//          "select sum(od.price) from SalesOrder so, OrderDetail od where od.order=so group by so.id");
-//      addCacheParameter(cdoQuery);
-//      final List<Double> results = cdoQuery.getResult(Double.class);
-//      assertEquals(NUM_OF_SALES_ORDERS * NUM_OF_CUSTOMERS, results.size());
-    }
+		{
+			final CDOQuery cdoQuery = transaction.createQuery("hql",
+					"select count(*) from Equipment");
+			addCacheParameter(cdoQuery);
+			final List<Long> counts = cdoQuery.getResult(Long.class);
+			assertEquals(counts.size(), 1);
+			System.err.println(counts.get(0));
+		}
 
-    transaction.commit();
-  }
+		{
+			// result with arrays are tested below
+			// CDOQuery cdoQuery = transaction.createQuery("hql",
+			// "select so.id, sum(od.price) from SalesOrder so, OrderDetail od where od.order=so group by so.id");
+			// CDOQuery cdoQuery = transaction.createQuery("hql",
+			// "select sum(od.price) from SalesOrder so, OrderDetail od where od.order=so group by so.id");
+			// addCacheParameter(cdoQuery);
+			// final List<Double> results = cdoQuery.getResult(Double.class);
+			// assertEquals(NUM_OF_SALES_ORDERS * NUM_OF_CUSTOMERS,
+			// results.size());
+		}
 
-  public void testQueryObjectArray() throws Exception
-  {
-    final CDOSession session = openSession();
-    final CDOTransaction transaction = session.openTransaction();
+		transaction.commit();
+	}
 
-    {
-      final CDOQuery query = transaction.createQuery("hql",
-          "select eq, eq.state from Equipment as eq where eq.state=:state");
-      query.setParameter("state", StateType.ACTIVE);
-      addCacheParameter(query);
-      for (final Object[] values : query.getResult(Object[].class))
-      {
-        assertTrue(values[0] instanceof Equipment);
-        assertTrue(values[1] instanceof StateType);
-      }
-    }
+	public void testQueryObjectArray() throws Exception {
+		final CDOSession session = openSession();
+		final CDOTransaction transaction = session.openTransaction();
 
-    transaction.commit();
-  }
+		{
+			final CDOQuery query = transaction
+					.createQuery("hql",
+							"select eq, eq.state from Equipment as eq where eq.state=:state");
+			query.setParameter("state", StateType.ACTIVE);
+			addCacheParameter(query);
+			for (final Object[] values : query.getResult(Object[].class)) {
+				assertTrue(values[0] instanceof Equipment);
+				assertTrue(values[1] instanceof StateType);
+			}
+		}
 
-  public void testPaging() throws Exception
-  {
-    final CDOSession session = openSession();
-    final CDOTransaction transaction = session.openTransaction();
+		transaction.commit();
+	}
 
-    {
-      final int pageSize = 5;
-      final int numOfPages = 5;
-      final List<Equipment> allEquipments = new ArrayList<Equipment>();
-      for (int page = 0; page < numOfPages; page++)
-      {
-        final CDOQuery equipmentQuery = transaction.createQuery("hql", "from Equipment");
-        equipmentQuery.setMaxResults(pageSize);
-        equipmentQuery.setParameter(IHibernateStore.FIRST_RESULT, page * pageSize);
-        addCacheParameter(equipmentQuery);
-        final List<Equipment> queriedEquipments = equipmentQuery.getResult(Equipment.class);
-        assertEquals(true, queriedEquipments.size() <= pageSize);
-        // a product should not have been read yet
-        for (final Equipment newEquipment : queriedEquipments)
-        {
-          assertEquals(true, !allEquipments.contains(newEquipment));
-        }
+	public void testPaging() throws Exception {
+		final CDOSession session = openSession();
+		final CDOTransaction transaction = session.openTransaction();
 
-        allEquipments.addAll(queriedEquipments);
-      }
-    }
+		{
+			final int pageSize = 5;
+			final int numOfPages = 5;
+			final List<Equipment> allEquipments = new ArrayList<Equipment>();
+			for (int page = 0; page < numOfPages; page++) {
+				final CDOQuery equipmentQuery = transaction.createQuery("hql",
+						"from Equipment");
+				equipmentQuery.setMaxResults(pageSize);
+				equipmentQuery.setParameter(IHibernateStore.FIRST_RESULT, page
+						* pageSize);
+				addCacheParameter(equipmentQuery);
+				final List<Equipment> queriedEquipments = equipmentQuery
+						.getResult(Equipment.class);
+				assertEquals(true, queriedEquipments.size() <= pageSize);
+				// a product should not have been read yet
+				for (final Equipment newEquipment : queriedEquipments) {
+					assertEquals(true, !allEquipments.contains(newEquipment));
+				}
 
-    transaction.commit();
-  }
+				allEquipments.addAll(queriedEquipments);
+			}
+		}
 
-  protected void addCacheParameter(CDOQuery query)
-  {
-    query.setParameter(IHibernateStore.CACHE_RESULTS, true);
-  }
+		transaction.commit();
+	}
+
+	protected void addCacheParameter(CDOQuery query) {
+		query.setParameter(IHibernateStore.CACHE_RESULTS, true);
+	}
 }

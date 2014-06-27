@@ -21,14 +21,13 @@ package com.netxforge.netxstudio.server.test.common;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.eclipse.emf.cdo.server.hibernate.IHibernateStore;
 import org.eclipse.emf.cdo.session.CDOSession;
 import org.eclipse.emf.cdo.transaction.CDOTransaction;
 import org.eclipse.emf.cdo.view.CDOQuery;
 
 import com.netxforge.netxstudio.library.Equipment;
 import com.netxforge.netxstudio.library.StateType;
-import com.netxforge.netxstudio.server.test.base.BaseAuthTest;
+import com.netxforge.tests.AbstractInjectedTestJUnit4;
 
 
 /**
@@ -36,8 +35,7 @@ import com.netxforge.netxstudio.server.test.base.BaseAuthTest;
  * 
  * @author Martin Taal
  */
-public class HibernateQueryTest extends BaseAuthTest
-{
+public class HibernateQueryTest extends AbstractInjectedTestJUnit4
 
   public void testSimpleQuery() throws Exception
   {

@@ -28,3 +28,25 @@ The workaround:
 As a workaround, you can delete the file that contains the list of locally built artifacts: ~/.m2/repository/.meta/p2-local-metadata.properties
 
 http://wiki.eclipse.org/Tycho/Target_Platform#Locally_built_artifacts
+
+
+Non expected dependencies: 
+----------------------------
+
+
+Here is a list of cache locations that may have been involved in your scenario, and how to clear them
+
+    Target folder: If the target folder contain results from a previous build, this data may be used by a Maven build to speed up the build. Tycho doesn't make use of this feature, and AFAIK it shouldn't pick up anything existing from the target folder.
+
+    To be sure, always include the clean goal in your mvn calls.
+
+    Local Maven repository: In order to support builds of parts of a reactor, Tycho adds artifacts that have been built locally with mvn clean install to the target platform. If you are not aware of this feature, this can have various strange effects.
+
+    To avoid this, don't build with install unless you have to. Use mvn clean verify instead. Also: Deleting the file ~/.m2/repository/.meta/p2-local-metadata.properties resets what Tycho considers to be "locally installed".
+
+    Since Tycho 0.16.0, you can also disable this behaviour for one build through the command line switch -Dtycho.localArtifacts=ignore or for all builds by setting the same property in the settings.xml.
+
+    p2: The p2 update manager in Eclipse caches p2 repositories it has used since the start of Eclipse.
+
+    To force p2 to reload a repository, go to Preferences > Install/Update > Available Software Sites, select a repository and hit Reload. The repositories will also be reloaded if you re-start Eclipse.
+

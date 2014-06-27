@@ -26,9 +26,9 @@ import org.eclipse.emf.ecore.resource.Resource;
 import org.junit.Before;
 import org.junit.Test;
 
-import com.netxforge.netxstudio.common.model.ModelUtils;
-import com.netxforge.netxstudio.data.IData;
-import com.netxforge.netxstudio.data.IDataService;
+import com.netxforge.base.NonModelUtils;
+import com.netxforge.base.cdo.ICDOData;
+import com.netxforge.netxstudio.data.ICDODataService;
 import com.netxforge.netxstudio.metrics.MappingXLS;
 import com.netxforge.netxstudio.metrics.MetricSource;
 import com.netxforge.netxstudio.metrics.MetricsFactory;
@@ -50,19 +50,16 @@ public class MetricSourceJobTest extends AbstractInjectedTestJUnit4 {
 	private static final String JOBNAME = "testJobReinitialization";
 	private static final int MINUTE = 60000;
 
-	private IDataService dataService;
-
-	private ModelUtils modelUtils;
+	private ICDODataService dataService;
 
 	@Before
 	public void setUp() throws Exception {
-		dataService = getClientInjector().getInstance(IDataService.class);
-		modelUtils = getClientInjector().getInstance(ModelUtils.class);
+		dataService = getClientInjector().getInstance(ICDODataService.class);
 	}
 
 	@Test
 	public void testRemoveJob() {
-		final IData provider = dataService.getProvider();
+		final ICDOData provider = dataService.getCDOData();
 		provider.openSession("admin", "admin");
 		provider.getTransaction();
 		final Resource resource = provider
@@ -79,7 +76,7 @@ public class MetricSourceJobTest extends AbstractInjectedTestJUnit4 {
 
 	@Test
 	public void testUpdateJob() {
-		final IData provider = dataService.getProvider();
+		final ICDOData provider = dataService.getCDOData();
 		provider.openSession("admin", "admin");
 		provider.getTransaction();
 		final Resource resource = provider
@@ -96,7 +93,7 @@ public class MetricSourceJobTest extends AbstractInjectedTestJUnit4 {
 
 	@Test
 	public void testCreateJob() throws Exception {
-		final IData provider = dataService.getProvider();
+		final ICDOData provider = dataService.getCDOData();
 		provider.openSession("admin", "admin");
 		provider.getTransaction();
 		final Resource resource = provider
@@ -107,7 +104,7 @@ public class MetricSourceJobTest extends AbstractInjectedTestJUnit4 {
 		msJob.setInterval(60);
 		msJob.setJobState(JobState.ACTIVE);
 		msJob.setName(JOBNAME);
-		msJob.setStartTime(modelUtils.toXMLDate(new Date(System
+		msJob.setStartTime(NonModelUtils.toXMLDate(new Date(System
 				.currentTimeMillis() + 2 * MINUTE)));
 		msJob.getMetricSources().add(createTestMetricSource(JOBNAME));
 		resource.getContents().add(msJob);
@@ -116,7 +113,7 @@ public class MetricSourceJobTest extends AbstractInjectedTestJUnit4 {
 	}
 
 	private MetricSource createTestMetricSource(String name) throws Exception {
-		final Resource resource = dataService.getProvider().getResource(
+		final Resource resource = dataService.getCDOData().getResource(
 				MetricsPackage.eINSTANCE.getMetricSource());
 		final MetricSource metricSource = MetricsFactory.eINSTANCE
 				.createMetricSource();

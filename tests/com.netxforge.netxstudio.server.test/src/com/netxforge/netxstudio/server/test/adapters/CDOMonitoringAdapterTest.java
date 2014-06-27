@@ -39,18 +39,20 @@ import org.junit.Test;
 
 import com.google.common.collect.Lists;
 import com.google.inject.Inject;
+import com.netxforge.base.NonModelUtils;
+import com.netxforge.base.cdo.ICDOData;
+import com.netxforge.base.cdo.MonitoringStateEvent;
+import com.netxforge.base.context.IComputationContext;
 import com.netxforge.netxstudio.common.model.ComponentSummary;
 import com.netxforge.netxstudio.common.model.IMonitoringSummary;
-import com.netxforge.netxstudio.common.model.ModelUtils;
 import com.netxforge.netxstudio.common.model.MonitoringAdapterFactory;
-import com.netxforge.netxstudio.common.model.MonitoringStateEvent;
 import com.netxforge.netxstudio.common.model.MonitoringStateModel;
 import com.netxforge.netxstudio.common.model.MonitoringStateModel.MonitoringStateCallBack;
 import com.netxforge.netxstudio.common.model.NetxresourceSummary;
 import com.netxforge.netxstudio.common.model.NodeTypeSummary;
 import com.netxforge.netxstudio.common.model.OperatorSummary;
 import com.netxforge.netxstudio.common.model.RFSServiceSummary;
-import com.netxforge.netxstudio.data.IData;
+import com.netxforge.netxstudio.common.model.StudioUtils;
 import com.netxforge.netxstudio.generics.DateTimeRange;
 import com.netxforge.netxstudio.generics.Lifecycle;
 import com.netxforge.netxstudio.generics.Value;
@@ -89,10 +91,7 @@ import com.netxforge.tests.AbstractInjectedTestJUnit4;
 public class CDOMonitoringAdapterTest extends AbstractInjectedTestJUnit4 {
 
 	@Inject
-	private IData provider;
-
-	@Inject
-	private ModelUtils modelUtils;
+	private ICDOData provider;
 
 	@Inject
 	private MonitoringStateModel stateModel;
@@ -105,8 +104,6 @@ public class CDOMonitoringAdapterTest extends AbstractInjectedTestJUnit4 {
 	private static String RFSSERVICE_OID = "2206840";
 
 	private static int NETXRESOURCE_TARGET_MVR_INTERVAL = 60;
-
-	private static String COMPONENT_OID = "TODO";
 
 	private CDOID targetNetXResourceID;
 	private CDOID targetRFSServiceID;
@@ -138,6 +135,7 @@ public class CDOMonitoringAdapterTest extends AbstractInjectedTestJUnit4 {
 	boolean finished = false;
 	String failed = "";
 
+	@SuppressWarnings("unused")
 	@Test
 	public void testNetXResourceAdapter() {
 
@@ -169,7 +167,7 @@ public class CDOMonitoringAdapterTest extends AbstractInjectedTestJUnit4 {
 							System.out.println("Marker count:  "
 									+ sum.markers().size());
 							System.out.println("RAG:  " + sum.toString());
-						}else{
+						} else {
 							failed = "Test failed";
 						}
 					} catch (Error e) {
@@ -183,15 +181,15 @@ public class CDOMonitoringAdapterTest extends AbstractInjectedTestJUnit4 {
 				}
 			};
 
-			DateTimeRange period = modelUtils.period(modelUtils.monthsAgo(12),
-					modelUtils.todayAtDayEnd());
+			DateTimeRange period = StudioUtils.period(
+					NonModelUtils.monthsAgo(12), NonModelUtils.todayAtDayEnd());
 
-			// Summary for NetXResource, add the context for computation. 
-//			stateModel.summary(callBack, targetNetXResource, new Object[] {
-//					targetRFSService, period });
+			// Summary for NetXResource, add the context for computation.
+			// stateModel.summary(callBack, targetNetXResource, new Object[] {
+			// targetRFSService, period });
 
 			stateModel.summary(callBack, targetNetXResource);
-			
+
 			while (!finished) {
 				try {
 					Thread.sleep(1000);
@@ -199,7 +197,7 @@ public class CDOMonitoringAdapterTest extends AbstractInjectedTestJUnit4 {
 					e.printStackTrace();
 				}
 			}
-			
+
 			if (!failed.isEmpty()) {
 				Assert.fail(failed);
 			}
@@ -210,7 +208,7 @@ public class CDOMonitoringAdapterTest extends AbstractInjectedTestJUnit4 {
 				+ targetNetXResource.getMetricValueRanges().size());
 
 		// Do some update on the metric value ranges.
-		List<MetricValueRange> valueRangesForInterval = modelUtils
+		List<MetricValueRange> valueRangesForInterval = StudioUtils
 				.valueRangesForInterval(targetNetXResource,
 						NETXRESOURCE_TARGET_MVR_INTERVAL);
 		if (valueRangesForInterval.size() != 1) {
@@ -291,10 +289,10 @@ public class CDOMonitoringAdapterTest extends AbstractInjectedTestJUnit4 {
 				.getAdapted(targetNetXResource);
 
 		// Force computation, after setting the context.
-		Object[] contextObjects = adapted.getContextObjects();
+		IComputationContext[] contextObjects = adapted.getContextObjects();
 
 		// Get the RFSService for this.
-		adapted.addContextObjects(new Object[] {});
+		adapted.addContextObjects(new IComputationContext[] {});
 
 		targetNetXResource.eAdapters().remove(adapted);
 
@@ -314,11 +312,11 @@ public class CDOMonitoringAdapterTest extends AbstractInjectedTestJUnit4 {
 
 	private List<Value> randomValues(int count, List<Value> initialValues) {
 		List<Value> genValues = Lists.newArrayList();
-		DateTimeRange period = modelUtils.period(initialValues);
+		DateTimeRange period = StudioUtils.period(initialValues);
 		XMLGregorianCalendar xmlDate = period.getEnd();
 		for (int i = 0; i < count; i++) {
-			Value valueWithRandom = modelUtils.valueWithRandom(100);
-			xmlDate = modelUtils.rollHours(xmlDate, 1);
+			Value valueWithRandom = StudioUtils.valueWithRandom(100);
+			xmlDate = NonModelUtils.rollHours(xmlDate, 1);
 			valueWithRandom.setTimeStamp(xmlDate);
 			genValues.add(valueWithRandom);
 		}

@@ -29,8 +29,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import com.google.inject.Inject;
-import com.netxforge.netxstudio.common.model.ModelUtils;
-import com.netxforge.netxstudio.data.IData;
+import com.netxforge.base.cdo.ICDOData;
 import com.netxforge.tests.AbstractInjectedTestJUnit4;
 
 /**
@@ -44,10 +43,7 @@ public class ProxyObjectTest extends AbstractInjectedTestJUnit4 {
 	private static final String USERID_TEST = "admin";
 
 	@Inject
-	private IData provider;
-
-	@Inject
-	private ModelUtils modelUtils;
+	private ICDOData provider;
 
 	@Before
 	public void before() {
@@ -75,21 +71,20 @@ public class ProxyObjectTest extends AbstractInjectedTestJUnit4 {
 			if (CDOUtil.isStaleObject(eo)) {
 				System.out.println(cdoObject + " is a stale object");
 				CDOUtil.cleanStaleReference(commitEntries,
-						EresourcePackage.Literals.CDO_RESOURCE__CONTENTS,
-						i);
+						EresourcePackage.Literals.CDO_RESOURCE__CONTENTS, i);
 
 			} else {
 				indexLastNonProxyObject = i;
 			}
 		}
-		
+
 		try {
 			commitEntries.save(null);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
+
 		System.out
 				.println("index of last non-proxy object in CommitEntry for user: "
 						+ USERID_TEST + " is: " + indexLastNonProxyObject);

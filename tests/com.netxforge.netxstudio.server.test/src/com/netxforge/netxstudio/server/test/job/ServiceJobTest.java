@@ -18,8 +18,8 @@ import org.junit.Before;
 
 import com.google.common.collect.ImmutableList;
 import com.google.inject.Inject;
-import com.netxforge.netxstudio.common.model.ModelUtils;
-import com.netxforge.netxstudio.data.IData;
+import com.netxforge.base.NonModelUtils;
+import com.netxforge.base.cdo.ICDOData;
 import com.netxforge.netxstudio.generics.GenericsFactory;
 import com.netxforge.netxstudio.generics.Value;
 import com.netxforge.netxstudio.library.Function;
@@ -55,9 +55,7 @@ public class ServiceJobTest extends AbstractInjectedTestJUnit4 {
 	private static final String OPERATOR_NAME = "tmnl";
 
 	@Inject
-	private IData dataProvider;
-	@Inject
-	private ModelUtils modelUtils;
+	private ICDOData dataProvider;
 
 	@Before
 	protected void setUp() throws Exception {
@@ -151,22 +149,22 @@ public class ServiceJobTest extends AbstractInjectedTestJUnit4 {
 
 		final Value v = GenericsFactory.eINSTANCE.createValue();
 		v.setValue(2.0);
-		v.setTimeStamp(modelUtils.toXMLDate(modelUtils.yesterday()));
+		v.setTimeStamp(NonModelUtils.toXMLDate(NonModelUtils.yesterday()));
 
 		final Value v1 = GenericsFactory.eINSTANCE.createValue();
 		v1.setValue(2.1);
-		v1.setTimeStamp(modelUtils.toXMLDate(modelUtils.twoDaysAgo()));
+		v1.setTimeStamp(NonModelUtils.toXMLDate(NonModelUtils.twoDaysAgo()));
 
 		final Value v2 = GenericsFactory.eINSTANCE.createValue();
 		v2.setValue(2.1);
-		v2.setTimeStamp(modelUtils.toXMLDate(modelUtils.threeDaysAgo()));
+		v2.setTimeStamp(NonModelUtils.toXMLDate(NonModelUtils.threeDaysAgo()));
 
 		range.getMetricValues().addAll(ImmutableList.of(v, v1, v2));
 
 		final RFSServiceMonitoringJob job = SchedulingFactory.eINSTANCE
 				.createRFSServiceMonitoringJob();
 		job.setRFSService(rfsService);
-		job.setStartTime(modelUtils.toXMLDate(new Date(System
+		job.setStartTime(NonModelUtils.toXMLDate(new Date(System
 				.currentTimeMillis() + 6000)));
 		job.setInterval(60);
 		job.setName(rfsService.getServiceName());

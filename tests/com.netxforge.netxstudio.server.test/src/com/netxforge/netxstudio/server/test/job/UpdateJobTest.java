@@ -27,9 +27,9 @@ import org.junit.Before;
 import org.junit.Test;
 
 import com.google.inject.Inject;
-import com.netxforge.netxstudio.common.model.ModelUtils;
-import com.netxforge.netxstudio.data.IDataProvider;
-import com.netxforge.netxstudio.data.IDataService;
+import com.netxforge.base.NonModelUtils;
+import com.netxforge.base.cdo.ICDOData;
+import com.netxforge.netxstudio.data.ICDODataService;
 import com.netxforge.netxstudio.metrics.MappingXLS;
 import com.netxforge.netxstudio.metrics.MetricSource;
 import com.netxforge.netxstudio.metrics.MetricsFactory;
@@ -50,10 +50,7 @@ public class UpdateJobTest extends AbstractInjectedTestJUnit4 {
 	private static final int MINUTE = 60000;
 
 	@Inject
-	private IDataService dataService;
-
-	@Inject
-	private ModelUtils modelUtils;
+	private ICDODataService dataService;
 
 	@Before
 	public void setUp() throws Exception {
@@ -62,7 +59,7 @@ public class UpdateJobTest extends AbstractInjectedTestJUnit4 {
 
 	@Test
 	public void testCreateJob() throws Exception {
-		final IDataProvider provider = dataService.getProvider();
+		final ICDOData provider = dataService.getCDOData();
 		provider.openSession("admin", "admin");
 		provider.getTransaction();
 		final Resource resource = provider
@@ -85,7 +82,7 @@ public class UpdateJobTest extends AbstractInjectedTestJUnit4 {
 		msJob.setInterval(60);
 		msJob.setJobState(JobState.ACTIVE);
 		msJob.setName(MSJOBNAME);
-		msJob.setStartTime(modelUtils.toXMLDate(new Date(System
+		msJob.setStartTime(NonModelUtils.toXMLDate(new Date(System
 				.currentTimeMillis() + 2 * MINUTE)));
 		msJob.getMetricSources().add(createTestMetricSource(MSJOBNAME));
 		resource.getContents().add(msJob);
@@ -94,7 +91,7 @@ public class UpdateJobTest extends AbstractInjectedTestJUnit4 {
 	}
 
 	private MetricSource createTestMetricSource(String name) throws Exception {
-		final Resource resource = dataService.getProvider().getResource(
+		final Resource resource = dataService.getCDOData().getResource(
 				MetricsPackage.eINSTANCE.getMetricSource());
 
 		for (final EObject eObject : resource.getContents()) {
