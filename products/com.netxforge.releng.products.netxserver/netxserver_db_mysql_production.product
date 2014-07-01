@@ -1,20 +1,24 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?pde version="3.5"?>
 
-<product name="Netxserver DBStore" uid="com.netxforge.netxstudio.netxserver.product" id="com.netxforge.netxstudio.server.db.mysql.product.NetXServer" application="org.eclipse.emf.cdo.server.app" version="1.1.8" useFeatures="true" includeLaunchers="true">
+<product name="Netxserver DBStore" uid="com.netxforge.netxstudio.netxserver.product" id="com.netxforge.netxstudio.server.db.mysql.product.NetXServer" application="org.eclipse.emf.cdo.server.app" version="2.5.0" useFeatures="true" includeLaunchers="true">
 
    <configIni use="default">
    </configIni>
 
    <launcherArgs>
-      <programArgs>-os ${target.os} -ws ${target.ws} -arch ${target.arch} -nl ${target.nl} -clean  -debug -console 8811 -noExit -consoleLog --launcher.XXMaxPermSize 128M</programArgs>
-      <programArgsLin>-data @user.home</programArgsLin>
-      <programArgsMac>-data @user.home/netxserver</programArgsMac>
+      <programArgs>-os ${target.os} -ws ${target.ws} -arch ${target.arch} -nl ${target.nl} -clean  -debug -console 8811 -noExit -consoleLog --launcher.XXMaxPermSize 128M
+      </programArgs>
+      <programArgsLin>-data @user.home
+      </programArgsLin>
+      <programArgsMac>-data @user.home/netxserver
+      </programArgsMac>
       <vmArgs>-Xms1048m
 -XX:+HeapDumpOnOutOfMemoryError
 -Dorg.osgi.service.http.port=8080
 -DmetricSourceRoot=/Users/dzonekl/Documents/Projects/NetXStudio/TestData
--DskipInit=false</vmArgs>
+-DskipInit=false
+      </vmArgs>
       <vmArgsLin>-server
 -Xmx4096m
 -Xss1048k
@@ -22,7 +26,8 @@
 -Dosgi.debug=file:/home/capman/capman/.options
 -Dcom.sun.management.jmxremote.port=8812
 -Dcom.sun.management.jmxremote.authenticate=false
--Dcom.sun.management.jmxremote.ssl=false</vmArgsLin>
+-Dcom.sun.management.jmxremote.ssl=false
+      </vmArgsLin>
       <vmArgsMac>-XstartOnFirstThread -Dorg.eclipse.swt.internal.carbon.smallFonts
 -server
 -Xmx2048m
@@ -31,7 +36,8 @@
 -Dnet4j.config=&quot;${resource_loc:/com.netxforge.netxstudio.server.db.mysql.product/config}&quot;
 -Dcom.sun.management.jmxremote.port=8812
 -Dcom.sun.management.jmxremote.authenticate=false
--Dcom.sun.management.jmxremote.ssl=false</vmArgsMac>
+-Dcom.sun.management.jmxremote.ssl=false
+      </vmArgsMac>
       <vmArgsWin>-server
 -d32
 -Xmx1024m
@@ -39,7 +45,8 @@
 -Dnet4j.config=config
 -Dcom.sun.management.jmxremote.port=8812
 -Dcom.sun.management.jmxremote.authenticate=false
--Dcom.sun.management.jmxremote.ssl=false</vmArgsWin>
+-Dcom.sun.management.jmxremote.ssl=false
+      </vmArgsWin>
    </launcherArgs>
 
    <launcher>
