@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <?pde version="3.8"?><target name="netxstudio_kepler" sequenceNumber="92">
 <locations>
-<location includeAllPlatforms="true" includeConfigurePhase="true" includeMode="slicer" includeSource="true" type="InstallableUnit">
+<location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="slicer" includeSource="true" type="InstallableUnit">
 <unit id="org.eclipse.gef.all.feature.group" version="3.9.0.201305060205"/>
 <unit id="org.eclipse.draw2d.feature.group" version="3.9.0.201305060205"/>
 <unit id="org.eclipse.zest.sdk.feature.group" version="1.5.0.201305060205"/>
@@ -16,7 +16,7 @@
 <unit id="org.eclipse.gef.sdk.feature.group" version="3.9.0.201305060205"/>
 <repository location="http://p2.netxforge.com/gef.p2"/>
 </location>
-<location includeAllPlatforms="true" includeConfigurePhase="true" includeMode="slicer" includeSource="true" type="InstallableUnit">
+<location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="slicer" includeSource="true" type="InstallableUnit">
 <unit id="org.eclipse.xtend.feature.group" version="1.1.0.v201106070515"/>
 <unit id="org.eclipse.xtend.typesystem.uml2.feature.group" version="1.1.0.v201106070515"/>
 <unit id="org.eclipse.xpand.examples.feature.group" version="1.1.0.v201106070515"/>
@@ -32,7 +32,7 @@
 <unit id="org.eclipse.xtend.typesystem.emf.feature.group" version="1.1.0.v201106070515"/>
 <repository location="http://archive.eclipse.org/modeling/m2t/xpand/downloads/drops/1.1.0/R201106070515/repository"/>
 </location>
-<location includeAllPlatforms="true" includeConfigurePhase="true" includeMode="slicer" includeSource="true" type="InstallableUnit">
+<location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="slicer" includeSource="true" type="InstallableUnit">
 <unit id="org.eclipse.emf.mwe2.runtime.sdk.feature.group" version="2.0.1.v201108020506"/>
 <unit id="org.eclipse.emf.mwe.doc.feature.group" version="1.1.1.v201108020506"/>
 <unit id="org.eclipse.emf.mwe.ui.feature.group" version="1.1.1.v201108020506"/>
@@ -46,13 +46,13 @@
 <unit id="org.eclipse.xtext.sdk.feature.group" version="2.3.1.v201208210947"/>
 <repository location="http://download.eclipse.org/modeling/tmf/xtext/updates/composite/releases/"/>
 </location>
-<location includeAllPlatforms="true" includeConfigurePhase="true" includeMode="slicer" includeSource="true" type="InstallableUnit">
+<location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="slicer" includeSource="true" type="InstallableUnit">
 <unit id="org.eclipse.e4.core.tools.feature.feature.group" version="0.14.0.v20130620-0935"/>
 <unit id="org.eclipse.e4.tools.e3x.bridge.feature.feature.group" version="0.14.0.v20130620-0935"/>
 <unit id="org.eclipse.e4.tools.css.spy.feature.feature.group" version="0.14.0.v20130617-1345"/>
 <repository location="http://download.eclipse.org/e4/downloads/drops/R-0.14-201306242200/repository"/>
 </location>
-<location includeAllPlatforms="true" includeConfigurePhase="true" includeMode="slicer" includeSource="true" type="InstallableUnit">
+<location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="slicer" includeSource="true" type="InstallableUnit">
 <unit id="org.eclipse.emf.oda.sdk.feature.group" version="1.2.0.v20140203-1126"/>
 <unit id="org.eclipse.emf.feature.group" version="2.9.2.v20140203-1126"/>
 <unit id="org.eclipse.emf.gwt.ecore.feature.group" version="2.9.0.v20140203-1126"/>
@@ -101,7 +101,7 @@
 <unit id="org.eclipse.emf.sdk.feature.group" version="2.9.2.v20140203-1126"/>
 <repository location="http://download.eclipse.org/modeling/emf/emf/updates/releases/"/>
 </location>
-<location includeAllPlatforms="true" includeConfigurePhase="true" includeMode="slicer" includeSource="true" type="InstallableUnit">
+<location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="slicer" includeSource="true" type="InstallableUnit">
 <unit id="org.eclipse.emf.compare.ide.ui.source.feature.group" version="2.1.0.201306250935"/>
 <unit id="org.eclipse.emf.compare.ide.ui.feature.group" version="2.1.0.201306250935"/>
 <unit id="org.eclipse.emf.compare.source.feature.group" version="2.1.0.201306250935"/>
@@ -110,7 +110,7 @@
 <unit id="org.eclipse.emf.compare.rcp.ui.feature.group" version="2.1.0.201306250935"/>
 <repository location="http://download.eclipse.org/modeling/emf/compare/updates/releases/2.1"/>
 </location>
-<location includeAllPlatforms="true" includeConfigurePhase="true" includeMode="slicer" includeSource="true" type="InstallableUnit">
+<location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="slicer" includeSource="true" type="InstallableUnit">
 <unit id="org.eclipse.nebula.widgets.gallery.feature.feature.group" version="1.0.0.201303141537"/>
 <unit id="org.eclipse.nebula.widgets.oscilloscope.feature.feature.group" version="1.0.1.201303141537"/>
 <unit id="org.eclipse.nebula.widgets.ganttchart.feature.feature.group" version="1.0.0.201303141537"/>
@@ -130,11 +130,11 @@
 <unit id="org.eclipse.nebula.feature.feature.group" version="1.0.0.201303141537"/>
 <repository location="http://p2.netxforge.com/nebula.release.p2/"/>
 </location>
-<location includeAllPlatforms="true" includeConfigurePhase="true" includeMode="slicer" includeSource="true" type="InstallableUnit">
+<location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="slicer" includeSource="true" type="InstallableUnit">
 <unit id="com.google.collect.artifacts.feature.feature.group" version="1.0.0.201309021525"/>
 <repository location="http://p2.netxforge.com/google.p2/"/>
 </location>
-<location includeAllPlatforms="true" includeConfigurePhase="true" includeMode="slicer" includeSource="true" type="InstallableUnit">
+<location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="slicer" includeSource="true" type="InstallableUnit">
 <unit id="org.apache.openwebbeans.ejb.source" version="1.1.3.v201304190755"/>
 <unit id="org.mortbay.jetty.server" version="6.1.15.v200905151201"/>
 <unit id="org.eclipse.orbit.mongodb" version="2.10.1.v20130422-1135"/>
@@ -968,7 +968,7 @@
 <unit id="org.apache.catalina.tribes" version="7.0.32.v201211201952"/>
 <repository location="http://download.eclipse.org/tools/orbit/downloads/drops/R20130827064939/repository/"/>
 </location>
-<location includeAllPlatforms="true" includeConfigurePhase="true" includeMode="slicer" includeSource="true" type="InstallableUnit">
+<location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="slicer" includeSource="true" type="InstallableUnit">
 <unit id="org.eclipse.nebula.widgets.formattedtext.feature.feature.group" version="1.0.0.201303141536"/>
 <unit id="org.eclipse.nebula.examples.incubation.feature.feature.group" version="1.0.0.201303141536"/>
 <unit id="org.eclipse.nebula.widgets.pagination.feature.feature.group" version="1.0.0.201303141536"/>
@@ -982,11 +982,11 @@
 <unit id="org.eclipse.nebula.widgets.radiogroup.feature.feature.group" version="0.1.0.201303141536"/>
 <repository location="http://p2.netxforge.com/nebula.incubation.p2"/>
 </location>
-<location includeAllPlatforms="true" includeConfigurePhase="true" includeMode="slicer" includeSource="true" type="InstallableUnit">
+<location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="slicer" includeSource="true" type="InstallableUnit">
 <unit id="org.peaberry.artifacts.feature.feature.group" version="1.0.0.201308301546"/>
 <repository location="http://p2.netxforge.com/peaberry.p2/"/>
 </location>
-<location includeAllPlatforms="true" includeConfigurePhase="true" includeMode="slicer" includeSource="true" type="InstallableUnit">
+<location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="slicer" includeSource="true" type="InstallableUnit">
 <unit id="org.eclipse.emf.cdo.server.product.feature.group" version="4.1.101.v20140218-1830"/>
 <unit id="org.eclipse.emf.cdo.dawn.codegen.gmf.feature.group" version="2.1.1.v20140218-1830"/>
 <unit id="org.eclipse.net4j.db.oracle.feature.group" version="1.0.1.v20140218-1709"/>
@@ -1028,7 +1028,7 @@
 <unit id="org.eclipse.emf.cdo.defs.feature.group" version="4.2.1.v20140218-1830"/>
 <repository location="http://download.eclipse.org/modeling/emf/cdo/drops/R20140218-1655"/>
 </location>
-<location includeAllPlatforms="true" includeConfigurePhase="true" includeMode="slicer" includeSource="true" type="InstallableUnit">
+<location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="slicer" includeSource="true" type="InstallableUnit">
 <unit id="org.eclipse.jdt.source.feature.group" version="3.9.2.v20140221-1700"/>
 <unit id="org.eclipse.pde.source.feature.group" version="3.9.1.v20140221-1700"/>
 <unit id="org.eclipse.equinox.serverside.sdk.feature.group" version="3.9.1.v20140221-1852"/>
