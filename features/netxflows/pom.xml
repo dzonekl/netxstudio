@@ -9,9 +9,9 @@
 	<packaging>pom</packaging>
 	<parent>
 		<groupId>com.netxforge.netxstudio</groupId>
-		<artifactId>com.netxforge.releng</artifactId>
+		<artifactId>com.netxforge.releng.netxflows</artifactId>
 		<version>0.0.1-SNAPSHOT</version>
-		<relativePath>../../releng.tycho/com.netxforge.releng</relativePath>
+		<relativePath>../../releng.tycho/com.netxforge.releng.netxflows</relativePath>
 	</parent>
 	<modules>
 		<module>../com.netxforge.base.feature</module>
