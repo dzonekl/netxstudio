@@ -32,7 +32,7 @@
 <unit id="org.eclipse.xtend.typesystem.emf.feature.group" version="1.1.0.v201106070515"/>
 <repository location="http://archive.eclipse.org/modeling/m2t/xpand/downloads/drops/1.1.0/R201106070515/repository"/>
 </location>
-<location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="slicer" includeSource="true" type="InstallableUnit">
+<location includeAllPlatforms="true" includeConfigurePhase="true" includeMode="slicer" includeSource="true" type="InstallableUnit">
 <unit id="org.eclipse.emf.mwe2.runtime.sdk.feature.group" version="2.0.1.v201108020506"/>
 <unit id="org.eclipse.emf.mwe.doc.feature.group" version="1.1.1.v201108020506"/>
 <unit id="org.eclipse.emf.mwe.ui.feature.group" version="1.1.1.v201108020506"/>
@@ -52,7 +52,7 @@
 <unit id="org.eclipse.e4.tools.css.spy.feature.feature.group" version="0.14.0.v20130617-1345"/>
 <repository location="http://download.eclipse.org/e4/downloads/drops/R-0.14-201306242200/repository"/>
 </location>
-<location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="slicer" includeSource="true" type="InstallableUnit">
+<location includeAllPlatforms="true" includeConfigurePhase="true" includeMode="slicer" includeSource="true" type="InstallableUnit">
 <unit id="org.eclipse.emf.oda.sdk.feature.group" version="1.2.0.v20140203-1126"/>
 <unit id="org.eclipse.emf.feature.group" version="2.9.2.v20140203-1126"/>
 <unit id="org.eclipse.emf.gwt.ecore.feature.group" version="2.9.0.v20140203-1126"/>
