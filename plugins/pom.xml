@@ -18,6 +18,79 @@
 				<version>${tycho-version}</version>
 				<extensions>true</extensions>
 			</plugin>
+			<plugin>
+				<groupId>org.eclipse.tycho</groupId>
+				<artifactId>target-platform-configuration</artifactId>
+				<version>${tycho-version}</version>
+				<configuration>
+					<dependency-resolution>
+						<optionalDependencies>ignore</optionalDependencies>
+					</dependency-resolution>
+					<target>
+						<artifact>
+							<groupId>${project.groupId}</groupId>
+							<artifactId>${project.artifactId}</artifactId>
+							<version>${project.version}</version>
+							<classifier>../../releng.tycho/com.netxforge.releng.target/oss2_base</classifier>
+						</artifact>
+					</target>
+					<environments>
+						<environment>
+							<os>win32</os>
+							<ws>win32</ws>
+							<arch>x86</arch>
+						</environment>
+						<environment>
+							<os>linux</os>
+							<ws>gtk</ws>
+							<arch>x86_64</arch>
+						</environment>
+						<environment>
+							<os>macosx</os>
+							<ws>cocoa</ws>
+							<arch>x86_64</arch>
+						</environment>
+					</environments>
+					<filters>
+						<filter>
+							<type>p2-installable-unit</type>
+							<id>org.apache.ant</id>
+							<removeAll />
+						</filter>
+						<filter>
+							<type>p2-installable-unit</type>
+							<id>org.eclipse.ltk.core.refactoring</id>
+							<removeAll />
+						</filter>
+
+						<filter>
+							<type>p2-installable-unit</type>
+							<id>org.eclipse.debug.core</id>
+							<removeAll />
+						</filter>
+						<filter>
+							<type>p2-installable-unit</type>
+							<id>org.eclipse.jdt.core</id>
+							<removeAll />
+						</filter>
+						<filter>
+							<type>p2-installable-unit</type>
+							<id>org.eclipse.search</id>
+							<removeAll />
+						</filter>
+						<filter>
+							<type>p2-installable-unit</type>
+							<id>org.eclipse.team.core</id>
+							<removeAll />
+						</filter>
+						<filter>
+							<type>p2-installable-unit</type>
+							<id>org.eclipse.team.ui</id>
+							<removeAll />
+						</filter>
+					</filters>
+				</configuration>
+			</plugin>
 		</plugins>
 	</build>
 	<modules>
