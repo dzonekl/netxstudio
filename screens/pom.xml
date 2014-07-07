@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd"
+	xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>plugins</groupId>
+	<artifactId>plugins</artifactId>
+	<version>0.0.1-SNAPSHOT</version>
+	<packaging>pom</packaging>
+	<parent>
+		<groupId>com.netxforge.netxstudio</groupId>
+		<artifactId>com.netxforge.releng</artifactId>
+		<version>0.0.1-SNAPSHOT</version>
+		<relativePath>../releng.tycho/com.netxforge.releng</relativePath>
+	</parent>
+	<modules>
+		<module>com.netxforge.netxscript.ui</module>
+		<module>com.netxforge.netxstudio.common</module>
+		<module>com.netxforge.netxstudio.console</module>
+		<module>com.netxforge.netxstudio.data</module>
+		<module>com.netxforge.netxstudio.data.ui</module>
+		<module>com.netxforge.netxstudio.help</module>
+		<module>com.netxforge.netxstudio.models.export.ui</module>
+		<module>com.netxforge.netxstudio.models.import.ui</module>
+		<module>com.netxforge.netxstudio.screens</module>
+		<module>com.netxforge.netxstudio.screens.app</module>
+		<module>com.netxforge.netxstudio.screens.activities</module>
+		<module>com.netxforge.netxstudio.screens.ide</module>
+		<module>com.netxforge.netxstudio.screens.editing</module>
+		<module>com.netxforge.netxstudio.screens.xtext</module>
+		<module>../products/com.netxforge.netxstudio.client.product</module>
+		<module>../products/com.netxforge.netxstudio.server.db.mysql.product</module>
+	</modules>
+</project>

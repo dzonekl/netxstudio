@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd"
+	xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>plugins</groupId>
+	<artifactId>plugins</artifactId>
+	<version>0.0.1-SNAPSHOT</version>
+	<packaging>pom</packaging>
+	<parent>
+		<groupId>com.netxforge.netxstudio</groupId>
+		<artifactId>com.netxforge.releng</artifactId>
+		<version>0.0.1-SNAPSHOT</version>
+		<relativePath>../releng.tycho/com.netxforge.releng</relativePath>
+	</parent>
+	<modules>
+		<module>com.netxforge.netxscript</module>
+		<module>com.netxforge.netxstudio.models</module>
+		<module>com.netxforge.netxstudio.models.edit</module>
+		<module>com.netxforge.netxstudio.models.export</module>
+		<module>com.netxforge.netxstudio.models.import</module>
+		<module>com.netxforge.netxstudio.models.13042011</module>
+		<module>com.netxforge.netxstudio.models.13042011.edit</module>
+		<module>com.netxforge.netxstudio.models16042013_delta</module>
+		<module>com.netxforge.netxstudio.data.import</module>
+		<module>com.netxforge.netxstudio.data.fixtures</module>
+		<module>com.netxforge.netxstudio.webservice</module>
+	</modules>
+</project>
