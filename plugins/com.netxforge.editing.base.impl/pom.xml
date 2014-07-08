@@ -1,13 +1,11 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
-	<groupId>com.netxforge.editing.base.impl</groupId>
-	<artifactId>com.netxforge.editing.base.impl</artifactId>
-	<version>1.0.0-SNAPSHOT</version>
+	<artifactId>editing.base.impl</artifactId>
 	<parent>
-		<groupId>plugins</groupId>
-		<artifactId>plugins</artifactId>
-		<version>0.0.1-SNAPSHOT</version>
+		<groupId>com.netxforge</groupId>
+		<artifactId>oss2-base</artifactId>
+		<version>1.0.0-SNAPSHOT</version>
 		<relativePath>../../plugins</relativePath>
 	</parent>
 	<packaging>eclipse-plugin</packaging>
