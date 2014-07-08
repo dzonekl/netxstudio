@@ -7,7 +7,7 @@
 	<version>0.0.1-SNAPSHOT</version>
 	<parent>
 		<groupId>com.netxforge</groupId>
-		<artifactId>com.netxforge.releng</artifactId>
+		<artifactId>oss2</artifactId>
 		<version>0.0.1-SNAPSHOT</version>
 		<relativePath>../releng.tycho/com.netxforge.releng.oss2</relativePath>
 	</parent>
