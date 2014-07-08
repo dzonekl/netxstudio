@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<site>
+   <feature url="features/com.netxforge.base.feature_1.0.0.qualifier.jar" id="com.netxforge.base.feature" version="1.0.0.qualifier">
+      <category name="OSS2"/>
+   </feature>
+   <feature url="features/com.netxforge.editing.base.feature_1.0.0.qualifier.jar" id="com.netxforge.editing.base.feature" version="1.0.0.qualifier">
+      <category name="OSS2"/>
+   </feature>
+   <category-def name="OSS2" label="OSS2"/>
+</site>
