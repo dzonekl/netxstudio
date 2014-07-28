@@ -44,7 +44,7 @@
 							<groupId>${project.groupId}</groupId>
 							<artifactId>${project.artifactId}</artifactId>
 							<version>${project.version}</version>
-							<classifier>../../releng.tycho/com.netxforge.releng.target/netxstudio_kepler_xtext23_cdo40</classifier>
+							<classifier>../../releng.tycho/com.netxforge.releng.target/oss2_base_app</classifier>
 						</artifact>
 					</target>
 					<environments>
