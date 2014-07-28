@@ -97,6 +97,9 @@
 		../../plugins
 		</module>
 		<module>
+		../../features/base
+		</module>
+		<module>
 		../com.netxforge.releng.oss2.p2
 		</module>
 	</modules>
