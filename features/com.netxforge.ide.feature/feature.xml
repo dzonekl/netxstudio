@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <feature
-      id="com.netxforge.netxstudio.screens.ide.feature"
-      label="Screens IDE Feature"
+      id="com.netxforge.ide.feature"
+      label="IDE Feature"
       version="1.0.0.qualifier"
       provider-name="NetXForge">
 

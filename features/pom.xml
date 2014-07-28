@@ -19,7 +19,7 @@
 		<module>com.netxforge.netxscript.feature</module>
 		<module>com.netxforge.netxscript.ui.feature</module>
 		<module>com.netxforge.netxstudio.client.product.feature</module>
-		<module>com.netxforge.netxstudio.console.feature</module>
+		<module>com.netxforge.console.feature</module>
 		<module>com.netxforge.netxstudio.common.feature</module>
 		<module>com.netxforge.netxstudio.data.feature</module>
 		<module>com.netxforge.netxstudio.data.import.feature</module>

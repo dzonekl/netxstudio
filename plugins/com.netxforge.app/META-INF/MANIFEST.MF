@@ -1,7 +1,7 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: %Bundle-Name
-Bundle-SymbolicName: com.netxforge.netxstudio.screens.app;singleton:=true
+Bundle-SymbolicName: com.netxforge.app;singleton:=true
 Bundle-Version: 1.0.0.qualifier
 Bundle-Activator: com.netxforge.netxstudio.screens.app.internal.ScreensApplicationActivator
 Bundle-Vendor: %Bundle-Vendor

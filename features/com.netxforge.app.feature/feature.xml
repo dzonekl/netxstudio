@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <feature
-      id="com.netxforge.netxstudio.screens.app.feature"
-      label="NetXStudio Client"
+      id="com.netxforge.app.feature"
+      label="3.x Application Feature"
       version="1.0.0.qualifier"
       provider-name="NetXForge">
 

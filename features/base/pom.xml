@@ -12,8 +12,10 @@
 		<relativePath>../../releng.tycho/com.netxforge.releng.oss2</relativePath>
 	</parent>
 	<modules>
+		<module>../com.netxforge.app.feature</module>
 		<module>../com.netxforge.base.feature</module>
 		<module>../com.netxforge.console.feature</module>
 		<module>../com.netxforge.editing.base.feature</module>
+		<module>../com.netxforge.ide.feature</module>
 	</modules>
 </project>
