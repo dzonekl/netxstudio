@@ -9,7 +9,7 @@
 		<groupId>com.netxforge</groupId>
 		<artifactId>releng.oss2</artifactId>
 		<version>1.0.0-SNAPSHOT</version>
-		<relativePath>../releng.tycho/com.netxforge.releng.oss2</relativePath>
+		<relativePath>../../releng.tycho/com.netxforge.releng.oss2</relativePath>
 	</parent>
 	<modules>
 		<module>com.netxforge.base.feature</module>
