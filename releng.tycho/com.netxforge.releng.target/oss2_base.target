@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<?pde version="3.8"?><target name="oss2_base" sequenceNumber="1">
+<?pde version="3.8"?><target name="oss2_base" sequenceNumber="2">
 <locations>
 <location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="slicer" includeSource="true" type="InstallableUnit">
 <unit id="org.eclipse.emf.oda.sdk.feature.group" version="1.2.0.v20140203-1126"/>
@@ -605,6 +605,48 @@
 <location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="slicer" includeSource="true" type="InstallableUnit">
 <unit id="org.peaberry.artifacts.feature.feature.group" version="1.0.0.201308301546"/>
 <repository location="http://p2.netxforge.com/peaberry.p2/"/>
+</location>
+<location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="slicer" includeSource="true" type="InstallableUnit">
+<unit id="org.eclipse.emf.cdo.server.product.feature.group" version="4.1.101.v20140218-1830"/>
+<unit id="org.eclipse.emf.cdo.dawn.codegen.gmf.feature.group" version="2.1.1.v20140218-1830"/>
+<unit id="org.eclipse.net4j.db.oracle.feature.group" version="1.0.1.v20140218-1709"/>
+<unit id="org.eclipse.emf.cdo.explorer.product.feature.group" version="4.1.101.v20140218-1830"/>
+<unit id="org.eclipse.net4j.db.mysql.feature.group" version="4.2.1.v20140218-1830"/>
+<unit id="org.eclipse.net4j.db.derby.feature.group" version="4.2.1.v20140218-1830"/>
+<unit id="org.eclipse.emf.cdo.server.mongodb.feature.group" version="4.2.1.v20140218-1830"/>
+<unit id="org.eclipse.emf.cdo.dawn.examples.feature.group" version="2.1.1.v20140218-1830"/>
+<unit id="org.eclipse.emf.cdo.sdk.feature.group" version="4.2.1.v20140218-1830"/>
+<unit id="org.eclipse.net4j.defs.feature.group" version="4.2.1.v20140218-1830"/>
+<unit id="org.eclipse.emf.cdo.server.db4o.feature.group" version="4.2.1.v20140218-1830"/>
+<unit id="org.eclipse.emf.cdo.migrator.feature.group" version="4.2.1.v20140218-1830"/>
+<unit id="org.eclipse.emf.cdo.feature.group" version="4.2.1.v20140218-1830"/>
+<unit id="org.eclipse.net4j.ui.feature.group" version="4.2.1.v20140218-1830"/>
+<unit id="org.eclipse.net4j.db.postgresql.feature.group" version="4.2.1.v20140218-1830"/>
+<unit id="org.eclipse.emf.cdo.compare.feature.group" version="4.2.1.v20140218-1830"/>
+<unit id="org.eclipse.net4j.tests.feature.group" version="4.2.1.v20140218-1830"/>
+<unit id="org.eclipse.emf.cdo.dawn.feature.group" version="2.1.1.v20140218-1830"/>
+<unit id="org.eclipse.emf.cdo.tests.feature.group" version="4.2.1.v20140218-1830"/>
+<unit id="org.eclipse.net4j.sdk.feature.group" version="4.2.1.v20140218-1830"/>
+<unit id="org.eclipse.emf.cdo.examples.feature.group" version="4.2.1.v20140218-1830"/>
+<unit id="org.eclipse.emf.cdo.dawn.codegen.feature.group" version="2.1.1.v20140218-1830"/>
+<unit id="org.eclipse.net4j.db.feature.group" version="4.2.1.v20140218-1830"/>
+<unit id="org.eclipse.net4j.db.h2.feature.group" version="4.2.1.v20140218-1830"/>
+<unit id="org.eclipse.net4j.examples.feature.group" version="4.2.1.v20140218-1830"/>
+<unit id="org.eclipse.emf.cdo.server.objectivity.feature.group" version="4.2.1.v20140218-1830"/>
+<unit id="org.eclipse.emf.cdo.dawn.tests.feature.group" version="2.1.1.v20140218-1830"/>
+<unit id="org.eclipse.net4j.feature.group" version="4.2.1.v20140218-1830"/>
+<unit id="org.eclipse.emf.cdo.server.lissome.feature.group" version="4.2.1.v20140218-1709"/>
+<unit id="org.gastro.feature.group" version="4.2.1.v20140218-1830"/>
+<unit id="org.eclipse.net4j.util.feature.group" version="4.2.1.v20140218-1709"/>
+<unit id="org.eclipse.net4j.db.hsqldb.feature.group" version="4.2.1.v20140218-1830"/>
+<unit id="org.eclipse.net4j.doc.feature.group" version="4.2.1.v20140218-1709"/>
+<unit id="org.eclipse.emf.cdo.doc.feature.group" version="4.2.1.v20140218-1709"/>
+<unit id="org.eclipse.emf.cdo.server.feature.group" version="4.2.1.v20140218-1830"/>
+<unit id="org.eclipse.emf.cdo.server.db.feature.group" version="4.2.1.v20140218-1709"/>
+<unit id="org.eclipse.emf.cdo.dawn.sdk.feature.group" version="2.1.1.v20140218-1830"/>
+<unit id="org.eclipse.net4j.util.ui.feature.group" version="4.2.1.v20140218-1830"/>
+<unit id="org.eclipse.emf.cdo.defs.feature.group" version="4.2.1.v20140218-1830"/>
+<repository location="http://download.eclipse.org/modeling/emf/cdo/drops/R20140218-1655"/>
 </location>
 </locations>
 </target>
