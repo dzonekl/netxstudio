@@ -31,10 +31,6 @@
          version="0.0.0"/>
 
    <includes
-         id="com.netxforge.netxstudio.console.feature"
-         version="0.0.0"/>
-
-   <includes
          id="org.eclipse.draw2d"
          version="0.0.0"/>
 
@@ -95,10 +91,6 @@
          version="0.0.0"/>
 
    <includes
-         id="com.netxforge.netxstudio.screens.ide.feature"
-         version="0.0.0"/>
-
-   <includes
          id="com.netxforge.models.06032012.emf.feature"
          version="0.0.0"/>
 
@@ -108,6 +100,18 @@
 
    <includes
          id="com.netxforge.netxflows.screens.feature"
+         version="0.0.0"/>
+
+   <includes
+         id="com.netxforge.console.feature"
+         version="0.0.0"/>
+
+   <includes
+         id="com.netxforge.ide.feature"
+         version="0.0.0"/>
+
+   <includes
+         id="com.netxforge.app.feature"
          version="0.0.0"/>
 
    <requires>

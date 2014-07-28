@@ -19,9 +19,9 @@ Require-Bundle: org.swtchart;bundle-version="0.7.0",
  com.netxforge.netxstudio.common,
  com.netxforge.netxstudio.data.import;bundle-version="1.0.0",
  com.netxforge.netxstudio.screens.editing;bundle-version="1.0.0",
- com.netxforge.netxstudio.screens.ide;bundle-version="1.0.0",
  com.netxforge.netxstudio.screens.xtext;bundle-version="1.0.0",
- com.netxforge.netxstudio.webservice;bundle-version="1.0.0"
+ com.netxforge.netxstudio.webservice;bundle-version="1.0.0",
+ com.netxforge.ide;bundle-version="1.0.0"
 Bundle-RequiredExecutionEnvironment: J2SE-1.5
 Bundle-ActivationPolicy: lazy
 Bundle-ClassPath: .

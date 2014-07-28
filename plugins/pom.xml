@@ -12,11 +12,13 @@
 	</parent>
 	<packaging>pom</packaging>
 	<modules>
+		<module>com.netxforge.app</module>
 		<module>com.netxforge.base</module>
 		<module>com.netxforge.base.cdo</module>
 		<module>com.netxforge.branding</module>
 		<module>com.netxforge.console</module>
 		<module>com.netxforge.editing.base</module>
 		<module>com.netxforge.editing.base.impl</module>
+		<module>com.netxforge.ide</module>
 	</modules>
 </project>
