@@ -15,6 +15,7 @@
 		<module>com.netxforge.base</module>
 		<module>com.netxforge.base.cdo</module>
 		<module>com.netxforge.branding</module>
+		<module>com.netxforge.console</module>
 		<module>com.netxforge.editing.base</module>
 		<module>com.netxforge.editing.base.impl</module>
 	</modules>

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <feature
-      id="com.netxforge.netxstudio.console.feature"
-      label="NetXStudio Console"
+      id="com.netxforge.console.feature"
+      label="Console"
       version="1.0.0.qualifier"
       provider-name="NetXForge">
 
@@ -24,10 +24,10 @@
    </requires>
 
    <plugin
-         id="com.netxforge.netxstudio.console"
+         id="com.netxforge.console"
          download-size="0"
          install-size="0"
-         version="1.0.0.qualifier"
+         version="0.0.0"
          unpack="false"/>
 
 </feature>

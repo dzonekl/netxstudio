@@ -13,6 +13,7 @@
 	</parent>
 	<modules>
 		<module>../com.netxforge.base.feature</module>
+		<module>../com.netxforge.console.feature</module>
 		<module>../com.netxforge.editing.base.feature</module>
 	</modules>
 </project>
