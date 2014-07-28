@@ -14,19 +14,12 @@
 		<relativePath>../../releng.tycho/com.netxforge.releng.netxflows</relativePath>
 	</parent>
 	<modules>
-		<module>../../plugins/com.netxforge.base</module>
-		<module>../../plugins/com.netxforge.base.cdo</module>
-		<module>../../plugins/com.netxforge.branding</module>
-		<module>../../plugins/com.netxforge.editing.base</module>
-		<module>../../plugins/com.netxforge.editing.base.impl</module>
 		<module>../../model/com.netxforge.netxstudio.models</module>
 		<module>../../model/com.netxforge.netxstudio.models.edit</module>
 		<module>../../model/com.netxforge.models.06032012.emf</module>
 		<module>../../model/com.netxforge.models.06032012.emf.edit</module>
 		<module>../../screens/com.netxforge.netxflows.screens</module>
-		<module>../../screens/com.netxforge.netxstudio.screens.app</module>
 		<module>../../screens/com.netxforge.netxstudio.screens.activities</module>
-		<module>../../screens/com.netxforge.netxstudio.screens.ide</module>
 		<module>../../products/com.netxforge.netxflows.product</module>
 	</modules>
 </project>
