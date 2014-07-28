@@ -213,19 +213,27 @@ public class ServerActivator implements BundleActivator, DebugOptionsListener,
 	public String getHelp() {
 		StringBuffer buffer = new StringBuffer();
 		buffer.append("---NetXStudio Server commands---\n\n");
+		buffer.append("\tserver [actions]*\n\n");
+		buffer.append("\tInteraction with the CDO Object store\n");
+		buffer.append("\n\tactions:\n");
+		buffer.append("\t========\n");
+		buffer.append("\tpackages\t\t=> List the EMF Packages from the Global package Registry, with an index for the package in the registry.\n");
+		buffer.append("\tcdo package check \'n\'\t=> Check if a given package (from the known EMF packages)\n");
+		buffer.append("\tcdo package load \'n\'\t\t=> List the currently registered EMF Packages, with an index for the package in the registry.\n\n");
+		buffer.append("\n\t*********************************************************************************************************\n\n");
 		buffer.append("\tserver report [actions] [options]\n\n");
 		buffer.append("\tReport the Data Integrity status of the data on the server. Depending on the options, this is a potentially\n");
-		buffer.append("\tlong-running operation, therefor actions exist to query the progress and cancel the process all togehter\n");
+		buffer.append("\tlong-running operation, therefor actions exist to query the progress and cancel the process all together\n");
 		buffer.append("\tFixing actions are applied on the last produced (partial) report. \n");
 		buffer.append("\n\toptions:\n");
 		buffer.append("\t======= \n");
-		buffer.append("\t --duplicates => Reports Value objects which belong to the same range and have the equal timeStamp.\n");
+		buffer.append("\t--duplicates\t=> Reports Value objects which belong to the same range and have the equal timeStamp.\n");
 		buffer.append("\t                This is a long running operation. The progress is monitored by the 'progres' action.\n");
 		buffer.append("\n\tactions:\n");
 		buffer.append("\t======= \n");
-		buffer.append("\t  progress    => Show the progress of the reporting process\n");
-		buffer.append("\t  cancel      => Cancel the reporting process\n");
-		buffer.append("\t  fix         => Fix the integrity of the data on the server, which deletes duplicate value entries, if any were generated\n");
+		buffer.append("\tprogress\t=> Show the progress of the reporting process\n");
+		buffer.append("\tcancel\t=> Cancel the reporting process\n");
+		buffer.append("\tfix\t\t=> Fix the integrity of the data on the server, which deletes duplicate value entries, if any were generated\n");
 
 		return buffer.toString();
 	}
@@ -233,16 +241,16 @@ public class ServerActivator implements BundleActivator, DebugOptionsListener,
 	public Object _server(CommandInterpreter interpreter) {
 		try {
 			String cmd = interpreter.nextArgument();
-			if ("cdo".equals(cmd)) {
+			if ("packages".equals(cmd)) {
+				return ServerDataPackages.INSTANCE.getRegisteredPackages();
+			} else if ("cdo".equals(cmd)) {
 				String nextArgument = interpreter.nextArgument();
 
 				// Process Actions:
-				if ("packages".equals(nextArgument)) {
-					return ServerDataPackages.INSTANCE.getRegisteredPackages();
-				} else if ("package".equals(nextArgument)) {
+				if ("package".equals(nextArgument)) {
 					String nextNextArgument = interpreter.nextArgument();
 
-					if ("show".equals(nextNextArgument)) {
+					if ("check".equals(nextNextArgument)) {
 						String next3Argument = interpreter.nextArgument();
 						try {
 							Integer integer = new Integer(next3Argument);
