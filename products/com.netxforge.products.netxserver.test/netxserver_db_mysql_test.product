@@ -13,12 +13,11 @@
       <vmArgs>-Xms1048m
 -XX:+HeapDumpOnOutOfMemoryError
 -Dorg.osgi.service.http.port=8080
--DmetricSourceRoot=/Users/dzonekl/Documents/Projects/NetXStudio/TestData
 -DskipInit=true</vmArgs>
       <vmArgsLin>-server
 -Xmx4096m
 -Xss1048k
--Dnet4j.config=&quot;${resource_loc:/com.netxforge.releng.products.netxserver/test/config}&quot;
+-Dnet4j.config=&quot;${resource_loc:/com.netxforge.products.netxserver.test/test/config}&quot;
 -Dosgi.debug=file:/home/capman/capman/.options
 -Dcom.sun.management.jmxremote.port=8812
 -Dcom.sun.management.jmxremote.authenticate=false
@@ -28,7 +27,7 @@
 -Xmx2048m
 -Xss512k
 -Dosgi.debug=file:/Users/Christophe/netxserver/.options
--Dnet4j.config=&quot;${resource_loc:/com.netxforge.releng.products.netxserver/test/config}&quot;
+-Dnet4j.config=&quot;${resource_loc:/com.netxforge.products.netxserver.test/test/config}&quot;
 -Dcom.sun.management.jmxremote.port=8812
 -Dcom.sun.management.jmxremote.authenticate=false
 -Dcom.sun.management.jmxremote.ssl=false</vmArgsMac>
