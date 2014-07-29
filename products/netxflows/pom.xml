@@ -21,5 +21,6 @@
 		<module>../../model/com.netxforge.models.06032012.emf.edit</module>
 		<module>../../screens/com.netxforge.netxstudio.screens.activities</module> 
 		<module>com.netxforge.netxflows.product</module>
+		<module>com.netxforge.releng.products.netxflows</module>
 	</modules>
 </project>
