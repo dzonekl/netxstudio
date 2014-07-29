@@ -94,7 +94,7 @@
 	</build>
 	<modules>
 		<module>
-		../../plugins
+		../../plugins/base
 		</module>
 		<module>
 		../../features/base

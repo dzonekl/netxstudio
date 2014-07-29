@@ -3,9 +3,7 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd"
 	xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
 	<modelVersion>4.0.0</modelVersion>
-	<groupId>features</groupId>
-	<artifactId>features</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<artifactId>netxflows-features</artifactId>
 	<packaging>pom</packaging>
 	<parent>
 		<groupId>com.netxforge.netxstudio</groupId>
@@ -14,15 +12,10 @@
 		<relativePath>../../releng.tycho/com.netxforge.releng.netxflows</relativePath>
 	</parent>
 	<modules>
-		<module>../com.netxforge.base.feature</module>
-		<module>../com.netxforge.editing.base.feature</module>
 		<module>../com.netxforge.netxflows.screens.feature</module>
 		<module>../com.netxforge.netxflows.product.feature</module>
-		<module>../com.netxforge.netxstudio.console.feature</module>
 		<module>../com.netxforge.netxstudio.models.feature</module>
 		<module>../com.netxforge.models.06032012.emf.feature</module>
 		<module>../com.netxforge.netxstudio.models.edit.feature</module>
-		<module>../com.netxforge.netxstudio.screens.app.feature</module>
-		<module>../com.netxforge.netxstudio.screens.ide.feature</module>
 	</modules>
 </project>
