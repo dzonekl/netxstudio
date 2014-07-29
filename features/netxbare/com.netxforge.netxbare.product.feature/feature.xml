@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <feature
-      id="com.netxforge.netxsbare.product.feature"
+      id="com.netxforge.netxbare.product.feature"
       label="Bare Product Feature"
       version="1.0.0.qualifier"
       provider-name="NetXForge">
