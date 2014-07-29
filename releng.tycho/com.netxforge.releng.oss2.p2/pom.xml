@@ -3,6 +3,9 @@
 	<modelVersion>4.0.0</modelVersion>
 	<artifactId>releng.oss2.p2</artifactId>
 	<packaging>eclipse-repository</packaging>
+	<properties>
+		<relengdir>..</relengdir>
+	</properties>
 	<parent>
 		<groupId>com.netxforge</groupId>
 		<artifactId>releng.oss2</artifactId>
