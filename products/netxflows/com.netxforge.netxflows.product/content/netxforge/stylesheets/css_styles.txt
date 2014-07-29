@@ -1,0 +1,42 @@
+Introduction
+------------
+
+Styles are brocken up by the functionality provided to keep
+the site maintainable. 
+We identiy two types of styles: 
+
+1. Generic styles
+
+There should be one of these. It defines all styles which are
+generic for the whole site. Think of <body> etc.. 
+
+2. Functional styles
+
+Functional styles are specific to each function. It's the objective to
+not overlap functional layout styles with generic styles. 
+
+As we borrow styles, we need to cleaned the borrowed styles so we only 
+keep the relevant parts. 
+
+Styles
+------
+
+style.css => Generic style
+menus.css => Generic meny style
+boxes.css => Style which boxes used for various screens.
+rss.css => Style for RSS engine
+wiki.css => Style for Wiki engine
+
+Note on styles
+--------------
+
+IE and MOZILLA/FIREFOX have a different interpretation of the W3C standard
+on using the padding attribute. For this we don't use the padding attribute.
+Instead we specify a content style, with a margin which has the desired 
+effect to create space between the box borders and the content.
+
+Transparency
+filter: alpha(opacity=40);
+filter: progid:DXImageTransform.Microsoft.Alpha(opacity=40);
+-moz-opacity: 0.40; opacity:0.4;
+

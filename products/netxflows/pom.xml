@@ -3,14 +3,15 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd"
 	xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
 	<modelVersion>4.0.0</modelVersion>
-	<groupId>plugins</groupId>
-	<artifactId>plugins</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<artifactId>netxflows-product</artifactId>
 	<packaging>pom</packaging>
+	<properties>
+		<relengdir>../../../releng.tycho</relengdir>
+	</properties>
 	<parent>
-		<groupId>com.netxforge.netxstudio</groupId>
-		<artifactId>com.netxforge.releng.netxflows</artifactId>
-		<version>0.0.1-SNAPSHOT</version>
+		<groupId>com.netxforge</groupId>
+		<artifactId>releng.netxflows</artifactId>
+		<version>1.0.0-SNAPSHOT</version>
 		<relativePath>../../releng.tycho/com.netxforge.releng.netxflows</relativePath>
 	</parent>
 	<modules>
@@ -18,8 +19,7 @@
 		<module>../../model/com.netxforge.netxstudio.models.edit</module>
 		<module>../../model/com.netxforge.models.06032012.emf</module>
 		<module>../../model/com.netxforge.models.06032012.emf.edit</module>
-		<module>../../screens/com.netxforge.netxflows.screens</module>
-		<module>../../screens/com.netxforge.netxstudio.screens.activities</module>
-		<module>../../products/com.netxforge.netxflows.product</module>
+		<module>../../screens/com.netxforge.netxstudio.screens.activities</module> 
+		<module>com.netxforge.netxflows.product</module>
 	</modules>
 </project>

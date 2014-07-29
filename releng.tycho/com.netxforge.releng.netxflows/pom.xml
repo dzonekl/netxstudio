@@ -118,8 +118,5 @@
 		<module>
 		../../libs.eclipse
 		</module>
-		<module>
-		../../products/com.netxforge.releng.products.netxflows
-		</module>
 	</modules>
 </project>
