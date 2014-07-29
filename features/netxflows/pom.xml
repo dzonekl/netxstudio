@@ -5,15 +5,18 @@
 	<modelVersion>4.0.0</modelVersion>
 	<artifactId>netxflows-features</artifactId>
 	<packaging>pom</packaging>
+	<properties>
+		<relengdir>../../../releng.tycho</relengdir>
+	</properties>
 	<parent>
-		<groupId>com.netxforge.netxstudio</groupId>
-		<artifactId>com.netxforge.releng.netxflows</artifactId>
-		<version>0.0.1-SNAPSHOT</version>
+		<groupId>com.netxforge</groupId>
+		<artifactId>releng.netxflows</artifactId>
+		<version>1.0.0-SNAPSHOT</version>
 		<relativePath>../../releng.tycho/com.netxforge.releng.netxflows</relativePath>
 	</parent>
 	<modules>
-		<module>../com.netxforge.netxflows.screens.feature</module>
-		<module>../com.netxforge.netxflows.product.feature</module>
+		<module>com.netxforge.netxflows.screens.feature</module>
+		<module>com.netxforge.netxflows.product.feature</module>
 		<module>../com.netxforge.netxstudio.models.feature</module>
 		<module>../com.netxforge.models.06032012.emf.feature</module>
 		<module>../com.netxforge.netxstudio.models.edit.feature</module>

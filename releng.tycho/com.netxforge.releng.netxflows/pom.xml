@@ -2,27 +2,14 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
-	<groupId>com.netxforge.netxflows</groupId>
-	<artifactId>com.netxforge.releng.netxflows</artifactId>
+	<groupId>com.netxforge</groupId>
+	<artifactId>releng.netxflows</artifactId>
 	<version>1.0.0-SNAPSHOT</version>
 	<packaging>pom</packaging>
 	<properties>
 		<tycho-version>0.19.0</tycho-version>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 	</properties>
-	<pluginRepositories>
-		<pluginRepository>
-			<id>tycho-staged</id>
-			<url>https://oss.sonatype.org/content/repositories/orgeclipsetycho-1004/</url>
-		</pluginRepository>
-		<pluginRepository>
-			<id>Sonatype – Forge</id>
-			<url>https://repository.sonatype.org/content/groups/forge/</url>
-			<snapshots>
-				<enabled>true</enabled>
-			</snapshots>
-		</pluginRepository>
-	</pluginRepositories>
 	<build>
 		<plugins>
 			<plugin>
@@ -44,7 +31,7 @@
 							<groupId>${project.groupId}</groupId>
 							<artifactId>${project.artifactId}</artifactId>
 							<version>${project.version}</version>
-							<classifier>../../releng.tycho/com.netxforge.releng.target/oss2_base_app</classifier>
+							<classifier>${relengdir}/com.netxforge.releng.target/oss2_base_app</classifier>
 						</artifact>
 					</target>
 					<environments>
@@ -120,6 +107,9 @@
 		../../features/netxflows
 		</module>
 		<module>
+		../../plugins/netxflows
+		</module>
+		<module>
 		../../3rdPartyFeatures
 		</module>
 		<module>
@@ -129,7 +119,7 @@
 		../../libs.eclipse
 		</module>
 		<module>
-			../../products/com.netxforge.releng.products.netxflows
+		../../products/com.netxforge.releng.products.netxflows
 		</module>
 	</modules>
 </project>
