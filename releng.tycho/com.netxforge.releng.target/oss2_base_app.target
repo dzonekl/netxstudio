@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<?pde version="3.8"?><target name="oss2_base" sequenceNumber="7">
+<?pde version="3.8"?><target name="oss2_base" sequenceNumber="9">
 <locations>
 <location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="slicer" includeSource="true" type="InstallableUnit">
 <unit id="org.eclipse.emf.oda.sdk.feature.group" version="1.2.0.v20140203-1126"/>
@@ -649,12 +649,6 @@
 <repository location="http://download.eclipse.org/modeling/emf/cdo/drops/R20140218-1655"/>
 </location>
 <location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="slicer" includeSource="true" type="InstallableUnit">
-<unit id="org.eclipse.nebula.cwt.feature.feature.group" version="0.9.0.201303141537"/>
-<unit id="org.eclipse.nebula.widgets.calendarcombo.feature.feature.group" version="1.0.0.201303141537"/>
-<unit id="org.eclipse.nebula.widgets.cdatetime.feature.feature.group" version="0.14.0.201303141537"/>
-<repository location="http://p2.netxforge.com/nebula.release.p2/"/>
-</location>
-<location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="slicer" includeSource="true" type="InstallableUnit">
 <unit id="org.eclipse.nebula.widgets.formattedtext.feature.feature.group" version="1.0.0.201303141536"/>
 <unit id="org.eclipse.nebula.widgets.datechooser.feature.feature.group" version="1.0.0.201303141536"/>
 <repository location="http://p2.netxforge.com/nebula.incubation.p2"/>
@@ -666,6 +660,28 @@
 <unit id="com.netxforge.base.feature.feature.group" version="1.0.0.201407281453"/>
 <unit id="com.netxforge.ide.feature.feature.group" version="1.0.0.201407281453"/>
 <repository location="http://p2.netxforge.com/oss2/base.p2"/>
+</location>
+<location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="slicer" includeSource="true" type="InstallableUnit">
+<unit id="org.eclipse.gef.all.feature.group" version="3.9.0.201305060205"/>
+<unit id="org.eclipse.draw2d.feature.group" version="3.9.0.201305060205"/>
+<unit id="org.eclipse.zest.sdk.feature.group" version="1.5.0.201305060205"/>
+<unit id="org.eclipse.gef.source.feature.group" version="3.9.0.201305060205"/>
+<unit id="org.eclipse.zest.source.feature.group" version="1.5.0.201305060205"/>
+<unit id="org.eclipse.draw2d.sdk.feature.group" version="3.9.0.201305060205"/>
+<unit id="org.eclipse.gef.examples.feature.group" version="3.9.0.201305060205"/>
+<unit id="org.eclipse.gef.feature.group" version="3.9.0.201305060205"/>
+<unit id="org.eclipse.gef.examples.source.feature.group" version="3.9.0.201305060205"/>
+<unit id="org.eclipse.draw2d.source.feature.group" version="3.9.0.201305060205"/>
+<unit id="org.eclipse.zest.feature.group" version="1.5.0.201305060205"/>
+<unit id="org.eclipse.gef.sdk.feature.group" version="3.9.0.201305060205"/>
+<repository location="http://p2.netxforge.com/gef.p2"/>
+</location>
+<location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="slicer" includeSource="true" type="InstallableUnit">
+<unit id="org.eclipse.nebula.widgets.grid.feature.feature.group" version="1.0.0.201303141537"/>
+<unit id="org.eclipse.nebula.widgets.cdatetime.feature.feature.group" version="0.14.0.201303141537"/>
+<unit id="org.eclipse.nebula.widgets.calendarcombo.feature.feature.group" version="1.0.0.201303141537"/>
+<unit id="org.eclipse.nebula.cwt.feature.feature.group" version="0.9.0.201303141537"/>
+<repository location="http://p2.netxforge.com/nebula.release.p2/"/>
 </location>
 </locations>
 </target>
