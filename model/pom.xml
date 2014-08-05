@@ -17,8 +17,6 @@
 	<modules>
 		<module>com.netxforge.netxstudio.models</module>
 		<module>com.netxforge.netxstudio.models.edit</module>
-		<module>com.netxforge.netxstudio.models.export</module>
-		<module>com.netxforge.netxstudio.models.import</module>
 		<module>com.netxforge.models.06032012.emf</module>
 		<module>com.netxforge.models.06032012.emf.edit</module>
 		<module>com.netxforge.netxstudio.models.13042011</module>

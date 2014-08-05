@@ -27,19 +27,7 @@
    <feature url="features/com.netxforge.netxstudio.models.edit.feature_1.0.0.qualifier.jar" id="com.netxforge.netxstudio.models.edit.feature" version="1.0.0.qualifier">
       <category name="OSS2 Models"/>
    </feature>
-   <feature url="features/com.netxforge.netxstudio.models.export.feature_1.0.0.qualifier.jar" id="com.netxforge.netxstudio.models.export.feature" version="1.0.0.qualifier">
-      <category name="OSS2 Models"/>
-   </feature>
-   <feature url="features/com.netxforge.netxstudio.models.export.ui.feature_1.0.0.qualifier.jar" id="com.netxforge.netxstudio.models.export.ui.feature" version="1.0.0.qualifier">
-      <category name="OSS2 Models"/>
-   </feature>
    <feature url="features/com.netxforge.netxstudio.models.feature_1.0.0.qualifier.jar" id="com.netxforge.netxstudio.models.feature" version="1.0.0.qualifier">
-      <category name="OSS2 Models"/>
-   </feature>
-   <feature url="features/com.netxforge.netxstudio.models.import.feature_1.0.0.qualifier.jar" id="com.netxforge.netxstudio.models.import.feature" version="1.0.0.qualifier">
-      <category name="OSS2 Models"/>
-   </feature>
-   <feature url="features/com.netxforge.netxstudio.models.import.ui.feature_1.0.0.qualifier.jar" id="com.netxforge.netxstudio.models.import.ui.feature" version="1.0.0.qualifier">
       <category name="OSS2 Models"/>
    </feature>
    <category-def name="OSS2" label="OSS2 Application">
