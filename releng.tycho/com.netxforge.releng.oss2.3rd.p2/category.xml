@@ -51,10 +51,10 @@
    <feature url="features/org.swtchart.artifacts.feature_1.0.0.qualifier.jar" id="org.swtchart.artifacts.feature" version="1.0.0.qualifier">
       <category name="OSS2.3rd.other"/>
    </feature>
-   <category-def name="OSS2.3rd.eclipse" label="OSS2 3rd Party features">
+   <category-def name="OSS2.3rd.eclipse" label="OSS2 Eclipse features">
       <description>
-         This Repository contains features which are provided by 3rd parties, including Eclipse itself. The main sources are from Eclipse and the Orbit project. (Which provides bundle versions of popular libraries from Apache, Google etc..). Existing features are not always composed of needed bundles, hence a specific repo to provide these features.
+         This Repository contains features which are provided by Eclipse. The main sources are from Eclipse platform project.
       </description>
    </category-def>
-   <category-def name="OSS2.3rd.other" label="OSS2 3rd Party features"/>
+   <category-def name="OSS2.3rd.other" label="OSS2 Other features"/>
 </site>

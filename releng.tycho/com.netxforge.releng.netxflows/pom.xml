@@ -109,14 +109,5 @@
 		<module>
 		../../plugins/netxflows
 		</module>
-		<module>
-		../../3rdPartyFeatures
-		</module>
-		<module>
-		../../3rdPartyLib
-		</module>
-		<module>
-		../../libs.eclipse
-		</module>
 	</modules>
 </project>
