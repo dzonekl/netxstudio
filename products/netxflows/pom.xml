@@ -15,11 +15,6 @@
 		<relativePath>../../releng.tycho/com.netxforge.releng.netxflows</relativePath>
 	</parent>
 	<modules>
-		<module>../../model/com.netxforge.netxstudio.models</module>
-		<module>../../model/com.netxforge.netxstudio.models.edit</module>
-		<module>../../model/com.netxforge.models.06032012.emf</module>
-		<module>../../model/com.netxforge.models.06032012.emf.edit</module>
-		<module>../../screens/com.netxforge.netxstudio.screens.activities</module> 
 		<module>com.netxforge.netxflows.product</module>
 		<module>com.netxforge.releng.products.netxflows</module>
 	</modules>

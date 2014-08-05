@@ -47,8 +47,8 @@
    </plugins>
 
    <features>
-      <feature id="com.netxforge.netxflows.product.feature" version="1.0.0.qualifier"/>
-      <feature id="com.netxforge.editing.base.feature" version="1.0.0.qualifier"/>
+      <feature id="com.netxforge.netxflows.product.feature"/>
+      <feature id="com.netxforge.editing.base.feature"/>
    </features>
 
    <configurations>
