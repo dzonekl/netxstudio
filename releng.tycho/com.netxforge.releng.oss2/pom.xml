@@ -97,6 +97,10 @@
 		../../plugins/base
 		</module>
 		<module>
+		../../model
+		</module>
+		
+		<module>
 		../../features/base
 		</module>
 		<module>

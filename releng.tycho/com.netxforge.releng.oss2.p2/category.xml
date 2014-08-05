@@ -15,5 +15,14 @@
    <feature url="features/com.netxforge.app.feature_1.0.0.qualifier.jar" id="com.netxforge.app.feature" version="1.0.0.qualifier">
       <category name="OSS2"/>
    </feature>
-   <category-def name="OSS2" label="OSS2"/>
+   <category-def name="OSS2" label="OSS2 Application">
+      <description>
+         Features for an OSS2 UI application.
+      </description>
+   </category-def>
+   <category-def name="OSS2 Models" label="OSS2 Models">
+      <description>
+         OSS2 Application models. Based on TMForum SID.
+      </description>
+   </category-def>
 </site>
