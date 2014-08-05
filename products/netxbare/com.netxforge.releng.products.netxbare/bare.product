@@ -24,8 +24,8 @@
    </plugins>
 
    <features>
-      <feature id="com.netxforge.netxsbare.product.feature" version="1.0.0.qualifier"/>
-      <feature id="com.netxforge.app.feature" version="1.0.0.qualifier"/>
+      <feature id="com.netxforge.netxbare.product.feature" version="1.0.0.qualifier"/>
+      <feature id="com.netxforge.app.feature"/>
    </features>
 
    <configurations>

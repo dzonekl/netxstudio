@@ -16,5 +16,6 @@
 	</parent>
 	<modules>
 		<module>com.netxforge.netxbare.product</module>
+		<module>com.netxforge.releng.products.netxbare</module>
 	</modules>
 </project>
