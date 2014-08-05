@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<?pde version="3.8"?><target name="oss2_base" sequenceNumber="12">
+<?pde version="3.8"?><target name="oss2_base" sequenceNumber="13">
 <locations>
 <location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="slicer" includeSource="true" type="InstallableUnit">
 <unit id="org.eclipse.emf.oda.sdk.feature.group" version="1.2.0.v20140203-1126"/>
@@ -676,14 +676,6 @@
 <repository location="http://p2.netxforge.com/nebula.release.p2/"/>
 </location>
 <location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="slicer" includeSource="true" type="InstallableUnit">
-<unit id="com.netxforge.ide.feature.feature.group" version="1.0.0.201407291405"/>
-<unit id="com.netxforge.base.feature.feature.group" version="1.0.0.201407291405"/>
-<unit id="com.netxforge.editing.base.feature.feature.group" version="1.0.0.201407291405"/>
-<unit id="com.netxforge.app.feature.feature.group" version="1.0.0.201407291405"/>
-<unit id="com.netxforge.console.feature.feature.group" version="1.0.0.201407291405"/>
-<repository location="http://p2.netxforge.com/oss2/base.p2"/>
-</location>
-<location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="slicer" includeSource="true" type="InstallableUnit">
 <unit id="org.eclipse.platform.bare.artifacts.feature.feature.group" version="4.3.0.201408051343"/>
 <unit id="org.eclipse.platform.artifacts.feature.feature.group" version="4.3.0"/>
 <unit id="org.eclipse.xtext.artifacts.feature.feature.group" version="1.0.0.201408051343"/>
@@ -702,6 +694,19 @@
 <unit id="javax.artifacts.feature.feature.group" version="1.0.0.201408051343"/>
 <unit id="org.eclipse.nebula.artifacts.feature.feature.group" version="1.0.0.201408051343"/>
 <repository location="http://p2.netxforge.com/oss2/3rd.p2"/>
+</location>
+<location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="slicer" includeSource="true" type="InstallableUnit">
+<unit id="com.netxforge.netxstudio.models.feature.feature.group" version="1.0.0.201408051529"/>
+<unit id="com.netxforge.app.feature.feature.group" version="1.0.0.201408051529"/>
+<unit id="com.netxforge.netxstudio.models.13042011.feature.feature.group" version="1.0.0.201408051529"/>
+<unit id="com.netxforge.console.feature.feature.group" version="1.0.0.201408051529"/>
+<unit id="com.netxforge.base.feature.feature.group" version="1.0.0.201408051529"/>
+<unit id="com.netxforge.editing.base.feature.feature.group" version="1.0.0.201408051529"/>
+<unit id="com.netxforge.netxstudio.models.edit.feature.feature.group" version="1.0.0.201408051529"/>
+<unit id="com.netxforge.models.06032012.emf.feature.feature.group" version="1.0.0.201408051529"/>
+<unit id="com.netxforge.netxstudio.models.13042011.edit.feature.feature.group" version="1.0.0.201408051529"/>
+<unit id="com.netxforge.ide.feature.feature.group" version="1.0.0.201408051529"/>
+<repository location="http://p2.netxforge.com/oss2/base.p2"/>
 </location>
 </locations>
 </target>
