@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <feature
       id="org.eclipse.platform.artifacts.feature"
-      label="platform plugins"
+      label="Eclipse Platform UI feature"
       version="4.3"
       provider-name="Eclipse">
 
-   <description url="http://www.example.com/description">
+   <description url="http://www.netxforge.com/netxforge/published/module_platform">
       [Enter Feature Description here.]
    </description>
 

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <feature
       id="org.eclipse.platform.e4.artifacts.feature"
-      label="Platform e4 Feature"
+      label="Eclipse Platform e4 Feature"
       version="4.3"
       provider-name="Eclipse">
 
