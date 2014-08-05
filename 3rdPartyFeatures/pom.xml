@@ -20,6 +20,7 @@
 		<module>org.eclipse.nebula.artifacts.feature</module>
 		<module>org.eclipse.platform.server.artifacts.feature</module>
 		<module>org.eclipse.platform.artifacts.feature</module>
+		<module>org.eclipse.platform.bare.artifacts.feature</module>
 		<module>org.eclipse.platform.e4.artifacts.feature</module>
 		<module>org.eclipse.xtext.artifacts.feature</module>
 		<module>org.eclipse.xtext.ui.artifacts.feature</module>
