@@ -15,18 +15,16 @@
 	</parent>
 	<packaging>pom</packaging>
 	<modules>
+		<module>com.netxforge.netxscript</module>
 		<module>com.netxforge.netxscript.ui</module>
 		<module>com.netxforge.netxstudio.common</module>
-		<module>com.netxforge.netxstudio.console</module>
 		<module>com.netxforge.netxstudio.data</module>
 		<module>com.netxforge.netxstudio.data.fixtures</module>
 		<module>com.netxforge.netxstudio.data.import</module>
 		<module>com.netxforge.netxstudio.data.ui</module>
 		<module>com.netxforge.netxstudio.help</module>
 		<module>com.netxforge.netxstudio.screens</module>
-		<module>com.netxforge.netxstudio.screens.app</module>
 		<module>com.netxforge.netxstudio.screens.activities</module>
-		<module>com.netxforge.netxstudio.screens.ide</module>
 		<module>com.netxforge.netxstudio.screens.editing</module>
 		<module>com.netxforge.netxstudio.screens.xtext</module>
 	</modules>

@@ -94,19 +94,10 @@
 	</build>
 	<modules>
 		<module>
-		../../plugins
+		../../plugins/netxstudio
 		</module>
 		<module>
-		../../features
-		</module>
-		<module>
-		../../3rdPartyFeatures
-		</module>
-		<module>
-		../../3rdPartyLib
-		</module>
-		<module>
-		../../libs.eclipse
+		../../features/netxstudio
 		</module>
 		<module>
 			../../products/com.netxforge.releng.products.netxserver
