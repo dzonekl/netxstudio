@@ -30,7 +30,7 @@
 							<groupId>${project.groupId}</groupId>
 							<artifactId>${project.artifactId}</artifactId>
 							<version>${project.version}</version>
-							<classifier>${relengdir}/com.netxforge.releng.target/oss2_base</classifier>
+							<classifier>${relengdir}/com.netxforge.releng.target/oss2_3rd</classifier>
 						</artifact>
 					</target>
 					<environments>
@@ -86,6 +86,14 @@
 							<type>p2-installable-unit</type>
 							<id>org.eclipse.team.ui</id>
 							<removeAll />
+						</filter>
+						<filter>
+							<type>p2-installable-unit</type>
+							<id>com.ibm.icu</id>
+							<restrictTo>
+								<!-- Xtext 2.3.1 has a restiction on this bundle -->
+								<versionRange>[4.0.0,5.0.0]</versionRange>
+							</restrictTo>
 						</filter>
 					</filters>
 				</configuration>
