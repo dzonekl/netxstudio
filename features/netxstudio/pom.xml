@@ -3,22 +3,28 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd"
 	xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
 	<modelVersion>4.0.0</modelVersion>
-	<artifactId>netxflows-features</artifactId>
+	<artifactId>netxstudio-features</artifactId>
 	<packaging>pom</packaging>
 	<properties>
 		<relengdir>../../../releng.tycho</relengdir>
 	</properties>
 	<parent>
 		<groupId>com.netxforge</groupId>
-		<artifactId>releng.netxflows</artifactId>
+		<artifactId>releng.netxstudio</artifactId>
 		<version>1.0.0-SNAPSHOT</version>
-		<relativePath>../../releng.tycho/com.netxforge.releng.netxflows</relativePath>
+		<relativePath>../../releng.tycho/com.netxforge.releng.netxstudio</relativePath>
 	</parent>
 	<modules>
-		<module>com.netxforge.netxflows.screens.feature</module>
-		<module>com.netxforge.netxflows.product.feature</module>
-		<module>../com.netxforge.netxstudio.models.feature</module>
-		<module>../com.netxforge.models.06032012.emf.feature</module>
-		<module>../com.netxforge.netxstudio.models.edit.feature</module>
+		<module>com.netxforge.netxscript.feature</module>
+		<module>com.netxforge.netxscript.ui.feature</module>
+		<module>com.netxforge.netxstudio.client.product.feature</module>
+		<module>com.netxforge.netxstudio.common.feature</module>
+		<module>com.netxforge.netxstudio.data.feature</module>
+		<module>com.netxforge.netxstudio.data.import.feature</module>
+		<module>com.netxforge.netxstudio.data.ui.feature</module>
+		<module>com.netxforge.netxstudio.help.feature</module>
+		<module>com.netxforge.netxstudio.screens.feature</module>
+		<module>com.netxforge.netxstudio.screens.editing.feature</module>
+		<module>com.netxforge.netxstudio.screens.xtext.feature</module>
 	</modules>
 </project>

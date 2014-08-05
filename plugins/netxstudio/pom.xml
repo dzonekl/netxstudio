@@ -9,7 +9,7 @@
 	</properties>
 	<parent>
 		<groupId>com.netxforge</groupId>
-		<artifactId>releng.netxflows</artifactId>
+		<artifactId>releng.netxstudio</artifactId>
 		<version>1.0.0-SNAPSHOT</version>
 		<relativePath>../../releng.tycho/com.netxforge.releng.netxstudio</relativePath>
 	</parent>
@@ -27,5 +27,6 @@
 		<module>com.netxforge.netxstudio.screens.activities</module>
 		<module>com.netxforge.netxstudio.screens.editing</module>
 		<module>com.netxforge.netxstudio.screens.xtext</module>
+		<module>com.netxforge.netxstudio.webservice</module>
 	</modules>
 </project>
