@@ -103,6 +103,9 @@
 		../../features/base
 		</module>
 		<module>
+		../../features/model
+		</module>
+		<module>
 		../com.netxforge.releng.oss2.p2
 		</module>
 	</modules>
