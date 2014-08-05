@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<?pde version="3.8"?><target name="oss2_base" sequenceNumber="11">
+<?pde version="3.8"?><target name="oss2_base" sequenceNumber="12">
 <locations>
 <location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="slicer" includeSource="true" type="InstallableUnit">
 <unit id="org.eclipse.emf.oda.sdk.feature.group" version="1.2.0.v20140203-1126"/>
@@ -682,6 +682,26 @@
 <unit id="com.netxforge.app.feature.feature.group" version="1.0.0.201407291405"/>
 <unit id="com.netxforge.console.feature.feature.group" version="1.0.0.201407291405"/>
 <repository location="http://p2.netxforge.com/oss2/base.p2"/>
+</location>
+<location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="slicer" includeSource="true" type="InstallableUnit">
+<unit id="org.eclipse.platform.bare.artifacts.feature.feature.group" version="4.3.0.201408051343"/>
+<unit id="org.eclipse.platform.artifacts.feature.feature.group" version="4.3.0"/>
+<unit id="org.eclipse.xtext.artifacts.feature.feature.group" version="1.0.0.201408051343"/>
+<unit id="org.swtchart.artifacts.feature.feature.group" version="1.0.0.201408051343"/>
+<unit id="org.eclipse.xtext.ui.artifacts.feature.feature.group" version="1.0.0.201408051343"/>
+<unit id="org.eclipse.e4.tools.artifacts.feature.feature.group" version="1.0.0.201408051343"/>
+<unit id="org.apache.artifacts.feature.feature.group" version="1.0.0.201408051343"/>
+<unit id="org.apache.artifacts.server.feature.feature.group" version="1.0.0.201408051343"/>
+<unit id="org.slf4j.feature.feature.group" version="1.0.0.201408051343"/>
+<unit id="org.eclipse.emf.cdo.client.artifacts.feature.feature.group" version="1.0.0.201408051343"/>
+<unit id="org.eclipse.platform.server.artifacts.feature.feature.group" version="4.3.0"/>
+<unit id="org.eclipse.emf.cdo.client.ui.artifacts.feature.feature.group" version="1.0.0.201408051343"/>
+<unit id="org.eclipse.platform.e4.artifacts.feature.feature.group" version="4.3.0"/>
+<unit id="com.google.artifacts.feature.feature.group" version="1.0.0.201408051343"/>
+<unit id="org.apache.poi.artifacts.feature.feature.group" version="1.0.0.201408051343"/>
+<unit id="javax.artifacts.feature.feature.group" version="1.0.0.201408051343"/>
+<unit id="org.eclipse.nebula.artifacts.feature.feature.group" version="1.0.0.201408051343"/>
+<repository location="http://p2.netxforge.com/oss2/3rd.p2"/>
 </location>
 </locations>
 </target>
