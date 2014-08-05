@@ -2,7 +2,7 @@
 <feature
       id="org.eclipse.platform.bare.artifacts.feature"
       label="platform plugins"
-      version="4.3"
+      version="4.3.0.qualifier"
       provider-name="Eclipse">
 
    <description url="http://www.example.com/description">

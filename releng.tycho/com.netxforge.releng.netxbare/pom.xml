@@ -106,5 +106,8 @@
 		<module>
 		../../features/netxbare
 		</module>
+		<module>
+		../../3rdPartyFeatures
+		</module>
 	</modules>
 </project>
