@@ -17,8 +17,5 @@
 	<modules>
 		<module>com.netxforge.netxflows.screens.feature</module>
 		<module>com.netxforge.netxflows.product.feature</module>
-		<module>../com.netxforge.netxstudio.models.feature</module>
-		<module>../com.netxforge.models.06032012.emf.feature</module>
-		<module>../com.netxforge.netxstudio.models.edit.feature</module>
 	</modules>
 </project>
