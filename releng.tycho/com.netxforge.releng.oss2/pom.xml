@@ -99,7 +99,6 @@
 		<module>
 		../../model
 		</module>
-		
 		<module>
 		../../features/base
 		</module>
