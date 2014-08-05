@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd"
+	xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+	<modelVersion>4.0.0</modelVersion>
+	<artifactId>3rd.lib</artifactId>
+	<properties>
+		<relengdir>../../releng.tycho</relengdir>
+	</properties>
+	<packaging>pom</packaging>
+	<parent>
+		<groupId>com.netxforge</groupId>
+		<artifactId>releng.oss2.3rd</artifactId>
+		<version>1.0.0-SNAPSHOT</version>
+		<relativePath>../releng.tycho/com.netxforge.releng.oss2.3rd</relativePath>
+	</parent>
+	<modules>
+		<module>org.apache.commons.math</module>
+		<module>org.apache.poi</module>
+		<module>org.quartz</module>
+		<module>org.quartz.properties</module>
+		<module>org.slf4j</module>
+		<module>com.mysql.driver</module>
+		<module>oracle.jdbc.driver.10_2_0_4</module>
+		<module>org.postgresql</module>
+		<module>org.swtchart</module>
+	</modules>
+</project>
