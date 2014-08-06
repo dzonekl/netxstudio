@@ -1,0 +1,65 @@
+/*******************************************************************************
+ * Copyright (c) 2014 NetXForge.
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
+ *  You should have received a copy of the GNU General Public License
+ *   along with this program.  If not, see <http://www.gnu.org/licenses/>
+ *
+ * Contributors:
+ *    Christophe Bouhier - initial API and implementation and/or initial documentation
+ *******************************************************************************/
+target "cdo_42SR2" with allEnvironments source
+
+// CDO 42 SR2 Version. 
+// CDO Maintained here: 
+// http://www.eclipse.org/cdo/downloads/
+
+location "http://download.eclipse.org/modeling/emf/cdo/drops/R20140218-1655" {
+	org.eclipse.emf.cdo.server.product.feature.group 4.1.101.v20140218-1830
+	org.eclipse.emf.cdo.dawn.codegen.gmf.feature.group 2.1.1.v20140218-1830
+	org.eclipse.net4j.db.oracle.feature.group 1.0.1.v20140218-1709
+	org.eclipse.emf.cdo.explorer.product.feature.group 4.1.101.v20140218-1830
+	org.eclipse.net4j.db.mysql.feature.group 4.2.1.v20140218-1830
+	org.eclipse.net4j.db.derby.feature.group 4.2.1.v20140218-1830
+	org.eclipse.emf.cdo.server.mongodb.feature.group 4.2.1.v20140218-1830
+	org.eclipse.emf.cdo.dawn.examples.feature.group 2.1.1.v20140218-1830
+	org.eclipse.emf.cdo.sdk.feature.group 4.2.1.v20140218-1830
+	org.eclipse.net4j.defs.feature.group 4.2.1.v20140218-1830
+	org.eclipse.emf.cdo.server.db4o.feature.group 4.2.1.v20140218-1830
+	org.eclipse.emf.cdo.migrator.feature.group 4.2.1.v20140218-1830
+	org.eclipse.emf.cdo.feature.group 4.2.1.v20140218-1830
+	org.eclipse.net4j.ui.feature.group 4.2.1.v20140218-1830
+	org.eclipse.net4j.db.postgresql.feature.group 4.2.1.v20140218-1830
+	org.eclipse.emf.cdo.compare.feature.group 4.2.1.v20140218-1830
+	org.eclipse.net4j.tests.feature.group 4.2.1.v20140218-1830
+	org.eclipse.emf.cdo.dawn.feature.group 2.1.1.v20140218-1830
+	org.eclipse.emf.cdo.tests.feature.group 4.2.1.v20140218-1830
+	org.eclipse.net4j.sdk.feature.group 4.2.1.v20140218-1830
+	org.eclipse.emf.cdo.examples.feature.group 4.2.1.v20140218-1830
+	org.eclipse.emf.cdo.dawn.codegen.feature.group 2.1.1.v20140218-1830
+	org.eclipse.net4j.db.feature.group 4.2.1.v20140218-1830
+	org.eclipse.net4j.db.h2.feature.group 4.2.1.v20140218-1830
+	org.eclipse.net4j.examples.feature.group 4.2.1.v20140218-1830
+	org.eclipse.emf.cdo.server.objectivity.feature.group 4.2.1.v20140218-1830
+	org.eclipse.emf.cdo.dawn.tests.feature.group 2.1.1.v20140218-1830
+	org.eclipse.net4j.feature.group 4.2.1.v20140218-1830
+	org.eclipse.emf.cdo.server.lissome.feature.group 4.2.1.v20140218-1709
+	org.gastro.feature.group 4.2.1.v20140218-1830
+	org.eclipse.net4j.util.feature.group 4.2.1.v20140218-1709
+	org.eclipse.net4j.db.hsqldb.feature.group 4.2.1.v20140218-1830
+	org.eclipse.net4j.doc.feature.group 4.2.1.v20140218-1709
+	org.eclipse.emf.cdo.doc.feature.group 4.2.1.v20140218-1709
+	org.eclipse.emf.cdo.server.feature.group 4.2.1.v20140218-1830
+	org.eclipse.emf.cdo.server.db.feature.group 4.2.1.v20140218-1709
+	org.eclipse.emf.cdo.dawn.sdk.feature.group 2.1.1.v20140218-1830
+	org.eclipse.net4j.util.ui.feature.group 4.2.1.v20140218-1830
+	org.eclipse.emf.cdo.defs.feature.group 4.2.1.v20140218-1830
+}

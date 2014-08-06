@@ -2,9 +2,9 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
-	<groupId>com.netxforge.netxstudio</groupId>
-	<artifactId>com.netxforge.releng</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<groupId>com.netxforge</groupId>
+	<artifactId>releng.netxstudio</artifactId>
+	<version>1.0.0-SNAPSHOT</version>
 	<packaging>pom</packaging>
 	<properties>
 		<tycho-version>0.19.0</tycho-version>
@@ -30,7 +30,7 @@
 							<groupId>${project.groupId}</groupId>
 							<artifactId>${project.artifactId}</artifactId>
 							<version>${project.version}</version>
-							<classifier>../../releng.tycho/com.netxforge.releng.target/netxstudio_kepler_xtext23_cdo42SR2</classifier>
+							<classifier>${relengdir}/com.netxforge.releng.target/oss2_base_app</classifier>
 						</artifact>
 					</target>
 					<environments>
@@ -100,13 +100,7 @@
 		../../features/netxstudio
 		</module>
 		<module>
-			../../products/com.netxforge.releng.products.netxserver
-		</module>
-		<module>
-			../../products/com.netxforge.releng.products.netxstudio.cdo
-		</module>
-		<module>
-			../../products/com.netxforge.releng.products.netxstudio.cdo.jnlp
+		../../products/netxstudio
 		</module>
 	</modules>
 </project>

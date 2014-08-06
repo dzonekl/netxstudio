@@ -1,0 +1,57 @@
+/*******************************************************************************
+ * Copyright (c) 2014 NetXForge.
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
+ *  You should have received a copy of the GNU General Public License
+ *   along with this program.  If not, see <http://www.gnu.org/licenses/>
+ *
+ * Contributors:
+ *    Christophe Bouhier - initial API and implementation and/or initial documentation
+ *******************************************************************************/
+target "nebula" with allEnvironments
+
+// Nebula Release. 
+// Self-managed. 
+// TODO, It seems the P2's are available from the project. 
+// http://www.eclipse.org/nebula/downloads.php
+
+location "http://p2.netxforge.com/nebula.release.p2/" {
+	org.eclipse.nebula.widgets.gallery.feature.feature.group 1.0.0.201303141537
+	org.eclipse.nebula.widgets.oscilloscope.feature.feature.group 1.0.1.201303141537
+	org.eclipse.nebula.widgets.ganttchart.feature.feature.group 1.0.0.201303141537
+	org.eclipse.nebula.widgets.grid.feature.feature.group 1.0.0.201303141537
+	org.eclipse.nebula.widgets.compositetable.feature.feature.group 1.0.0.201303141537
+	org.eclipse.nebula.cwt.feature.feature.group 0.9.0.201303141537
+	org.eclipse.nebula.widgets.calendarcombo.feature.feature.group 1.0.0.201303141537
+	org.eclipse.nebula.examples.release.feature.feature.group 1.0.4.201303141537
+	org.eclipse.nebula.widgets.pshelf.feature.feature.group 1.0.0.201303141537
+	org.eclipse.nebula.widgets.paperclips.feature.feature.group 2.0.0.201303141537
+	org.eclipse.nebula.widgets.tablecombo.feature.feature.group 1.0.0.201303141537
+	org.eclipse.nebula.widgets.cdatetime.feature.feature.group 0.14.0.201303141537
+	org.eclipse.nebula.effects.stw.feature.feature.group 1.0.0.201303141537
+	org.eclipse.nebula.widgets.pgroup.feature.feature.group 1.0.0.201303141537
+	org.eclipse.nebula.widgets.xviewer.feature.feature.group 0.9.9.201303141537
+	org.eclipse.nebula.feature.feature.group 1.0.0.201303141537
+}
+
+location "http://p2.netxforge.com/nebula.incubation.p2" {
+	org.eclipse.nebula.widgets.formattedtext.feature.feature.group 1.0.0.201303141536
+	org.eclipse.nebula.examples.incubation.feature.feature.group 1.0.0.201303141536
+	org.eclipse.nebula.widgets.pagination.feature.feature.group 1.0.0.201303141536
+	org.eclipse.nebula.widgets.datechooser.feature.feature.group 1.0.0.201303141536
+	org.eclipse.nebula.widgets.geomap.feature.feature.group 0.1.0.201303141536
+	org.eclipse.nebula.incubation.feature.feature.group 1.0.0.201303141536
+	org.eclipse.nebula.widgets.treemapper.feature.feature.group 0.1.0.201303141536
+	org.eclipse.nebula.widgets.picture.feature.feature.group 1.0.0.201303141536
+	org.eclipse.nebula.widgets.collapsiblebuttons.feature.feature.group 1.0.0.201303141536
+	org.eclipse.nebula.widgets.radiogroup.feature.feature.group 0.1.0.201303141536
+}
+

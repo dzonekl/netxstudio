@@ -4,7 +4,7 @@
 	<artifactId>com.netxforge.netxscript</artifactId>
 	<parent>
 		<groupId>com.netxforge</groupId>
-		<artifactId>releng.netxstudio</artifactId>
+		<artifactId>netxstudio-ui-plugins</artifactId>
 		<version>1.0.0-SNAPSHOT</version>
 		<relativePath>..</relativePath>
 	</parent>

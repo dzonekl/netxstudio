@@ -1,0 +1,38 @@
+/*******************************************************************************
+ * Copyright (c) 2014 NetXForge.
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
+ *  You should have received a copy of the GNU General Public License
+ *   along with this program.  If not, see <http://www.gnu.org/licenses/>
+ *
+ * Contributors:
+ *    Christophe Bouhier - initial API and implementation and/or initial documentation
+ *******************************************************************************/
+target "xpand_110" with allEnvironments
+
+// Xpand 1.1.0 and Xtend 1.1.0 
+// Old stuff from OAW, which we still require. 
+
+location "http://archive.eclipse.org/modeling/m2t/xpand/downloads/drops/1.1.0/R201106070515/repository" {
+	org.eclipse.xtend.feature.group 1.1.0.v201106070515
+	org.eclipse.xtend.typesystem.uml2.feature.group 1.1.0.v201106070515
+	org.eclipse.xpand.examples.feature.group 1.1.0.v201106070515
+	org.eclipse.xtend.typesystem.xsd.feature.group 1.1.0.v201106070515
+	org.eclipse.xpand.doc.feature.group 1.0.1.v201106070515
+	org.eclipse.xpand.feature.group 1.1.0.v201106070515
+	org.eclipse.xtend.ui.feature.group 1.1.0.v201106070515
+	org.eclipse.xpand.all.feature.group 1.1.0.v201106070515
+	org.eclipse.xpand.ui.feature.group 1.1.0.v201106070515
+	org.eclipse.xtend.dependencies.feature.group 1.1.0.v201106070515
+	org.eclipse.xpand.incremental.feature.group 1.1.0.v201106070515
+	org.eclipse.xpand.sdk.feature.group 1.1.0.v201106070515
+	org.eclipse.xtend.typesystem.emf.feature.group 1.1.0.v201106070515
+}

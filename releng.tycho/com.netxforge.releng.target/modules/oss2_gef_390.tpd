@@ -1,0 +1,37 @@
+/*******************************************************************************
+ * Copyright (c) 2014 NetXForge.
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
+ *  You should have received a copy of the GNU General Public License
+ *   along with this program.  If not, see <http://www.gnu.org/licenses/>
+ *
+ * Contributors:
+ *    Christophe Bouhier - initial API and implementation and/or initial documentation
+ *******************************************************************************/
+target "gef_390" with allEnvironments
+
+// GEF 3.9.0 
+// Self-Managed, GEF P2 is (was?) not working before. 
+
+location "http://p2.netxforge.com/gef.p2" {
+	org.eclipse.gef.all.feature.group 3.9.0.201305060205
+	org.eclipse.draw2d.feature.group 3.9.0.201305060205
+	org.eclipse.zest.sdk.feature.group 1.5.0.201305060205
+	org.eclipse.gef.source.feature.group 3.9.0.201305060205
+	org.eclipse.zest.source.feature.group 1.5.0.201305060205
+	org.eclipse.draw2d.sdk.feature.group 3.9.0.201305060205
+	org.eclipse.gef.examples.feature.group 3.9.0.201305060205
+	org.eclipse.gef.feature.group 3.9.0.201305060205
+	org.eclipse.gef.examples.source.feature.group 3.9.0.201305060205
+	org.eclipse.draw2d.source.feature.group 3.9.0.201305060205
+	org.eclipse.zest.feature.group 1.5.0.201305060205
+	org.eclipse.gef.sdk.feature.group 3.9.0.201305060205
+}
