@@ -16,7 +16,7 @@
  * Contributors:
  *    Christophe Bouhier - initial API and implementation and/or initial documentation
  *******************************************************************************/ 
- target "emf" with allEnvironments
+ target "emf" with source allEnvironments
 
 // EMF, the latest release. 
 // http://www.eclipse.org/modeling/emf/downloads/?project=emf

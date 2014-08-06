@@ -16,7 +16,7 @@
  * Contributors:
  *    Christophe Bouhier - initial API and implementation and/or initial documentation
  *******************************************************************************/
-target "gef_390" with allEnvironments
+target "gef_390" with source allEnvironments
 
 // GEF 3.9.0 
 // Self-Managed, GEF P2 is (was?) not working before. 

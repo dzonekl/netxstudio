@@ -16,7 +16,7 @@
  * Contributors:
  *    Christophe Bouhier - initial API and implementation and/or initial documentation
  *******************************************************************************/
-target "xtext_231" with allEnvironments
+target "xtext_231" with source allEnvironments
 
 // Xtext 2.3.1
 

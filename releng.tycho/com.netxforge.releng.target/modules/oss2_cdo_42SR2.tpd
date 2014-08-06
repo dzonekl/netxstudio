@@ -16,7 +16,7 @@
  * Contributors:
  *    Christophe Bouhier - initial API and implementation and/or initial documentation
  *******************************************************************************/
-target "cdo_42SR2" with allEnvironments source
+target "cdo_42SR2" with source allEnvironments
 
 // CDO 42 SR2 Version. 
 // CDO Maintained here: 

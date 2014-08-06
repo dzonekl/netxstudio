@@ -16,7 +16,8 @@
  * Contributors:
  *    Christophe Bouhier - initial API and implementation and/or initial documentation
  *******************************************************************************/
-target "mwe_111" with allEnvironments
+target "mwe_111" with source allEnvironments
+
 
 // Xtext 2.3.1 and MWE 1.1.1
 

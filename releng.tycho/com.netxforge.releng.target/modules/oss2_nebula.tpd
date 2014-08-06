@@ -16,7 +16,7 @@
  * Contributors:
  *    Christophe Bouhier - initial API and implementation and/or initial documentation
  *******************************************************************************/
-target "nebula" with allEnvironments
+target "nebula" with source allEnvironments
 
 // Nebula Release. 
 // Self-managed. 

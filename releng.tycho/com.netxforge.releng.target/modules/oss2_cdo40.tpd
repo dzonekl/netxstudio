@@ -1,10 +1,11 @@
-target "cdo_40" with allEnvironments source
+target "cdo_40" with requirements, source
 
 // CDO 40 Version. 
 // This version is self-managed, not available through CDO download version. 
 // 
 
 // Add the feature groups for CDO, not specifying a version. 
+
 location "http://p2.netxforge.com/cdo.p2" {
 	org.eclipse.emf.cdo.client.artifacts.feature.feature.group lazy
 	org.eclipse.emf.cdo.client.ui.artifacts.feature.feature.group lazy

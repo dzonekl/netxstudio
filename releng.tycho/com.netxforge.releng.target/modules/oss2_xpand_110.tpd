@@ -16,7 +16,7 @@
  * Contributors:
  *    Christophe Bouhier - initial API and implementation and/or initial documentation
  *******************************************************************************/
-target "xpand_110" with allEnvironments
+target "xpand_110" with source allEnvironments
 
 // Xpand 1.1.0 and Xtend 1.1.0 
 // Old stuff from OAW, which we still require. 

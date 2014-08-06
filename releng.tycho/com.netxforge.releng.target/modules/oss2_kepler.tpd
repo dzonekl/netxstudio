@@ -16,7 +16,7 @@
  * Contributors:
  *    Christophe Bouhier - initial API and implementation and/or initial documentation
  *******************************************************************************/
-target "kepler" with requirements
+target "kepler" with source allEnvironments
 
 // Eclipse Kepler Release!
 

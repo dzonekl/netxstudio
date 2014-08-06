@@ -16,7 +16,7 @@
  * Contributors:
  *    Christophe Bouhier - initial API and implementation and/or initial documentation
  *******************************************************************************/
-target "peaberry" with allEnvironments
+target "peaberry" with source allEnvironments
 
 // Orbit
 
