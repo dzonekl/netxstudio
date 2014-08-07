@@ -16,7 +16,7 @@
  * Contributors:
  *    Christophe Bouhier - initial API and implementation and/or initial documentation
  *******************************************************************************/
-target "oss2_v1" with source
+target "oss2_v1_cdo" with source
 
 include "oss2_xtext231_cdo42SR2.tpd"
 
@@ -42,13 +42,16 @@ location "http://p2.netxforge.com/oss2/3rd.p2" {
 	org.postgresql.jdbc.driver.feature.feature.group lazy
 }
 
+// SHOULD INCLUDE ONLY CDO ENABLED MODELS. (EObjects, extending CDOObject). 
 location "http://p2.netxforge.com/oss2/base.p2" {
 	com.netxforge.netxstudio.models.feature.feature.group lazy
 	com.netxforge.app.feature.feature.group lazy
+	com.netxforge.netxstudio.models.13042011.feature.feature.group lazy
 	com.netxforge.console.feature.feature.group lazy
 	com.netxforge.base.feature.feature.group lazy
+	com.netxforge.base.cdo.feature.feature.group lazy
 	com.netxforge.editing.base.feature.feature.group lazy
 	com.netxforge.netxstudio.models.edit.feature.feature.group lazy
-	com.netxforge.models.06032012.emf.feature.feature.group lazy
+	com.netxforge.netxstudio.models.13042011.edit.feature.feature.group lazy
 	com.netxforge.ide.feature.feature.group lazy
 }

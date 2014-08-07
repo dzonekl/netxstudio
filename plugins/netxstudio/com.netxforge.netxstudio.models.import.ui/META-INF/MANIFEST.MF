@@ -11,7 +11,7 @@ Require-Bundle: org.eclipse.core.runtime,
  com.netxforge.netxstudio.models.import;bundle-version="1.0.0",
  com.netxforge.netxstudio.common;bundle-version="1.0.0",
  com.netxforge.netxstudio.screens.editing;bundle-version="1.0.0",
- com.netxforge.netxstudio.screens.ide;bundle-version="1.0.0"
+ com.netxforge.ide;bundle-version="1.0.0"
 Bundle-RequiredExecutionEnvironment: J2SE-1.5
 Bundle-ActivationPolicy: lazy
 Import-Package: com.netxforge.netxstudio.generics,

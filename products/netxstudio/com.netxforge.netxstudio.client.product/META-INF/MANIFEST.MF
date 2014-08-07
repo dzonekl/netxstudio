@@ -9,13 +9,13 @@ Require-Bundle: org.eclipse.ui,
  org.eclipse.core.runtime,
  org.eclipse.ui.intro,
  com.netxforge.base.cdo;bundle-version="1.0.0",
- com.netxforge.netxstudio.screens.app;bundle-version="1.0.0",
  com.netxforge.netxstudio.data;bundle-version="1.0.0",
  com.netxforge.netxstudio.screens;bundle-version="1.0.0",
- com.netxforge.netxstudio.screens.ide;bundle-version="1.0.0",
  com.netxforge.netxstudio.screens.activities;bundle-version="1.0.0",
  com.netxforge.netxstudio.common;bundle-version="1.0.0",
- com.netxforge.netxstudio.console;bundle-version="1.0.0"
+ com.netxforge.app;bundle-version="1.0.0",
+ com.netxforge.console;bundle-version="1.0.0",
+ com.netxforge.ide;bundle-version="1.0.0"
 Bundle-RequiredExecutionEnvironment: J2SE-1.5
 Bundle-ActivationPolicy: lazy
 Export-Package: com.netxforge.netxstudio.client.product,
