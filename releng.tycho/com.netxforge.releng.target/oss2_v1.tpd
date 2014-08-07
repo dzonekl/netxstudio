@@ -46,6 +46,7 @@ location "http://p2.netxforge.com/oss2/base.p2" {
 	com.netxforge.netxstudio.models.13042011.feature.feature.group lazy
 	com.netxforge.console.feature.feature.group lazy
 	com.netxforge.base.feature.feature.group lazy
+	com.netxforge.base.cdo.feature.feature.group lazy
 	com.netxforge.editing.base.feature.feature.group lazy
 	com.netxforge.netxstudio.models.edit.feature.feature.group lazy
 	com.netxforge.models.06032012.emf.feature.feature.group lazy
