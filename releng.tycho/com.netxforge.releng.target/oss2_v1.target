@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <?pde?>
 <!-- generated with https://github.com/mbarbero/fr.obeo.releng.targetplatform -->
-<target name="oss2_v1" sequenceNumber="1407357601">
+<target name="oss2_v1" sequenceNumber="1407420520">
   <locations>
     <location includeMode="slicer" includeAllPlatforms="false" includeSource="true" includeConfigurePhase="false" type="InstallableUnit">
       <unit id="org.eclipse.jdt.source.feature.group" version="3.9.2.v20140221-1700"/>
@@ -277,6 +277,7 @@
       <unit id="com.netxforge.netxstudio.models.13042011.feature.feature.group" version="0.0.0"/>
       <unit id="com.netxforge.console.feature.feature.group" version="0.0.0"/>
       <unit id="com.netxforge.base.feature.feature.group" version="0.0.0"/>
+      <unit id="com.netxforge.base.cdo.feature.feature.group" version="0.0.0"/>
       <unit id="com.netxforge.editing.base.feature.feature.group" version="0.0.0"/>
       <unit id="com.netxforge.netxstudio.models.edit.feature.feature.group" version="0.0.0"/>
       <unit id="com.netxforge.models.06032012.emf.feature.feature.group" version="0.0.0"/>
