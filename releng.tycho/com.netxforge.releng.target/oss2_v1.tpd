@@ -16,7 +16,7 @@
  * Contributors:
  *    Christophe Bouhier - initial API and implementation and/or initial documentation
  *******************************************************************************/
-target "oss2_v1" with source allEnvironments
+target "oss2_v1" with source
 
 include "oss2_xtext231_cdo42SR2.tpd"
 
@@ -38,6 +38,8 @@ location "http://p2.netxforge.com/oss2/3rd.p2" {
 	org.apache.poi.artifacts.feature.feature.group lazy
 	javax.artifacts.feature.feature.group lazy
 	org.eclipse.nebula.artifacts.feature.feature.group lazy
+	oracle.jdbc.driver.feature.feature.group lazy
+	org.postgresql.jdbc.driver.feature.feature.group lazy
 }
 
 location "http://p2.netxforge.com/oss2/base.p2" {

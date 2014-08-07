@@ -18,7 +18,7 @@
    </license>
 
    <includes
-         id="com.netxforge.netxstudio.console.feature"
+         id="com.netxforge.console.feature"
          version="0.0.0"/>
 
    <includes
@@ -142,7 +142,7 @@
          version="0.0.0"/>
 
    <includes
-         id="com.netxforge.netxstudio.screens.ide.feature"
+         id="com.netxforge.ide.feature"
          version="0.0.0"/>
 
    <includes
@@ -166,7 +166,7 @@
          version="0.0.0"/>
 
    <includes
-         id="com.netxforge.netxstudio.screens.app.feature"
+         id="com.netxforge.app.feature"
          version="0.0.0"/>
 
    <includes
