@@ -11,8 +11,8 @@
     xmlns:setup.targlets="http://www.eclipse.org/oomph/setup/targlets/1.0"
     xmlns:setup.workingsets="http://www.eclipse.org/oomph/setup/workingsets/1.0"
     xsi:schemaLocation="http://www.eclipse.org/oomph/setup/git/1.0 http://git.eclipse.org/c/oomph/org.eclipse.oomph.git/plain/setups/models/Git.ecore http://www.eclipse.org/oomph/setup/jdt/1.0 http://git.eclipse.org/c/oomph/org.eclipse.oomph.git/plain/setups/models/JDT.ecore http://www.eclipse.org/oomph/predicates/1.0 http://git.eclipse.org/c/oomph/org.eclipse.oomph.git/plain/setups/models/Predicates.ecore http://www.eclipse.org/oomph/setup/targlets/1.0 http://git.eclipse.org/c/oomph/org.eclipse.oomph.git/plain/setups/models/SetupTarglets.ecore http://www.eclipse.org/oomph/setup/workingsets/1.0 http://git.eclipse.org/c/oomph/org.eclipse.oomph.git/plain/setups/models/SetupWorkingSets.ecore"
-    name="netxstudio"
-    label="Netxstudio">
+    name="netxforge"
+    label="Netxforge">
   <setupTask
       xsi:type="jdt:JRETask"
       version="JavaSE-1.7"
@@ -36,10 +36,6 @@
   </setupTask>
   <setupTask
       xsi:type="setup.p2:P2Task">
-    <requirement
-        name="org.eclipse.m2e.feature.feature.group"/>
-    <repository
-        url="http://download.eclipse.org/technology/m2e/releases"/>
     <description>Install the tools needed in the IDE to work with the source code for ${scope.project.label}</description>
   </setupTask>
   <setupTask
@@ -68,7 +64,7 @@
     <targlet
         name="${scope.project.label}">
       <requirement
-          name="com.netxforge.netxstudio.feature.group"/>
+          name="com.netxforge.netxforge.feature.group"/>
       <requirement
           name="org.eclipse.sdk.feature.group"/>
       <sourceLocator
@@ -76,7 +72,7 @@
       <repositoryList
           name="Dependencies">
         <repository
-            url="http://download.eclipse.org/releases/kepler"/>
+            url="http://download.eclipse.org/releases/luna"/>
       </repositoryList>
     </targlet>
   </setupTask>
@@ -88,7 +84,7 @@
           xsi:type="predicates:AndPredicate">
         <operand
             xsi:type="predicates:RepositoryPredicate"
-            project="com.netxforge.netxstudio-feature"/>
+            project="com.netxforge.netxforge-feature"/>
       </predicate>
     </workingSet>
     <description>The dynamic working sets for ${scope.project.label}</description>
@@ -97,5 +93,5 @@
   <logicalProjectContainer
       xsi:type="setup:ProjectCatalog"
       href="index:/org.eclipse.setup#//@projectCatalogs[name='com.github']"/>
-  <description>Netxstudio provides cool</description>
+  <description>Netxforge provides cool stuff</description>
 </setup:Project>
