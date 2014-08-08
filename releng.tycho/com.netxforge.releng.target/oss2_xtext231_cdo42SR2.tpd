@@ -16,7 +16,7 @@
  * Contributors:
  *    Christophe Bouhier - initial API and implementation and/or initial documentation
  *******************************************************************************/
-target "oss2_xtext231_cdo42SR2" with source allEnvironments
+target "oss2_xtext231_cdo42SR2" with source
 
 include "modules/oss2_kepler.tpd"
 include "modules/oss2_emf.tpd"

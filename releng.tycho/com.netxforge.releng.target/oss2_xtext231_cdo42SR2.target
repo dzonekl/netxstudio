@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <?pde?>
 <!-- generated with https://github.com/mbarbero/fr.obeo.releng.targetplatform -->
-<target name="oss2_xtext231_cdo42SR2" sequenceNumber="1407357593">
+<target name="oss2_xtext231_cdo42SR2" sequenceNumber="1407461444">
   <locations>
     <location includeMode="slicer" includeAllPlatforms="false" includeSource="true" includeConfigurePhase="false" type="InstallableUnit">
       <unit id="org.eclipse.jdt.source.feature.group" version="3.9.2.v20140221-1700"/>
@@ -245,6 +245,7 @@
       <unit id="org.apache.lucene.misc" version="0.0.0"/>
       <unit id="org.apache.lucene.queries" version="0.0.0"/>
       <unit id="javax.servlet.jsp.jstl" version="0.0.0"/>
+      <unit id="lpg.runtime.java" version="0.0.0"/>
       <repository location="http://download.eclipse.org/tools/orbit/downloads/drops/R20130827064939/repository/"/>
     </location>
     <location includeMode="slicer" includeAllPlatforms="false" includeSource="true" includeConfigurePhase="false" type="InstallableUnit">

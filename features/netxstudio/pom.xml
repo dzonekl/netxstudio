@@ -26,5 +26,7 @@
 		<module>com.netxforge.netxstudio.screens.feature</module>
 		<module>com.netxforge.netxstudio.screens.editing.feature</module>
 		<module>com.netxforge.netxstudio.screens.xtext.feature</module>
+		<module>com.netxforge.netxstudio.server.db.mysql.product.feature</module>
+		<module>com.netxforge.netxstudio.server.db.feature</module>
 	</modules>
 </project>

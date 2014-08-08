@@ -19,6 +19,7 @@
 		<module>org.postgresql.jdbc.driver.feature</module>
 		<module>org.eclipse.emf.cdo.client.artifacts.feature</module>
 		<module>org.eclipse.emf.cdo.client.ui.artifacts.feature</module>
+		<module>org.eclipse.emf.cdo.server.db.mysql.artifacts.feature</module>
 		<module>org.eclipse.emf.mwe.artifacts.feature</module>
 		<module>org.eclipse.nebula.artifacts.feature</module>
 		<module>org.eclipse.platform.server.artifacts.feature</module>

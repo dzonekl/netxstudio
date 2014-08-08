@@ -16,7 +16,7 @@
  * Contributors:
  *    Christophe Bouhier - initial API and implementation and/or initial documentation
  *******************************************************************************/
-target "orbit" with source allEnvironments
+target "orbit" with source
 
 // Orbit
 location "http://download.eclipse.org/tools/orbit/downloads/drops/R20130827064939/repository/" {
@@ -29,4 +29,5 @@ location "http://download.eclipse.org/tools/orbit/downloads/drops/R2013082706493
 	org.apache.lucene.misc lazy
 	org.apache.lucene.queries lazy
 	javax.servlet.jsp.jstl lazy
+	lpg.runtime.java lazy
 }
