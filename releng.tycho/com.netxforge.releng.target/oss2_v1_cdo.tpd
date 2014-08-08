@@ -41,6 +41,7 @@ location "http://p2.netxforge.com/oss2/3rd.p2" {
 	org.eclipse.nebula.artifacts.feature.feature.group lazy
 	oracle.jdbc.driver.feature.feature.group lazy
 	org.postgresql.jdbc.driver.feature.feature.group lazy
+	org.quartz.artifacts.feature.feature.group lazy
 }
 
 // SHOULD INCLUDE ONLY CDO ENABLED MODELS. (EObjects, extending CDOObject). 

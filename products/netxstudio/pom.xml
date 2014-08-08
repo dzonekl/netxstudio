@@ -16,6 +16,8 @@
 	</parent>
 	<modules>
 		<module>com.netxforge.netxstudio.client.product</module>
+		<module>com.netxforge.netxstudio.server.db.mysql.product</module>
 		<module>com.netxforge.releng.products.netxstudio.cdo</module>
+		<module>com.netxforge.releng.products.netxserver</module>
 	</modules>
 </project>

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <?pde?>
 <!-- generated with https://github.com/mbarbero/fr.obeo.releng.targetplatform -->
-<target name="oss2_v1_cdo" sequenceNumber="1407464036">
+<target name="oss2_v1_cdo" sequenceNumber="1407489788">
   <locations>
     <location includeMode="slicer" includeAllPlatforms="false" includeSource="true" includeConfigurePhase="false" type="InstallableUnit">
       <unit id="org.eclipse.jdt.source.feature.group" version="3.9.2.v20140221-1700"/>
@@ -273,6 +273,7 @@
       <unit id="org.eclipse.nebula.artifacts.feature.feature.group" version="0.0.0"/>
       <unit id="oracle.jdbc.driver.feature.feature.group" version="0.0.0"/>
       <unit id="org.postgresql.jdbc.driver.feature.feature.group" version="0.0.0"/>
+      <unit id="org.quartz.artifacts.feature.feature.group" version="0.0.0"/>
       <repository location="http://p2.netxforge.com/oss2/3rd.p2"/>
     </location>
     <location includeMode="slicer" includeAllPlatforms="false" includeSource="true" includeConfigurePhase="false" type="InstallableUnit">
