@@ -31,6 +31,7 @@ location "http://p2.netxforge.com/oss2/3rd.p2" {
 	org.apache.artifacts.server.feature.feature.group lazy
 	org.slf4j.feature.feature.group lazy
 	org.eclipse.emf.cdo.client.artifacts.feature.feature.group lazy
+	org.eclipse.emf.cdo.server.db.mysql.artifacts.feature.feature.group lazy
 	org.eclipse.platform.server.artifacts.feature.feature.group lazy
 	org.eclipse.emf.cdo.client.ui.artifacts.feature.feature.group lazy
 	org.eclipse.platform.e4.artifacts.feature.feature.group lazy

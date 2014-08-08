@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd"
+	xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+	<modelVersion>4.0.0</modelVersion>
+	<artifactId>netxstudio-server-plugins</artifactId>
+	<properties>
+		<relengdir>../../../releng.tycho</relengdir>
+	</properties>
+	<parent>
+		<groupId>com.netxforge</groupId>
+		<artifactId>releng.netxstudio</artifactId>
+		<version>1.0.0-SNAPSHOT</version>
+		<relativePath>../../releng.tycho/com.netxforge.releng.netxstudio</relativePath>
+	</parent>
+	<packaging>pom</packaging>
+	<modules>
+		<module>com.netxforge.netxstudio.server.logic</module>
+		<module>com.netxforge.netxstudio.server.job</module>
+		<module>com.netxforge.netxstudio.server.metrics</module>
+		<module>com.netxforge.netxstudio.server.jsp</module>
+		<module>com.netxforge.netxstudio.server</module>
+		<module>com.netxforge.netxstudio.log4j</module>
+	</modules>
+</project>

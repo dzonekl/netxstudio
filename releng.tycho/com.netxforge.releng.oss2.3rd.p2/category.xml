@@ -60,6 +60,9 @@
    <feature url="features/org.eclipse.emf.cdo.server.db.mysql.artifacts.feature_1.0.0.qualifier.jar" id="org.eclipse.emf.cdo.server.db.mysql.artifacts.feature" version="1.0.0.qualifier">
       <category name="OSS2.3rd.eclipse"/>
    </feature>
+   <feature url="features/org.quartz.artifacts.feature_1.0.0.qualifier.jar" id="org.quartz.artifacts.feature" version="1.0.0.qualifier">
+      <category name="OSS2.3rd.other"/>
+   </feature>
    <category-def name="OSS2.3rd.eclipse" label="OSS2 Eclipse features">
       <description>
          This Repository contains features which are provided by Eclipse. The main sources are from Eclipse platform project.

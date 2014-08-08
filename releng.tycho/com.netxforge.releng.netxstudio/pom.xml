@@ -97,6 +97,9 @@
 		../../plugins/netxstudio
 		</module>
 		<module>
+		../../plugins/netxstudio-server
+		</module>
+		<module>
 		../../features/netxstudio
 		</module>
 		<module>
