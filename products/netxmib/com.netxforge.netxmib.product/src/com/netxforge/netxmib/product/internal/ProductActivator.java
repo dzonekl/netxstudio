@@ -14,10 +14,8 @@
  * 
  * Contributors: Christophe Bouhier - initial API and implementation and/or
  * initial documentation
- *******************************************************************************/ 
+ *******************************************************************************/
 package com.netxforge.netxmib.product.internal;
-
-import static org.ops4j.peaberry.Peaberry.osgiModule;
 
 import java.util.Properties;
 
@@ -30,13 +28,15 @@ import com.google.inject.Injector;
 import com.netxforge.netxmib.product.PropertiesUtil;
 import com.netxforge.netxstudio.screens.app.IWorkbenchService;
 
+import static org.ops4j.peaberry.Peaberry.osgiModule;
+
 /**
  * The activator class controls the plug-in life cycle
  */
 public class ProductActivator extends AbstractUIPlugin {
 
 	// The plug-in ID
-	public static final String PLUGIN_ID = "com.netxforge.netxstudio.ui.product"; //$NON-NLS-1$
+	public static final String PLUGIN_ID = "com.netxforge.netxmib.product"; //$NON-NLS-1$
 
 	// The shared instance
 	private static ProductActivator plugin;
@@ -81,21 +81,22 @@ public class ProductActivator extends AbstractUIPlugin {
 		// is only set when the application inisitalized, if the plugin is
 		// self-starting
 		// this will thrown an exception that the data area is not set.
-		
-//		System.getProperties()
-//				.setProperty(
-//						"org.eclipse.emf.ecore.plugin.EcorePlugin.doNotLoadResourcesPlugin",
-//						"false");
+
+		// System.getProperties()
+		// .setProperty(
+		// "org.eclipse.emf.ecore.plugin.EcorePlugin.doNotLoadResourcesPlugin",
+		// "false");
 
 		// As we auto start this plugin, and EMF requires a workspace, in it'c
 		// core
 		// plugin.
 		pu.readProperties(this.getBundle(), propertiesFile, getProperties());
 
-		injector = Guice.createInjector(osgiModule(context), new ProductModule());
-		
+		injector = Guice.createInjector(osgiModule(context),
+				new ProductModule());
+
 		// TODO, Export with Peaberry.
-		
+
 		final IWorkbenchService instance = injector
 				.getInstance(IWorkbenchService.class);
 
@@ -103,7 +104,7 @@ public class ProductActivator extends AbstractUIPlugin {
 		// at startup.
 		workbenchService = context.registerService(IWorkbenchService.class,
 				instance, null);
-		
+
 	}
 
 	/*
@@ -119,9 +120,9 @@ public class ProductActivator extends AbstractUIPlugin {
 				this.getProperties());
 
 		workbenchService.unregister();
-		
-		// FIXME, Platform already stopped, as Application has lower startlevel! 
-//		super.stop(context);
+
+		// FIXME, Platform already stopped, as Application has lower startlevel!
+		// super.stop(context);
 
 	}
 

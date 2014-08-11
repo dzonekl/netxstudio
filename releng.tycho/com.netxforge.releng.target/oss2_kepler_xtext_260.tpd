@@ -1,0 +1,61 @@
+/*******************************************************************************
+ * Copyright (c) 2014 NetXForge.
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
+ *  You should have received a copy of the GNU General Public License
+ *   along with this program.  If not, see <http://www.gnu.org/licenses/>
+ *
+ * Contributors:
+ *    Christophe Bouhier - initial API and implementation and/or initial documentation
+ *******************************************************************************/
+target "oss2_kepler_xtext260" with source
+
+include "modules/oss2_emf.tpd"
+include "modules/oss2_orbit.tpd"
+include "modules/oss2_kepler.tpd"
+include "modules/oss2_mwe_260.tpd"
+include "modules/oss2_xtext_260.tpd"
+include "modules/oss2_peaberry.tpd"
+
+location "http://p2.netxforge.com/oss2/3rd.p2" {
+	org.eclipse.platform.bare.artifacts.feature.feature.group lazy
+	org.eclipse.platform.artifacts.feature.feature.group lazy
+	org.eclipse.xtext.artifacts.feature.feature.group lazy
+	org.swtchart.artifacts.feature.feature.group lazy
+	org.eclipse.xtext.ui.artifacts.feature.feature.group lazy
+	org.eclipse.e4.tools.artifacts.feature.feature.group lazy
+	org.apache.artifacts.feature.feature.group lazy
+	org.apache.artifacts.server.feature.feature.group lazy
+	org.slf4j.feature.feature.group lazy
+	org.eclipse.emf.cdo.client.artifacts.feature.feature.group lazy
+	org.eclipse.platform.server.artifacts.feature.feature.group lazy
+	org.eclipse.emf.cdo.client.ui.artifacts.feature.feature.group lazy
+	org.eclipse.emf.cdo.server.db.mysql.artifacts.feature.feature.group lazy
+	org.eclipse.platform.e4.artifacts.feature.feature.group lazy
+	com.google.artifacts.feature.feature.group lazy
+	org.apache.poi.artifacts.feature.feature.group lazy
+	javax.artifacts.feature.feature.group lazy
+	org.eclipse.nebula.artifacts.feature.feature.group lazy
+	oracle.jdbc.driver.feature.feature.group lazy
+	org.postgresql.jdbc.driver.feature.feature.group lazy
+	org.quartz.artifacts.feature.feature.group lazy
+}
+
+location "http://p2.netxforge.com/oss2/base.p2" {
+	com.netxforge.netxstudio.models.feature.feature.group lazy
+	com.netxforge.app.feature.feature.group lazy
+	com.netxforge.console.feature.feature.group lazy
+	com.netxforge.base.feature.feature.group lazy
+	com.netxforge.editing.base.feature.feature.group lazy
+	com.netxforge.netxstudio.models.edit.feature.feature.group lazy
+	com.netxforge.models.06032012.emf.feature.feature.group lazy
+	com.netxforge.ide.feature.feature.group lazy
+}

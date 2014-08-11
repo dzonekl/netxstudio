@@ -25,15 +25,11 @@
 
    <features>
       <feature id="com.netxforge.netxmib.product.feature" version="1.0.0.qualifier"/>
-      <feature id="com.netxforge.netxstudio.screens.app.feature" version="1.0.0.qualifier"/>
       <feature id="com.netxforge.smi.feature" version="1.0.0.qualifier"/>
-      <feature id="com.netxforge.netxstudio.console.feature" version="1.0.0.qualifier"/>
-      <feature id="com.netxforge.netxstudio.screens.ide.feature" version="1.0.0.qualifier"/>
-      <feature id="org.snmp4j.artifacts.feature" version="1.0.0.qualifier"/>
-      <feature id="org.eclipse.ltk.artifacts.feature" version="1.0.0.qualifier"/>
-      <feature id="com.netxforge.base.feature" version="1.0.0.qualifier"/>
-      <feature id="com.netxforge.todo.sdk" version="1.0.0.qualifier"/>
-      <feature id="com.netxforge.netxtest.sdk" version="1.0.0.qualifier"/>
+      <feature id="com.netxforge.base.feature"/>
+      <feature id="com.netxforge.app.feature" version="1.0.0.201408071354"/>
+      <feature id="com.netxforge.ide.feature" version="1.0.0.201408071354"/>
+      <feature id="com.netxforge.console.feature" version="1.0.0.201408071354"/>
    </features>
 
    <configurations>
