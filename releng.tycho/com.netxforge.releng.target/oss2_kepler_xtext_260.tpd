@@ -23,15 +23,13 @@ include "modules/oss2_orbit.tpd"
 include "modules/oss2_kepler.tpd"
 include "modules/oss2_mwe_260.tpd"
 include "modules/oss2_xtext_260.tpd"
-include "modules/oss2_xtend_262.tpd"
+include "modules/oss2_xtend_260.tpd"
 include "modules/oss2_peaberry.tpd"
 
 location "http://p2.netxforge.com/oss2/3rd.p2" {
 	org.eclipse.platform.bare.artifacts.feature.feature.group lazy
 	org.eclipse.platform.artifacts.feature.feature.group lazy
-	org.eclipse.xtext.artifacts.feature.feature.group lazy
 	org.swtchart.artifacts.feature.feature.group lazy
-	org.eclipse.xtext.ui.artifacts.feature.feature.group lazy
 	org.eclipse.e4.tools.artifacts.feature.feature.group lazy
 	org.apache.artifacts.feature.feature.group lazy
 	org.apache.artifacts.server.feature.feature.group lazy

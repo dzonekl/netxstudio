@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <?pde?>
 <!-- generated with https://github.com/mbarbero/fr.obeo.releng.targetplatform -->
-<target name="oss2_kepler_xtext260" sequenceNumber="1408201884">
+<target name="oss2_kepler_xtext260" sequenceNumber="1408363588">
   <locations>
     <location includeMode="slicer" includeAllPlatforms="false" includeSource="true" includeConfigurePhase="false" type="InstallableUnit">
       <unit id="org.eclipse.emf.oda.sdk.feature.group" version="1.3.0.v20140519-0339"/>
@@ -129,7 +129,7 @@
       <repository location="http://download.eclipse.org/e4/downloads/drops/R-0.14-201306242200/repository"/>
     </location>
     <location includeMode="slicer" includeAllPlatforms="false" includeSource="true" includeConfigurePhase="false" type="InstallableUnit">
-      <unit id="org.eclipse.xtend.sdk.feature.group" version="2.6.2.v201407030533"/>
+      <unit id="org.eclipse.xtend.sdk.feature.group" version="2.6.0.v201405210727"/>
       <unit id="org.eclipse.xtext.runtime.source.feature.group" version="2.6.0.v201405210727"/>
       <unit id="org.eclipse.xtext.xbase.feature.group" version="2.6.0.v201405210727"/>
       <unit id="org.eclipse.xtext.runtime.feature.group" version="2.6.0.v201405210727"/>
@@ -151,9 +151,7 @@
     <location includeMode="slicer" includeAllPlatforms="false" includeSource="true" includeConfigurePhase="false" type="InstallableUnit">
       <unit id="org.eclipse.platform.bare.artifacts.feature.feature.group" version="0.0.0"/>
       <unit id="org.eclipse.platform.artifacts.feature.feature.group" version="0.0.0"/>
-      <unit id="org.eclipse.xtext.artifacts.feature.feature.group" version="0.0.0"/>
       <unit id="org.swtchart.artifacts.feature.feature.group" version="0.0.0"/>
-      <unit id="org.eclipse.xtext.ui.artifacts.feature.feature.group" version="0.0.0"/>
       <unit id="org.eclipse.e4.tools.artifacts.feature.feature.group" version="0.0.0"/>
       <unit id="org.apache.artifacts.feature.feature.group" version="0.0.0"/>
       <unit id="org.apache.artifacts.server.feature.feature.group" version="0.0.0"/>
