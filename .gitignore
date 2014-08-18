@@ -4,7 +4,6 @@
 # xtend generated trace files
 ############################
 ._trace
-xtend-gen/
 bin/
 target/
 .metadata
