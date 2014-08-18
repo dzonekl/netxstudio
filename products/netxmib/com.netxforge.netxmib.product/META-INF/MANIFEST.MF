@@ -1,6 +1,6 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
-Bundle-Name: Bare Product (No IScreen's!)
+Bundle-Name: MIB Product
 Bundle-SymbolicName: com.netxforge.netxmib.product;singleton:=true
 Bundle-Version: 1.0.0.qualifier
 Bundle-Vendor: NetXForge
