@@ -28,8 +28,9 @@
       <feature id="org.eclipse.platform.artifacts.feature" version="4.3.0"/>
       <feature id="com.netxforge.smi.feature" version="1.0.0.qualifier"/>
       <feature id="com.netxforge.base.feature"/>
-      <feature id="com.netxforge.app.feature" version="1.0.0.201408071354"/>
-      <feature id="com.netxforge.console.feature" version="1.0.0.201408071354"/>
+      <feature id="com.netxforge.app.feature"/>
+      <feature id="com.netxforge.console.feature"/>
+      <feature id="com.netxforge.ide.feature"/>
    </features>
 
    <configurations>
