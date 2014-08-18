@@ -24,7 +24,7 @@ Export-Package: org.eclipse.ui.internal.navigator.resources;x-internal
  =true,org.eclipse.ui.internal.navigator.resources.workbench;x-interna
  l:=true,org.eclipse.ui.internal.navigator.workingsets;x-internal:=tru
  e,org.eclipse.ui.navigator.resources
-Bundle-Version: 3.4.500
+Bundle-Version: 3.4.500.qualifier
 Build-Jdk: 1.7.0_11
 Bundle-ActivationPolicy: lazy
 Bundle-Vendor: %Plugin.providerName
