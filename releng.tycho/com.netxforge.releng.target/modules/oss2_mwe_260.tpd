@@ -18,11 +18,13 @@
  *******************************************************************************/
 target "mwe_260" with source allEnvironments
 
-// Xtext 2.3.1
+// MWE2 2.6.0 and MWE 1.33
 
 location "http://download.eclipse.org/modeling/tmf/xtext/updates/composite/releases/" {
 	org.eclipse.emf.mwe2.launcher.feature.group [2.6.0,2.6.1)
 	org.eclipse.emf.mwe2.language.sdk.feature.group [2.6.0,2.6.1) 
 	org.eclipse.emf.mwe2.runtime.sdk.feature.group [2.6.0,2.6.1)
+	org.eclipse.emf.mwe.core [1.3.3,1.3.4)
+	org.eclipse.emf.mwe.utils [1.3.3,1.3.4)
 }
 

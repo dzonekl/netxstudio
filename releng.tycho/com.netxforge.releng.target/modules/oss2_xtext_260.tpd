@@ -16,9 +16,9 @@
  * Contributors:
  *    Christophe Bouhier - initial API and implementation and/or initial documentation
  *******************************************************************************/
-target "xtext_231" with source allEnvironments
+target "xtext_260" with source allEnvironments
 
-// Xtext 2.3.1
+// Xtext 2.6.0
 
 location "http://download.eclipse.org/modeling/tmf/xtext/updates/composite/releases/" {
 	org.eclipse.xtext.runtime.source.feature.group [2.6.0,2.6.1)
@@ -28,8 +28,5 @@ location "http://download.eclipse.org/modeling/tmf/xtext/updates/composite/relea
 	org.eclipse.xtext.examples.feature.group [2.6.0,2.6.1)
 	org.eclipse.xtext.docs.feature.group [2.6.0,2.6.1)
 	org.eclipse.xtext.sdk.feature.group [2.6.0,2.6.1)
-	org.eclipse.emf.mwe2.launcher.feature.group [2.6.0,2.6.1)
-	org.eclipse.emf.mwe2.language.sdk.feature.group [2.6.0,2.6.1) 
-	org.eclipse.emf.mwe2.runtime.sdk.feature.group [2.6.0,2.6.1)
 }
 

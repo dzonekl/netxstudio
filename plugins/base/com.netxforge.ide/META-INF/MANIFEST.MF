@@ -7,9 +7,9 @@ Bundle-Activator: com.netxforge.netxstudio.screens.ide.internal.ScreensIDEActiva
 Bundle-Vendor: NetXForge
 Require-Bundle: org.eclipse.ui,
  org.eclipse.core.runtime,
- org.eclipse.ui.navigator.resources;bundle-version="3.4.500",
+ org.eclipse.ui.navigator.resources;bundle-version="[3.4.500,3.4.501)",
  org.eclipse.core.resources;bundle-version="3.7.100";visibility:=reexport,
- org.eclipse.ui.ide;bundle-version="3.9.0";visibility:=reexport
+ org.eclipse.ui.ide;bundle-version="[3.9.0,3.9.1)";visibility:=reexport
 Bundle-RequiredExecutionEnvironment: J2SE-1.5
 Bundle-ActivationPolicy: lazy
 Export-Package: com.netxforge.netxstudio.screens.ide,
