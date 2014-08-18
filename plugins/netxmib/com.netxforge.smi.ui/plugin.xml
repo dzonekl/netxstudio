@@ -392,5 +392,11 @@
             extensions="mib">
     </provider>
   </extension>
+  <extension
+        point="org.eclipse.xtext.ui.shared.overridingGuiceModule">
+     <module
+           class="com.netxforge.smi.ui.OverrideSharedStateModule">
+     </module>
+  </extension>
 
 </plugin>
