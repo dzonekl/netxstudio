@@ -22,5 +22,6 @@ target "xtend_260" with source allEnvironments
 
 location "http://download.eclipse.org/modeling/tmf/xtext/updates/composite/releases/" {
 	org.eclipse.xtend.sdk.feature.group [2.6.0,2.6.1)
+	org.eclipse.xpand.sdk.feature.group [2.0.0,2.1.0)
 }
 
