@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?pde version="3.5"?>
 
-<product name="NetXStudio Platform" uid="com.netxforge.netxstudio.bare" id="com.netxforge.netxstudio.bare.product.product" application="com.netxforge.netxstudio.ui.application" useFeatures="true" includeLaunchers="true">
+<product name="NetXStudio Platform" uid="com.netxforge.netxstudio.bare" id="com.netxforge.netxbare.product.product" application="com.netxforge.netxstudio.ui.application" useFeatures="true" includeLaunchers="true">
 
    <configIni use="default">
    </configIni>
