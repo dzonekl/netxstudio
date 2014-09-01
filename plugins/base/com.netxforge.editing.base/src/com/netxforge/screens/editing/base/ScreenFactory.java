@@ -17,12 +17,21 @@
  *******************************************************************************/
 package com.netxforge.screens.editing.base;
 
+import static org.eclipse.core.runtime.ContributorFactoryOSGi.resolve;
+
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.util.HashMap;
 
+import org.eclipse.core.runtime.IConfigurationElement;
+import org.eclipse.core.runtime.IContributor;
+import org.eclipse.core.runtime.IExtension;
+import org.eclipse.core.runtime.IExtensionPoint;
+import org.eclipse.core.runtime.IExtensionRegistry;
+import org.eclipse.core.runtime.Platform;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Composite;
+import org.osgi.framework.Bundle;
 
 import com.google.common.collect.Maps;
 import com.google.inject.Inject;
@@ -54,8 +63,19 @@ public class ScreenFactory implements IScreenFactory {
 			registerScreen(screenName, screenClass);
 			screenConstructor = screenMap.get(screenName);
 		}
+
 		if (screenConstructor != null) {
-			return getScreen(screenConstructor, parent, style);
+			return instantiateByConstructor(screenConstructor, parent, style);
+		} else {
+			return null;
+		}
+	}
+
+	public IScreen createByDeclaration(String screenName,
+			String screenClassName, Composite parent, int style) {
+
+		if (screenClassName != null) {
+			return instantiateByDeclaration(screenClassName, parent, style);
 		} else {
 			return null;
 		}
@@ -70,6 +90,8 @@ public class ScreenFactory implements IScreenFactory {
 	public void registerScreen(String screenName, Class<?> screenClass) {
 
 		if (screenClass == null) {
+
+			// TODO, Logging function!
 			System.out
 					.println("trying to register a screen, while no type is provided, is "
 							+ screenName
@@ -91,7 +113,7 @@ public class ScreenFactory implements IScreenFactory {
 		screenMap.put(screenName, screenConstructor);
 	}
 
-	private IScreen getScreen(Constructor<?> screenConstructor,
+	private IScreen instantiateByConstructor(Constructor<?> screenConstructor,
 			Composite parent, int style) {
 		IScreen target;
 		try {
@@ -107,6 +129,117 @@ public class ScreenFactory implements IScreenFactory {
 			e.printStackTrace();
 		}
 		return null;
+	}
+
+	/**
+	 * instantiate an {@link IScreen} matching a class name as declarared with
+	 * extension:
+	 * 
+	 * <pre>
+	 * com.netxforge.editing.iscreen
+	 * </pre>
+	 * 
+	 * 
+	 * @param screenClassName
+	 * 
+	 * @return
+	 */
+	private IScreen instantiateByDeclaration(String screenClassName,
+			Composite parent, int style) {
+
+		IScreen screen = null;
+
+		IExtensionRegistry registry = Platform.getExtensionRegistry();
+		IExtensionPoint point = registry
+				.getExtensionPoint("com.netxforge.editing.iscreen");
+		if (point == null) {
+			return screen;
+		}
+		IExtension[] extensions = point.getExtensions();
+		
+		
+		ScreenFromExtention screenFromExtention = new ScreenFromExtention();
+		screenFromExtention.setParent(parent);
+		screenFromExtention.setStyle(style);
+		screenFromExtention.setScreenName(screenClassName);
+		for (int i = 0; i < extensions.length; i++) {
+			screen = screenFromExtention.readExtension(extensions[i], screenClassName);
+			if (screen != null) {
+				break;
+			}
+		}
+		return screen;
+
+	}
+
+	/**
+	 * Read an {@link IScreen} from an IExtension.
+	 */
+	class ScreenFromExtention {
+
+		private String screenName;
+		public String getScreenName() {
+			return screenName;
+		}
+
+		public void setScreenName(String screenName) {
+			this.screenName = screenName;
+		}
+
+		public Composite getParent() {
+			return parent;
+		}
+
+		public void setParent(Composite parent) {
+			this.parent = parent;
+		}
+
+		public int getStyle() {
+			return style;
+		}
+
+		public void setStyle(int style) {
+			this.style = style;
+		}
+
+		private Composite parent;
+		private int style;
+
+		public IScreen readExtension(IExtension iExtension,
+				String targetScreenClassName) {
+
+			IScreen screen = null;
+			for (IConfigurationElement el : iExtension
+					.getConfigurationElements()) {
+
+				String screenClass = el.getAttribute("class");
+				if (screenClass.equals(targetScreenClassName)) {
+					try {
+						IContributor contributor = el.getContributor();
+						Bundle bundle = resolve(contributor);
+						Class<?> loadClass = bundle
+								.loadClass(targetScreenClassName);
+						
+						// Now we resolve the applicable constructor. 
+						registerScreen(getScreenName(), loadClass);
+						
+						// Create the IScreen. 
+						screen = create(getScreenName(), loadClass, getParent(), getStyle());
+						
+						// TODO Inject it.  
+
+					} catch (ClassNotFoundException e) {
+						// TODO Proper logging / Error handling.
+						e.printStackTrace();
+					} finally {
+						if (screen != null) {
+							break;
+						}
+					}
+				}
+			}
+			return screen;
+		}
 	}
 
 }

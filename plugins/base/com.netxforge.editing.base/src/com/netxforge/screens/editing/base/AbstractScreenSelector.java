@@ -115,6 +115,9 @@ public abstract class AbstractScreenSelector extends AbstractScreensViewPart
 		getEditingService().setViewerProvider(this);
 		getEditingService().setScreenProvider(this);
 		screenFormService.addScreenChangeListener(this);
+		
+		
+		// Build our programmatic defined selectors. 
 		buildSelector();
 
 		// Restore the current Screen:

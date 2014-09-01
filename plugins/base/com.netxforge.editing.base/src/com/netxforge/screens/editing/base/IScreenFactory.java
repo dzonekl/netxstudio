@@ -19,7 +19,6 @@ package com.netxforge.screens.editing.base;
 
 import org.eclipse.swt.widgets.Composite;
 
-
 /**
  * A Factory for IScreen's
  * 
@@ -27,8 +26,44 @@ import org.eclipse.swt.widgets.Composite;
  * 
  */
 public interface IScreenFactory {
+
+	/**
+	 * Create (instantiate) an {@link IScreen} for a given parent
+	 * {@link Composite} with a given name and a given {@link ScreenUtil
+	 * style/operation}
+	 * 
+	 * @param screenName
+	 * @param screenClass
+	 * @param parent
+	 * @param style
+	 * @return
+	 */
 	public IScreen create(String screenName, Class<?> screenClass,
 			Composite parent, int style);
 
+	/**
+	 * Register the {@link IScreen}
+	 * 
+	 * @param screenName
+	 * @param screenClass
+	 */
 	public void registerScreen(String screenName, Class<?> screenClass);
+
+	/**
+	 * Create an {@link IScreen} matching a class name as declarared with
+	 * extension:
+	 * 
+	 * <pre>
+	 * com.netxforge.editing.iscreen
+	 * </pre>
+	 * 
+	 * @param screenName
+	 * @param screenClassName
+	 * @param parent
+	 * @param style
+	 * @return
+	 */
+	public abstract IScreen createByDeclaration(String screenName,
+			String screenClassName, Composite parent, int style);
+
 }

@@ -61,9 +61,9 @@ public class BaseEditingModule extends AbstractModule {
 
 		bind(IScreenFactory.class).to(ScreenFactory.class);
 		bind(ClipboardService.class).in(Scopes.SINGLETON);
-
-//		bind(IEditingServiceProvider.class).toProvider(
-//				service(IEditingServiceProvider.class).single());
+		
+		
+		
 		
 		// /////////////////////////////////////
 		// IMPORTED SERVICES

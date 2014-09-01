@@ -14,8 +14,10 @@
  * 
  * Contributors: Christophe Bouhier - initial API and implementation and/or
  * initial documentation
- *******************************************************************************/ 
+ *******************************************************************************/
 package com.netxforge.editing.base.impl.internal;
+
+import static org.ops4j.peaberry.Peaberry.osgiModule;
 
 import java.util.Dictionary;
 import java.util.Hashtable;
@@ -23,27 +25,37 @@ import java.util.Hashtable;
 import org.eclipse.osgi.service.debug.DebugOptions;
 import org.eclipse.osgi.service.debug.DebugOptionsListener;
 import org.eclipse.osgi.service.debug.DebugTrace;
-import org.osgi.framework.BundleActivator;
+import org.eclipse.ui.plugin.AbstractUIPlugin;
+import org.ops4j.peaberry.Export;
 import org.osgi.framework.BundleContext;
 
-public class BaseEditingImplActivator implements BundleActivator, DebugOptionsListener {
+import com.google.inject.Guice;
+import com.google.inject.Inject;
+import com.google.inject.Injector;
+import com.netxforge.screens.editing.base.IEditingServiceProvider;
+import com.netxforge.screens.editing.base.IScreenFormServiceProvider;
+
+public class BaseEditingImplActivator extends AbstractUIPlugin implements
+		DebugOptionsListener {
 
 	// The plug-in ID
 	public static final String PLUGIN_ID = "com.netxforge.editing.base.impl"; //$NON-NLS-1$
 
 	private static BundleContext context;
 
-//	private Injector injector;
+	private Injector injector;
 
 	public static String TRACE_EDITING_OPTION = "/trace.editing";
-	
+
 	// fields to cache the debug flags
 	public static boolean DEBUG = false;
 	public static DebugTrace TRACE = null;
 
-//	public Injector getInjector() {
-//		return injector;
-//	}
+	private static BaseEditingImplActivator plugin;
+
+	public Injector getInjector() {
+		return injector;
+	}
 
 	public void optionsChanged(DebugOptions options) {
 		// create an .options file!
@@ -54,14 +66,13 @@ public class BaseEditingImplActivator implements BundleActivator, DebugOptionsLi
 	static BundleContext getContext() {
 		return context;
 	}
-	
 
-//	@Inject
-//	Export<IEditingServiceProvider> editingServiceProvider;
+	 @Inject
+	 Export<IEditingServiceProvider> editingServiceProvider;
 
-//	@Inject
-//	Export<IScreenFormServiceProvider> screenFormServiceProvider;
-	
+	 @Inject
+	 Export<IScreenFormServiceProvider> screenFormServiceProvider;
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -72,11 +83,14 @@ public class BaseEditingImplActivator implements BundleActivator, DebugOptionsLi
 	public void start(BundleContext bundleContext) throws Exception {
 		BaseEditingImplActivator.context = bundleContext;
 
+		plugin = this;
+
 		// Bind our modules.
-//		injector = Guice.createInjector(osgiModule(context),
-//				new BaseEditingImplModule());
+		injector = Guice.createInjector(osgiModule(context),
+				new BaseEditingImplModule());
+
 		// Export through peaberry.
-//		injector.injectMembers(this);
+		 injector.injectMembers(this);
 
 		Dictionary<String, String> props = new Hashtable<String, String>(4);
 		props.put(DebugOptions.LISTENER_SYMBOLICNAME, PLUGIN_ID);
@@ -93,6 +107,15 @@ public class BaseEditingImplActivator implements BundleActivator, DebugOptionsLi
 	 */
 	public void stop(BundleContext bundleContext) throws Exception {
 		BaseEditingImplActivator.context = null;
+	}
+
+	/**
+	 * Return an instance of us, set when the OSGI module start.
+	 * 
+	 * @return
+	 */
+	public static BaseEditingImplActivator getDefault() {
+		return plugin;
 	}
 
 }

@@ -25,7 +25,12 @@ import java.util.Set;
 import java.util.Stack;
 
 import org.eclipse.core.databinding.ObservablesManager;
+import org.eclipse.core.runtime.IConfigurationElement;
+import org.eclipse.core.runtime.IExtension;
+import org.eclipse.core.runtime.IExtensionPoint;
+import org.eclipse.core.runtime.IExtensionRegistry;
 import org.eclipse.core.runtime.NullProgressMonitor;
+import org.eclipse.core.runtime.Platform;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.swt.SWT;
@@ -144,8 +149,10 @@ public class ScreenFormService implements IScreenFormService {
 	}
 
 	public void setActiveScreen(IScreen screen) {
-		pushCurrentScreen(); // Note this will indirectly force a widget changed, as the screen gains focus. 
-		// The screen would need to call registerFocus() after the Screen has been build and layed out.
+		pushCurrentScreen(); // Note this will indirectly force a widget
+								// changed, as the screen gains focus.
+		// The screen would need to call registerFocus() after the Screen has
+		// been build and layed out.
 		// The subsequent screenchanged, will be there for Superfluous. FIXME
 		doSetActiveScreen(screen);
 		restoreScreenState(screen);
@@ -271,6 +278,55 @@ public class ScreenFormService implements IScreenFormService {
 			}
 			sashForm.setWeights(new int[] { 70, 491 });
 		}
+
+		// screenFactory.processExtensions();
+		processExtension();
+	}
+
+	private void processExtension() {
+		IExtensionRegistry registry = Platform.getExtensionRegistry();
+		IExtensionPoint point = registry
+				.getExtensionPoint("com.netxforge.editing.iscreen");
+		if (point == null)
+			return;
+		IExtension[] extensions = point.getExtensions();
+		for (int i = 0; i < extensions.length; i++) {
+			readExtension(extensions[i]); // get the information about each
+											// extension
+		}
+	}
+
+	private void readExtension(IExtension iExtension) {
+		for (IConfigurationElement el : iExtension.getConfigurationElements()) {
+
+			String screenName = el.getAttribute("name");
+
+			String screenClassName = el.getAttribute("class");
+
+			if (screenName != null && screenClassName != null) {
+				addDeclerativeScreenSelector(screenName, null, screenClassName,
+						1, ScreenUtil.OPERATION_EDIT);
+			}
+		}
+	}
+
+	public Composite addDeclerativeScreenSelector(String screenName,
+			String iconPath, String screenClassName, int position, int operation) {
+
+		assert position >= 1;
+
+		// screenFactory.registerScreen(screenName, screenClass);
+
+		// We override the operation, depending on the user role.
+		operation = operationForUser(operation);
+
+		ImageHyperlink lnk = linkDeclarativeFor(null, screenName,
+				screenClassName, iconPath, position, operation);
+
+		screenSelectors.add(lnk);
+
+		return lnk;
+
 	}
 
 	private final FormToolkit formToolkit = new FormToolkit(
@@ -311,30 +367,28 @@ public class ScreenFormService implements IScreenFormService {
 		screenSelectors.add(lnk);
 
 		return lnk;
-
 	}
 
 	/**
-	 * Create an Image Hyperlink. Set the layout data.
+	 * Produces a {@link ImageHyperlink link } from a declared {@link IScreen}
 	 * 
 	 * @param above
 	 * @param name
+	 * @param screenClassName
 	 * @param iconPath
 	 * @param position
-	 * @param finalScreenConstructor
-	 * @param finalScreen
 	 * @param finalOperation
 	 * @return
 	 */
-	@SuppressWarnings("unused")
-	private ImageHyperlink linkFor(Composite above, final String name,
-			String iconPath, int position, final int finalOperation) {
+	private ImageHyperlink linkDeclarativeFor(Composite above,
+			final String name, final String screenClassName, String iconPath,
+			int position, final int finalOperation) {
 		ImageHyperlink lnk = formToolkit.createImageHyperlink(getSelectorForm()
 				.getBody(), SWT.NONE);
 		lnk.addHyperlinkListener(new IHyperlinkListener() {
 			public void linkActivated(HyperlinkEvent e) {
 
-				doSetScreen(name, finalOperation);
+				 doSetDeclarativeScreen(name, screenClassName, finalOperation);
 			}
 
 			public void linkEntered(HyperlinkEvent e) {
@@ -361,7 +415,52 @@ public class ScreenFormService implements IScreenFormService {
 		lnk.setText(name);
 		return lnk;
 	}
+	
+	private void doSetDeclarativeScreen(final String name,
+			final String screenClassName, final int finalOperation) {
+		if (isActiveScreen(name)) {
+			return; // Ignore we are already.
+		}
 
+		// Warn for dirtyness and cancellation.
+		if (dirtyWarning()) {
+			return;
+		}
+
+		// Reset the screen stack, and dispose observables.
+		doReset();
+
+		// Instantiate the new screen, from class and constructor, go through a
+		// series of jobs to load the data and the UI of the
+		// screen. Do this withing an Observable manager.
+		obm = new ObservablesManager();
+		obm.runAndCollect(new Runnable() {
+
+			public void run() {
+
+				final IScreen target = screenFactory.createByDeclaration(name,  screenClassName,
+						getScreenContainer(), SWT.NONE);
+
+				if (target == null) {
+					// Could happen, when we can't restore a screen.
+					return;
+
+				}
+
+				target.setOperation(finalOperation);
+				target.setScreenService(ScreenFormService.this);
+
+				if (target instanceof IDataServiceInjection) {
+					((IDataServiceInjection) target).injectData();
+				}
+				doSetActiveScreen(target);
+				restoreScreenState(target);
+				fireScreenChanged(target);
+			}
+		});
+	}
+	
+	
 	private ImageHyperlink linkFor(Composite above, final String name,
 			final Class<?> screenClass, String iconPath, int position,
 			final int finalOperation) {
