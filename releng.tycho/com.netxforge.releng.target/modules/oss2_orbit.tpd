@@ -30,4 +30,5 @@ location "http://download.eclipse.org/tools/orbit/downloads/drops/R2013082706493
 	org.apache.lucene.queries lazy
 	javax.servlet.jsp.jstl lazy
 	lpg.runtime.java lazy
+	org.json lazy
 }
