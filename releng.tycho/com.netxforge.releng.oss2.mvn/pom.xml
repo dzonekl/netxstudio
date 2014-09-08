@@ -50,6 +50,9 @@
 								<artifact>
 									<id>org.springframework:spring-orm:${springVersion}</id>
 								</artifact>
+								<artifact>
+									<id>org.springframework:spring-dao:${springVersion}</id>
+								</artifact>
 							</artifacts>
 						</configuration>
 					</execution>
