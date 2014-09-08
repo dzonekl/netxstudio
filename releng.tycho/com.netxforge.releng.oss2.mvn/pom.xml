@@ -47,6 +47,9 @@
 								<artifact>
 									<id>org.springframework:spring-context:${springVersion}</id>
 								</artifact>
+								<artifact>
+									<id>org.springframework:spring-orm:${springVersion}</id>
+								</artifact>
 							</artifacts>
 						</configuration>
 					</execution>
