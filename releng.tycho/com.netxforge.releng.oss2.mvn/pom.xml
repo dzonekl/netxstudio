@@ -25,6 +25,12 @@
 								<artifact>
 									<id>org.codehaus.castor:castor:1.1.2.1</id>
 								</artifact>
+								<artifact>
+									<id>commons-lang:commons-lang:2.6</id>
+								</artifact>
+								<artifact>
+									<id>commons-io:commons-io:2.0.1</id>
+								</artifact>
 							</artifacts>
 						</configuration>
 					</execution>
