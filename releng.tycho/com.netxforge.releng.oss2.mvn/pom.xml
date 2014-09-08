@@ -8,6 +8,7 @@
 	<packaging>pom</packaging>
 	<properties>
 		<tycho-version>0.20.0</tycho-version>
+		<springVersion>3.0.7.RELEASE</springVersion>
 	</properties>
 	<build>
 		<plugins>
@@ -33,6 +34,18 @@
 								</artifact>
 								<artifact>
 									<id>dnsjava:dnsjava:2.1.1</id>
+								</artifact>
+								<artifact>
+									<id>org.springframework:spring-beans:${springVersion}</id>
+								</artifact>
+								<artifact>
+									<id>org.springframework:spring-instrument:${springVersion}</id>
+								</artifact>
+								<artifact>
+									<id>org.springframework:spring-core:${springVersion}</id>
+								</artifact>
+								<artifact>
+									<id>org.springframework:spring-context:${springVersion}</id>
 								</artifact>
 							</artifacts>
 						</configuration>
