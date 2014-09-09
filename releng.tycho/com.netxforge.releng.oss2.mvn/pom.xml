@@ -14,6 +14,7 @@
 		<entityManagerVersion>3.4.0.GA</entityManagerVersion>
 		<hibernateVersion>3.3.1.GA</hibernateVersion>
 		<springVersion>3.0.7.RELEASE</springVersion>
+		<springSecurityVersion>3.1.0.RELEASE</springSecurityVersion>
 	</properties>
 	<build>
 		<plugins>
@@ -75,6 +76,9 @@
 								</artifact>
 								<artifact>
 									<id>org.springframework:spring-orm:${springVersion}</id>
+								</artifact>
+								<artifact>
+									<id>org.springframework.security:spring-security-core:${springSecurityVersion}</id>
 								</artifact>
 							</artifacts>
 						</configuration>
