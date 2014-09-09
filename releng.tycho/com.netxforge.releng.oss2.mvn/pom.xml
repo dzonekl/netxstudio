@@ -30,6 +30,9 @@
 								<!-- specify your depencies here -->
 								<!-- groupId:artifactId:version -->
 								<artifact>
+									<id>junit:junit:3.8.2</id>
+								</artifact>
+								<artifact>
 									<id>org.codehaus.castor:castor:1.1.2.1</id>
 								</artifact>
 								<artifact>
