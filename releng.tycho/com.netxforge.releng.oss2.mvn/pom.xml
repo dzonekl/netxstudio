@@ -36,6 +36,9 @@
 									<id>dnsjava:dnsjava:2.1.1</id>
 								</artifact>
 								<artifact>
+									<id>javax.persistence:persistence-api:1.0</id>
+								</artifact>
+								<artifact>
 									<id>org.springframework:spring-beans:${springVersion}</id>
 								</artifact>
 								<artifact>
@@ -49,9 +52,6 @@
 								</artifact>
 								<artifact>
 									<id>org.springframework:spring-orm:${springVersion}</id>
-								</artifact>
-								<artifact>
-									<id>org.springframework:spring-dao:${springVersion}</id>
 								</artifact>
 							</artifacts>
 						</configuration>
