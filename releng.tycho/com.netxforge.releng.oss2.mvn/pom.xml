@@ -8,6 +8,11 @@
 	<packaging>pom</packaging>
 	<properties>
 		<tycho-version>0.20.0</tycho-version>
+		<annotationsVersion>3.4.0.GA</annotationsVersion>
+		<commonsAnnotationsVersion>3.1.0.GA</commonsAnnotationsVersion>
+		<ejbVersion>1.0.2.GA</ejbVersion>
+		<entityManagerVersion>3.4.0.GA</entityManagerVersion>
+		<hibernateVersion>3.3.1.GA</hibernateVersion>
 		<springVersion>3.0.7.RELEASE</springVersion>
 	</properties>
 	<build>
@@ -34,6 +39,24 @@
 								</artifact>
 								<artifact>
 									<id>dnsjava:dnsjava:2.1.1</id>
+								</artifact>
+								<artifact>
+									<id>org.hibernate:ejb3-persistence:${ejbVersion}</id>
+								</artifact>
+								<artifact>
+									<id>org.hibernate:hibernate-annotations:${annotationsVersion}</id>
+								</artifact>
+
+								<artifact>
+									<id>org.hibernate:hibernate-commons-annotations:${commonsAnnotationsVersion}</id>
+								</artifact>
+
+								<artifact>
+									<id>org.hibernate:hibernate-core:${hibernateVersion}</id>
+								</artifact>
+
+								<artifact>
+									<id>org.hibernate:hibernate-entitymanager:${entityManagerVersion}</id>
 								</artifact>
 								<artifact>
 									<id>javax.persistence:persistence-api:1.0</id>
