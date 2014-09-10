@@ -50,7 +50,6 @@
 								<artifact>
 									<id>org.hibernate:hibernate-annotations:${annotationsVersion}</id>
 								</artifact>
-
 								<artifact>
 									<id>org.hibernate:hibernate-commons-annotations:${commonsAnnotationsVersion}</id>
 								</artifact>
@@ -64,6 +63,9 @@
 								</artifact>
 								<artifact>
 									<id>javax.persistence:persistence-api:1.0</id>
+								</artifact>
+								<artifact>
+									<id>aopalliance:aopalliance:1.0</id>
 								</artifact>
 								<artifact>
 									<id>org.springframework:spring-beans:${springVersion}</id>
