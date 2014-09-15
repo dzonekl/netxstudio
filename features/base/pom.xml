@@ -21,5 +21,6 @@
 		<module>com.netxforge.console.feature</module>
 		<module>com.netxforge.editing.base.feature</module>
 		<module>com.netxforge.ide.feature</module>
+		<module>com.netxforge.oss2.shared.license</module>
 	</modules>
 </project>
