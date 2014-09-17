@@ -51,9 +51,9 @@
 
    <features>
       <feature id="com.netxforge.netxstudio.client.product.feature"/>
-      <feature id="com.netxforge.netxstudio.data.ui.feature" version="1.0.0.qualifier"/>
-      <feature id="com.netxforge.netxstudio.screens.editing.feature" version="1.0.0.qualifier"/>
-      <feature id="com.netxforge.oss2.shared.license" version="1.0.0.qualifier"/>
+      <feature id="com.netxforge.netxstudio.data.ui.feature"/>
+      <feature id="com.netxforge.netxstudio.screens.editing.feature"/>
+      <feature id="com.netxforge.oss2.shared.license"/>
    </features>
 
    <configurations>

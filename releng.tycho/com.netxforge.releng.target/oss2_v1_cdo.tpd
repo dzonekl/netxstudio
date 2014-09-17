@@ -56,4 +56,5 @@ location "http://p2.netxforge.com/oss2/base.p2" {
 	com.netxforge.netxstudio.models.edit.feature.feature.group lazy
 	com.netxforge.netxstudio.models.13042011.edit.feature.feature.group lazy
 	com.netxforge.ide.feature.feature.group lazy
+	com.netxforge.oss2.shared.license.feature.group lazy
 }
