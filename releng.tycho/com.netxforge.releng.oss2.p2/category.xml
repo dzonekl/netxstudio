@@ -33,6 +33,9 @@
    <feature url="features/com.netxforge.base.cdo.feature_1.0.0.qualifier.jar" id="com.netxforge.base.cdo.feature" version="1.0.0.qualifier">
       <category name="OSS2"/>
    </feature>
+   <feature url="features/com.netxforge.oss2.shared.license_1.0.0.qualifier.jar" id="com.netxforge.oss2.shared.license" version="1.0.0.qualifier">
+      <category name="OSS2"/>
+   </feature>
    <category-def name="OSS2" label="OSS2 Application">
       <description>
          Features for an OSS2 UI application.
