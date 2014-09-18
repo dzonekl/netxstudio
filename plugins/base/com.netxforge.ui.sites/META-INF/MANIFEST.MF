@@ -1,0 +1,12 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: OSS2 Sites
+Bundle-SymbolicName: com.netxforge.ui.sites
+Bundle-Version: 1.0.0.qualifier
+Bundle-Vendor: NetXForge
+Bundle-RequiredExecutionEnvironment: J2SE-1.5
+Require-Bundle: com.netxforge.editing.base;bundle-version="1.0.0",
+ org.eclipse.core.runtime,
+ org.eclipse.core.databinding.property;bundle-version="1.4.200"
+Import-Package: com.netxforge.netxstudio.generics,
+ com.netxforge.netxstudio.geo
