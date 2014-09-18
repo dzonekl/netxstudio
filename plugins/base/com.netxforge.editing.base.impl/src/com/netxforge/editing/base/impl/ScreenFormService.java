@@ -118,6 +118,8 @@ public class ScreenFormService implements IScreenFormService {
 	 */
 	private AbstractScreensViewPart absViewPart;
 
+	private Composite lastDeclerativeScreenSelector;
+
 	@Inject
 	public ScreenFormService(IEditingService editingService,
 			IScreenFactory screenFactory) {
@@ -304,8 +306,9 @@ public class ScreenFormService implements IScreenFormService {
 			String screenClassName = el.getAttribute("class");
 
 			if (screenName != null && screenClassName != null) {
-				addDeclerativeScreenSelector(screenName, null, screenClassName,
+				lastDeclerativeScreenSelector = addDeclerativeScreenSelector(screenName, null, screenClassName,
 						1, ScreenUtil.OPERATION_EDIT);
+				
 			}
 		}
 	}
@@ -319,10 +322,14 @@ public class ScreenFormService implements IScreenFormService {
 
 		// We override the operation, depending on the user role.
 		operation = operationForUser(operation);
-
-		ImageHyperlink lnk = linkDeclarativeFor(null, screenName,
+		
+		
+		// Get the last screen, and set as the above.
+		
+		
+		ImageHyperlink lnk = linkDeclarativeFor(lastDeclerativeScreenSelector, screenName,
 				screenClassName, iconPath, position, operation);
-
+		
 		screenSelectors.add(lnk);
 
 		return lnk;
