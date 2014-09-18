@@ -1,7 +1,7 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: OSS2 Sites
-Bundle-SymbolicName: com.netxforge.ui.sites
+Bundle-SymbolicName: com.netxforge.ui.sites;singleton:=true
 Bundle-Version: 1.0.0.qualifier
 Bundle-Vendor: NetXForge
 Bundle-RequiredExecutionEnvironment: J2SE-1.5

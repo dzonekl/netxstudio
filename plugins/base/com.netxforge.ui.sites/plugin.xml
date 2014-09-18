@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+   <extension
+         point="com.netxforge.editing.iscreen">
+      <iscreen
+            class="com.netxforge.ui.sites.Countries"
+            name="Countries">
+      </iscreen>
+       <iscreen
+            class="com.netxforge.ui.sites.SitesTree"
+            name="Sites">
+      </iscreen>
+   </extension>
+</plugin>

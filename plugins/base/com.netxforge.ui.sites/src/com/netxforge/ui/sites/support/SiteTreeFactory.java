@@ -1,4 +1,4 @@
-package com.netxforge.sites.support;
+package com.netxforge.ui.sites.support;
 
 import org.eclipse.core.databinding.observable.IObservable;
 import org.eclipse.core.databinding.observable.list.IObservableList;

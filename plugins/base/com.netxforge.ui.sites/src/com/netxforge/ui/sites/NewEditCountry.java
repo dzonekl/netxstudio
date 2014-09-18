@@ -1,11 +1,29 @@
-package com.netxforge.sites;
+/*******************************************************************************
+ * Copyright (c) 18 sep. 2014 NetXForge.
+ * 
+ * This program is free software: you can redistribute it and/or modify it under
+ * the terms of the GNU General Public License as published by the Free Software
+ * Foundation, either version 3 of the License, or (at your option) any later
+ * version.
+ * 
+ * This program is distributed in the hope that it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+ * FOR A PARTICULAR PURPOSE. See the GNU General Public License for more
+ * details. You should have received a copy of the GNU General Public License
+ * along with this program. If not, see <http://www.gnu.org/licenses/>
+ * 
+ * Contributors: Christophe Bouhier - initial API and implementation and/or
+ * initial documentation
+ *******************************************************************************/ 
+package com.netxforge.ui.sites;
 
 import org.eclipse.core.databinding.observable.value.IObservableValue;
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.emf.common.command.Command;
 import org.eclipse.emf.databinding.EMFDataBindingContext;
+import org.eclipse.emf.databinding.EMFProperties;
 import org.eclipse.emf.databinding.IEMFValueProperty;
-import org.eclipse.emf.databinding.edit.EMFEditProperties;
+import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.edit.command.AddCommand;
 import org.eclipse.jface.databinding.swt.SWTObservables;
 import org.eclipse.jface.dialogs.MessageDialog;
@@ -27,23 +45,31 @@ import org.eclipse.ui.forms.widgets.Form;
 import org.eclipse.ui.forms.widgets.FormToolkit;
 import org.eclipse.ui.forms.widgets.Section;
 
+import com.netxforge.netxstudio.geo.Country;
 import com.netxforge.netxstudio.geo.GeoPackage;
-import com.netxforge.netxstudio.geo.Room;
-import com.netxforge.netxstudio.geo.Site;
 import com.netxforge.screens.editing.base.AbstractScreenImpl;
 import com.netxforge.screens.editing.base.IDataScreenInjection;
 import com.netxforge.screens.editing.base.ScreenUtil;
 
-public class NewEditRoom extends AbstractScreenImpl implements
+/**
+ * Edit the {@link Country} object. 
+ * 
+ * @author Christophe Bouhier
+ *
+ */
+public class NewEditCountry extends AbstractScreenImpl implements
 		IDataScreenInjection {
 
 	private final FormToolkit toolkit = new FormToolkit(Display.getCurrent());
 	private Text txtName;
-	private Form frmNewOperator;
-	private Site owner;
-	private Room room;
+	private Form frmNewCountry;
+	private Resource owner;
+	private Country country;
+	
+	
 	@SuppressWarnings("unused")
 	private EMFDataBindingContext m_bindingContext;
+	private Text txtCountryCode;
 
 	/**
 	 * Create the composite.
@@ -51,7 +77,7 @@ public class NewEditRoom extends AbstractScreenImpl implements
 	 * @param parent
 	 * @param style
 	 */
-	public NewEditRoom(Composite parent, int style) {
+	public NewEditCountry(Composite parent, int style) {
 		super(parent, style);
 		addDisposeListener(new DisposeListener() {
 			public void widgetDisposed(DisposeEvent e) {
@@ -60,34 +86,39 @@ public class NewEditRoom extends AbstractScreenImpl implements
 		});
 		toolkit.adapt(this);
 		toolkit.paintBordersFor(this);
-		// buildUI();
 	}
 
 	public EMFDataBindingContext initDataBindings_() {
 		EMFDataBindingContext context = new EMFDataBindingContext();
+		
+		IObservableValue nameObservable = SWTObservables.observeDelayedValue(400, SWTObservables.observeText(txtName,
+				SWT.Modify));
+		IObservableValue shortNameObservable = SWTObservables.observeDelayedValue(400, SWTObservables.observeText(txtCountryCode,
+				SWT.Modify));
+		
 
-		IObservableValue nameObservable = SWTObservables.observeDelayedValue(
-				400, SWTObservables.observeText(txtName, SWT.Modify));
-
-		IEMFValueProperty nameProperty = EMFEditProperties.value(
-				editingService.getEditingDomain(),
-				GeoPackage.Literals.LOCATION__NAME);
-
-		context.bindValue(nameObservable, nameProperty.observe(room), null,
-				null);
-
+		IEMFValueProperty nameProperty = EMFProperties
+				.value(GeoPackage.Literals.LOCATION__NAME);
+		IEMFValueProperty shortNameProperty = EMFProperties
+				.value(GeoPackage.Literals.COUNTRY__COUNTRY_CODE);
+		
+		context.bindValue(nameObservable, nameProperty.observe(country),
+				null, null);
+		context.bindValue(shortNameObservable, shortNameProperty.observe(country),
+				null, null);
+		
 		return context;
 	}
 
 	public void injectData(Object owner, Object object) {
-		if (owner instanceof Site) {
-			this.owner = (Site) owner;
+		if (owner instanceof Resource) {
+			this.owner = (Resource) owner;
 		} else {
 			// We need the right type of object for this screen.
 			throw new java.lang.IllegalArgumentException();
 		}
-		if (object != null && object instanceof Room) {
-			room = (Room) object;
+		if (object != null && object instanceof Country) {
+			country = (Country) object;
 		} else {
 			// We need the right type of object for this screen.
 			throw new java.lang.IllegalArgumentException();
@@ -96,6 +127,7 @@ public class NewEditRoom extends AbstractScreenImpl implements
 		m_bindingContext = initDataBindings_();
 	}
 
+	
 	private void buildUI() {
 		setLayout(new FillLayout(SWT.HORIZONTAL));
 
@@ -103,19 +135,19 @@ public class NewEditRoom extends AbstractScreenImpl implements
 		boolean readonly = ScreenUtil.isReadOnlyOperation(this.getOperation());
 		int widgetStyle = readonly ? SWT.READ_ONLY : SWT.NONE;
 
-		frmNewOperator = toolkit.createForm(this);
-		frmNewOperator.setSeparatorVisible(true);
-		toolkit.paintBordersFor(frmNewOperator);
+		frmNewCountry = toolkit.createForm(this);
+		frmNewCountry.setSeparatorVisible(true);
+		toolkit.paintBordersFor(frmNewCountry);
 
-		frmNewOperator.setText(this.getOperationText() + "Room");
-		frmNewOperator.getBody().setLayout(new FormLayout());
+		frmNewCountry.setText(getOperationText() + "Country");
+		frmNewCountry.getBody().setLayout(new FormLayout());
 
-		Section sctnMappings = toolkit.createSection(frmNewOperator.getBody(),
+		Section sctnMappings = toolkit.createSection(frmNewCountry.getBody(),
 				Section.EXPANDED | Section.TITLE_BAR);
 		FormData fd_sctnMappings = new FormData();
 		fd_sctnMappings.bottom = new FormAttachment(100, -10);
-		fd_sctnMappings.top = new FormAttachment(0, 10);
 		fd_sctnMappings.left = new FormAttachment(0, 10);
+		fd_sctnMappings.top = new FormAttachment(0, 10);
 		fd_sctnMappings.right = new FormAttachment(100, -14);
 		sctnMappings.setLayoutData(fd_sctnMappings);
 		toolkit.paintBordersFor(sctnMappings);
@@ -130,7 +162,7 @@ public class NewEditRoom extends AbstractScreenImpl implements
 		lblName.setAlignment(SWT.RIGHT);
 		GridData gd_lblName = new GridData(SWT.RIGHT, SWT.CENTER, false, false,
 				1, 1);
-		gd_lblName.widthHint = 70;
+		gd_lblName.widthHint = 90;
 		lblName.setLayoutData(gd_lblName);
 
 		txtName = toolkit.createText(composite_1, "New Text", widgetStyle);
@@ -139,15 +171,22 @@ public class NewEditRoom extends AbstractScreenImpl implements
 				1, 1);
 		gd_txtName.widthHint = 150;
 		txtName.setLayoutData(gd_txtName);
+		
+		Label lblCountryCode = toolkit.createLabel(composite_1, "Country Code:", SWT.NONE);
+		lblCountryCode.setAlignment(SWT.RIGHT);
+		lblCountryCode.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false, false, 1, 1));
+		
+		txtCountryCode = toolkit.createText(composite_1, "New Text", widgetStyle);
+		txtCountryCode.setText("");
 	}
-
+	
 	public void addData() {
 		if (ScreenUtil.isNewOperation(getOperation()) && owner != null) {
 			// If new, we have been operating on an object not added yet.
 			Command c;
 
 			c = new AddCommand(editingService.getEditingDomain(),
-					owner.getRooms(), room);
+					owner.getContents(), country);
 
 			editingService.getEditingDomain().getCommandStack().execute(c);
 		} else if (ScreenUtil.isEditOperation(getOperation())) {
@@ -157,7 +196,7 @@ public class NewEditRoom extends AbstractScreenImpl implements
 			// cause invalidity, so the action will not occure in case the
 			// original is
 			// invalid, and we should cancel the action and warn the user.
-			if (!this.getObjectValidationService().isValid(room)) {
+			if (!this.getObjectValidationService().isValid(country)) {
 				MessageDialog
 						.openWarning(Display.getDefault().getActiveShell(),
 								"Conflict",
@@ -182,15 +221,19 @@ public class NewEditRoom extends AbstractScreenImpl implements
 	}
 
 	public Form getScreenForm() {
-		return frmNewOperator;
+		return frmNewCountry;
 	}
 
 	public void disposeData() {
 		// N/A
 	}
 
-	public String getScreenName() {
-		return "Room";
+	@Override
+	public void setOperation(int operation) {
+		this.operation = operation;
 	}
-
+	
+	public String getScreenName() {
+		return "Country";
+	}
 }

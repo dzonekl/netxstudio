@@ -15,7 +15,7 @@
  * Contributors: Christophe Bouhier - initial API and implementation and/or
  * initial documentation
  *******************************************************************************/
-package com.netxforge.sites;
+package com.netxforge.ui.sites;
 
 import java.util.List;
 
@@ -61,19 +61,20 @@ import org.eclipse.ui.forms.widgets.ImageHyperlink;
 import org.eclipse.wb.swt.ResourceManager;
 
 import com.google.common.collect.Lists;
-import com.netxforge.netxstudio.geo.Country;
 import com.netxforge.netxstudio.geo.GeoFactory;
 import com.netxforge.netxstudio.geo.GeoPackage;
+import com.netxforge.netxstudio.geo.Room;
 import com.netxforge.netxstudio.geo.Site;
 import com.netxforge.screens.editing.base.AbstractScreenImpl;
 import com.netxforge.screens.editing.base.IDataServiceInjection;
 import com.netxforge.screens.editing.base.ScreenUtil;
 import com.netxforge.screens.editing.base.actions.BaseSelectionListenerAction;
 import com.netxforge.screens.editing.base.filter.ISearchFilter;
-import com.netxforge.sites.support.SiteTreeFactory;
-import com.netxforge.sites.support.SiteTreeStructureAdvisor;
+import com.netxforge.ui.sites.support.RoomTreeFactory;
+import com.netxforge.ui.sites.support.RoomTreeStructureAdvisor;
 
-public class SitesTree extends AbstractScreenImpl implements IDataServiceInjection {
+public class RoomsTree extends AbstractScreenImpl implements
+		IDataServiceInjection {
 
 	private final FormToolkit toolkit = new FormToolkit(Display.getCurrent());
 	private Text txtFilterText;
@@ -81,7 +82,7 @@ public class SitesTree extends AbstractScreenImpl implements IDataServiceInjecti
 	@SuppressWarnings("unused")
 	private EMFDataBindingContext bindingContext;
 	private Form frmSites;
-	private TreeViewer sitesTreeViewer;
+	private TreeViewer roomsTreeViewer;
 	private ObservableListTreeContentProvider listTreeContentProvider;
 
 	/**
@@ -90,7 +91,7 @@ public class SitesTree extends AbstractScreenImpl implements IDataServiceInjecti
 	 * @param parent
 	 * @param style
 	 */
-	public SitesTree(Composite parent, int style) {
+	public RoomsTree(Composite parent, int style) {
 		super(parent, style);
 		addDisposeListener(new DisposeListener() {
 			public void widgetDisposed(DisposeEvent e) {
@@ -99,15 +100,14 @@ public class SitesTree extends AbstractScreenImpl implements IDataServiceInjecti
 		});
 		toolkit.adapt(this);
 		toolkit.paintBordersFor(this);
-
 	}
 
 	public EMFDataBindingContext initDataBindings_() {
 
 		listTreeContentProvider = new ObservableListTreeContentProvider(
-				new SiteTreeFactory(editingService.getEditingDomain()),
-				new SiteTreeStructureAdvisor());
-		sitesTreeViewer.setContentProvider(listTreeContentProvider);
+				new RoomTreeFactory(editingService.getEditingDomain()),
+				new RoomTreeStructureAdvisor());
+		roomsTreeViewer.setContentProvider(listTreeContentProvider);
 		IObservableSet set = listTreeContentProvider.getKnownElements();
 
 		List<IObservableMap> mapList = Lists.newArrayList();
@@ -115,29 +115,23 @@ public class SitesTree extends AbstractScreenImpl implements IDataServiceInjecti
 		mapList.add(EMFProperties.value(GeoPackage.Literals.LOCATION__NAME)
 				.observeDetail(set));
 
-		mapList.add(EMFProperties.value(GeoPackage.Literals.LOCATION__NAME)
-				.observeDetail(set));
-
-		mapList.add(EMFProperties.value(GeoPackage.Literals.SITE__CITY)
-				.observeDetail(set));
-
-		mapList.add(EMFProperties.value(GeoPackage.Literals.SITE__SREET)
-				.observeDetail(set));
-
-		mapList.add(EMFProperties.value(GeoPackage.Literals.SITE__HOUSENUMBER)
-				.observeDetail(set));
+		// mapList.add(EMFProperties.value(GeoPackage.Literals.LOCATION__NAME)
+		// .observeDetail(set));
+		//
+		// mapList.add(EMFProperties.value(GeoPackage.Literals.LOCATION__NAME)
+		// .observeDetail(set));
 
 		IObservableMap[] observeMaps = new IObservableMap[mapList.size()];
 		mapList.toArray(observeMaps);
 
-		sitesTreeViewer.setLabelProvider(new ObservableMapLabelProvider(
+		roomsTreeViewer.setLabelProvider(new ObservableMapLabelProvider(
 				observeMaps));
 
 		IEMFListProperty countryResourceProperty = EMFEditProperties
 				.resource(editingService.getEditingDomain());
 		IObservableList countryObservableList = countryResourceProperty
 				.observe(countryResource);
-		sitesTreeViewer.setInput(countryObservableList);
+		roomsTreeViewer.setInput(countryObservableList);
 		EMFDataBindingContext context = new EMFDataBindingContext();
 		return context;
 	}
@@ -158,7 +152,7 @@ public class SitesTree extends AbstractScreenImpl implements IDataServiceInjecti
 		frmSites = toolkit.createForm(this);
 		frmSites.setSeparatorVisible(true);
 		toolkit.paintBordersFor(frmSites);
-		frmSites.setText(this.getOperationText() + "Sites");
+		frmSites.setText(this.getOperationText() + "Rooms");
 		frmSites.getBody().setLayout(new GridLayout(3, false));
 
 		Label lblFilterLabel = toolkit.createLabel(frmSites.getBody(),
@@ -173,14 +167,14 @@ public class SitesTree extends AbstractScreenImpl implements IDataServiceInjecti
 				SWT.H_SCROLL | SWT.SEARCH | SWT.CANCEL);
 		txtFilterText.addKeyListener(new KeyAdapter() {
 			public void keyReleased(KeyEvent ke) {
-				sitesTreeViewer.refresh();
-				ViewerFilter[] filters = sitesTreeViewer.getFilters();
+				ViewerFilter[] filters = roomsTreeViewer.getFilters();
 				for (ViewerFilter viewerFilter : filters) {
 					if (viewerFilter instanceof ISearchFilter) {
 						((ISearchFilter) viewerFilter)
 								.setSearchText(txtFilterText.getText());
 					}
 				}
+				roomsTreeViewer.refresh();
 			}
 		});
 		txtFilterText.setText("");
@@ -191,26 +185,24 @@ public class SitesTree extends AbstractScreenImpl implements IDataServiceInjecti
 		txtFilterText.setLayoutData(gd_txtFilterText);
 
 		if (!readonly) {
+
 			ImageHyperlink mghprlnkNewMetric = toolkit.createImageHyperlink(
 					frmSites.getBody(), SWT.NONE);
 			mghprlnkNewMetric.addHyperlinkListener(new IHyperlinkListener() {
 				public void linkActivated(HyperlinkEvent e) {
-					if (screenService != null) {
-						ISelection selection = getViewer().getSelection();
-						if (selection instanceof IStructuredSelection) {
-							Object o = ((IStructuredSelection) selection)
-									.getFirstElement();
-							if (o instanceof Country) {
-								NewEditSite siteScreen = new NewEditSite(
-										screenService.getScreenContainer(),
-										SWT.NONE);
-								siteScreen.setScreenService(screenService);
-								siteScreen
-										.setOperation(ScreenUtil.OPERATION_NEW);
-								siteScreen.injectData(o,
-										GeoFactory.eINSTANCE.createSite());
-								screenService.setActiveScreen(siteScreen);
-							}
+					ISelection sel = getViewer().getSelection();
+					if (sel instanceof IStructuredSelection) {
+						Object o = ((IStructuredSelection) sel)
+								.getFirstElement();
+						if (o instanceof Site) {
+							NewEditRoom roomScreen = new NewEditRoom(
+									screenService.getScreenContainer(),
+									SWT.NONE);
+							roomScreen.setScreenService(screenService);
+							roomScreen.setOperation(ScreenUtil.OPERATION_NEW);
+							roomScreen.injectData(o,
+									GeoFactory.eINSTANCE.createRoom());
+							screenService.setActiveScreen(roomScreen);
 						}
 					}
 				}
@@ -223,54 +215,42 @@ public class SitesTree extends AbstractScreenImpl implements IDataServiceInjecti
 			});
 			mghprlnkNewMetric.setImage(ResourceManager.getPluginImage(
 					"com.netxforge.netxstudio.models.edit",
-					"icons/full/ctool16/Site_E.png"));
+					"icons/full/ctool16/Room_E.png"));
 			toolkit.paintBordersFor(mghprlnkNewMetric);
 			mghprlnkNewMetric.setText("New");
 
 		}
 
-		sitesTreeViewer = new TreeViewer(frmSites.getBody(), SWT.BORDER
-				| SWT.VIRTUAL | SWT.MULTI);
-		sitesTreeViewer.setUseHashlookup(true);
-		sitesTreeViewer.setComparer(this.getElementComparor());
+		roomsTreeViewer = new TreeViewer(frmSites.getBody(), SWT.BORDER
+				| SWT.VIRTUAL);
+		roomsTreeViewer.setUseHashlookup(true);
+		roomsTreeViewer.setComparer(getElementComparor());
 
-		Tree tree = sitesTreeViewer.getTree();
+		Tree tree = roomsTreeViewer.getTree();
 		tree.setLinesVisible(true);
 		tree.setHeaderVisible(true);
 		tree.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 3, 1));
 		toolkit.paintBordersFor(tree);
 
 		TreeViewerColumn treeViewerColumn = new TreeViewerColumn(
-				sitesTreeViewer, SWT.NONE);
+				roomsTreeViewer, SWT.NONE);
 		TreeColumn trclmnCountry = treeViewerColumn.getColumn();
 		trclmnCountry.setWidth(100);
 		trclmnCountry.setText("Country");
 
+		TreeViewerColumn treeViewerColumn_2 = new TreeViewerColumn(
+				roomsTreeViewer, SWT.NONE);
+		TreeColumn trclmnSite = treeViewerColumn_2.getColumn();
+		trclmnSite.setWidth(100);
+		trclmnSite.setText("Site");
+
 		TreeViewerColumn treeViewerColumn_1 = new TreeViewerColumn(
-				sitesTreeViewer, SWT.NONE);
+				roomsTreeViewer, SWT.NONE);
 		TreeColumn trclmnName = treeViewerColumn_1.getColumn();
 		trclmnName.setWidth(129);
 		trclmnName.setText("Name");
 
-		TreeViewerColumn treeViewerColumn_2 = new TreeViewerColumn(
-				sitesTreeViewer, SWT.NONE);
-		TreeColumn trclmnCity = treeViewerColumn_2.getColumn();
-		trclmnCity.setWidth(105);
-		trclmnCity.setText("City");
-
-		TreeViewerColumn treeViewerColumn_3 = new TreeViewerColumn(
-				sitesTreeViewer, SWT.NONE);
-		TreeColumn trclmnStreet = treeViewerColumn_3.getColumn();
-		trclmnStreet.setWidth(100);
-		trclmnStreet.setText("Street");
-
-		TreeViewerColumn treeViewerColumn_4 = new TreeViewerColumn(
-				sitesTreeViewer, SWT.NONE);
-		TreeColumn trclmnNr = treeViewerColumn_4.getColumn();
-		trclmnNr.setWidth(100);
-		trclmnNr.setText("Nr");
-
-		sitesTreeViewer.addFilter(getSearchFilter());
+		roomsTreeViewer.addFilter(this.getSearchFilter());
 	}
 
 	/**
@@ -279,9 +259,9 @@ public class SitesTree extends AbstractScreenImpl implements IDataServiceInjecti
 	 * @author Christophe Bouhier
 	 * 
 	 */
-	class EditSiteAction extends BaseSelectionListenerAction {
+	class EditRoomAction extends BaseSelectionListenerAction {
 
-		public EditSiteAction(String text) {
+		public EditRoomAction(String text) {
 			super(text);
 		}
 
@@ -294,20 +274,19 @@ public class SitesTree extends AbstractScreenImpl implements IDataServiceInjecti
 		 */
 		@Override
 		protected boolean updateSelection(IStructuredSelection selection) {
-			return selection.getFirstElement() instanceof Site;
+			return selection.getFirstElement() instanceof Room;
 		}
 
 		@Override
 		public void run() {
+			super.run();
 			Object o = this.getStructuredSelection().getFirstElement();
-			if (o instanceof Site) {
-				NewEditSite siteScreen = new NewEditSite(
-						screenService.getScreenContainer(), SWT.NONE);
-				siteScreen.setScreenService(screenService);
-				siteScreen.setOperation(getOperation());
-				siteScreen.injectData(((EObject) o).eContainer(), o);
-				screenService.setActiveScreen(siteScreen);
-			}
+			NewEditRoom roomScreen = new NewEditRoom(
+					screenService.getScreenContainer(), SWT.NONE);
+			roomScreen.setScreenService(screenService);
+			roomScreen.setOperation(getOperation());
+			roomScreen.injectData(((EObject) o).eContainer(), o);
+			screenService.setActiveScreen(roomScreen);
 		}
 	}
 
@@ -317,16 +296,15 @@ public class SitesTree extends AbstractScreenImpl implements IDataServiceInjecti
 	 * @author Christophe Bouhier
 	 * 
 	 */
-	class NewSiteAction extends Action {
+	class NewRoomAction extends Action {
 
-		public NewSiteAction(String text) {
+		public NewRoomAction(String text) {
 			super(text);
 			ImageDescriptor descriptor = ResourceManager
 					.getPluginImageDescriptor(
 							"com.netxforge.netxstudio.models.edit",
-							"icons/full/ctool16/Site_E.png");
+							"icons/full/ctool16/Room_E.png");
 			setImageDescriptor(descriptor);
-
 		}
 
 		@Override
@@ -337,14 +315,14 @@ public class SitesTree extends AbstractScreenImpl implements IDataServiceInjecti
 				if (selection instanceof IStructuredSelection) {
 					Object o = ((IStructuredSelection) selection)
 							.getFirstElement();
-					if (o instanceof Country) {
-						NewEditSite siteScreen = new NewEditSite(
+					if (o instanceof Site) {
+						NewEditRoom roomScreen = new NewEditRoom(
 								screenService.getScreenContainer(), SWT.NONE);
-						siteScreen.setScreenService(screenService);
-						siteScreen.setOperation(ScreenUtil.OPERATION_NEW);
-						siteScreen.injectData(o,
-								GeoFactory.eINSTANCE.createSite());
-						screenService.setActiveScreen(siteScreen);
+						roomScreen.setScreenService(screenService);
+						roomScreen.setOperation(ScreenUtil.OPERATION_NEW);
+						roomScreen.injectData(o,
+								GeoFactory.eINSTANCE.createRoom());
+						screenService.setActiveScreen(roomScreen);
 					}
 				}
 			}
@@ -352,7 +330,7 @@ public class SitesTree extends AbstractScreenImpl implements IDataServiceInjecti
 	}
 
 	public Viewer getViewer() {
-		return sitesTreeViewer;
+		return roomsTreeViewer;
 	}
 
 	@Override
@@ -364,26 +342,22 @@ public class SitesTree extends AbstractScreenImpl implements IDataServiceInjecti
 		return this.frmSites;
 	}
 
+	private final List<IAction> actions = Lists.newArrayList();
+
 	@Override
 	public IAction[] getActions() {
 
-		List<IAction> actions = Lists.newArrayList();
-
-		boolean readonly = ScreenUtil.isReadOnlyOperation(getOperation());
-		String actionText = readonly ? "View" : "Edit";
-		actions.add(new EditSiteAction(actionText + "..."));
-
-		// if(!readonly){
-		// actions.add(new NewSiteAction("New...", SWT.PUSH));
-		// }
-
-		IAction[] actionArray = new IAction[actions.size()];
-		return actions.toArray(actionArray);
+		if (actions.isEmpty()) {
+			boolean readonly = ScreenUtil.isReadOnlyOperation(getOperation());
+			String actionText = readonly ? "View" : "Edit";
+			actions.add(new EditRoomAction(actionText + "..."));
+		}
+		return actions.toArray(new IAction[actions.size()]);
 	}
 
 	@Override
 	public String getScreenName() {
-		return "Sites";
+		return "Rooms";
 	}
 
 }

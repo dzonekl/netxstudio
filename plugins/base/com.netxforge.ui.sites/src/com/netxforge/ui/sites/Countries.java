@@ -16,7 +16,7 @@
  * Contributors:
  *    Christophe Bouhier - initial API and implementation and/or initial documentation
  *******************************************************************************/
-package com.netxforge.sites;
+package com.netxforge.ui.sites;
 
 import java.util.Collection;
 import java.util.List;

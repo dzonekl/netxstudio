@@ -1,20 +1,13 @@
-package com.netxforge.sites.support;
+package com.netxforge.ui.sites.support;
 
 import org.eclipse.jface.databinding.viewers.TreeStructureAdvisor;
 
 import com.netxforge.netxstudio.geo.Country;
+import com.netxforge.netxstudio.geo.Site;
 
-public class SiteTreeStructureAdvisor extends TreeStructureAdvisor {
+public class RoomTreeStructureAdvisor extends TreeStructureAdvisor {
 	@Override
 	public Object getParent(Object element) {
-//		if (element instanceof Metric) {
-//			// return ((Metric) element).ggetParent();
-//			// Parent?
-//			EObject container = ((Metric) element).eContainer();
-//			if (container != null && container instanceof Metric) {
-//				return container;
-//			}
-//		}
 		return null;
 	}
 
@@ -22,6 +15,9 @@ public class SiteTreeStructureAdvisor extends TreeStructureAdvisor {
 	public Boolean hasChildren(Object element) {
 		if(element instanceof Country){
 			return ((Country) element).getSites().size() > 0 ? Boolean.TRUE : Boolean.FALSE; 
+		}
+		if(element instanceof Site){
+			return ((Site) element).getRooms().size() > 0 ? Boolean.TRUE : Boolean.FALSE; 
 		}
 		return false;
 	}
