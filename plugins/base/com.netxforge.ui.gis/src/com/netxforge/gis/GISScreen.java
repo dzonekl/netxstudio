@@ -23,6 +23,7 @@ import static org.locationtech.geoff.core.Geoff.xyLocation;
 
 import java.util.List;
 
+import org.eclipse.core.databinding.beans.PojoProperties;
 import org.eclipse.core.databinding.observable.value.IObservableValue;
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.emf.common.command.Command;
@@ -31,6 +32,8 @@ import org.eclipse.emf.databinding.IEMFValueProperty;
 import org.eclipse.emf.databinding.edit.EMFEditProperties;
 import org.eclipse.emf.edit.command.AddCommand;
 import org.eclipse.jface.databinding.swt.SWTObservables;
+import org.eclipse.jface.databinding.swt.WidgetProperties;
+import org.eclipse.jface.databinding.viewers.ViewerProperties;
 import org.eclipse.jface.viewers.ArrayContentProvider;
 import org.eclipse.jface.viewers.ISelectionChangedListener;
 import org.eclipse.jface.viewers.ITreeContentProvider;
@@ -59,6 +62,7 @@ import org.locationtech.geoff.GeoMap;
 import org.locationtech.geoff.core.Geoff;
 import org.locationtech.geoff.geocoding.IGeocodingService;
 import org.locationtech.geoff.geocoding.POI;
+import org.locationtech.geoff.geocoding.POI.LatLon;
 import org.locationtech.geoff.ui.swt.GeoMapComposite;
 
 import com.netxforge.netxstudio.geo.Country;
@@ -161,67 +165,62 @@ public class GISScreen extends AbstractScreenImpl implements
 				editingService.getEditingDomain(),
 				GeoPackage.Literals.SITE__LATITUDE);
 
-		// context.bindValue(nameObservable, nameProperty.observe(site), null,
-		// null);
-		// context.bindValue(regionObservable, regionProperty.observe(site),
-		// null,
-		// null);
-		// context.bindValue(areaObservable, areaProperty.observe(site), null,
-		// null);
-		// context.bindValue(cityObservable, cityProperty.observe(site), null,
-		// null);
-		// context.bindValue(streetObservable, streetProperty.observe(site),
-		// null,
-		// null);
-		// context.bindValue(nrObservable, nrProperty.observe(site), null,
-		// null);
-		// context.bindValue(longitudeObservable,
-		// longitudeProperty.observe(site),
-		// null, null);
-		// context.bindValue(latitudeObservable, latitudeProperty.observe(site),
-		// null, null);
+		context.bindValue(nameObservable, nameProperty.observe(site), null,
+				null);
+		context.bindValue(regionObservable, regionProperty.observe(site), null,
+				null);
+		context.bindValue(areaObservable, areaProperty.observe(site), null,
+				null);
+		context.bindValue(cityObservable, cityProperty.observe(site), null,
+				null);
+		context.bindValue(streetObservable, streetProperty.observe(site), null,
+				null);
+		context.bindValue(nrObservable, nrProperty.observe(site), null, null);
+		context.bindValue(longitudeObservable, longitudeProperty.observe(site),
+				null, null);
+		context.bindValue(latitudeObservable, latitudeProperty.observe(site),
+				null, null);
 
 		// This dirties the site immidiatly.
 
-		// IObservableValue observeSingleSelectionTableViewer = ViewerProperties
-		// .singleSelection().observe(geocodingTreeViewer);
-		// IObservableValue latLonObservable = PojoProperties.value(POI.class,
-		// "latLon", LatLon.class).observeDetail(
-		// observeSingleSelectionTableViewer);
-		//
-		// IObservableValue latObservable = PojoProperties.value(LatLon.class,
-		// "lat", double.class).observeDetail(latLonObservable);
-		// IObservableValue observeTextTextObserveWidget =
-		// WidgetProperties.text(
-		// SWT.NONE).observe(txtLatitude);
-		// context.bindValue(latObservable, observeTextTextObserveWidget, null,
-		// null);
-		//
-		// IObservableValue lonObservable = PojoProperties.value(LatLon.class,
-		// "lon", double.class).observeDetail(latLonObservable);
-		// IObservableValue lonTextObservable = WidgetProperties.text(SWT.NONE)
-		// .observe(txtLongitude);
-		// context.bindValue(lonObservable, lonTextObservable, null, null);
-		//
-		// IObservableValue descriptionObservable = PojoProperties.value(
-		// POI.class, "description", String.class).observeDetail(
-		// observeSingleSelectionTableViewer);
-		// IObservableValue nameObservableValue =
-		// WidgetProperties.text(SWT.NONE)
-		// .observe(txtName);
-		// context.bindValue(descriptionObservable, nameObservableValue, null,
-		// null);
+		IObservableValue observeSingleSelectionTableViewer = ViewerProperties
+				.singleSelection().observe(geocodingTreeViewer);
+		IObservableValue latLonObservable = PojoProperties.value(POI.class,
+				"latLon", LatLon.class).observeDetail(
+				observeSingleSelectionTableViewer);
+
+		IObservableValue latObservable = PojoProperties.value(LatLon.class,
+				"lat", double.class).observeDetail(latLonObservable);
+		IObservableValue observeTextTextObserveWidget = WidgetProperties.text(
+				SWT.NONE).observe(txtLatitude);
+		context.bindValue(latObservable, observeTextTextObserveWidget, null,
+				null);
+
+		IObservableValue lonObservable = PojoProperties.value(LatLon.class,
+				"lon", double.class).observeDetail(latLonObservable);
+		IObservableValue lonTextObservable = WidgetProperties.text(SWT.NONE)
+				.observe(txtLongitude);
+		context.bindValue(lonObservable, lonTextObservable, null, null);
+
+		IObservableValue descriptionObservable = PojoProperties.value(
+				POI.class, "description", String.class).observeDetail(
+				observeSingleSelectionTableViewer);
+		IObservableValue nameObservableValue = WidgetProperties.text(SWT.NONE)
+				.observe(txtName);
+		context.bindValue(descriptionObservable, nameObservableValue, null,
+				null);
 
 		geoMapComposite.loadMap(this.doCreateMap());
 		return context;
 	}
 
 	public void injectData() {
+		
 		buildUI();
 		m_bindingContext = initDataBindings_();
 	}
 
-	private void buildUI() {
+	public void buildUI() {
 		setLayout(new FillLayout(SWT.HORIZONTAL));
 
 		// Readonlyness.
@@ -535,6 +534,11 @@ public class GISScreen extends AbstractScreenImpl implements
 				.view(xyLocation(8.2128d, 53.1403, "EPSG:4326"), 10)
 				.addLayer(tileLayer(osmSource()));
 		return g.get();
+	}
+
+	public void reset() {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

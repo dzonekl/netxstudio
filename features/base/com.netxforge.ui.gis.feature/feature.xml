@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <feature
-      id="com.netxforge.gis.feature"
+      id="com.netxforge.ui.gis.feature"
       label="GIS Feature"
       version="1.0.0.qualifier"
       provider-name="NetXForge">
@@ -22,14 +22,14 @@
          version="0.0.0"/>
 
    <plugin
-         id="com.netxforge.gis"
+         id="org.json"
          download-size="0"
          install-size="0"
          version="0.0.0"
          unpack="false"/>
 
    <plugin
-         id="org.json"
+         id="com.netxforge.ui.gis"
          download-size="0"
          install-size="0"
          version="0.0.0"
