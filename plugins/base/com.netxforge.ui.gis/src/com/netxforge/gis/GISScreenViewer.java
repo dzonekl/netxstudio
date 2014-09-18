@@ -1,0 +1,70 @@
+/*******************************************************************************
+ * Copyright (c) 16 jan. 2013 NetXForge.
+ * 
+ * This program is free software: you can redistribute it and/or modify it under
+ * the terms of the GNU General Public License as published by the Free Software
+ * Foundation, either version 3 of the License, or (at your option) any later
+ * version.
+ * 
+ * This program is distributed in the hope that it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+ * FOR A PARTICULAR PURPOSE. See the GNU General Public License for more
+ * details. You should have received a copy of the GNU General Public License
+ * along with this program. If not, see <http://www.gnu.org/licenses/>
+ * 
+ * Contributors: Christophe Bouhier - initial API and implementation and/or
+ * initial documentation
+ *******************************************************************************/
+package com.netxforge.gis;
+
+import org.eclipse.jface.viewers.ISelection;
+import org.eclipse.jface.viewers.IStructuredSelection;
+import org.eclipse.jface.viewers.StructuredSelection;
+import org.eclipse.swt.SWT;
+import org.eclipse.swt.widgets.Composite;
+import org.eclipse.ui.IWorkbenchPart;
+
+import com.netxforge.netxstudio.geo.Site;
+import com.netxforge.screens.editing.base.AbstractScreenViewer;
+import com.netxforge.screens.editing.base.IScreen;
+import com.netxforge.screens.editing.base.ScreenUtil;
+
+/**
+ * A Standalone viewer which shows a Dashboard.
+ * 
+ * @author Christophe Bouhier
+ * 
+ */
+public class GISScreenViewer extends AbstractScreenViewer {
+
+	private GISScreen dashboardScreen;
+
+	public IScreen getScreen() {
+		return dashboardScreen;
+	}
+
+	public void initScreen(Composite parent) {
+		dashboardScreen = new GISScreen(parent, SWT.NONE);
+		dashboardScreen.setOperation(ScreenUtil.OPERATION_READ_ONLY);
+		dashboardScreen.setEditingService(getEditingService());
+		dashboardScreen.buildUI();
+	}
+	
+	/**
+	 * Process a {@link Site} model object in the GIS view.
+	 */
+	protected void processSelection(ISelection selection) {
+		if (selection != null && !selection.isEmpty()
+				&& selection instanceof StructuredSelection) {
+			IStructuredSelection ss = (StructuredSelection) selection;
+			dashboardScreen.injectData(new Object[] { ss.getFirstElement() });
+		}
+	}
+
+	@Override
+	public void partDeactivated(IWorkbenchPart part) {
+		super.partDeactivated(part);
+		// clean our dashboard.
+		dashboardScreen.reset();
+	}
+}
