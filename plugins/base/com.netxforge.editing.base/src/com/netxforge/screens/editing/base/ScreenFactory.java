@@ -36,7 +36,6 @@ import org.osgi.framework.Bundle;
 import com.google.common.collect.Maps;
 import com.google.inject.ConfigurationException;
 import com.google.inject.Inject;
-import com.google.inject.Injector;
 
 /**
  * Constructs an Injected IScreen, based on name.
@@ -49,7 +48,6 @@ public class ScreenFactory implements IScreenFactory {
 	 * A Map holding the screen constructors by name of the screen.
 	 */
 	private HashMap<String, Constructor<?>> screenMap = Maps.newHashMap();
-	private Injector injector;
 
 	// Additional providers for other services passed on here, for the factory
 	// create method.
@@ -232,9 +230,6 @@ public class ScreenFactory implements IScreenFactory {
 						screen = create(getScreenName(), loadClass,
 								getParent(), getStyle());
 
-						// Inject the IScreen.
-						((AbstractScreenImpl) screen).injectMembers(injector);
-
 					} catch (ClassNotFoundException e) {
 						// TODO Proper logging / Error handling.
 						e.printStackTrace();
@@ -249,13 +244,6 @@ public class ScreenFactory implements IScreenFactory {
 			}
 			return screen;
 		}
-	}
-
-	/**
-	 * Set our global application injector.
-	 */
-	public void setInjector(Injector injector) {
-		this.injector = injector;
 	}
 
 }
