@@ -9,4 +9,6 @@ Require-Bundle: org.eclipse.core.runtime,
  com.netxforge.editing.base;bundle-version="1.0.0";visibility:=reexport
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Bundle-ActivationPolicy: lazy
-Export-Package: com.netxforge.editing.base.impl
+Export-Package: com.netxforge.editing.base.impl,
+ com.netxforge.editing.base.impl.module
+Service-Component: OSGI-INF/oss2serviceconsumer.xml

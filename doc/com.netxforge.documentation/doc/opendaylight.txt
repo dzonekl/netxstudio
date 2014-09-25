@@ -1,0 +1,109 @@
+Opendaylight test environment install instructions
+=================================
+
+https://wiki.opendaylight.org/view/CrossProject:Integration_Group:Create_System_Test_Environment
+
+more openvswitch-2.3.0/INSTALL.Debian
+
+[1] cd /usr/src ; curl o openvswitch-2.3.0.tar.gz http://openvswitch.org/releases/openvswitch-2.3.0.tar.gz
+[2] gunzip openvswitch-2.3.0.tar.gz; tar -xvf openvswitch-2.3.0.tar
+=> follow the openvswitch README.Debian to produce a debian package.
+[3] apt-get install build-essential fakeroot
+[4] cd openvswitch-2.3.0
+[5] apt-get install debhelper autoconf automake libssl-dev graphviz python-all python-qt4 python-twisted-conch libtool
+[6] dpkg-checkbuilddeps
+=> No response, when dependencies are met. 
+[7] DEB_BUILD_OPTIONS='parallel=8 nocheck' fakeroot debian/rules binary
+[8] Install the openvswitch debian packages, with a =>
+ 
+=> -rw-r--r--  1 root root  813594 Sep 24 19:41 openvswitch-common_2.3.0-1_amd64.deb
+=> -rw-r--r--  1 root root 3228082 Sep 24 19:41 openvswitch-datapath-dkms_2.3.0-1_all.deb
+-rw-r--r--  1 root root 3299702 Sep 24 19:41 openvswitch-datapath-source_2.3.0-1_all.deb
+-rw-r--r--  1 root root 8129292 Sep 24 19:41 openvswitch-dbg_2.3.0-1_amd64.deb
+-rw-r--r--  1 root root   39130 Sep 24 19:41 openvswitch-ipsec_2.3.0-1_amd64.deb
+=> -rw-r--r--  1 root root   31650 Sep 24 19:41 openvswitch-pki_2.3.0-1_all.deb
+-rw-r--r--  1 root root 2122300 Sep 24 19:41 openvswitch-switch_2.3.0-1_amd64.deb
+-rw-r--r--  1 root root   48714 Sep 24 19:41 openvswitch-test_2.3.0-1_all.deb
+-rw-r--r--  1 root root  217176 Sep 24 19:41 openvswitch-vtep_2.3.0-1_amd64.deb
+-rw-r--r--  1 root root   90544 Sep 24 19:41 python-openvswitch_2.3.0-1_all.deb
+
+
+root@localhost:/usr/src# sudo ovs-vsctl show
+948e578b-9ea5-4708-b302-317ab0c07434
+    ovs_version: "2.3.0"
+
+
+[9] Install mininet
+odluser@odl-vm:~\$ git clone git://github.com/mininet/mininet
+odluser@odl-vm:~\$ cd mininet/
+odluser@odl-vm:~\$ git checkout -b 2.1.0p1 2.1.0p1
+odluser@odl-vm:~\$ # apply patch (patch -p0 < newOptions.patch) (See the link above with the patch). 
+odluser@odl-vm:~\$ cd ./util
+odluser@odl-vm:~\$ ./install.sh -fn
+[10] issue with apt-get dependencies fix with:  apt-get -f install
+
+
+
+...at some point DKMS, 
+
+[1]  dkms build -m openvswitch -v 2.3.0
+Error! Your kernel headers for kernel 3.15.4-x86_64-linode45 cannot be found.
+Please install the linux-headers-3.15.4-x86_64-linode45 package,
+or use the --kernelsourcedir option to tell DKMS where it's located
+
+
+See this: 
+http://kernelnewbies.org/KernelHeaders
+
+so, we need to download the kernel, set the exact version (Distro name) and make the header files, so they end up in: 
+/lib/modules/[distro]/build
+
+
+
+Kernel Linode
+=============
+
+The linode kernel, has a specific name,
+ 
+Get the host name.  
+[1]uname -r
+=> 3.14.5-x86_64-linode42
+[2] curl -o linux-3.14.5.tar.gz https://www.kernel.org/pub/linux/kernel/v3.x/linux-3.14.5.tar.gz
+=> downloads, curl update. 
+[3] gunzip, tar -xvf => exploded dir.
+=> explode into dir: linux-3.15.4 
+[4] cd linux-3.15.4 
+=> Yep we are there now. 
+
+[5] nano Makefile, edit=>  EXTRAVERSION = 3.14.5-x86_64-linode45 # uname -r output
+=> Edited makefile with the EXTRAVERSION in the Makefile
+
+[5]
+sudo apt-get install libncurses5-dev gcc make git exuberant-ctags
+
+[7]  zcat /proc/config.gz > .config && make oldconfig
+=> create .config which is from the unpacked config.gz (specific for linode) , when succefull (&&), 
+make the oldconfig which will absorb the created .config. So now we have a .config updated with the config
+for this linux kernel. 
+
+// Follow make instructions from this dude: https://github.com/torvalds/linux
+
+[8]  make
+=> compiles, links etc.., takes a while. (Goes in the src folder?) 
+
+[9] sudo make modules_install install
+=>  Compiles the modules, warning the name is wrong. 
+
+root@localhost:/usr/src/linux-3.14.5# sudo make modules_install install
+  INSTALL drivers/xen/tmem.ko
+  DEPMOD  3.14.53.14.5-x86_64-linode42
+sh /usr/src/linux-3.14.5/arch/x86/boot/install.sh 3.14.53.14.5-x86_64-linode42 arch/x86/boot/bzImage \
+		System.map "/boot"
+run-parts: executing /etc/kernel/postinst.d/apt-auto-removal 3.14.53.14.5-x86_64-linode42 /boot/vmlinuz-3.14.53.14.5-x86_64-linode42
+run-parts: executing /etc/kernel/postinst.d/initramfs-tools 3.14.53.14.5-x86_64-linode42 /boot/vmlinuz-3.14.53.14.5-x86_64-linode42
+update-initramfs: Generating /boot/initrd.img-3.14.53.14.5-x86_64-linode42
+dpkg: warning: version '3.14.53.14.5-x86_64-linode42' has bad syntax: invalid character in version number
+run-parts: executing /etc/kernel/postinst.d/update-notifier 3.14.53.14.5-x86_64-linode42 /boot/vmlinuz-3.14.53.14.5-x86_64-linode42
+
+[10] ls /lib/modules/[uname -r]/build 
+=> Should contained the modules for this kernel.

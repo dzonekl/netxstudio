@@ -57,6 +57,7 @@ import com.google.common.collect.Lists;
 import com.google.inject.Inject;
 import com.netxforge.base.NonModelUtils;
 import com.netxforge.editing.base.impl.internal.BaseEditingImplActivator;
+import com.netxforge.editing.base.impl.internal.ModuleAccess;
 import com.netxforge.screens.editing.base.AbstractScreensViewPart;
 import com.netxforge.screens.editing.base.IDataScreenInjection;
 import com.netxforge.screens.editing.base.IDataServiceInjection;
@@ -68,6 +69,7 @@ import com.netxforge.screens.editing.base.NothingScreenImpl;
 import com.netxforge.screens.editing.base.ScreenBody;
 import com.netxforge.screens.editing.base.ScreenChangeListener;
 import com.netxforge.screens.editing.base.ScreenUtil;
+import com.netxforge.screens.editing.base.filter.ISearchFilter;
 
 /**
  * This service is capable to place a composite in a dedicated section (The
@@ -125,6 +127,10 @@ public class ScreenFormService implements IScreenFormService {
 			IScreenFactory screenFactory) {
 		this.editingService = editingService;
 		this.screenFactory = screenFactory;
+		
+		ISearchFilter instance = ModuleAccess.SELF().getOSS2ServiceBroker().getInjector("").getInstance(ISearchFilter.class);
+		
+		screenFactory.setInjector(ModuleAccess.SELF().getOSS2ServiceBroker().getInjector(""));
 	}
 
 	public IScreen getActiveScreen() {
@@ -300,10 +306,15 @@ public class ScreenFormService implements IScreenFormService {
 
 	private void readExtension(IExtension iExtension) {
 		for (IConfigurationElement el : iExtension.getConfigurationElements()) {
-
+			
+			String targetid = el.getAttribute("viewid");
+			if(!this.getAbsViewPart().getSite().getId().equals(targetid)){
+				continue; // we are not the target. 
+			}
+			
 			String screenName = el.getAttribute("name");
-
 			String screenClassName = el.getAttribute("class");
+			
 
 			if (screenName != null && screenClassName != null) {
 				lastDeclerativeScreenSelector = addDeclerativeScreenSelector(screenName, null, screenClassName,
