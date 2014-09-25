@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <?pde?>
 <!-- generated with https://github.com/mbarbero/fr.obeo.releng.targetplatform -->
-<target name="oss2_xtext231_cdo42SR2" sequenceNumber="1410855824">
+<target name="oss2_xtext231_cdo42SR2" sequenceNumber="1411655694">
   <locations>
     <location includeMode="slicer" includeAllPlatforms="false" includeSource="true" includeConfigurePhase="false" type="InstallableUnit">
       <unit id="org.eclipse.jdt.source.feature.group" version="3.9.2.v20140221-1700"/>
@@ -254,8 +254,8 @@
       <repository location="http://p2.netxforge.com/peaberry.p2/"/>
     </location>
     <location includeMode="slicer" includeAllPlatforms="false" includeSource="true" includeConfigurePhase="false" type="InstallableUnit">
-      <unit id="org.eclipse.ui.ide" version="3.9.0.201408181313"/>
-      <unit id="org.eclipse.ui.navigator.resources" version="3.4.500.201408181313"/>
+      <unit id="org.eclipse.ui.ide" version="0.0.0"/>
+      <unit id="org.eclipse.ui.navigator.resources" version="0.0.0"/>
       <repository location="http://p2.netxforge.com/oss2/3rd.p2"/>
     </location>
   </locations>
