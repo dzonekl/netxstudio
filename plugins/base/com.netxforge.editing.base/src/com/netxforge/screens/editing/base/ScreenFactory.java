@@ -34,7 +34,9 @@ import org.eclipse.swt.widgets.Composite;
 import org.osgi.framework.Bundle;
 
 import com.google.common.collect.Maps;
+import com.google.inject.ConfigurationException;
 import com.google.inject.Inject;
+import com.google.inject.Injector;
 
 /**
  * Constructs an Injected IScreen, based on name.
@@ -47,6 +49,7 @@ public class ScreenFactory implements IScreenFactory {
 	 * A Map holding the screen constructors by name of the screen.
 	 */
 	private HashMap<String, Constructor<?>> screenMap = Maps.newHashMap();
+	private Injector injector;
 
 	// Additional providers for other services passed on here, for the factory
 	// create method.
@@ -156,14 +159,14 @@ public class ScreenFactory implements IScreenFactory {
 			return screen;
 		}
 		IExtension[] extensions = point.getExtensions();
-		
-		
+
 		ScreenFromExtention screenFromExtention = new ScreenFromExtention();
 		screenFromExtention.setParent(parent);
 		screenFromExtention.setStyle(style);
 		screenFromExtention.setScreenName(screenClassName);
 		for (int i = 0; i < extensions.length; i++) {
-			screen = screenFromExtention.readExtension(extensions[i], screenClassName);
+			screen = screenFromExtention.readExtension(extensions[i],
+					screenClassName);
 			if (screen != null) {
 				break;
 			}
@@ -178,6 +181,7 @@ public class ScreenFactory implements IScreenFactory {
 	class ScreenFromExtention {
 
 		private String screenName;
+
 		public String getScreenName() {
 			return screenName;
 		}
@@ -217,20 +221,25 @@ public class ScreenFactory implements IScreenFactory {
 					try {
 						IContributor contributor = el.getContributor();
 						Bundle bundle = resolve(contributor);
+
 						Class<?> loadClass = bundle
 								.loadClass(targetScreenClassName);
-						
-						// Now we resolve the applicable constructor. 
+
+						// Now we resolve the applicable constructor.
 						registerScreen(getScreenName(), loadClass);
-						
-						// Create the IScreen. 
-						screen = create(getScreenName(), loadClass, getParent(), getStyle());
-						
-						// TODO Inject it.  
+
+						// Create the IScreen.
+						screen = create(getScreenName(), loadClass,
+								getParent(), getStyle());
+
+						// Inject the IScreen.
+						((AbstractScreenImpl) screen).injectMembers(injector);
 
 					} catch (ClassNotFoundException e) {
 						// TODO Proper logging / Error handling.
 						e.printStackTrace();
+					} catch (ConfigurationException ce) {
+						ce.printStackTrace();
 					} finally {
 						if (screen != null) {
 							break;
@@ -240,6 +249,13 @@ public class ScreenFactory implements IScreenFactory {
 			}
 			return screen;
 		}
+	}
+
+	/**
+	 * Set our global application injector.
+	 */
+	public void setInjector(Injector injector) {
+		this.injector = injector;
 	}
 
 }

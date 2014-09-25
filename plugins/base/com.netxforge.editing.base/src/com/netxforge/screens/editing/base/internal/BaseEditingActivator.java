@@ -26,10 +26,14 @@ import org.eclipse.osgi.service.debug.DebugOptions;
 import org.eclipse.osgi.service.debug.DebugOptionsListener;
 import org.eclipse.osgi.service.debug.DebugTrace;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
+import org.ops4j.peaberry.Export;
 import org.osgi.framework.BundleContext;
 
 import com.google.inject.Guice;
+import com.google.inject.Inject;
 import com.google.inject.Injector;
+import com.netxforge.screens.editing.base.filter.ISearchFilter;
+import com.netxforge.screens.editing.base.util.IValidationService;
 
 /**
  * The activator class controls the plug-in life cycle
@@ -63,7 +67,13 @@ public class BaseEditingActivator extends AbstractUIPlugin implements
 		DEBUG = options.getBooleanOption(PLUGIN_ID + "/debug", false);
 		TRACE = options.newDebugTrace(PLUGIN_ID);
 	}
-	
+
+	@Inject
+	Export<IValidationService> validationService;
+
+	@Inject
+	Export<ISearchFilter> searchfilter;
+
 	/*
 	 * (non-Javadoc)
 	 * 

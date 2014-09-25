@@ -5,14 +5,6 @@ Bundle-SymbolicName: com.netxforge.base
 Bundle-Version: 1.0.0.qualifier
 Bundle-Activator: com.netxforge.base.internal.BaseActivator
 Bundle-Vendor: NetXForge
-Require-Bundle: org.eclipse.core.runtime,
- com.google.inject;bundle-version="2.0.0";visibility:=reexport,
- com.google.guava;bundle-version="12.0.0";visibility:=reexport,
- org.ops4j.peaberry;bundle-version="1.1.1";visibility:=reexport,
- javax.inject;bundle-version="1.0.0";visibility:=reexport,
- org.eclipse.emf.ecore;bundle-version="2.9.1";visibility:=reexport
-Bundle-RequiredExecutionEnvironment: J2SE-1.5
-Bundle-ActivationPolicy: lazy
 Export-Package: com.netxforge.base,
  com.netxforge.base.cdo,
  com.netxforge.base.context,
@@ -20,9 +12,19 @@ Export-Package: com.netxforge.base,
  com.netxforge.base.di,
  com.netxforge.base.properties,
  com.netxforge.base.security
+Require-Bundle: org.eclipse.core.runtime,
+ com.google.inject;bundle-version="2.0.0";visibility:=reexport,
+ com.google.guava;bundle-version="12.0.0";visibility:=reexport,
+ org.ops4j.peaberry;bundle-version="1.1.1";visibility:=reexport,
+ javax.inject;bundle-version="1.0.0";visibility:=reexport,
+ org.eclipse.emf.ecore;bundle-version="2.9.1";visibility:=reexport,
+ org.eclipse.osgi.services;bundle-version="3.3.100"
+Bundle-RequiredExecutionEnvironment: J2SE-1.5
 Import-Package: org.eclipse.emf.common.notify,
  org.eclipse.emf.common.notify.impl,
  org.eclipse.emf.common.util,
  org.eclipse.emf.ecore,
  org.eclipse.emf.ecore.resource,
- org.eclipse.emf.ecore.util
+ org.eclipse.emf.ecore.util,
+ org.osgi.service.component.annotations
+Bundle-ActivationPolicy: lazy

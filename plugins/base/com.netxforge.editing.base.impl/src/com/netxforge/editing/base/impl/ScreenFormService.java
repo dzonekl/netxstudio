@@ -57,7 +57,6 @@ import com.google.common.collect.Lists;
 import com.google.inject.Inject;
 import com.netxforge.base.NonModelUtils;
 import com.netxforge.editing.base.impl.internal.BaseEditingImplActivator;
-import com.netxforge.editing.base.impl.internal.ModuleAccess;
 import com.netxforge.screens.editing.base.AbstractScreensViewPart;
 import com.netxforge.screens.editing.base.IDataScreenInjection;
 import com.netxforge.screens.editing.base.IDataServiceInjection;
@@ -69,7 +68,6 @@ import com.netxforge.screens.editing.base.NothingScreenImpl;
 import com.netxforge.screens.editing.base.ScreenBody;
 import com.netxforge.screens.editing.base.ScreenChangeListener;
 import com.netxforge.screens.editing.base.ScreenUtil;
-import com.netxforge.screens.editing.base.filter.ISearchFilter;
 
 /**
  * This service is capable to place a composite in a dedicated section (The
@@ -128,9 +126,6 @@ public class ScreenFormService implements IScreenFormService {
 		this.editingService = editingService;
 		this.screenFactory = screenFactory;
 		
-		ISearchFilter instance = ModuleAccess.SELF().getOSS2ServiceBroker().getInjector("").getInstance(ISearchFilter.class);
-		
-		screenFactory.setInjector(ModuleAccess.SELF().getOSS2ServiceBroker().getInjector(""));
 	}
 
 	public IScreen getActiveScreen() {

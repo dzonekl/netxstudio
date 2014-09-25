@@ -18,7 +18,7 @@
       </annotation>
       <complexType>
          <sequence>
-            <element ref="iscreen"/>
+            <element ref="iscreen" minOccurs="1" maxOccurs="unbounded"/>
          </sequence>
          <attribute name="point" type="string" use="required">
             <annotation>
@@ -93,6 +93,13 @@ be associated with the view.
                <appinfo>
                   <meta.attribute kind="resource"/>
                </appinfo>
+            </annotation>
+         </attribute>
+         <attribute name="viewid" type="string" use="required">
+            <annotation>
+               <documentation>
+                  The View ID where the IScreen will be installed. The order in which the IScreen declarations appear, is the order in which links to the IScreen are added to the selector.
+               </documentation>
             </annotation>
          </attribute>
       </complexType>

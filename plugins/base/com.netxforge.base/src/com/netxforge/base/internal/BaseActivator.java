@@ -74,6 +74,7 @@ public class BaseActivator implements BundleActivator, DebugOptionsListener {
 	 */
 	public void start(BundleContext bundleContext) throws Exception {
 		INSTANCE = this;
+		
 		BaseActivator.context = bundleContext;
 
 		injector = Guice.createInjector(osgiModule(bundleContext),
@@ -84,6 +85,7 @@ public class BaseActivator implements BundleActivator, DebugOptionsListener {
 		props.put(DebugOptions.LISTENER_SYMBOLICNAME, PLUGIN_ID);
 		context.registerService(DebugOptionsListener.class.getName(), this,
 				props);
+		
 	}
 
 	/*

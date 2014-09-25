@@ -18,12 +18,18 @@
  *******************************************************************************/
 package com.netxforge.screens.editing.base.internal;
 
+import static org.ops4j.peaberry.Peaberry.service;
+import static org.ops4j.peaberry.util.TypeLiterals.export;
+
 import com.google.inject.AbstractModule;
 import com.google.inject.Scopes;
 import com.netxforge.screens.editing.base.IScreenFactory;
 import com.netxforge.screens.editing.base.ScreenFactory;
 import com.netxforge.screens.editing.base.actions.clipboard.ClipboardService;
+import com.netxforge.screens.editing.base.filter.ISearchFilter;
+import com.netxforge.screens.editing.base.filter.SearchFilter;
 import com.netxforge.screens.editing.base.tables.TableHelper;
+import com.netxforge.screens.editing.base.util.IValidationService;
 import com.netxforge.screens.editing.base.util.ValidationService;
 
 /**
@@ -45,34 +51,32 @@ public class BaseEditingModule extends AbstractModule {
 
 		// Binding util.
 		this.bind(TableHelper.class);
-		this.bind(ValidationService.class);
 
 		// ///////////////////////////////
 		// EXPORT SERVICES
+
+		// A Validation service.
+		bind(export(IValidationService.class)).toProvider(
+				service(ValidationService.class).export());
 		
-//		bind(export(IEditingServiceProvider.class)).toProvider(
-//				service(EMFEditingServiceProvider.class).export());
-//
-//		bind(export(IScreenFormServiceProvider.class)).toProvider(
-//				service(ScreenFormServiceProvider.class).export());
+		// A Search filter service. 
+		bind(export(ISearchFilter.class)).toProvider(
+				service(new SearchFilter()).export());
 		
+		
+		// Example of a concrete implementation. 
+		// bind(export(SearchFilter.class)).toProvider(
+		// service(new SearchFilter()).attributes(
+		// objectClass(SearchFilter.class)).export());
+
 		// ////////////////////////////////
 		// INTERNAL SERVICES
 
 		bind(IScreenFactory.class).to(ScreenFactory.class);
 		bind(ClipboardService.class).in(Scopes.SINGLETON);
-		
-		
-		
-		
+
 		// /////////////////////////////////////
 		// IMPORTED SERVICES
-		
-//		// {@link BaseModule}
-//		bind(IDataProvider.class).toProvider(
-//				service(IDataProvider.class).single());
 
-		
-		
 	}
 }

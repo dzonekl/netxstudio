@@ -27,14 +27,12 @@ import org.eclipse.emf.edit.ui.dnd.LocalTransfer;
 import org.eclipse.emf.edit.ui.dnd.ViewerDragAdapter;
 import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.action.ToolBarManager;
-import org.eclipse.jface.viewers.IElementComparer;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.ISelectionChangedListener;
 import org.eclipse.jface.viewers.ISelectionProvider;
 import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.jface.viewers.StructuredViewer;
 import org.eclipse.jface.viewers.Viewer;
-import org.eclipse.jface.viewers.ViewerFilter;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.dnd.DND;
 import org.eclipse.swt.dnd.Transfer;
@@ -56,7 +54,6 @@ import org.eclipse.ui.part.ShowInContext;
 import com.google.common.collect.Lists;
 import com.google.inject.Inject;
 import com.google.inject.Injector;
-import com.netxforge.base.data.IDataObjectValidator;
 import com.netxforge.screens.editing.base.internal.BaseEditingActivator;
 import com.netxforge.screens.editing.base.util.FormValidationEvent;
 import com.netxforge.screens.editing.base.util.IValidationListener;
@@ -87,24 +84,6 @@ public abstract class AbstractScreenImpl extends Composite implements IScreen,
 
 	@Inject
 	protected ValidationService validationService;
-	
-	@Inject
-	protected IDataObjectValidator objectValidationService;
-	
-	/**
-	 * An injected {@link IElementComparer} which can be used in a JFace viewer. 
-	 */
-	@Inject
-	protected IElementComparer elementComparer;
-	
-		
-	/**
-	 * An injected {@link ViewerFilter} which can be used in a a JFace viewer. 
-	 * @return
-	 */
-	@Inject
-	protected ViewerFilter searchFilter;
-	
 	
 	protected Object currentFocusWidget;
 
@@ -152,10 +131,6 @@ public abstract class AbstractScreenImpl extends Composite implements IScreen,
 				unRegisterFocus(cChild);
 			}
 		}
-	}
-
-	public IDataObjectValidator getObjectValidationService() {
-		return objectValidationService;
 	}
 	
 	public int getOperation() {
@@ -610,13 +585,5 @@ public abstract class AbstractScreenImpl extends Composite implements IScreen,
 		toolBarManager.update(true);
 		section.setTextClient(toolbar);
 		return toolBarManager;
-	}
-	
-	public ViewerFilter getSearchFilter() {
-		return searchFilter;
-	}
-
-	public IElementComparer getElementComparor() {
-		return elementComparer;
 	}
 }

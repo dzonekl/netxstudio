@@ -7,6 +7,7 @@
    </configIni>
 
    <launcherArgs>
+      <programArgsWin>-console 8812</programArgsWin>
       <vmArgsMac>-XstartOnFirstThread -Dorg.eclipse.swt.internal.carbon.smallFonts</vmArgsMac>
    </launcherArgs>
 
@@ -26,6 +27,23 @@
    <features>
       <feature id="com.netxforge.netxbare.product.feature" version="1.0.0.qualifier"/>
       <feature id="com.netxforge.app.feature"/>
+      <feature id="com.netxforge.ui.gis.feature" version="1.0.0.qualifier"/>
+      <feature id="com.netxforge.ui.sites.feature" version="1.0.0.qualifier"/>
+      <feature id="com.netxforge.models.06032012.emf.feature" version="1.0.0.qualifier"/>
+      <feature id="com.netxforge.editing.base.feature" version="1.0.0.201409170916"/>
+      <feature id="com.netxforge.base.feature" version="1.0.0.201409170916"/>
+      <feature id="org.peaberry.artifacts.feature" version="1.0.0.201308301546"/>
+      <feature id="org.eclipse.emf.edit.ui" version="2.10.0.v20140519-0339"/>
+      <feature id="org.eclipse.emf.edit" version="2.10.0.v20140519-0339"/>
+      <feature id="org.eclipse.emf.common" version="2.10.0.v20140514-1158"/>
+      <feature id="org.eclipse.emf.databinding.edit" version="1.4.0.v20140519-0339"/>
+      <feature id="org.eclipse.emf.databinding" version="1.4.0.v20140519-0339"/>
+      <feature id="org.eclipse.emf.common.ui" version="2.9.0.v20140519-0339"/>
+      <feature id="org.eclipse.emf.ecore.edit" version="2.9.0.v20140519-0339"/>
+      <feature id="org.eclipse.nebula.artifacts.feature" version="1.0.0.201408181313"/>
+      <feature id="com.netxforge.oss2.demo.feature" version="1.0.0.qualifier"/>
+      <feature id="com.netxforge.oss2.job.rest.feature" version="1.0.0.qualifier"/>
+      <feature id="com.netxforge.oss2.inventory.feature" version="1.0.0.qualifier"/>
    </features>
 
    <configurations>
