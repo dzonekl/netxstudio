@@ -10,3 +10,4 @@ Require-Bundle: com.netxforge.editing.base;bundle-version="1.0.0",
  org.eclipse.core.databinding.property;bundle-version="1.4.200"
 Import-Package: com.netxforge.netxstudio.generics,
  com.netxforge.netxstudio.geo
+Export-Package: com.netxforge.ui.sites

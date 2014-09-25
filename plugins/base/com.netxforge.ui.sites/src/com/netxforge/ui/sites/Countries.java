@@ -250,7 +250,8 @@ public class Countries extends AbstractScreenImpl implements
 		tblclmnShortname = tableViewerColumn_2.getColumn();
 		tblclmnShortname.setWidth(100);
 		tblclmnShortname.setText("Country Code");
-		tableViewer.addFilter(getSearchFilter());
+		
+//		tableViewer.addFilter(getSearchFilter());
 	}
 
 	public EMFDataBindingContext initDataBindings_() {
