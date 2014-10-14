@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<genmodel:GenModel xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore"
+    xmlns:genmodel="http://www.eclipse.org/emf/2002/GenModel" modelDirectory="/com.netxforge.oss2.opendaylight/src-gen" modelPluginID="com.netxforge.oss2.opendaylight"
+    modelName="Topology" rootExtendsClass="org.eclipse.emf.ecore.impl.MinimalEObjectImpl$Container"
+    importerID="org.eclipse.xsd.ecore.importer" complianceLevel="6.0" copyrightFields="false"
+    operationReflection="true" importOrganizing="true">
+  <foreignModel>../../yang/network-topology@2013-10-21.xsd</foreignModel>
+  <genPackages prefix="Topology" basePackage="tbd.params.xml.ns.yang.network" resource="XML"
+      disposableProviderFactory="true" ecorePackage="topology.ecore#/">
+    <genDataTypes ecoreDataType="topology.ecore#//LinkId"/>
+    <genDataTypes ecoreDataType="topology.ecore#//LinkRef"/>
+    <genDataTypes ecoreDataType="topology.ecore#//NodeId"/>
+    <genDataTypes ecoreDataType="topology.ecore#//NodeRef"/>
+    <genDataTypes ecoreDataType="topology.ecore#//TopologyId"/>
+    <genDataTypes ecoreDataType="topology.ecore#//TopologyRef"/>
+    <genDataTypes ecoreDataType="topology.ecore#//TpId"/>
+    <genDataTypes ecoreDataType="topology.ecore#//TpRef"/>
+    <genClasses ecoreClass="topology.ecore#//DestinationType">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute topology.ecore#//DestinationType/destNode"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute topology.ecore#//DestinationType/destTp"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EAttribute topology.ecore#//DestinationType/any"/>
+    </genClasses>
+    <genClasses ecoreClass="topology.ecore#//DocumentRoot">
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EAttribute topology.ecore#//DocumentRoot/mixed"/>
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference topology.ecore#//DocumentRoot/xMLNSPrefixMap"/>
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference topology.ecore#//DocumentRoot/xSISchemaLocation"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference topology.ecore#//DocumentRoot/networkTopology"/>
+    </genClasses>
+    <genClasses ecoreClass="topology.ecore#//LinkType">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute topology.ecore#//LinkType/linkId"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference topology.ecore#//LinkType/source"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference topology.ecore#//LinkType/destination"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference topology.ecore#//LinkType/supportingLink"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EAttribute topology.ecore#//LinkType/any"/>
+    </genClasses>
+    <genClasses ecoreClass="topology.ecore#//NetworkTopologyType">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference topology.ecore#//NetworkTopologyType/topology"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EAttribute topology.ecore#//NetworkTopologyType/any"/>
+    </genClasses>
+    <genClasses ecoreClass="topology.ecore#//NodeType">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute topology.ecore#//NodeType/nodeId"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference topology.ecore#//NodeType/supportingNode"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference topology.ecore#//NodeType/terminationPoint"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EAttribute topology.ecore#//NodeType/any"/>
+    </genClasses>
+    <genClasses ecoreClass="topology.ecore#//SourceType">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute topology.ecore#//SourceType/sourceNode"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute topology.ecore#//SourceType/sourceTp"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EAttribute topology.ecore#//SourceType/any"/>
+    </genClasses>
+    <genClasses ecoreClass="topology.ecore#//SupportingLinkType">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute topology.ecore#//SupportingLinkType/linkRef"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EAttribute topology.ecore#//SupportingLinkType/any"/>
+    </genClasses>
+    <genClasses ecoreClass="topology.ecore#//SupportingNodeType">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute topology.ecore#//SupportingNodeType/nodeRef"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EAttribute topology.ecore#//SupportingNodeType/any"/>
+    </genClasses>
+    <genClasses ecoreClass="topology.ecore#//TerminationPointType">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute topology.ecore#//TerminationPointType/tpId"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute topology.ecore#//TerminationPointType/tpRef"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EAttribute topology.ecore#//TerminationPointType/any"/>
+    </genClasses>
+    <genClasses ecoreClass="topology.ecore#//TopologyType">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute topology.ecore#//TopologyType/topologyId"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute topology.ecore#//TopologyType/serverProvided"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference topology.ecore#//TopologyType/topologyTypes"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference topology.ecore#//TopologyType/underlayTopology"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference topology.ecore#//TopologyType/node"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference topology.ecore#//TopologyType/link"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EAttribute topology.ecore#//TopologyType/any"/>
+    </genClasses>
+    <genClasses ecoreClass="topology.ecore#//TopologyTypesType">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EAttribute topology.ecore#//TopologyTypesType/any"/>
+    </genClasses>
+    <genClasses ecoreClass="topology.ecore#//UnderlayTopologyType">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute topology.ecore#//UnderlayTopologyType/topologyRef"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EAttribute topology.ecore#//UnderlayTopologyType/any"/>
+    </genClasses>
+  </genPackages>
+  <genPackages prefix="Types" basePackage="ietf.params.xml.ns.yang.ietf.inet" resource="XML"
+      disposableProviderFactory="true" ecorePackage="types.ecore#/">
+    <genEnums typeSafeEnumCompatible="false" ecoreEnum="types.ecore#//IpVersion">
+      <genEnumLiterals ecoreEnumLiteral="types.ecore#//IpVersion/unknown"/>
+      <genEnumLiterals ecoreEnumLiteral="types.ecore#//IpVersion/ipv4"/>
+      <genEnumLiterals ecoreEnumLiteral="types.ecore#//IpVersion/ipv6"/>
+    </genEnums>
+    <genDataTypes ecoreDataType="types.ecore#//AsNumber"/>
+    <genDataTypes ecoreDataType="types.ecore#//AsNumberObject"/>
+    <genDataTypes ecoreDataType="types.ecore#//DomainName"/>
+    <genDataTypes ecoreDataType="types.ecore#//Dscp"/>
+    <genDataTypes ecoreDataType="types.ecore#//DscpObject"/>
+    <genDataTypes ecoreDataType="types.ecore#//Host"/>
+    <genDataTypes ecoreDataType="types.ecore#//HostMember0"/>
+    <genDataTypes ecoreDataType="types.ecore#//HostMember1"/>
+    <genDataTypes ecoreDataType="types.ecore#//IpAddress"/>
+    <genDataTypes ecoreDataType="types.ecore#//IpAddressMember0"/>
+    <genDataTypes ecoreDataType="types.ecore#//IpAddressMember1"/>
+    <genDataTypes ecoreDataType="types.ecore#//IpPrefix"/>
+    <genDataTypes ecoreDataType="types.ecore#//IpPrefixMember0"/>
+    <genDataTypes ecoreDataType="types.ecore#//IpPrefixMember1"/>
+    <genDataTypes ecoreDataType="types.ecore#//Ipv4Address"/>
+    <genDataTypes ecoreDataType="types.ecore#//Ipv4Prefix"/>
+    <genDataTypes ecoreDataType="types.ecore#//Ipv6Address"/>
+    <genDataTypes ecoreDataType="types.ecore#//Ipv6FlowLabel"/>
+    <genDataTypes ecoreDataType="types.ecore#//Ipv6FlowLabelObject"/>
+    <genDataTypes ecoreDataType="types.ecore#//Ipv6Prefix"/>
+    <genDataTypes ecoreDataType="types.ecore#//IpVersionObject"/>
+    <genDataTypes ecoreDataType="types.ecore#//PortNumber"/>
+    <genDataTypes ecoreDataType="types.ecore#//PortNumberObject"/>
+    <genDataTypes ecoreDataType="types.ecore#//T0"/>
+    <genDataTypes ecoreDataType="types.ecore#//Uri"/>
+  </genPackages>
+</genmodel:GenModel>

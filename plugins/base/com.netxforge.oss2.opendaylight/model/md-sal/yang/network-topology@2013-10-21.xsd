@@ -1,0 +1,444 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+           xmlns:yin="urn:ietf:params:xml:schema:yang:yin:1"
+           targetNamespace="urn:TBD:params:xml:ns:yang:network-topology"
+           xmlns="urn:TBD:params:xml:ns:yang:network-topology"
+           elementFormDefault="qualified"
+           attributeFormDefault="unqualified"
+           version="2013-10-21"
+           xml:lang="en"
+          xmlns:nt="urn:TBD:params:xml:ns:yang:network-topology"
+          xmlns:inet="urn:ietf:params:xml:ns:yang:ietf-inet-types">
+
+  <xs:import namespace="urn:ietf:params:xml:ns:yang:ietf-inet-types"
+             schemaLocation="ietf-inet-types.xsd"/>
+
+  <xs:annotation>
+    <xs:documentation>
+      This schema was generated from the YANG module network-topology
+
+      The schema describes an instance document consisting
+      of the entire configuration data store, operational
+      data, rpc operations, and notifications.
+      This schema can thus NOT be used as-is to
+      validate NETCONF PDUs.
+    </xs:documentation>
+  </xs:annotation>
+
+  <xs:annotation>
+    <xs:documentation>
+      This module defines a model for the topology of a network.
+      Key design decisions are as follows:
+      A topology consists of a set of nodes and links.
+      Links are point-to-point and unidirectional.
+      Bidirectional connections need to be represented through
+      two separate links.
+      Multipoint connections, broadcast domains etc can be represented
+      through a hierarchy of nodes, then connecting nodes at
+      upper layers of the hierarchy.
+    </xs:documentation>
+  </xs:annotation>
+
+  <!-- YANG typedefs -->
+  <xs:simpleType name="topology-id">
+    <xs:annotation>
+      <xs:documentation>
+        An identifier for a topology.
+      </xs:documentation>
+    </xs:annotation>
+
+    <xs:restriction base="inet:uri">
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:simpleType name="node-id">
+    <xs:annotation>
+      <xs:documentation>
+        An identifier for a node in a topology.
+        The identifier may be opaque.
+        The identifier SHOULD be chosen such that the same node in a
+        real network topology will always be identified through the
+        same identifier, even if the model is instantiated in separate
+        datastores. An implementation MAY choose to capture semantics
+        in the identifier, for example to indicate the type of node
+        and/or the type of topology that the node is a part of.
+      </xs:documentation>
+    </xs:annotation>
+
+    <xs:restriction base="inet:uri">
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:simpleType name="link-id">
+    <xs:annotation>
+      <xs:documentation>
+        An identifier for a link in a topology.
+        The identifier may be opaque.
+        The identifier SHOULD be chosen such that the same link in a
+        real network topology will always be identified through the
+        same identifier, even if the model is instantiated in separate
+        datastores. An implementation MAY choose to capture semantics
+        in the identifier, for example to indicate the type of link
+        and/or the type of topology that the link is a part of.
+      </xs:documentation>
+    </xs:annotation>
+
+    <xs:restriction base="inet:uri">
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:simpleType name="tp-id">
+    <xs:annotation>
+      <xs:documentation>
+        An identifier for termination points on a node.
+        The identifier may be opaque.
+        The identifier SHOULD be chosen such that the same TP in a
+        real network topology will always be identified through the
+        same identifier, even if the model is instantiated in separate
+        datastores. An implementation MAY choose to capture semantics
+        in the identifier, for example to indicate the type of TP
+        and/or the type of node and topology that the TP is a part of.
+      </xs:documentation>
+    </xs:annotation>
+
+    <xs:restriction base="inet:uri">
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:simpleType name="tp-ref">
+    <xs:annotation>
+      <xs:documentation>
+        A type for an absolute reference to a termination point.
+        (This type should not be used for relative references.
+        In such a case, a relative path should be used instead.)
+      </xs:documentation>
+    </xs:annotation>
+
+    <xs:restriction base="tp-id">
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:simpleType name="topology-ref">
+    <xs:annotation>
+      <xs:documentation>
+        A type for an absolute reference a topology instance.
+      </xs:documentation>
+    </xs:annotation>
+
+    <xs:restriction base="topology-id">
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:simpleType name="node-ref">
+    <xs:annotation>
+      <xs:documentation>
+        A type for an absolute reference to a node instance.
+        (This type should not be used for relative references.
+        In such a case, a relative path should be used instead.)
+      </xs:documentation>
+    </xs:annotation>
+
+    <xs:restriction base="node-id">
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:simpleType name="link-ref">
+    <xs:annotation>
+      <xs:documentation>
+        A type for an absolute reference a link instance.
+        (This type should not be used for relative references.
+        In such a case, a relative path should be used instead.)
+      </xs:documentation>
+    </xs:annotation>
+
+    <xs:restriction base="link-id">
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:element name="network-topology">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element name="topology" minOccurs="0" maxOccurs="unbounded">
+          <xs:annotation>
+            <xs:documentation>
+
+              This is the model of an abstract topology.
+              A topology contains nodes and links.
+              Each topology MUST be identified by
+              unique topology-id for reason that a network could contain many
+              topologies.
+
+            </xs:documentation>
+          </xs:annotation>
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="topology-id"  type="topology-id">
+                <xs:annotation>
+                  <xs:documentation>
+
+                    It is presumed that a datastore will contain many topologies. To
+                    distinguish between topologies it is vital to have UNIQUE
+                    topology identifiers.
+
+                  </xs:documentation>
+                </xs:annotation>
+              </xs:element>
+              <xs:element name="server-provided" minOccurs="0"  type="xs:boolean">
+                <xs:annotation>
+                  <xs:documentation>
+
+                    Indicates whether the topology is configurable by clients,
+                    or whether it is provided by the server.  This leaf is
+
+                    populated by the server implementing the model.
+                    It is set to false for topologies that are created by a client;
+                    it is set to true otherwise.  If it is set to true, any
+                    attempt to edit the topology MUST be rejected.
+
+                  </xs:documentation>
+                </xs:annotation>
+              </xs:element>
+              <xs:element name="topology-types" minOccurs="0">
+                <xs:annotation>
+                  <xs:documentation>
+                    This container is used to identify the type, or types
+                    (as a topology can support several types simultaneously),
+                    of the topology.
+                    Topology types are the subject of several integrity constraints
+                    that an implementing server can validate in order to
+                    maintain integrity of the datastore.
+                    Topology types are indicated through separate data nodes;
+                    the set of topology types is expected to increase over time.
+                    To add support for a new topology, an augmenting module
+                    needs to augment this container with a new empty optional
+                    container to indicate the new topology type.
+                    The use of a container allows to indicate a subcategorization
+                    of topology types.
+                    The container SHALL NOT be augmented with any data nodes
+                    that serve a purpose other than identifying a particular
+                    topology type.
+
+                  </xs:documentation>
+                </xs:annotation>
+                <xs:complexType>
+                  <xs:sequence>
+                    <xs:any minOccurs="0" maxOccurs="unbounded"
+                            namespace="##other" processContents="lax"/>
+                  </xs:sequence>
+                </xs:complexType>
+              </xs:element>
+              <xs:element name="underlay-topology" minOccurs="0" maxOccurs="unbounded">
+                <xs:annotation>
+                  <xs:documentation>
+                    Identifies the topology, or topologies, that this topology
+                    is dependent on.
+                  </xs:documentation>
+                </xs:annotation>
+                <xs:complexType>
+                  <xs:sequence>
+                    <xs:element name="topology-ref"  type="topology-ref"/>
+                    <xs:any minOccurs="0" maxOccurs="unbounded"
+                            namespace="##other" processContents="lax"/>
+                  </xs:sequence>
+                </xs:complexType>
+              </xs:element>
+              <xs:element name="node" minOccurs="0" maxOccurs="unbounded">
+                <xs:annotation>
+                  <xs:documentation>
+                    The list of network nodes defined for the topology.
+                  </xs:documentation>
+                </xs:annotation>
+                <xs:complexType>
+                  <xs:sequence>
+                    <xs:element name="node-id"  type="node-id">
+                      <xs:annotation>
+                        <xs:documentation>
+                          The identifier of a node in the topology.
+                          A node is specific to a topology to which it belongs.
+                        </xs:documentation>
+                      </xs:annotation>
+                    </xs:element>
+                    <xs:element name="supporting-node" minOccurs="0" maxOccurs="unbounded">
+                      <xs:annotation>
+                        <xs:documentation>
+                          This list defines vertical layering information for nodes.
+                          It allows to capture for any given node, which node (or nodes)
+                          in the corresponding underlay topology it maps onto.
+                          A node can map to zero, one, or more nodes below it;
+                          accordingly there can be zero, one, or more elements in the list.
+                          If there are specific layering requirements, for example
+                          specific to a particular type of topology that only allows
+                          for certain layering relationships, the choice
+                          below can be augmented with additional cases.
+                          A list has been chosen rather than a leaf-list in order
+                          to provide room for augmentations, e.g. for
+                          statistics or priorization information associated with
+                          supporting nodes.
+                        </xs:documentation>
+                      </xs:annotation>
+                      <xs:complexType>
+                        <xs:sequence>
+                          <xs:element name="node-ref"  type="node-ref"/>
+                          <xs:any minOccurs="0" maxOccurs="unbounded"
+                                  namespace="##other" processContents="lax"/>
+                        </xs:sequence>
+                      </xs:complexType>
+                    </xs:element>
+                    <xs:element name="termination-point" minOccurs="0" maxOccurs="unbounded">
+                      <xs:annotation>
+                        <xs:documentation>
+                          A termination point can terminate a link.
+                          Depending on the type of topology, a termination point could,
+                          for example, refer to a port or an interface.
+                        </xs:documentation>
+                      </xs:annotation>
+                      <xs:complexType>
+                        <xs:sequence>
+                          <xs:element name="tp-id"  type="tp-id"/>
+                          <xs:element name="tp-ref" minOccurs="0" maxOccurs="unbounded"  type="tp-ref">
+                            <xs:annotation>
+                              <xs:documentation>
+                                The leaf list identifies any termination points that the
+                                termination point is dependent on, or maps onto.
+                                Those termination points will themselves be contained
+                                in a supporting node.
+                                This dependency information can be inferred from
+                                the dependencies between links.  For this reason,
+                                this item is not separately configurable.  Hence no
+                                corresponding constraint needs to be articulated.
+                                The corresponding information is simply provided by the
+                                implementing system.
+                              </xs:documentation>
+                            </xs:annotation>
+                          </xs:element>
+                          <xs:any minOccurs="0" maxOccurs="unbounded"
+                                  namespace="##other" processContents="lax"/>
+                        </xs:sequence>
+                      </xs:complexType>
+                    </xs:element>
+                    <xs:any minOccurs="0" maxOccurs="unbounded"
+                            namespace="##other" processContents="lax"/>
+                  </xs:sequence>
+                </xs:complexType>
+                <xs:key name="key_node_topology_network-topology_supporting-node">
+                  <xs:selector xpath="nt:supporting-node"/>
+                  <xs:field xpath="nt:node-ref"/>
+                </xs:key>
+                <xs:key name="key_node_topology_network-topology_termination-point">
+                  <xs:selector xpath="nt:termination-point"/>
+                  <xs:field xpath="nt:tp-id"/>
+                </xs:key>
+              </xs:element>
+              <xs:element name="link" minOccurs="0" maxOccurs="unbounded">
+                <xs:annotation>
+                  <xs:documentation>
+
+                    A Network Link connects a by Local (Source) node and
+                    a Remote (Destination) Network Nodes via a set of the
+                    nodes' termination points.
+                    As it is possible to have several links between the same
+                    source and destination nodes, and as a link could potentially
+                    be re-homed between termination points, to ensure that we
+                    would always know to distinguish between links, every link
+                    is identified by a dedicated link identifier.
+                    Note that a link models a point-to-point link, not a multipoint
+                    link.
+                    Layering dependencies on links in underlay topologies are
+                    not represented as the layering information of nodes and of
+                    termination points is sufficient.
+
+                  </xs:documentation>
+                </xs:annotation>
+                <xs:complexType>
+                  <xs:sequence>
+                    <xs:element name="link-id"  type="link-id">
+                      <xs:annotation>
+                        <xs:documentation>
+                          The identifier of a link in the topology.
+                          A link is specific to a topology to which it belongs.
+                        </xs:documentation>
+                      </xs:annotation>
+                    </xs:element>
+                    <xs:element name="source" minOccurs="0">
+                      <xs:complexType>
+                        <xs:sequence>
+                          <xs:element name="source-node"  type="node-ref">
+                            <xs:annotation>
+                              <xs:documentation>
+                                Source node identifier, must be in same topology.
+                              </xs:documentation>
+                            </xs:annotation>
+                          </xs:element>
+                          <xs:element name="source-tp" minOccurs="0"  type="tp-ref">
+                            <xs:annotation>
+                              <xs:documentation>
+                                Termination point within source node that terminates the link.
+                              </xs:documentation>
+                            </xs:annotation>
+                          </xs:element>
+                          <xs:any minOccurs="0" maxOccurs="unbounded"
+                                  namespace="##other" processContents="lax"/>
+                        </xs:sequence>
+                      </xs:complexType>
+                    </xs:element>
+                    <xs:element name="destination" minOccurs="0">
+                      <xs:complexType>
+                        <xs:sequence>
+                          <xs:element name="dest-node"  type="node-ref">
+                            <xs:annotation>
+                              <xs:documentation>
+                                Destination node identifier, must be in same topology.
+                              </xs:documentation>
+                            </xs:annotation>
+                          </xs:element>
+                          <xs:element name="dest-tp" minOccurs="0"  type="tp-ref">
+                            <xs:annotation>
+                              <xs:documentation>
+                                Termination point within destination node that terminates the link.
+                              </xs:documentation>
+                            </xs:annotation>
+                          </xs:element>
+                          <xs:any minOccurs="0" maxOccurs="unbounded"
+                                  namespace="##other" processContents="lax"/>
+                        </xs:sequence>
+                      </xs:complexType>
+                    </xs:element>
+                    <xs:element name="supporting-link" minOccurs="0" maxOccurs="unbounded">
+                      <xs:complexType>
+                        <xs:sequence>
+                          <xs:element name="link-ref"  type="link-ref"/>
+                          <xs:any minOccurs="0" maxOccurs="unbounded"
+                                  namespace="##other" processContents="lax"/>
+                        </xs:sequence>
+                      </xs:complexType>
+                    </xs:element>
+                    <xs:any minOccurs="0" maxOccurs="unbounded"
+                            namespace="##other" processContents="lax"/>
+                  </xs:sequence>
+                </xs:complexType>
+                <xs:key name="key_link_topology_network-topology_supporting-link">
+                  <xs:selector xpath="nt:supporting-link"/>
+                  <xs:field xpath="nt:link-ref"/>
+                </xs:key>
+              </xs:element>
+              <xs:any minOccurs="0" maxOccurs="unbounded"
+                      namespace="##other" processContents="lax"/>
+            </xs:sequence>
+          </xs:complexType>
+          <xs:key name="key_topology_network-topology_underlay-topology">
+            <xs:selector xpath="nt:underlay-topology"/>
+            <xs:field xpath="nt:topology-ref"/>
+          </xs:key>
+          <xs:key name="key_topology_network-topology_node">
+            <xs:selector xpath="nt:node"/>
+            <xs:field xpath="nt:node-id"/>
+          </xs:key>
+          <xs:key name="key_topology_network-topology_link">
+            <xs:selector xpath="nt:link"/>
+            <xs:field xpath="nt:link-id"/>
+          </xs:key>
+        </xs:element>
+        <xs:any minOccurs="0" maxOccurs="unbounded"
+                namespace="##other" processContents="lax"/>
+      </xs:sequence>
+    </xs:complexType>
+    <xs:key name="key_network-topology_topology">
+      <xs:selector xpath="nt:topology"/>
+      <xs:field xpath="nt:topology-id"/>
+    </xs:key>
+  </xs:element>
+
+</xs:schema>

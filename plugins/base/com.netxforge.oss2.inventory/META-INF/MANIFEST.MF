@@ -1,0 +1,17 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: OSS2 Inventory
+Bundle-SymbolicName: com.netxforge.oss2.inventory
+Bundle-Version: 1.0.0.qualifier
+Bundle-Activator: com.netxforge.oss2.inventory.internal.InventoryActivator
+Bundle-Vendor: NetXForge
+Export-Package: com.netxforge.oss2.inventory
+Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Import-Package: com.netxforge.netxstudio.metrics,
+ com.netxforge.oss2.job.rest,
+ org.eclipse.osgi.framework.console;version="1.1.0",
+ org.osgi.framework;version="1.3.0",
+ org.osgi.service.component.annotations
+Service-Component: OSGI-INF/com.netxforge.oss2.inventory.InventoryService.xml
+Bundle-ActivationPolicy: lazy
+Require-Bundle: com.netxforge.base;bundle-version="1.0.0"

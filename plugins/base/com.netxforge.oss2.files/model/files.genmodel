@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<genmodel:GenModel xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore"
+    xmlns:genmodel="http://www.eclipse.org/emf/2002/GenModel" modelDirectory="/com.netxforge.oss2.files/src-gen" modelPluginID="com.netxforge.oss2.files"
+    modelName="Files" rootExtendsClass="org.eclipse.emf.ecore.impl.MinimalEObjectImpl$Container"
+    importerID="org.eclipse.emf.importer.ecore" complianceLevel="6.0" copyrightFields="false"
+    operationReflection="true" importOrganizing="true">
+  <foreignModel>Files.ecore</foreignModel>
+  <genPackages prefix="Files" disposableProviderFactory="true" ecorePackage="Files.ecore#/">
+    <genEnums typeSafeEnumCompatible="false" ecoreEnum="Files.ecore#//SESSIONS">
+      <genEnumLiterals ecoreEnumLiteral="Files.ecore#//SESSIONS/LISTING"/>
+      <genEnumLiterals ecoreEnumLiteral="Files.ecore#//SESSIONS/CREATE"/>
+    </genEnums>
+    <genClasses ecoreClass="Files.ecore#//FilesSession">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Files.ecore#//FilesSession/folderURL"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Files.ecore#//FilesSession/filterPattern"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Files.ecore#//FilesSession/fileExtension"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Files.ecore#//FilesSession/result"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Files.ecore#//FilesSession/fileName"/>
+      <genOperations ecoreOperation="Files.ecore#//FilesSession/completeFor">
+        <genParameters ecoreParameter="Files.ecore#//FilesSession/completeFor/sessions"/>
+      </genOperations>
+    </genClasses>
+  </genPackages>
+</genmodel:GenModel>

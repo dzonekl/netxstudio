@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.0"?>
+
+<!--
+-->
+
+<plugin>
+
+   <extension point="org.eclipse.emf.ecore.generated_package">
+      <!-- @generated opendaylight -->
+      <package
+            uri="platform:/resource/com.netxforge.oss2.opendaylight/model/xsd/topology/ns0.xsd"
+            class="od_core_topology.TopologyPackage"
+            genModel="model/ad-sal/emf/topology/topology.genmodel"/>
+   </extension>
+
+   <extension point="org.eclipse.emf.ecore.extension_parser">
+      <!-- @generated opendaylight -->
+      <parser
+            type="topology"
+            class="od_core_topology.util.TopologyResourceFactoryImpl"/>
+   </extension>
+   <extension point="org.eclipse.emf.ecore.generated_package">
+      <!-- @generated topology -->
+      <package
+            uri="urn:TBD:params:xml:ns:yang:network-topology"
+            class="tbd.params.xml.ns.yang.network.topology.TopologyPackage"
+            genModel="model/md-sal/emf/topology/topology.genmodel"/>
+   </extension>
+
+   <extension point="org.eclipse.emf.ecore.extension_parser">
+      <!-- @generated topology -->
+      <parser
+            type="topology"
+            class="tbd.params.xml.ns.yang.network.topology.util.TopologyResourceFactoryImpl"/>
+   </extension>
+
+   <extension point="org.eclipse.emf.ecore.generated_package">
+      <!-- @generated topology -->
+      <package
+            uri="urn:ietf:params:xml:ns:yang:ietf-inet-types"
+            class="ietf.params.xml.ns.yang.ietf.inet.types.TypesPackage"
+            genModel="model/md-sal/emf/topology/topology.genmodel"/>
+   </extension>
+
+   <extension point="org.eclipse.emf.ecore.extension_parser">
+      <!-- @generated topology -->
+      <parser
+            type="types"
+            class="ietf.params.xml.ns.yang.ietf.inet.types.util.TypesResourceFactoryImpl"/>
+   </extension>
+</plugin>

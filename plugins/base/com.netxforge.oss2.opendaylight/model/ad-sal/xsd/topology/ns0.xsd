@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema version="1.0" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:element name="edge" type="edge"/>
+  <xs:element name="node" type="node"/>
+  <xs:element name="nodeConnector" type="nodeConnector"/>
+  <xs:element name="property" type="property"/>
+  <xs:element name="edgeProperties" type="edgeProperties"/>
+  <xs:element name="topology" type="topology"/>
+  <xs:element name="list" type="topologyUserLinks"/>
+  <xs:element name="topologyUserLinkConfig" type="topologyUserLinkConfig"/>
+  <xs:complexType name="configurationObject" abstract="true"/>
+  <xs:complexType name="edge">
+    <xs:sequence>
+      <xs:element name="tailNodeConnector" type="nodeConnector" minOccurs="0"/>
+      <xs:element name="headNodeConnector" type="nodeConnector" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="node">
+    <xs:sequence>
+      <xs:element name="id" type="xs:string" minOccurs="0"/>
+      <xs:element name="type" type="xs:string" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="nodeConnector">
+    <xs:sequence>
+      <xs:element name="id" type="xs:string" minOccurs="0"/>
+      <xs:element name="node" type="node" minOccurs="0"/>
+      <xs:element name="type" type="xs:string" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="property" abstract="true"/>
+  <xs:complexType name="edgeProperties">
+    <xs:sequence>
+      <xs:element name="edge" type="edge" minOccurs="0"/>
+      <xs:element name="properties" minOccurs="0">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element name="property" type="property" minOccurs="0" maxOccurs="unbounded"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="topology">
+    <xs:sequence>
+      <xs:element name="edgeProperties" type="edgeProperties" minOccurs="0" maxOccurs="unbounded"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="topologyUserLinks">
+    <xs:sequence>
+      <xs:element name="userLinks" type="topologyUserLinkConfig" minOccurs="0" maxOccurs="unbounded"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="topologyUserLinkConfig">
+    <xs:complexContent>
+      <xs:extension base="configurationObject">
+        <xs:sequence>
+          <xs:element name="srcNodeConnector" type="xs:string" minOccurs="0"/>
+          <xs:element name="dstNodeConnector" type="xs:string" minOccurs="0"/>
+          <xs:element name="status" type="xs:string" minOccurs="0"/>
+          <xs:element name="name" type="xs:string" minOccurs="0"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+</xs:schema>

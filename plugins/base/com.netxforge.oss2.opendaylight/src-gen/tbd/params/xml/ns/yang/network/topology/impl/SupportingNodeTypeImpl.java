@@ -1,0 +1,219 @@
+/**
+ */
+package tbd.params.xml.ns.yang.network.topology.impl;
+
+import org.eclipse.emf.common.notify.Notification;
+import org.eclipse.emf.common.notify.NotificationChain;
+
+import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.InternalEObject;
+
+import org.eclipse.emf.ecore.impl.ENotificationImpl;
+import org.eclipse.emf.ecore.impl.MinimalEObjectImpl;
+
+import org.eclipse.emf.ecore.util.BasicFeatureMap;
+import org.eclipse.emf.ecore.util.FeatureMap;
+import org.eclipse.emf.ecore.util.InternalEList;
+
+import tbd.params.xml.ns.yang.network.topology.SupportingNodeType;
+import tbd.params.xml.ns.yang.network.topology.TopologyPackage;
+
+/**
+ * <!-- begin-user-doc -->
+ * An implementation of the model object '<em><b>Supporting Node Type</b></em>'.
+ * <!-- end-user-doc -->
+ * <p>
+ * The following features are implemented:
+ * <ul>
+ *   <li>{@link tbd.params.xml.ns.yang.network.topology.impl.SupportingNodeTypeImpl#getNodeRef <em>Node Ref</em>}</li>
+ *   <li>{@link tbd.params.xml.ns.yang.network.topology.impl.SupportingNodeTypeImpl#getAny <em>Any</em>}</li>
+ * </ul>
+ * </p>
+ *
+ * @generated
+ */
+public class SupportingNodeTypeImpl extends MinimalEObjectImpl.Container implements SupportingNodeType {
+	/**
+	 * The default value of the '{@link #getNodeRef() <em>Node Ref</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getNodeRef()
+	 * @generated
+	 * @ordered
+	 */
+	protected static final String NODE_REF_EDEFAULT = null;
+
+	/**
+	 * The cached value of the '{@link #getNodeRef() <em>Node Ref</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getNodeRef()
+	 * @generated
+	 * @ordered
+	 */
+	protected String nodeRef = NODE_REF_EDEFAULT;
+
+	/**
+	 * The cached value of the '{@link #getAny() <em>Any</em>}' attribute list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getAny()
+	 * @generated
+	 * @ordered
+	 */
+	protected FeatureMap any;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	protected SupportingNodeTypeImpl() {
+		super();
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	protected EClass eStaticClass() {
+		return TopologyPackage.Literals.SUPPORTING_NODE_TYPE;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public String getNodeRef() {
+		return nodeRef;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setNodeRef(String newNodeRef) {
+		String oldNodeRef = nodeRef;
+		nodeRef = newNodeRef;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, TopologyPackage.SUPPORTING_NODE_TYPE__NODE_REF, oldNodeRef, nodeRef));
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public FeatureMap getAny() {
+		if (any == null) {
+			any = new BasicFeatureMap(this, TopologyPackage.SUPPORTING_NODE_TYPE__ANY);
+		}
+		return any;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
+		switch (featureID) {
+			case TopologyPackage.SUPPORTING_NODE_TYPE__ANY:
+				return ((InternalEList<?>)getAny()).basicRemove(otherEnd, msgs);
+		}
+		return super.eInverseRemove(otherEnd, featureID, msgs);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public Object eGet(int featureID, boolean resolve, boolean coreType) {
+		switch (featureID) {
+			case TopologyPackage.SUPPORTING_NODE_TYPE__NODE_REF:
+				return getNodeRef();
+			case TopologyPackage.SUPPORTING_NODE_TYPE__ANY:
+				if (coreType) return getAny();
+				return ((FeatureMap.Internal)getAny()).getWrapper();
+		}
+		return super.eGet(featureID, resolve, coreType);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public void eSet(int featureID, Object newValue) {
+		switch (featureID) {
+			case TopologyPackage.SUPPORTING_NODE_TYPE__NODE_REF:
+				setNodeRef((String)newValue);
+				return;
+			case TopologyPackage.SUPPORTING_NODE_TYPE__ANY:
+				((FeatureMap.Internal)getAny()).set(newValue);
+				return;
+		}
+		super.eSet(featureID, newValue);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public void eUnset(int featureID) {
+		switch (featureID) {
+			case TopologyPackage.SUPPORTING_NODE_TYPE__NODE_REF:
+				setNodeRef(NODE_REF_EDEFAULT);
+				return;
+			case TopologyPackage.SUPPORTING_NODE_TYPE__ANY:
+				getAny().clear();
+				return;
+		}
+		super.eUnset(featureID);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public boolean eIsSet(int featureID) {
+		switch (featureID) {
+			case TopologyPackage.SUPPORTING_NODE_TYPE__NODE_REF:
+				return NODE_REF_EDEFAULT == null ? nodeRef != null : !NODE_REF_EDEFAULT.equals(nodeRef);
+			case TopologyPackage.SUPPORTING_NODE_TYPE__ANY:
+				return any != null && !any.isEmpty();
+		}
+		return super.eIsSet(featureID);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public String toString() {
+		if (eIsProxy()) return super.toString();
+
+		StringBuffer result = new StringBuffer(super.toString());
+		result.append(" (nodeRef: ");
+		result.append(nodeRef);
+		result.append(", any: ");
+		result.append(any);
+		result.append(')');
+		return result.toString();
+	}
+
+} //SupportingNodeTypeImpl

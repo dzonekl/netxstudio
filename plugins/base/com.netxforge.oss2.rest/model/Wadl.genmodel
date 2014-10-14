@@ -1,0 +1,176 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<genmodel:GenModel xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore"
+    xmlns:genmodel="http://www.eclipse.org/emf/2002/GenModel" modelDirectory="/com.netxforge.oss2.rest/src-gen" modelPluginID="com.netxforge.oss2.rest"
+    modelName="Wadl" modelPluginClass="" rootExtendsClass="org.eclipse.emf.ecore.impl.MinimalEObjectImpl$Container"
+    importerID="org.eclipse.emf.importer.ecore" complianceLevel="6.0" copyrightFields="false"
+    usedGenPackages="../../org.eclipse.emf.ecore/model/XMLNamespace.genmodel#//namespace"
+    operationReflection="true" importOrganizing="true">
+  <foreignModel>wadl.ecore</foreignModel>
+  <genPackages prefix="Wadl" resource="XML" disposableProviderFactory="true" ecorePackage="wadl.ecore#/">
+    <genEnums typeSafeEnumCompatible="false" ecoreEnum="wadl.ecore#//HTTPMethods">
+      <genEnumLiterals ecoreEnumLiteral="wadl.ecore#//HTTPMethods/GET"/>
+      <genEnumLiterals ecoreEnumLiteral="wadl.ecore#//HTTPMethods/POST"/>
+      <genEnumLiterals ecoreEnumLiteral="wadl.ecore#//HTTPMethods/PUT"/>
+      <genEnumLiterals ecoreEnumLiteral="wadl.ecore#//HTTPMethods/HEAD"/>
+      <genEnumLiterals ecoreEnumLiteral="wadl.ecore#//HTTPMethods/DELETE"/>
+    </genEnums>
+    <genEnums typeSafeEnumCompatible="false" ecoreEnum="wadl.ecore#//ParamStyle">
+      <genEnumLiterals ecoreEnumLiteral="wadl.ecore#//ParamStyle/plain"/>
+      <genEnumLiterals ecoreEnumLiteral="wadl.ecore#//ParamStyle/query"/>
+      <genEnumLiterals ecoreEnumLiteral="wadl.ecore#//ParamStyle/matrix"/>
+      <genEnumLiterals ecoreEnumLiteral="wadl.ecore#//ParamStyle/header"/>
+      <genEnumLiterals ecoreEnumLiteral="wadl.ecore#//ParamStyle/template"/>
+    </genEnums>
+    <genDataTypes ecoreDataType="wadl.ecore#//HTTPMethodsObject"/>
+    <genDataTypes ecoreDataType="wadl.ecore#//Method"/>
+    <genDataTypes ecoreDataType="wadl.ecore#//ParamStyleObject"/>
+    <genDataTypes ecoreDataType="wadl.ecore#//ResourceTypeList"/>
+    <genDataTypes ecoreDataType="wadl.ecore#//StatusCodeList"/>
+    <genDataTypes ecoreDataType="wadl.ecore#//UriList"/>
+    <genClasses ecoreClass="wadl.ecore#//ApplicationType">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference wadl.ecore#//ApplicationType/doc"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference wadl.ecore#//ApplicationType/grammars"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference wadl.ecore#//ApplicationType/resources"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EAttribute wadl.ecore#//ApplicationType/group"/>
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference wadl.ecore#//ApplicationType/resourceType"/>
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference wadl.ecore#//ApplicationType/method"/>
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference wadl.ecore#//ApplicationType/representation"/>
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference wadl.ecore#//ApplicationType/param"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EAttribute wadl.ecore#//ApplicationType/any"/>
+    </genClasses>
+    <genClasses ecoreClass="wadl.ecore#//DocType">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EAttribute wadl.ecore#//DocType/mixed"/>
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EAttribute wadl.ecore#//DocType/any"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute wadl.ecore#//DocType/lang"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute wadl.ecore#//DocType/title"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EAttribute wadl.ecore#//DocType/anyAttribute"/>
+    </genClasses>
+    <genClasses ecoreClass="wadl.ecore#//DocumentRoot">
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EAttribute wadl.ecore#//DocumentRoot/mixed"/>
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference wadl.ecore#//DocumentRoot/xMLNSPrefixMap"/>
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference wadl.ecore#//DocumentRoot/xSISchemaLocation"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference wadl.ecore#//DocumentRoot/application"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference wadl.ecore#//DocumentRoot/doc"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference wadl.ecore#//DocumentRoot/grammars"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference wadl.ecore#//DocumentRoot/include"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference wadl.ecore#//DocumentRoot/link"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference wadl.ecore#//DocumentRoot/method"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference wadl.ecore#//DocumentRoot/option"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference wadl.ecore#//DocumentRoot/param"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference wadl.ecore#//DocumentRoot/representation"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference wadl.ecore#//DocumentRoot/request"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference wadl.ecore#//DocumentRoot/resource"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference wadl.ecore#//DocumentRoot/resourceType"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference wadl.ecore#//DocumentRoot/resources"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference wadl.ecore#//DocumentRoot/response"/>
+    </genClasses>
+    <genClasses ecoreClass="wadl.ecore#//GrammarsType">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference wadl.ecore#//GrammarsType/doc"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference wadl.ecore#//GrammarsType/include"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EAttribute wadl.ecore#//GrammarsType/any"/>
+    </genClasses>
+    <genClasses ecoreClass="wadl.ecore#//IncludeType">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference wadl.ecore#//IncludeType/doc"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute wadl.ecore#//IncludeType/href"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EAttribute wadl.ecore#//IncludeType/anyAttribute"/>
+    </genClasses>
+    <genClasses ecoreClass="wadl.ecore#//LinkType">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference wadl.ecore#//LinkType/doc"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EAttribute wadl.ecore#//LinkType/any"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute wadl.ecore#//LinkType/rel"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute wadl.ecore#//LinkType/resourceType"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute wadl.ecore#//LinkType/rev"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EAttribute wadl.ecore#//LinkType/anyAttribute"/>
+    </genClasses>
+    <genClasses ecoreClass="wadl.ecore#//MethodType">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference wadl.ecore#//MethodType/doc"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference wadl.ecore#//MethodType/request"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference wadl.ecore#//MethodType/response"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EAttribute wadl.ecore#//MethodType/any"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute wadl.ecore#//MethodType/href"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute wadl.ecore#//MethodType/id"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute wadl.ecore#//MethodType/name"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EAttribute wadl.ecore#//MethodType/anyAttribute"/>
+    </genClasses>
+    <genClasses ecoreClass="wadl.ecore#//OptionType">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference wadl.ecore#//OptionType/doc"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EAttribute wadl.ecore#//OptionType/any"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute wadl.ecore#//OptionType/mediaType"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute wadl.ecore#//OptionType/value"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EAttribute wadl.ecore#//OptionType/anyAttribute"/>
+    </genClasses>
+    <genClasses ecoreClass="wadl.ecore#//ParamType">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference wadl.ecore#//ParamType/doc"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference wadl.ecore#//ParamType/option"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference wadl.ecore#//ParamType/link"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EAttribute wadl.ecore#//ParamType/any"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute wadl.ecore#//ParamType/default"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute wadl.ecore#//ParamType/fixed"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute wadl.ecore#//ParamType/href"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute wadl.ecore#//ParamType/id"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute wadl.ecore#//ParamType/name"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute wadl.ecore#//ParamType/path"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute wadl.ecore#//ParamType/repeating"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute wadl.ecore#//ParamType/required"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute wadl.ecore#//ParamType/style"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute wadl.ecore#//ParamType/type"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EAttribute wadl.ecore#//ParamType/anyAttribute"/>
+    </genClasses>
+    <genClasses ecoreClass="wadl.ecore#//RepresentationType">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference wadl.ecore#//RepresentationType/doc"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference wadl.ecore#//RepresentationType/param"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EAttribute wadl.ecore#//RepresentationType/any"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute wadl.ecore#//RepresentationType/element"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute wadl.ecore#//RepresentationType/href"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute wadl.ecore#//RepresentationType/id"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute wadl.ecore#//RepresentationType/mediaType"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute wadl.ecore#//RepresentationType/profile"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EAttribute wadl.ecore#//RepresentationType/anyAttribute"/>
+    </genClasses>
+    <genClasses ecoreClass="wadl.ecore#//RequestType">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference wadl.ecore#//RequestType/doc"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference wadl.ecore#//RequestType/param"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference wadl.ecore#//RequestType/representation"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EAttribute wadl.ecore#//RequestType/any"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EAttribute wadl.ecore#//RequestType/anyAttribute"/>
+    </genClasses>
+    <genClasses ecoreClass="wadl.ecore#//ResourcesType">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference wadl.ecore#//ResourcesType/doc"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference wadl.ecore#//ResourcesType/resource"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EAttribute wadl.ecore#//ResourcesType/any"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute wadl.ecore#//ResourcesType/base"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EAttribute wadl.ecore#//ResourcesType/anyAttribute"/>
+    </genClasses>
+    <genClasses ecoreClass="wadl.ecore#//ResourceType">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference wadl.ecore#//ResourceType/doc"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference wadl.ecore#//ResourceType/param"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EAttribute wadl.ecore#//ResourceType/group"/>
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference wadl.ecore#//ResourceType/method"/>
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference wadl.ecore#//ResourceType/resource"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EAttribute wadl.ecore#//ResourceType/any"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute wadl.ecore#//ResourceType/id"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute wadl.ecore#//ResourceType/path"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute wadl.ecore#//ResourceType/queryType"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute wadl.ecore#//ResourceType/type"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EAttribute wadl.ecore#//ResourceType/anyAttribute"/>
+    </genClasses>
+    <genClasses ecoreClass="wadl.ecore#//ResourceTypeType">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference wadl.ecore#//ResourceTypeType/doc"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference wadl.ecore#//ResourceTypeType/param"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EAttribute wadl.ecore#//ResourceTypeType/group"/>
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference wadl.ecore#//ResourceTypeType/method"/>
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference wadl.ecore#//ResourceTypeType/resource"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EAttribute wadl.ecore#//ResourceTypeType/any"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute wadl.ecore#//ResourceTypeType/id"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EAttribute wadl.ecore#//ResourceTypeType/anyAttribute"/>
+    </genClasses>
+    <genClasses ecoreClass="wadl.ecore#//ResponseType">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference wadl.ecore#//ResponseType/doc"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference wadl.ecore#//ResponseType/param"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference wadl.ecore#//ResponseType/representation"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EAttribute wadl.ecore#//ResponseType/any"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute wadl.ecore#//ResponseType/status"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EAttribute wadl.ecore#//ResponseType/anyAttribute"/>
+    </genClasses>
+  </genPackages>
+</genmodel:GenModel>

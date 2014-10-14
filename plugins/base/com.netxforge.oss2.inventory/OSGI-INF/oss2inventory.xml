@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<scr:component xmlns:scr="http://www.osgi.org/xmlns/scr/v1.1.0" activate="activate" deactivate="deactivate" immediate="true" name="com.netxforge.oss2.inventory">
+   <implementation class="com.netxforge.oss2.inventory.InventoryService"/>
+   <service>
+      <provide interface="com.netxforge.oss2.inventory.IInventoryService"/>
+      <provide interface="org.eclipse.osgi.framework.console.CommandProvider"/>
+   </service>
+   <reference bind="setRestMapping" cardinality="1..1" interface="com.netxforge.oss2.job.rest.IRestMapping" name="IRestMapping" policy="static" unbind="unsetRestMapping"/>
+</scr:component>

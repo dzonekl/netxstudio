@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ecore:EPackage xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="restSession" nsURI="http://www.netxforge.com/restsession" nsPrefix="restSession">
+  <eClassifiers xsi:type="ecore:EClass" name="RestSession">
+    <eOperations name="compleet" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+    <eOperations name="constructURI" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="userid" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"
+        defaultValueLiteral="admin"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="httpMethod" eType="#//HTTP_METHODS"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="baseURI" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"
+        defaultValueLiteral="http://localhost:8181"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="password" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="pathFragments" upperBound="-1"
+        eType="#//PathFragment" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="media" eType="#//MEDIA_TYPE"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="entityInfo" eType="#//EntityInfo"
+        containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="HTTP_METHODS">
+    <eLiterals name="GET" value="200" literal="GET"/>
+    <eLiterals name="POST" value="300" literal="POST"/>
+    <eLiterals name="DELETE" value="400"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="PathFragment">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="fragment" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="MEDIA_TYPE">
+    <eLiterals name="XML" value="100"/>
+    <eLiterals name="JSON" value="200" literal="JSON"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="EntityInfo">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+</ecore:EPackage>

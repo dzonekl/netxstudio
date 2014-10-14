@@ -1,0 +1,223 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ecore:EPackage xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="types" nsURI="urn:ietf:params:xml:ns:yang:ietf-inet-types" nsPrefix="types">
+  <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+    <details key="documentation" value="&#xA;      This schema was generated from the YANG module ietf-inet-types&#xA;&#xA;      The schema describes an instance document consisting&#xA;      of the entire configuration data store, operational&#xA;      data, rpc operations, and notifications.&#xA;      This schema can thus NOT be used as-is to&#xA;      validate NETCONF PDUs.&#xA;    &#xA;&#xA;      This module contains a collection of generally useful derived&#xA;      YANG data types for Internet addresses and related things.&#xA;&#xA;      Copyright (c) 2010 IETF Trust and the persons identified as&#xA;      authors of the code.  All rights reserved.&#xA;&#xA;      Redistribution and use in source and binary forms, with or without&#xA;      modification, is permitted pursuant to, and subject to the license&#xA;      terms contained in, the Simplified BSD License set forth in Section&#xA;      4.c of the IETF Trust's Legal Provisions Relating to IETF Documents&#xA;      (http://trustee.ietf.org/license-info).&#xA;&#xA;      This version of this YANG module is part of RFC 6021; see&#xA;      the RFC itself for full legal notices.&#xA;    "/>
+  </eAnnotations>
+  <eAnnotations source="http://www.w3.org/XML/1998/namespace">
+    <details key="lang" value="en"/>
+  </eAnnotations>
+  <eClassifiers xsi:type="ecore:EDataType" name="AsNumber" instanceClassName="long">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+      <details key="documentation" value="&#xA;        The as-number type represents autonomous system numbers&#xA;        which identify an Autonomous System (AS).  An AS is a set&#xA;        of routers under a single technical administration, using&#xA;        an interior gateway protocol and common metrics to route&#xA;        packets within the AS, and using an exterior gateway&#xA;        protocol to route packets to other ASs'.  IANA maintains&#xA;        the AS number space and has delegated large parts to the&#xA;        regional registries.&#xA;&#xA;        Autonomous system numbers were originally limited to 16&#xA;        bits.  BGP extensions have enlarged the autonomous system&#xA;        number space to 32 bits.  This type therefore uses an uint32&#xA;        base type without a range restriction in order to support&#xA;        a larger autonomous system number space.&#xA;&#xA;        In the value set and its semantics, this type is equivalent&#xA;        to the InetAutonomousSystemNumber textual convention of&#xA;        the SMIv2.&#xA;      "/>
+    </eAnnotations>
+    <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
+      <details key="name" value="as-number"/>
+      <details key="baseType" value="http://www.eclipse.org/emf/2003/XMLType#unsignedInt"/>
+    </eAnnotations>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EDataType" name="AsNumberObject" instanceClassName="java.lang.Long">
+    <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
+      <details key="name" value="as-number:Object"/>
+      <details key="baseType" value="as-number"/>
+    </eAnnotations>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EDataType" name="DomainName" instanceClassName="java.lang.String">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+      <details key="documentation" value="&#xA;        The domain-name type represents a DNS domain name.  The&#xA;        name SHOULD be fully qualified whenever possible.&#xA;&#xA;        Internet domain names are only loosely specified.  Section&#xA;        3.5 of RFC 1034 recommends a syntax (modified in Section&#xA;        2.1 of RFC 1123).  The pattern above is intended to allow&#xA;        for current practice in domain name use, and some possible&#xA;        future expansion.  It is designed to hold various types of&#xA;        domain names, including names used for A or AAAA records&#xA;        (host names) and other records, such as SRV records.  Note&#xA;        that Internet host names have a stricter syntax (described&#xA;        in RFC 952) than the DNS recommendations in RFCs 1034 and&#xA;        1123, and that systems that want to store host names in&#xA;        schema nodes using the domain-name type are recommended to&#xA;        adhere to this stricter standard to ensure interoperability.&#xA;&#xA;        The encoding of DNS names in the DNS protocol is limited&#xA;        to 255 characters.  Since the encoding consists of labels&#xA;        prefixed by a length bytes and there is a trailing NULL&#xA;        byte, only 253 characters can appear in the textual dotted&#xA;        notation.&#xA;&#xA;        The description clause of schema nodes using the domain-name&#xA;        type MUST describe when and how these names are resolved to&#xA;        IP addresses.  Note that the resolution of a domain-name value&#xA;        may require to query multiple DNS records (e.g., A for IPv4&#xA;        and AAAA for IPv6).  The order of the resolution process and&#xA;        which DNS record takes precedence can either be defined&#xA;        explicitely or it may depend on the configuration of the&#xA;        resolver.&#xA;&#xA;        Domain-name values use the US-ASCII encoding.  Their canonical&#xA;        format uses lowercase US-ASCII characters.  Internationalized&#xA;        domain names MUST be encoded in punycode as described in RFC&#xA;        3492&#xA;      "/>
+    </eAnnotations>
+    <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
+      <details key="name" value="domain-name"/>
+      <details key="baseType" value="t0"/>
+      <details key="minLength" value="1"/>
+      <details key="maxLength" value="253"/>
+    </eAnnotations>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EDataType" name="Dscp" instanceClassName="short">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+      <details key="documentation" value="&#xA;        The dscp type represents a Differentiated Services Code-Point&#xA;        that may be used for marking packets in a traffic stream.&#xA;&#xA;        In the value set and its semantics, this type is equivalent&#xA;        to the Dscp textual convention of the SMIv2.&#xA;      "/>
+    </eAnnotations>
+    <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
+      <details key="name" value="dscp"/>
+      <details key="baseType" value="http://www.eclipse.org/emf/2003/XMLType#unsignedByte"/>
+      <details key="minInclusive" value="0"/>
+      <details key="maxInclusive" value="63"/>
+    </eAnnotations>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EDataType" name="DscpObject" instanceClassName="java.lang.Short">
+    <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
+      <details key="name" value="dscp:Object"/>
+      <details key="baseType" value="dscp"/>
+    </eAnnotations>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EDataType" name="Host" instanceClassName="java.lang.String">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+      <details key="documentation" value="&#xA;        The host type represents either an IP address or a DNS&#xA;        domain name.&#xA;      "/>
+    </eAnnotations>
+    <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
+      <details key="name" value="host"/>
+      <details key="memberTypes" value="host_._member_._0 host_._member_._1"/>
+    </eAnnotations>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EDataType" name="HostMember0" instanceClassName="java.lang.String">
+    <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
+      <details key="name" value="host_._member_._0"/>
+      <details key="baseType" value="ip-address"/>
+    </eAnnotations>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EDataType" name="HostMember1" instanceClassName="java.lang.String">
+    <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
+      <details key="name" value="host_._member_._1"/>
+      <details key="baseType" value="domain-name"/>
+    </eAnnotations>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EDataType" name="IpAddress" instanceClassName="java.lang.String">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+      <details key="documentation" value="&#xA;        The ip-address type represents an IP address and is IP&#xA;        version neutral.  The format of the textual representations&#xA;        implies the IP version.&#xA;      "/>
+    </eAnnotations>
+    <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
+      <details key="name" value="ip-address"/>
+      <details key="memberTypes" value="ip-address_._member_._0 ip-address_._member_._1"/>
+    </eAnnotations>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EDataType" name="IpAddressMember0" instanceClassName="java.lang.String">
+    <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
+      <details key="name" value="ip-address_._member_._0"/>
+      <details key="baseType" value="ipv4-address"/>
+    </eAnnotations>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EDataType" name="IpAddressMember1" instanceClassName="java.lang.String">
+    <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
+      <details key="name" value="ip-address_._member_._1"/>
+      <details key="baseType" value="ipv6-address"/>
+    </eAnnotations>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EDataType" name="IpPrefix" instanceClassName="java.lang.String">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+      <details key="documentation" value="&#xA;        The ip-prefix type represents an IP prefix and is IP&#xA;        version neutral.  The format of the textual representations&#xA;        implies the IP version.&#xA;      "/>
+    </eAnnotations>
+    <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
+      <details key="name" value="ip-prefix"/>
+      <details key="memberTypes" value="ip-prefix_._member_._0 ip-prefix_._member_._1"/>
+    </eAnnotations>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EDataType" name="IpPrefixMember0" instanceClassName="java.lang.String">
+    <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
+      <details key="name" value="ip-prefix_._member_._0"/>
+      <details key="baseType" value="ipv4-prefix"/>
+    </eAnnotations>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EDataType" name="IpPrefixMember1" instanceClassName="java.lang.String">
+    <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
+      <details key="name" value="ip-prefix_._member_._1"/>
+      <details key="baseType" value="ipv6-prefix"/>
+    </eAnnotations>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EDataType" name="Ipv4Address" instanceClassName="java.lang.String">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+      <details key="documentation" value="&#xA;        The ipv4-address type represents an IPv4 address in&#xA;        dotted-quad notation.  The IPv4 address may include a zone&#xA;        index, separated by a % sign.&#xA;&#xA;        The zone index is used to disambiguate identical address&#xA;        values.  For link-local addresses, the zone index will&#xA;        typically be the interface index number or the name of an&#xA;        interface.  If the zone index is not present, the default&#xA;        zone of the device will be used.&#xA;&#xA;        The canonical format for the zone index is the numerical&#xA;        format&#xA;      "/>
+    </eAnnotations>
+    <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
+      <details key="name" value="ipv4-address"/>
+      <details key="baseType" value="http://www.eclipse.org/emf/2003/XMLType#string"/>
+      <details key="pattern" value="(([0-9]|[1-9][0-9]|1[0-9][0-9]|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9][0-9]|2[0-4][0-9]|25[0-5])(%25[\p{N}\p{L}]+)?"/>
+    </eAnnotations>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EDataType" name="Ipv4Prefix" instanceClassName="java.lang.String">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+      <details key="documentation" value="&#xA;        The ipv4-prefix type represents an IPv4 address prefix.&#xA;        The prefix length is given by the number following the&#xA;        slash character and must be less than or equal to 32.&#xA;&#xA;        A prefix length value of n corresponds to an IP address&#xA;        mask that has n contiguous 1-bits from the most&#xA;        significant bit (MSB) and all other bits set to 0.&#xA;&#xA;        The canonical format of an IPv4 prefix has all bits of&#xA;        the IPv4 address set to zero that are not part of the&#xA;        IPv4 prefix.&#xA;      "/>
+    </eAnnotations>
+    <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
+      <details key="name" value="ipv4-prefix"/>
+      <details key="baseType" value="http://www.eclipse.org/emf/2003/XMLType#string"/>
+      <details key="pattern" value="(([0-9]|[1-9][0-9]|1[0-9][0-9]|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9][0-9]|2[0-4][0-9]|25[0-5])/(([0-9])|([1-2][0-9])|(3[0-2]))"/>
+    </eAnnotations>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EDataType" name="Ipv6Address" instanceClassName="java.lang.String">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+      <details key="documentation" value="&#xA;        The ipv6-address type represents an IPv6 address in full,&#xA;        mixed, shortened, and shortened-mixed notation.  The IPv6&#xA;        address may include a zone index, separated by a % sign.&#xA;&#xA;        The zone index is used to disambiguate identical address&#xA;        values.  For link-local addresses, the zone index will&#xA;        typically be the interface index number or the name of an&#xA;        interface.  If the zone index is not present, the default&#xA;        zone of the device will be used.&#xA;&#xA;        The canonical format of IPv6 addresses uses the compressed&#xA;        format described in RFC 4291, Section 2.2, item 2 with the&#xA;        following additional rules: the :: substitution must be&#xA;        applied to the longest sequence of all-zero 16-bit chunks&#xA;        in an IPv6 address.  If there is a tie, the first sequence&#xA;        of all-zero 16-bit chunks is replaced by ::.  Single&#xA;        all-zero 16-bit chunks are not compressed.  The canonical&#xA;        format uses lowercase characters and leading zeros are&#xA;        not allowed.  The canonical format for the zone index is&#xA;        the numerical format as described in RFC 4007, Section&#xA;        11.2.&#xA;      "/>
+    </eAnnotations>
+    <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
+      <details key="name" value="ipv6-address"/>
+      <details key="baseType" value="http://www.eclipse.org/emf/2003/XMLType#string"/>
+      <details key="pattern" value="(((:|[0-9a-fA-F]{0,4}):)([0-9a-fA-F]{0,4}:){0,5}((([0-9a-fA-F]{0,4}:)?(:|[0-9a-fA-F]{0,4}))|(((25[0-5]|2[0-4][0-9]|[01]?[0-9]?[0-9])\.){3}(25[0-5]|2[0-4][0-9]|[01]?[0-9]?[0-9])))(%25[\p{N}\p{L}]+)?)|((([^:]+:){6}(([^:]+:[^:]+)|(.*\..*)))|((([^:]+:)*[^:]+)?::(([^:]+:)*[^:]+)?)(%25.+)?)"/>
+    </eAnnotations>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EDataType" name="Ipv6FlowLabel" instanceClassName="long">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+      <details key="documentation" value="&#xA;        The flow-label type represents flow identifier or Flow Label&#xA;        in an IPv6 packet header that may be used to discriminate&#xA;        traffic flows.&#xA;&#xA;        In the value set and its semantics, this type is equivalent&#xA;        to the IPv6FlowLabel textual convention of the SMIv2.&#xA;      "/>
+    </eAnnotations>
+    <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
+      <details key="name" value="ipv6-flow-label"/>
+      <details key="baseType" value="http://www.eclipse.org/emf/2003/XMLType#unsignedInt"/>
+      <details key="minInclusive" value="0"/>
+      <details key="maxInclusive" value="1048575"/>
+    </eAnnotations>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EDataType" name="Ipv6FlowLabelObject" instanceClassName="java.lang.Long">
+    <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
+      <details key="name" value="ipv6-flow-label:Object"/>
+      <details key="baseType" value="ipv6-flow-label"/>
+    </eAnnotations>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EDataType" name="Ipv6Prefix" instanceClassName="java.lang.String">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+      <details key="documentation" value="&#xA;        The ipv6-prefix type represents an IPv6 address prefix.&#xA;        The prefix length is given by the number following the&#xA;        slash character and must be less than or equal 128.&#xA;&#xA;        A prefix length value of n corresponds to an IP address&#xA;        mask that has n contiguous 1-bits from the most&#xA;        significant bit (MSB) and all other bits set to 0.&#xA;&#xA;        The IPv6 address should have all bits that do not belong&#xA;        to the prefix set to zero.&#xA;&#xA;        The canonical format of an IPv6 prefix has all bits of&#xA;        the IPv6 address set to zero that are not part of the&#xA;        IPv6 prefix.  Furthermore, IPv6 address is represented&#xA;        in the compressed format described in RFC 4291, Section&#xA;        2.2, item 2 with the following additional rules: the ::&#xA;        substitution must be applied to the longest sequence of&#xA;        all-zero 16-bit chunks in an IPv6 address.  If there is&#xA;        a tie, the first sequence of all-zero 16-bit chunks is&#xA;        replaced by ::.  Single all-zero 16-bit chunks are not&#xA;        compressed.  The canonical format uses lowercase&#xA;        characters and leading zeros are not allowed.&#xA;      "/>
+    </eAnnotations>
+    <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
+      <details key="name" value="ipv6-prefix"/>
+      <details key="baseType" value="http://www.eclipse.org/emf/2003/XMLType#string"/>
+      <details key="pattern" value="(((:|[0-9a-fA-F]{0,4}):)([0-9a-fA-F]{0,4}:){0,5}((([0-9a-fA-F]{0,4}:)?(:|[0-9a-fA-F]{0,4}))|(((25[0-5]|2[0-4][0-9]|[01]?[0-9]?[0-9])\.){3}(25[0-5]|2[0-4][0-9]|[01]?[0-9]?[0-9])))(/(([0-9])|([0-9]{2})|(1[0-1][0-9])|(12[0-8]))))|((([^:]+:){6}(([^:]+:[^:]+)|(.*\..*)))|((([^:]+:)*[^:]+)?::(([^:]+:)*[^:]+)?)(/.+))"/>
+    </eAnnotations>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="IpVersion">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+      <details key="documentation" value="&#xA;        This value represents the version of the IP protocol.&#xA;&#xA;        In the value set and its semantics, this type is equivalent&#xA;        to the InetVersion textual convention of the SMIv2.&#xA;      "/>
+    </eAnnotations>
+    <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
+      <details key="name" value="ip-version"/>
+    </eAnnotations>
+    <eLiterals name="unknown"/>
+    <eLiterals name="ipv4" value="1"/>
+    <eLiterals name="ipv6" value="2"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EDataType" name="IpVersionObject" instanceClassName="org.eclipse.emf.common.util.Enumerator">
+    <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
+      <details key="name" value="ip-version:Object"/>
+      <details key="baseType" value="ip-version"/>
+    </eAnnotations>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EDataType" name="PortNumber" instanceClassName="int">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+      <details key="documentation" value="&#xA;        The port-number type represents a 16-bit port number of an&#xA;        Internet transport layer protocol such as UDP, TCP, DCCP, or&#xA;        SCTP.  Port numbers are assigned by IANA.  A current list of&#xA;        all assignments is available from &lt;http://www.iana.org/>.&#xA;&#xA;        Note that the port number value zero is reserved by IANA.  In&#xA;        situations where the value zero does not make sense, it can&#xA;        be excluded by subtyping the port-number type.&#xA;&#xA;        In the value set and its semantics, this type is equivalent&#xA;        to the InetPortNumber textual convention of the SMIv2.&#xA;      "/>
+    </eAnnotations>
+    <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
+      <details key="name" value="port-number"/>
+      <details key="baseType" value="http://www.eclipse.org/emf/2003/XMLType#unsignedShort"/>
+      <details key="minInclusive" value="0"/>
+      <details key="maxInclusive" value="65535"/>
+    </eAnnotations>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EDataType" name="PortNumberObject" instanceClassName="java.lang.Integer">
+    <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
+      <details key="name" value="port-number:Object"/>
+      <details key="baseType" value="port-number"/>
+    </eAnnotations>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EDataType" name="T0" instanceClassName="java.lang.String">
+    <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
+      <details key="name" value="t0"/>
+      <details key="baseType" value="http://www.eclipse.org/emf/2003/XMLType#string"/>
+      <details key="pattern" value="((([a-zA-Z0-9_]([a-zA-Z0-9\-_]){0,61})?[a-zA-Z0-9]\.)*([a-zA-Z0-9_]([a-zA-Z0-9\-_]){0,61})?[a-zA-Z0-9]\.?)|\."/>
+    </eAnnotations>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EDataType" name="Uri" instanceClassName="java.lang.String">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+      <details key="documentation" value="&#xA;        The uri type represents a Uniform Resource Identifier&#xA;        (URI) as defined by STD 66.&#xA;&#xA;        Objects using the uri type MUST be in US-ASCII encoding,&#xA;        and MUST be normalized as described by RFC 3986 Sections&#xA;        6.2.1, 6.2.2.1, and 6.2.2.2.  All unnecessary&#xA;        percent-encoding is removed, and all case-insensitive&#xA;        characters are set to lowercase except for hexadecimal&#xA;        digits, which are normalized to uppercase as described in&#xA;        Section 6.2.2.1.&#xA;&#xA;        The purpose of this normalization is to help provide&#xA;        unique URIs.  Note that this normalization is not&#xA;        sufficient to provide uniqueness.  Two URIs that are&#xA;        textually distinct after this normalization may still be&#xA;        equivalent.&#xA;&#xA;        Objects using the uri type may restrict the schemes that&#xA;        they permit.  For example, 'data:' and 'urn:' schemes&#xA;        might not be appropriate.&#xA;&#xA;        A zero-length URI is not a valid URI.  This can be used to&#xA;        express 'URI absent' where required.&#xA;&#xA;        In the value set and its semantics, this type is equivalent&#xA;        to the Uri SMIv2 textual convention defined in RFC 5017.&#xA;      "/>
+    </eAnnotations>
+    <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
+      <details key="name" value="uri"/>
+      <details key="baseType" value="http://www.eclipse.org/emf/2003/XMLType#string"/>
+    </eAnnotations>
+  </eClassifiers>
+</ecore:EPackage>

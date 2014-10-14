@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<genmodel:GenModel xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore"
+    xmlns:genmodel="http://www.eclipse.org/emf/2002/GenModel" modelDirectory="/com.netxforge.oss2.opendaylight/src-gen" modelPluginID="com.netxforge.oss2.opendaylight"
+    modelName="Opendaylight" modelPluginClass="" rootExtendsClass="org.eclipse.emf.ecore.impl.MinimalEObjectImpl$Container"
+    importerID="org.eclipse.emf.importer.ecore" complianceLevel="6.0" copyrightFields="false"
+    operationReflection="true" importOrganizing="true">
+  <foreignModel>Topology.ecore</foreignModel>
+  <genPackages prefix="Topology" resource="XML" disposableProviderFactory="true" ecorePackage="Topology.ecore#/">
+    <genClasses image="false" ecoreClass="Topology.ecore#//ConfigurationObject"/>
+    <genClasses ecoreClass="Topology.ecore#//DocumentRoot">
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EAttribute Topology.ecore#//DocumentRoot/mixed"/>
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference Topology.ecore#//DocumentRoot/xMLNSPrefixMap"/>
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference Topology.ecore#//DocumentRoot/xSISchemaLocation"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference Topology.ecore#//DocumentRoot/edge"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference Topology.ecore#//DocumentRoot/edgeProperties"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference Topology.ecore#//DocumentRoot/list"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference Topology.ecore#//DocumentRoot/node"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference Topology.ecore#//DocumentRoot/nodeConnector"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference Topology.ecore#//DocumentRoot/property"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference Topology.ecore#//DocumentRoot/topology"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference Topology.ecore#//DocumentRoot/topologyUserLinkConfig"/>
+    </genClasses>
+    <genClasses ecoreClass="Topology.ecore#//Edge">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference Topology.ecore#//Edge/tailNodeConnector"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference Topology.ecore#//Edge/headNodeConnector"/>
+    </genClasses>
+    <genClasses ecoreClass="Topology.ecore#//EdgeProperties">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference Topology.ecore#//EdgeProperties/edge"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference Topology.ecore#//EdgeProperties/properties"/>
+    </genClasses>
+    <genClasses ecoreClass="Topology.ecore#//Node">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Topology.ecore#//Node/id"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Topology.ecore#//Node/type"/>
+    </genClasses>
+    <genClasses ecoreClass="Topology.ecore#//NodeConnector">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Topology.ecore#//NodeConnector/id"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference Topology.ecore#//NodeConnector/node"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Topology.ecore#//NodeConnector/type"/>
+    </genClasses>
+    <genClasses ecoreClass="Topology.ecore#//PropertiesType">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference Topology.ecore#//PropertiesType/property"/>
+    </genClasses>
+    <genClasses image="false" ecoreClass="Topology.ecore#//Property"/>
+    <genClasses ecoreClass="Topology.ecore#//Topology">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference Topology.ecore#//Topology/edgeProperties"/>
+    </genClasses>
+    <genClasses ecoreClass="Topology.ecore#//TopologyUserLinkConfig">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Topology.ecore#//TopologyUserLinkConfig/srcNodeConnector"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Topology.ecore#//TopologyUserLinkConfig/dstNodeConnector"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Topology.ecore#//TopologyUserLinkConfig/status"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Topology.ecore#//TopologyUserLinkConfig/name"/>
+    </genClasses>
+    <genClasses ecoreClass="Topology.ecore#//TopologyUserLinks">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference Topology.ecore#//TopologyUserLinks/userLinks"/>
+    </genClasses>
+  </genPackages>
+</genmodel:GenModel>

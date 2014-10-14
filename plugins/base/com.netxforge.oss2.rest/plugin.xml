@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.0"?>
+
+<!--
+-->
+
+<plugin>
+
+   <extension point="org.eclipse.emf.ecore.generated_package">
+      <!-- @generated RestSession -->
+      <package
+            uri="http://www.netxforge.com/restsession"
+            class="restSession.RestSessionPackage"
+            genModel="model/RestSession.genmodel"/>
+   </extension>
+
+   <extension point="org.eclipse.emf.ecore.generated_package">
+      <!-- @generated Wadl -->
+      <package
+            uri="http://wadl.dev.java.net/2009/02"
+            class="wadl.WadlPackage"
+            genModel="model/Wadl.genmodel"/>
+   </extension>
+
+   <extension point="org.eclipse.emf.ecore.extension_parser">
+      <!-- @generated Wadl -->
+      <parser
+            type="wadl"
+            class="wadl.util.WadlResourceFactoryImpl"/>
+   </extension>
+</plugin>
