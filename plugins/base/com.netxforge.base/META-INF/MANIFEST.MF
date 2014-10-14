@@ -10,6 +10,7 @@ Export-Package: com.netxforge.base,
  com.netxforge.base.context,
  com.netxforge.base.data,
  com.netxforge.base.di,
+ com.netxforge.base.osgi,
  com.netxforge.base.properties,
  com.netxforge.base.security
 Require-Bundle: org.eclipse.core.runtime,
@@ -19,7 +20,9 @@ Require-Bundle: org.eclipse.core.runtime,
  javax.inject;bundle-version="1.0.0";visibility:=reexport,
  org.eclipse.emf.ecore;bundle-version="2.9.1";visibility:=reexport,
  org.eclipse.osgi.services;bundle-version="3.3.100"
+Service-Component: OSGI-INF/com.netxforge.base.EMFService.xml
 Bundle-RequiredExecutionEnvironment: J2SE-1.5
+Bundle-ActivationPolicy: lazy
 Import-Package: org.eclipse.emf.common.notify,
  org.eclipse.emf.common.notify.impl,
  org.eclipse.emf.common.util,
@@ -27,4 +30,3 @@ Import-Package: org.eclipse.emf.common.notify,
  org.eclipse.emf.ecore.resource,
  org.eclipse.emf.ecore.util,
  org.osgi.service.component.annotations
-Bundle-ActivationPolicy: lazy
