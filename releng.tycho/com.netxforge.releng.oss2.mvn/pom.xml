@@ -68,7 +68,7 @@
 									<id>aopalliance:aopalliance:1.0</id>
 								</artifact>
 								<artifact>
-									<id>org.springframework.boot:spring-boot-starter-web${springVersion}</id>
+									<id>org.springframework.boot:spring-boot-starter-web:${springVersion}</id>
 								</artifact>
 								<artifact>
 									<id>org.springframework:spring-beans:${springVersion}</id>
