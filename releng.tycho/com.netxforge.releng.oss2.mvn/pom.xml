@@ -16,6 +16,7 @@
 		<springVersion>4.1.1.RELEASE</springVersion>
 		<springBootVersion>1.1.8.RELEASE</springBootVersion>
 		<springSecurityVersion>3.1.0.RELEASE</springSecurityVersion>
+		<springDMVersion>1.2.1.RELEASE</springDMVersion>
 	</properties>
 	<build>
 		<plugins>
@@ -33,7 +34,7 @@
 								<artifact>
 									<id>junit:junit:3.8.2</id>
 								</artifact>
-									
+
 								<artifact>
 									<id>org.codehaus.castor:castor:1.1.2.1</id>
 								</artifact>
@@ -71,6 +72,10 @@
 								</artifact>
 								<artifact>
 									<id>cglib:cglib:3.1</id>
+									<source>true</source>
+								</artifact>
+								<artifact>
+									<id>org.springframework.osgi:spring-osgi-extender:${springDMVersion}</id>
 									<source>true</source>
 								</artifact>
 								<artifact>
