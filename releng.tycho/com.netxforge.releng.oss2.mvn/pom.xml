@@ -71,24 +71,31 @@
 								</artifact>
 								<artifact>
 									<id>cglib:cglib:3.1</id>
+									<source>true</source>
 								</artifact>
 								<artifact>
 									<id>org.springframework:spring-beans:${springVersion}</id>
+									<source>true</source>
 								</artifact>
 								<artifact>
 									<id>org.springframework:spring-instrument:${springVersion}</id>
+									<source>true</source>
 								</artifact>
 								<artifact>
 									<id>org.springframework:spring-core:${springVersion}</id>
+									<source>true</source>
 								</artifact>
 								<artifact>
 									<id>org.springframework:spring-context:${springVersion}</id>
+									<source>true</source>
 								</artifact>
 								<artifact>
 									<id>org.springframework:spring-orm:${springVersion}</id>
+									<source>true</source>
 								</artifact>
 								<artifact>
 									<id>org.springframework.security:spring-security-core:${springSecurityVersion}</id>
+									<source>true</source>
 								</artifact>
 							</artifacts>
 						</configuration>
