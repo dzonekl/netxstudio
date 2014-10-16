@@ -1,3 +1,51 @@
+
+
+Opendaylight VM / VirtualBox
+============================
+(Look on youtube for "mininet virtualbox" 
+
+ALT-F2 for a 2nd terminal in linux! 
+
+[x] Virtualbox => Settings => Network   
+1st Adapter => NAT
+2nd Adapter =>  Host only adapter.  
+
+[x]
+- sudo dhclient -v eth1 (To assign an address to the Host Only adapter, the address will likely 
+be 192.168.56.101
+
+[x] /etc/init.d/ssh start 
+- Start SSH Daemon, start mininet: 
+
+[x] sudo mn --controller=remote,ip=127.0.0.1 --topo tree,2
+=> Setup a mininet, with our opendaylight controller:
+
+or (When running the controller on local machine
+
+[x] sudo mn --controller=remote,ip=192.168.56.1 --topo tree,2
+=> Setup a mininet, with our opendaylight controller:
+
+
+[x] sudo mn -c 
+=> Clean mininet topology, process etc..
+
+[x] AD-SAL
+Rest app testing: (oss2.rest)
+http://localhost:8080/controller/nb/v2/hosttracker/default/hosts/active
+
+rest get hosts/active hosttracker 
+
+
+
+[x] MD-SAL
+
+[x] pyang -f xsd [model.file].yang -o [output.file].xsd
+=> Convert yang model files to xsd
+
+rest get -p admin -e 7 restconf/operational/network-topology:network-topology/
+
+
+
 Opendaylight test environment install instructions
 =================================
 
@@ -43,7 +91,6 @@ odluser@odl-vm:~\$ ./install.sh -fn
 [10] issue with apt-get dependencies fix with:  apt-get -f install
 
 
-
 ...at some point DKMS, 
 
 [1]  dkms build -m openvswitch -v 2.3.0
@@ -58,12 +105,10 @@ http://kernelnewbies.org/KernelHeaders
 so, we need to download the kernel, set the exact version (Distro name) and make the header files, so they end up in: 
 /lib/modules/[distro]/build
 
-
-
 Kernel Linode
 =============
 
-The linode kernel, has a specific name,
+The linode kernel, has a specific name.
  
 Get the host name.  
 [1]uname -r
@@ -78,16 +123,15 @@ Get the host name.
 [5] nano Makefile, edit=>  EXTRAVERSION = 3.14.5-x86_64-linode45 # uname -r output
 => Edited makefile with the EXTRAVERSION in the Makefile
 
-[5]
-sudo apt-get install libncurses5-dev gcc make git exuberant-ctags
+[6] sudo apt-get install libncurses5-dev gcc make git exuberant-ctags
+=> Adds the dependencies. 
 
 [7]  zcat /proc/config.gz > .config && make oldconfig
-=> create .config which is from the unpacked config.gz (specific for linode) , when succefull (&&), 
+=> create .config which is from the unpacked config.gz (specific for linode) , when succesfull (&&), 
 make the oldconfig which will absorb the created .config. So now we have a .config updated with the config
 for this linux kernel. 
 
 // Follow make instructions from this dude: https://github.com/torvalds/linux
-
 [8]  make
 => compiles, links etc.., takes a while. (Goes in the src folder?) 
 
