@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?pde version="3.5"?>
+
+<product name="oss2app" uid="oss2.app" id="com.netxforge.oss2.product.product" application="com.netxforge.oss2.product.id1" useFeatures="true" includeLaunchers="true">
+
+   <configIni use="default">
+   </configIni>
+
+   <launcherArgs>
+      <programArgs>-noExit  -consolelog -console 8811</programArgs>
+      <vmArgsMac>-XstartOnFirstThread -Dorg.eclipse.swt.internal.carbon.smallFonts</vmArgsMac>
+   </launcherArgs>
+
+   <launcher>
+      <solaris/>
+      <win useIco="false">
+         <bmp/>
+      </win>
+   </launcher>
+
+   <vm>
+   </vm>
+
+   <plugins>
+   </plugins>
+
+   <features>
+      <feature id="com.netxforge.oss2.product.feature" version="1.0.0.qualifier"/>
+      <feature id="com.netxforge.oss2.rest.feature" version="1.0.0.qualifier"/>
+      <feature id="com.netxforge.oss2.files.feature" version="1.0.0.qualifier"/>
+      <feature id="com.netxforrge.oss2.opendaylight.feature" version="1.0.0.qualifier"/>
+      <feature id="com.netxforge.oss2.snmp.feature" version="1.0.0.qualifier"/>
+      <feature id="com.netxforge.oss2.jobs.feature" version="1.0.0.qualifier"/>
+      <feature id="com.netxforge.oss2.inventory.feature" version="1.0.0.qualifier"/>
+      <feature id="com.netxforge.base.feature" version="1.0.0.qualifier"/>
+      <feature id="org.peaberry.artifacts.feature" version="1.0.0.201308301546"/>
+      <feature id="com.google.artifacts.feature" version="1.0.0.201409251447"/>
+      <feature id="com.netxforge.models.16042013.emf.feature" version="1.0.0.qualifier"/>
+   </features>
+
+
+</product>

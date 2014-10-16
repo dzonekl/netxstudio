@@ -1,0 +1,8 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: OSS2 Product
+Bundle-SymbolicName: com.netxforge.oss2.product;singleton:=true
+Bundle-Version: 1.0.0.qualifier
+Bundle-Vendor: NetXForge
+Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Require-Bundle: org.eclipse.equinox.app
