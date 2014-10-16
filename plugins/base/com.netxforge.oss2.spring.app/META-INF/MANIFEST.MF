@@ -1,0 +1,25 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Spring App
+Bundle-SymbolicName: com.netxforge.oss2.spring.app
+Bundle-Version: 1.0.0.qualifier
+Bundle-Activator: com.netxforge.oss2.spring.app.internal.SpringActivator
+Bundle-Vendor: NetXForge
+Require-Bundle: org.springframework.spring-beans;bundle-version="4.1.1",
+ org.springframework.spring-context;bundle-version="4.1.1",
+ org.springframework.spring-core;bundle-version="4.1.1",
+ org.springframework.spring-expression;bundle-version="4.1.1"
+Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Import-Package: net.sf.cglib.beans,
+ net.sf.cglib.core,
+ net.sf.cglib.proxy,
+ net.sf.cglib.reflect,
+ net.sf.cglib.transform,
+ net.sf.cglib.transform.impl,
+ net.sf.cglib.util,
+ org.osgi.framework;version="1.3.0",
+ org.osgi.service.component.annotations
+Service-Component: OSGI-INF/com.netxforge.oss2.spring.app.SpringService.xml
+Bundle-ActivationPolicy: lazy
+Export-Package: com.netxforge.oss2.spring.app,
+ com.netxforge.oss2.spring.app.internal
