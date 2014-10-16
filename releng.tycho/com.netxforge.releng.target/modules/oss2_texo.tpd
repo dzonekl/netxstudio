@@ -15,23 +15,12 @@
  *
  * Contributors:
  *    Christophe Bouhier - initial API and implementation and/or initial documentation
- *******************************************************************************/
-target "oss2_xtext231_cdo42SR2" with source
+ *******************************************************************************/ 
+ target "texo" with source allEnvironments
 
-include "modules/oss2_kepler.tpd"
-include "modules/oss2_emf.tpd"
-include "modules/oss2_xtext_231.tpd"
-include "modules/oss2_cdo_42SR2.tpd"
-include "modules/oss2_mwe_111.tpd"
-include "modules/oss2_nebula.tpd" // Self-Managed
-include "modules/oss2_xpand_110.tpd"
-include "modules/oss2_gef_390.tpd" // Self-Managed. 
-include "modules/oss2_orbit.tpd" // Self-Managed.
-include "modules/oss2_peaberry.tpd" // Self-Managed.
-include "modules/oss2_texo.tpd" // Self-Managed.
-
-// Narrow down the versions (to the self-managed ones) for an embedded IDE function. 
-location "http://p2.netxforge.com/oss2/3rd.p2" {
-	org.eclipse.ui.ide lazy
-	org.eclipse.ui.navigator.resources lazy
+// Texo, the latest release, only the texo stuff which does EMF<==>JSON Conversion. 
+// http://wiki.eclipse.org/Texo/Download_and_Install#Development_Environment_and_Update_Sites
+location "http://download.eclipse.org/modeling/emft/texo/updates/milestones/0.1.0M1" {
+	org.eclipse.emf.texo lazy
+	org.eclipse.emf.texo.json lazy
 }

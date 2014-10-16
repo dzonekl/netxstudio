@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <?pde?>
 <!-- generated with https://github.com/mbarbero/fr.obeo.releng.targetplatform -->
-<target name="oss2_v1_cdo" sequenceNumber="1412172644">
+<target name="oss2_v1_cdo" sequenceNumber="1413402812">
   <locations>
     <location includeMode="slicer" includeAllPlatforms="false" includeSource="true" includeConfigurePhase="false" type="InstallableUnit">
       <unit id="org.eclipse.jdt.source.feature.group" version="3.9.2.v20140221-1700"/>
@@ -258,6 +258,22 @@
       <unit id="org.eclipse.emf.texo" version="0.0.0"/>
       <unit id="org.eclipse.emf.texo.json" version="0.0.0"/>
       <repository location="http://download.eclipse.org/modeling/emft/texo/updates/milestones/0.1.0M1"/>
+    </location>
+    <location includeMode="slicer" includeAllPlatforms="false" includeSource="true" includeConfigurePhase="false" type="InstallableUnit">
+      <unit id="org.springframework.spring-aop" version="0.0.0"/>
+      <unit id="org.springframework.spring-beans" version="0.0.0"/>
+      <unit id="org.springframework.spring-context" version="0.0.0"/>
+      <unit id="org.springframework.spring-core" version="0.0.0"/>
+      <unit id="org.springframework.spring-expression" version="0.0.0"/>
+      <unit id="org.springframework.spring-instrument" version="0.0.0"/>
+      <unit id="org.springframework.spring-jdbc" version="0.0.0"/>
+      <unit id="org.springframework.spring-orm" version="0.0.0"/>
+      <unit id="org.springframework.spring-tx" version="0.0.0"/>
+      <unit id="org.springframework.osgi.core" version="0.0.0"/>
+      <unit id="org.springframework.osgi.extender" version="0.0.0"/>
+      <unit id="org.springframework.osgi.io" version="0.0.0"/>
+      <unit id="cglib" version="0.0.0"/>
+      <repository location="http://p2.netxforge.com/oss2/mvn.p2"/>
     </location>
     <location includeMode="slicer" includeAllPlatforms="false" includeSource="true" includeConfigurePhase="false" type="InstallableUnit">
       <unit id="org.eclipse.platform.bare.artifacts.feature.feature.group" version="0.0.0"/>

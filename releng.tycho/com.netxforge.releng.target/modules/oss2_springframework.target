@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<?pde?>
+<!-- generated with https://github.com/mbarbero/fr.obeo.releng.targetplatform -->
+<target name="springframework" sequenceNumber="1413398610">
+  <locations>
+    <location includeMode="slicer" includeAllPlatforms="true" includeSource="true" includeConfigurePhase="false" type="InstallableUnit">
+      <unit id="org.springframework.spring-aop" version="0.0.0"/>
+      <unit id="org.springframework.spring-beans" version="0.0.0"/>
+      <unit id="org.springframework.spring-context" version="0.0.0"/>
+      <unit id="org.springframework.spring-core" version="0.0.0"/>
+      <unit id="org.springframework.spring-expression" version="0.0.0"/>
+      <unit id="org.springframework.spring-instrument" version="0.0.0"/>
+      <unit id="org.springframework.spring-jdbc" version="0.0.0"/>
+      <unit id="org.springframework.spring-orm" version="0.0.0"/>
+      <unit id="org.springframework.spring-tx" version="0.0.0"/>
+      <unit id="cglib" version="0.0.0"/>
+      <repository location="http://p2.netxforge.com/oss2/mvn.p2"/>
+    </location>
+  </locations>
+</target>
