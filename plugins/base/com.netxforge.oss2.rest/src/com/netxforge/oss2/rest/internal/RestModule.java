@@ -18,7 +18,7 @@
 package com.netxforge.oss2.rest.internal;
 
 import com.google.inject.AbstractModule;
-import com.netxforge.oss2.rest.connectors.IConnector;
+import com.netxforge.oss2.rest.connectors.IRestConnector;
 import com.netxforge.oss2.rest.connectors.JerseyConnector;
 
 /**
@@ -32,6 +32,6 @@ public class RestModule extends AbstractModule {
 	@Override
 	protected void configure() {
 		
-		bind(IConnector.class).to(JerseyConnector.class);
+		bind(IRestConnector.class).to(JerseyConnector.class);
 	}
 }

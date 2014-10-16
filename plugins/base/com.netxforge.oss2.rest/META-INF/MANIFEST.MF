@@ -7,7 +7,12 @@ Bundle-ClassPath: .
 Bundle-Activator: com.netxforge.oss2.rest.internal.RestConnectorActivator
 Bundle-Vendor: %providerName
 Bundle-Localization: plugin
-Export-Package: restSession,
+Export-Package: com.netxforge.oss2.rest,
+ com.netxforge.oss2.rest.connectors,
+ com.netxforge.oss2.rest.entity,
+ com.netxforge.oss2.rest.jersey,
+ com.netxforge.oss2.rest.wadl,
+ restSession,
  restSession.impl,
  restSession.util,
  wadl,

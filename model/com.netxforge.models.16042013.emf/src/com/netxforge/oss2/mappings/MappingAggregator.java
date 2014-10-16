@@ -100,7 +100,7 @@ public class MappingAggregator implements IMappingAggregator, CommandProvider {
 
 	@Activate
 	public void activate() {
-		System.out.println("Mapping Aggregator take off!");
+		System.out.println("OSS2 Model Mapping Service booting...");
 	}
 
 	@Override

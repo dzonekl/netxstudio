@@ -15,42 +15,53 @@
  * Contributors: Christophe Bouhier - initial API and implementation and/or
  * initial documentation
  *******************************************************************************/
-package com.netxforge.base.services;
+package com.netxforge.base.log;
 
-import java.util.ArrayList;
-import java.util.List;
-
+import org.osgi.service.component.annotations.Activate;
 import org.osgi.service.component.annotations.Component;
+import org.osgi.service.component.annotations.Deactivate;
 import org.osgi.service.component.annotations.Reference;
-import org.osgi.service.component.annotations.ReferenceCardinality;
+import org.osgi.service.log.LogEntry;
+import org.osgi.service.log.LogListener;
+import org.osgi.service.log.LogReaderService;
+import org.osgi.service.log.LogService;
 
 /**
- * Component for our {@link IExternalConnector} implementations.
+ * Both produce and consume logging events.
  * 
  * @author Christophe Bouhier
- * 
  */
-@Component(name = "OSS2 IExternalConnector service")
-public class ConnectorService implements IConnectorService {
+@Component(name = "OSS2 Simple console logger", immediate=true)
+public class ConsoleLogger implements LogListener {
 
-	private List<IExternalConnector> connectors = new ArrayList<IExternalConnector>();
+	private LogReaderService lrs;
+	private LogService logService;
 
+	@Activate
 	public void activate() {
-		System.out.println("OSS2 IExternalConnector service booting...");
+		lrs.addLogListener(this);
+		logService.log(LogService.LOG_INFO, "OSS2 Console loggin service booting...");
 	}
 
-	@Reference(cardinality = ReferenceCardinality.MULTIPLE)
-	public void setConnector(IExternalConnector connector) {
-		connectors.add(connector);
+	@Deactivate
+	public void deactivate() {
+		logService.log(LogService.LOG_INFO, "OSS2 Console loggin service shutdown...");
+		lrs.removeLogListener(this);
 	}
 
-	public IExternalConnector connectorFor(String schema) {
-		for (IExternalConnector c : connectors) {
-			if (c.supportsSchema(schema)) {
-				return c;
-			}
-		}
-		return null;
+	@Reference
+	public void setLogReaderService(LogReaderService lrs) {
+		this.lrs = lrs;
+	}
+
+	public void logged(LogEntry entry) {
+		System.out.println("b:" + entry.getBundle() + " m:"
+				+ entry.getMessage());
+	}
+
+	@Reference
+	public void setLogService(LogService logService) {
+		this.logService = logService;
 	}
 
 }

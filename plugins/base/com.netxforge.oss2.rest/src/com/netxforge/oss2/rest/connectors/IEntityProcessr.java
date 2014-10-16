@@ -26,7 +26,21 @@ package com.netxforge.oss2.rest.connectors;
  * @param <T>
  */
 public interface IEntityProcessr<T> {
-
+	
+	
+	/**
+	 * 
+	 * @param response
+	 * @return
+	 */
 	public Object processResult(Object response);
+	
+	
+	/**
+	 * Get the result as an entity object. 
+	 * 
+	 * @return
+	 */
+	public Object getResult();
 	
 }

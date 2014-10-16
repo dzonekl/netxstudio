@@ -21,6 +21,8 @@ import org.eclipse.osgi.framework.console.CommandInterpreter;
 import org.eclipse.osgi.framework.console.CommandProvider;
 import org.osgi.service.component.annotations.Activate;
 import org.osgi.service.component.annotations.Component;
+import org.osgi.service.component.annotations.Reference;
+import org.osgi.service.log.LogService;
 
 import com.netxforge.base.osgi.AbstractCommandProcessor;
 
@@ -30,16 +32,35 @@ import com.netxforge.base.osgi.AbstractCommandProcessor;
  * @author Christophe Bouhier
  * 
  */
-@Component
-public class JobHandler implements CommandProvider, IJobHandler {
+@Component(name = "OSS2 Job Services")
+public class JobService implements CommandProvider, IJobHandler {
 
 	private QuartzImplementation quartzImplementation;
 
+	private LogService ls;
+
+//	private IDataProvider dataProvider;
+
 	@Activate
 	public void activate() {
-		System.out.println("OSS2 Jobs booting..hehe");
+		ls.log(LogService.LOG_INFO, "OSS2 Jobs booting..");
+
 		quartzImplementation = new QuartzImplementation();
 		quartzImplementation.initialize();
+		
+
+// Can already consume from EMF resources. 
+//		ResourceSet set = new ResourceSetImpl();
+//		// Acts as factory. 
+//		IBaseData iBaseData = dataProvider.get();
+//		@SuppressWarnings("unused")
+//		Resource resource = iBaseData.getResource(set, SchedulingPackage.Literals.JOB);
+		
+	}
+
+	public void deactivate() {
+		ls.log(LogService.LOG_INFO, "OSS2 Jobs shutdown..");
+		// TODO deactivate our quartz
 	}
 
 	@Override
@@ -77,12 +98,12 @@ public class JobHandler implements CommandProvider, IJobHandler {
 			public void _argument_stop(String argument) {
 				sb.append(quartzImplementation.stopScheduler());
 			}
-			
+
 			@SuppressWarnings("unused")
 			public void _argument_schedule(String argument) {
 				sb.append(quartzImplementation.listScheduler());
 			}
-			
+
 		};
 
 		cp.processCommands(interpreter);
@@ -136,6 +157,17 @@ public class JobHandler implements CommandProvider, IJobHandler {
 
 	}
 
+	@Reference
+	public void setLogService(LogService ls) {
+		this.ls = ls;
+	}
+
+//	@Reference
+//	public void setDataProvider(IDataProvider provider){
+//		this.dataProvider = provider;
+//	}
+	
+	
 	@Override
 	public void addJob(Object job) {
 		// TODO Auto-generated method stub

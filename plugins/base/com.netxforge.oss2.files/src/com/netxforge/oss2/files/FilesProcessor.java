@@ -40,7 +40,7 @@ import files.SESSIONS;
  * 
  * @author Christophe Bouhier
  */
-@Component
+@Component(name="OSS2 Files Services")
 public class FilesProcessor implements CommandProvider, IFilesProcessor {
 
 	@Inject
@@ -50,7 +50,7 @@ public class FilesProcessor implements CommandProvider, IFilesProcessor {
 	public void activate() {
 		FilesActivator.getSelf().getInjector().injectMembers(this);
 		if (files != null) {
-			System.out.println("Ho,Ho, Ho, Files services going :-8");
+			System.out.println("OSS2 Files Services booting...");
 		}
 	}
 

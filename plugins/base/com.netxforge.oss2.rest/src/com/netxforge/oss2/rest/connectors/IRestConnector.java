@@ -24,7 +24,7 @@ package com.netxforge.oss2.rest.connectors;
  * @author Christophe Bouhier
  * 
  */
-public interface IConnector {
+public interface IRestConnector {
 
 	/**
 	 * Connect to the REST service.

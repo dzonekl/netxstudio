@@ -22,7 +22,8 @@ Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.emf.ecore;bundle-version="2.9.1";visibility:=reexport,
  org.eclipse.osgi.services;bundle-version="3.3.100"
 Service-Component: OSGI-INF/com.netxforge.base.services.ConnectorService.xml,
- OSGI-INF/com.netxforge.base.EMFService.xml
+ OSGI-INF/com.netxforge.base.EMFService.xml,
+ OSGI-INF/com.netxforge.base.log.ConsoleLogger.xml
 Bundle-RequiredExecutionEnvironment: J2SE-1.5
 Bundle-ActivationPolicy: lazy
 Import-Package: org.eclipse.emf.common.notify,

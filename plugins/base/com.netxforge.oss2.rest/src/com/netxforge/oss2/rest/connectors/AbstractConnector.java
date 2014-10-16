@@ -26,7 +26,7 @@ import com.netxforge.oss2.files.IFilesProcessor;
  * @author Christophe Bouhier
  * 
  */
-public abstract class AbstractConnector implements IConnector {
+public abstract class AbstractConnector implements IRestConnector {
 
 	private RestSession restsourceConfiguration;
 

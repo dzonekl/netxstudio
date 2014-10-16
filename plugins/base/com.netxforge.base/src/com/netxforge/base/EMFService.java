@@ -31,7 +31,7 @@ import com.netxforge.base.osgi.AbstractCommandProcessor;
  * 
  * @author Christophe Bouhier
  */
-@Component
+@Component(name="OSS2 EMF Services (help emf)")
 public class EMFService implements CommandProvider, IEMFService {
 
 	public String getHelp() {
@@ -48,7 +48,7 @@ public class EMFService implements CommandProvider, IEMFService {
 
 	@Activate
 	public void activate() {
-		System.out.println("vroom... EMFService going");
+		System.out.println("OSS2 EMF Service booting...");
 	}
 
 	public String _emf(CommandInterpreter intp) {

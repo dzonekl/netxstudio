@@ -61,13 +61,12 @@ public class EMFMessageBodyReader implements MessageBodyReader<Resource> {
 			Annotation[] annotations, MediaType mediaType,
 			MultivaluedMap<String, String> httpHeaders, InputStream entityStream)
 			throws IOException, WebApplicationException {
-		Resource resource = null;
 		if (mediaType.equals(MediaType.APPLICATION_JSON_TYPE)) {
-			resource = entityProcessor.processJSON(entityStream);
+			entityProcessor.processJSON(entityStream);
 		} else if (mediaType.equals(MediaType.APPLICATION_XML_TYPE)) {
-			resource = entityProcessor.processXML(entityStream);
+			entityProcessor.processXML(entityStream);
 		}
-		return resource;
+		return entityProcessor.getResource();
 	}
 
 }

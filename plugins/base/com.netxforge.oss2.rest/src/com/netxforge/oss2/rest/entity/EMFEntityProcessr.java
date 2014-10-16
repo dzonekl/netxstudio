@@ -55,6 +55,12 @@ public class EMFEntityProcessr implements IEntityProcessr<EObject> {
 
 	private String nsURI;
 
+	private Resource res;
+
+	public Resource getResource() {
+		return res;
+	}
+
 	public EMFEntityProcessr(IEMFService emfService, String nsURI) {
 		this.emfService = emfService;
 		this.nsURI = nsURI;
@@ -101,7 +107,7 @@ public class EMFEntityProcessr implements IEntityProcessr<EObject> {
 	 * @param stream
 	 * @return
 	 */
-	public Resource processXML(InputStream stream) {
+	public void processXML(InputStream stream) {
 		final EPackage packageForIndex = emfService.packageForNS_URI(nsURI);
 		BasicExtendedMetaData basicExtendedMetaData = new BasicExtendedMetaData() {
 
@@ -121,8 +127,9 @@ public class EMFEntityProcessr implements IEntityProcessr<EObject> {
 			res.load(stream, options);
 		} catch (IOException e) {
 			e.printStackTrace();
+		} finally {
+			this.res = res;
 		}
-		return res;
 	}
 
 	/**
@@ -131,10 +138,10 @@ public class EMFEntityProcessr implements IEntityProcessr<EObject> {
 	 * @param entityStream
 	 * @return
 	 */
-	public Resource processJSON(InputStream entityStream) {
+	public void processJSON(InputStream entityStream) {
 		JSONObject parseJSonentry = parseJSON(entityStream);
 		Resource parseEMFentry = parseJSON_EMF(parseJSonentry);
-		return parseEMFentry;
+		this.res = parseEMFentry;
 	}
 
 	/**
@@ -151,7 +158,7 @@ public class EMFEntityProcessr implements IEntityProcessr<EObject> {
 	private Resource parseJSON_EMF(JSONObject parseJSonentry) {
 
 		// Make sure the JSON model is enriched with eCLass info.
-		 enrichJSONWithPackageInfo(parseJSonentry);
+		enrichJSONWithPackageInfo(parseJSonentry);
 
 		final MemoryObjectStore memObjectStore = ComponentProvider
 				.getInstance().newInstance(MemoryObjectStore.class);
@@ -166,15 +173,17 @@ public class EMFEntityProcessr implements IEntityProcessr<EObject> {
 	}
 
 	private void enrichJSONWithPackageInfo(JSONObject parseJSonentry) {
-		
-		while(parseJSonentry.keys().hasNext()){
+
+		while (parseJSonentry.keys().hasNext()) {
 			String next = (String) parseJSonentry.keys().next();
 			try {
 				parseJSonentry.get(next);
+				// TODO
+
 			} catch (JSONException e) {
 				e.printStackTrace();
 			}
-			
+
 		}
 
 	}
@@ -190,5 +199,10 @@ public class EMFEntityProcessr implements IEntityProcessr<EObject> {
 			e.printStackTrace();
 		}
 		return root;
+	}
+
+	@Override
+	public Object getResult() {
+		return getResource();
 	}
 }

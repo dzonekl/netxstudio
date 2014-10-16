@@ -18,11 +18,13 @@
 package com.netxforge.oss2.rest;
 
 import org.eclipse.emf.ecore.EPackage;
+import org.eclipse.equinox.log.ExtendedLogService;
 import org.eclipse.osgi.framework.console.CommandInterpreter;
 import org.eclipse.osgi.framework.console.CommandProvider;
 import org.osgi.service.component.annotations.Activate;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
+import org.osgi.service.log.LogService;
 
 import restSession.EntityInfo;
 import restSession.HTTP_METHODS;
@@ -38,7 +40,8 @@ import com.netxforge.base.osgi.AbstractCommandProcessor;
 import com.netxforge.base.services.IExternalConnector;
 import com.netxforge.oss2.files.IFilesProcessor;
 import com.netxforge.oss2.rest.connectors.AbstractConnector;
-import com.netxforge.oss2.rest.connectors.IConnector;
+import com.netxforge.oss2.rest.connectors.IEntityProcessr;
+import com.netxforge.oss2.rest.connectors.IRestConnector;
 import com.netxforge.oss2.rest.entity.EMFEntityProcessr;
 import com.netxforge.oss2.rest.internal.RestConnectorActivator;
 
@@ -51,22 +54,24 @@ import com.netxforge.oss2.rest.internal.RestConnectorActivator;
  * @author Christophe Bouhier
  * 
  */
-@Component
+@Component(name = "OSS2 RESTFull services")
 public class RestConnector implements IExternalConnector, CommandProvider {
 
 	@Inject
-	private IConnector connector;
+	private IRestConnector connector;
 
 	// Is needed to write content to file, for correct EMF Processing.
 	private IFilesProcessor filesProcessor;
 
 	private IEMFService emfService;
 
+	private ExtendedLogService logService;
+
 	@Activate
 	public void activate() {
 
-		System.out.println("Rest connector activated");
-
+//		System.out.println("OSS2 Rest connector booting...");
+		logService.log(LogService.LOG_INFO, "OSS2 Rest connector booting...");
 		RestConnectorActivator.getSelf().getInjector().injectMembers(this);
 
 	}
@@ -91,8 +96,7 @@ public class RestConnector implements IExternalConnector, CommandProvider {
 	public Object _rest(CommandInterpreter intp) {
 
 		// prepare out session parameters.
-		final RestSession restSession = RestSessionFactory.eINSTANCE
-				.createRestSession();
+		final RestSession restSession = (RestSession) connectorInfo();
 
 		AbstractCommandProcessor abstractCommandProcessor = new AbstractCommandProcessor() {
 
@@ -153,18 +157,19 @@ public class RestConnector implements IExternalConnector, CommandProvider {
 
 		if (restSession.compleet()) {
 			if (connector instanceof AbstractConnector) {
-				
-				
+
 				// Make sure to clean the connector :-)
 				connector.setEntityProcessor(null);
-				
 
 				// The name of the entity info is an EPackage nSURI
-				if(restSession.eIsSet(RestSessionPackage.Literals.REST_SESSION__ENTITY_INFO)){
-					connector.setEntityProcessor(new EMFEntityProcessr(emfService, restSession.getEntityInfo().getName()));
+				if (restSession
+						.eIsSet(RestSessionPackage.Literals.REST_SESSION__ENTITY_INFO)) {
+					connector.setEntityProcessor(new EMFEntityProcessr(
+							emfService, restSession.getEntityInfo().getName()));
 				}
-				
-				((AbstractConnector) connector).setFilesProcessor(filesProcessor);
+
+				((AbstractConnector) connector)
+						.setFilesProcessor(filesProcessor);
 				((AbstractConnector) connector).setRestSession(restSession);
 				// Connect!
 				connector.connect();
@@ -185,8 +190,41 @@ public class RestConnector implements IExternalConnector, CommandProvider {
 		this.emfService = emfService;
 	}
 
+	@Reference
+	public void setLogService(ExtendedLogService logService) {
+		this.logService = logService;
+	}
+
 	@Override
 	public boolean supportsSchema(String schema) {
 		return schema.equals("http");
+	}
+
+	@Override
+	public Object connect(Object info) {
+		if (info instanceof RestSession) {
+			RestSession restSession = (RestSession) info;
+			if (connector instanceof AbstractConnector) {
+				((AbstractConnector) connector).setRestSession(restSession);
+				if (restSession
+						.eIsSet(RestSessionPackage.Literals.REST_SESSION__ENTITY_INFO)) {
+					EMFEntityProcessr emfEntityProcessr = new EMFEntityProcessr(
+							emfService, restSession.getEntityInfo().getName());
+					connector.setEntityProcessor(emfEntityProcessr);
+
+				}
+				connector.connect();
+				@SuppressWarnings("rawtypes")
+				IEntityProcessr entityProcessor = connector
+						.getEntityProcessor();
+				return entityProcessor.getResult();
+			}
+		}
+		return null;
+	}
+
+	@Override
+	public Object connectorInfo() {
+		return RestSessionFactory.eINSTANCE.createRestSession();
 	}
 }

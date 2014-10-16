@@ -5,11 +5,13 @@ Bundle-SymbolicName: com.netxforge.oss2.jobs
 Bundle-Version: 1.0.0.qualifier
 Bundle-Activator: com.netxforge.oss2.jobs.internal.JobActivator
 Bundle-Vendor: NetXForge
-Bundle-RequiredExecutionEnvironment: JavaSE-1.6
-Service-Component: OSGI-INF/com.netxforge.oss2.jobs.JobHandler.xml
-Import-Package: org.eclipse.osgi.framework.console;version="1.1.0",
- org.osgi.framework;version="1.3.0",
- org.osgi.service.component.annotations
-Bundle-ActivationPolicy: lazy
 Require-Bundle: org.quartz;bundle-version="2.0.1",
  com.netxforge.base;bundle-version="1.0.0"
+Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Import-Package: com.netxforge.netxstudio.scheduling,
+ org.eclipse.osgi.framework.console;version="1.1.0",
+ org.osgi.framework;version="1.3.0",
+ org.osgi.service.component.annotations,
+ org.osgi.service.log;version="1.3.0"
+Service-Component: OSGI-INF/com.netxforge.oss2.jobs.JobService.xml
+Bundle-ActivationPolicy: lazy

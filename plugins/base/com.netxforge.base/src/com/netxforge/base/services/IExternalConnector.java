@@ -33,5 +33,18 @@ public interface IExternalConnector {
 	 * @return
 	 */
 	public boolean supportsSchema(String schema);
+	
+	/**
+	 * Connect with the provided info. 
+	 * @param info
+	 */
+	public Object connect(Object info);
+	
+	
+	/**
+	 * Provide an arbitrary object which can be populated and given back to the connector. 
+	 * @return
+	 */
+	public Object connectorInfo();
 
 }
