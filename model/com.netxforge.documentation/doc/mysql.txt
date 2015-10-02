@@ -16,7 +16,7 @@ apt-get install mysql-server
 MySQL credentials. 
 
 uid: root
-pass:simlock01
+pass:***
 
 Post Installation:
 
